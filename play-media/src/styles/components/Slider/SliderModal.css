@@ -1,0 +1,3 @@
+.modal-slider {
+  @apply h-[60vh] w-full mb-5;
+}

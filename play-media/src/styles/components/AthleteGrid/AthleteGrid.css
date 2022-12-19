@@ -1,0 +1,4 @@
+.athlete-grid {
+  @apply container grid grid-cols-1 gap-11 my-14;
+  @apply md:my-20;
+}

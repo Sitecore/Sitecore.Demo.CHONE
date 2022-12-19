@@ -1,0 +1,87 @@
+.header {
+  @apply fixed top-0 w-full bg-black-darkest bg-opacity-50 z-50;
+
+  transition: background 0.3s ease;
+
+  &-container {
+    @apply flex justify-between items-center gap-8 py-4;
+    @apply container;
+
+    img {
+      @apply h-12 w-auto;
+    }
+  }
+
+  nav {
+    @apply flex items-center absolute top-full left-full w-0 max-w-full h-[calc(100vh-5rem)];
+    @apply py-8 bg-black-darkest bg-opacity-50 overflow-hidden;
+    @apply md:block md:static md:py-0 md:w-auto md:h-auto md:bg-transparent;
+
+    transition: left 0.3s ease, width 0.3s ease, background 0.3s ease;
+  }
+
+  ul {
+    @apply container flex flex-col gap-5 text-3xl text-center;
+    @apply md:flex-row md:gap-5 md:max-w-full md:p-0 md:text-base md:text-left;
+
+    a {
+      @apply text-white transition-colors;
+      @apply hover:opacity-80;
+    }
+  }
+
+  &.expanded {
+    @apply bg-opacity-100;
+
+    nav {
+      @apply left-0 w-screen bg-opacity-100;
+
+      ul {
+        @apply container;
+      }
+    }
+  }
+}
+
+.menu-button {
+  @apply relative w-12 h-7 scale-[0.8];
+  @apply xs:scale-100;
+  @apply md:hidden;
+
+  span {
+    @apply block w-full h-1 bg-white rounded-sm;
+
+    transition: all 0.3s ease;
+  }
+
+  span:nth-child(1) {
+    @apply absolute top-0;
+  }
+
+  span:nth-child(2) {
+    @apply absolute top-[calc(50%-0.125rem)];
+  }
+
+  span:nth-child(3) {
+    @apply absolute top-[calc(100%-0.25rem)];
+  }
+
+  .expanded & {
+    span:nth-child(2) {
+      @apply opacity-0;
+    }
+
+    span:nth-child(1),
+    span:nth-child(3) {
+      @apply top-[0.8rem];
+    }
+
+    span:nth-child(1) {
+      @apply rotate-45;
+    }
+
+    span:last-child {
+      @apply -rotate-45;
+    }
+  }
+}

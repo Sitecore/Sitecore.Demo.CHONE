@@ -1,0 +1,35 @@
+.event-card {
+  @apply relative h-full;
+
+  a {
+    @apply text-white;
+  }
+
+  &-image {
+    @apply h-[50vw] overflow-hidden;
+    @apply md:w-full md:h-full;
+
+    img {
+      @apply w-full h-full object-cover scale-105 transition-transform;
+    }
+  }
+
+  &-content {
+    @apply w-full -mt-4 pl-4 pr-6;
+    @apply md:absolute md:-bottom-4 md:top-auto md:right-0 md:max-w-[340px] md:px-0;
+  }
+
+  .shadow-box {
+    @apply transition-transform;
+  }
+
+  &:hover {
+    img {
+      @apply scale-100;
+    }
+
+    .shadow-box {
+      @apply scale-105;
+    }
+  }
+}

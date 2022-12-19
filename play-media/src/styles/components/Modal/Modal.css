@@ -1,0 +1,11 @@
+.modal-overlay {
+  @apply h-full w-full fixed z-[1000] left-0 top-0 bg-black-darkest bg-opacity-90 overflow-x-hidden;
+}
+
+.modal-content {
+  @apply relative top-[10%] w-full text-center;
+}
+
+.modal-close {
+  @apply absolute top-0 right-[30px] text-6xl text-white;
+}

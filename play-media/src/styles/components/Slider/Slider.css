@@ -1,0 +1,33 @@
+.swiper {
+  @apply h-full w-full;
+}
+
+.swiper-slide img {
+  @apply block w-full h-full object-cover;
+}
+
+.slider-thumb {
+  @apply h-[20vh] box-border py-3;
+}
+
+.slider-thumb .swiper-slide {
+  @apply w-[25%] h-full opacity-40;
+}
+
+.slider-thumb .swiper-slide img {
+  @apply object-cover !important;
+}
+
+.slider-thumb .swiper-slide-thumb-active {
+  @apply opacity-100;
+}
+
+.swiper-button-next::after {
+  @apply text-white hidden;
+  @apply md:block;
+}
+
+.swiper-button-prev::after {
+  @apply text-white hidden;
+  @apply md:block;
+}

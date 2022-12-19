@@ -1,0 +1,34 @@
+section.container.content-section.athlete-info {
+  @apply flex flex-col justify-between gap-y-8 gap-x-8;
+  @apply md:flex-row;
+
+  article {
+    @apply w-full;
+    @apply md:w-1/2;
+
+    h3 {
+      @apply mt-0;
+    }
+  }
+
+  .shadow-box-content {
+    @apply flex-row justify-around;
+
+    span {
+      @apply text-gray;
+    }
+  }
+
+  .image-grid {
+    @apply w-full;
+    @apply md:max-w-[50%] md:float-none;
+  }
+}
+
+.events-title {
+  @apply font-bold text-center text-xl mt-8;
+}
+
+.event-grid.event-grid-simple {
+  @apply mt-4;
+}

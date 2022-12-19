@@ -1,0 +1,7 @@
+.event-header {
+  @apply my-10;
+}
+
+.event-description {
+  @apply my-10;
+}
