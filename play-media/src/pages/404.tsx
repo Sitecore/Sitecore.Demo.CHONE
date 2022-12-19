@@ -5,7 +5,7 @@ export default function FourOhFour() {
   return (
     <>
       <Head>
-        <title>404 Not Found | Play! Media</title>
+        <title>404 Not Found | PLAY! Media</title>
       </Head>
 
       <main>
