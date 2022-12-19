@@ -9,7 +9,7 @@ export default function Document() {
           rel="stylesheet"
         />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="description" content="Play! Media - A Contenthub One Demo" />
+        <meta name="description" content="PLAY! Media - A Contenthub ONE Demo" />
       </Head>
       <body>
         <Main />
