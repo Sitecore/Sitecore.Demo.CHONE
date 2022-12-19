@@ -1,0 +1,9 @@
+.athlete-slider {
+  .swiper {
+    @apply py-14;
+  }
+
+  .swiper-slide {
+    @apply w-52 h-auto;
+  }
+}

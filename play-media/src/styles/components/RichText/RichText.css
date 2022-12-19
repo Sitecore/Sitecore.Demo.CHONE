@@ -1,0 +1,91 @@
+.richtext {
+  .text.bold {
+    @apply font-bold;
+  }
+
+  .text.strike {
+    @apply line-through;
+  }
+
+  .list {
+    @apply ml-8;
+  }
+
+  .bullet-list li {
+    @apply list-disc;
+  }
+
+  .ordered-list li {
+    @apply list-decimal;
+  }
+
+  .code-block {
+    @apply py-4;
+    @apply px-6;
+    @apply rounded-md;
+    @apply bg-black-lightest;
+  }
+
+  blockquote {
+    @apply relative;
+    @apply py-5;
+    @apply px-10;
+    @apply my-10;
+    @apply rounded-md;
+    @apply shadow-md;
+    @apply shadow-pink-light;
+    @apply text-xl;
+  }
+
+  blockquote::before,
+  blockquote::after {
+    @apply absolute;
+    @apply text-[3rem];
+  }
+
+  blockquote::before {
+    @apply top-[15px];
+    @apply left-[15px];
+
+    content: '“';
+  }
+
+  blockquote::after {
+    @apply bottom-[-5px];
+    @apply right-[15px];
+
+    content: '”';
+  }
+
+  a:link {
+    @apply text-blue-light;
+    @apply underline;
+    @apply cursor-pointer;
+  }
+
+  a:hover {
+    @apply text-gray;
+  }
+
+  a:visited {
+    @apply text-blue-lightest;
+    @apply underline;
+  }
+
+  a:visited:hover {
+    @apply text-blue-lighter;
+  }
+
+  a:link:active {
+    @apply text-orange-light;
+  }
+
+  a:visited:active {
+    @apply text-orange-lightest;
+  }
+
+  p {
+    @apply block;
+    @apply my-3;
+  }
+}

@@ -1,0 +1,35 @@
+.athlete-slider-card {
+  @apply w-full h-[calc(100%-0.5rem)] mb-2 transition-transform;
+
+  &:hover {
+    @apply scale-105;
+  }
+
+  a {
+    @apply flex flex-col text-white h-full;
+  }
+
+  &-image {
+    @apply w-full h-64 grow-0 shrink-0;
+
+    img {
+      @apply w-full h-full object-cover;
+    }
+  }
+
+  .shadow-box {
+    @apply grow;
+
+    &-content {
+      @apply h-full content-start flex-row;
+    }
+
+    &-body {
+      @apply flex flex-col-reverse;
+
+      p span {
+        @apply block;
+      }
+    }
+  }
+}

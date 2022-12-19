@@ -1,0 +1,20 @@
+.hero-banner-featured-event {
+  .hero-banner-content {
+    @apply grid grid-cols-1;
+    @apply md:grid-cols-2 md:gap-x-14;
+
+    > a {
+      @apply text-white;
+      @apply md:col-start-2;
+    }
+
+    .shadow-box {
+      @apply transition-transform;
+      @apply md:col-start-2;
+
+      &:hover {
+        @apply scale-105;
+      }
+    }
+  }
+}

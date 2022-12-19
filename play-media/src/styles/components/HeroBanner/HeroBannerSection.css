@@ -1,0 +1,19 @@
+.hero-banner-section {
+  @apply justify-start;
+
+  .hero-banner-content {
+    @apply max-w-full p-0;
+  }
+
+  &-content {
+    @apply container text-center;
+
+    h1 {
+      @apply text-4xl font-bold pb-5;
+    }
+
+    &-body {
+      @apply text-2xl;
+    }
+  }
+}

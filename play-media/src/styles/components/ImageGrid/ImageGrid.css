@@ -1,0 +1,23 @@
+.image-grid {
+  @apply grid grid-cols-3 float-none pl-0 pb-0;
+  @apply md:w-[50%] md:float-right md:pl-5 md:pb-5;
+}
+
+.image-single {
+  @apply float-none pl-0 pb-0;
+  @apply md:w-[50%] md:float-right md:pl-5 md:pb-5;
+}
+
+.article-image-container {
+  @apply w-auto cursor-pointer relative col-span-1 min-h-[25vw];
+  @apply md:min-h-[15vw];
+  @apply lg:min-h-[150px];
+}
+
+.article-image-container:first-child {
+  @apply col-span-2 row-span-2;
+}
+
+.article-image {
+  @apply object-cover;
+}

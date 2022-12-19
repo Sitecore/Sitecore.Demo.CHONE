@@ -1,22 +1,29 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import Head from 'next/head';
+import { getAllEvents } from '../api/queries/getEvents';
+import { EventListingPage } from '../components/Pages/EventListingPage';
+import { Event } from '../interfaces/event';
 
-export default function Home() {
+export default function Home({ events }: { events: Event[] }) {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>Play! Media</title>
-        <meta
-          name="description"
-          content="Play! Media - A Contenthub One Demo"
-        />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1>Welcome to Play! Media</h1>
+      <main>
+        <EventListingPage events={events} />
       </main>
-    </div>
+    </>
   );
 }
+
+export const getStaticProps = async () => {
+  const { events } = await getAllEvents();
+
+  return {
+    props: {
+      events,
+    },
+    revalidate: 10,
+  };
+};

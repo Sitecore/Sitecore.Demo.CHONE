@@ -1,26 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 16px;
+}
+
+body {
+  @apply bg-black text-white overflow-x-hidden;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  @apply no-underline text-blue;
 }
 
-* {
-  box-sizing: border-box;
+a:hover,
+a:active,
+a:focus {
+  @apply opacity-100;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+h1 {
+  @apply font-bold text-4xl my-2;
+}
+
+h2 {
+  @apply font-bold text-2xl my-3;
+}
+
+h3 {
+  @apply font-bold text-sm my-4;
+}
+
+h4 {
+  @apply font-bold text-xs my-5;
+}
+
+h5 {
+  @apply font-bold text-sm my-6;
+}
+
+h6 {
+  @apply font-bold text-xs my-8;
+}
+
+.text-dark {
+  @apply text-black;
+}
+
+select {
+  @apply text-black;
+}
+
+.error-container {
+  @apply h-screen flex flex-col justify-center items-center;
+}
+
+.react-parallax-bgimage {
+  @apply max-w-none;
+}
+
+@layer components {
+  .container {
+    @apply xl:max-w-container;
   }
-  body {
-    color: white;
-    background: black;
+
+  .content-section {
+    @apply my-14;
+    @apply md:my-20;
   }
 }

@@ -1,0 +1,54 @@
+.loader-container {
+  @apply h-12 col-span-full flex justify-center text-center mb-14;
+}
+
+.loader {
+  @apply relative w-12 h-12 rounded-[50%];
+
+  animation: rotate 1s linear infinite;
+}
+
+.loader::before,
+.loader::after {
+  @apply content-[''] absolute inset-0 rounded-[50%] box-border border-[5px] border-blue;
+
+  animation: prix-clip-fix 2s linear infinite;
+}
+
+.loader::after {
+  @apply border-orange inset-[6px];
+
+  animation: prix-clip-fix 2s linear infinite, rotate 0.5s linear infinite reverse;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes prix-clip-fix {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+  }
+
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+  }
+
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+  }
+
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  }
+
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+  }
+}

@@ -1,0 +1,55 @@
+.athlete-card {
+  @apply transition-transform;
+
+  &:hover {
+    @apply scale-105;
+  }
+
+  a {
+    @apply text-white;
+  }
+
+  &-content {
+    @apply flex flex-col gap-4 w-full;
+    @apply md:flex-row md:items-center;
+  }
+
+  &-image {
+    @apply w-28 h-28 mr-12 flex-shrink-0 flex-grow-0 rounded-full overflow-hidden;
+
+    img {
+      @apply w-full h-full object-cover;
+    }
+  }
+
+  &-profile {
+    @apply flex flex-col-reverse gap-2;
+    @apply md:block md:basis-2/5;
+
+    h3 {
+      @apply text-xl my-0;
+    }
+
+    blockquote {
+      @apply block w-full px-4 py-1 italic bg-black-lightest;
+
+      &::before,
+      &::after {
+        @apply content-['"'];
+      }
+    }
+  }
+
+  &-data {
+    @apply flex flex-col items-start gap-1;
+    @apply md:basis-1/4 md:ml-auto;
+  }
+
+  &-label {
+    @apply inline-block py-1 px-4 bg-black-lightest;
+  }
+
+  &-nationality {
+    @apply text-gray;
+  }
+}

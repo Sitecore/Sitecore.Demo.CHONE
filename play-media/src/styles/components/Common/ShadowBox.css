@@ -1,0 +1,31 @@
+.shadow-box {
+  @apply relative;
+
+  &-shadow {
+    @apply absolute w-[calc(100%-0.5rem)] h-[calc(100%-0.5rem)] top-4 left-4 bg-black-lightest z-0;
+  }
+
+  &-content {
+    @apply relative flex flex-wrap gap-x-4 gap-y-1 p-4 bg-black-light z-10;
+  }
+
+  &-label {
+    @apply px-1 pl-8 pr-2 -ml-8;
+  }
+
+  &-eyebrow {
+    @apply text-gray;
+  }
+
+  &-body {
+    @apply basis-full;
+
+    h3 {
+      @apply text-xl my-0;
+    }
+  }
+
+  a {
+    @apply text-current;
+  }
+}
