@@ -1,0 +1,130 @@
+﻿id: JXccEXUGlUWQPPFjRWaOrg
+name: MTB Fest
+fields:
+  title:
+    value: 'MTB Fest '
+    type: ShortText
+  slug:
+    value: mtb-fest
+    type: ShortText
+  isFeatured:
+    value: 
+    type: Boolean
+  timeAndDate:
+    value: 2023-07-13T01:00:00.0000000+03:00
+    type: DateTime
+  location:
+    value: Italy
+    type: ShortText
+  teaser:
+    value: The MTB Festival is back and Play!Media will join the Olympic cross country (XCO) and short track (XCC) events.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "MTB Fest 2023 is the ultimate celebration of all things mountain bike. The original. The biggest. The heart of it all. The defining celebration of mountain biking."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "bO5xDYy-2EikGiocmTsDng",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "hmOxouM4gUGR7rIjE30GTQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/hmOxouM4gUGR7rIjE30GTQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "6VYohiIqHUW2QvtbYnTOAw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/6VYohiIqHUW2QvtbYnTOAw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "M9JadFDtWk28RJ5RPaeGsw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/M9JadFDtWk28RJ5RPaeGsw"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "-SxxLRtX6U27XK-C5WzO-w",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/-SxxLRtX6U27XK-C5WzO-w"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "ah8wCddrm0qzga8NRF1rfA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/ah8wCddrm0qzga8NRF1rfA"
+      }
+    type: Reference
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Zw7xv1MmLU2PSNp-y7JaKA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Zw7xv1MmLU2PSNp-y7JaKA"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "L4137wYBV0SkxG0ynHTQDA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/L4137wYBV0SkxG0ynHTQDA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "k8O8MHzHL0iqeXJ5Z3gvZw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/k8O8MHzHL0iqeXJ5Z3gvZw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Q7YL0xPWSUOxVW81BcK35Q",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Q7YL0xPWSUOxVW81BcK35Q"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Zw7xv1MmLU2PSNp-y7JaKA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Zw7xv1MmLU2PSNp-y7JaKA"
+      }
+    type: Media

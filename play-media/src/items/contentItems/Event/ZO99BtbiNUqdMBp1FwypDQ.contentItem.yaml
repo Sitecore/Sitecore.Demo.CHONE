@@ -1,0 +1,137 @@
+﻿id: ZO99BtbiNUqdMBp1FwypDQ
+name: Ski and snowboard freeride competition
+fields:
+  title:
+    value: Ski and snowboard freeride competition
+    type: ShortText
+  slug:
+    value: ski-and-snowboard-freeride-competition
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  timeAndDate:
+    value: 2022-12-03T00:00:00.0000000+02:00
+    type: DateTime
+  location:
+    value: Crans-Montana, Switzerland
+    type: ShortText
+  teaser:
+    value: Take a handful of the world’s top freeskiers and snowboarders, let them loose on one of the most innovative park set-ups ever built and let the future of snow sports unfold.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "\"Ski and snowboard freeride competition\" brings the world's best skiers and snowboarders around the world for a unique sports experience."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "-Wjtw2SOuE-mm6Gz1_7QsA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/-Wjtw2SOuE-mm6Gz1_7QsA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "qzxnpHmwVUa-wL8v7SaAVQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/qzxnpHmwVUa-wL8v7SaAVQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "tseq5bpD9k2rbN4_K3vTNQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/tseq5bpD9k2rbN4_K3vTNQ"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "fy8RiiWGUUyISIoANOI_Ug",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/fy8RiiWGUUyISIoANOI_Ug"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "eG_Q9td_F0aotpvWJ2eJlA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/eG_Q9td_F0aotpvWJ2eJlA"
+      }
+    type: Reference
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "KY2QLXrQU0qJ3n37Jq79IQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/KY2QLXrQU0qJ3n37Jq79IQ"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "KY2QLXrQU0qJ3n37Jq79IQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/KY2QLXrQU0qJ3n37Jq79IQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "sKlQ21Mhkk6T87ZA2aG88w",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/sKlQ21Mhkk6T87ZA2aG88w"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "PKQgrEueOkWHm9Ll3a1j_A",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/PKQgrEueOkWHm9Ll3a1j_A"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "URj69_vbcEqjGkfhazjOdg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/URj69_vbcEqjGkfhazjOdg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "3V8qYeiG50afzJejK1e0xg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/3V8qYeiG50afzJejK1e0xg"
+      }
+    type: Media

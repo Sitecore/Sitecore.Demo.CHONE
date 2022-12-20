@@ -1,0 +1,132 @@
+﻿id: ah8wCddrm0qzga8NRF1rfA
+name: Pump track world championship
+fields:
+  title:
+    value: Pump track world championship
+    type: ShortText
+  slug:
+    value: pump-track-world-championship
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  timeAndDate:
+    value: 2022-11-19T00:00:00.0000000+02:00
+    type: DateTime
+  location:
+    value: Santiago, Chile
+    type: ShortText
+  teaser:
+    value: Santa Fe Bike Park in Santiago, Chile, will host the Pump track world championship on November 19, with the winners getting the official titles of Pump Track World Champions.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Santa Fe Bike Park in Santiago, Chile, will host the Pump track world championship on November 19, with the winners getting the official titles of Pump Track World Champions."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "The pump track promises to make for an intense race day with a slightly shorter total length than previous tracks in the series, along with rollers designed for a clean battle between a mountain bike and BMX Racing specialists."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "bO5xDYy-2EikGiocmTsDng",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "hmOxouM4gUGR7rIjE30GTQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/hmOxouM4gUGR7rIjE30GTQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "6VYohiIqHUW2QvtbYnTOAw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/6VYohiIqHUW2QvtbYnTOAw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "M9JadFDtWk28RJ5RPaeGsw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/M9JadFDtWk28RJ5RPaeGsw"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "JXccEXUGlUWQPPFjRWaOrg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/JXccEXUGlUWQPPFjRWaOrg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "-SxxLRtX6U27XK-C5WzO-w",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/-SxxLRtX6U27XK-C5WzO-w"
+      }
+    type: Reference
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Wm-3CxPaWEGOv0Q9lOn2VQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Wm-3CxPaWEGOv0Q9lOn2VQ"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Wm-3CxPaWEGOv0Q9lOn2VQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Wm-3CxPaWEGOv0Q9lOn2VQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "HaEgNPvcuUy-5_Ngl5-PUA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/HaEgNPvcuUy-5_Ngl5-PUA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "x3uzvqAJVkSN1pQ6lMwasw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/x3uzvqAJVkSN1pQ6lMwasw"
+      }
+    type: Media

@@ -1,0 +1,141 @@
+﻿id: -SxxLRtX6U27XK-C5WzO-w
+name: Play!Media Formation
+fields:
+  title:
+    value: Play!Media Formation
+    type: ShortText
+  slug:
+    value: Play!Media Formation
+    type: ShortText
+  isFeatured:
+    value: true
+    type: Boolean
+  timeAndDate:
+    value: 2023-05-08T01:00:00.0000000+03:00
+    type: DateTime
+  location:
+    value: Virgin, Utah
+    type: ShortText
+  teaser:
+    value: Play!Media Formation returns for its third year on May 8 in Virgin, Utah, one of the most iconic landscapes for the freeride mountain biking movement.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "The first-of-its-kind invitational progression session aims to pave the path for women in freeride mountain biking."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Set against a backdrop of steep, unforgiving terrain, the top female foreriders in the world, alongside a selection of industry mentors, diggers, and other professional athletes will work together to carve their route in the red dirt of southern Utah. The goal: create a top-to-bottom line that illustrates their skill, style, and power as well as pushes the women’s field further than ever before."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Get ready to watch the women’s freeriding scene jump to heights never seen before."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "bO5xDYy-2EikGiocmTsDng",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "hmOxouM4gUGR7rIjE30GTQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/hmOxouM4gUGR7rIjE30GTQ"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "JXccEXUGlUWQPPFjRWaOrg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/JXccEXUGlUWQPPFjRWaOrg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "ah8wCddrm0qzga8NRF1rfA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/ah8wCddrm0qzga8NRF1rfA"
+      }
+    type: Reference
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Cf1P4VCc5kKlvYobBSkBcA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Cf1P4VCc5kKlvYobBSkBcA"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Cf1P4VCc5kKlvYobBSkBcA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Cf1P4VCc5kKlvYobBSkBcA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "2D8F_orrr0uWiyqWnxOBRw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/2D8F_orrr0uWiyqWnxOBRw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "4Ysz339ePUmufHjeGQnXzw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/4Ysz339ePUmufHjeGQnXzw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "lPNBip13VUGsUpu_zVcpJg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/lPNBip13VUGsUpu_zVcpJg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "ZaWFfF3lCkSnIyXEl3KGcg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/ZaWFfF3lCkSnIyXEl3KGcg"
+      }
+    type: Media
