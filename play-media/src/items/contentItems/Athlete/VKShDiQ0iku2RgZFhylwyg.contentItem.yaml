@@ -1,0 +1,78 @@
+﻿id: VKShDiQ0iku2RgZFhylwyg
+name: Mike Mire
+fields:
+  athleteName:
+    value: Mike Mire
+    type: ShortText
+  isFeatured:
+    value: true
+    type: Boolean
+  athleteQuote:
+    value: If you can’t outplay them, outwork them.
+    type: ShortText
+  nationality:
+    value: Latvian
+    type: ShortText
+  birthDate:
+    value: 12/19/2000
+    type: ShortText
+  careerStart:
+    value: 2017
+    type: ShortText
+  hobby:
+    value: Hiking
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "3s8Fg2nxBk-roDm4OQq6xw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBk-roDm4OQq6xw"
+      }
+    type: Reference
+  profilePhoto:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "pdZS78GrtEiMx4nN7s2Uqw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/pdZS78GrtEiMx4nN7s2Uqw"
+      }
+    type: Media
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Pw0bHMZFhkWw0pEgUtuUnw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Pw0bHMZFhkWw0pEgUtuUnw"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "VTvS5vI390q4Myh8wnGXJw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/VTvS5vI390q4Myh8wnGXJw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "Pw0bHMZFhkWw0pEgUtuUnw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Pw0bHMZFhkWw0pEgUtuUnw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "GB0m2ShWxUSPoglDQmR5aA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/GB0m2ShWxUSPoglDQmR5aA"
+      }
+    type: Media

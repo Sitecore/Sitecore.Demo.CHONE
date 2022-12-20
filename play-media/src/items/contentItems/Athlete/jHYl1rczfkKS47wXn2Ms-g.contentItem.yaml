@@ -1,0 +1,78 @@
+﻿id: jHYl1rczfkKS47wXn2Ms-g
+name: Helena Zia
+fields:
+  athleteName:
+    value: Helena Zia
+    type: ShortText
+  isFeatured:
+    value: true
+    type: Boolean
+  athleteQuote:
+    value: You win some, lose some, and wreck some.
+    type: ShortText
+  nationality:
+    value: Latvian
+    type: ShortText
+  birthDate:
+    value: 06/09/1995
+    type: ShortText
+  careerStart:
+    value: 2012
+    type: ShortText
+  hobby:
+    value: Origami
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "3s8Fg2nxBk-roDm4OQq6xw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBk-roDm4OQq6xw"
+      }
+    type: Reference
+  profilePhoto:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "fevIpWlA_U-ZXSJg8V_Tog",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/fevIpWlA_U-ZXSJg8V_Tog"
+      }
+    type: Media
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "myaCdYPWek6rKTMXcn-mkw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/myaCdYPWek6rKTMXcn-mkw"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "L9iisUHLSUeYriWiIbN9UQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/L9iisUHLSUeYriWiIbN9UQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "aXNV_xiKqUC4YW0cf3WGPA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/aXNV_xiKqUC4YW0cf3WGPA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "myaCdYPWek6rKTMXcn-mkw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/myaCdYPWek6rKTMXcn-mkw"
+      }
+    type: Media

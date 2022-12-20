@@ -1,0 +1,78 @@
+﻿id: qzxnpHmwVUa-wL8v7SaAVQ
+name: Anna Gerst
+fields:
+  athleteName:
+    value: Anna Gerst
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  athleteQuote:
+    value: If you think you’re done, you always have at least 40 percent more.
+    type: ShortText
+  nationality:
+    value: American
+    type: ShortText
+  birthDate:
+    value: 12/10/1988
+    type: ShortText
+  careerStart:
+    value: 2010
+    type: ShortText
+  hobby:
+    value: Camping adventures
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
+      }
+    type: Reference
+  profilePhoto:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "mYxkIk91_kSy1QLu-r_ENA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/mYxkIk91_kSy1QLu-r_ENA"
+      }
+    type: Media
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "wjtobDbUE0-VOH3kJvEOuQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/wjtobDbUE0-VOH3kJvEOuQ"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "mh1Db-_d5EeL24z-pTZZyA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/mh1Db-_d5EeL24z-pTZZyA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "7_TB7uY3lEuD4FHK0dfaIg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/7_TB7uY3lEuD4FHK0dfaIg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "wjtobDbUE0-VOH3kJvEOuQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/wjtobDbUE0-VOH3kJvEOuQ"
+      }
+    type: Media
