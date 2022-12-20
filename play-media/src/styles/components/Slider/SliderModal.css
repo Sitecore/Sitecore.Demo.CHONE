@@ -6,10 +6,10 @@
   }
 
   .swiper-button-next {
-    @apply 2xl:-right-16;
+    @apply top-[30vh] 2xl:-right-16;
   }
 
   .swiper-button-prev {
-    @apply 2xl:-left-16;
+    @apply top-[30vh] 2xl:-left-16;
   }
 }
