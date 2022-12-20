@@ -24,39 +24,39 @@ export const RichText: FC<Props> = ({ body, className }) => {
   );
   const componentMap = useMemo(
     () => ({
-      heading: (context: any, children: any) => {
-        return <Heading level={context.attrs.level}>{children}</Heading>;
+      heading: (context: any, children: any, key: string) => {
+        return <Heading level={context.attrs.level} key={key}>{children}</Heading>;
       },
-      paragraph: (context: any, children: any) => {
-        return <Paragraph>{children}</Paragraph>;
+      paragraph: (context: any, children: any, key: string) => {
+        return <Paragraph key={key}>{children}</Paragraph>;
       },
-      bulletList: (context: any, children: any) => {
-        return <BulletList>{children}</BulletList>;
+      bulletList: (context: any, children: any, key: string) => {
+        return <BulletList key={key}>{children}</BulletList>;
       },
-      listItem: (context: any, children: any) => {
-        return <ListItem>{children}</ListItem>;
+      listItem: (context: any, children: any, key: string) => {
+        return <ListItem key={key}>{children}</ListItem>;
       },
-      orderedList: (context: any, children: any) => {
-        return <OrderedList>{children}</OrderedList>;
+      orderedList: (context: any, children: any, key: string) => {
+        return <OrderedList key={key}>{children}</OrderedList>;
       },
-      codeBlock: (context: any, children: any) => {
-        return <CodeBlock>{children}</CodeBlock>;
+      codeBlock: (context: any, children: any, key: string) => {
+        return <CodeBlock key={key}>{children}</CodeBlock>;
       },
-      blockquote: (context: any, children: any) => {
-        return <BlockQuote>{children}</BlockQuote>;
+      blockquote: (context: any, children: any, key: string) => {
+        return <BlockQuote key={key}>{children}</BlockQuote>;
       },
-      text: (context: any) => {
+      text: (context: any, key: string) => {
         const hasMarks = !!context?.marks?.length;
 
         if (!hasMarks) {
-          return <Text>{context.text}</Text>;
+          return <Text key={key}>{context.text}</Text>;
         }
 
         const linkMark = context.marks.find((mark: any) => mark.type === 'link');
 
         if (linkMark) {
           return (
-            <RichTextLink href={linkMark.attrs.href} target={linkMark.attrs.target}>
+            <RichTextLink href={linkMark.attrs.href} target={linkMark.attrs.target} key={key}>
               {context.text}
             </RichTextLink>
           );
@@ -65,10 +65,10 @@ export const RichText: FC<Props> = ({ body, className }) => {
         const codeMark = context.marks.find((mark: any) => mark.type === 'code');
 
         if (codeMark) {
-          return <CodeText>{context.text}</CodeText>;
+          return <CodeText key={key}>{context.text}</CodeText>;
         }
 
-        return <Text marks={context.marks}>{context.text}</Text>;
+        return <Text marks={context.marks} key={key}>{context.text}</Text>;
       },
     }),
     []

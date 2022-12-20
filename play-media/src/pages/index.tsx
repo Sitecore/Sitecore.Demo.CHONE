@@ -7,7 +7,7 @@ export default function Home({ events }: { events: Event[] }) {
   return (
     <>
       <Head>
-        <title>Play! Media</title>
+        <title>PLAY! Media</title>
       </Head>
 
       <main>
