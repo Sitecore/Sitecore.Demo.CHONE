@@ -1,0 +1,90 @@
+﻿id: event
+name:
+  en-US: Event
+description:
+  en-US: For a basic past event.
+fields:
+- id: title
+  name:
+    en-US: Title
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: slug
+  name:
+    en-US: Slug
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: sport
+  name:
+    en-US: Sport
+  type: Reference
+  required: false
+  helpText:
+    en-US: ''
+- id: isFeatured
+  name:
+    en-US: Is featured?
+  type: Boolean
+  required: false
+  helpText:
+    en-US: ''
+- id: timeAndDate
+  name:
+    en-US: Time and date
+  type: DateTime
+  required: false
+  helpText:
+    en-US: ''
+- id: location
+  name:
+    en-US: Location
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: featuredImage
+  name:
+    en-US: Featured image
+  type: Media
+  required: false
+  helpText:
+    en-US: ''
+- id: relatedMedia
+  name:
+    en-US: Related media
+  type: Media
+  required: false
+  helpText:
+    en-US: ''
+- id: teaser
+  name:
+    en-US: Teaser
+  type: LongText
+  required: false
+  helpText:
+    en-US: ''
+- id: body
+  name:
+    en-US: Body
+  type: RichText
+  required: false
+  helpText:
+    en-US: ''
+- id: athletes
+  name:
+    en-US: Athletes
+  type: Reference
+  required: false
+  helpText:
+    en-US: ''
+- id: similarEvents
+  name:
+    en-US: Similar events
+  type: Reference
+  required: false
+  helpText:
+    en-US: ''
