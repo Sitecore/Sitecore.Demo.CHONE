@@ -1,11 +1,8 @@
-﻿id: eibM5C0OVUexMb30n-l2Rg
+﻿id: eibM5C0OVUexMb30nl2Rg
 name: The Dual Ascent
 fields:
   title:
     value: The Dual Ascent
-    type: ShortText
-  slug:
-    value: dual-ascent
     type: ShortText
   isFeatured:
     value: 
@@ -42,8 +39,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "k0--_hvyvkyuiVNjww_3oQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
+        "id": "k0hvyvkyuiVNjww3oQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/k0hvyvkyuiVNjww3oQ"
       }
     type: Reference
   athletes:
@@ -52,15 +49,15 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "TacYstuhJU6-Fx-OSUoL-Q",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/TacYstuhJU6-Fx-OSUoL-Q"
+        "id": "TacYstuhJU6FxOSUoLQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/TacYstuhJU6FxOSUoLQ"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "uOjQGioIUUmYPB5Kz-sZCQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5Kz-sZCQ"
+        "id": "uOjQGioIUUmYPB5KzsZCQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5KzsZCQ"
       }
     type: Reference
   similarEvents:
@@ -69,8 +66,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "ywmaOWtjf0W7-33SV14dVQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/ywmaOWtjf0W7-33SV14dVQ"
+        "id": "ywmaOWtjf0W733SV14dVQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/ywmaOWtjf0W733SV14dVQ"
       }
     type: Reference
   featuredImage:

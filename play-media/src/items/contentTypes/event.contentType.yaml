@@ -11,13 +11,6 @@ fields:
   required: false
   helpText:
     en-US: ''
-- id: slug
-  name:
-    en-US: Slug
-  type: ShortText
-  required: false
-  helpText:
-    en-US: ''
 - id: sport
   name:
     en-US: Sport

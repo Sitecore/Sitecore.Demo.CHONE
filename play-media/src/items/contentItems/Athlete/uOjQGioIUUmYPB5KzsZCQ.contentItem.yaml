@@ -1,4 +1,4 @@
-﻿id: uOjQGioIUUmYPB5Kz-sZCQ
+﻿id: uOjQGioIUUmYPB5KzsZCQ
 name: Doria Allen
 fields:
   athleteName:
@@ -28,8 +28,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "k0--_hvyvkyuiVNjww_3oQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
+        "id": "k0hvyvkyuiVNjww3oQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/k0hvyvkyuiVNjww3oQ"
       }
     type: Reference
   profilePhoto:

@@ -1,11 +1,8 @@
-﻿id: gF8ESrWYOEqZen_1Sf2kUQ
+﻿id: gF8ESrWYOEqZen1Sf2kUQ
 name: Play! Bowl Rippers
 fields:
   title:
     value: Play! Bowl Rippers
-    type: ShortText
-  slug:
-    value: bowl-rippers
     type: ShortText
   isFeatured:
     value: false
@@ -42,8 +39,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "3s8Fg2nxBk-roDm4OQq6xw",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBk-roDm4OQq6xw"
+        "id": "3s8Fg2nxBkroDm4OQq6xw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBkroDm4OQq6xw"
       }
     type: Reference
   athletes:
@@ -52,8 +49,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "jHYl1rczfkKS47wXn2Ms-g",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/jHYl1rczfkKS47wXn2Ms-g"
+        "id": "jHYl1rczfkKS47wXn2Msg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/jHYl1rczfkKS47wXn2Msg"
       }
     - >-
       {

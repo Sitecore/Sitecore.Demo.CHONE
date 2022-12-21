@@ -4,9 +4,6 @@ fields:
   title:
     value: 'MTB Fest '
     type: ShortText
-  slug:
-    value: mtb-fest
-    type: ShortText
   isFeatured:
     value: 
     type: Boolean
@@ -42,8 +39,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "bO5xDYy-2EikGiocmTsDng",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
+        "id": "bO5xDYy2EikGiocmTsDng",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/bO5xDYy2EikGiocmTsDng"
       }
     type: Reference
   athletes:
@@ -76,8 +73,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "-SxxLRtX6U27XK-C5WzO-w",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/-SxxLRtX6U27XK-C5WzO-w"
+        "id": "SxxLRtX6U27XKC5WzOw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/SxxLRtX6U27XKC5WzOw"
       }
     - >-
       {

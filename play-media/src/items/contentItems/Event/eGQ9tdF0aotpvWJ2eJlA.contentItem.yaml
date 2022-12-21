@@ -1,11 +1,8 @@
-﻿id: eG_Q9td_F0aotpvWJ2eJlA
+﻿id: eGQ9tdF0aotpvWJ2eJlA
 name: Filming of 'Critical time' with Louise G. Dolphin
 fields:
   title:
     value: Filming of 'Critical time' with Louise G. Dolphin
-    type: ShortText
-  slug:
-    value: filming-of-critical-time-with-louise-g-dolphin
     type: ShortText
   isFeatured:
     value: true
@@ -52,22 +49,22 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "tseq5bpD9k2rbN4_K3vTNQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/tseq5bpD9k2rbN4_K3vTNQ"
+        "id": "tseq5bpD9k2rbN4K3vTNQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/tseq5bpD9k2rbN4K3vTNQ"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "-Wjtw2SOuE-mm6Gz1_7QsA",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/-Wjtw2SOuE-mm6Gz1_7QsA"
+        "id": "Wjtw2SOuEmm6Gz17QsA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/Wjtw2SOuEmm6Gz17QsA"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "qzxnpHmwVUa-wL8v7SaAVQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/qzxnpHmwVUa-wL8v7SaAVQ"
+        "id": "qzxnpHmwVUawL8v7SaAVQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/qzxnpHmwVUawL8v7SaAVQ"
       }
     type: Reference
   similarEvents:
@@ -76,8 +73,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "fy8RiiWGUUyISIoANOI_Ug",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/fy8RiiWGUUyISIoANOI_Ug"
+        "id": "fy8RiiWGUUyISIoANOIUg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/fy8RiiWGUUyISIoANOIUg"
       }
     - >-
       {

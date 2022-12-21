@@ -1,26 +1,26 @@
-﻿id: tseq5bpD9k2rbN4_K3vTNQ
-name: Nick O’ Teen
+﻿id: Wjtw2SOuEmm6Gz17QsA
+name: Apollo Kenith
 fields:
   athleteName:
-    value: Nick O’ Teen
+    value: Apollo Kenith
     type: ShortText
   isFeatured:
     value: 
     type: Boolean
   athleteQuote:
-    value: It is action that creates motivation.
+    value: If you fail to prepare, you’re prepared to fail.
     type: ShortText
   nationality:
-    value: African
+    value: Slovak
     type: ShortText
   birthDate:
-    value: 02/12/2003
+    value: 04/20/1997
     type: ShortText
   careerStart:
-    value: 2019
+    value: 2015
     type: ShortText
   hobby:
-    value: Volunteering
+    value: Stand-up comedy
     type: ShortText
   sport:
     value:
@@ -38,8 +38,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "dsh3arpZ0UmfBKDo3SfL1Q",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/dsh3arpZ0UmfBKDo3SfL1Q"
+        "id": "BEz4vPrxfEyLam2ZMYHM7A",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/BEz4vPrxfEyLam2ZMYHM7A"
       }
     type: Media
   featuredImage:
@@ -48,8 +48,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "9mQkjVnVTE26wk0-YQSjWw",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/9mQkjVnVTE26wk0-YQSjWw"
+        "id": "198-2aqLk0W5sEEGXjADiA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/198-2aqLk0W5sEEGXjADiA"
       }
     type: Media
   relatedMedia:
@@ -58,21 +58,21 @@ fields:
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "vA9b4i9c5km4B-aiksRZLQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/vA9b4i9c5km4B-aiksRZLQ"
+        "id": "L8ThASSnekKYEVVX-hW4BA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/L8ThASSnekKYEVVX-hW4BA"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "9mQkjVnVTE26wk0-YQSjWw",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/9mQkjVnVTE26wk0-YQSjWw"
+        "id": "198-2aqLk0W5sEEGXjADiA",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/198-2aqLk0W5sEEGXjADiA"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "XISPRlB-oEKDEgTWwBdrvg",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/XISPRlB-oEKDEgTWwBdrvg"
+        "id": "lPJr9spoYEegr5k3QxSrag",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/lPJr9spoYEegr5k3QxSrag"
       }
     type: Media

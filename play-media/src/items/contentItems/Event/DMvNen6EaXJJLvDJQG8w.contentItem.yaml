@@ -1,11 +1,8 @@
-﻿id: _DMvNe_n6EaXJJLvDJQG8w
+﻿id: DMvNen6EaXJJLvDJQG8w
 name: Women's Battle
 fields:
   title:
     value: Women's Battle
-    type: ShortText
-  slug:
-    value: women-battle
     type: ShortText
   isFeatured:
     value: false
@@ -42,8 +39,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "3s8Fg2nxBk-roDm4OQq6xw",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBk-roDm4OQq6xw"
+        "id": "3s8Fg2nxBkroDm4OQq6xw",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBkroDm4OQq6xw"
       }
     type: Reference
   athletes:
@@ -52,8 +49,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "jHYl1rczfkKS47wXn2Ms-g",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/jHYl1rczfkKS47wXn2Ms-g"
+        "id": "jHYl1rczfkKS47wXn2Msg",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/jHYl1rczfkKS47wXn2Msg"
       }
     type: Reference
   similarEvents:
@@ -62,8 +59,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "gF8ESrWYOEqZen_1Sf2kUQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/gF8ESrWYOEqZen_1Sf2kUQ"
+        "id": "gF8ESrWYOEqZen1Sf2kUQ",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/gF8ESrWYOEqZen1Sf2kUQ"
       }
     type: Reference
   featuredImage:

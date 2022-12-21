@@ -28,8 +28,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "bO5xDYy-2EikGiocmTsDng",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
+        "id": "bO5xDYy2EikGiocmTsDng",
+        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/bO5xDYy2EikGiocmTsDng"
       }
     type: Reference
   profilePhoto:
