@@ -31,3 +31,9 @@ export interface AllAthletesResponse {
     };
   };
 }
+
+export interface AthleteResponse {
+  data: {
+    athlete: Partial<Athlete>;
+  };
+}

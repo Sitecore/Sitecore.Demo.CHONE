@@ -1,5 +1,5 @@
 import { fetchGraphQL } from '../..';
-import { Event, AllEventsResponse } from '../../../interfaces/event';
+import { Event, AllEventsResponse, EventResponse } from '../../../interfaces/event';
 
 const eventsQuery = `
 query {
@@ -123,5 +123,111 @@ export const getAllEvents = async (): Promise<{ events: Partial<Event>[] }> => {
 
   return {
     events,
+  };
+};
+
+const getEventByIdQuery = (id: string) => {
+  return `
+    query {
+      event (id: "${id}") {
+        id
+        title
+        sport {
+          results {
+            ... on Sport {
+              id
+              title
+              description
+              color
+            }
+          }
+        }
+        isFeatured
+        timeAndDate
+        location
+        featuredImage {
+          results {
+            id
+            name
+            fileUrl
+            description
+          }
+        }
+        relatedMedia {
+          results {
+            id
+            name
+            fileUrl
+            description
+          }
+        }
+        teaser
+        body
+        athletes {
+          results {
+            ... on Athlete {
+              id
+              athleteName
+              athleteQuote
+              birthDate
+              nationality
+              profilePhoto {
+                results {
+                  id
+                  name
+                  fileUrl
+                  description
+                }
+              }
+              sport {
+                results {
+                  ... on Sport {
+                    id
+                    title
+                    description
+                    color
+                  }
+                }
+              }
+            }
+          }
+        }
+        similarEvents {
+          results {
+            ... on Event {
+              id
+              title
+              sport {
+                results {
+                  ... on Sport {
+                    id
+                    title
+                    description
+                    color
+                  }
+                }
+              }
+              timeAndDate
+              featuredImage {
+                results {
+                  id
+                  name
+                  fileUrl
+                  description
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    `;
+};
+
+export const getEventById = async (id: string): Promise<{ event: Partial<Event> }> => {
+  const eventResponse: EventResponse = (await fetchGraphQL(getEventByIdQuery(id))) as EventResponse;
+
+  return {
+    event: eventResponse.data.event,
   };
 };

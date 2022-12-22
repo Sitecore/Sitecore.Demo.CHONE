@@ -34,3 +34,9 @@ export interface AllEventsResponse {
     };
   };
 }
+
+export interface EventResponse {
+  data: {
+    event: Partial<Event>;
+  };
+}

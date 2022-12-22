@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ATHLETE_MOCK_IMG } from '../../constants/mockImages';
-import slugify from 'slugify';
+import { slugify } from '../../helpers/slugHelper';
 import { getTextColor } from '../../helpers/textColorHelper';
 import { Athlete } from '../../interfaces/athlete';
 import { ShadowBox } from '../Common/ShadowBox';
@@ -11,7 +11,7 @@ export const AthleteCard = ({ athlete }: { athlete: Athlete }) => {
 
   return (
     <article className="athlete-card">
-      <Link href={`/athlete/${athlete.id}/${slugify(athlete.athleteName, { lower: true })}`}>
+      <Link href={`/athlete/${athlete.id}/${slugify(athlete.athleteName)}`}>
         <ShadowBox color={accentColor}>
           <div className="athlete-card-content">
             <div className="athlete-card-image">

@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { ATHLETE_MOCK_IMG } from '../../constants/mockImages';
-import slugify from 'slugify';
+import { slugify } from '../../helpers/slugHelper';
 import { Athlete } from '../../interfaces/athlete';
 import { ShadowBox } from '../Common/ShadowBox';
 
 export const AthleteSliderCard = ({ athlete }: { athlete: Athlete }) => {
   return (
     <article className="athlete-slider-card">
-      <Link href={`/athlete/${athlete.id}/${slugify(athlete.athleteName, { lower: true })}`}>
+      <Link href={`/athlete/${athlete.id}/${slugify(athlete.athleteName)}`}>
         <div className="athlete-slider-card-image">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
