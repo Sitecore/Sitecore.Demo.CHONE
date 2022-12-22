@@ -9,6 +9,8 @@
     "lint": "next lint",
     "tenant:add": "ch-one-cli tenant add",
     "tenant:list": "ch-one-cli tenant list",
+    "ser:push-content-types": "cd items && ch-one-cli ser push content-type",
+    "ser:push-content-items": "cd items && ch-one-cli ser push content-item -c Sport && ch-one-cli ser push content-item -c Athlete && ch-one-cli ser push content-item -c Event",
   },
   "dependencies": {
     "@types/node": "18.11.10",
