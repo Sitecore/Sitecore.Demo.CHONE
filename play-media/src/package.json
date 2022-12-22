@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tenant:add": "ch-one-cli tenant add",
+    "tenant:list": "ch-one-cli tenant list",
   },
   "dependencies": {
     "@types/node": "18.11.10",
