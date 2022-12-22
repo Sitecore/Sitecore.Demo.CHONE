@@ -12,6 +12,7 @@
     "ser:push-content-types": "cd items && ch-one-cli ser push content-type",
     "ser:push-content-items": "cd items && ch-one-cli ser push content-item -c Sport && ch-one-cli ser push content-item -c Athlete && ch-one-cli ser push content-item -c Event",
     "publish-item": "cd items && ch-one-cli delivery content publish",
+    "publish-all-items": "ts-node --project tsconfig.scripts.json scripts/publishContentItems.ts"
   },
   "dependencies": {
     "@types/node": "18.11.10",
