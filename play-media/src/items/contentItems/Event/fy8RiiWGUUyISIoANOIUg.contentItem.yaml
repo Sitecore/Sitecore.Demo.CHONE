@@ -84,37 +84,37 @@ fields:
         "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/eGQ9tdF0aotpvWJ2eJlA"
       }
     type: Reference
-  featuredImage:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "4df6kNV1p02_Yuxfuwv0Dg",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/4df6kNV1p02_Yuxfuwv0Dg"
-      }
-    type: Media
-  relatedMedia:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "4df6kNV1p02_Yuxfuwv0Dg",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/4df6kNV1p02_Yuxfuwv0Dg"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "8vMmgfFlFE6pwJq6XhrMSg",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/8vMmgfFlFE6pwJq6XhrMSg"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "iPenxZHYbk-LL28SXFs2gg",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/iPenxZHYbk-LL28SXFs2gg"
-      }
-    type: Media
+  # featuredImage:
+  #   value:
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "4df6kNV1p02_Yuxfuwv0Dg",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/4df6kNV1p02_Yuxfuwv0Dg"
+  #     }
+  #   type: Media
+  # relatedMedia:
+  #   value:
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "4df6kNV1p02_Yuxfuwv0Dg",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/4df6kNV1p02_Yuxfuwv0Dg"
+  #     }
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "8vMmgfFlFE6pwJq6XhrMSg",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/8vMmgfFlFE6pwJq6XhrMSg"
+  #     }
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "iPenxZHYbk-LL28SXFs2gg",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/iPenxZHYbk-LL28SXFs2gg"
+  #     }
+  #   type: Media

@@ -84,44 +84,44 @@ fields:
         "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/ah8wCddrm0qzga8NRF1rfA"
       }
     type: Reference
-  featuredImage:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "Zw7xv1MmLU2PSNp-y7JaKA",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Zw7xv1MmLU2PSNp-y7JaKA"
-      }
-    type: Media
-  relatedMedia:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "L4137wYBV0SkxG0ynHTQDA",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/L4137wYBV0SkxG0ynHTQDA"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "k8O8MHzHL0iqeXJ5Z3gvZw",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/k8O8MHzHL0iqeXJ5Z3gvZw"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "Q7YL0xPWSUOxVW81BcK35Q",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Q7YL0xPWSUOxVW81BcK35Q"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "Zw7xv1MmLU2PSNp-y7JaKA",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Zw7xv1MmLU2PSNp-y7JaKA"
-      }
-    type: Media
+  # featuredImage:
+  #   value:
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "Zw7xv1MmLU2PSNp-y7JaKA",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Zw7xv1MmLU2PSNp-y7JaKA"
+  #     }
+  #   type: Media
+  # relatedMedia:
+  #   value:
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "L4137wYBV0SkxG0ynHTQDA",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/L4137wYBV0SkxG0ynHTQDA"
+  #     }
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "k8O8MHzHL0iqeXJ5Z3gvZw",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/k8O8MHzHL0iqeXJ5Z3gvZw"
+  #     }
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "Q7YL0xPWSUOxVW81BcK35Q",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Q7YL0xPWSUOxVW81BcK35Q"
+  #     }
+  #   - >-
+  #     {
+  #       "type": "Link",
+  #       "relatedType": "Media",
+  #       "id": "Zw7xv1MmLU2PSNp-y7JaKA",
+  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/Zw7xv1MmLU2PSNp-y7JaKA"
+  #     }
+  #   type: Media
