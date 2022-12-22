@@ -8,7 +8,6 @@ query {
     results {
       id
       title
-      slug
       sport {
         results {
           ... on Sport {
@@ -74,7 +73,6 @@ query {
           ... on Event {
             id
             title
-            slug
             sport {
               results {
                 ... on Sport {
@@ -110,7 +108,6 @@ export const getAllEvents = async (): Promise<{ events: Partial<Event>[] }> => {
     events.push({
       id: event.id,
       title: event.title,
-      slug: event.slug,
       sport: event.sport,
       isFeatured: event.isFeatured,
       timeAndDate: event.timeAndDate,
