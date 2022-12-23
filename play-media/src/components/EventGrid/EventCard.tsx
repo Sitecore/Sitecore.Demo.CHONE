@@ -4,6 +4,7 @@ import { ShadowBox } from '../Common/ShadowBox';
 import { getEventSchedule } from '../../helpers/eventScheduleHelper';
 import Link from 'next/link';
 import { EVENT_MOCK_IMG } from '../../constants/mockImages';
+import { slugify } from '../../helpers/slugHelper';
 
 interface Props {
   event: Event;
@@ -12,7 +13,7 @@ interface Props {
 export const EventCard: FC<Props> = ({ event }) => {
   return (
     <article className="event-card">
-      <Link href={`/event/${event?.slug}`}>
+      <Link href={`/event/${event?.id}/${slugify(event?.title)}`}>
         <div className="event-card-image">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

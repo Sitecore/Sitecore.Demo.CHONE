@@ -1,3 +1,5 @@
-export const slugify = (prop: string | undefined): string => {
-  return prop ? prop.toLowerCase().split(' ').join('-') : '';
+import slugifyLib from 'slugify';
+
+export const slugify = (prop: string): string => {
+  return slugifyLib(prop, { lower: true });
 };

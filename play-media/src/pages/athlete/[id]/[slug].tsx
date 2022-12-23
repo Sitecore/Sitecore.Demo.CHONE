@@ -1,11 +1,12 @@
-import { getAllAthletes } from '../../api/queries/getAthletes';
-import { getAllEvents } from '../../api/queries/getEvents';
-import { AthleteDetailsPage } from '../../components/Pages/AthleteDetailsPage';
-import { slugify } from '../../helpers/slugHelper';
-import { Athlete } from '../../interfaces/athlete';
-import { Event } from '../../interfaces/event';
+import { getAllAthletes, getAthleteById } from '../../../api/queries/getAthletes';
+import { getAllEvents } from '../../../api/queries/getEvents';
+import { AthleteDetailsPage } from '../../../components/Pages/AthleteDetailsPage';
+import { slugify } from '../../../helpers/slugHelper';
+import { Athlete } from '../../../interfaces/athlete';
+import { Event } from '../../../interfaces/event';
 
 export interface Params {
+  id: string;
   slug: string;
 }
 
@@ -26,17 +27,14 @@ export default function AthleteDetail({
 export async function getStaticPaths() {
   const { athletes } = await getAllAthletes();
   const paths = athletes.map((athlete) => ({
-    params: { slug: slugify(athlete.athleteName) },
+    params: { id: athlete.id, slug: slugify(athlete.athleteName ?? '') },
   }));
 
   return { paths, fallback: false };
 }
 
 export const getStaticProps = async ({ params }: AthleteParams) => {
-  const { athletes } = await getAllAthletes();
-  const athlete = athletes.find(
-    (athlete) => params.slug === slugify(athlete.athleteName)
-  ) as Athlete;
+  const athlete = (await getAthleteById(params.id)).athlete as Athlete;
 
   const getAthleteEvents = async (athlete: Athlete) => {
     const { events } = await getAllEvents();

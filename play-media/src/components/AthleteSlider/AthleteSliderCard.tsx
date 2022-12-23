@@ -7,8 +7,7 @@ import { ShadowBox } from '../Common/ShadowBox';
 export const AthleteSliderCard = ({ athlete }: { athlete: Athlete }) => {
   return (
     <article className="athlete-slider-card">
-      {/* TODO: replace with actual link */}
-      <Link href={`/athlete/${slugify(athlete.athleteName)}`}>
+      <Link href={`/athlete/${athlete.id}/${slugify(athlete.athleteName)}`}>
         <div className="athlete-slider-card-image">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

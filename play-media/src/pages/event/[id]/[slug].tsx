@@ -1,13 +1,15 @@
 import { FC } from 'react';
-import { getAllEvents } from '../../api/queries/getEvents';
-import { RichText } from '../../components/RichText/RichText';
-import { EventGridSimple } from '../../components/EventGrid/EventGridSimple';
-import { HeroBannerEventDetails } from '../../components/HeroBanner/HeroBannerEventDetails';
-import ImageGrid from '../../components/ImageGrid/ImageGrid';
-import { Event } from '../../interfaces/event';
-import { AthleteGrid } from '../../components/AthleteGrid/AthleteGrid';
+import { getAllEvents, getEventById } from '../../../api/queries/getEvents';
+import { RichText } from '../../../components/RichText/RichText';
+import { EventGridSimple } from '../../../components/EventGrid/EventGridSimple';
+import { HeroBannerEventDetails } from '../../../components/HeroBanner/HeroBannerEventDetails';
+import ImageGrid from '../../../components/ImageGrid/ImageGrid';
+import { Event } from '../../../interfaces/event';
+import { AthleteGrid } from '../../../components/AthleteGrid/AthleteGrid';
+import { slugify } from '../../../helpers/slugHelper';
 
 export interface Params {
+  id: string;
   slug: string;
 }
 
@@ -50,18 +52,18 @@ export default EventDetail;
 export async function getStaticPaths() {
   const { events } = await getAllEvents();
   const paths = events.map((event) => ({
-    params: { slug: event.slug },
+    params: { id: event.id, slug: slugify(event.title ?? '') },
   }));
 
   return { paths, fallback: false };
 }
 
 export const getStaticProps = async ({ params }: EventParams) => {
-  const { events } = await getAllEvents();
+  const { event } = await getEventById(params.id);
 
   return {
     props: {
-      event: events.find((event) => event.slug === params.slug),
+      event,
     },
     revalidate: 10,
   };
