@@ -61,5 +61,6 @@ yarn.lock
 .circleci
 .eslintignore
 
+# General
 node_modules
 .env
