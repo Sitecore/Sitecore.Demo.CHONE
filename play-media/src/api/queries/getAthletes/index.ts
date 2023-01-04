@@ -1,5 +1,5 @@
 import { fetchGraphQL } from '../..';
-import { AllAthletesResponse, Athlete } from '../../../interfaces/athlete';
+import { AllAthletesResponse, Athlete, AthleteResponse } from '../../../interfaces/athlete';
 
 const athletesQuery = `
 query {
@@ -75,5 +75,63 @@ export const getAllAthletes = async (): Promise<{ athletes: Partial<Athlete>[] }
 
   return {
     athletes,
+  };
+};
+
+const getAthleteByIdQuery = (id: string) => {
+  return `
+    query {
+      athlete (id: "${id}") {
+        id
+        athleteName
+        profilePhoto {
+          results {
+            id
+            name
+            fileUrl
+            description
+          }
+        }
+        featuredImage {
+          results {
+            id
+            name
+            fileUrl
+            description
+          }
+        }
+        isFeatured
+        sport {
+          results {
+            ... on Sport {
+              id
+              title
+              description
+              color
+            }
+          }
+        }
+        athleteQuote
+        nationality
+        birthDate
+        careerStart
+        hobby
+        relatedMedia {
+          results {
+            id
+            name
+            fileUrl
+            description
+          }
+        }
+      }
+    }`;
+};
+
+export const getAthleteById = async (id: string): Promise<{ athlete: Partial<Athlete> }> => {
+  const athleteResponse: AthleteResponse = (await fetchGraphQL(getAthleteByIdQuery(id))) as AthleteResponse;
+
+  return {
+    athlete: athleteResponse.data.athlete,
   };
 };

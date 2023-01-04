@@ -11,7 +11,7 @@ export const AthleteCard = ({ athlete }: { athlete: Athlete }) => {
 
   return (
     <article className="athlete-card">
-      <Link href={`/athlete/${slugify(athlete.athleteName)}`}>
+      <Link href={`/athlete/${athlete.id}/${slugify(athlete.athleteName)}`}>
         <ShadowBox color={accentColor}>
           <div className="athlete-card-content">
             <div className="athlete-card-image">
