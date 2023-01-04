@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Image, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,6 +14,8 @@ import { Logo } from "./components/Logo/Logo";
 import { Listing } from "./components/Listing/Listing";
 import { CardAvatar } from "./components/CardAvatar/CardAvatar";
 import { CardEvent } from "./components/CardEvent/CardEvent";
+import { SplashScreen } from "./screens/SpashScreen";
+import { TabScreenHeader } from "./components/TabScreenHeader/TabScreenHeader";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,8 +50,6 @@ function AthletesScreen({ navigation }) {
       title: athlete.athleteName,
     });
   }, []);
-
-  console.log(athletes[0]);
 
   return (
     <Listing
@@ -152,7 +152,8 @@ function MainTabs() {
         name="Events"
         component={EventsScreen}
         options={{
-          headerTitle: () => <Logo />,
+          // headerTitle: () => <Logo />,
+          headerTitle: () => <TabScreenHeader />,
           headerTitleAlign: "left",
           tabBarActiveTintColor: "#b56666",
           tabBarLabelPosition: "beside-icon",
@@ -170,7 +171,8 @@ function MainTabs() {
         name="Athletes"
         component={AthletesScreen}
         options={{
-          headerTitle: () => <Logo />,
+          // headerTitle: () => <Logo />,
+          headerTitle: () => <TabScreenHeader />,
           headerTitleAlign: "left",
           tabBarActiveTintColor: "#b56666",
           tabBarLabelPosition: "beside-icon",
@@ -189,6 +191,8 @@ function MainTabs() {
 }
 
 export default function Main() {
+  const [connected, setConnected] = useState(false);
+
   // Prepare API data
   //
   useQuery("events", getAllEvents);
@@ -198,31 +202,41 @@ export default function Main() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="MainTabs">
-        <Stack.Screen
-          name="MainTabs"
-          component={MainTabs}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AddEvent"
-          component={CreateEventScreen}
-          options={{ title: "Add Event" }}
-        />
-        <Stack.Screen
-          name="AddAthlete"
-          component={CreateAthleteScreen}
-          options={{ title: "Add Athlete" }}
-        />
-        <Stack.Screen
-          name="AthleteDetail"
-          component={AthleteDetailScreen}
-          options={{ title: "Athlete Detail" }}
-        />
-        <Stack.Screen
-          name="EventDetail"
-          component={EventDetailScreen}
-          options={{ title: "Event Detail" }}
-        />
+        {connected ? (
+          <>
+            <Stack.Screen
+              name="MainTabs"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AddEvent"
+              component={CreateEventScreen}
+              options={{ title: "Add Event" }}
+            />
+            <Stack.Screen
+              name="AddAthlete"
+              component={CreateAthleteScreen}
+              options={{ title: "Add Athlete" }}
+            />
+            <Stack.Screen
+              name="AthleteDetail"
+              component={AthleteDetailScreen}
+              options={{ title: "Athlete Detail" }}
+            />
+            <Stack.Screen
+              name="EventDetail"
+              component={EventDetailScreen}
+              options={{ title: "Event Detail" }}
+            />
+          </>
+        ) : (
+          <Stack.Screen
+            name="Splash"
+            component={() => <SplashScreen setConnected={setConnected} />}
+            options={{ headerShown: false }}
+          />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -10,6 +10,7 @@ export const Listing = ({ data, isLoading, renderItem }) => {
           justifyContent: "center",
           alignItems: "center",
           height: "100%",
+          backgroundColor: "#000",
         }}
       >
         <Text>Loading ....</Text>
@@ -18,7 +19,7 @@ export const Listing = ({ data, isLoading, renderItem }) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "#000" }}>
       <FlatList
         style={{ paddingHorizontal: 10, paddingTop: 10 }}
         data={data}

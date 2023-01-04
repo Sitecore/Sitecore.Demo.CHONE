@@ -1,16 +1,20 @@
 import { SafeAreaView } from "react-native";
 import { Logo } from "../components/Logo/Logo";
-import { IconButton, TextInput } from "react-native-paper";
+import { Button, IconButton, TextInput } from "react-native-paper";
 import { useState } from "react";
 
-export const SplashScreen = () => {
+export const SplashScreen = ({ setConnected }) => {
   const [friendlyName, setFriendlyName] = useState("");
   const [apiKey, setApiKey] = useState("");
-  const [connected, setConnected] = useState(false);
 
   return (
     <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#000",
+      }}
     >
       <Logo />
       <TextInput
@@ -18,19 +22,23 @@ export const SplashScreen = () => {
         placeholder="User-friendly name"
         value={friendlyName}
         onChangeText={(text) => setFriendlyName(text)}
+        style={{ margin: 10, width: "90%" }}
       />
       <TextInput
         label="API Key"
         placeholder="API Key"
         value={apiKey}
         onChangeText={(text) => setApiKey(text)}
+        style={{ margin: 10, width: "90%" }}
       />
-      <IconButton
-        icon="camera"
-        iconColor="red"
-        size={20}
+      <Button
+        icon="connection"
+        mode="outlined"
         onPress={() => setConnected(true)}
-      />
+        style={{ backgroundColor: "#fff" }}
+      >
+        Connect
+      </Button>
     </SafeAreaView>
   );
 };
