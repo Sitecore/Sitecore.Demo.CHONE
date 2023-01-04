@@ -1,6 +1,6 @@
 import { Image } from "react-native";
 
-export const HeaderLogo = () => {
+export const Logo = () => {
   return (
     <Image
       style={{

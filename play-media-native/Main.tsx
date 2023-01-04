@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { FlatList, Image, SafeAreaView, View } from "react-native";
+import { Image, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -10,7 +10,7 @@ import { getAllAthletes } from "./api/queries/getAthletes";
 import { getAllSports } from "./api/queries/getSports";
 import { Athlete } from "./interfaces/athlete";
 import { Event } from "./interfaces/event";
-import { HeaderLogo } from "./components/HeaderLogo/HeaderLogo";
+import { Logo } from "./components/Logo/Logo";
 import { Listing } from "./components/Listing/Listing";
 import { CardAvatar } from "./components/CardAvatar/CardAvatar";
 import { CardEvent } from "./components/CardEvent/CardEvent";
@@ -29,23 +29,6 @@ function EventsScreen({ navigation }) {
   }, []);
 
   return (
-    // <View style={{ flex: 1, height: "100%" }}>
-    //   {/* <Text>Events!</Text>
-    //   <Button mode="outlined" onPress={() => navigation.navigate("AddEvent")}>
-    //     Add event
-    //   </Button> */}
-    //   {events.map((event) => (
-    //     <Card
-    //       onPress={() => onCardPress(event)}
-    //       style={{ width: "100%" }}
-    //       key={event.id}
-    //     >
-    //       <Card.Content>
-    //         <Text>{event.slug}</Text>
-    //       </Card.Content>
-    //     </Card>
-    //   ))}
-    // </View>
     <Listing
       data={events}
       isLoading={isFetching}
@@ -169,7 +152,7 @@ function MainTabs() {
         name="Events"
         component={EventsScreen}
         options={{
-          headerTitle: () => <HeaderLogo />,
+          headerTitle: () => <Logo />,
           headerTitleAlign: "left",
           tabBarActiveTintColor: "#b56666",
           tabBarLabelPosition: "beside-icon",
@@ -187,7 +170,7 @@ function MainTabs() {
         name="Athletes"
         component={AthletesScreen}
         options={{
-          headerTitle: () => <HeaderLogo />,
+          headerTitle: () => <Logo />,
           headerTitleAlign: "left",
           tabBarActiveTintColor: "#b56666",
           tabBarLabelPosition: "beside-icon",
