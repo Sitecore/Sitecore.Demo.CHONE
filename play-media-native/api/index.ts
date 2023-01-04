@@ -2,11 +2,6 @@ type GraphQLResponseWithErrors = {
   errors: unknown[];
 };
 
-const CHONE_PREVIEW_API_KEY =
-  "SlVLNUQzSGFCY0lmekdJekFlSWZITU92MnlhUldYL0VaME1BVHh5ZUljMD18aGMtZGVtby10ZWFtLXBsYXktbWVkaWEtZWE1YmE=";
-const CHONE_PREVIEW_API_URL =
-  "https://content-api.sitecorecloud.io/api/content/v1/preview/graphql/";
-
 export async function fetchGraphQL(query: string): Promise<unknown> {
   try {
     return await fetch(endpointUrl, {
