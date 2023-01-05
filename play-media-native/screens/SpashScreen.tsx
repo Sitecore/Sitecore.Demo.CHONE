@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, StatusBar } from "react-native";
 import { Logo } from "../components/Logo/Logo";
 import { Button, IconButton, TextInput } from "react-native-paper";
 import { useState } from "react";
@@ -16,6 +16,7 @@ export const SplashScreen = ({ setConnected }) => {
         backgroundColor: "#000",
       }}
     >
+      <StatusBar barStyle={"light-content"} />
       <Logo />
       <TextInput
         label="User-friendly name"
