@@ -64,3 +64,4 @@ yarn.lock
 # General
 node_modules
 .env
+.expo

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { AppState, AppStateStatus } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
-import Main from "./Main";
 import NetInfo from "@react-native-community/netinfo";
 import {
   focusManager,
@@ -9,6 +8,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "react-query";
+import { Main } from "./components/Main/Main";
 
 // Create a client
 const queryClient = new QueryClient();
