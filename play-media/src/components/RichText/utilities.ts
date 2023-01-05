@@ -1,9 +1,8 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { RichTextResponseItem } from './types/response';
 
 const getComponentFromChild = (
   child: any,
-  componentMap: Record<string, FunctionComponent>,
+  componentMap: Record<string, (context: any, children: any, key: string) => ReactNode>,
   ...indexes: number[]
 ): ReactNode => {
   const key = indexes.join('_');
@@ -11,14 +10,18 @@ const getComponentFromChild = (
   if (child?.content?.length) {
     return componentMap[child.type](
       child,
-      child.content.map((childContext: any, childIndex: number) => getComponentFromChild(childContext, componentMap, ...indexes, childIndex)),
+      child.content.map((childContext: any, childIndex: number) =>
+        getComponentFromChild(childContext, componentMap, ...indexes, childIndex)
+      ),
       key
     );
   }
 
-  return componentMap[child.type](child, key);
+  return componentMap[child.type](child, null, key);
 };
 
 export const getComponentTree = (content: any, componentMap: any) => {
-  return content.map((element: any, index: number) => getComponentFromChild(element, componentMap, index));
+  return content.map((element: any, index: number) =>
+    getComponentFromChild(element, componentMap, index)
+  );
 };
