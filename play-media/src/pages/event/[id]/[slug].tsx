@@ -1,12 +1,8 @@
 import { FC } from 'react';
 import { getAllEvents, getEventById } from '../../../api/queries/getEvents';
-import { RichText } from '../../../components/RichText/RichText';
-import { EventGridSimple } from '../../../components/EventGrid/EventGridSimple';
-import { HeroBannerEventDetails } from '../../../components/HeroBanner/HeroBannerEventDetails';
-import ImageGrid from '../../../components/ImageGrid/ImageGrid';
-import { Event } from '../../../interfaces/event';
-import { AthleteGrid } from '../../../components/AthleteGrid/AthleteGrid';
 import { slugify } from '../../../helpers/slugHelper';
+import Head from 'next/head';
+import EventDetailsPage from '../../../components/Pages/EventDetailsPage';
 
 export interface Params {
   id: string;
@@ -23,27 +19,12 @@ interface Props {
 
 const EventDetail: FC<Props> = ({ event }) => {
   return (
-    <main>
-      <HeroBannerEventDetails event={event} />
-      <div className="container content-section event-detail-content">
-        {!!event?.relatedMedia?.results?.length && (
-          <ImageGrid images={event?.relatedMedia?.results || []} />
-        )}
-        <RichText body={event.body.content} />
-      </div>
-      {!!event?.athletes?.results && (
-        <section>
-          <h2 className="text-center -mb-10">Athletes who will join</h2>
-          <AthleteGrid athletes={event.athletes.results} />
-        </section>
-      )}
-      {!!event?.similarEvents?.results?.length && (
-        <section>
-          <h2 className="text-center mb-10">Similar events</h2>
-          <EventGridSimple events={event.similarEvents.results as Event[]} />
-        </section>
-      )}
-    </main>
+    <>
+      <Head>
+        <title>{event.title} | PLAY! Media</title>
+      </Head>
+      <EventDetailsPage event={event} />
+    </>
   );
 };
 
