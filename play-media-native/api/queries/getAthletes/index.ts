@@ -1,4 +1,4 @@
-import { fetchGraphQL } from "../..";
+import { FetchOptions, fetchGraphQL } from "../..";
 import { AllAthletesResponse, Athlete } from "../../../interfaces/athlete";
 
 const athletesQuery = `
@@ -52,9 +52,12 @@ query {
 }
 `;
 
-export const getAllAthletes = async (): Promise<Athlete[]> => {
+export const getAllAthletes = async (
+  options: FetchOptions
+): Promise<Athlete[]> => {
   const results: AllAthletesResponse = (await fetchGraphQL(
-    athletesQuery
+    athletesQuery,
+    options
   )) as AllAthletesResponse;
   const athletes: Partial<Athlete>[] = [];
 

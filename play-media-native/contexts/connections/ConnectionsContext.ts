@@ -1,10 +1,5 @@
 import { createContext } from "react";
-import { Connection } from "../interfaces/connections";
-
-export interface ConnectionsState {
-  connections: Connection[];
-  selectedConnection: string;
-}
+import { ConnectionsState } from "./connections";
 
 const defaultValue: ConnectionsState = {
   connections: [],

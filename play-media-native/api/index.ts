@@ -2,13 +2,21 @@ type GraphQLResponseWithErrors = {
   errors: unknown[];
 };
 
-export async function fetchGraphQL(query: string): Promise<unknown> {
+export type FetchOptions = {
+  apiKey: string;
+  previewUrl: string;
+};
+
+export async function fetchGraphQL(
+  query: string,
+  options: FetchOptions
+): Promise<unknown> {
   try {
-    return await fetch(endpointUrl, {
+    return await fetch(options.previewUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-GQL-Token": apiKey,
+        "X-GQL-Token": options.apiKey,
       },
       body: JSON.stringify({ query }),
     })

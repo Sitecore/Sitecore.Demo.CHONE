@@ -4,6 +4,11 @@ import { configureFonts, MD3LightTheme, Provider as PaperProvider } from "react-
 import NetInfo from "@react-native-community/netinfo";
 import { focusManager, onlineManager, QueryClient, QueryClientProvider } from "react-query";
 import { Main } from "./components/Main/Main";
+
+// Redux global state
+//
+import { store } from "./store";
+import { Provider as GlobalStateProvider } from "react-redux";
 import { useFonts } from "expo-font";
 import { paperColorConfig, paperFontConfig, paperRestConfig } from "./theme/theme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -53,11 +58,13 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <PaperProvider theme={paperTheme}>
-          <Main />
-        </PaperProvider>
-      </QueryClientProvider>
+      <GlobalStateProvider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <PaperProvider theme={paperTheme}>
+            <Main />
+          </PaperProvider>
+        </QueryClientProvider>
+      </GlobalStateProvider>
     </SafeAreaProvider>
   );
 }
