@@ -10,7 +10,7 @@ interface Props {
 
 const ImageSlide: FC<Props> = ({ image }) => {
   return (
-    <div className="image-slide-container">
+    <div>
       <Image fill style={{ objectFit: 'contain' }} src={image?.url || ''} alt={image?.alt || ''} />
     </div>
   );

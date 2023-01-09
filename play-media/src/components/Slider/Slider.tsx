@@ -63,18 +63,20 @@ const Slider: FC<Props> = ({
 
   return (
     <>
-      <Swiper
-        loop
-        modules={[Autoplay, FreeMode, Navigation, Pagination, Thumbs]}
-        navigation={navigation && showNavigation}
-        pagination={pagination}
-        spaceBetween={10}
-        thumbs={{ swiper: thumbsSwiper && !thumbsSwiper?.destroyed ? thumbsSwiper : null }}
-        initialSlide={displayedIndex}
-        className={className}
-      >
-        {slides}
-      </Swiper>
+      <div className="slider-main">
+        <Swiper
+          loop
+          modules={[Autoplay, FreeMode, Navigation, Pagination, Thumbs]}
+          navigation={navigation && showNavigation}
+          pagination={pagination}
+          spaceBetween={10}
+          thumbs={{ swiper: thumbsSwiper && !thumbsSwiper?.destroyed ? thumbsSwiper : null }}
+          initialSlide={displayedIndex}
+          className={className}
+        >
+          {slides}
+        </Swiper>
+      </div>
       <Swiper
         loop
         onSwiper={setThumbsSwiper}
