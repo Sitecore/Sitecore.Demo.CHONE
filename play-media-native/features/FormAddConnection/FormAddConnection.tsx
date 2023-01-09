@@ -4,6 +4,8 @@ import { validateConnection } from "../../api/queries/validateConnection";
 import { useConnections } from "../../hooks/useConnections/useConnections";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { Toast } from "../../components/Toast/Toast";
+import { storeConnection } from "../../helpers/connections";
+import { deleteValueFor } from "../../helpers/secureStorage";
 
 const defaultTextInputStyle = {
   width: "90%",
@@ -16,6 +18,8 @@ const isNameValid = (text: string) => /^[a-z0-9-]+$/i.test(text);
 
 const isApiKeyValid = (text: string) => !!text;
 
+// Preview URL validation
+//
 const isPreviewUrlValid = (text: string) => {
   const startsCorrectly = text.startsWith("https://");
   const endsCorrectly = text.endsWith("/api/content/v1/preview/graphql/");
@@ -26,7 +30,8 @@ const isPreviewUrlValid = (text: string) => {
 export const FormAddConnection = () => {
   const { add } = useConnections();
   const [validating, setValidating] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);
   const [apiKey, setApiKey] = useState("");
@@ -37,26 +42,27 @@ export const FormAddConnection = () => {
   const onAddConnection = useCallback(async () => {
     setValidating(true);
 
-    const isValid = await validateConnection({ apiKey, previewUrl })
+    await validateConnection({ apiKey, previewUrl })
+      .then(async () => {
+        await storeConnection({ name, apiKey, previewUrl }).then(() => {
+          setShowSuccessToast(true);
+        });
+      })
       .catch(() => {
-        setShowToast(true);
+        setShowErrorToast(true);
       })
       .finally(() => {
         setValidating(false);
       });
 
-    if (isValid) {
-      add({
-        name,
-        apiKey,
-        previewUrl,
-      });
-    }
+    // if (isValid) {
+    //   add({
+    //     name,
+    //     apiKey,
+    //     previewUrl,
+    //   });
+    // }
   }, [name, apiKey, previewUrl, add]);
-
-  const onToastDismiss = useCallback(() => {
-    setShowToast(false);
-  }, []);
 
   const handleName = useCallback((text: string) => {
     setNameError(!isNameValid(text));
@@ -73,11 +79,13 @@ export const FormAddConnection = () => {
     setPreviewUrl(text);
   }, []);
 
-  // console.log("\n");
-  // console.log("isNameValid('Abc12')", isNameValid("Abc12"));
-  // console.log("isNameValid('Abc12-')", isNameValid("Abc12-"));
-  // console.log("isNameValid('Abc12_')", isNameValid("Abc12_"));
-  // console.log("isNameValid('Abc12!')", isNameValid("Abc12!"));
+  const onSuccessToastDismiss = useCallback(() => {
+    setShowSuccessToast(false);
+  }, []);
+
+  const onErrorToastDismiss = useCallback(() => {
+    setShowErrorToast(false);
+  }, []);
 
   return (
     <>
@@ -109,7 +117,7 @@ export const FormAddConnection = () => {
         value={previewUrl}
       />
       <Button
-        icon="connection"
+        icon="plus-circle-outline"
         mode="outlined"
         onPress={onAddConnection}
         style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
@@ -117,13 +125,29 @@ export const FormAddConnection = () => {
         {validating ? (
           <ActivityIndicator size="small" animating />
         ) : (
-          <Text>Validate Connection</Text>
+          <Text>Add Connection</Text>
         )}
       </Button>
+      <Button
+        icon="plus-circle-outline"
+        mode="outlined"
+        onPress={async () => {
+          await deleteValueFor("connections");
+        }}
+        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
+      >
+        <Text>Delete Connections</Text>
+      </Button>
+      <Toast
+        message="Connection is valid!"
+        onDismiss={onSuccessToastDismiss}
+        visible={showSuccessToast}
+        type="success"
+      />
       <Toast
         message="Could not validate connection!"
-        onDismiss={onToastDismiss}
-        visible={showToast}
+        onDismiss={onErrorToastDismiss}
+        visible={showErrorToast}
         type="warning"
       />
     </>

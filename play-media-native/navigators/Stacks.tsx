@@ -3,9 +3,10 @@ import { CreateEventScreen } from "../screens/CreateEvent";
 import { CreateAthleteScreen } from "../screens/CreateAthlete";
 import { AthleteDetailScreen } from "../screens/AthleteDetail";
 import { EventDetailScreen } from "../screens/EventDetail";
-import { SplashScreen } from "../screens/SpashScreen";
+import { SelectConnectionScreen } from "../screens/SelectConnection";
 import { Tabs } from "./Tabs";
 import { useConnections } from "../hooks/useConnections/useConnections";
+import { AddConnectionScreen } from "../screens/AddConnection";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,11 +44,20 @@ export const Stacks = () => {
           />
         </>
       ) : (
-        <Stack.Screen
-          name="Splash"
-          component={SplashScreen}
-          options={{ headerShown: false }}
-        />
+        <>
+          <Stack.Screen
+            name="SelectConnection"
+            component={SelectConnectionScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AddConnection"
+            component={AddConnectionScreen}
+            options={{
+              title: "Add Connection",
+            }}
+          />
+        </>
       )}
     </Stack.Navigator>
   );

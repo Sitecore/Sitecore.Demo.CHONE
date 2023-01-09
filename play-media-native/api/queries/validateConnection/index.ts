@@ -15,15 +15,11 @@ export const validateConnection = async (
     getAllSports(options),
   ];
 
-  return await Promise.all(promises)
-    .then(([athletes, events, sports]) => {
-      if (athletes?.length && events?.length && sports?.length) {
-        return true;
-      }
+  return await Promise.all(promises).then(([athletes, events, sports]) => {
+    if (athletes?.length && events?.length && sports?.length) {
+      return true;
+    }
 
-      return false;
-    })
-    .catch((error) => {
-      throw error;
-    });
+    throw "Invalid connection";
+  });
 };

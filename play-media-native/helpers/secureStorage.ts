@@ -1,18 +1,13 @@
 import * as SecureStore from "expo-secure-store";
 
-export const save = async (key, value) => {
+export const save = async (key: string, value: string) => {
   await SecureStore.setItemAsync(key, value);
 };
 
-export const getValueFor = async (key) => {
-  let result = await SecureStore.getItemAsync(key);
-  if (result) {
-    return result;
-  } else {
-    throw "Value not available!";
-  }
+export const getValueFor = async (key: string) => {
+  return await SecureStore.getItemAsync(key);
 };
 
-export const deleteValueFor = async (key) => {
+export const deleteValueFor = async (key: string) => {
   await SecureStore.deleteItemAsync(key);
 };

@@ -5,17 +5,18 @@ import { useState } from "react";
 import { useConnections } from "../hooks/useConnections/useConnections";
 import { Select } from "../components/Select/Select";
 import { BottomFAB } from "../components/BottomFAB/BottomFAB";
+import { FormAddConnection } from "../features/FormAddConnection/FormAddConnection";
 
-// const styles = StyleSheet.create({
-//   fab: {
-//     backgroundColor: "black",
-//     borderWidth: 2,
-//     borderColor: "yellow",
-//     color: "yellow",
-//   },
-// });
+const styles = StyleSheet.create({
+  fab: {
+    backgroundColor: "black",
+    borderWidth: 2,
+    borderColor: "yellow",
+    color: "yellow",
+  },
+});
 
-export const SplashScreen = () => {
+export const AddConnectionScreen = () => {
   const { connectionsState } = useConnections();
   const [showForm, setShowForm] = useState(
     !connectionsState?.connections?.length
@@ -41,31 +42,10 @@ export const SplashScreen = () => {
       >
         <Logo style={{ marginBottom: 40 }} />
         <Text style={{ color: "white", maxWidth: "80%", textAlign: "center" }}>
-          Connect to a saved Content Hub One instance.
+          Add a connection to a Content Hub One instance.
         </Text>
       </View>
-      <Select
-        items={[
-          { label: "one", value: "one" },
-          { label: "two", value: "two" },
-        ]}
-        style={{ width: "90%", marginBottom: 5 }}
-      />
-      <Button
-        icon="connection"
-        mode="outlined"
-        onPress={() => setShowForm(true)}
-        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
-      >
-        Connect
-      </Button>
-      <BottomFAB
-        // color={styles.fab.color}
-        icon="plus"
-        // label="Add Connection"
-        onPress={() => console.log("Pressed")}
-        // style={styles.fab}
-      />
+      <FormAddConnection />
     </SafeAreaView>
   );
 };

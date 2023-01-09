@@ -8,7 +8,6 @@ const defaultStyle = StyleSheet.create({
     margin: 16,
     right: 10,
     bottom: 10,
-    borderRadius: 50,
   },
 });
 
