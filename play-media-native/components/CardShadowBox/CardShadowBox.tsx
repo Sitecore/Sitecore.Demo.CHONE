@@ -18,6 +18,7 @@ export const CardShadowBox = ({ children, color, onCardPress }) => {
           marginRight: 10,
         }}
         onPress={onCardPress}
+        mode="contained"
       >
         {children}
       </Card>

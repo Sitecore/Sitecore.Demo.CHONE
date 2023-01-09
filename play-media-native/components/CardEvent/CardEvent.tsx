@@ -41,10 +41,7 @@ export const CardEvent = ({ item, onCardPress }) => {
           <Text>{rightLabel}</Text>
         </View>
         <View style={{ flex: 1, justifyContent: "center", marginTop: 25 }}>
-          <Text
-            style={{ marginLeft: 5, fontWeight: "bold" }}
-            variant="titleMedium"
-          >
+          <Text style={{ marginLeft: 5 }} variant="titleMedium">
             {item.teaser}
           </Text>
         </View>

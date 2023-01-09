@@ -1,11 +1,12 @@
-import { Image } from "react-native";
+import { Image, ImageStyle } from "react-native";
 
-export const Logo = ({ style }) => {
+export const Logo = ({ style }: { style?: ImageStyle }) => {
   return (
     <Image
       style={{
-        height: 40,
-        width: 250,
+        height: 66,
+        width: "100%",
+        resizeMode: "contain",
         ...style,
       }}
       source={require("../../assets/play-media-logo.png")}

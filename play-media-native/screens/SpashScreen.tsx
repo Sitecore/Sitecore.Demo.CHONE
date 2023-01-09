@@ -17,9 +17,7 @@ import { BottomFAB } from "../components/BottomFAB/BottomFAB";
 
 export const SplashScreen = () => {
   const { connectionsState } = useConnections();
-  const [showForm, setShowForm] = useState(
-    !connectionsState?.connections?.length
-  );
+  const [showForm, setShowForm] = useState(!connectionsState?.connections?.length);
 
   return (
     <SafeAreaView
@@ -55,7 +53,7 @@ export const SplashScreen = () => {
         icon="connection"
         mode="outlined"
         onPress={() => setShowForm(true)}
-        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
+        style={{ marginTop: 10, borderRadius: 5 }}
       >
         Connect
       </Button>
