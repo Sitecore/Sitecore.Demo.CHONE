@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { getAllAthletes, getAthleteById } from '../../../api/queries/getAthletes';
 import { getAllEvents } from '../../../api/queries/getEvents';
 import { AthleteDetailsPage } from '../../../components/Pages/AthleteDetailsPage';
@@ -21,7 +22,14 @@ export default function AthleteDetail({
   athlete: Athlete;
   athleteEvents: Event[];
 }) {
-  return <AthleteDetailsPage athlete={athlete} athleteEvents={athleteEvents}></AthleteDetailsPage>;
+  return (
+    <>
+      <Head>
+        <title>{athlete.athleteName} | PLAY! Media</title>
+      </Head>
+      <AthleteDetailsPage athlete={athlete} athleteEvents={athleteEvents}></AthleteDetailsPage>
+    </>
+  );
 }
 
 export async function getStaticPaths() {
