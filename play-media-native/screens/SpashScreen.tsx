@@ -32,12 +32,7 @@ export const SplashScreen = ({ setConnected }) => {
         onChangeText={(text) => setApiKey(text)}
         style={{ margin: 10, width: "90%" }}
       />
-      <Button
-        icon="connection"
-        mode="outlined"
-        onPress={() => setConnected(true)}
-        style={{ backgroundColor: "#fff" }}
-      >
+      <Button icon="connection" mode="outlined" onPress={() => setConnected(true)}>
         Connect
       </Button>
     </SafeAreaView>

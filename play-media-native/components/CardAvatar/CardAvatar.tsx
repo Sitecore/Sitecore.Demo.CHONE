@@ -36,10 +36,7 @@ export const CardAvatar = ({ item, onCardPress }) => {
           </View>
         </View>
         <View style={{ flex: 2, justifyContent: "center" }}>
-          <Text
-            style={{ marginLeft: 5, fontWeight: "bold" }}
-            variant="titleMedium"
-          >
+          <Text style={{ marginLeft: 5 }} variant="titleMedium">
             {item.athleteName}
           </Text>
           <Text
