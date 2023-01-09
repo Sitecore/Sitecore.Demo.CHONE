@@ -5,6 +5,7 @@ import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { Toast } from "../../components/Toast/Toast";
 import { storeConnection } from "../../helpers/connections";
 import { deleteValueFor } from "../../helpers/secureStorage";
+import { View } from "react-native";
 
 const defaultTextInputStyle = {
   width: "90%",
@@ -41,7 +42,10 @@ export const FormAddConnection = ({ onSuccess }: Props) => {
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewUrlError, setPreviewUrlError] = useState(false);
 
-  const buttonDisabled = nameError || apiKeyError || previewUrlError;
+  const nameInvalid = !name || nameError;
+  const apiKeyInvalid = !apiKey || apiKeyError;
+  const previewUrlInvalid = !previewUrl || previewUrlError;
+  const buttonDisabled = nameInvalid || apiKeyInvalid || previewUrlInvalid;
 
   const onAddConnection = useCallback(async () => {
     setValidating(true);
@@ -111,19 +115,22 @@ export const FormAddConnection = ({ onSuccess }: Props) => {
         containerStyle={defaultTextInputStyle}
         disabled={validating}
         error={previewUrlError}
-        errorText="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/'!"
+        errorText="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !"
         label="Preview endpoint URL"
         onChange={handlePreviewUrl}
         value={previewUrl}
       />
       <Button
+        disabled={buttonDisabled}
         icon="plus-circle-outline"
         mode="outlined"
         onPress={onAddConnection}
-        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
+        style={{ marginTop: 10, borderRadius: 5 }}
       >
         {validating ? (
-          <ActivityIndicator size="small" animating />
+          <View>
+            <ActivityIndicator size="small" animating />
+          </View>
         ) : (
           <Text>Add Connection</Text>
         )}
@@ -134,9 +141,9 @@ export const FormAddConnection = ({ onSuccess }: Props) => {
         onPress={async () => {
           await deleteValueFor("connections");
         }}
-        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
+        style={{ marginTop: 10, borderRadius: 5 }}
       >
-        <Text>Delete Connections</Text>
+        <Text>Delete Connections (temp)</Text>
       </Button>
       <Toast
         message="Connection is valid!"

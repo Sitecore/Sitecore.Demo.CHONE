@@ -102,10 +102,9 @@ query {
 }
 `;
 
-export const getAllEvents = async (options: FetchOptions): Promise<Event[]> => {
+export const getAllEvents = async (): Promise<Event[]> => {
   const results: AllEventsResponse = (await fetchGraphQL(
-    eventsQuery,
-    options
+    eventsQuery
   )) as AllEventsResponse;
   const events: Partial<Event>[] = [];
 

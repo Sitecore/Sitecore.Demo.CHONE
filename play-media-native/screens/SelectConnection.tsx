@@ -6,22 +6,34 @@ import { useConnections } from "../hooks/useConnections/useConnections";
 import { Select } from "../components/Select/Select";
 import { BottomFAB } from "../components/BottomFAB/BottomFAB";
 import { getConnections } from "../helpers/connections";
+import { Icon } from "../components/Icon/Icon";
 
 const styles = StyleSheet.create({
-  fab: {
-    backgroundColor: "black",
-    borderWidth: 2,
-    borderColor: "yellow",
-    color: "yellow",
+  fabAdd: {
+    bottom: 75,
   },
 });
 
 export const SelectConnectionScreen = ({ navigation }) => {
+  const { connect } = useConnections();
   const [connections, setConnections] = useState([]);
+  const [selectedConnection, setSelectedConnection] = useState();
 
-  const onFabClick = useCallback(() => {
+  const onFabAddClick = useCallback(() => {
     navigation.navigate("AddConnection");
   }, [navigation]);
+
+  const onFabRemoveClick = useCallback(() => {
+    navigation.navigate("RemoveConnection");
+  }, [navigation]);
+
+  const onSelect = useCallback((value) => {
+    setSelectedConnection(value);
+  }, []);
+
+  const onConnect = useCallback(() => {
+    connect(selectedConnection);
+  }, []);
 
   useEffect(() => {
     const setConnectionsState = async () => {
@@ -39,8 +51,6 @@ export const SelectConnectionScreen = ({ navigation }) => {
     setConnectionsState();
   }, [navigation]);
 
-  console.log("connections", connections);
-
   return (
     <SafeAreaView
       style={{
@@ -56,37 +66,66 @@ export const SelectConnectionScreen = ({ navigation }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 20,
+          marginBottom: 60,
         }}
       >
-        <Logo style={{ marginBottom: 40 }} />
+        <View>
+          <Logo />
+        </View>
         <Text style={{ color: "white", maxWidth: "80%", textAlign: "center" }}>
           Connect to a saved Content Hub One instance.
         </Text>
       </View>
-      <Select items={connections} style={{ width: "90%", marginBottom: 5 }} />
-      <Button
-        icon="connection"
-        mode="outlined"
-        // onPress={() => setShowForm(true)}
-        style={{ marginTop: 10, borderRadius: 5 }}
-      >
-        Connect
-      </Button>
+      {connections?.length ? (
+        <>
+          <Select
+            items={connections}
+            onChange={onSelect}
+            selectedValue={selectedConnection}
+            style={{ width: "90%", marginBottom: 5 }}
+          />
+          <Button
+            icon="connection"
+            mode="outlined"
+            onPress={onConnect}
+            style={{ marginTop: 10, borderRadius: 5 }}
+          >
+            Connect
+          </Button>
+        </>
+      ) : (
+        <View
+          style={{
+            justifyContent: "center",
+            marginBottom: 10,
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Icon
+              name="warning-outline"
+              color="yellow"
+              size={25}
+              style={{ marginRight: 5 }}
+            />
+            <Text style={{ textAlign: "center" }}>
+              No connections available yet!
+            </Text>
+          </View>
+          <Text style={{ textAlign: "center" }} variant="labelMedium">
+            Add one by clicking on the + button below.
+          </Text>
+        </View>
+      )}
       <Button
         icon="connection"
         mode="outlined"
         onPress={() => navigation.navigate("MainTabs")}
         style={{ marginTop: 10, borderRadius: 5 }}
       >
-        Visit app
+        Visit app (temp)
       </Button>
-      <BottomFAB
-        color={styles.fab.color}
-        icon="plus"
-        onPress={onFabClick}
-        style={styles.fab}
-      />
+      <BottomFAB icon="plus" onPress={onFabAddClick} style={styles.fabAdd} />
+      <BottomFAB icon="delete" onPress={onFabRemoveClick} />
     </SafeAreaView>
   );
 };

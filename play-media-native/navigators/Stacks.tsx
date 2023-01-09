@@ -5,17 +5,35 @@ import { AthleteDetailScreen } from "../screens/AthleteDetail";
 import { EventDetailScreen } from "../screens/EventDetail";
 import { SelectConnectionScreen } from "../screens/SelectConnection";
 import { Tabs } from "./Tabs";
-import { useConnections } from "../hooks/useConnections/useConnections";
 import { AddConnectionScreen } from "../screens/AddConnection";
+import { RootStackParamList } from "../interfaces/navigators";
+import { RemoveConnectionScreen } from "../screens/RemoveConnection";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Stacks = () => {
-  const { connectionsState } = useConnections();
-
   return (
-    <Stack.Navigator initialRouteName="MainTabs">
+    <Stack.Navigator>
       <>
+        <Stack.Screen
+          name="SelectConnection"
+          component={SelectConnectionScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddConnection"
+          component={AddConnectionScreen}
+          options={{
+            title: "Add Connection",
+          }}
+        />
+        <Stack.Screen
+          name="RemoveConnection"
+          component={RemoveConnectionScreen}
+          options={{
+            title: "Remove Connection",
+          }}
+        />
         <Stack.Screen
           name="MainTabs"
           component={Tabs}
@@ -40,18 +58,6 @@ export const Stacks = () => {
           name="EventDetail"
           component={EventDetailScreen}
           options={{ title: "Event Detail" }}
-        />
-        <Stack.Screen
-          name="SelectConnection"
-          component={SelectConnectionScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AddConnection"
-          component={AddConnectionScreen}
-          options={{
-            title: "Add Connection",
-          }}
         />
       </>
     </Stack.Navigator>

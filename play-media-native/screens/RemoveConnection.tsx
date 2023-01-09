@@ -1,15 +1,14 @@
 import { SafeAreaView, StatusBar, View } from "react-native";
-import { Logo } from "../components/Logo/Logo";
 import { Text } from "react-native-paper";
-import { FormAddConnection } from "../features/FormAddConnection/FormAddConnection";
 import { useCallback } from "react";
+import { MultiSelectChips } from "../components/MultiSelectChips/MultiSelectChips";
 
-export const AddConnectionScreen = ({ navigation }) => {
-  const onAddSuccess = useCallback(
+export const RemoveConnectionScreen = ({ navigation }) => {
+  const onRemoveSuccess = useCallback(
     () =>
       setTimeout(() => {
         navigation.navigate("SelectConnection");
-      }, 100),
+      }, 1000),
     [navigation]
   );
 
@@ -28,17 +27,21 @@ export const AddConnectionScreen = ({ navigation }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 20,
         }}
       >
-        <View style={{ width: "100%" }}>
-          <Logo style={{ marginBottom: 40 }} />
-        </View>
-        <Text style={{ color: "white", maxWidth: "80%", textAlign: "center" }}>
-          Add a connection to a Content Hub One instance.
+        {/* <Logo style={{ marginBottom: 40 }} /> */}
+        <Text
+          style={{
+            color: "white",
+            maxWidth: "80%",
+            textAlign: "center",
+            marginBottom: 60,
+          }}
+        >
+          Select connection(s) to be removed.
         </Text>
+        <MultiSelectChips />
       </View>
-      <FormAddConnection onSuccess={onAddSuccess} />
     </SafeAreaView>
   );
 };

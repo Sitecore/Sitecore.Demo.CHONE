@@ -1,8 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { View } from "react-native";
 import { IconButton, Menu } from "react-native-paper";
+import { TabHeaderNavigationProp } from "../../interfaces/navigators";
 
-export const SecondaryMenu = ({ navigation }) => {
+export const SecondaryMenu = () => {
+  const navigation = useNavigation<TabHeaderNavigationProp>();
   const [visible, setVisible] = useState(true);
 
   const closeMenu = useCallback(() => {
@@ -25,7 +28,13 @@ export const SecondaryMenu = ({ navigation }) => {
       <Menu
         visible={visible}
         onDismiss={closeMenu}
-        anchor={<IconButton icon="dots-vertical" onPress={openMenu} />}
+        anchor={
+          <IconButton
+            style={{ borderRadius: 50, right: -10 }}
+            icon="dots-vertical"
+            onPress={openMenu}
+          />
+        }
       >
         <Menu.Item
           onPress={() => {

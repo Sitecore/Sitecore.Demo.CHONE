@@ -22,7 +22,6 @@ const defaultContainerStyle = {
 };
 
 const defaultInputStyle = {
-  backgroundColor: "white",
   borderRadius: 0,
 };
 
