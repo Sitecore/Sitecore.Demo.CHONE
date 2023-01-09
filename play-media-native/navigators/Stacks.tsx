@@ -5,13 +5,16 @@ import { AthleteDetailScreen } from "../screens/AthleteDetail";
 import { EventDetailScreen } from "../screens/EventDetail";
 import { SplashScreen } from "../screens/SpashScreen";
 import { Tabs } from "./Tabs";
+import { useConnections } from "../hooks/useConnections/useConnections";
 
 const Stack = createNativeStackNavigator();
 
-export const Stacks = ({ connected, setConnected }) => {
+export const Stacks = () => {
+  const { connectionsState } = useConnections();
+
   return (
     <Stack.Navigator initialRouteName="MainTabs">
-      {connected ? (
+      {connectionsState.selectedConnection ? (
         <>
           <Stack.Screen
             name="MainTabs"
@@ -42,7 +45,7 @@ export const Stacks = ({ connected, setConnected }) => {
       ) : (
         <Stack.Screen
           name="Splash"
-          component={() => <SplashScreen setConnected={setConnected} />}
+          component={SplashScreen}
           options={{ headerShown: false }}
         />
       )}

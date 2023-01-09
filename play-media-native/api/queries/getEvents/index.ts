@@ -1,4 +1,4 @@
-import { fetchGraphQL } from "../..";
+import { FetchOptions, fetchGraphQL } from "../..";
 import { Event, AllEventsResponse } from "../../../interfaces/event";
 
 const eventsQuery = `
@@ -102,9 +102,10 @@ query {
 }
 `;
 
-export const getAllEvents = async (): Promise<Event[]> => {
+export const getAllEvents = async (options: FetchOptions): Promise<Event[]> => {
   const results: AllEventsResponse = (await fetchGraphQL(
-    eventsQuery
+    eventsQuery,
+    options
   )) as AllEventsResponse;
   const events: Partial<Event>[] = [];
 

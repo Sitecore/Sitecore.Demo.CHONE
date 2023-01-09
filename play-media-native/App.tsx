@@ -10,6 +10,11 @@ import {
 } from "react-query";
 import { Main } from "./components/Main/Main";
 
+// Redux global state
+//
+import { store } from "./store";
+import { Provider as GlobalStateProvider } from "react-redux";
+
 // Create a client
 const queryClient = new QueryClient();
 
@@ -36,10 +41,12 @@ export default function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <PaperProvider>
-        <Main />
-      </PaperProvider>
-    </QueryClientProvider>
+    <GlobalStateProvider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <PaperProvider>
+          <Main />
+        </PaperProvider>
+      </QueryClientProvider>
+    </GlobalStateProvider>
   );
 }
