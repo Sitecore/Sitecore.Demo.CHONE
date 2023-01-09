@@ -15,50 +15,45 @@ export const Stacks = () => {
 
   return (
     <Stack.Navigator initialRouteName="MainTabs">
-      {connectionsState.selectedConnection ? (
-        <>
-          <Stack.Screen
-            name="MainTabs"
-            component={Tabs}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="AddEvent"
-            component={CreateEventScreen}
-            options={{ title: "Add Event" }}
-          />
-          <Stack.Screen
-            name="AddAthlete"
-            component={CreateAthleteScreen}
-            options={{ title: "Add Athlete" }}
-          />
-          <Stack.Screen
-            name="AthleteDetail"
-            component={AthleteDetailScreen}
-            options={{ title: "Athlete Detail" }}
-          />
-          <Stack.Screen
-            name="EventDetail"
-            component={EventDetailScreen}
-            options={{ title: "Event Detail" }}
-          />
-        </>
-      ) : (
-        <>
-          <Stack.Screen
-            name="SelectConnection"
-            component={SelectConnectionScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="AddConnection"
-            component={AddConnectionScreen}
-            options={{
-              title: "Add Connection",
-            }}
-          />
-        </>
-      )}
+      <>
+        <Stack.Screen
+          name="MainTabs"
+          component={Tabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddEvent"
+          component={CreateEventScreen}
+          options={{ title: "Add Event" }}
+        />
+        <Stack.Screen
+          name="AddAthlete"
+          component={CreateAthleteScreen}
+          options={{ title: "Add Athlete" }}
+        />
+        <Stack.Screen
+          name="AthleteDetail"
+          component={AthleteDetailScreen}
+          options={{ title: "Athlete Detail" }}
+        />
+        <Stack.Screen
+          name="EventDetail"
+          component={EventDetailScreen}
+          options={{ title: "Event Detail" }}
+        />
+        <Stack.Screen
+          name="SelectConnection"
+          component={SelectConnectionScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddConnection"
+          component={AddConnectionScreen}
+          options={{
+            title: "Add Connection",
+          }}
+        />
+      </>
     </Stack.Navigator>
   );
 };

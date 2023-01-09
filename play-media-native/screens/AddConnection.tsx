@@ -1,25 +1,16 @@
-import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
+import { SafeAreaView, StatusBar, View } from "react-native";
 import { Logo } from "../components/Logo/Logo";
-import { Button, Text } from "react-native-paper";
-import { useState } from "react";
-import { useConnections } from "../hooks/useConnections/useConnections";
-import { Select } from "../components/Select/Select";
-import { BottomFAB } from "../components/BottomFAB/BottomFAB";
+import { Text } from "react-native-paper";
 import { FormAddConnection } from "../features/FormAddConnection/FormAddConnection";
+import { useCallback } from "react";
 
-const styles = StyleSheet.create({
-  fab: {
-    backgroundColor: "black",
-    borderWidth: 2,
-    borderColor: "yellow",
-    color: "yellow",
-  },
-});
-
-export const AddConnectionScreen = () => {
-  const { connectionsState } = useConnections();
-  const [showForm, setShowForm] = useState(
-    !connectionsState?.connections?.length
+export const AddConnectionScreen = ({ navigation }) => {
+  const onAddSuccess = useCallback(
+    () =>
+      setTimeout(() => {
+        navigation.navigate("SelectConnection");
+      }, 1000),
+    [navigation]
   );
 
   return (
@@ -45,7 +36,7 @@ export const AddConnectionScreen = () => {
           Add a connection to a Content Hub One instance.
         </Text>
       </View>
-      <FormAddConnection />
+      <FormAddConnection onSuccess={onAddSuccess} />
     </SafeAreaView>
   );
 };

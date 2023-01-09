@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { View } from "react-native";
-import { Divider, IconButton, Menu } from "react-native-paper";
+import { IconButton, Menu } from "react-native-paper";
 
-export const SecondaryMenu = () => {
+export const SecondaryMenu = ({ navigation }) => {
   const [visible, setVisible] = useState(true);
 
   const closeMenu = useCallback(() => {
@@ -27,10 +27,13 @@ export const SecondaryMenu = () => {
         onDismiss={closeMenu}
         anchor={<IconButton icon="dots-vertical" onPress={openMenu} />}
       >
-        <Menu.Item onPress={() => {}} title="Item 1" />
-        <Menu.Item onPress={() => {}} title="Item 2" />
-        <Divider />
-        <Menu.Item onPress={() => {}} title="Item 3" />
+        <Menu.Item
+          onPress={() => {
+            setVisible(false);
+            navigation.navigate("SelectConnection");
+          }}
+          title="Connections"
+        />
       </Menu>
     </View>
   );

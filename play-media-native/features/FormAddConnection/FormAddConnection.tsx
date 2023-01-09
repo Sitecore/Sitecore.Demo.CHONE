@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 import { InputText } from "../../components/InputText/InputText";
 import { validateConnection } from "../../api/queries/validateConnection";
-import { useConnections } from "../../hooks/useConnections/useConnections";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { Toast } from "../../components/Toast/Toast";
 import { storeConnection } from "../../helpers/connections";
@@ -27,8 +26,11 @@ const isPreviewUrlValid = (text: string) => {
   return startsCorrectly && endsCorrectly;
 };
 
-export const FormAddConnection = () => {
-  const { add } = useConnections();
+interface Props {
+  onSuccess?: () => void;
+}
+
+export const FormAddConnection = ({ onSuccess }: Props) => {
   const [validating, setValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
@@ -39,6 +41,8 @@ export const FormAddConnection = () => {
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewUrlError, setPreviewUrlError] = useState(false);
 
+  const buttonDisabled = nameError || apiKeyError || previewUrlError;
+
   const onAddConnection = useCallback(async () => {
     setValidating(true);
 
@@ -46,6 +50,10 @@ export const FormAddConnection = () => {
       .then(async () => {
         await storeConnection({ name, apiKey, previewUrl }).then(() => {
           setShowSuccessToast(true);
+
+          if (onSuccess) {
+            onSuccess();
+          }
         });
       })
       .catch(() => {
@@ -54,15 +62,7 @@ export const FormAddConnection = () => {
       .finally(() => {
         setValidating(false);
       });
-
-    // if (isValid) {
-    //   add({
-    //     name,
-    //     apiKey,
-    //     previewUrl,
-    //   });
-    // }
-  }, [name, apiKey, previewUrl, add]);
+  }, [name, apiKey, previewUrl, onSuccess]);
 
   const handleName = useCallback((text: string) => {
     setNameError(!isNameValid(text));

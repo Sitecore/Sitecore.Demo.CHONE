@@ -1,6 +1,10 @@
-import { Image } from "react-native";
+import { Image, StyleProp } from "react-native";
 
-export const Logo = ({ style }) => {
+interface Props {
+  style?: StyleProp<any>;
+}
+
+export const Logo = ({ style }: Props) => {
   return (
     <Image
       style={{

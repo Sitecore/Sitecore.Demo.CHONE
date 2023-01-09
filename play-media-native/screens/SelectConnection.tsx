@@ -1,10 +1,11 @@
 import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import { Logo } from "../components/Logo/Logo";
 import { Button, Text } from "react-native-paper";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useConnections } from "../hooks/useConnections/useConnections";
 import { Select } from "../components/Select/Select";
 import { BottomFAB } from "../components/BottomFAB/BottomFAB";
+import { getConnections } from "../helpers/connections";
 
 const styles = StyleSheet.create({
   fab: {
@@ -16,14 +17,29 @@ const styles = StyleSheet.create({
 });
 
 export const SelectConnectionScreen = ({ navigation }) => {
-  const { connectionsState } = useConnections();
-  const [showForm, setShowForm] = useState(
-    !connectionsState?.connections?.length
-  );
+  const [connections, setConnections] = useState([]);
 
   const onFabClick = useCallback(() => {
     navigation.navigate("AddConnection");
   }, [navigation]);
+
+  useEffect(() => {
+    const setConnectionsState = async () => {
+      const storedConnections = await getConnections();
+      const connectionOptions = Array.isArray(storedConnections)
+        ? storedConnections.map((item) => ({
+            ...item,
+            label: item.name,
+            value: item.name,
+          }))
+        : [];
+      setConnections(connectionOptions);
+    };
+
+    setConnectionsState();
+  }, []);
+
+  console.log("connections", connections);
 
   return (
     <SafeAreaView
@@ -48,20 +64,22 @@ export const SelectConnectionScreen = ({ navigation }) => {
           Connect to a saved Content Hub One instance.
         </Text>
       </View>
-      <Select
-        items={[
-          { label: "one", value: "one" },
-          { label: "two", value: "two" },
-        ]}
-        style={{ width: "90%", marginBottom: 5 }}
-      />
+      <Select items={connections} style={{ width: "90%", marginBottom: 5 }} />
       <Button
         icon="connection"
         mode="outlined"
-        onPress={() => setShowForm(true)}
+        // onPress={() => setShowForm(true)}
         style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
       >
         Connect
+      </Button>
+      <Button
+        icon="connection"
+        mode="outlined"
+        onPress={() => navigation.navigate("MainTabs")}
+        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
+      >
+        Visit app
       </Button>
       <BottomFAB
         color={styles.fab.color}

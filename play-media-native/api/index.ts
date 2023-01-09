@@ -1,3 +1,6 @@
+import { getSelectedConnection } from "../helpers/connections";
+import { store } from "../store";
+
 type GraphQLResponseWithErrors = {
   errors: unknown[];
 };
@@ -16,12 +19,14 @@ export async function fetchGraphQL(
   const endpointUrl =
     "https://content-api.sitecorecloud.io/api/content/v1/preview/graphql/";
 
+  console.log("store.getState()", store.getState());
+
   try {
-    return await fetch(options.previewUrl, {
+    return await fetch(endpointUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-GQL-Token": options.apiKey,
+        "X-GQL-Token": apiKey,
       },
       body: JSON.stringify({ query }),
     })
