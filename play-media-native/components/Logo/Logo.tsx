@@ -1,15 +1,12 @@
-import { Image, StyleProp } from "react-native";
+import { Image, ImageStyle } from "react-native";
 
-interface Props {
-  style?: StyleProp<any>;
-}
-
-export const Logo = ({ style }: Props) => {
+export const Logo = ({ style }: { style?: ImageStyle }) => {
   return (
     <Image
       style={{
-        height: 40,
-        width: 250,
+        height: 66,
+        width: "100%",
+        resizeMode: "contain",
         ...style,
       }}
       source={require("../../assets/play-media-logo.png")}

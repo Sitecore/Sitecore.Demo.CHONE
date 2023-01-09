@@ -37,7 +37,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
     };
 
     setConnectionsState();
-  }, []);
+  }, [navigation]);
 
   console.log("connections", connections);
 
@@ -69,7 +69,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
         icon="connection"
         mode="outlined"
         // onPress={() => setShowForm(true)}
-        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
+        style={{ marginTop: 10, borderRadius: 5 }}
       >
         Connect
       </Button>
@@ -77,7 +77,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
         icon="connection"
         mode="outlined"
         onPress={() => navigation.navigate("MainTabs")}
-        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
+        style={{ marginTop: 10, borderRadius: 5 }}
       >
         Visit app
       </Button>
