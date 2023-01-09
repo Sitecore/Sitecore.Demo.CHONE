@@ -1,6 +1,6 @@
-import { Image } from "react-native";
+import { Image, ImageStyle } from "react-native";
 
-export const Logo = ({ style }) => {
+export const Logo = ({ style }: { style?: ImageStyle }) => {
   return (
     <Image
       style={{
