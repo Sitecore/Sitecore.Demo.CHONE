@@ -12,9 +12,8 @@ import { faUsers } from "@fortawesome/free-solid-svg-icons";
 
 const Tab = createBottomTabNavigator();
 
-export const Tabs = () => {
+export const Tabs = ({ navigation }) => {
   const tabScreenOptions: BottomTabNavigationOptions = {
-    header: TabScreenHeader,
     headerBackgroundContainerStyle: {
       backgroundColor: theme.colors.black.darkest,
     },
@@ -29,7 +28,6 @@ export const Tabs = () => {
       fontFamily: theme.fontFamily.DEFAULT,
     },
     tabBarActiveTintColor: theme.colors.yellow.DEFAULT,
-    tabBarActiveBackgroundColor: theme.colors.black.light,
     tabBarInactiveTintColor: theme.colors.white.DEFAULT,
     tabBarStyle: {
       backgroundColor: theme.colors.black.darkest,
@@ -43,6 +41,7 @@ export const Tabs = () => {
         name="Events"
         component={EventsListingScreen}
         options={{
+          header: () => <TabScreenHeader navigation={navigation} type="Event" />,
           tabBarIcon: ({ color }) => {
             return <FontAwesomeIcon icon={faCalendarDays} color={color} size={theme.fontSize.sm} />;
           },
@@ -52,6 +51,7 @@ export const Tabs = () => {
         name="Athletes"
         component={AthletesListingScreen}
         options={{
+          header: () => <TabScreenHeader navigation={navigation} type="Athlete" />,
           tabBarIcon: ({ color }) => {
             return <FontAwesomeIcon icon={faUsers} color={color} size={theme.fontSize.sm} />;
           },
