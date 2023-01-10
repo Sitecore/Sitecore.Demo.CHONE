@@ -18,14 +18,15 @@ export const getAllSports = async (): Promise<{ sports: Partial<Sport>[] }> => {
   const results: AllSportsResponse = (await fetchGraphQL(sportsQuery)) as AllSportsResponse;
   const sports: Partial<Sport>[] = [];
 
-  results.data.allSport.results.forEach((sport: Partial<Sport>) => {
-    sports.push({
-      id: sport.id,
-      title: sport.title,
-      description: sport.description,
-      color: sport.color,
+  results?.data?.allSport?.results?.length > 0 &&
+    results?.data?.allSport?.results?.forEach((sport: Partial<Sport>) => {
+      sports.push({
+        id: sport.id,
+        title: sport.title,
+        description: sport.description,
+        color: sport.color,
+      });
     });
-  });
 
   return {
     sports,

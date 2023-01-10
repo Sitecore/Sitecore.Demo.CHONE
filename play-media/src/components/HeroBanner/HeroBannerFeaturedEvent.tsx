@@ -12,7 +12,7 @@ export const HeroBannerFeaturedEvent = ({ event }: { event: Event }) => {
       imageSrc={event?.featuredImage?.results[0]?.fileUrl || EVENT_MOCK_IMG}
       className="hero-banner-featured-event"
     >
-      <Link href={`event/${event.id}/${slugify(event?.title)}`}>
+      <Link href={`event/${event?.id}/${slugify(event?.title)}`}>
         <ShadowBox
           color={event?.sport?.results[0]?.color}
           label={event?.sport?.results[0]?.title}
