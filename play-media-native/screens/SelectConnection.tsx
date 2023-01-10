@@ -1,12 +1,12 @@
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
 import { Logo } from "../components/Logo/Logo";
 import { Button, Text } from "react-native-paper";
-import { useCallback, useEffect, useState } from "react";
 import { useConnections } from "../hooks/useConnections/useConnections";
 import { Select } from "../components/Select/Select";
 import { BottomFAB } from "../components/BottomFAB/BottomFAB";
-import { getConnections } from "../helpers/connections";
 import { Icon } from "../components/Icon/Icon";
+import { getConnections } from "../helpers/connections";
 
 const styles = StyleSheet.create({
   fabAdd: {
@@ -15,9 +15,12 @@ const styles = StyleSheet.create({
 });
 
 export const SelectConnectionScreen = ({ navigation }) => {
-  const { connect } = useConnections();
-  const [connections, setConnections] = useState([]);
+  const { connections, connect } = useConnections();
+
+  const [yoyo, setYoyo] = useState([]);
+
   const [selectedConnection, setSelectedConnection] = useState();
+  const noConnectionsAvailable = !connections?.length;
 
   const onFabAddClick = useCallback(() => {
     navigation.navigate("AddConnection");
@@ -35,21 +38,28 @@ export const SelectConnectionScreen = ({ navigation }) => {
     connect(selectedConnection);
   }, []);
 
-  useEffect(() => {
-    const setConnectionsState = async () => {
-      const storedConnections = await getConnections();
-      const connectionOptions = Array.isArray(storedConnections)
-        ? storedConnections.map((item) => ({
+  const connectionOptions = useMemo(
+    () =>
+      Array.isArray(connections)
+        ? connections.map((item) => ({
             ...item,
             label: item.name,
             value: item.name,
           }))
-        : [];
-      setConnections(connectionOptions);
+        : [],
+    [connections]
+  );
+
+  useEffect(() => {
+    const hey = async () => {
+      setYoyo(await getConnections());
     };
 
-    setConnectionsState();
-  }, [navigation]);
+    hey();
+  }, []);
+
+  console.log("connections", connections);
+  console.log("yoyo", yoyo);
 
   return (
     <SafeAreaView
@@ -66,7 +76,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 60,
+          marginBottom: 30,
         }}
       >
         <View>
@@ -76,24 +86,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
           Connect to a saved Content Hub One instance.
         </Text>
       </View>
-      {connections?.length ? (
-        <>
-          <Select
-            items={connections}
-            onChange={onSelect}
-            selectedValue={selectedConnection}
-            style={{ width: "90%", marginBottom: 5 }}
-          />
-          <Button
-            icon="connection"
-            mode="outlined"
-            onPress={onConnect}
-            style={{ marginTop: 10, borderRadius: 5 }}
-          >
-            Connect
-          </Button>
-        </>
-      ) : (
+      {noConnectionsAvailable ? (
         <View
           style={{
             justifyContent: "center",
@@ -115,6 +108,23 @@ export const SelectConnectionScreen = ({ navigation }) => {
             Add one by clicking on the + button below.
           </Text>
         </View>
+      ) : (
+        <>
+          <Select
+            items={connectionOptions}
+            onChange={onSelect}
+            selectedValue={selectedConnection}
+            style={{ width: "90%", marginBottom: 5 }}
+          />
+          <Button
+            icon="connection"
+            mode="outlined"
+            onPress={onConnect}
+            style={{ marginTop: 10, borderRadius: 5 }}
+          >
+            Connect
+          </Button>
+        </>
       )}
       <Button
         icon="connection"
@@ -125,7 +135,11 @@ export const SelectConnectionScreen = ({ navigation }) => {
         Visit app (temp)
       </Button>
       <BottomFAB icon="plus" onPress={onFabAddClick} style={styles.fabAdd} />
-      <BottomFAB icon="delete" onPress={onFabRemoveClick} />
+      <BottomFAB
+        disabled={noConnectionsAvailable}
+        icon="delete"
+        onPress={onFabRemoveClick}
+      />
     </SafeAreaView>
   );
 };

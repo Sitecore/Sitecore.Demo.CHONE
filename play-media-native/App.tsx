@@ -33,6 +33,13 @@ function onAppStateChange(status: AppStateStatus) {
   focusManager.setFocused(status === "active");
 }
 
+const paperTheme = {
+  ...MD3LightTheme,
+  fonts: configureFonts({ config: paperFontConfig }),
+  ...paperColorConfig,
+  ...paperRestConfig,
+};
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     "Saira-Regular": require("./assets/fonts/Saira-Regular.ttf"),
@@ -56,13 +63,6 @@ export default function App() {
     const subscription = AppState.addEventListener("change", onAppStateChange);
     return () => subscription.remove();
   }, []);
-
-  const paperTheme = {
-    ...MD3LightTheme,
-    fonts: configureFonts({ config: paperFontConfig }),
-    ...paperColorConfig,
-    ...paperRestConfig,
-  };
 
   // Needed for Expo font loading
   if (!fontsLoaded) {

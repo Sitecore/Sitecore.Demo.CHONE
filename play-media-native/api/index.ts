@@ -9,7 +9,14 @@ export type FetchOptions = {
   previewUrl: string;
 };
 
-export async function fetchGraphQL(query: string): Promise<unknown> {
+// API key and Preview URL are by default provided by the Redux store.
+// Optionally, fetchGrpahQL accepts an option argument, which is useful when validating CH1 connections.
+// Preview URL and API key are passed in as parameters, to validate the fields provided.
+//
+export async function fetchGraphQL(
+  query: string,
+  options?: FetchOptions
+): Promise<unknown> {
   const apiKey =
     "SlVLNUQzSGFCY0lmekdJekFlSWZITU92MnlhUldYL0VaME1BVHh5ZUljMD18aGMtZGVtby10ZWFtLXBsYXktbWVkaWEtZWE1YmE=";
   const previewUrl =
@@ -20,11 +27,11 @@ export async function fetchGraphQL(query: string): Promise<unknown> {
   //   store.getState().connections.selectedConnection;
 
   try {
-    return await fetch(previewUrl, {
+    return await fetch(options?.previewUrl || previewUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-GQL-Token": apiKey,
+        "X-GQL-Token": options?.apiKey || apiKey,
       },
       body: JSON.stringify({ query }),
     })

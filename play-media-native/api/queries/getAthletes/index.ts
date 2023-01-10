@@ -52,9 +52,12 @@ query {
 }
 `;
 
-export const getAllAthletes = async (): Promise<Athlete[]> => {
+export const getAllAthletes = async (
+  options?: FetchOptions
+): Promise<Athlete[]> => {
   const results: AllAthletesResponse = (await fetchGraphQL(
-    athletesQuery
+    athletesQuery,
+    options
   )) as AllAthletesResponse;
   const athletes: Partial<Athlete>[] = [];
 

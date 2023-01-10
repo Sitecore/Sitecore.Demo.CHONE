@@ -8,6 +8,7 @@ export const getValueFor = async (key: string) => {
   return await SecureStore.getItemAsync(key);
 };
 
-export const deleteValueFor = async (key: string) => {
-  await SecureStore.deleteItemAsync(key);
+export const deleteValuesFor = async (keys: string[]) => {
+  const promises = keys.map((key) => SecureStore.deleteItemAsync(key));
+  await Promise.all(promises);
 };

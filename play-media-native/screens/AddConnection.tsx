@@ -1,18 +1,8 @@
 import { SafeAreaView, StatusBar, View } from "react-native";
-import { Logo } from "../components/Logo/Logo";
 import { Text } from "react-native-paper";
 import { FormAddConnection } from "../features/FormAddConnection/FormAddConnection";
-import { useCallback } from "react";
 
-export const AddConnectionScreen = ({ navigation }) => {
-  const onAddSuccess = useCallback(
-    () =>
-      setTimeout(() => {
-        navigation.navigate("SelectConnection");
-      }, 100),
-    [navigation]
-  );
-
+export const AddConnectionScreen = () => {
   return (
     <SafeAreaView
       style={{
@@ -28,17 +18,20 @@ export const AddConnectionScreen = ({ navigation }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 20,
+          marginBottom: 30,
         }}
       >
-        <View style={{ width: "100%" }}>
-          <Logo style={{ marginBottom: 40 }} />
-        </View>
-        <Text style={{ color: "white", maxWidth: "80%", textAlign: "center" }}>
+        <Text
+          style={{
+            color: "white",
+            maxWidth: "80%",
+            textAlign: "center",
+          }}
+        >
           Add a connection to a Content Hub One instance.
         </Text>
       </View>
-      <FormAddConnection onSuccess={onAddSuccess} />
+      <FormAddConnection />
     </SafeAreaView>
   );
 };

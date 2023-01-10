@@ -26,8 +26,13 @@ export const connectionsSlice = createSlice({
       state.connections = action.payload || [];
     },
     remove: (state, action: PayloadAction<Connection[]>) => {
-      state.connections = state.connections.filter((connection) =>
-        action.payload.includes(connection)
+      console.log("action.payload", action.payload);
+      const namesToBeRemoved = action.payload.map(
+        (connection) => connection.name
+      );
+
+      state.connections = state.connections.filter(
+        (connection) => !namesToBeRemoved.includes(connection.name)
       );
     },
   },

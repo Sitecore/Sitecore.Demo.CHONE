@@ -3,17 +3,10 @@ import { Chip, Text } from "react-native-paper";
 
 interface Props {
   items: Array<{ label: string; value: any; selected: boolean }>;
+  onSelect: (item: any) => void;
 }
 
-const mockItems = [
-  { label: "aaa", value: "aaa", selected: true },
-  { label: "aaabbb", value: "aaabbb", selected: false },
-  { label: "aaagggggggg", value: "aaagggggggg", selected: true },
-  { label: "aaattttttt", value: "aaattttttt", selected: false },
-  { label: "aaa1212121212", value: "aaa1212121212", selected: true },
-];
-
-export const MultiSelectChips = ({ items }: Props) => {
+export const MultiSelectChips = ({ items, onSelect }: Props) => {
   return (
     <View
       style={{
@@ -22,8 +15,15 @@ export const MultiSelectChips = ({ items }: Props) => {
         justifyContent: "center",
       }}
     >
-      {mockItems.map((item) => (
-        <Chip key={item.label} style={{ margin: 5 }} selected={item.selected}>
+      {items.map((item) => (
+        <Chip
+          key={item.label}
+          mode="outlined"
+          onPress={() => onSelect(item)}
+          showSelectedOverlay
+          selected={item.selected}
+          style={{ margin: 5, padding: 5 }}
+        >
           <Text>{item.label}</Text>
         </Chip>
       ))}

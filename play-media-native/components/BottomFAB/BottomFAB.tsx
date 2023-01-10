@@ -13,18 +13,27 @@ const defaultStyle = StyleSheet.create({
 
 interface Props {
   color?: string;
+  disabled?: boolean;
   icon: string;
   label?: string;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
-export const BottomFAB = ({ color, icon, label, style, onPress }: Props) => {
+export const BottomFAB = ({
+  color,
+  disabled,
+  icon,
+  label,
+  style,
+  onPress,
+}: Props) => {
   const stylesFinal = useMemo(() => [defaultStyle.fab, style], []);
 
   return (
     <FAB
       color={color}
+      disabled={disabled}
       icon={icon}
       label={label}
       style={stylesFinal}

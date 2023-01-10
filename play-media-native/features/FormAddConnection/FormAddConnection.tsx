@@ -4,8 +4,9 @@ import { validateConnection } from "../../api/queries/validateConnection";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { Toast } from "../../components/Toast/Toast";
 import { storeConnection } from "../../helpers/connections";
-import { deleteValueFor } from "../../helpers/secureStorage";
+import { deleteValuesFor } from "../../helpers/secureStorage";
 import { View } from "react-native";
+import { useConnections } from "../../hooks/useConnections/useConnections";
 
 const defaultTextInputStyle = {
   width: "90%",
@@ -27,11 +28,8 @@ const isPreviewUrlValid = (text: string) => {
   return startsCorrectly && endsCorrectly;
 };
 
-interface Props {
-  onSuccess?: () => void;
-}
-
-export const FormAddConnection = ({ onSuccess }: Props) => {
+export const FormAddConnection = () => {
+  const { add } = useConnections();
   const [validating, setValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
@@ -48,16 +46,27 @@ export const FormAddConnection = ({ onSuccess }: Props) => {
   const buttonDisabled = nameInvalid || apiKeyInvalid || previewUrlInvalid;
 
   const onAddConnection = useCallback(async () => {
-    setValidating(true);
+    // setValidating(true);
+
+    // try {
+    //   await validateConnection({ apiKey, previewUrl }).then(async () => {
+    //     await storeConnection({ name, apiKey, previewUrl }).then(() => {
+    //       setShowSuccessToast(true);
+    //       add({ name, apiKey, previewUrl });
+    //     });
+    //   });
+    // } catch {
+    //   setShowErrorToast(true);
+    // }
+
+    // add({ name, apiKey, previewUrl });
+    // setValidating(false);
 
     await validateConnection({ apiKey, previewUrl })
       .then(async () => {
         await storeConnection({ name, apiKey, previewUrl }).then(() => {
           setShowSuccessToast(true);
-
-          if (onSuccess) {
-            onSuccess();
-          }
+          add({ name, apiKey, previewUrl });
         });
       })
       .catch(() => {
@@ -66,7 +75,7 @@ export const FormAddConnection = ({ onSuccess }: Props) => {
       .finally(() => {
         setValidating(false);
       });
-  }, [name, apiKey, previewUrl, onSuccess]);
+  }, [name, apiKey, previewUrl]);
 
   const handleName = useCallback((text: string) => {
     setNameError(!isNameValid(text));
@@ -95,7 +104,6 @@ export const FormAddConnection = ({ onSuccess }: Props) => {
     <>
       <InputText
         containerStyle={defaultTextInputStyle}
-        disabled={validating}
         error={nameError}
         errorText="Name should contain only letters, numbers and hyphens!"
         label="Connection name"
@@ -104,7 +112,6 @@ export const FormAddConnection = ({ onSuccess }: Props) => {
       />
       <InputText
         containerStyle={defaultTextInputStyle}
-        disabled={validating}
         error={apiKeyError}
         errorText="API key should not be empty!"
         label="API Key"
@@ -113,33 +120,31 @@ export const FormAddConnection = ({ onSuccess }: Props) => {
       />
       <InputText
         containerStyle={defaultTextInputStyle}
-        disabled={validating}
         error={previewUrlError}
         errorText="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !"
         label="Preview endpoint URL"
         onChange={handlePreviewUrl}
         value={previewUrl}
       />
+      {validating && (
+        <View>
+          <ActivityIndicator size="small" animating />
+        </View>
+      )}
       <Button
-        disabled={buttonDisabled}
+        // disabled={buttonDisabled}
         icon="plus-circle-outline"
-        mode="outlined"
+        mode="contained"
         onPress={onAddConnection}
         style={{ marginTop: 10, borderRadius: 5 }}
       >
-        {validating ? (
-          <View>
-            <ActivityIndicator size="small" animating />
-          </View>
-        ) : (
-          <Text>Add Connection</Text>
-        )}
+        <Text>Add Connection</Text>
       </Button>
       <Button
         icon="plus-circle-outline"
         mode="outlined"
         onPress={async () => {
-          await deleteValueFor("connections");
+          await deleteValuesFor(["connections"]);
         }}
         style={{ marginTop: 10, borderRadius: 5 }}
       >
