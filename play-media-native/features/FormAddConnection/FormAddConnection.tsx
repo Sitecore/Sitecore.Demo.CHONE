@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { InputText } from "../../components/InputText/InputText";
 import { validateConnection } from "../../api/queries/validateConnection";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
@@ -57,7 +57,7 @@ export const FormAddConnection = () => {
           add({ name, apiKey, previewUrl });
         });
       })
-      .catch((e) => {
+      .catch(() => {
         setShowErrorToast(true);
       })
       .finally(() => {

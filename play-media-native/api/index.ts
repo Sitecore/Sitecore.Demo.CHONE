@@ -17,19 +17,18 @@ export async function fetchGraphQL(
   query: string,
   options?: FetchOptions
 ): Promise<unknown> {
-  const apiKey = options?.apiKey
-    ? options.apiKey
-    : store.getState().connections.selectedConnection?.apiKey;
-  const previewUrl = options?.previewUrl
-    ? options.previewUrl
-    : store.getState().connections.selectedConnection?.previewUrl;
+  const apiKey =
+    options?.apiKey || store.getState().connections.selectedConnection?.apiKey;
+  const previewUrl =
+    options?.previewUrl ||
+    store.getState().connections.selectedConnection?.previewUrl;
 
   try {
-    return await fetch(options?.previewUrl || previewUrl, {
+    return await fetch(previewUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-GQL-Token": options?.apiKey || apiKey,
+        "X-GQL-Token": apiKey,
       },
       body: JSON.stringify({ query }),
     })
