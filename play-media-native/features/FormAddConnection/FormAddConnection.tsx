@@ -1,12 +1,13 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { InputText } from "../../components/InputText/InputText";
 import { validateConnection } from "../../api/queries/validateConnection";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { Toast } from "../../components/Toast/Toast";
 import { storeConnection } from "../../helpers/connections";
-import { deleteValuesFor } from "../../helpers/secureStorage";
 import { View } from "react-native";
 import { useConnections } from "../../hooks/useConnections/useConnections";
+import debounce from "lodash.debounce";
+import { Connection } from "../../interfaces/connections";
 
 const defaultTextInputStyle = {
   width: "90%",
@@ -29,38 +30,25 @@ const isPreviewUrlValid = (text: string) => {
 };
 
 export const FormAddConnection = () => {
-  const { add } = useConnections();
+  const { connections, add } = useConnections();
   const [validating, setValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);
+  const [nameExistsError, setNameExistsError] = useState(false);
   const [apiKey, setApiKey] = useState("");
   const [apiKeyError, setApiKeyError] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewUrlError, setPreviewUrlError] = useState(false);
 
-  const nameInvalid = !name || nameError;
+  const nameInvalid = !name || nameError || nameExistsError;
   const apiKeyInvalid = !apiKey || apiKeyError;
   const previewUrlInvalid = !previewUrl || previewUrlError;
   const buttonDisabled = nameInvalid || apiKeyInvalid || previewUrlInvalid;
 
   const onAddConnection = useCallback(async () => {
-    // setValidating(true);
-
-    // try {
-    //   await validateConnection({ apiKey, previewUrl }).then(async () => {
-    //     await storeConnection({ name, apiKey, previewUrl }).then(() => {
-    //       setShowSuccessToast(true);
-    //       add({ name, apiKey, previewUrl });
-    //     });
-    //   });
-    // } catch {
-    //   setShowErrorToast(true);
-    // }
-
-    // add({ name, apiKey, previewUrl });
-    // setValidating(false);
+    setValidating(true);
 
     await validateConnection({ apiKey, previewUrl })
       .then(async () => {
@@ -69,7 +57,7 @@ export const FormAddConnection = () => {
           add({ name, apiKey, previewUrl });
         });
       })
-      .catch(() => {
+      .catch((e) => {
         setShowErrorToast(true);
       })
       .finally(() => {
@@ -77,10 +65,24 @@ export const FormAddConnection = () => {
       });
   }, [name, apiKey, previewUrl]);
 
-  const handleName = useCallback((text: string) => {
-    setNameError(!isNameValid(text));
-    setName(text);
-  }, []);
+  const checkNameExists = useCallback(
+    debounce((connectionName: string, existingConnections: Connection[]) => {
+      const nameAlreadyExists = !!existingConnections.find(
+        (connection) => connection.name === connectionName
+      );
+      setNameExistsError(nameAlreadyExists);
+    }, 500),
+    []
+  );
+
+  const handleName = useCallback(
+    (text: string) => {
+      setName(text);
+      setNameError(!isNameValid(text));
+      checkNameExists(text, connections);
+    },
+    [connections, checkNameExists]
+  );
 
   const handleApiKey = useCallback((text: string) => {
     setApiKeyError(!isApiKeyValid(text));
@@ -100,12 +102,16 @@ export const FormAddConnection = () => {
     setShowErrorToast(false);
   }, []);
 
+  const nameErrorText = nameExistsError
+    ? "Name already taken!"
+    : "Name should contain only letters, numbers and hyphens!";
+
   return (
     <>
       <InputText
         containerStyle={defaultTextInputStyle}
-        error={nameError}
-        errorText="Name should contain only letters, numbers and hyphens!"
+        error={nameError || nameExistsError}
+        errorText={nameErrorText}
         label="Connection name"
         onChange={handleName}
         value={name}
@@ -132,23 +138,13 @@ export const FormAddConnection = () => {
         </View>
       )}
       <Button
-        // disabled={buttonDisabled}
+        disabled={buttonDisabled}
         icon="plus-circle-outline"
         mode="contained"
         onPress={onAddConnection}
         style={{ marginTop: 10, borderRadius: 5 }}
       >
         <Text>Add Connection</Text>
-      </Button>
-      <Button
-        icon="plus-circle-outline"
-        mode="outlined"
-        onPress={async () => {
-          await deleteValuesFor(["connections"]);
-        }}
-        style={{ marginTop: 10, borderRadius: 5 }}
-      >
-        <Text>Delete Connections (temp)</Text>
       </Button>
       <Toast
         message="Connection is valid!"

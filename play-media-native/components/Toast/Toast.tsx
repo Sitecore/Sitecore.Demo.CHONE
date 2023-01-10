@@ -2,13 +2,7 @@ import { useMemo } from "react";
 import { Snackbar, Text } from "react-native-paper";
 import { Icon } from "../Icon/Icon";
 import { View } from "react-native";
-
-// export enum ToastType {
-//   "error" = "error",
-//   "info" = "info",
-//   "success" = "success",
-//   "warning" = "warning",
-// }
+import { theme } from "../../theme/theme";
 
 interface Props {
   actionLabel?: string;
@@ -81,6 +75,7 @@ export const Toast = ({
       }}
       duration={duration || defaultInterval}
       onDismiss={onDismiss}
+      style={{ backgroundColor: theme.colors.black.light }}
       visible={visible}
     >
       {displayedMessage}

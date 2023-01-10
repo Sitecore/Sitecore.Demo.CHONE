@@ -40,6 +40,26 @@ export const storeConnection = async (
   }
 };
 
+// Save connection object in secure storage
+//
+export const removeConnections = async (
+  connections: Connection[]
+): Promise<void> => {
+  const existingConnections = await getConnections();
+
+  if (!existingConnections) {
+    return;
+  }
+
+  const namesToRemove = connections.map((item) => item.name);
+  await save(
+    CONNECTIONS_KEY,
+    JSON.stringify(
+      existingConnections.filter((item) => !namesToRemove.includes(item.name))
+    )
+  );
+};
+
 // Get selected connection
 //
 export const getSelectedConnection = async (): Promise<Connection | null> => {

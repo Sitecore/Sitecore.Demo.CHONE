@@ -6,7 +6,6 @@ import { useConnections } from "../hooks/useConnections/useConnections";
 import { Select } from "../components/Select/Select";
 import { BottomFAB } from "../components/BottomFAB/BottomFAB";
 import { Icon } from "../components/Icon/Icon";
-import { getConnections } from "../helpers/connections";
 
 const styles = StyleSheet.create({
   fabAdd: {
@@ -16,10 +15,7 @@ const styles = StyleSheet.create({
 
 export const SelectConnectionScreen = ({ navigation }) => {
   const { connections, connect } = useConnections();
-
-  const [yoyo, setYoyo] = useState([]);
-
-  const [selectedConnection, setSelectedConnection] = useState();
+  const [selectedConnection, setSelectedConnection] = useState<string>();
   const noConnectionsAvailable = !connections?.length;
 
   const onFabAddClick = useCallback(() => {
@@ -35,8 +31,9 @@ export const SelectConnectionScreen = ({ navigation }) => {
   }, []);
 
   const onConnect = useCallback(() => {
-    connect(selectedConnection);
-  }, []);
+    connect(connections.find((item) => item.name === selectedConnection));
+    navigation.navigate("MainTabs");
+  }, [selectedConnection]);
 
   const connectionOptions = useMemo(
     () =>
@@ -50,16 +47,11 @@ export const SelectConnectionScreen = ({ navigation }) => {
     [connections]
   );
 
+  // When connections are ready, set selected connection to first connection, as default value
+  //
   useEffect(() => {
-    const hey = async () => {
-      setYoyo(await getConnections());
-    };
-
-    hey();
-  }, []);
-
-  console.log("connections", connections);
-  console.log("yoyo", yoyo);
+    setSelectedConnection(connections[0]?.name);
+  }, [connections]);
 
   return (
     <SafeAreaView
@@ -126,14 +118,6 @@ export const SelectConnectionScreen = ({ navigation }) => {
           </Button>
         </>
       )}
-      <Button
-        icon="connection"
-        mode="outlined"
-        onPress={() => navigation.navigate("MainTabs")}
-        style={{ marginTop: 10, borderRadius: 5 }}
-      >
-        Visit app (temp)
-      </Button>
       <BottomFAB icon="plus" onPress={onFabAddClick} style={styles.fabAdd} />
       <BottomFAB
         disabled={noConnectionsAvailable}
