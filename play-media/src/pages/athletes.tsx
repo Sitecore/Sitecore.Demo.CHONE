@@ -9,7 +9,7 @@ export default function Athletes({ athletes, sports }: { athletes: Athlete[]; sp
   return (
     <>
       <Head>
-        <title>Play! Media - Athletes</title>
+        <title>Athletes | PLAY! Media</title>
       </Head>
 
       <main>
