@@ -5,6 +5,7 @@ import ArticleImage from '../ArticleImage/ArticleImage';
 import ImageSlide from '../Slider/ImageSlide';
 import Slider from '../Slider/Slider';
 import SliderModal from '../Slider/SliderModal';
+import { getGridImageSize } from '../../helpers/imageHelper';
 
 interface Props {
   className?: string;
@@ -31,6 +32,8 @@ const ImageGrid: FC<Props> = ({ className, images }) => {
           key={image.id}
           alt={image.name || ''}
           onClick={() => handleClick(index)}
+          priority={index === 0}
+          sizes={getGridImageSize(index)}
           src={image.fileUrl || ''}
         />
       ))}
