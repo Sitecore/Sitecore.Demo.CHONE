@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { CreateEventScreen } from "../screens/CreateEvent";
+import { CreateEventScreen } from "../screens/CreateEvent/CreateEvent";
 import { CreateAthleteScreen } from "../screens/CreateAthlete";
 import { AthleteDetailScreen } from "../screens/AthleteDetail";
 import { EventDetailScreen } from "../screens/EventDetail";
@@ -8,12 +8,13 @@ import { Tabs } from "./Tabs";
 import { AddConnectionScreen } from "../screens/AddConnection";
 import { RootStackParamList } from "../interfaces/navigators";
 import { RemoveConnectionScreen } from "../screens/RemoveConnection";
+import { AddMediaScreen } from "../screens/AddMediaScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Stacks = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="MainTabs">
       <>
         <Stack.Screen
           name="SelectConnection"
@@ -58,6 +59,11 @@ export const Stacks = () => {
           name="EventDetail"
           component={EventDetailScreen}
           options={{ title: "Event Detail" }}
+        />
+        <Stack.Screen
+          name="AddMedia"
+          component={AddMediaScreen}
+          options={{ title: "Add Media" }}
         />
       </>
     </Stack.Navigator>

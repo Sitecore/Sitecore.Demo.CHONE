@@ -33,6 +33,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-step-indicator": "^1.0.3",
     "react-native-svg": "13.4.0",
+    "react-native-vision-camera": "^2.15.2",
     "react-native-web": "^0.18.10",
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5"

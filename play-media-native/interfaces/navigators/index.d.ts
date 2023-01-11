@@ -1,9 +1,12 @@
+// https://reactnavigation.org/docs/typescript/
+
 import type { StackNavigationProp } from "@react-navigation/stack";
 
 export type RootStackParamList = {
   AddAthlete: undefined;
   AddConnection: undefined;
   AddEvent: undefined;
+  AddMedia: undefined;
   AthleteDetail: { id: string };
   EventDetail: { id: string };
   MainTabs: undefined;
