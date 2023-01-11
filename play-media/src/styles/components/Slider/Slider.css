@@ -23,11 +23,13 @@
 }
 
 .swiper-button-next::after {
-  @apply text-white hidden;
+  @apply text-gray hidden;
+  @apply dark:text-white;
   @apply md:block;
 }
 
 .swiper-button-prev::after {
-  @apply text-white hidden;
+  @apply text-gray hidden;
+  @apply dark:text-white;
   @apply md:block;
 }
