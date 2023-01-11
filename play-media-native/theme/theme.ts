@@ -85,6 +85,7 @@ export const paperFontConfig = {
   titleMedium: {
     fontFamily: theme.fontFamily.bold,
     fontSize: theme.fontSize.base,
+    lineHeight: theme.spacing.lg,
   },
   titleLarge: {
     fontFamily: theme.fontFamily.bold,

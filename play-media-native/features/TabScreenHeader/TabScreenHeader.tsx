@@ -21,7 +21,7 @@ export const TabScreenHeader = ({ navigation, type }: TabScreenHeaderProps) => {
     <View
       style={{
         paddingTop: insets.top + theme.spacing.xs,
-        paddingBottom: theme.spacing.xs,
+        paddingBottom: theme.spacing.sm,
         paddingLeft: theme.spacing.sm,
         paddingRight: theme.spacing.sm,
         backgroundColor: theme.colors.black.darkest,

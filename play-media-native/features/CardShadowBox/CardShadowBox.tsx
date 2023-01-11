@@ -1,27 +1,40 @@
 import { View } from "react-native";
 import { Avatar, Card, Text } from "react-native-paper";
+import { theme } from "../../theme/theme";
 
 export const CardShadowBox = ({ children, color, onCardPress }) => {
   return (
     <View
       style={{
-        backgroundColor: color,
-        marginVertical: 10,
-        left: 10,
+        position: "relative",
+        marginBottom: theme.spacing.sm,
       }}
     >
-      <Card
+      <View
         style={{
-          top: -10,
-          left: -10,
-          borderRadius: 0,
-          marginRight: 10,
+          position: "absolute",
+          top: theme.spacing.sm,
+          bottom: 0,
+          left: theme.spacing.sm,
+          right: 0,
+          backgroundColor: color,
+          zIndex: 1,
+          elevation: 1,
         }}
-        onPress={onCardPress}
-        mode="contained"
+      ></View>
+      <View
+        style={{
+          position: "relative",
+          marginBottom: theme.spacing.xs,
+          marginRight: theme.spacing.xs,
+          zIndex: 2,
+          elevation: 2,
+        }}
       >
-        {children}
-      </Card>
+        <Card theme={{ roundness: 0 }} onPress={onCardPress} mode="contained">
+          {children}
+        </Card>
+      </View>
     </View>
   );
 };
