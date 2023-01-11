@@ -22,7 +22,7 @@ export const Header = () => {
       <div className="header-container">
         <Link href={'/'} passHref>
           <Image
-            src="/play-media-logo.svg"
+            src={themeCtx.isDarkTheme ? '/play-media-logo.svg' : '/play-media-logo-dark.svg'}
             alt="PLAY! Media"
             width={260}
             height={50}
