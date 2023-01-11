@@ -25,7 +25,7 @@ export default function AthleteDetail({
   return (
     <>
       <Head>
-        <title>{athlete.athleteName} | PLAY! Media</title>
+        <title>{`${athlete.athleteName} | PLAY! Media`}</title>
       </Head>
       <AthleteDetailsPage athlete={athlete} athleteEvents={athleteEvents}></AthleteDetailsPage>
     </>
