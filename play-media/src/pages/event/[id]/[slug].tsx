@@ -21,7 +21,7 @@ const EventDetail: FC<Props> = ({ event }) => {
   return (
     <>
       <Head>
-        <title>{event.title} | PLAY! Media</title>
+        <title>{`${event.title} | PLAY! Media`}</title>
       </Head>
       <EventDetailsPage event={event} />
     </>
