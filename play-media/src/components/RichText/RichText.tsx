@@ -25,7 +25,11 @@ export const RichText: FC<Props> = ({ body, className }) => {
   const componentMap = useMemo(
     () => ({
       heading: (context: any, children: any, key: string) => {
-        return <Heading level={context.attrs.level} key={key}>{children}</Heading>;
+        return (
+          <Heading level={context.attrs.level} key={key}>
+            {children}
+          </Heading>
+        );
       },
       paragraph: (context: any, children: any, key: string) => {
         return <Paragraph key={key}>{children}</Paragraph>;
@@ -45,7 +49,7 @@ export const RichText: FC<Props> = ({ body, className }) => {
       blockquote: (context: any, children: any, key: string) => {
         return <BlockQuote key={key}>{children}</BlockQuote>;
       },
-      text: (context: any, key: string) => {
+      text: (context: any, children: any, key: string) => {
         const hasMarks = !!context?.marks?.length;
 
         if (!hasMarks) {
@@ -68,7 +72,11 @@ export const RichText: FC<Props> = ({ body, className }) => {
           return <CodeText key={key}>{context.text}</CodeText>;
         }
 
-        return <Text marks={context.marks} key={key}>{context.text}</Text>;
+        return (
+          <Text marks={context.marks} key={key}>
+            {context.text}
+          </Text>
+        );
       },
     }),
     []

@@ -1,3 +1,17 @@
 .modal-slider {
-  @apply h-[60vh] w-full mb-5;
+  @apply h-[60vh] w-full mb-5 static !important;
+
+  .swiper {
+    @apply 2xl:max-h-[1300px];
+  }
+
+  .swiper-button-next {
+    @apply top-[30vh];
+    @apply 2xl:-right-16;
+  }
+
+  .swiper-button-prev {
+    @apply top-[30vh];
+    @apply 2xl:-left-16;
+  }
 }
