@@ -7,5 +7,5 @@
 }
 
 .modal-close {
-  @apply absolute top-0 right-[30px] text-6xl text-white;
+  @apply absolute -top-2 right-12 text-8xl text-white;
 }

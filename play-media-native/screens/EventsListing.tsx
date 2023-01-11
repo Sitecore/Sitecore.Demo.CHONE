@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useQuery } from "react-query";
 import { getAllEvents } from "../api/queries/getEvents";
 import { Listing } from "../components/Listing/Listing";
-import { CardEvent } from "../components/CardEvent/CardEvent";
+import { CardEvent } from "../features/CardEvent/CardEvent";
 import { Event } from "../interfaces/event";
 import { StatusBar } from "react-native";
 
@@ -22,7 +22,9 @@ export const EventsListingScreen = ({ navigation }) => {
       <Listing
         data={events}
         isLoading={isFetching}
-        renderItem={({ item }) => <CardEvent item={item} onCardPress={() => onCardPress(item)} />}
+        renderItem={({ item }) => (
+          <CardEvent item={item} onCardPress={() => onCardPress(item)} />
+        )}
       />
     </>
   );

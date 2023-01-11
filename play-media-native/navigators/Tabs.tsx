@@ -3,14 +3,15 @@ import {
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
 import { EventsListingScreen } from "../screens/EventsListing";
-import { TabScreenHeader } from "../components/TabScreenHeader/TabScreenHeader";
+import { TabScreenHeader } from "../features/TabScreenHeader/TabScreenHeader";
 import { AthletesListingScreen } from "../screens/AthletesListing";
 import { theme } from "../theme/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { RootTabParamList } from "../interfaces/navigators";
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export const Tabs = ({ navigation }) => {
   const tabScreenOptions: BottomTabNavigationOptions = {
@@ -41,9 +42,17 @@ export const Tabs = ({ navigation }) => {
         name="Events"
         component={EventsListingScreen}
         options={{
-          header: () => <TabScreenHeader navigation={navigation} type="Event" />,
+          header: () => (
+            <TabScreenHeader navigation={navigation} type="Event" />
+          ),
           tabBarIcon: ({ color }) => {
-            return <FontAwesomeIcon icon={faCalendarDays} color={color} size={theme.fontSize.sm} />;
+            return (
+              <FontAwesomeIcon
+                icon={faCalendarDays}
+                color={color}
+                size={theme.fontSize.sm}
+              />
+            );
           },
         }}
       />
@@ -51,9 +60,17 @@ export const Tabs = ({ navigation }) => {
         name="Athletes"
         component={AthletesListingScreen}
         options={{
-          header: () => <TabScreenHeader navigation={navigation} type="Athlete" />,
+          header: () => (
+            <TabScreenHeader navigation={navigation} type="Athlete" />
+          ),
           tabBarIcon: ({ color }) => {
-            return <FontAwesomeIcon icon={faUsers} color={color} size={theme.fontSize.sm} />;
+            return (
+              <FontAwesomeIcon
+                icon={faUsers}
+                color={color}
+                size={theme.fontSize.sm}
+              />
+            );
           },
         }}
       />

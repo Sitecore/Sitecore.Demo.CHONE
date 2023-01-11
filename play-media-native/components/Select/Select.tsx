@@ -1,16 +1,28 @@
+import { useCallback, useState } from "react";
+import { StyleProp } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
 
-export const Select = ({ items, style }) => {
-  const [selectedValue, setSelectedValue] = useState(null);
+interface Props {
+  items: Array<{ label: string; value: any }>;
+  onChange: (value: any) => void;
+  selectedValue: any;
+  style?: StyleProp<any>;
+}
+
+export const Select = ({ items, onChange, selectedValue, style }: Props) => {
   const finalStyle = style
     ? { backgroundColor: "white", ...style }
     : { backgroundColor: "white" };
 
+  const onValueChange = useCallback((value) => {
+    console.log("value", value);
+    onChange(value);
+  }, []);
+
   return (
     <Picker
       style={finalStyle}
-      onValueChange={(value) => setSelectedValue(value)}
+      onValueChange={onValueChange}
       selectedValue={selectedValue}
     >
       {items?.length

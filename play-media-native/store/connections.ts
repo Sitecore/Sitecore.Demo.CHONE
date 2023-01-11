@@ -17,30 +17,29 @@ export const connectionsSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action: PayloadAction<Connection>) => {
-      // Check if there is already a connection with same name
-      //
-      const matchingIndex = state.connections.findIndex(
-        (connection) => connection.name === action.payload.name
-      );
-      const connectionAlreadyExists = matchingIndex !== -1;
-
-      if (connectionAlreadyExists) {
-        state.connections[matchingIndex] = action.payload;
-      } else {
-        state.connections.push(action.payload);
-      }
-    },
-    remove: (state, action: PayloadAction<Connection>) => {
-      state.connections.push(action.payload);
+      state.connections = [...state.connections, action.payload];
     },
     connect: (state, action: PayloadAction<Connection>) => {
       state.selectedConnection = action.payload;
+    },
+    init: (state, action: PayloadAction<Connection[]>) => {
+      state.connections = action.payload || [];
+    },
+    remove: (state, action: PayloadAction<Connection[]>) => {
+      console.log("action.payload", action.payload);
+      const namesToBeRemoved = action.payload.map(
+        (connection) => connection.name
+      );
+
+      state.connections = state.connections.filter(
+        (connection) => !namesToBeRemoved.includes(connection.name)
+      );
     },
   },
 });
 
 // Action creators are generated for each case reducer function
 //
-export const { add, remove, connect } = connectionsSlice.actions;
+export const { add, connect, init, remove } = connectionsSlice.actions;
 
 export default connectionsSlice.reducer;

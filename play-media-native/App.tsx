@@ -1,17 +1,30 @@
 import React, { useEffect } from "react";
 import { AppState, AppStateStatus } from "react-native";
-import { configureFonts, MD3LightTheme, Provider as PaperProvider } from "react-native-paper";
+import {
+  configureFonts,
+  MD3LightTheme,
+  Provider as PaperProvider,
+} from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
-import { focusManager, onlineManager, QueryClient, QueryClientProvider } from "react-query";
-import { Main } from "./components/Main/Main";
+import {
+  focusManager,
+  onlineManager,
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
+import { Main } from "./features/Main/Main";
+import { useFonts } from "expo-font";
+import {
+  paperColorConfig,
+  paperFontConfig,
+  paperRestConfig,
+} from "./theme/theme";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Redux global state
 //
 import { store } from "./store";
 import { Provider as GlobalStateProvider } from "react-redux";
-import { useFonts } from "expo-font";
-import { paperColorConfig, paperFontConfig, paperRestConfig } from "./theme/theme";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -19,6 +32,13 @@ const queryClient = new QueryClient();
 function onAppStateChange(status: AppStateStatus) {
   focusManager.setFocused(status === "active");
 }
+
+const paperTheme = {
+  ...MD3LightTheme,
+  fonts: configureFonts({ config: paperFontConfig }),
+  ...paperColorConfig,
+  ...paperRestConfig,
+};
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -43,13 +63,6 @@ export default function App() {
     const subscription = AppState.addEventListener("change", onAppStateChange);
     return () => subscription.remove();
   }, []);
-
-  const paperTheme = {
-    ...MD3LightTheme,
-    fonts: configureFonts({ config: paperFontConfig }),
-    ...paperColorConfig,
-    ...paperRestConfig,
-  };
 
   // Needed for Expo font loading
   if (!fontsLoaded) {

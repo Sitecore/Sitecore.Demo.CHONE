@@ -1,9 +1,12 @@
 import { useCallback, useState } from "react";
 import { InputText } from "../../components/InputText/InputText";
 import { validateConnection } from "../../api/queries/validateConnection";
-import { useConnections } from "../../hooks/useConnections/useConnections";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { Toast } from "../../components/Toast/Toast";
+import { storeConnection } from "../../helpers/connections";
+import { deleteValuesFor } from "../../helpers/secureStorage";
+import { View } from "react-native";
+import { useConnections } from "../../hooks/useConnections/useConnections";
 
 const defaultTextInputStyle = {
   width: "90%",
@@ -16,6 +19,8 @@ const isNameValid = (text: string) => /^[a-z0-9-]+$/i.test(text);
 
 const isApiKeyValid = (text: string) => !!text;
 
+// Preview URL validation
+//
 const isPreviewUrlValid = (text: string) => {
   const startsCorrectly = text.startsWith("https://");
   const endsCorrectly = text.endsWith("/api/content/v1/preview/graphql/");
@@ -26,7 +31,8 @@ const isPreviewUrlValid = (text: string) => {
 export const FormAddConnection = () => {
   const { add } = useConnections();
   const [validating, setValidating] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(false);
   const [apiKey, setApiKey] = useState("");
@@ -34,29 +40,42 @@ export const FormAddConnection = () => {
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewUrlError, setPreviewUrlError] = useState(false);
 
-  const onAddConnection = useCallback(async () => {
-    setValidating(true);
+  const nameInvalid = !name || nameError;
+  const apiKeyInvalid = !apiKey || apiKeyError;
+  const previewUrlInvalid = !previewUrl || previewUrlError;
+  const buttonDisabled = nameInvalid || apiKeyInvalid || previewUrlInvalid;
 
-    const isValid = await validateConnection({ apiKey, previewUrl })
+  const onAddConnection = useCallback(async () => {
+    // setValidating(true);
+
+    // try {
+    //   await validateConnection({ apiKey, previewUrl }).then(async () => {
+    //     await storeConnection({ name, apiKey, previewUrl }).then(() => {
+    //       setShowSuccessToast(true);
+    //       add({ name, apiKey, previewUrl });
+    //     });
+    //   });
+    // } catch {
+    //   setShowErrorToast(true);
+    // }
+
+    // add({ name, apiKey, previewUrl });
+    // setValidating(false);
+
+    await validateConnection({ apiKey, previewUrl })
+      .then(async () => {
+        await storeConnection({ name, apiKey, previewUrl }).then(() => {
+          setShowSuccessToast(true);
+          add({ name, apiKey, previewUrl });
+        });
+      })
       .catch(() => {
-        setShowToast(true);
+        setShowErrorToast(true);
       })
       .finally(() => {
         setValidating(false);
       });
-
-    if (isValid) {
-      add({
-        name,
-        apiKey,
-        previewUrl,
-      });
-    }
-  }, [name, apiKey, previewUrl, add]);
-
-  const onToastDismiss = useCallback(() => {
-    setShowToast(false);
-  }, []);
+  }, [name, apiKey, previewUrl]);
 
   const handleName = useCallback((text: string) => {
     setNameError(!isNameValid(text));
@@ -73,17 +92,18 @@ export const FormAddConnection = () => {
     setPreviewUrl(text);
   }, []);
 
-  // console.log("\n");
-  // console.log("isNameValid('Abc12')", isNameValid("Abc12"));
-  // console.log("isNameValid('Abc12-')", isNameValid("Abc12-"));
-  // console.log("isNameValid('Abc12_')", isNameValid("Abc12_"));
-  // console.log("isNameValid('Abc12!')", isNameValid("Abc12!"));
+  const onSuccessToastDismiss = useCallback(() => {
+    setShowSuccessToast(false);
+  }, []);
+
+  const onErrorToastDismiss = useCallback(() => {
+    setShowErrorToast(false);
+  }, []);
 
   return (
     <>
       <InputText
         containerStyle={defaultTextInputStyle}
-        disabled={validating}
         error={nameError}
         errorText="Name should contain only letters, numbers and hyphens!"
         label="Connection name"
@@ -92,7 +112,6 @@ export const FormAddConnection = () => {
       />
       <InputText
         containerStyle={defaultTextInputStyle}
-        disabled={validating}
         error={apiKeyError}
         errorText="API key should not be empty!"
         label="API Key"
@@ -101,29 +120,46 @@ export const FormAddConnection = () => {
       />
       <InputText
         containerStyle={defaultTextInputStyle}
-        disabled={validating}
         error={previewUrlError}
-        errorText="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/'!"
+        errorText="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !"
         label="Preview endpoint URL"
         onChange={handlePreviewUrl}
         value={previewUrl}
       />
-      <Button
-        icon="connection"
-        mode="outlined"
-        onPress={onAddConnection}
-        style={{ backgroundColor: "#fff", marginTop: 10, borderRadius: 5 }}
-      >
-        {validating ? (
+      {validating && (
+        <View>
           <ActivityIndicator size="small" animating />
-        ) : (
-          <Text>Validate Connection</Text>
-        )}
+        </View>
+      )}
+      <Button
+        // disabled={buttonDisabled}
+        icon="plus-circle-outline"
+        mode="contained"
+        onPress={onAddConnection}
+        style={{ marginTop: 10, borderRadius: 5 }}
+      >
+        <Text>Add Connection</Text>
+      </Button>
+      <Button
+        icon="plus-circle-outline"
+        mode="outlined"
+        onPress={async () => {
+          await deleteValuesFor(["connections"]);
+        }}
+        style={{ marginTop: 10, borderRadius: 5 }}
+      >
+        <Text>Delete Connections (temp)</Text>
       </Button>
       <Toast
+        message="Connection is valid!"
+        onDismiss={onSuccessToastDismiss}
+        visible={showSuccessToast}
+        type="success"
+      />
+      <Toast
         message="Could not validate connection!"
-        onDismiss={onToastDismiss}
-        visible={showToast}
+        onDismiss={onErrorToastDismiss}
+        visible={showErrorToast}
         type="warning"
       />
     </>

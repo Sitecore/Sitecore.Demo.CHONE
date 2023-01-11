@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { CardAvatar } from "../components/CardAvatar/CardAvatar";
+import { CardAvatar } from "../features/CardAvatar/CardAvatar";
 import { Listing } from "../components/Listing/Listing";
 import { Athlete } from "../interfaces/athlete";
 import { getAllAthletes } from "../api/queries/getAthletes";
@@ -22,7 +22,9 @@ export const AthletesListingScreen = ({ navigation }) => {
       <Listing
         data={athletes}
         isLoading={isFetching}
-        renderItem={({ item }) => <CardAvatar item={item} onCardPress={() => onCardPress(item)} />}
+        renderItem={({ item }) => (
+          <CardAvatar item={item} onCardPress={() => onCardPress(item)} />
+        )}
       />
     </>
   );

@@ -35,7 +35,7 @@ const ImageGrid: FC<Props> = ({ className, images }) => {
         />
       ))}
       <SliderModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className="container">
+        <div className="relative">
           <Slider
             autoplay={false}
             className="modal-slider"

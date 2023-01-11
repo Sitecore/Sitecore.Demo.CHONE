@@ -1,11 +1,12 @@
 import { View } from "react-native";
-import { Logo } from "../Logo/Logo";
+import { Logo } from "../../components/Logo/Logo";
 import { Button, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { SecondaryMenu } from "../SecondaryMenu/SecondaryMenu";
 
 type TabScreenHeaderProps = {
   navigation: any;
@@ -26,7 +27,16 @@ export const TabScreenHeader = ({ navigation, type }: TabScreenHeaderProps) => {
         backgroundColor: theme.colors.black.darkest,
       }}
     >
-      <Logo />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Logo style={{ width: "80%" }} />
+        <SecondaryMenu />
+      </View>
       <View
         style={{
           flexDirection: "row",
@@ -36,7 +46,9 @@ export const TabScreenHeader = ({ navigation, type }: TabScreenHeaderProps) => {
       >
         <Button
           mode="outlined"
-          icon={({ size, color }) => <FontAwesomeIcon icon={faFilter} color={color} size={size} />}
+          icon={({ size, color }) => (
+            <FontAwesomeIcon icon={faFilter} color={color} size={size} />
+          )}
           labelStyle={{
             fontFamily: theme.fontFamily.medium,
             fontSize: theme.fontSize.base,
@@ -44,7 +56,9 @@ export const TabScreenHeader = ({ navigation, type }: TabScreenHeaderProps) => {
           }}
           style={{
             marginRight: theme.spacing.xs,
-            borderColor: filtersOpen ? theme.colors.yellow.DEFAULT : theme.colors.transparent,
+            borderColor: filtersOpen
+              ? theme.colors.yellow.DEFAULT
+              : theme.colors.transparent,
           }}
           onPress={() => setFiltersOpen(!filtersOpen)}
         >
@@ -52,7 +66,9 @@ export const TabScreenHeader = ({ navigation, type }: TabScreenHeaderProps) => {
         </Button>
         <Button
           mode="contained"
-          icon={({ size, color }) => <FontAwesomeIcon icon={faPlus} color={color} size={size} />}
+          icon={({ size, color }) => (
+            <FontAwesomeIcon icon={faPlus} color={color} size={size} />
+          )}
           labelStyle={{
             fontFamily: theme.fontFamily.medium,
             fontSize: theme.fontSize.base,

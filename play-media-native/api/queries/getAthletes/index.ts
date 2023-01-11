@@ -53,7 +53,7 @@ query {
 `;
 
 export const getAllAthletes = async (
-  options: FetchOptions
+  options?: FetchOptions
 ): Promise<Athlete[]> => {
   const results: AllAthletesResponse = (await fetchGraphQL(
     athletesQuery,

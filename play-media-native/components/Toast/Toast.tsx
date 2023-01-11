@@ -15,7 +15,7 @@ interface Props {
   duration?: number;
   message: string;
   onAction?: () => void;
-  onDismiss: () => void;
+  onDismiss?: () => void;
   type: "error" | "info" | "warning" | "success";
   visible: boolean;
 }
