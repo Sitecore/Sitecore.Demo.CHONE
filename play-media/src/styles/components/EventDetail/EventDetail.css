@@ -7,3 +7,8 @@
   @apply order-2;
   @apply md:order-1;
 }
+
+section h2 {
+  @apply text-black-lightest;
+  @apply dark:text-white;
+}
