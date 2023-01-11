@@ -1,10 +1,11 @@
 import { View } from "react-native";
 import { Avatar, Card, Text } from "react-native-paper";
 import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
+import { theme } from "../../theme/theme";
 
 export const CardAvatar = ({ item, onCardPress }) => {
   const sport = item.sport?.results[0];
-  const color = sport.color || "gray";
+  const color = sport.color || theme.colors.gray.DEFAULT;
 
   return (
     <CardShadowBox color={color} onCardPress={onCardPress}>
@@ -18,16 +19,16 @@ export const CardAvatar = ({ item, onCardPress }) => {
           <View
             style={{
               backgroundColor: color,
-              height: 110,
-              width: 110,
-              borderRadius: 55,
+              height: 116,
+              width: 116,
+              borderRadius: 58,
             }}
           >
             <Avatar.Image
-              size={100}
+              size={108}
               style={{
-                top: 5,
-                left: 5,
+                top: theme.spacing.xxs,
+                left: theme.spacing.xxs,
               }}
               source={{
                 uri: item.profilePhoto.results[0].fileUrl,
@@ -36,21 +37,28 @@ export const CardAvatar = ({ item, onCardPress }) => {
           </View>
         </View>
         <View style={{ flex: 2, justifyContent: "center" }}>
-          <Text style={{ marginLeft: 5 }} variant="titleMedium">
+          <Text style={{ marginLeft: theme.spacing.xxs }} variant="titleMedium">
             {item.athleteName}
           </Text>
           <Text
             style={{
+              alignSelf: "flex-start",
               backgroundColor: color,
-              left: -5,
-              paddingLeft: 10,
-              marginVertical: 5,
-              paddingVertical: 5,
+              left: -theme.spacing.xxs,
+              paddingHorizontal: theme.spacing.xs,
+              paddingVertical: theme.spacing.xxs,
             }}
           >
             {sport.title}
           </Text>
-          <Text style={{ marginLeft: 5 }}>{item.nationality}</Text>
+          <Text
+            style={{
+              marginLeft: theme.spacing.xxs,
+              color: theme.colors.gray.DEFAULT,
+            }}
+          >
+            {item.nationality}
+          </Text>
         </View>
       </Card.Content>
     </CardShadowBox>
