@@ -1,5 +1,6 @@
 .header {
-  @apply fixed top-0 w-full bg-black-darkest bg-opacity-50 z-50;
+  @apply fixed bg-white top-0 w-full bg-opacity-70 z-50;
+  @apply dark:bg-black-darkest dark:bg-opacity-50;
 
   transition: background 0.3s ease;
 
@@ -24,9 +25,52 @@
     @apply container flex flex-col gap-5 text-3xl text-center;
     @apply md:flex-row md:gap-5 md:max-w-full md:p-0 md:text-base md:text-left;
 
-    a {
-      @apply text-white transition-colors;
+    a,
+    button {
+      @apply text-black transition-colors;
       @apply hover:opacity-80;
+      @apply dark:text-white;
+    }
+
+    .theme-switcher {
+      @apply relative cursor-pointer touch-pan-x select-none;
+
+      &-container {
+        @apply bg-black-light h-6 w-12 rounded-[30px];
+
+        transition: 0.2s;
+      }
+
+      .moon-icon-container,
+      .sun-icon-container {
+        @apply absolute bottom-0 top-0 h-3 w-4 my-auto mx-0;
+      }
+
+      .moon-icon-container {
+        @apply left-2 opacity-0;
+        @apply dark:opacity-100;
+      }
+
+      .sun-icon-container {
+        @apply right-1 opacity-100;
+        @apply dark:opacity-0;
+      }
+
+      .sun-icon,
+      .moon-icon {
+        @apply flex items-center h-3 w-3 justify-center;
+      }
+
+      .theme-switcher-bullet {
+        @apply bg-white h-6 w-6 left-0 top-0 absolute border border-solid border-gray rounded-[50%];
+        @apply dark:left-6;
+
+        transition: 0.25s;
+      }
+
+      input {
+        @apply border-0 h-px w-px -m-px overflow-hidden absolute bg-clip-border;
+      }
     }
   }
 
