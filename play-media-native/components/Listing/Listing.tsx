@@ -1,5 +1,6 @@
 import { FlatList, SafeAreaView } from "react-native";
 import { Text } from "react-native-paper";
+import { theme } from "../../theme/theme";
 
 export const Listing = ({ data, isLoading, renderItem }) => {
   if (isLoading) {
@@ -19,9 +20,9 @@ export const Listing = ({ data, isLoading, renderItem }) => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#000" }}>
+    <SafeAreaView style={{ backgroundColor: theme.colors.black.darkest }}>
       <FlatList
-        style={{ paddingHorizontal: 10, paddingTop: 10 }}
+        style={{ paddingHorizontal: theme.spacing.sm }}
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
