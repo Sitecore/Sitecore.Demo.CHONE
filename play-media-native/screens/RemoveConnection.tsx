@@ -4,6 +4,7 @@ import { Button, Text } from "react-native-paper";
 import { MultiSelectChips } from "../components/MultiSelectChips/MultiSelectChips";
 import { useConnections } from "../hooks/useConnections/useConnections";
 import { deleteValuesFor } from "../helpers/secureStorage";
+import { removeConnections } from "../helpers/connections";
 
 export const RemoveConnectionScreen = () => {
   const { connections, remove } = useConnections();
@@ -35,14 +36,12 @@ export const RemoveConnectionScreen = () => {
       (connection) => connection.selected
     );
 
-    await deleteValuesFor(selectedConnections.map((item) => item.name)).then(
-      () => {
-        remove(selectedConnections);
-        setConnectionOptions((prevOptions) =>
-          prevOptions.filter((option) => !selectedConnections.includes(option))
-        );
-      }
-    );
+    await removeConnections(selectedConnections).then(() => {
+      remove(selectedConnections);
+      setConnectionOptions((prevOptions) =>
+        prevOptions.filter((option) => !selectedConnections.includes(option))
+      );
+    });
   }, [connectionOptions, remove]);
 
   return (
@@ -62,7 +61,6 @@ export const RemoveConnectionScreen = () => {
           alignItems: "center",
         }}
       >
-        {/* <Logo style={{ marginBottom: 40 }} /> */}
         <Text
           style={{
             color: "white",

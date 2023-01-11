@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { StyleProp } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -15,7 +15,6 @@ export const Select = ({ items, onChange, selectedValue, style }: Props) => {
     : { backgroundColor: "white" };
 
   const onValueChange = useCallback((value) => {
-    console.log("value", value);
     onChange(value);
   }, []);
 

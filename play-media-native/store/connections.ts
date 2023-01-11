@@ -26,7 +26,6 @@ export const connectionsSlice = createSlice({
       state.connections = action.payload || [];
     },
     remove: (state, action: PayloadAction<Connection[]>) => {
-      console.log("action.payload", action.payload);
       const namesToBeRemoved = action.payload.map(
         (connection) => connection.name
       );
