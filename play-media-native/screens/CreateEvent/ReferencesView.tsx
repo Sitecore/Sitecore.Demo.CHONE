@@ -1,13 +1,22 @@
+import { useCallback } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
-import { Text } from "react-native-paper";
-import { InputText } from "../../components/InputText/InputText";
-import { inputContainerStyle } from "./styles";
+import { Button } from "react-native-paper";
+import { MediaPicker } from "../../components/MediaPicker/MediaPicker";
+import { StackNavigationProp } from "../../interfaces/navigators";
 
 export const ReferencesView = () => {
+  const navigation = useNavigation<StackNavigationProp>();
+
+  const onAddMedia = useCallback(() => {
+    navigation.navigate("AddMedia");
+  }, []);
+
   return (
     <View>
-      <Text>Screen 3</Text>
-      <InputText containerStyle={inputContainerStyle} label="Body" multiline />
+      <Button icon="plus" mode="contained" onPress={onAddMedia}>
+        Media
+      </Button>
     </View>
   );
 };

@@ -1,3 +1,11 @@
+export interface AllMediaResponse {
+  data: {
+    allMedia: {
+      results: Partial<Media>[];
+    };
+  };
+}
+
 export interface Media {
   id: string;
   name: string;

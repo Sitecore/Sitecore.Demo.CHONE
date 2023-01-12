@@ -8,17 +8,15 @@ import {
   useCameraPermissions,
 } from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
-import { theme } from "../theme/theme";
-import { StackNavigationProp } from "../interfaces/navigators";
-import { Icon } from "../components/Icon/Icon";
+import { StackNavigationProp } from "../../interfaces/navigators";
+import { theme } from "../../theme/theme";
+import { Icon } from "../Icon/Icon";
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    backgroundColor: "black",
-    paddingTop: theme.spacing.xs,
   },
   card: {
     paddingHorizontal: theme.spacing.xs,
@@ -41,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const AddMediaScreen = () => {
+export const MediaPicker = () => {
   const navigation = useNavigation<StackNavigationProp>();
   const [images, setImages] = useState(null);
   const [status, requestPermissions] = useCameraPermissions();

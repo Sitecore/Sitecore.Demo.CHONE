@@ -6,8 +6,10 @@ export type RootStackParamList = {
   AddAthlete: undefined;
   AddConnection: undefined;
   AddEvent: undefined;
+  AddCH1Media: undefined;
   AddMedia: undefined;
   AthleteDetail: { id: string };
+  Camera: undefined;
   EventDetail: { id: string };
   MainTabs: undefined;
   RemoveConnection: undefined;
@@ -19,6 +21,6 @@ export type RootTabParamList = {
   Athletes: undefined;
 };
 
-// Navigation prop for components in TabHeader
+// Navigation prop Stack navigator
 //
-export type TabHeaderNavigationProp = StackNavigationProp<RootStackParamList>;
+export type StackNavigationProp = StackNavigationProp<RootStackParamList>;

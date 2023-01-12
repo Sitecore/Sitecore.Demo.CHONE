@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { QueryFunction, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { getAllEvents } from "../api/queries/getEvents";
 import { Listing } from "../components/Listing/Listing";
 import { CardEvent } from "../features/CardEvent/CardEvent";
