@@ -132,12 +132,12 @@ export const paperColorConfig = {
       level4: theme.colors.black.dark,
       level5: theme.colors.black.darkest,
     },
-    surfaceDisabled: theme.colors.gray.DEFAULT,
+    surfaceDisabled: theme.colors.black.lightest,
     onSurfaceDisabled: theme.colors.black.darkest,
     backdrop: theme.colors.black.darkest,
   },
 };
 
 export const paperRestConfig = {
-  roundness: 3,
+  roundness: 1,
 };

@@ -5,6 +5,7 @@ import { MultiSelectChips } from "../components/MultiSelectChips/MultiSelectChip
 import { useConnections } from "../hooks/useConnections/useConnections";
 import { deleteValuesFor } from "../helpers/secureStorage";
 import { removeConnections } from "../helpers/connections";
+import { theme } from "../theme/theme";
 
 export const RemoveConnectionScreen = () => {
   const { connections, remove } = useConnections();
@@ -50,7 +51,7 @@ export const RemoveConnectionScreen = () => {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#000",
+        backgroundColor: theme.colors.black.darkest,
       }}
     >
       <StatusBar barStyle={"light-content"} />
@@ -63,10 +64,9 @@ export const RemoveConnectionScreen = () => {
       >
         <Text
           style={{
-            color: "white",
             maxWidth: "80%",
             textAlign: "center",
-            marginBottom: 30,
+            marginBottom: theme.spacing.lg,
           }}
         >
           Select connection(s) to be removed.
@@ -77,9 +77,9 @@ export const RemoveConnectionScreen = () => {
           icon="delete"
           mode="contained"
           onPress={onRemove}
-          style={{ marginTop: 50 }}
+          style={{ marginTop: theme.spacing.xl }}
         >
-          <Text>{`Remove ${selectedCount || ""}`}</Text>
+          {`Remove ${selectedCount || ""}`}
         </Button>
       </View>
     </SafeAreaView>
