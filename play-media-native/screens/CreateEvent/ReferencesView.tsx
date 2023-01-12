@@ -2,7 +2,6 @@ import { useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
-import { MediaPicker } from "../../components/MediaPicker/MediaPicker";
 import { StackNavigationProp } from "../../interfaces/navigators";
 
 export const ReferencesView = () => {

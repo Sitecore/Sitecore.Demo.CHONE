@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import { InputText } from "../../components/InputText/InputText";
-import { theme } from "../../theme/theme";
 import { inputContainerStyle } from "./styles";
 
 export const RichTextView = () => {

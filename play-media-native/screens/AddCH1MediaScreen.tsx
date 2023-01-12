@@ -1,4 +1,4 @@
-import { Image, StatusBar, View } from "react-native";
+import { StatusBar } from "react-native";
 import { theme } from "../theme/theme";
 import { useQuery } from "react-query";
 import { getAllMedia } from "../api/queries/getMedia";
@@ -13,7 +13,7 @@ const fullWidthStyle = {
 };
 
 export const AddCH1MediaScreen = () => {
-  const { data: media, isFetching } = useQuery("media", getAllMedia);
+  const { data: media, isFetching } = useQuery("media", getAllMedia());
 
   return (
     <>
