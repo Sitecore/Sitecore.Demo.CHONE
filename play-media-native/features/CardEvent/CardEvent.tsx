@@ -1,4 +1,4 @@
-import { View, Image } from "react-native";
+import { View, Image, Pressable } from "react-native";
 import { Card, Text } from "react-native-paper";
 import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
 import { getDate } from "../../helpers/dateHelper";
@@ -11,16 +11,18 @@ export const CardEvent = ({ item, onCardPress }) => {
 
   return (
     <>
-      <Image
-        source={{ uri: item.featuredImage.results[0].fileUrl }}
-        style={{
-          height: 200,
-          resizeMode: "cover",
-          marginLeft: -theme.spacing.sm,
-          marginRight: -theme.spacing.sm,
-          marginBottom: -theme.spacing.sm,
-        }}
-      />
+      <Pressable onPress={onCardPress}>
+        <Image
+          source={{ uri: item.featuredImage.results[0].fileUrl }}
+          style={{
+            height: 200,
+            resizeMode: "cover",
+            marginLeft: -theme.spacing.sm,
+            marginRight: -theme.spacing.sm,
+            marginBottom: -theme.spacing.sm,
+          }}
+        />
+      </Pressable>
       <CardShadowBox color={color} onCardPress={onCardPress}>
         <Card.Content
           style={{
@@ -40,7 +42,9 @@ export const CardEvent = ({ item, onCardPress }) => {
             >
               {sport?.title || "Sport"}
             </Text>
-            <Text style={{ color: theme.colors.gray.DEFAULT }}>{rightLabel}</Text>
+            <Text style={{ color: theme.colors.gray.DEFAULT }}>
+              {rightLabel}
+            </Text>
           </View>
           <View>
             <Text variant="titleMedium">{item.title}</Text>
