@@ -1,11 +1,31 @@
 import { useCallback, useEffect, useState } from "react";
-import { FlatList, RefreshControl, SafeAreaView, View } from "react-native";
+import {
+  FlatList,
+  ListRenderItem,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  RefreshControl,
+  SafeAreaView,
+  View,
+} from "react-native";
 import { Text, ActivityIndicator } from "react-native-paper";
 import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from "../../constants/pagination";
 import { mockFetchData } from "../../helpers/mockPagination";
 import { theme } from "../../theme/theme";
 
-export const Listing = ({ data, isLoading, renderItem }) => {
+type ListingProps = {
+  data: any;
+  isLoading: boolean;
+  renderItem: ListRenderItem<any>;
+  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+};
+
+export const Listing = ({
+  data,
+  isLoading,
+  renderItem,
+  onScroll,
+}: ListingProps) => {
   const [items, setItems] = useState(data?.slice(0, PAGE_SIZE));
   const [loading, setLoading] = useState(false);
   const [isListEnd, setIsListEnd] = useState(false);
@@ -92,6 +112,7 @@ export const Listing = ({ data, isLoading, renderItem }) => {
             tintColor={theme.colors.transparent}
           />
         }
+        onScroll={onScroll}
       />
     </SafeAreaView>
   );

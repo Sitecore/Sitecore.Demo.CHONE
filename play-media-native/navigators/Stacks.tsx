@@ -8,12 +8,17 @@ import { Tabs } from "./Tabs";
 import { AddConnectionScreen } from "../screens/AddConnection";
 import { RootStackParamList } from "../interfaces/navigators";
 import { RemoveConnectionScreen } from "../screens/RemoveConnection";
+import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHeader";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Stacks = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        header: () => <StackScreenHeader />,
+      }}
+    >
       <>
         <Stack.Screen
           name="SelectConnection"
