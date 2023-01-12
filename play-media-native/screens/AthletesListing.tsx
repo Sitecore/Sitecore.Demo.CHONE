@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import { StatusBar } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
 import { defaultStyle } from "../components/BottomFAB/BottomFAB";
-import { useScrollOffset } from "../hooks/useConnections/useScrollOffset";
+import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 
 export const AthletesListingScreen = ({ navigation }) => {
   const { data: athletes, isFetching } = useQuery("athletes", getAllAthletes);

@@ -7,7 +7,7 @@ import { Event } from "../interfaces/event";
 import { StatusBar } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
 import { defaultStyle } from "../components/BottomFAB/BottomFAB";
-import { useScrollOffset } from "../hooks/useConnections/useScrollOffset";
+import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 
 export const EventsListingScreen = ({ navigation }) => {
   const { data: events, isFetching } = useQuery("events", getAllEvents);
