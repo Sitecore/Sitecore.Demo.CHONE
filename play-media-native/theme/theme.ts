@@ -139,5 +139,5 @@ export const paperColorConfig = {
 };
 
 export const paperRestConfig = {
-  roundness: 3,
+  roundness: 1,
 };
