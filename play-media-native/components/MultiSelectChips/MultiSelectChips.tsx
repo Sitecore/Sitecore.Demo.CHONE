@@ -1,5 +1,6 @@
 import { View } from "react-native";
-import { Chip, Text } from "react-native-paper";
+import { Chip } from "react-native-paper";
+import { theme } from "../../theme/theme";
 
 interface Props {
   items: Array<{ label: string; value: any; selected: boolean }>;
@@ -22,9 +23,9 @@ export const MultiSelectChips = ({ items, onSelect }: Props) => {
           onPress={() => onSelect(item)}
           showSelectedOverlay
           selected={item.selected}
-          style={{ margin: 5, padding: 5 }}
+          style={{ margin: theme.spacing.xxs, padding: theme.spacing.xxs }}
         >
-          <Text>{item.label}</Text>
+          {item.label}
         </Chip>
       ))}
     </View>
