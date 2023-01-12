@@ -20,8 +20,6 @@ export const StackScreenHeader = () => {
         paddingLeft: theme.spacing.sm,
         paddingRight: theme.spacing.sm,
         backgroundColor: theme.colors.black.darkest,
-        flexDirection: "row",
-        justifyContent: "center",
         alignItems: "center",
       }}
     >
@@ -39,7 +37,7 @@ export const StackScreenHeader = () => {
         }}
         onPress={() => navigation.goBack()}
       />
-      <Logo style={{ marginHorizontal: "auto" }} />
+      <Logo />
     </View>
   );
 };
