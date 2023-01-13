@@ -15,7 +15,8 @@ section.container.content-section.athlete-info {
     @apply flex-row justify-around;
 
     span {
-      @apply text-gray;
+      @apply text-black-lightest;
+      @apply dark:text-gray;
     }
   }
 
