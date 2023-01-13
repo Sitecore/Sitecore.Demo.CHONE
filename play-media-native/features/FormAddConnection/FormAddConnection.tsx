@@ -8,10 +8,11 @@ import { View } from "react-native";
 import { useConnections } from "../../hooks/useConnections/useConnections";
 import debounce from "lodash.debounce";
 import { Connection } from "../../interfaces/connections";
+import { theme } from "../../theme/theme";
 
 const defaultTextInputStyle = {
   width: "90%",
-  marginVertical: 5,
+  marginVertical: theme.spacing.xxs,
 };
 
 // Connection name: allow only letters, numbers and hyphens.
@@ -142,9 +143,9 @@ export const FormAddConnection = () => {
         icon="plus-circle-outline"
         mode="contained"
         onPress={onAddConnection}
-        style={{ marginTop: 10, borderRadius: 5 }}
+        style={{ marginTop: theme.spacing.xs }}
       >
-        <Text>Add Connection</Text>
+        Add Connection
       </Button>
       <Toast
         message="Connection is valid!"

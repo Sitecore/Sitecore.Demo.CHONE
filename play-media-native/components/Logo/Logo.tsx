@@ -4,9 +4,8 @@ export const Logo = ({ style }: { style?: ImageStyle }) => {
   return (
     <Image
       style={{
-        height: 66,
-        width: "100%",
-        resizeMode: "contain",
+        height: 35,
+        width: 200,
         ...style,
       }}
       source={require("../../assets/play-media-logo.png")}

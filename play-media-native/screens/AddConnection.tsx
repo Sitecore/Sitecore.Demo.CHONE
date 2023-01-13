@@ -1,15 +1,17 @@
-import { SafeAreaView, StatusBar, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, View } from "react-native";
 import { Text } from "react-native-paper";
 import { FormAddConnection } from "../features/FormAddConnection/FormAddConnection";
+import { theme } from "../theme/theme";
 
 export const AddConnectionScreen = () => {
   return (
-    <SafeAreaView
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#000",
+        backgroundColor: theme.colors.black.darkest,
       }}
     >
       <StatusBar barStyle={"light-content"} />
@@ -18,12 +20,11 @@ export const AddConnectionScreen = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 30,
+          marginBottom: theme.spacing.lg,
         }}
       >
         <Text
           style={{
-            color: "white",
             maxWidth: "80%",
             textAlign: "center",
           }}
@@ -32,6 +33,6 @@ export const AddConnectionScreen = () => {
         </Text>
       </View>
       <FormAddConnection />
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
