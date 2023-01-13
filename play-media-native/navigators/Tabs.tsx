@@ -13,7 +13,7 @@ import { RootTabParamList } from "../interfaces/navigators";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
-export const Tabs = ({ navigation }) => {
+export const Tabs = () => {
   const tabScreenOptions: BottomTabNavigationOptions = {
     headerBackgroundContainerStyle: {
       backgroundColor: theme.colors.black.darkest,
@@ -42,9 +42,7 @@ export const Tabs = ({ navigation }) => {
         name="Events"
         component={EventsListingScreen}
         options={{
-          header: () => (
-            <TabScreenHeader navigation={navigation} type="Event" />
-          ),
+          header: () => <TabScreenHeader type="Event" />,
           tabBarIcon: ({ color }) => {
             return (
               <FontAwesomeIcon
@@ -60,9 +58,7 @@ export const Tabs = ({ navigation }) => {
         name="Athletes"
         component={AthletesListingScreen}
         options={{
-          header: () => (
-            <TabScreenHeader navigation={navigation} type="Athlete" />
-          ),
+          header: () => <TabScreenHeader type="Athlete" />,
           tabBarIcon: ({ color }) => {
             return (
               <FontAwesomeIcon

@@ -11,12 +11,18 @@ import { RemoveConnectionScreen } from "../screens/RemoveConnection";
 import { AddCH1MediaScreen } from "../screens/AddCH1Media";
 import { AddMediaScreen } from "../screens/AddMedia";
 import { EditMediaScreen } from "../screens/EditMedia";
+import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHeader";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Stacks = () => {
   return (
-    <Stack.Navigator initialRouteName="SelectConnection">
+    <Stack.Navigator
+      initialRouteName="SelectConnection"
+      screenOptions={{
+        header: () => <StackScreenHeader />,
+      }}
+    >
       <Stack.Screen
         name="AddAthlete"
         component={CreateAthleteScreen}

@@ -1,20 +1,22 @@
 import { useMemo } from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { FAB } from "react-native-paper";
+import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
+import { theme } from "../../theme/theme";
 
-const defaultStyle = StyleSheet.create({
+export const defaultStyle = StyleSheet.create({
   fab: {
     position: "absolute",
-    margin: 16,
-    right: 10,
-    bottom: 10,
+    margin: theme.spacing.xs,
+    right: theme.spacing.xs,
+    bottom: theme.spacing.xs,
   },
 });
 
 interface Props {
   color?: string;
   disabled?: boolean;
-  icon: string;
+  icon: IconSource;
   label?: string;
   onPress: () => void;
   style?: StyleProp<ViewStyle>;

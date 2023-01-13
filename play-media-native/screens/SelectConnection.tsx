@@ -6,6 +6,7 @@ import { useConnections } from "../hooks/useConnections/useConnections";
 import { Select } from "../components/Select/Select";
 import { BottomFAB } from "../components/BottomFAB/BottomFAB";
 import { Icon } from "../components/Icon/Icon";
+import { theme } from "../theme/theme";
 
 const styles = StyleSheet.create({
   fabAdd: {
@@ -59,7 +60,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#000",
+        backgroundColor: theme.colors.black.darkest,
       }}
     >
       <StatusBar barStyle={"light-content"} />
@@ -68,13 +69,13 @@ export const SelectConnectionScreen = ({ navigation }) => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: 30,
+          marginBottom: theme.spacing.lg,
         }}
       >
         <View>
           <Logo />
         </View>
-        <Text style={{ color: "white", maxWidth: "80%", textAlign: "center" }}>
+        <Text style={{ maxWidth: "80%", textAlign: "center" }}>
           Connect to a saved Content Hub One instance.
         </Text>
       </View>
@@ -82,15 +83,15 @@ export const SelectConnectionScreen = ({ navigation }) => {
         <View
           style={{
             justifyContent: "center",
-            marginBottom: 10,
+            marginBottom: theme.spacing.xs,
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Icon
               name="warning-outline"
-              color="yellow"
+              color={theme.colors.yellow.DEFAULT}
               size={25}
-              style={{ marginRight: 5 }}
+              style={{ marginRight: theme.spacing.xxs }}
             />
             <Text style={{ textAlign: "center" }}>
               No connections available yet!
@@ -106,13 +107,13 @@ export const SelectConnectionScreen = ({ navigation }) => {
             items={connectionOptions}
             onChange={onSelect}
             selectedValue={selectedConnection}
-            style={{ width: "90%", marginBottom: 5 }}
+            style={{ width: "90%", marginBottom: theme.spacing.xxs }}
           />
           <Button
             icon="connection"
             mode="outlined"
             onPress={onConnect}
-            style={{ marginTop: 10, borderRadius: 5 }}
+            style={{ marginTop: theme.spacing.xs }}
           >
             Connect
           </Button>
