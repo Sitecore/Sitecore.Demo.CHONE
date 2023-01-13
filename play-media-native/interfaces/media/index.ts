@@ -18,3 +18,11 @@ export interface Media {
   fileType: string;
   fileUrl: string;
 }
+
+// For images taken from Media Library or Camera (less props than CH1 Media)
+//
+export interface DeviceMedia {
+  height: number;
+  uri: string;
+  width: number;
+}

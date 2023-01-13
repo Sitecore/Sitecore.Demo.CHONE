@@ -10,6 +10,7 @@ export type RootStackParamList = {
   AddMedia: undefined;
   AthleteDetail: { id: string };
   Camera: undefined;
+  EditMedia: undefined;
   EventDetail: { id: string };
   MainTabs: undefined;
   RemoveConnection: undefined;

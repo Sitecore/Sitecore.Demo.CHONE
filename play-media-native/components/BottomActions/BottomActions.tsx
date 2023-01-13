@@ -1,20 +1,13 @@
+import { PropsWithChildren, ReactNode } from "react";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
 import { theme } from "../../theme/theme";
 
-const buttonStyle = {
-  borderWidth: 1,
-  borderColor: theme.colors.yellow.DEFAULT,
-  marginHorizontal: theme.spacing.xs,
-};
+interface Props {
+  children: PropsWithChildren<ReactNode | ReactNode[]>;
+}
 
-const labelStyle = {
-  fontFamily: theme.fontFamily.medium,
-  fontSize: theme.fontSize.base,
-  lineHeight: 30,
-};
-
-export const BottomActions = () => {
+export const BottomActions = ({ children }: Props) => {
   return (
     <View
       style={{
@@ -28,22 +21,7 @@ export const BottomActions = () => {
         backgroundColor: theme.colors.black.darkest,
       }}
     >
-      <Button
-        mode="outlined"
-        labelStyle={labelStyle}
-        style={buttonStyle}
-        onPress={() => {}}
-      >
-        Discard
-      </Button>
-      <Button
-        mode="contained"
-        labelStyle={labelStyle}
-        style={buttonStyle}
-        onPress={() => {}}
-      >
-        Next
-      </Button>
+      {children}
     </View>
   );
 };

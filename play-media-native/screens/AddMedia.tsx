@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { Button, Card, Text } from "react-native-paper";
 import {
   MediaTypeOptions,
   launchCameraAsync,
@@ -11,13 +11,16 @@ import { useNavigation } from "@react-navigation/native";
 import { theme } from "../theme/theme";
 import { StackNavigationProp } from "../interfaces/navigators";
 import { Icon } from "../components/Icon/Icon";
+import { DeviceMedia } from "../interfaces/media";
+import { useMedia } from "../hooks/useMedia/useMedia";
+import { BottomActions } from "../components/BottomActions/BottomActions";
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    backgroundColor: "black",
+    backgroundColor: theme.colors.black.darkest,
     paddingTop: theme.spacing.xs,
   },
   card: {
@@ -41,12 +44,40 @@ const styles = StyleSheet.create({
   },
 });
 
+const buttonStyle = {
+  borderWidth: 1,
+  borderColor: theme.colors.yellow.DEFAULT,
+  marginHorizontal: theme.spacing.xs,
+};
+
+const labelStyle = {
+  fontFamily: theme.fontFamily.medium,
+  fontSize: theme.fontSize.base,
+  lineHeight: 30,
+};
+
 export const AddMediaScreen = () => {
   const navigation = useNavigation<StackNavigationProp>();
-  const [images, setImages] = useState(null);
+  const { add, clear, clearTemp, editTemp, media, temp } = useMedia();
   const [status, requestPermissions] = useCameraPermissions();
 
-  const handleLaunchCamera = async () => {
+  const editImage = useCallback(
+    (image: DeviceMedia) => {
+      if (!image) {
+        return;
+      }
+
+      editTemp({
+        fileUrl: image.uri,
+        fileHeight: image.height,
+        fileWidth: image.width,
+      });
+      navigation.navigate("EditMedia");
+    },
+    [editTemp, navigation]
+  );
+
+  const handleLaunchCamera = useCallback(async () => {
     let result = await launchCameraAsync({
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
@@ -54,10 +85,11 @@ export const AddMediaScreen = () => {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setImages(result.assets[0].uri);
-    }
-  };
+    console.log("result.assets[0]", result.assets[0]);
+
+    const image = !result.canceled ? result.assets[0] : null;
+    editImage(image);
+  }, [editImage]);
 
   const handleImageLibrary = useCallback(async () => {
     let result = await launchImageLibraryAsync({
@@ -67,14 +99,24 @@ export const AddMediaScreen = () => {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setImages(result.assets[0].uri);
-    }
-  }, []);
+    console.log("result.assets[0]", result.assets[0]);
+
+    const image = !result.canceled ? result.assets[0] : null;
+    editImage(image);
+  }, [editImage]);
 
   const handleRemoteMedia = useCallback(async () => {
     navigation.navigate("AddCH1Media");
-  }, []);
+  }, [navigation]);
+
+  const onDiscard = useCallback(() => {
+    clear();
+    navigation.goBack();
+  }, [clear, navigation]);
+
+  const onReview = useCallback(() => {
+    navigation.navigate("ReviewMedia");
+  }, [navigation]);
 
   useEffect(() => {
     const requestUserPermission = async () => {
@@ -91,6 +133,11 @@ export const AddMediaScreen = () => {
   // probably be accessible from TabScreebHeader three dot menu
   //   if (!permission) {
   //   }
+
+  console.log("\n");
+  console.log("temp", temp);
+  console.log("media", media);
+  console.log("\n");
 
   return (
     <View style={styles.container}>
@@ -119,6 +166,24 @@ export const AddMediaScreen = () => {
           </Text>
         </Card.Content>
       </Card>
+      <BottomActions>
+        <Button
+          mode="outlined"
+          labelStyle={labelStyle}
+          style={buttonStyle}
+          onPress={onDiscard}
+        >
+          Discard
+        </Button>
+        <Button
+          mode="contained"
+          labelStyle={labelStyle}
+          style={buttonStyle}
+          onPress={onReview}
+        >
+          Review Changes
+        </Button>
+      </BottomActions>
     </View>
   );
 };

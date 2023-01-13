@@ -8,8 +8,9 @@ import { Tabs } from "./Tabs";
 import { AddConnectionScreen } from "../screens/AddConnection";
 import { RootStackParamList } from "../interfaces/navigators";
 import { RemoveConnectionScreen } from "../screens/RemoveConnection";
-import { AddCH1MediaScreen } from "../screens/AddCH1MediaScreen";
-import { AddMediaScreen } from "../screens/AddMediaScreen";
+import { AddCH1MediaScreen } from "../screens/AddCH1Media";
+import { AddMediaScreen } from "../screens/AddMedia";
+import { EditMediaScreen } from "../screens/EditMedia";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,6 +48,11 @@ export const Stacks = () => {
         name="AddMedia"
         component={AddMediaScreen}
         options={{ title: "Add Media" }}
+      />
+      <Stack.Screen
+        name="EditMedia"
+        component={EditMediaScreen}
+        options={{ title: "Edit Media" }}
       />
       <Stack.Screen
         name="EventDetail"
