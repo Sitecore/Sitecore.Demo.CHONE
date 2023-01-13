@@ -15,15 +15,16 @@
 
   nav {
     @apply flex items-center absolute top-full left-full w-0 max-w-full h-[calc(100vh-5rem)];
-    @apply py-8 bg-black-darkest bg-opacity-50 overflow-hidden;
+    @apply py-8 bg-white bg-opacity-50 overflow-hidden;
     @apply md:block md:static md:py-0 md:w-auto md:h-auto md:bg-transparent;
+    @apply dark:bg-black-darkest dark:md:bg-transparent;
 
     transition: left 0.3s ease, width 0.3s ease, background 0.3s ease;
   }
 
   ul {
-    @apply container flex flex-col gap-5 text-3xl text-center;
-    @apply md:flex-row md:gap-5 md:max-w-full md:p-0 md:text-base md:text-left;
+    @apply container flex flex-col gap-5 text-3xl text-center items-center;
+    @apply md:flex-row md:gap-5 md:max-w-full md:p-0 md:text-base md:text-left md:items-end;
 
     a,
     button {
@@ -36,7 +37,8 @@
       @apply relative cursor-pointer touch-pan-x select-none;
 
       &-container {
-        @apply bg-black-light h-6 w-12 rounded-[30px];
+        @apply bg-black-light h-8 w-16 rounded-[30px];
+        @apply md:h-6 md:w-12;
 
         transition: 0.2s;
       }
@@ -62,8 +64,9 @@
       }
 
       .theme-switcher-bullet {
-        @apply bg-white h-6 w-6 left-0 top-0 absolute border border-solid border-gray rounded-[50%];
-        @apply dark:left-6;
+        @apply bg-white h-8 w-8 -left-px top-0 absolute border border-solid border-gray rounded-[50%];
+        @apply md:h-6 md:w-6;
+        @apply dark:left-8 dark:md:left-6;
 
         transition: 0.25s;
       }
@@ -93,7 +96,8 @@
   @apply md:hidden;
 
   span {
-    @apply block w-full h-1 bg-white rounded-sm;
+    @apply block w-full h-1 bg-black rounded-sm;
+    @apply dark:bg-white;
 
     transition: all 0.3s ease;
   }
