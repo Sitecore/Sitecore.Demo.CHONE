@@ -6,7 +6,8 @@
   }
 
   &-content {
-    @apply relative flex flex-wrap gap-x-4 gap-y-1 p-4 bg-black-light z-10;
+    @apply relative flex flex-wrap gap-x-4 gap-y-1 p-4 bg-white-light z-10;
+    @apply dark:bg-black-light;
   }
 
   &-label {
@@ -14,11 +15,18 @@
   }
 
   &-eyebrow {
-    @apply text-gray;
+    @apply text-black;
+    @apply dark:text-gray;
   }
 
   &-body {
     @apply basis-full;
+
+    h3,
+    p {
+      @apply text-black;
+      @apply dark:text-white;
+    }
 
     h3 {
       @apply text-xl my-0;
@@ -26,6 +34,6 @@
   }
 
   a {
-    @apply text-current;
+    @apply text-white;
   }
 }

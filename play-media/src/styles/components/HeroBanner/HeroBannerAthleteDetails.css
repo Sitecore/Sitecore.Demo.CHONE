@@ -24,7 +24,8 @@
         }
 
         blockquote {
-          @apply w-full px-4 py-1 italic text-center;
+          @apply w-full px-4 py-1 italic text-center text-white;
+          @apply dark:text-black;
 
           &::before,
           &::after {
