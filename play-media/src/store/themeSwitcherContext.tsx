@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useEffect, useState } from 'react';
+import { createContext, ReactElement, useCallback, useEffect, useState } from 'react';
 
 const ThemeSwitcherContext = createContext({
   isDarkTheme: true,
@@ -11,25 +11,22 @@ interface ThemePropsInterface {
 
 export const ThemeSwitcherContextProvider = (props: ThemePropsInterface): ReactElement => {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
-  useEffect(() => initialThemeHandler());
 
-  const isLocalStorageEmpty = (): boolean => {
-    return !localStorage.getItem('isDarkTheme');
-  };
-
-  const initialThemeHandler = (): void => {
+  const initialThemeHandler = useCallback(() => {
     if (isLocalStorageEmpty()) {
       localStorage.setItem('isDarkTheme', 'true');
       document!.querySelector('body')!.classList.add('dark');
       setIsDarkTheme(true);
     } else {
       const isDarkTheme: boolean = JSON.parse(localStorage.getItem('isDarkTheme')!);
-      isDarkTheme && document!.querySelector('body')!.classList.add('dark');
-      setIsDarkTheme(() => {
-        return isDarkTheme;
-      });
+      if (isDarkTheme) {
+        document!.querySelector('body')!.classList.add('dark');
+      }
+      setIsDarkTheme(isDarkTheme);
     }
-  };
+  }, []);
+
+  useEffect(() => initialThemeHandler(), [initialThemeHandler]);
 
   const toggleThemeHandler = (): void => {
     const isDarkTheme: boolean = JSON.parse(localStorage.getItem('isDarkTheme')!);
@@ -40,6 +37,10 @@ export const ThemeSwitcherContextProvider = (props: ThemePropsInterface): ReactE
 
   const toggleDarkClassToBody = (): void => {
     document!.querySelector('body')!.classList.toggle('dark');
+  };
+
+  const isLocalStorageEmpty = (): boolean => {
+    return !localStorage.getItem('isDarkTheme');
   };
 
   const setValueToLocalStorage = (): void => {
