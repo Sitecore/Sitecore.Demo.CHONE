@@ -30,7 +30,6 @@ To install the CLI, follow the [official instructions](https://doc.sitecore.com/
 ```bash
 npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <oauth-client-id> -cs <oauth-client-secret>
 ```
-tenant:add -- -o org_TQuge9nmqZiJNFle -t 758dffec-ef91-4d18-51e3-08dad8591109 -ci <client-id> -cs <client-secret>
 
 ### Pushing serialized assets to Content Hub ONE
 
