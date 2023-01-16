@@ -6,7 +6,8 @@
   }
 
   a {
-    @apply flex flex-col text-white h-full;
+    @apply flex flex-col text-black h-full;
+    @apply dark:text-white;
   }
 
   &-image {
@@ -18,7 +19,8 @@
   }
 
   .shadow-box {
-    @apply grow;
+    @apply grow text-white;
+    @apply dark:text-black;
 
     &-content {
       @apply h-full content-start flex-row;

@@ -1,5 +1,6 @@
 .modal-overlay {
-  @apply h-full w-full fixed z-[1000] left-0 top-0 bg-black-darkest bg-opacity-90 overflow-x-hidden;
+  @apply h-full w-full fixed z-[1000] left-0 top-0 bg-white bg-opacity-90 overflow-x-hidden;
+  @apply dark:bg-black-darkest;
 }
 
 .modal-content {
@@ -7,5 +8,6 @@
 }
 
 .modal-close {
-  @apply absolute -top-2 right-12 text-8xl text-white;
+  @apply absolute -top-2 right-12 text-8xl text-gray;
+  @apply dark:text-white;
 }
