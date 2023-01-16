@@ -38,7 +38,7 @@ export async function getStaticPaths() {
     params: { id: athlete.id, slug: slugify(athlete.athleteName ?? '') },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 }
 
 export const getStaticProps = async ({ params }: AthleteParams) => {
