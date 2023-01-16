@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import {
@@ -14,35 +14,14 @@ import { Icon } from "../components/Icon/Icon";
 import { DeviceMedia } from "../interfaces/media";
 import { useMedia } from "../hooks/useMedia/useMedia";
 import { BottomActions } from "../components/BottomActions/BottomActions";
+import { ListingImages } from "../features/ListingImages/ListingImages";
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    backgroundColor: theme.colors.black.darkest,
-    paddingTop: theme.spacing.xs,
-  },
-  card: {
-    paddingHorizontal: theme.spacing.xs,
-    margin: theme.spacing.xs,
-    backgroundColor: theme.colors.yellow.DEFAULT,
-    width: 250,
-  },
-  cardContent: {
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  header: {
-    maxWidth: 300,
-    textAlign: "center",
-    marginBottom: theme.spacing.sm,
-  },
-  label: {
-    color: theme.colors.black.DEFAULT,
-    fontWeight: "bold",
-  },
-});
+const containerStyles = {
+  height: "100%",
+  backgroundColor: theme.colors.black.darkest,
+  paddingTop: theme.spacing.xs,
+  overflowY: "scroll",
+};
 
 const buttonStyle = {
   borderWidth: 1,
@@ -55,6 +34,45 @@ const labelStyle = {
   fontSize: theme.fontSize.base,
   lineHeight: 30,
 };
+
+const cardStyle = {
+  paddingHorizontal: theme.spacing.xs,
+  margin: theme.spacing.xs,
+  backgroundColor: theme.colors.yellow.DEFAULT,
+};
+
+const styles = StyleSheet.create({
+  flexContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    ...containerStyles,
+  },
+  simpleContainer: {
+    alignItems: "center",
+    ...containerStyles,
+  },
+  card: {
+    ...cardStyle,
+    width: 250,
+  },
+  cardCompact: {
+    ...cardStyle,
+    flex: 1,
+  },
+  cardContent: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  header: {
+    maxWidth: 300,
+    textAlign: "center",
+    marginBottom: theme.spacing.xs,
+  },
+  cardLabel: {
+    color: theme.colors.black.DEFAULT,
+    fontWeight: "bold",
+  },
+});
 
 export const AddMediaScreen = () => {
   const navigation = useNavigation<StackNavigationProp>();
@@ -85,8 +103,6 @@ export const AddMediaScreen = () => {
       quality: 1,
     });
 
-    console.log("result.assets[0]", result.assets[0]);
-
     const image = !result.canceled ? result.assets[0] : null;
     editImage(image);
   }, [editImage]);
@@ -98,8 +114,6 @@ export const AddMediaScreen = () => {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log("result.assets[0]", result.assets[0]);
 
     const image = !result.canceled ? result.assets[0] : null;
     editImage(image);
@@ -118,54 +132,8 @@ export const AddMediaScreen = () => {
     navigation.navigate("ReviewMedia");
   }, [navigation]);
 
-  useEffect(() => {
-    const requestUserPermission = async () => {
-      await requestPermissions();
-    };
-
-    requestUserPermission();
-  }, []);
-
-  // TODO: handle permissions
-  //
-  // If user has rejected and wants to enable permissions,
-  // they must navigate to a Settings screen, which would
-  // probably be accessible from TabScreebHeader three dot menu
-  //   if (!permission) {
-  //   }
-
-  console.log("\n");
-  console.log("temp", temp);
-  console.log("media", media);
-  console.log("\n");
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Select the media source</Text>
-      <Card mode="contained" onPress={handleLaunchCamera} style={styles.card}>
-        <Card.Content style={styles.cardContent}>
-          <Icon name="camera-outline" />
-          <Text style={styles.label} variant="headlineSmall">
-            Camera
-          </Text>
-        </Card.Content>
-      </Card>
-      <Card mode="contained" onPress={handleImageLibrary} style={styles.card}>
-        <Card.Content style={styles.cardContent}>
-          <Icon name="folder-open-outline" />
-          <Text style={styles.label} variant="headlineSmall">
-            Device Library
-          </Text>
-        </Card.Content>
-      </Card>
-      <Card mode="contained" onPress={handleRemoteMedia} style={styles.card}>
-        <Card.Content style={styles.cardContent}>
-          <Icon name="apps-outline" />
-          <Text style={styles.label} variant="headlineSmall">
-            Content Hub One
-          </Text>
-        </Card.Content>
-      </Card>
+  const actions = useMemo(
+    () => (
       <BottomActions>
         <Button
           mode="outlined"
@@ -176,14 +144,106 @@ export const AddMediaScreen = () => {
           Discard
         </Button>
         <Button
+          disabled={!media?.length}
           mode="contained"
           labelStyle={labelStyle}
           style={buttonStyle}
           onPress={onReview}
         >
-          Review Changes
+          {media?.length ? `Add ${media.length} items` : `Add`}
         </Button>
       </BottomActions>
+    ),
+    [onDiscard, onReview, media]
+  );
+
+  useEffect(() => {
+    const requestUserPermission = async () => {
+      await requestPermissions();
+    };
+
+    requestUserPermission();
+  }, []);
+
+  if (!media?.length) {
+    return (
+      <View style={styles.flexContainer}>
+        <Text style={styles.header}>Select the media source</Text>
+        <Card mode="contained" onPress={handleLaunchCamera} style={styles.card}>
+          <Card.Content style={styles.cardContent}>
+            <Icon name="camera-outline" />
+            <Text style={styles.cardLabel} variant="headlineSmall">
+              Camera
+            </Text>
+          </Card.Content>
+        </Card>
+        <Card mode="contained" onPress={handleImageLibrary} style={styles.card}>
+          <Card.Content style={styles.cardContent}>
+            <Icon name="folder-open-outline" />
+            <Text style={styles.cardLabel} variant="headlineSmall">
+              Device Library
+            </Text>
+          </Card.Content>
+        </Card>
+        <Card mode="contained" onPress={handleRemoteMedia} style={styles.card}>
+          <Card.Content style={styles.cardContent}>
+            <Icon name="apps-outline" />
+            <Text style={styles.cardLabel} variant="headlineSmall">
+              Content Hub One
+            </Text>
+          </Card.Content>
+        </Card>
+        {actions}
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.simpleContainer}>
+      <Text style={styles.header}>Select the media source</Text>
+      <View style={{ flexDirection: "row" }}>
+        <Card
+          mode="contained"
+          onPress={handleLaunchCamera}
+          style={styles.cardCompact}
+        >
+          <Card.Content style={styles.cardContent}>
+            <Icon name="camera-outline" />
+            <Text style={styles.cardLabel} variant="labelMedium">
+              Camera
+            </Text>
+          </Card.Content>
+        </Card>
+        <Card
+          mode="contained"
+          onPress={handleImageLibrary}
+          style={styles.cardCompact}
+        >
+          <Card.Content style={styles.cardContent}>
+            <Icon name="folder-open-outline" />
+            <Text style={styles.cardLabel} variant="labelMedium">
+              Device
+            </Text>
+          </Card.Content>
+        </Card>
+        <Card
+          mode="contained"
+          onPress={handleRemoteMedia}
+          style={styles.cardCompact}
+        >
+          <Card.Content style={styles.cardContent}>
+            <Icon name="apps-outline" />
+            <Text style={styles.cardLabel} variant="labelMedium">
+              CH One
+            </Text>
+          </Card.Content>
+        </Card>
+      </View>
+      <Text style={{ ...styles.header, marginTop: theme.spacing.sm }}>
+        Items Added
+      </Text>
+      <ListingImages images={media} />
+      {actions}
     </View>
   );
 };

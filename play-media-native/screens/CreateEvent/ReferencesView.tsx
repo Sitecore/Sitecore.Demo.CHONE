@@ -12,7 +12,7 @@ export const ReferencesView = () => {
   }, []);
 
   return (
-    <View>
+    <View style={{ width: "100%", justifyContent: "flex-end" }}>
       <Button icon="plus" mode="contained" onPress={onAddMedia}>
         Media
       </Button>

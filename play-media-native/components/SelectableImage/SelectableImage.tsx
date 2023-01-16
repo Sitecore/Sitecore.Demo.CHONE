@@ -18,8 +18,6 @@ export const SelectableImage = ({ onSelect, selected, style, uri }) => {
           top: 10,
           right: 5,
           zIndex: 10,
-          //   borderWidth: 2,
-          //   borderColor: theme.colors.white.DEFAULT,
         }}
       >
         <Checkbox
