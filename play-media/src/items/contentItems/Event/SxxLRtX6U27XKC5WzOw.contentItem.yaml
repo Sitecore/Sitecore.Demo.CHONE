@@ -1,8 +1,8 @@
 ﻿id: SxxLRtX6U27XKC5WzOw
-name: Play!Media Formation
+name: Play! Media Formation
 fields:
   title:
-    value: Play!Media Formation
+    value: Play! Media Formation
     type: ShortText
   isFeatured:
     value: true
@@ -14,7 +14,7 @@ fields:
     value: Virgin, Utah
     type: ShortText
   teaser:
-    value: Play!Media Formation returns for its third year on May 8 in Virgin, Utah, one of the most iconic landscapes for the freeride mountain biking movement.
+    value: Play! Media Formation returns for its third year on May 8 in Virgin, Utah, one of the most iconic landscapes for the freeride mountain biking movement.
     type: LongText
   body:
     value: >-

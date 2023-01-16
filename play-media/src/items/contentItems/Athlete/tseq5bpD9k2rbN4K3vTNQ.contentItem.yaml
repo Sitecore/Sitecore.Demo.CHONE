@@ -11,7 +11,7 @@ fields:
     value: It is action that creates motivation.
     type: ShortText
   nationality:
-    value: African
+    value: South African
     type: ShortText
   birthDate:
     value: 02/12/2003

@@ -14,7 +14,7 @@ fields:
     value: Italy
     type: ShortText
   teaser:
-    value: The MTB Festival is back and Play!Media will join the Olympic cross country (XCO) and short track (XCC) events.
+    value: The MTB Festival is back and Play! Media will join the Olympic cross country (XCO) and short track (XCC) events.
     type: LongText
   body:
     value: >-
