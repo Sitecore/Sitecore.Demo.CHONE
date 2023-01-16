@@ -4,45 +4,51 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+1. Ensure you are using nodejs 16.X or newer.
 1. Install npm packages:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 1. Create your `.env` file from the `.env.template` file.
 1. In your `.env` file, enter your API key and API URL.
 1. Run the development server:
 
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
 
 1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Using the Content Hub ONE CLI
 
-Follow the instructions listed [here](https://doc.sitecore.com/ch-one/en/developers/content-hub-one/content-hub-one-cli--install-and-run-the-cli.html) in order to install the CLI.
+To install the CLI, follow the [official instructions](https://doc.sitecore.com/ch-one/en/developers/content-hub-one/content-hub-one-cli--install-and-run-the-cli.html).
 
-1. Run the following command in order to add your Content Hub ONE instance to the CLI:
-
-```bash
-npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <client-id> -cs <client-secret>
-```
-
-1. Then, run the following command in order to push all content types to your Content Hub ONE instance:
+### Connecting a Content Hub ONE instance to the CLI
 
 ```bash
-npm run ser:push-content-types
+npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <oauth-client-id> -cs <oauth-client-secret>
 ```
+tenant:add -- -o org_TQuge9nmqZiJNFle -t 758dffec-ef91-4d18-51e3-08dad8591109 -ci <client-id> -cs <client-secret>
 
-1. Then, run the following command in order to push all content items to your Content Hub ONE instance:
+### Pushing serialized assets to Content Hub ONE
 
-```bash
-npm run ser:push-content-items
-```
+1. Push all content types:
 
-After successfully completing all of the above, you are ready to publish your content items.
+   ```bash
+   npm run ser:push-content-types
+   ```
+
+1. Push all content items:
+
+   ```bash
+   npm run ser:push-content-items
+   ```
+
+### Publishing Content Hub ONE assets
+
+You can publish all of your content items to the delivery endpoint using a single command:
 
 ```bash
 npm run publish-all-items
