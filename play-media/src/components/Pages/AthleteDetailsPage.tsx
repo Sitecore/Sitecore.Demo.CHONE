@@ -35,10 +35,12 @@ export const AthleteDetailsPage = ({
         </article>
         <ImageGrid images={athlete?.relatedMedia?.results}></ImageGrid>
       </section>
-      <section>
-        <h3 className="events-title">Events</h3>
-        <EventGridSimple events={athleteEvents}></EventGridSimple>
-      </section>
+      {athleteEvents && (
+        <section>
+          <h3 className="events-title">Events</h3>
+          <EventGridSimple events={athleteEvents}></EventGridSimple>
+        </section>
+      )}
     </>
   );
 };

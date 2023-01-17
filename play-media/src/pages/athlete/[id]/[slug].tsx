@@ -31,25 +31,29 @@ export default function AthleteDetail({
     return <FallbackPage />;
   }
 
-  if (athlete && athleteEvents) {
+  if (!athlete) {
     return (
-      <>
-        <Head>
-          <title>{`${athlete.athleteName} | PLAY! Media`}</title>
-        </Head>
-        <AthleteDetailsPage athlete={athlete} athleteEvents={athleteEvents}></AthleteDetailsPage>
-      </>
+      <Head>
+        <title>Athlete Detail | PLAY! Media</title>
+      </Head>
     );
   }
 
-  return null;
+  return (
+    <>
+      <Head>
+        <title>{`${athlete.athleteName} | PLAY! Media`}</title>
+      </Head>
+      <AthleteDetailsPage athlete={athlete} athleteEvents={athleteEvents}></AthleteDetailsPage>
+    </>
+  );
 }
 
 export async function getStaticPaths() {
   // When this is true (in local or preview environments) don't prerender any static pages
   // (faster builds, but slower initial page load)
   //
-  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+  if (process.env.SKIP_BUILD_STATIC_GENERATION === 'true') {
     return {
       paths: [],
       fallback: 'blocking',
@@ -57,12 +61,11 @@ export async function getStaticPaths() {
   }
 
   const athletes = await getAllAthletes();
+  const validAthletes = !athletes ? [] : athletes.filter((item) => item);
 
-  const paths = !athletes
-    ? []
-    : athletes.map((athlete) => ({
-        params: { id: athlete.id, slug: slugify(athlete.athleteName ?? '') },
-      }));
+  const paths = validAthletes.map((athlete) => ({
+    params: { id: athlete?.id, slug: slugify(athlete?.athleteName || '') },
+  }));
 
   return { paths, fallback: true };
 }

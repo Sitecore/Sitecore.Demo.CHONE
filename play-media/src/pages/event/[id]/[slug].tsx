@@ -19,14 +19,20 @@ interface Props {
 }
 
 const EventDetail: FC<Props> = ({ event }) => {
-  const invalidData = !event;
+  if (!event) {
+    return (
+      <Head>
+        <title>Event Detail | PLAY! Media</title>
+      </Head>
+    );
+  }
 
   return (
     <>
       <Head>
         <title>{`${event.title} | PLAY! Media`}</title>
       </Head>
-      {invalidData ? null : <EventDetailsPage event={event} />}
+      <EventDetailsPage event={event} />
     </>
   );
 };
@@ -37,7 +43,7 @@ export async function getStaticPaths() {
   // When this is true (in local or preview environments) don't prerender any static pages
   // (faster builds, but slower initial page load)
   //
-  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+  if (process.env.SKIP_BUILD_STATIC_GENERATION === 'true') {
     return {
       paths: [],
       fallback: 'blocking',
@@ -45,12 +51,11 @@ export async function getStaticPaths() {
   }
 
   const events = await getAllEvents();
+  const validEvents = !events ? [] : events.filter((item) => item);
 
-  const paths = !events
-    ? []
-    : events.map((event) => ({
-        params: { id: event.id, slug: slugify(event.title ?? '') },
-      }));
+  const paths = validEvents.map((event) => ({
+    params: { id: event?.id, slug: slugify(event?.title || '') },
+  }));
 
   return { paths, fallback: true };
 }
