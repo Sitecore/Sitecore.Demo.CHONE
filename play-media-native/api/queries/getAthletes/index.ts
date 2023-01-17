@@ -36,8 +36,8 @@ query {
       }
       athleteQuote
       nationality
-      birthDate
-      careerStart
+      dateOfBirth
+      careerStartDate
       hobby
       relatedMedia {
         results {
@@ -71,8 +71,8 @@ export const getAllAthletes = async (
       sport: athlete.sport,
       athleteQuote: athlete.athleteQuote,
       nationality: athlete.nationality,
-      birthDate: athlete.birthDate,
-      careerStart: athlete.careerStart,
+      dateOfBirth: athlete.dateOfBirth,
+      careerStartDate: athlete.careerStartDate,
       hobby: athlete.hobby,
       relatedMedia: athlete.relatedMedia,
     });

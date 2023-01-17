@@ -16,8 +16,8 @@ export interface Athlete {
   };
   athleteQuote: string;
   nationality: string;
-  birthDate: string;
-  careerStart: string;
+  dateOfBirth: Date;
+  careerStartDate: Date;
   hobby: string;
   relatedMedia: {
     results: Partial<Media>[];

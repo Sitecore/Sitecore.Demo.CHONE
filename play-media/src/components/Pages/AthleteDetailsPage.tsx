@@ -1,3 +1,4 @@
+import { getDate, getYear } from '../../helpers/dateHelper';
 import { Athlete } from '../../interfaces/athlete';
 import { Event } from '../../interfaces/event';
 import { ShadowBox } from '../Common/ShadowBox';
@@ -20,9 +21,9 @@ export const AthleteDetailsPage = ({
           <ShadowBox color={athlete?.sport?.results[0]?.color}>
             <div>
               <span>Date of birth</span>
-              <h3>{athlete?.birthDate}</h3>
+              <h3>{getDate(athlete?.dateOfBirth)}</h3>
               <span>Career start</span>
-              <h3>{athlete?.careerStart}</h3>
+              <h3>{getYear(athlete?.careerStartDate)}</h3>
             </div>
             <div>
               <span>Nationality</span>

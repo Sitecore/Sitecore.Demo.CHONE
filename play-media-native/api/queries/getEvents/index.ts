@@ -46,7 +46,7 @@ query {
             id
             athleteName
             athleteQuote
-            birthDate
+            dateOfBirth
             nationality
             profilePhoto {
               results {
