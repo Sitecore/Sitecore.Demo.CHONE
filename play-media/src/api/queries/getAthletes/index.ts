@@ -128,10 +128,14 @@ const getAthleteByIdQuery = (id: string) => {
     }`;
 };
 
-export const getAthleteById = async (id: string): Promise<{ athlete: Partial<Athlete> }> => {
-  const athleteResponse: AthleteResponse = (await fetchGraphQL(getAthleteByIdQuery(id))) as AthleteResponse;
+export const getAthleteById = async (id: string): Promise<Partial<Athlete> | null> => {
+  try {
+    const athleteResponse: AthleteResponse = (await fetchGraphQL(
+      getAthleteByIdQuery(id)
+    )) as AthleteResponse;
 
-  return {
-    athlete: athleteResponse.data.athlete,
-  };
+    return athleteResponse.data.athlete;
+  } catch {
+    return null;
+  }
 };

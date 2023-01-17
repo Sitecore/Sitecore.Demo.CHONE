@@ -18,14 +18,18 @@ interface Props {
 }
 
 const EventDetail: FC<Props> = ({ event }) => {
-  return (
-    <>
-      <Head>
-        <title>{`${event.title} | PLAY! Media`}</title>
-      </Head>
-      <EventDetailsPage event={event} />
-    </>
-  );
+  if (event) {
+    return (
+      <>
+        <Head>
+          <title>{`${event.title} | PLAY! Media`}</title>
+        </Head>
+        <EventDetailsPage event={event} />
+      </>
+    );
+  }
+
+  return null;
 };
 
 export default EventDetail;
@@ -40,7 +44,14 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async ({ params }: EventParams) => {
-  const { event } = await getEventById(params.id);
+  const event = await getEventById(params.id);
+
+  if (!event) {
+    return {
+      notFound: true,
+      revalidate: 10,
+    };
+  }
 
   return {
     props: {

@@ -22,14 +22,18 @@ export default function AthleteDetail({
   athlete: Athlete;
   athleteEvents: Event[];
 }) {
-  return (
-    <>
-      <Head>
-        <title>{`${athlete.athleteName} | PLAY! Media`}</title>
-      </Head>
-      <AthleteDetailsPage athlete={athlete} athleteEvents={athleteEvents}></AthleteDetailsPage>
-    </>
-  );
+  if (athlete && athleteEvents) {
+    return (
+      <>
+        <Head>
+          <title>{`${athlete.athleteName} | PLAY! Media`}</title>
+        </Head>
+        <AthleteDetailsPage athlete={athlete} athleteEvents={athleteEvents}></AthleteDetailsPage>
+      </>
+    );
+  }
+
+  return null;
 }
 
 export async function getStaticPaths() {
@@ -42,7 +46,7 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async ({ params }: AthleteParams) => {
-  const athlete = (await getAthleteById(params.id)).athlete as Athlete;
+  const athlete = (await getAthleteById(params.id)) as Athlete;
 
   const getAthleteEvents = async (athlete: Athlete) => {
     const { events } = await getAllEvents();
@@ -52,7 +56,15 @@ export const getStaticProps = async ({ params }: AthleteParams) => {
 
     return athleteEvents as Event[];
   };
-  const athleteEvents = await getAthleteEvents(athlete);
+
+  const athleteEvents = athlete?.id ? await getAthleteEvents(athlete) : null;
+
+  if (!athlete) {
+    return {
+      notFound: true,
+      revalidate: 10,
+    };
+  }
 
   return {
     props: {

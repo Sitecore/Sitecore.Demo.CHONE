@@ -224,10 +224,14 @@ const getEventByIdQuery = (id: string) => {
     `;
 };
 
-export const getEventById = async (id: string): Promise<{ event: Partial<Event> }> => {
-  const eventResponse: EventResponse = (await fetchGraphQL(getEventByIdQuery(id))) as EventResponse;
+export const getEventById = async (id: string): Promise<Partial<Event> | null> => {
+  try {
+    const eventResponse: EventResponse = (await fetchGraphQL(
+      getEventByIdQuery(id)
+    )) as EventResponse;
 
-  return {
-    event: eventResponse.data.event,
-  };
+    return eventResponse.data.event;
+  } catch {
+    return null;
+  }
 };
