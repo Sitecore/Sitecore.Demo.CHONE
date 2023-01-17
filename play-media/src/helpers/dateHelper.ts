@@ -10,3 +10,8 @@ export const getTime = (date: Date): string =>
     hour: '2-digit',
     minute: '2-digit',
   });
+
+export const getYear = (date: Date): string =>
+  new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+  });
