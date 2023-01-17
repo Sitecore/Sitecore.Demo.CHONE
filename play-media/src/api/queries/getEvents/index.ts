@@ -100,30 +100,32 @@ query {
 }
 `;
 
-export const getAllEvents = async (): Promise<{ events: Partial<Event>[] }> => {
-  const results: AllEventsResponse = (await fetchGraphQL(eventsQuery)) as AllEventsResponse;
-  const events: Partial<Event>[] = [];
+export const getAllEvents = async (): Promise<Partial<Event>[] | null> => {
+  try {
+    const results: AllEventsResponse = (await fetchGraphQL(eventsQuery)) as AllEventsResponse;
+    const events: Partial<Event>[] = [];
 
-  results.data.allEvent.results.forEach((event: Partial<Event>) => {
-    events.push({
-      id: event.id,
-      title: event.title,
-      sport: event.sport,
-      isFeatured: event.isFeatured,
-      timeAndDate: event.timeAndDate,
-      location: event.location,
-      featuredImage: event.featuredImage,
-      relatedMedia: event.relatedMedia,
-      teaser: event.teaser,
-      body: event.body,
-      athletes: event.athletes,
-      similarEvents: event.similarEvents,
+    results.data.allEvent.results.forEach((event: Partial<Event>) => {
+      events.push({
+        id: event.id,
+        title: event.title,
+        sport: event.sport,
+        isFeatured: event.isFeatured,
+        timeAndDate: event.timeAndDate,
+        location: event.location,
+        featuredImage: event.featuredImage,
+        relatedMedia: event.relatedMedia,
+        teaser: event.teaser,
+        body: event.body,
+        athletes: event.athletes,
+        similarEvents: event.similarEvents,
+      });
     });
-  });
 
-  return {
-    events,
-  };
+    return events;
+  } catch {
+    return null;
+  }
 };
 
 const getEventByIdQuery = (id: string) => {

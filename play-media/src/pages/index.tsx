@@ -18,7 +18,7 @@ export default function Home({ events }: { events: Event[] }) {
 }
 
 export const getStaticProps = async () => {
-  const { events } = await getAllEvents();
+  const events = await getAllEvents();
 
   return {
     props: {

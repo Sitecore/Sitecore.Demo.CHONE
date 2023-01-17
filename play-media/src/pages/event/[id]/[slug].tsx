@@ -35,10 +35,23 @@ const EventDetail: FC<Props> = ({ event }) => {
 export default EventDetail;
 
 export async function getStaticPaths() {
-  const { events } = await getAllEvents();
-  const paths = events.map((event) => ({
-    params: { id: event.id, slug: slugify(event.title ?? '') },
-  }));
+  const events = await getAllEvents();
+
+  // When this is true (in preview environments) don't prerender any static pages
+  // (faster builds, but slower initial page load)
+  //
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
+
+  const paths = !events
+    ? []
+    : events.map((event) => ({
+        params: { id: event.id, slug: slugify(event.title ?? '') },
+      }));
 
   return { paths, fallback: true };
 }
@@ -46,12 +59,12 @@ export async function getStaticPaths() {
 export const getStaticProps = async ({ params }: EventParams) => {
   const event = await getEventById(params.id);
 
-  if (!event) {
-    return {
-      notFound: true,
-      revalidate: 10,
-    };
-  }
+  // if (!event) {
+  //   return {
+  //     notFound: true,
+  //     revalidate: 10,
+  //   };
+  // }
 
   return {
     props: {

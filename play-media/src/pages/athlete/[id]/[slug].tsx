@@ -5,6 +5,8 @@ import { AthleteDetailsPage } from '../../../components/Pages/AthleteDetailsPage
 import { slugify } from '../../../helpers/slugHelper';
 import { Athlete } from '../../../interfaces/athlete';
 import { Event } from '../../../interfaces/event';
+import { useRouter } from 'next/router';
+import { FallbackPage } from '../../../components/Pages/FallbackPage';
 
 export interface Params {
   id: string;
@@ -22,6 +24,13 @@ export default function AthleteDetail({
   athlete: Athlete;
   athleteEvents: Event[];
 }) {
+  const router = useRouter();
+
+  // if (router.isFallback) {
+  if (true) {
+    return <FallbackPage />;
+  }
+
   if (athlete && athleteEvents) {
     return (
       <>
@@ -38,6 +47,17 @@ export default function AthleteDetail({
 
 export async function getStaticPaths() {
   const { athletes } = await getAllAthletes();
+
+  // When this is true (in preview environments) don't prerender any static pages
+  // (faster builds, but slower initial page load)
+  //
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
+
   const paths = athletes.map((athlete) => ({
     params: { id: athlete.id, slug: slugify(athlete.athleteName ?? '') },
   }));
@@ -49,22 +69,26 @@ export const getStaticProps = async ({ params }: AthleteParams) => {
   const athlete = (await getAthleteById(params.id)) as Athlete;
 
   const getAthleteEvents = async (athlete: Athlete) => {
-    const { events } = await getAllEvents();
-    const athleteEvents = events.filter((event: Partial<Event>) =>
-      event?.athletes?.results.map((athlete: Partial<Athlete>) => athlete.id).includes(athlete.id)
-    );
+    const events = await getAllEvents();
+    const athleteEvents = !events
+      ? []
+      : events.filter((event: Partial<Event>) =>
+          event?.athletes?.results
+            .map((athlete: Partial<Athlete>) => athlete.id)
+            .includes(athlete.id)
+        );
 
     return athleteEvents as Event[];
   };
 
   const athleteEvents = athlete?.id ? await getAthleteEvents(athlete) : null;
 
-  if (!athlete) {
-    return {
-      notFound: true,
-      revalidate: 10,
-    };
-  }
+  // if (!athlete) {
+  //   return {
+  //     notFound: true,
+  //     revalidate: 10,
+  //   };
+  // }
 
   return {
     props: {
