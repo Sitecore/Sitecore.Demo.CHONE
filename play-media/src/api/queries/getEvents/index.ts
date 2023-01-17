@@ -45,7 +45,7 @@ query {
             id
             athleteName
             athleteQuote
-            birthDate
+            dateOfBirth
             nationality
             profilePhoto {
               results {
@@ -171,7 +171,7 @@ const getEventByIdQuery = (id: string) => {
               id
               athleteName
               athleteQuote
-              birthDate
+              dateOfBirth
               nationality
               profilePhoto {
                 results {
