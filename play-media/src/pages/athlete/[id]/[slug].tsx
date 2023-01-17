@@ -7,6 +7,7 @@ import { Athlete } from '../../../interfaces/athlete';
 import { Event } from '../../../interfaces/event';
 import { useRouter } from 'next/router';
 import { FallbackPage } from '../../../components/Pages/FallbackPage';
+import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
 export interface Params {
   id: string;
@@ -26,8 +27,7 @@ export default function AthleteDetail({
 }) {
   const router = useRouter();
 
-  // if (router.isFallback) {
-  if (true) {
+  if (router.isFallback) {
     return <FallbackPage />;
   }
 
@@ -46,9 +46,7 @@ export default function AthleteDetail({
 }
 
 export async function getStaticPaths() {
-  const { athletes } = await getAllAthletes();
-
-  // When this is true (in preview environments) don't prerender any static pages
+  // When this is true (in local or preview environments) don't prerender any static pages
   // (faster builds, but slower initial page load)
   //
   if (process.env.SKIP_BUILD_STATIC_GENERATION) {
@@ -58,9 +56,13 @@ export async function getStaticPaths() {
     };
   }
 
-  const paths = athletes.map((athlete) => ({
-    params: { id: athlete.id, slug: slugify(athlete.athleteName ?? '') },
-  }));
+  const athletes = await getAllAthletes();
+
+  const paths = !athletes
+    ? []
+    : athletes.map((athlete) => ({
+        params: { id: athlete.id, slug: slugify(athlete.athleteName ?? '') },
+      }));
 
   return { paths, fallback: true };
 }
@@ -83,18 +85,18 @@ export const getStaticProps = async ({ params }: AthleteParams) => {
 
   const athleteEvents = athlete?.id ? await getAthleteEvents(athlete) : null;
 
-  // if (!athlete) {
-  //   return {
-  //     notFound: true,
-  //     revalidate: 10,
-  //   };
-  // }
+  if (!athlete) {
+    return {
+      notFound: true,
+      revalidate: REVALIDATE_INTERVAL,
+    };
+  }
 
   return {
     props: {
       athlete,
       athleteEvents,
     },
-    revalidate: 10,
+    revalidate: REVALIDATE_INTERVAL,
   };
 };

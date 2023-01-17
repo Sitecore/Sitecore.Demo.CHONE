@@ -3,6 +3,7 @@ import { getAllEvents, getEventById } from '../../../api/queries/getEvents';
 import { slugify } from '../../../helpers/slugHelper';
 import Head from 'next/head';
 import EventDetailsPage from '../../../components/Pages/EventDetailsPage';
+import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
 export interface Params {
   id: string;
@@ -18,26 +19,22 @@ interface Props {
 }
 
 const EventDetail: FC<Props> = ({ event }) => {
-  if (event) {
-    return (
-      <>
-        <Head>
-          <title>{`${event.title} | PLAY! Media`}</title>
-        </Head>
-        <EventDetailsPage event={event} />
-      </>
-    );
-  }
+  const invalidData = !event;
 
-  return null;
+  return (
+    <>
+      <Head>
+        <title>{`${event.title} | PLAY! Media`}</title>
+      </Head>
+      {invalidData ? null : <EventDetailsPage event={event} />}
+    </>
+  );
 };
 
 export default EventDetail;
 
 export async function getStaticPaths() {
-  const events = await getAllEvents();
-
-  // When this is true (in preview environments) don't prerender any static pages
+  // When this is true (in local or preview environments) don't prerender any static pages
   // (faster builds, but slower initial page load)
   //
   if (process.env.SKIP_BUILD_STATIC_GENERATION) {
@@ -46,6 +43,8 @@ export async function getStaticPaths() {
       fallback: 'blocking',
     };
   }
+
+  const events = await getAllEvents();
 
   const paths = !events
     ? []
@@ -59,17 +58,17 @@ export async function getStaticPaths() {
 export const getStaticProps = async ({ params }: EventParams) => {
   const event = await getEventById(params.id);
 
-  // if (!event) {
-  //   return {
-  //     notFound: true,
-  //     revalidate: 10,
-  //   };
-  // }
+  if (!event) {
+    return {
+      notFound: true,
+      revalidate: REVALIDATE_INTERVAL,
+    };
+  }
 
   return {
     props: {
       event,
     },
-    revalidate: 10,
+    revalidate: REVALIDATE_INTERVAL,
   };
 };

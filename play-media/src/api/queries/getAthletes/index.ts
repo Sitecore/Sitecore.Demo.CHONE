@@ -52,30 +52,32 @@ query {
 }
 `;
 
-export const getAllAthletes = async (): Promise<{ athletes: Partial<Athlete>[] }> => {
-  const results: AllAthletesResponse = (await fetchGraphQL(athletesQuery)) as AllAthletesResponse;
-  const athletes: Partial<Athlete>[] = [];
+export const getAllAthletes = async (): Promise<Partial<Athlete>[] | null> => {
+  try {
+    const results: AllAthletesResponse = (await fetchGraphQL(athletesQuery)) as AllAthletesResponse;
+    const athletes: Partial<Athlete>[] = [];
 
-  results.data.allAthlete.results.forEach((athlete: Partial<Athlete>) => {
-    athletes.push({
-      id: athlete.id,
-      athleteName: athlete.athleteName,
-      profilePhoto: athlete.profilePhoto,
-      featuredImage: athlete.featuredImage,
-      isFeatured: athlete.isFeatured,
-      sport: athlete.sport,
-      athleteQuote: athlete.athleteQuote,
-      nationality: athlete.nationality,
-      dateOfBirth: athlete.dateOfBirth,
-      careerStartDate: athlete.careerStartDate,
-      hobby: athlete.hobby,
-      relatedMedia: athlete.relatedMedia,
+    results.data.allAthlete.results.forEach((athlete: Partial<Athlete>) => {
+      athletes.push({
+        id: athlete.id,
+        athleteName: athlete.athleteName,
+        profilePhoto: athlete.profilePhoto,
+        featuredImage: athlete.featuredImage,
+        isFeatured: athlete.isFeatured,
+        sport: athlete.sport,
+        athleteQuote: athlete.athleteQuote,
+        nationality: athlete.nationality,
+        dateOfBirth: athlete.dateOfBirth,
+        careerStartDate: athlete.careerStartDate,
+        hobby: athlete.hobby,
+        relatedMedia: athlete.relatedMedia,
+      });
     });
-  });
 
-  return {
-    athletes,
-  };
+    return athletes;
+  } catch {
+    return null;
+  }
 };
 
 const getAthleteByIdQuery = (id: string) => {
