@@ -15,7 +15,8 @@ section.container.content-section.athlete-info {
     @apply flex-row justify-around;
 
     span {
-      @apply text-gray;
+      @apply text-black-lightest;
+      @apply dark:text-gray;
     }
   }
 
@@ -26,7 +27,8 @@ section.container.content-section.athlete-info {
 }
 
 .events-title {
-  @apply font-bold text-center text-xl mt-8;
+  @apply font-bold text-center text-xl mt-8 text-black-lightest;
+  @apply dark:text-black;
 }
 
 .event-grid.event-grid-simple {

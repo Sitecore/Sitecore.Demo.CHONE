@@ -21,7 +21,7 @@ export const AthleteSliderCard = ({ athlete }: { athlete: Athlete }) => {
           title={athlete?.athleteName}
           body={
             <>
-              <span>{athlete?.sport?.results[0].title}</span>
+              <span>{athlete?.sport?.results[0]?.title}</span>
               <span>{athlete?.nationality}</span>
             </>
           }

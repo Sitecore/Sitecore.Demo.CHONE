@@ -1,5 +1,5 @@
-import { Media } from '../media';
-import { Sport } from '../sport';
+import { Media } from "../media";
+import { Sport } from "../sport";
 
 export interface Athlete {
   id: string;
@@ -16,8 +16,8 @@ export interface Athlete {
   };
   athleteQuote: string;
   nationality: string;
-  birthDate: string;
-  careerStart: string;
+  dateOfBirth: Date;
+  careerStartDate: Date;
   hobby: string;
   relatedMedia: {
     results: Partial<Media>[];
