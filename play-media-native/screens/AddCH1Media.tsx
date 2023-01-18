@@ -18,11 +18,18 @@ export const AddCH1MediaScreen = () => {
   const { data: media, isFetching } = useQuery("media", getAllMedia);
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
 
-  // const onSelect = useCallback(() => {
+  const onSelect = useCallback((image: Media) => {
+    setSelectedMedia((prevSelectedMedia) => {
+      if (prevSelectedMedia.includes(image)) {
+        return prevSelectedMedia.filter((item) => item !== image);
+      }
 
-  // }, [])
+      return [...prevSelectedMedia, image];
+    });
+  }, []);
 
-  // console.log("media", media);
+  console.log("media", media);
+  console.log("selectedMedia", selectedMedia);
 
   return (
     <>
@@ -33,7 +40,7 @@ export const AddCH1MediaScreen = () => {
         renderItem={({ item, index }) => (
           <SelectableImage
             key={item.id}
-            onSelect={() => console.log("hey")}
+            onSelect={() => onSelect(item)}
             selected={false}
             uri={item.fileUrl}
             style={fullWidthStyle}
