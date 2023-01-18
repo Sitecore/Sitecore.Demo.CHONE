@@ -6,8 +6,13 @@
   @apply block w-full h-full object-cover;
 }
 
+.slider-main {
+  @apply 2xl:relative 2xl:max-w-[60%] 2xl:m-auto;
+}
+
 .slider-thumb {
-  @apply h-[20vh] box-border py-3;
+  @apply h-[20vh] max-h-[300px] box-border py-3;
+  @apply 2xl:max-w-[1200px];
 }
 
 .slider-thumb .swiper-slide {
@@ -16,6 +21,7 @@
 
 .slider-thumb .swiper-slide img {
   @apply object-cover !important;
+  @apply xl:w-80;
 }
 
 .slider-thumb .swiper-slide-thumb-active {
@@ -23,11 +29,13 @@
 }
 
 .swiper-button-next::after {
-  @apply text-white hidden;
+  @apply text-gray hidden;
+  @apply dark:text-white;
   @apply md:block;
 }
 
 .swiper-button-prev::after {
-  @apply text-white hidden;
+  @apply text-gray hidden;
+  @apply dark:text-white;
   @apply md:block;
 }

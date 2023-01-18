@@ -27,7 +27,8 @@
     @apply md:block md:basis-2/5;
 
     h3 {
-      @apply text-xl my-0;
+      @apply text-xl my-0 text-black;
+      @apply dark:text-white;
     }
 
     blockquote {
@@ -50,6 +51,7 @@
   }
 
   &-nationality {
-    @apply text-gray;
+    @apply text-black;
+    @apply dark:text-gray;
   }
 }

@@ -8,7 +8,11 @@ body {
 }
 
 body {
-  @apply bg-black text-white overflow-x-hidden;
+  @apply bg-white text-black overflow-x-hidden;
+
+  &.dark {
+    @apply bg-black text-white;
+  }
 }
 
 a {

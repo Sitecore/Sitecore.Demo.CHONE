@@ -60,7 +60,7 @@ export const AthleteListingPage = ({
     }
     if (!!facetValues.athleteSport) {
       filteredAthletes = filteredAthletes.filter((athlete) => {
-        return athlete.sport.results[0].id === facetValues.athleteSport;
+        return athlete.sport.results[0]?.id === facetValues.athleteSport;
       });
     }
     return filteredAthletes;

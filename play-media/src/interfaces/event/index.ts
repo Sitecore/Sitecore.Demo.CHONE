@@ -5,7 +5,6 @@ import { Media } from '../media';
 export interface Event {
   id: string;
   title: string;
-  slug: string;
   sport: {
     results: Partial<Sport>[];
   };
@@ -19,9 +18,9 @@ export interface Event {
     results: Partial<Media>[];
   };
   teaser: string;
-  body: unknown;
+  body: any;
   athletes: {
-    results: Partial<Athlete>[];
+    results: Athlete[];
   };
   similarEvents: {
     results: Partial<Event>[];
@@ -33,5 +32,11 @@ export interface AllEventsResponse {
     allEvent: {
       results: Partial<Event>[];
     };
+  };
+}
+
+export interface EventResponse {
+  data: {
+    event: Partial<Event>;
   };
 }
