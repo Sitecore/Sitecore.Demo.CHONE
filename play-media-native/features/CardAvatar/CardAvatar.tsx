@@ -2,10 +2,11 @@ import { View } from "react-native";
 import { Avatar, Card, Text } from "react-native-paper";
 import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
 import { theme } from "../../theme/theme";
+import { getAccentColor, getTextColor } from "../../helpers/colorHelper";
 
 export const CardAvatar = ({ item, onCardPress }) => {
   const sport = item.sport?.results[0];
-  const color = sport.color || theme.colors.gray.DEFAULT;
+  const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
 
   return (
     <CardShadowBox color={color} onCardPress={onCardPress}>
@@ -44,6 +45,7 @@ export const CardAvatar = ({ item, onCardPress }) => {
             style={{
               alignSelf: "flex-start",
               backgroundColor: color,
+              color: getTextColor(color),
               left: -theme.spacing.xxs,
               paddingHorizontal: theme.spacing.xs,
               paddingVertical: theme.spacing.xxs,

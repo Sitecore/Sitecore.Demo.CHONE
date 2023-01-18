@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { ATHLETE_MOCK_IMG } from '../../constants/mockImages';
+import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
 import { slugify } from '../../helpers/slugHelper';
-import { getTextColor } from '../../helpers/textColorHelper';
 import { Athlete } from '../../interfaces/athlete';
 import { ShadowBox } from '../Common/ShadowBox';
 
 export const AthleteCard = ({ athlete }: { athlete: Athlete }) => {
-  const accentColor = athlete?.sport?.results[0]?.color;
+  const accentColor = getAccentColor(athlete?.sport?.results[0]?.title);
   const style = accentColor ? { backgroundColor: `${accentColor}` } : {};
 
   return (

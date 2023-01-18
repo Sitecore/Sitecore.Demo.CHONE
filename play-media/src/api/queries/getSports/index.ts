@@ -23,7 +23,6 @@ export const getAllSports = async (): Promise<{ sports: Partial<Sport>[] }> => {
       id: sport.id,
       title: sport.title,
       description: sport.description,
-      color: sport.color,
     });
   });
 

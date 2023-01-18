@@ -28,7 +28,6 @@ export const getAllSports = async (
       id: sport.id,
       title: sport.title,
       description: sport.description,
-      color: sport.color,
     });
   });
 
