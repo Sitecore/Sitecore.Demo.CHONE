@@ -1,0 +1,120 @@
+﻿id: fy8RiiWGUUyISIoANOI_Ug
+name: 'King of the air: the Alaska edition'
+fields:
+  title:
+    value: 'King of the air: the Alaska edition'
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  timeAndDate:
+    value: 2022-11-30T00:00:00.0000000+02:00
+    type: DateTime
+  location:
+    value: Alaska
+    type: ShortText
+  teaser:
+    value: 'The world’s top snowboarders compete in the third and final stop. '
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "The world’s top snowboarders compete in the third and final stop of the King of the air: the Alaska edition. Deep in the Alaskan backcountry, 12 riders set up at a glacial base camp for head-to-head competition."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "qzxnpHmwVUa-wL8v7SaAVQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/qzxnpHmwVUa-wL8v7SaAVQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "-Wjtw2SOuE-mm6Gz1_7QsA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/-Wjtw2SOuE-mm6Gz1_7QsA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "tseq5bpD9k2rbN4_K3vTNQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/tseq5bpD9k2rbN4_K3vTNQ"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "ZO99BtbiNUqdMBp1FwypDQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/ZO99BtbiNUqdMBp1FwypDQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "eG_Q9td_F0aotpvWJ2eJlA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/eG_Q9td_F0aotpvWJ2eJlA"
+      }
+    type: Reference
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "4df6kNV1p02_Yuxfuwv0Dg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/4df6kNV1p02_Yuxfuwv0Dg"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "4df6kNV1p02_Yuxfuwv0Dg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/4df6kNV1p02_Yuxfuwv0Dg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "8vMmgfFlFE6pwJq6XhrMSg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/8vMmgfFlFE6pwJq6XhrMSg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "iPenxZHYbk-LL28SXFs2gg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/iPenxZHYbk-LL28SXFs2gg"
+      }
+    type: Media

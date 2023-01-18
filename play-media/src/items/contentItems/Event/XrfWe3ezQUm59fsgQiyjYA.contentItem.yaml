@@ -39,8 +39,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "k0hvyvkyuiVNjww3oQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/k0hvyvkyuiVNjww3oQ"
+        "id": "k0--_hvyvkyuiVNjww_3oQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
       }
     type: Reference
   athletes:
@@ -49,15 +49,15 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "uOjQGioIUUmYPB5KzsZCQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5KzsZCQ"
+        "id": "uOjQGioIUUmYPB5Kz-sZCQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5Kz-sZCQ"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "TacYstuhJU6FxOSUoLQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/TacYstuhJU6FxOSUoLQ"
+        "id": "TacYstuhJU6-Fx-OSUoL-Q",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/TacYstuhJU6-Fx-OSUoL-Q"
       }
     type: Reference
   similarEvents:
@@ -66,41 +66,41 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "ywmaOWtjf0W733SV14dVQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/ywmaOWtjf0W733SV14dVQ"
+        "id": "ywmaOWtjf0W7-33SV14dVQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/ywmaOWtjf0W7-33SV14dVQ"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "eibM5C0OVUexMb30nl2Rg",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/eibM5C0OVUexMb30nl2Rg"
+        "id": "eibM5C0OVUexMb30n-l2Rg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/eibM5C0OVUexMb30n-l2Rg"
       }
     type: Reference
-  # featuredImage:
-  #   value:
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "d2r_vJt7Jku9TAJW6qC6FA",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/d2r_vJt7Jku9TAJW6qC6FA"
-  #     }
-  #   type: Media
-  # relatedMedia:
-  #   value:
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "wtHLxA5YN0mrrsR2kw9nHA",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/wtHLxA5YN0mrrsR2kw9nHA"
-  #     }
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "d2r_vJt7Jku9TAJW6qC6FA",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/d2r_vJt7Jku9TAJW6qC6FA"
-  #     }
-  #   type: Media
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "d2r_vJt7Jku9TAJW6qC6FA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/d2r_vJt7Jku9TAJW6qC6FA"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "wtHLxA5YN0mrrsR2kw9nHA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/wtHLxA5YN0mrrsR2kw9nHA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "d2r_vJt7Jku9TAJW6qC6FA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/d2r_vJt7Jku9TAJW6qC6FA"
+      }
+    type: Media

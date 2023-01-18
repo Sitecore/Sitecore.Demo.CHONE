@@ -1,4 +1,4 @@
-﻿id: bO5xDYy2EikGiocmTsDng
+﻿id: bO5xDYy-2EikGiocmTsDng
 name: Mountain biking
 fields:
   title:
@@ -7,6 +7,6 @@ fields:
   description:
     value: Mountain biking is a sport of riding bicycles off-road, often over rough terrain, usually using specially designed mountain bikes.
     type: ShortText
-  color:
-    value: '#FF8D00'
-    type: ShortText
+  featuredImage:
+    value: []
+    type: Media

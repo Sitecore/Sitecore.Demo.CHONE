@@ -7,6 +7,6 @@ fields:
   description:
     value: 'A winter sport that involves descending a slope that is covered with snow while standing on a board attached to a rider’s feet, using a special boot set onto a mounted binding. '
     type: ShortText
-  color:
-    value: '#006EF9'
-    type: ShortText
+  featuredImage:
+    value: []
+    type: Media

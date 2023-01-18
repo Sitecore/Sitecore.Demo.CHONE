@@ -1,4 +1,4 @@
-﻿id: ywmaOWtjf0W733SV14dVQ
+﻿id: ywmaOWtjf0W7-33SV14dVQ
 name: Ice climbing world championship
 fields:
   title:
@@ -39,8 +39,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "k0hvyvkyuiVNjww3oQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/k0hvyvkyuiVNjww3oQ"
+        "id": "k0--_hvyvkyuiVNjww_3oQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
       }
     type: Reference
   athletes:
@@ -49,34 +49,37 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "uOjQGioIUUmYPB5KzsZCQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5KzsZCQ"
+        "id": "uOjQGioIUUmYPB5Kz-sZCQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5Kz-sZCQ"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "TacYstuhJU6FxOSUoLQ",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/TacYstuhJU6FxOSUoLQ"
+        "id": "TacYstuhJU6-Fx-OSUoL-Q",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/TacYstuhJU6-Fx-OSUoL-Q"
       }
     type: Reference
-  # featuredImage:
-  #   value:
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "MWFM-JABBEyierR85C1Kxg",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/MWFM-JABBEyierR85C1Kxg"
-  #     }
-  #   type: Media
-  # relatedMedia:
-  #   value:
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "MWFM-JABBEyierR85C1Kxg",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/MWFM-JABBEyierR85C1Kxg"
-  #     }
-  #   type: Media
+  similarEvents:
+    value: []
+    type: Reference
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "MWFM-JABBEyierR85C1Kxg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/MWFM-JABBEyierR85C1Kxg"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "MWFM-JABBEyierR85C1Kxg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/MWFM-JABBEyierR85C1Kxg"
+      }
+    type: Media

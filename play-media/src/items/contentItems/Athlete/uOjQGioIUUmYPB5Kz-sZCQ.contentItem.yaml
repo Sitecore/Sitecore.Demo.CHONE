@@ -1,0 +1,72 @@
+﻿id: uOjQGioIUUmYPB5Kz-sZCQ
+name: Doria Allen
+fields:
+  athleteName:
+    value: Doria Allen
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  athleteQuote:
+    value: Don’t be afraid of failure. This is the way to succeed.
+    type: ShortText
+  nationality:
+    value: Polish
+    type: ShortText
+  hobby:
+    value: Gardening
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "k0--_hvyvkyuiVNjww_3oQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
+      }
+    type: Reference
+  profilePhoto:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "LTSXMfqPl02_zRszF_5olQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/LTSXMfqPl02_zRszF_5olQ"
+      }
+    type: Media
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "lY50v-FjLEyJDdQ3LKx22g",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/lY50v-FjLEyJDdQ3LKx22g"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "lY50v-FjLEyJDdQ3LKx22g",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/lY50v-FjLEyJDdQ3LKx22g"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "IiJr1_LAek6KnKQzvpLSjw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/IiJr1_LAek6KnKQzvpLSjw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "fZUBUWUTgkq5Hc98r68Brw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/fZUBUWUTgkq5Hc98r68Brw"
+      }
+    type: Media

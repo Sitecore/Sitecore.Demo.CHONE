@@ -1,26 +1,26 @@
-﻿id: VKShDiQ0iku2RgZFhylwyg
-name: Mike Mire
+﻿id: jHYl1rczfkKS47wXn2Ms-g
+name: Helena Zia
 fields:
   athleteName:
-    value: Mike Mire
+    value: Helena Zia
     type: ShortText
   isFeatured:
     value: true
     type: Boolean
   dateOfBirth:
-    value: 1994-04-12T01:00:00.0000000+03:00
+    value: 1997-04-28T01:00:00.0000000+03:00
     type: DateTime
   careerStartDate:
-    value: 2013-04-03T01:00:00.0000000+03:00
+    value: 2016-01-03T00:00:00.0000000+02:00
     type: DateTime
   athleteQuote:
-    value: If you can’t outplay them, outwork them.
+    value: You win some, lose some, and wreck some.
     type: ShortText
   nationality:
     value: Latvian
     type: ShortText
   hobby:
-    value: Hiking
+    value: Origami
     type: ShortText
   sport:
     value:
@@ -38,8 +38,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "pdZS78GrtEiMx4nN7s2Uqw",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/pdZS78GrtEiMx4nN7s2Uqw"
+        "id": "fevIpWlA_U-ZXSJg8V_Tog",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/fevIpWlA_U-ZXSJg8V_Tog"
       }
     type: Media
   featuredImage:
@@ -48,8 +48,8 @@ fields:
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "L9YYnGDLvkWPYJ3c9OHWOg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/L9YYnGDLvkWPYJ3c9OHWOg"
+        "id": "myaCdYPWek6rKTMXcn-mkw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/myaCdYPWek6rKTMXcn-mkw"
       }
     type: Media
   relatedMedia:
@@ -58,21 +58,21 @@ fields:
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "53wVGEla-0mR4B2nKzC6Jg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/53wVGEla-0mR4B2nKzC6Jg"
+        "id": "L9iisUHLSUeYriWiIbN9UQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/L9iisUHLSUeYriWiIbN9UQ"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "L9YYnGDLvkWPYJ3c9OHWOg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/L9YYnGDLvkWPYJ3c9OHWOg"
+        "id": "aXNV_xiKqUC4YW0cf3WGPA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/aXNV_xiKqUC4YW0cf3WGPA"
       }
     - >-
       {
         "type": "Link",
         "relatedType": "Media",
-        "id": "DrQJq31y50CC5rZTIHOhNg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/DrQJq31y50CC5rZTIHOhNg"
+        "id": "myaCdYPWek6rKTMXcn-mkw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/myaCdYPWek6rKTMXcn-mkw"
       }
     type: Media

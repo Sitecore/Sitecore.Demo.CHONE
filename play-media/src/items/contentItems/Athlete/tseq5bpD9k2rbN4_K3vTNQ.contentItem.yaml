@@ -1,0 +1,72 @@
+﻿id: tseq5bpD9k2rbN4_K3vTNQ
+name: Nick O’ Teen
+fields:
+  athleteName:
+    value: Nick O’ Teen
+    type: ShortText
+  isFeatured:
+    value: 
+    type: Boolean
+  athleteQuote:
+    value: It is action that creates motivation.
+    type: ShortText
+  nationality:
+    value: African
+    type: ShortText
+  hobby:
+    value: Volunteering
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
+      }
+    type: Reference
+  profilePhoto:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "dsh3arpZ0UmfBKDo3SfL1Q",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/dsh3arpZ0UmfBKDo3SfL1Q"
+      }
+    type: Media
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "9mQkjVnVTE26wk0-YQSjWw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/9mQkjVnVTE26wk0-YQSjWw"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "vA9b4i9c5km4B-aiksRZLQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/vA9b4i9c5km4B-aiksRZLQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "9mQkjVnVTE26wk0-YQSjWw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/9mQkjVnVTE26wk0-YQSjWw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "XISPRlB-oEKDEgTWwBdrvg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/XISPRlB-oEKDEgTWwBdrvg"
+      }
+    type: Media

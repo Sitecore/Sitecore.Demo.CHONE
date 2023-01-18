@@ -1,0 +1,173 @@
+﻿id: eG_Q9td_F0aotpvWJ2eJlA
+name: Filming of 'Critical time' with Louise G. Dolphin
+fields:
+  title:
+    value: Filming of 'Critical time' with Louise G. Dolphin
+    type: ShortText
+  isFeatured:
+    value: true
+    type: Boolean
+  timeAndDate:
+    value: 2022-12-18T00:00:00.0000000+02:00
+    type: DateTime
+  location:
+    value: China
+    type: ShortText
+  teaser:
+    value: Ricardo K. Chaney and crew’s magnum opus of an idea will start filming this Monday.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Louise G. Dolphin, a decorated slopestyle competitor, and Olympian, braved the backcountry to film for CRITICAL TIME in 2022, balancing a wild year that included competing at the Olympics in China as well as snowmobiling deep into British Columbia to stack big-mountain footage for the movie of the season."
+              }
+            ]
+          },
+          {
+            "type": "paragraph"
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "bold"
+                  }
+                ],
+                "text": "BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test "
+              }
+            ]
+          },
+          {
+            "type": "paragraph"
+          },
+          {
+            "type": "blockquote",
+            "content": [
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "type": "text",
+                    "text": "Quote for testing"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "codeBlock",
+            "attrs": {
+              "language": null
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "Code example bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla bla"
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "tseq5bpD9k2rbN4_K3vTNQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/tseq5bpD9k2rbN4_K3vTNQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "-Wjtw2SOuE-mm6Gz1_7QsA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/-Wjtw2SOuE-mm6Gz1_7QsA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "qzxnpHmwVUa-wL8v7SaAVQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/qzxnpHmwVUa-wL8v7SaAVQ"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "fy8RiiWGUUyISIoANOI_Ug",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/fy8RiiWGUUyISIoANOI_Ug"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "ZO99BtbiNUqdMBp1FwypDQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/ZO99BtbiNUqdMBp1FwypDQ"
+      }
+    type: Reference
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "iu3Gd2U0YkC8R-0qAJuSlQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/iu3Gd2U0YkC8R-0qAJuSlQ"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "eICbeym4vUmdrBQn9OUSNw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/eICbeym4vUmdrBQn9OUSNw"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "dd6ke9VEmEm_a0cjS0RWOA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/dd6ke9VEmEm_a0cjS0RWOA"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "iu3Gd2U0YkC8R-0qAJuSlQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/iu3Gd2U0YkC8R-0qAJuSlQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "jppytjGEGUOpewHrMxSuUg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/jppytjGEGUOpewHrMxSuUg"
+      }
+    type: Media

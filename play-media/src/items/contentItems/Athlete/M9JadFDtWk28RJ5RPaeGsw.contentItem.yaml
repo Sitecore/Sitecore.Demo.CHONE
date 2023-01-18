@@ -13,12 +13,6 @@ fields:
   nationality:
     value: French
     type: ShortText
-  birthDate:
-    value: 03/12/1978
-    type: ShortText
-  careerStart:
-    value: 1985
-    type: ShortText
   hobby:
     value: Rock painting
     type: ShortText
@@ -28,51 +22,51 @@ fields:
       {
         "type": "Link",
         "relatedType": "Content",
-        "id": "bO5xDYy2EikGiocmTsDng",
-        "uri": "http://content-api.sitecorecloud.io/api/content/v1/items/bO5xDYy2EikGiocmTsDng"
+        "id": "bO5xDYy-2EikGiocmTsDng",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
       }
     type: Reference
-  # profilePhoto:
-  #   value:
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "qVm2Xx7U7k6iItpSxn8teA",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/qVm2Xx7U7k6iItpSxn8teA"
-  #     }
-  #   type: Media
-  # featuredImage:
-  #   value:
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "XcwThKOaskCHgvOacyUX3g",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/XcwThKOaskCHgvOacyUX3g"
-  #     }
-  #   type: Media
-  # relatedMedia:
-  #   value:
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "XcwThKOaskCHgvOacyUX3g",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/XcwThKOaskCHgvOacyUX3g"
-  #     }
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "2fmFMiHZLUK_3qKN-SZc4g",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/2fmFMiHZLUK_3qKN-SZc4g"
-  #     }
-  #   - >-
-  #     {
-  #       "type": "Link",
-  #       "relatedType": "Media",
-  #       "id": "BRtFH02GwUucUu0biZBJ4g",
-  #       "uri": "http://content-api.sitecorecloud.io/api/content/v1/media/BRtFH02GwUucUu0biZBJ4g"
-  #     }
-  #   type: Media
+  profilePhoto:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "qVm2Xx7U7k6iItpSxn8teA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/qVm2Xx7U7k6iItpSxn8teA"
+      }
+    type: Media
+  featuredImage:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "XcwThKOaskCHgvOacyUX3g",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/XcwThKOaskCHgvOacyUX3g"
+      }
+    type: Media
+  relatedMedia:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "XcwThKOaskCHgvOacyUX3g",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/XcwThKOaskCHgvOacyUX3g"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "2fmFMiHZLUK_3qKN-SZc4g",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/2fmFMiHZLUK_3qKN-SZc4g"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Media",
+        "id": "BRtFH02GwUucUu0biZBJ4g",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/BRtFH02GwUucUu0biZBJ4g"
+      }
+    type: Media
