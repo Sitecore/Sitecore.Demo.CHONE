@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import {
   MediaTypeOptions,
@@ -20,7 +20,6 @@ const containerStyles = {
   height: "100%",
   backgroundColor: theme.colors.black.darkest,
   paddingTop: theme.spacing.xs,
-  overflowY: "scroll",
 };
 
 const buttonStyle = {
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     ...containerStyles,
   },
   simpleContainer: {
-    alignItems: "center",
+    // alignItems: "center",
     ...containerStyles,
   },
   card: {
@@ -199,7 +198,7 @@ export const AddMediaScreen = () => {
   }
 
   return (
-    <View style={styles.simpleContainer}>
+    <ScrollView contentContainerStyle={styles.simpleContainer}>
       <Text style={styles.header}>Select the media source</Text>
       <View style={{ flexDirection: "row" }}>
         <Card
@@ -244,6 +243,6 @@ export const AddMediaScreen = () => {
       </Text>
       <ListingImages images={media} />
       {actions}
-    </View>
+    </ScrollView>
   );
 };

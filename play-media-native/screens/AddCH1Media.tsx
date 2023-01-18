@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { StatusBar } from "react-native";
 import { theme } from "../theme/theme";
 import { useQuery } from "react-query";
@@ -6,6 +6,9 @@ import { getAllMedia } from "../api/queries/getMedia";
 import { Listing } from "../components/Listing/Listing";
 import { SelectableImage } from "../components/SelectableImage/SelectableImage";
 import { Media } from "../interfaces/media";
+import { BottomActions } from "../components/BottomActions/BottomActions";
+import { Button } from "react-native-paper";
+import { useMedia } from "../hooks/useMedia/useMedia";
 
 const fullWidthStyle = {
   borderRadius: 5,
@@ -14,22 +17,84 @@ const fullWidthStyle = {
   marginVertical: theme.spacing.xxs,
 };
 
-export const AddCH1MediaScreen = () => {
+const buttonStyle = {
+  borderWidth: 1,
+  borderColor: theme.colors.yellow.DEFAULT,
+  marginHorizontal: theme.spacing.xs,
+};
+
+const labelStyle = {
+  fontFamily: theme.fontFamily.medium,
+  fontSize: theme.fontSize.base,
+  lineHeight: 30,
+};
+
+export const AddCH1MediaScreen = ({ navigation }) => {
   const { data: media, isFetching } = useQuery("media", getAllMedia);
+  const {
+    add,
+    clear,
+    clearTemp,
+    editTemp,
+    media: storeMedia,
+    temp,
+  } = useMedia();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
 
-  const onSelect = useCallback((image: Media) => {
-    setSelectedMedia((prevSelectedMedia) => {
-      if (prevSelectedMedia.includes(image)) {
-        return prevSelectedMedia.filter((item) => item !== image);
+  const onSelect = useCallback(
+    (image: Media) => {
+      // Cannot change selected status if media in global state
+      //
+      if (storeMedia.includes(image)) {
+        return;
       }
 
-      return [...prevSelectedMedia, image];
-    });
-  }, []);
+      setSelectedMedia((prevSelectedMedia) => {
+        if (prevSelectedMedia.includes(image)) {
+          return prevSelectedMedia.filter((item) => item !== image);
+        }
 
-  console.log("media", media);
-  console.log("selectedMedia", selectedMedia);
+        return [...prevSelectedMedia, image];
+      });
+    },
+    [storeMedia]
+  );
+
+  const onAdd = useCallback(() => {
+    add(selectedMedia);
+    setSelectedMedia([]);
+    navigation.goBack();
+  }, [add, selectedMedia]);
+
+  const onDiscard = useCallback(() => {
+    setSelectedMedia([]);
+    navigation.goBack();
+  }, [navigation]);
+
+  const actions = useMemo(
+    () => (
+      <BottomActions>
+        <Button
+          mode="outlined"
+          labelStyle={labelStyle}
+          style={buttonStyle}
+          onPress={onDiscard}
+        >
+          Discard
+        </Button>
+        <Button
+          disabled={!selectedMedia?.length}
+          mode="contained"
+          labelStyle={labelStyle}
+          style={buttonStyle}
+          onPress={onAdd}
+        >
+          {selectedMedia?.length ? `Add ${selectedMedia.length} items` : `Add`}
+        </Button>
+      </BottomActions>
+    ),
+    [selectedMedia]
+  );
 
   return (
     <>
@@ -37,16 +102,17 @@ export const AddCH1MediaScreen = () => {
       <Listing
         data={media}
         isLoading={isFetching}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <SelectableImage
             key={item.id}
             onSelect={() => onSelect(item)}
-            selected={false}
+            selected={selectedMedia.includes(item) || storeMedia.includes(item)}
             uri={item.fileUrl}
             style={fullWidthStyle}
           />
         )}
       />
+      {actions}
     </>
   );
 };

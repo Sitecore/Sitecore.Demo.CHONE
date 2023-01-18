@@ -27,6 +27,7 @@ export const ActionMenu = ({
   const items = useMemo(() => {
     return menuItems.map((item) => (
       <Menu.Item
+        key={item.title}
         leadingIcon={item.icon}
         onPress={item.handler}
         title={item.title}

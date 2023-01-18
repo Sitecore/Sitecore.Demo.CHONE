@@ -68,8 +68,6 @@ export const ListingImages = ({ images, onDisplayTypeChange }: Props) => {
 
   const handleDisplayChange = useCallback(
     (value: string) => {
-      console.log("value", value);
-
       setDisplayType(value);
 
       if (onDisplayTypeChange) {
@@ -87,7 +85,6 @@ export const ListingImages = ({ images, onDisplayTypeChange }: Props) => {
             {items.map((item) => (
               <View key={item.fileUrl} style={{ width: "50%" }}>
                 <Image
-                  key={item.fileUrl}
                   style={{
                     height: 120,
                     margin: theme.spacing.xxs,

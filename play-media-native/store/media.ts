@@ -17,7 +17,12 @@ export const mediaSlice = createSlice({
   initialState,
   reducers: {
     add: (state: MediaState, action: PayloadAction<Media[]>) => {
-      state.media = [...state.media, ...action.payload];
+      const existingNames = state.media.map((item) => item.name);
+      const nonDuplicates = action.payload.filter(
+        (item) => !existingNames.includes(item.name)
+      );
+
+      state.media = [...state.media, ...nonDuplicates];
     },
     clear: (state: MediaState) => {
       state.media = [];
