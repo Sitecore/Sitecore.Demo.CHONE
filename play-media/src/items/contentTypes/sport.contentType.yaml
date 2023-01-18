@@ -25,10 +25,3 @@ fields:
   required: false
   helpText:
     en-US: ''
-- id: color
-  name:
-    en-US: Color
-  type: ShortText
-  required: false
-  helpText:
-    en-US: ''

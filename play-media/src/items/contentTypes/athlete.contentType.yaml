@@ -39,6 +39,20 @@ fields:
   required: false
   helpText:
     en-US: ''
+- id: dateOfBirth
+  name:
+    en-US: Date of birth
+  type: DateTime
+  required: false
+  helpText:
+    en-US: ''
+- id: careerStartDate
+  name:
+    en-US: Career start date
+  type: DateTime
+  required: false
+  helpText:
+    en-US: ''
 - id: athleteQuote
   name:
     en-US: Athlete quote
@@ -49,20 +63,6 @@ fields:
 - id: nationality
   name:
     en-US: Nationality
-  type: ShortText
-  required: false
-  helpText:
-    en-US: ''
-- id: birthDate
-  name:
-    en-US: Birth date
-  type: ShortText
-  required: false
-  helpText:
-    en-US: ''
-- id: careerStart
-  name:
-    en-US: Career start
   type: ShortText
   required: false
   helpText:
