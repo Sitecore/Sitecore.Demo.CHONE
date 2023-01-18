@@ -30,7 +30,6 @@ query {
             id
             title
             description
-            color
           }
         }
       }
@@ -107,7 +106,6 @@ const getAthleteByIdQuery = (id: string) => {
               id
               title
               description
-              color
             }
           }
         }

@@ -1,4 +1,5 @@
 import { EVENT_MOCK_IMG } from '../../constants/mockImages';
+import { getAccentColor } from '../../helpers/colorHelper';
 import { getEventSchedule } from '../../helpers/eventScheduleHelper';
 import { Event } from '../../interfaces/event';
 import { ShadowBox } from '../Common/ShadowBox';
@@ -11,7 +12,7 @@ export const HeroBannerEventDetails = ({ event }: { event: Event }) => {
       className="hero-banner-event-details"
     >
       <ShadowBox
-        color={event?.sport?.results[0]?.color}
+        color={getAccentColor(event?.sport?.results[0]?.title)}
         label={event?.sport?.results[0]?.title}
         eyebrow={getEventSchedule(event)}
         title={event?.title}

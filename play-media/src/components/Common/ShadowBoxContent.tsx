@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { getTextColor } from '../../helpers/textColorHelper';
+import { getTextColor } from '../../helpers/colorHelper';
 import { ConditionalLink } from './ConditionalLink';
 
 export type ShadowBoxContentProps = {

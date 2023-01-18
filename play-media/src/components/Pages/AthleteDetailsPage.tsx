@@ -1,3 +1,4 @@
+import { getAccentColor } from '../../helpers/colorHelper';
 import { getDate, getYear } from '../../helpers/dateHelper';
 import { Athlete } from '../../interfaces/athlete';
 import { Event } from '../../interfaces/event';
@@ -18,7 +19,7 @@ export const AthleteDetailsPage = ({
       <HeroBannerAthleteDetails athlete={athlete} />
       <section className="container content-section athlete-info">
         <article>
-          <ShadowBox color={athlete?.sport?.results[0]?.color}>
+          <ShadowBox color={getAccentColor(athlete?.sport?.results[0]?.title)}>
             <div>
               <span>Date of birth</span>
               <h3>{getDate(athlete?.dateOfBirth)}</h3>
