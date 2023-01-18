@@ -33,8 +33,8 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      athletes,
       sports,
+      athletes: athletes.sort((a, b) => a.athleteName!.localeCompare(b.athleteName!)),
     },
     revalidate: REVALIDATE_INTERVAL,
   };

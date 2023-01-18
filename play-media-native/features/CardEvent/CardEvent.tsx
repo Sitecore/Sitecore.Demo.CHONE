@@ -3,10 +3,11 @@ import { Card, Text } from "react-native-paper";
 import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
 import { getDate } from "../../helpers/dateHelper";
 import { theme } from "../../theme/theme";
+import { getAccentColor, getTextColor } from "../../helpers/colorHelper";
 
 export const CardEvent = ({ item, onCardPress }) => {
   const sport = item.sport?.results[0];
-  const color = sport?.color || theme.colors.gray.DEFAULT;
+  const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
   const rightLabel = `${getDate(item.timeAndDate)} | ${item.location}`;
 
   return (
@@ -33,7 +34,8 @@ export const CardEvent = ({ item, onCardPress }) => {
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             <Text
               style={{
-                backgroundColor: sport?.color || theme.colors.gray.DEFAULT,
+                backgroundColor: color,
+                color: getTextColor(color),
                 paddingLeft: theme.spacing.lg,
                 paddingRight: theme.spacing.xxs,
                 marginLeft: -theme.spacing.lg,

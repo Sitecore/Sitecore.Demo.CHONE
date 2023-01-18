@@ -30,7 +30,6 @@ query {
             id
             title
             description
-            color
           }
         }
       }

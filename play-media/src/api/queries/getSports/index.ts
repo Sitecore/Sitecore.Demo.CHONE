@@ -8,7 +8,6 @@ query {
       id
       title
       description
-      color
     }
   }
 }
@@ -24,7 +23,6 @@ export const getAllSports = async (): Promise<Partial<Sport>[] | null> => {
         id: sport.id,
         title: sport.title,
         description: sport.description,
-        color: sport.color,
       });
     });
 

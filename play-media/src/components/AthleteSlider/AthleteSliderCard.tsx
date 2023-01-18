@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ATHLETE_MOCK_IMG } from '../../constants/mockImages';
+import { getAccentColor } from '../../helpers/colorHelper';
 import { slugify } from '../../helpers/slugHelper';
 import { Athlete } from '../../interfaces/athlete';
 import { ShadowBox } from '../Common/ShadowBox';
@@ -16,7 +17,7 @@ export const AthleteSliderCard = ({ athlete }: { athlete: Athlete }) => {
           />
         </div>
         <ShadowBox
-          color={athlete?.sport?.results[0]?.color}
+          color={getAccentColor(athlete?.sport?.results[0]?.title)}
           label="Featured"
           title={athlete?.athleteName}
           body={

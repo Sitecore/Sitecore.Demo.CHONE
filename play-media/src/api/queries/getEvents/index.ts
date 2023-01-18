@@ -14,7 +14,6 @@ query {
            	id
             title
             description
-            color
           }
         }
       }
@@ -61,7 +60,6 @@ query {
                   id
                   title
                   description
-                  color
                 }
               }
             }
@@ -79,7 +77,6 @@ query {
                   id
                   title
                   description
-                  color
                 }
               }
             }
@@ -140,7 +137,6 @@ const getEventByIdQuery = (id: string) => {
               id
               title
               description
-              color
             }
           }
         }
@@ -187,7 +183,6 @@ const getEventByIdQuery = (id: string) => {
                     id
                     title
                     description
-                    color
                   }
                 }
               }
@@ -205,7 +200,6 @@ const getEventByIdQuery = (id: string) => {
                     id
                     title
                     description
-                    color
                   }
                 }
               }
