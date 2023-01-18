@@ -5,6 +5,7 @@ import { getEventSchedule } from '../../helpers/eventScheduleHelper';
 import Link from 'next/link';
 import { EVENT_MOCK_IMG } from '../../constants/mockImages';
 import { slugify } from '../../helpers/slugHelper';
+import { getAccentColor } from '../../helpers/colorHelper';
 
 interface Props {
   event: Event;
@@ -23,7 +24,7 @@ export const EventCard: FC<Props> = ({ event }) => {
         </div>
         <div className="event-card-content">
           <ShadowBox
-            color={event?.sport?.results[0]?.color}
+            color={getAccentColor(event?.sport?.results[0]?.title)}
             label={event?.sport?.results[0]?.title}
             eyebrow={getEventSchedule(event, true)}
             title={event?.title}

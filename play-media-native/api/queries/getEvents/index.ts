@@ -15,7 +15,6 @@ query {
            	id
             title
             description
-            color
           }
         }
       }
@@ -62,7 +61,6 @@ query {
                   id
                   title
                   description
-                  color
                 }
               }
             }
@@ -81,7 +79,6 @@ query {
                   id
                   title
                   description
-                  color
                 }
               }
             }
