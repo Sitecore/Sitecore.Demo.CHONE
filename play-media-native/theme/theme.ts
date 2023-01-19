@@ -55,6 +55,8 @@ export const theme = {
     DEFAULT: "Saira-Regular",
     medium: "Saira-Medium",
     bold: "Saira-Bold",
+    italic: "Saira-Italic",
+    mono: "Roboto-Mono",
   },
   fontSize: {
     xs: 16,
@@ -77,10 +79,21 @@ export const paperFontConfig = {
   default: {
     fontFamily: theme.fontFamily.DEFAULT,
     fontSize: theme.fontSize.xs,
+    lineHeight: theme.spacing.md,
+  },
+  headlineSmall: {
+    fontFamily: theme.fontFamily.bold,
+  },
+  headlineMedium: {
+    fontFamily: theme.fontFamily.bold,
+  },
+  headlineLarge: {
+    fontFamily: theme.fontFamily.bold,
   },
   titleSmall: {
     fontFamily: theme.fontFamily.bold,
     fontSize: theme.fontSize.sm,
+    lineHeight: theme.spacing.md,
   },
   titleMedium: {
     fontFamily: theme.fontFamily.bold,
@@ -90,6 +103,12 @@ export const paperFontConfig = {
   titleLarge: {
     fontFamily: theme.fontFamily.bold,
     fontSize: theme.fontSize.lg,
+    lineHeight: theme.spacing.lg,
+  },
+  labelSmall: {
+    fontFamily: theme.fontFamily.bold,
+    fontSize: theme.fontSize.xs,
+    lineHeight: theme.spacing.md,
   },
 };
 

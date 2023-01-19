@@ -45,6 +45,8 @@ export default function App() {
     "Saira-Regular": require("./assets/fonts/Saira-Regular.ttf"),
     "Saira-Medium": require("./assets/fonts/Saira-Medium.ttf"),
     "Saira-Bold": require("./assets/fonts/Saira-Bold.ttf"),
+    "Saira-Italic": require("./assets/fonts/Saira-Italic.ttf"),
+    "Roboto-Mono": require("./assets/fonts/RobotoMono-VariableFont_wght.ttf"),
   });
 
   // Auto refetch on re-connect

@@ -15,7 +15,7 @@ import { theme } from "../../theme/theme";
 
 type ListingProps = {
   data: any;
-  isLoading: boolean;
+  isLoading?: boolean;
   renderItem: ListRenderItem<any>;
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 };
