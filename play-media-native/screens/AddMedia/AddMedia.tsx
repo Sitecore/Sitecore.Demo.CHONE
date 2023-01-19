@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 import {
   MediaTypeOptions,
@@ -8,13 +8,14 @@ import {
   useCameraPermissions,
 } from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
-import { theme } from "../theme/theme";
-import { StackNavigationProp } from "../interfaces/navigators";
-import { Icon } from "../components/Icon/Icon";
-import { DeviceMedia } from "../interfaces/media";
-import { useMedia } from "../hooks/useMedia/useMedia";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { ListingImages } from "../features/ListingImages/ListingImages";
+import { theme } from "../../theme/theme";
+import { StackNavigationProp } from "../../interfaces/navigators";
+import { Icon } from "../../components/Icon/Icon";
+import { DeviceMedia } from "../../interfaces/media";
+import { useMedia } from "../../hooks/useMedia/useMedia";
+import { BottomActions } from "../../components/BottomActions/BottomActions";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ListingAddedMedia } from "./ListingAddedMedia";
 
 const containerStyles = {
   height: "100%",
@@ -63,7 +64,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
-    maxWidth: 300,
     textAlign: "center",
     marginBottom: theme.spacing.xs,
   },
@@ -198,7 +198,10 @@ export const AddMediaScreen = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.simpleContainer}>
+    <SafeAreaView
+      style={{ backgroundColor: theme.colors.black.darkest, height: "100%" }}
+    >
+      <StatusBar barStyle={"light-content"} />
       <Text style={styles.header}>Select the media source</Text>
       <View style={{ flexDirection: "row" }}>
         <Card
@@ -241,8 +244,8 @@ export const AddMediaScreen = () => {
       <Text style={{ ...styles.header, marginTop: theme.spacing.sm }}>
         Items Added
       </Text>
-      <ListingImages images={media} />
+      <ListingAddedMedia images={media} />
       {actions}
-    </ScrollView>
+    </SafeAreaView>
   );
 };

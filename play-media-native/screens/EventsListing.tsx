@@ -23,14 +23,14 @@ export const EventsListingScreen = ({ navigation }) => {
   return (
     <>
       <StatusBar barStyle={"light-content"} />
-      <Listing
+      {/* <Listing
         data={events}
         isLoading={isFetching}
         renderItem={({ item }) => (
           <CardEvent item={item} onCardPress={() => onCardPress(item)} />
         )}
         onScroll={calcScrollOffset}
-      />
+      /> */}
       <AnimatedFAB
         icon={"plus"}
         label={"Add new event"}
