@@ -5,7 +5,7 @@ fields:
     value: Mark Z. Spot
     type: ShortText
   isFeatured:
-    value: 
+    value: false
     type: Boolean
   athleteQuote:
     value: Passion first and everything will fall into place.

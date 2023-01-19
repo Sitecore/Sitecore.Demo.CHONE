@@ -5,7 +5,7 @@ fields:
     value: Nick O’ Teen
     type: ShortText
   isFeatured:
-    value: 
+    value: false
     type: Boolean
   athleteQuote:
     value: It is action that creates motivation.

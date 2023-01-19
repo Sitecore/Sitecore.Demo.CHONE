@@ -5,7 +5,7 @@ fields:
     value: Phil Down
     type: ShortText
   isFeatured:
-    value: 
+    value: false
     type: Boolean
   athleteQuote:
     value: A trophy carries dust. Memories last forever.
