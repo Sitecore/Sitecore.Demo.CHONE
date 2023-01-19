@@ -30,14 +30,13 @@ query {
             id
             title
             description
-            color
           }
         }
       }
       athleteQuote
       nationality
-      birthDate
-      careerStart
+      dateOfBirth
+      careerStartDate
       hobby
       relatedMedia {
         results {
@@ -52,30 +51,32 @@ query {
 }
 `;
 
-export const getAllAthletes = async (): Promise<{ athletes: Partial<Athlete>[] }> => {
-  const results: AllAthletesResponse = (await fetchGraphQL(athletesQuery)) as AllAthletesResponse;
-  const athletes: Partial<Athlete>[] = [];
+export const getAllAthletes = async (): Promise<Partial<Athlete>[] | null> => {
+  try {
+    const results: AllAthletesResponse = (await fetchGraphQL(athletesQuery)) as AllAthletesResponse;
+    const athletes: Partial<Athlete>[] = [];
 
-  results.data.allAthlete.results.forEach((athlete: Partial<Athlete>) => {
-    athletes.push({
-      id: athlete.id,
-      athleteName: athlete.athleteName,
-      profilePhoto: athlete.profilePhoto,
-      featuredImage: athlete.featuredImage,
-      isFeatured: athlete.isFeatured,
-      sport: athlete.sport,
-      athleteQuote: athlete.athleteQuote,
-      nationality: athlete.nationality,
-      birthDate: athlete.birthDate,
-      careerStart: athlete.careerStart,
-      hobby: athlete.hobby,
-      relatedMedia: athlete.relatedMedia,
+    results.data.allAthlete.results.forEach((athlete: Partial<Athlete>) => {
+      athletes.push({
+        id: athlete.id,
+        athleteName: athlete.athleteName,
+        profilePhoto: athlete.profilePhoto,
+        featuredImage: athlete.featuredImage,
+        isFeatured: athlete.isFeatured,
+        sport: athlete.sport,
+        athleteQuote: athlete.athleteQuote,
+        nationality: athlete.nationality,
+        dateOfBirth: athlete.dateOfBirth,
+        careerStartDate: athlete.careerStartDate,
+        hobby: athlete.hobby,
+        relatedMedia: athlete.relatedMedia,
+      });
     });
-  });
 
-  return {
-    athletes,
-  };
+    return athletes;
+  } catch {
+    return null;
+  }
 };
 
 const getAthleteByIdQuery = (id: string) => {
@@ -107,14 +108,13 @@ const getAthleteByIdQuery = (id: string) => {
               id
               title
               description
-              color
             }
           }
         }
         athleteQuote
         nationality
-        birthDate
-        careerStart
+        dateOfBirth
+        careerStartDate
         hobby
         relatedMedia {
           results {
@@ -128,10 +128,14 @@ const getAthleteByIdQuery = (id: string) => {
     }`;
 };
 
-export const getAthleteById = async (id: string): Promise<{ athlete: Partial<Athlete> }> => {
-  const athleteResponse: AthleteResponse = (await fetchGraphQL(getAthleteByIdQuery(id))) as AthleteResponse;
+export const getAthleteById = async (id: string): Promise<Partial<Athlete> | null> => {
+  try {
+    const athleteResponse: AthleteResponse = (await fetchGraphQL(
+      getAthleteByIdQuery(id)
+    )) as AthleteResponse;
 
-  return {
-    athlete: athleteResponse.data.athlete,
-  };
+    return athleteResponse.data.athlete;
+  } catch {
+    return null;
+  }
 };

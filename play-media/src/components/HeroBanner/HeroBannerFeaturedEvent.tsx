@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { EVENT_MOCK_IMG } from '../../constants/mockImages';
+import { getAccentColor } from '../../helpers/colorHelper';
 import { getEventSchedule } from '../../helpers/eventScheduleHelper';
 import { slugify } from '../../helpers/slugHelper';
 import { Event } from '../../interfaces/event';
@@ -14,7 +15,7 @@ export const HeroBannerFeaturedEvent = ({ event }: { event: Event }) => {
     >
       <Link href={`event/${event.id}/${slugify(event?.title)}`}>
         <ShadowBox
-          color={event?.sport?.results[0]?.color}
+          color={getAccentColor(event?.sport?.results[0]?.title)}
           label={event?.sport?.results[0]?.title}
           eyebrow={getEventSchedule(event)}
           title={event?.title}

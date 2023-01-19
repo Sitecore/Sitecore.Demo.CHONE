@@ -8,14 +8,12 @@ query {
     results {
       id
       title
-      slug
       sport {
         results {
           ... on Sport {
            	id
             title
             description
-            color
           }
         }
       }
@@ -46,7 +44,7 @@ query {
             id
             athleteName
             athleteQuote
-            birthDate
+            dateOfBirth
             nationality
             profilePhoto {
               results {
@@ -62,7 +60,6 @@ query {
                   id
                   title
                   description
-                  color
                 }
               }
             }
@@ -74,14 +71,12 @@ query {
           ... on Event {
             id
             title
-            slug
             sport {
               results {
                 ... on Sport {
                   id
                   title
                   description
-                  color
                 }
               }
             }
@@ -115,7 +110,6 @@ export const getAllEvents = async (
     events.push({
       id: event.id,
       title: event.title,
-      slug: event.slug,
       sport: event.sport,
       isFeatured: event.isFeatured,
       timeAndDate: event.timeAndDate,

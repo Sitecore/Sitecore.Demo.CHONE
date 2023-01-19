@@ -14,7 +14,6 @@ query {
            	id
             title
             description
-            color
           }
         }
       }
@@ -45,7 +44,7 @@ query {
             id
             athleteName
             athleteQuote
-            birthDate
+            dateOfBirth
             nationality
             profilePhoto {
               results {
@@ -61,7 +60,6 @@ query {
                   id
                   title
                   description
-                  color
                 }
               }
             }
@@ -79,7 +77,6 @@ query {
                   id
                   title
                   description
-                  color
                 }
               }
             }
@@ -100,30 +97,32 @@ query {
 }
 `;
 
-export const getAllEvents = async (): Promise<{ events: Partial<Event>[] }> => {
-  const results: AllEventsResponse = (await fetchGraphQL(eventsQuery)) as AllEventsResponse;
-  const events: Partial<Event>[] = [];
+export const getAllEvents = async (): Promise<Partial<Event>[] | null> => {
+  try {
+    const results: AllEventsResponse = (await fetchGraphQL(eventsQuery)) as AllEventsResponse;
+    const events: Partial<Event>[] = [];
 
-  results.data.allEvent.results.forEach((event: Partial<Event>) => {
-    events.push({
-      id: event.id,
-      title: event.title,
-      sport: event.sport,
-      isFeatured: event.isFeatured,
-      timeAndDate: event.timeAndDate,
-      location: event.location,
-      featuredImage: event.featuredImage,
-      relatedMedia: event.relatedMedia,
-      teaser: event.teaser,
-      body: event.body,
-      athletes: event.athletes,
-      similarEvents: event.similarEvents,
+    results.data.allEvent.results.forEach((event: Partial<Event>) => {
+      events.push({
+        id: event.id,
+        title: event.title,
+        sport: event.sport,
+        isFeatured: event.isFeatured,
+        timeAndDate: event.timeAndDate,
+        location: event.location,
+        featuredImage: event.featuredImage,
+        relatedMedia: event.relatedMedia,
+        teaser: event.teaser,
+        body: event.body,
+        athletes: event.athletes,
+        similarEvents: event.similarEvents,
+      });
     });
-  });
 
-  return {
-    events,
-  };
+    return events;
+  } catch {
+    return null;
+  }
 };
 
 const getEventByIdQuery = (id: string) => {
@@ -138,7 +137,6 @@ const getEventByIdQuery = (id: string) => {
               id
               title
               description
-              color
             }
           }
         }
@@ -169,7 +167,7 @@ const getEventByIdQuery = (id: string) => {
               id
               athleteName
               athleteQuote
-              birthDate
+              dateOfBirth
               nationality
               profilePhoto {
                 results {
@@ -185,7 +183,6 @@ const getEventByIdQuery = (id: string) => {
                     id
                     title
                     description
-                    color
                   }
                 }
               }
@@ -203,7 +200,6 @@ const getEventByIdQuery = (id: string) => {
                     id
                     title
                     description
-                    color
                   }
                 }
               }
@@ -224,10 +220,14 @@ const getEventByIdQuery = (id: string) => {
     `;
 };
 
-export const getEventById = async (id: string): Promise<{ event: Partial<Event> }> => {
-  const eventResponse: EventResponse = (await fetchGraphQL(getEventByIdQuery(id))) as EventResponse;
+export const getEventById = async (id: string): Promise<Partial<Event> | null> => {
+  try {
+    const eventResponse: EventResponse = (await fetchGraphQL(
+      getEventByIdQuery(id)
+    )) as EventResponse;
 
-  return {
-    event: eventResponse.data.event,
-  };
+    return eventResponse.data.event;
+  } catch {
+    return null;
+  }
 };

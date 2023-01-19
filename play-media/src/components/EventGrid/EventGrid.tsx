@@ -13,6 +13,10 @@ export const EventGrid = ({ events }: { events: Event[] }) => {
     [displayedEvents, events]
   );
 
+  if (!events) {
+    return null;
+  }
+
   return (
     <InfiniteScroll
       dataLength={displayedEvents.length}

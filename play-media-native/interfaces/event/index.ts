@@ -5,7 +5,6 @@ import { Media } from "../media";
 export interface Event {
   id: string;
   title: string;
-  slug: string;
   sport: {
     results: Partial<Sport>[];
   };

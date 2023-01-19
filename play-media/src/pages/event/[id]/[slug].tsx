@@ -3,6 +3,7 @@ import { getAllEvents, getEventById } from '../../../api/queries/getEvents';
 import { slugify } from '../../../helpers/slugHelper';
 import Head from 'next/head';
 import EventDetailsPage from '../../../components/Pages/EventDetailsPage';
+import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
 export interface Params {
   id: string;
@@ -18,6 +19,14 @@ interface Props {
 }
 
 const EventDetail: FC<Props> = ({ event }) => {
+  if (!event) {
+    return (
+      <Head>
+        <title>Event Detail | PLAY! Media</title>
+      </Head>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -31,21 +40,40 @@ const EventDetail: FC<Props> = ({ event }) => {
 export default EventDetail;
 
 export async function getStaticPaths() {
-  const { events } = await getAllEvents();
-  const paths = events.map((event) => ({
-    params: { id: event.id, slug: slugify(event.title ?? '') },
+  // When this is true (in local or preview environments) don't prerender any static pages
+  // (faster builds, but slower initial page load)
+  //
+  if (process.env.SKIP_BUILD_STATIC_GENERATION === 'true') {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
+
+  const events = await getAllEvents();
+  const validEvents = !events ? [] : events.filter((item) => item);
+
+  const paths = validEvents.map((event) => ({
+    params: { id: event?.id, slug: slugify(event?.title || '') },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 }
 
 export const getStaticProps = async ({ params }: EventParams) => {
-  const { event } = await getEventById(params.id);
+  const event = await getEventById(params.id);
+
+  if (!event) {
+    return {
+      notFound: true,
+      revalidate: REVALIDATE_INTERVAL,
+    };
+  }
 
   return {
     props: {
       event,
     },
-    revalidate: 10,
+    revalidate: REVALIDATE_INTERVAL,
   };
 };
