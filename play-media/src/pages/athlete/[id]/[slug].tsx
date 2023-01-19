@@ -5,6 +5,9 @@ import { AthleteDetailsPage } from '../../../components/Pages/AthleteDetailsPage
 import { slugify } from '../../../helpers/slugHelper';
 import { Athlete } from '../../../interfaces/athlete';
 import { Event } from '../../../interfaces/event';
+import { useRouter } from 'next/router';
+import { FallbackPage } from '../../../components/Pages/FallbackPage';
+import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
 export interface Params {
   id: string;
@@ -22,6 +25,20 @@ export default function AthleteDetail({
   athlete: Athlete;
   athleteEvents: Event[];
 }) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <FallbackPage />;
+  }
+
+  if (!athlete) {
+    return (
+      <Head>
+        <title>Athlete Detail | PLAY! Media</title>
+      </Head>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -33,32 +50,56 @@ export default function AthleteDetail({
 }
 
 export async function getStaticPaths() {
-  const { athletes } = await getAllAthletes();
-  const paths = athletes.map((athlete) => ({
-    params: { id: athlete.id, slug: slugify(athlete.athleteName ?? '') },
+  // When this is true (in local or preview environments) don't prerender any static pages
+  // (faster builds, but slower initial page load)
+  //
+  if (process.env.SKIP_BUILD_STATIC_GENERATION === 'true') {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
+
+  const athletes = await getAllAthletes();
+  const validAthletes = !athletes ? [] : athletes.filter((item) => item);
+
+  const paths = validAthletes.map((athlete) => ({
+    params: { id: athlete?.id, slug: slugify(athlete?.athleteName || '') },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: true };
 }
 
 export const getStaticProps = async ({ params }: AthleteParams) => {
-  const athlete = (await getAthleteById(params.id)).athlete as Athlete;
+  const athlete = (await getAthleteById(params.id)) as Athlete;
 
   const getAthleteEvents = async (athlete: Athlete) => {
-    const { events } = await getAllEvents();
-    const athleteEvents = events.filter((event: Partial<Event>) =>
-      event?.athletes?.results.map((athlete: Partial<Athlete>) => athlete.id).includes(athlete.id)
-    );
+    const events = await getAllEvents();
+    const athleteEvents = !events
+      ? []
+      : events.filter((event: Partial<Event>) =>
+          event?.athletes?.results
+            .map((athlete: Partial<Athlete>) => athlete.id)
+            .includes(athlete.id)
+        );
 
     return athleteEvents as Event[];
   };
-  const athleteEvents = await getAthleteEvents(athlete);
+
+  const athleteEvents = athlete?.id ? await getAthleteEvents(athlete) : null;
+
+  if (!athlete) {
+    return {
+      notFound: true,
+      revalidate: REVALIDATE_INTERVAL,
+    };
+  }
 
   return {
     props: {
       athlete,
       athleteEvents,
     },
-    revalidate: 10,
+    revalidate: REVALIDATE_INTERVAL,
   };
 };
