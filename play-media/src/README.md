@@ -31,6 +31,30 @@ To install the CLI, follow the [official instructions](https://doc.sitecore.com/
 npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <oauth-client-id> -cs <oauth-client-secret>
 ```
 
+### Pulling serialized assets from Content Hub ONE
+
+1. Pull all content types:
+
+   ```bash
+   npm run ser:pull-content-types
+   ```
+
+1. Pull all content items:
+
+   ```bash
+   npm run ser:pull-content-items
+   ```
+
+### Removing media fields from serialized assets before pushing to Content Hub ONE
+
+Currently the Content Hub ONE CLI does not allow media serialization, therefore you should first remove these fields from the content items.
+
+You can do so using a single command:
+
+```bash
+npm run remove-media-fields
+```
+
 ### Pushing serialized assets to Content Hub ONE
 
 1. Push all content types:
