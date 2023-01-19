@@ -5,9 +5,16 @@ import { HeroBannerFeaturedEvent } from '../HeroBanner/HeroBannerFeaturedEvent';
 import Slider from '../Slider/Slider';
 
 export const EventListingPage = ({ events }: { events: Event[] }) => {
-  const featuredEvents = useMemo(() => events.filter((event) => event.isFeatured), [events]);
+  const featuredEvents = useMemo(
+    () => (!events ? [] : events.filter((event) => event.isFeatured)),
+    [events]
+  );
 
   const featuredBanner = useMemo(() => {
+    if (!events) {
+      return null;
+    }
+
     if (featuredEvents.length === 0) {
       return <HeroBannerFeaturedEvent event={events[0]} />;
     }

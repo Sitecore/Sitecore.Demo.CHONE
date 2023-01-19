@@ -13,19 +13,21 @@ query {
 }
 `;
 
-export const getAllSports = async (): Promise<{ sports: Partial<Sport>[] }> => {
-  const results: AllSportsResponse = (await fetchGraphQL(sportsQuery)) as AllSportsResponse;
-  const sports: Partial<Sport>[] = [];
+export const getAllSports = async (): Promise<Partial<Sport>[] | null> => {
+  try {
+    const results: AllSportsResponse = (await fetchGraphQL(sportsQuery)) as AllSportsResponse;
+    const sports: Partial<Sport>[] = [];
 
-  results.data.allSport.results.forEach((sport: Partial<Sport>) => {
-    sports.push({
-      id: sport.id,
-      title: sport.title,
-      description: sport.description,
+    results.data.allSport.results.forEach((sport: Partial<Sport>) => {
+      sports.push({
+        id: sport.id,
+        title: sport.title,
+        description: sport.description,
+      });
     });
-  });
 
-  return {
-    sports,
-  };
+    return sports;
+  } catch {
+    return null;
+  }
 };
