@@ -29,7 +29,7 @@ fields:
   name:
     en-US: Is featured?
   type: Boolean
-  required: false
+  required: true
   helpText:
     en-US: ''
 - id: sport
