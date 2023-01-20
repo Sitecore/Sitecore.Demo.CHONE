@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { Avatar, Card, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
 
-export const CardShadowBox = ({ children, color, onCardPress }) => {
+export const CardShadowBox = ({ children, color, onCardPress = undefined }) => {
   return (
     <View
       style={{
