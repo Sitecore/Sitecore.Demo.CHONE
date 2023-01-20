@@ -8,8 +8,6 @@ interface Props {
 }
 
 export const SimpleText: FC<Props> = ({ children, marks = [] }) => {
-  const allMarks = `${marks.map((mark) => mark.type)}`;
-
   const styles = StyleSheet.create({
     bold: {
       fontFamily: theme.fontFamily.bold,

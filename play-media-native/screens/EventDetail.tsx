@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { getAllEvents } from "../api/queries/getEvents";
 import { useCallback, useEffect, useMemo } from "react";
-import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../theme/theme";
 import { getDate, getTime } from "../helpers/dateHelper";
@@ -13,6 +13,8 @@ import { RichText } from "../features/RichText/RichText";
 import { getAccentColor } from "../helpers/colorHelper";
 import { Media } from "../interfaces/media";
 import { ImageGrid } from "../features/ImageGrid/ImageGrid";
+import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
+import { CenteredScreen } from "../features/CenteredScreen/CenteredScreen";
 
 export const EventDetailScreen = ({ route, navigation }) => {
   const { data: events, isFetching } = useQuery("events", getAllEvents);
@@ -58,32 +60,14 @@ export const EventDetailScreen = ({ route, navigation }) => {
   });
 
   if (isFetching) {
-    return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: theme.colors.black.darkest,
-        }}
-      >
-        <ActivityIndicator animating={true} size="large" />
-      </SafeAreaView>
-    );
+    return <LoadingScreen />;
   }
 
   if (!event) {
     return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: theme.colors.black.darkest,
-        }}
-      >
+      <CenteredScreen>
         <Text>Event could not be fetched!</Text>
-      </SafeAreaView>
+      </CenteredScreen>
     );
   }
 

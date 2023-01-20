@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { SafeAreaView, StatusBar, StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { Logo } from "../components/Logo/Logo";
 import { Button, Text } from "react-native-paper";
 import { useConnections } from "../hooks/useConnections/useConnections";
@@ -7,6 +7,7 @@ import { Select } from "../components/Select/Select";
 import { BottomFAB } from "../components/BottomFAB/BottomFAB";
 import { Icon } from "../components/Icon/Icon";
 import { theme } from "../theme/theme";
+import { CenteredScreen } from "../features/CenteredScreen/CenteredScreen";
 
 const styles = StyleSheet.create({
   fabAdd: {
@@ -55,14 +56,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
   }, [connections]);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: theme.colors.black.darkest,
-      }}
-    >
+    <CenteredScreen>
       <StatusBar barStyle={"light-content"} />
       <View
         style={{
@@ -125,6 +119,6 @@ export const SelectConnectionScreen = ({ navigation }) => {
         icon="delete"
         onPress={onFabRemoveClick}
       />
-    </SafeAreaView>
+    </CenteredScreen>
   );
 };
