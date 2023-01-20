@@ -1,14 +1,14 @@
 import { useQuery } from "react-query";
-import { getAllAthletes } from "../api/queries/getAthletes";
+import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
 import { Avatar, Text } from "react-native-paper";
 import { Image, View } from "react-native";
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
-  const { data: athletes, isFetching } = useQuery("athletes", getAllAthletes);
-  const athlete = Array.isArray(athletes)
-    ? athletes.find((item) => item.id === route.params.id)
-    : undefined;
+  const { data, isFetching } = useQuery("athlete", () =>
+    getAthleteById(route.params.id)
+  );
+  const athlete = data?.athlete;
 
   useEffect(() => {
     navigation.setOptions({

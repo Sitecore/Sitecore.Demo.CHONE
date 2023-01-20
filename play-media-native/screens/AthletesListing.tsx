@@ -10,7 +10,9 @@ import { defaultStyle } from "../components/BottomFAB/BottomFAB";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 
 export const AthletesListingScreen = ({ navigation }) => {
-  const { data: athletes, isFetching } = useQuery("athletes", getAllAthletes);
+  const { data: athletes, isFetching } = useQuery("athletes", () =>
+    getAllAthletes()
+  );
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const onCardPress = useCallback((athlete: Athlete) => {
