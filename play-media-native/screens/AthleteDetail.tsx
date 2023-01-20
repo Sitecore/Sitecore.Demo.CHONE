@@ -25,7 +25,25 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   }
 
   return (
-    <View>
+    <ScrollView style={styles.container} decelerationRate={0.5}>
+      <Text style={styles.label}>Sport</Text>
+      <Text
+        style={[
+          styles.item,
+          { color: getAccentColor(athlete.sport.results[0]?.title) },
+        ]}
+      >
+        {athlete.sport.results[0].title}
+      </Text>
+      <Text style={styles.label}>Athlete name</Text>
+      <Text
+        style={[
+          styles.item,
+          { color: theme.colors.white.DEFAULT, marginBottom: theme.spacing.md },
+        ]}
+      >
+        {athlete.athleteName}
+      </Text>
       <Image
         source={{
           uri: athlete.featuredImage.results[0].fileUrl,
@@ -41,5 +59,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       <Text>{`Athlete name: ${athlete.athleteName}`}</Text>
       <Text>{`Athlete quote: ${athlete.athleteQuote}`}</Text>
     </View>
+    </ScrollView>
   );
 };
