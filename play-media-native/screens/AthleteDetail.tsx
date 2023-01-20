@@ -2,7 +2,13 @@ import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
 import { Text } from "react-native-paper";
-import { Image, View, StyleSheet, ScrollView } from "react-native";
+import {
+  Image,
+  View,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
 import { getDate, getYear } from "../helpers/dateHelper";
@@ -93,7 +99,8 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   }
 
   return (
-    <ScrollView style={styles.container} decelerationRate={0.5}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView decelerationRate={0.5}>
       <Text style={styles.label}>Sport</Text>
       <Text
         style={[
@@ -174,5 +181,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           </View>
         )}
     </ScrollView>
+    </SafeAreaView>
   );
 };
