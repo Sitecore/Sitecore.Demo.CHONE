@@ -17,19 +17,19 @@ import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.black.DEFAULT,
+    backgroundColor: theme.colors.black.darkest,
     paddingTop: theme.spacing.md,
+    paddingHorizontal: theme.spacing.sm,
   },
   label: {
     color: theme.colors.gray.DEFAULT,
-    marginLeft: theme.spacing.xs,
     marginBottom: theme.spacing.xs,
   },
   item: {
-    marginLeft: theme.spacing.xs,
     marginBottom: theme.spacing.xs,
     fontWeight: "bold",
   },
+  cardContainer: { marginVertical: theme.spacing.xs },
   quoteContainer: {
     display: "flex",
     flexDirection: "row",
@@ -68,14 +68,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   imageContainer: {
-    paddingHorizontal: theme.spacing.xs,
     marginBottom: theme.spacing.md,
   },
   imageLabel: {
     color: theme.colors.gray.DEFAULT,
     marginBottom: theme.spacing.xs,
   },
-  imageItem: { height: 300, width: "100%" },
+  imageItem: { height: 300, width: "100%", marginTop: theme.spacing.xs },
+  imageGrid: {
+    marginTop: theme.spacing.xs,
+  },
 });
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
@@ -105,7 +107,10 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       <Text
         style={[
           styles.item,
-          { color: getAccentColor(athlete.sport.results[0]?.title) },
+            {
+              color: getAccentColor(athlete.sport.results[0]?.title),
+              marginBottom: theme.spacing.sm,
+            },
         ]}
       >
         {athlete.sport.results[0].title}
@@ -114,12 +119,15 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       <Text
         style={[
           styles.item,
-          { color: theme.colors.white.DEFAULT, marginBottom: theme.spacing.md },
+            {
+              color: theme.colors.white.DEFAULT,
+              marginBottom: theme.spacing.md,
+            },
         ]}
       >
         {athlete.athleteName}
       </Text>
-      <View style={{ margin: theme.spacing.xs }}>
+        <View style={styles.cardContainer}>
         <CardShadowBox color={theme.colors.black.light}>
           <View
             style={[
@@ -137,15 +145,19 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           </View>
         </CardShadowBox>
       </View>
-      <View style={{ margin: theme.spacing.xs }}>
-        <CardShadowBox color={getAccentColor(athlete.sport.results[0]?.title)}>
+        <View style={styles.cardContainer}>
+          <CardShadowBox
+            color={getAccentColor(athlete.sport.results[0]?.title)}
+          >
           <View style={styles.infoContainer}>
             <Text style={styles.infoLabel}>Nationality</Text>
             <Text style={styles.infoItem}>{athlete.nationality}</Text>
             <Text style={styles.infoLabel}>Hobby</Text>
             <Text style={styles.infoItem}>{athlete.hobby}</Text>
             <Text style={styles.infoLabel}>Date of birth</Text>
-            <Text style={styles.infoItem}>{getDate(athlete.dateOfBirth)}</Text>
+              <Text style={styles.infoItem}>
+                {getDate(athlete.dateOfBirth)}
+              </Text>
             <Text style={styles.infoLabel}>Career start</Text>
             <Text style={styles.infoItem}>
               {getYear(athlete.careerStartDate)}
