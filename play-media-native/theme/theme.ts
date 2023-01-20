@@ -154,7 +154,7 @@ export const paperColorConfig = {
     },
     surfaceDisabled: theme.colors.black.lightest,
     onSurfaceDisabled: theme.colors.black.darkest,
-    backdrop: theme.colors.black.darkest,
+    backdrop: theme.colors.black.transluscent,
   },
 };
 

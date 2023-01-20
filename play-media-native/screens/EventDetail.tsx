@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { getAllEvents } from "../api/queries/getEvents";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../theme/theme";
@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { RichText } from "../features/RichText/RichText";
 import { getAccentColor } from "../helpers/colorHelper";
-import { ImageOverlayCarousel } from "../features/ImageOverlayCarousel/ImageOverlayCarousel";
 import { Media } from "../interfaces/media";
 import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 
@@ -20,9 +19,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
   const event = Array.isArray(events)
     ? events.find((item) => item.id === route.params.id)
     : undefined;
-
-  const [carouselStartIndex, setCarouselStartIndex] = useState(0);
-  const [overlayVisible, setOverlayVisible] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -35,15 +31,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
       id: athlete.id,
       title: athlete.athleteName,
     });
-  }, []);
-
-  const onOverlayClose = useCallback(() => {
-    setOverlayVisible(false);
-  }, []);
-
-  const onImagePress = useCallback((i: number) => {
-    setCarouselStartIndex(i);
-    setOverlayVisible(true);
   }, []);
 
   const accentColor = useMemo(
@@ -162,7 +149,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
         </View>
         <ImageGrid
           images={imageUriArray}
-          onImagePress={onImagePress}
           style={{ marginTop: theme.spacing.lg }}
         />
         <View style={{ marginTop: theme.spacing.lg }}>
@@ -175,12 +161,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
           ))}
         </View>
       </ScrollView>
-      <ImageOverlayCarousel
-        images={imageUriArray}
-        startIndex={carouselStartIndex}
-        visible={overlayVisible}
-        onClose={onOverlayClose}
-      />
     </SafeAreaView>
   );
 };
