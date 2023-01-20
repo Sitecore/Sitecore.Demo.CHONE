@@ -7,6 +7,7 @@ import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
 import { getDate, getYear } from "../helpers/dateHelper";
 import { getAccentColor } from "../helpers/colorHelper";
+import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 
 const styles = StyleSheet.create({
   container: {
@@ -163,6 +164,15 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           style={styles.imageItem}
         />
       </View>
+        {athlete?.relatedMedia?.results.length > 0 && (
+          <View style={styles.imageContainer}>
+            <Text style={styles.imageLabel}>Related media</Text>
+            <ImageGrid
+              style={styles.imageGrid}
+              images={athlete.relatedMedia.results.map((img) => img.fileUrl)}
+            />
+          </View>
+        )}
     </ScrollView>
   );
 };
