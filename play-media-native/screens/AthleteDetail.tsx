@@ -78,20 +78,23 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           </View>
         </CardShadowBox>
       </View>
+      <View style={styles.imageContainer}>
+        <Text style={styles.imageLabel}>Profile photo</Text>
       <Image
         source={{
-          uri: athlete.featuredImage.results[0].fileUrl,
+            uri: athlete.profilePhoto.results[0].fileUrl,
         }}
-        style={{ height: 300, width: "100%" }}
+          style={styles.imageItem}
       />
-      <Avatar.Image
-        size={100}
+      </View>
+      <View style={styles.imageContainer}>
+        <Text style={styles.imageLabel}>Featured image</Text>
+        <Image
         source={{
-          uri: athlete.profilePhoto.results[0].fileUrl,
+            uri: athlete.featuredImage.results[0].fileUrl,
         }}
+          style={styles.imageItem}
       />
-      <Text>{`Athlete name: ${athlete.athleteName}`}</Text>
-      <Text>{`Athlete quote: ${athlete.athleteQuote}`}</Text>
     </View>
     </ScrollView>
   );
