@@ -1,8 +1,75 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
-import { Avatar, Text } from "react-native-paper";
-import { Image, View } from "react-native";
+import { Text } from "react-native-paper";
+import { Image, View, StyleSheet, ScrollView } from "react-native";
+import { theme } from "../theme/theme";
+import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
+import { getDate, getYear } from "../helpers/dateHelper";
+import { getAccentColor } from "../helpers/colorHelper";
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: theme.colors.black.DEFAULT,
+    paddingTop: theme.spacing.md,
+  },
+  label: {
+    color: theme.colors.gray.DEFAULT,
+    marginLeft: theme.spacing.xs,
+    marginBottom: theme.spacing.xs,
+  },
+  item: {
+    marginLeft: theme.spacing.xs,
+    marginBottom: theme.spacing.xs,
+    fontWeight: "bold",
+  },
+  quoteContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  quotationMark: {
+    color: theme.colors.white.DEFAULT,
+    fontSize: 40,
+    fontWeight: "bold",
+    fontStyle: "italic",
+    width: "10%",
+    paddingLeft: theme.spacing.sm,
+  },
+  quote: {
+    color: theme.colors.white.DEFAULT,
+    fontSize: 20,
+    fontStyle: "italic",
+    width: "80%",
+    paddingVertical: theme.spacing.md,
+    textAlign: "center",
+  },
+  infoContainer: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: theme.colors.black.light,
+    paddingTop: theme.spacing.xs,
+  },
+  infoLabel: {
+    color: theme.colors.gray.DEFAULT,
+    marginLeft: theme.spacing.md,
+    marginBottom: theme.spacing.xxs,
+  },
+  infoItem: {
+    color: theme.colors.white.DEFAULT,
+    marginLeft: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    fontWeight: "bold",
+  },
+  imageContainer: {
+    paddingHorizontal: theme.spacing.xs,
+    marginBottom: theme.spacing.md,
+  },
+  imageLabel: {
+    color: theme.colors.gray.DEFAULT,
+    marginBottom: theme.spacing.xs,
+  },
+  imageItem: { height: 300, width: "100%" },
+});
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
   const { data, isFetching } = useQuery("athlete", () =>
@@ -80,22 +147,22 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       </View>
       <View style={styles.imageContainer}>
         <Text style={styles.imageLabel}>Profile photo</Text>
-      <Image
-        source={{
+        <Image
+          source={{
             uri: athlete.profilePhoto.results[0].fileUrl,
-        }}
+          }}
           style={styles.imageItem}
-      />
+        />
       </View>
       <View style={styles.imageContainer}>
         <Text style={styles.imageLabel}>Featured image</Text>
         <Image
-        source={{
+          source={{
             uri: athlete.featuredImage.results[0].fileUrl,
-        }}
+          }}
           style={styles.imageItem}
-      />
-    </View>
+        />
+      </View>
     </ScrollView>
   );
 };
