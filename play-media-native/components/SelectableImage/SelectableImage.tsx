@@ -3,15 +3,22 @@ import { Checkbox } from "react-native-paper";
 import { theme } from "../../theme/theme";
 
 interface Props {
+  containerStyle?: StyleProp<any>;
   onSelect: () => void;
   selected: boolean;
   style?: StyleProp<any>;
   uri: string;
 }
 
-export const SelectableImage = ({ onSelect, selected, style, uri }) => {
+export const SelectableImage = ({
+  containerStyle,
+  onSelect,
+  selected,
+  style,
+  uri,
+}: Props) => {
   return (
-    <View>
+    <View style={containerStyle}>
       <View
         style={{
           position: "absolute",

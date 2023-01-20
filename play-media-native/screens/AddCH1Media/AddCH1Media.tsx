@@ -1,14 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
-import { StatusBar } from "react-native";
-import { theme } from "../theme/theme";
+import { SafeAreaView, StatusBar } from "react-native";
+import { theme } from "../../theme/theme";
 import { useQuery } from "react-query";
-import { getAllMedia } from "../api/queries/getMedia";
-import { Listing } from "../components/Listing/Listing";
-import { SelectableImage } from "../components/SelectableImage/SelectableImage";
-import { Media } from "../interfaces/media";
-import { BottomActions } from "../components/BottomActions/BottomActions";
+import { getAllMedia } from "../../api/queries/getMedia";
+import { Media } from "../../interfaces/media";
+import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
-import { useMedia } from "../hooks/useMedia/useMedia";
+import { useMedia } from "../../hooks/useMedia/useMedia";
+import { ListingAddedCH1Media } from "./ListingAddedCH1Media";
 
 const fullWidthStyle = {
   borderRadius: 5,
@@ -31,14 +30,7 @@ const labelStyle = {
 
 export const AddCH1MediaScreen = ({ navigation }) => {
   const { data: media, isFetching } = useQuery("media", getAllMedia);
-  const {
-    add,
-    clear,
-    clearTemp,
-    editTemp,
-    media: storeMedia,
-    temp,
-  } = useMedia();
+  const { add, media: storeMedia, temp } = useMedia();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
 
   const onSelect = useCallback(
@@ -97,9 +89,11 @@ export const AddCH1MediaScreen = ({ navigation }) => {
   );
 
   return (
-    <>
+    <SafeAreaView
+      style={{ backgroundColor: theme.colors.black.darkest, height: "100%" }}
+    >
       <StatusBar barStyle={"light-content"} />
-      <Listing
+      {/* <Listing
         data={media}
         isLoading={isFetching}
         renderItem={({ item }) => (
@@ -111,8 +105,15 @@ export const AddCH1MediaScreen = ({ navigation }) => {
             style={fullWidthStyle}
           />
         )}
-      />
+      /> */}
+      {media?.length && (
+        <ListingAddedCH1Media
+          images={media}
+          onSelect={onSelect}
+          selectedMedia={selectedMedia}
+        />
+      )}
       {actions}
-    </>
+    </SafeAreaView>
   );
 };
