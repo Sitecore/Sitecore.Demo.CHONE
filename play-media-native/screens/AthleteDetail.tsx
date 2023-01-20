@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
-import { Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import {
   Image,
   View,
@@ -14,12 +14,19 @@ import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
 import { getDate, getYear } from "../helpers/dateHelper";
 import { getAccentColor, getTextColor } from "../helpers/colorHelper";
 import { ImageGrid } from "../features/ImageGrid/ImageGrid";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.black.darkest,
     paddingTop: theme.spacing.md,
     paddingHorizontal: theme.spacing.sm,
+  },
+  button: {
+    position: "absolute",
+    right: -theme.spacing.sm,
+    top: -theme.spacing.xs,
   },
   label: {
     color: theme.colors.gray.DEFAULT,
@@ -106,30 +113,60 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView decelerationRate={0.5}>
-        <Text style={styles.label}>Sport</Text>
-        <Text
-          style={[
-            styles.item,
-            {
-              color: getAccentColor(athlete.sport.results[0]?.title),
-              marginBottom: theme.spacing.sm,
-            },
-          ]}
-        >
-          {athlete.sport.results[0].title}
-        </Text>
-        <Text style={styles.label}>Athlete name</Text>
-        <Text
-          style={[
-            styles.item,
-            {
-              color: theme.colors.white.DEFAULT,
-              marginBottom: theme.spacing.md,
-            },
-          ]}
-        >
-          {athlete.athleteName}
-        </Text>
+        <View>
+          <Button
+            style={styles.button}
+            textColor={theme.colors.yellow.DEFAULT}
+            icon={({ size }) => (
+              <FontAwesomeIcon
+                icon={faEdit}
+                color={theme.colors.yellow.DEFAULT}
+                size={size}
+              />
+            )}
+          >
+            Change
+          </Button>
+          <Text style={styles.label}>Sport</Text>
+          <Text
+            style={[
+              styles.item,
+              {
+                color: getAccentColor(athlete.sport.results[0]?.title),
+                marginBottom: theme.spacing.sm,
+              },
+            ]}
+          >
+            {athlete.sport.results[0].title}
+          </Text>
+        </View>
+        <View>
+          <Button
+            style={styles.button}
+            textColor={theme.colors.yellow.DEFAULT}
+            icon={({ size }) => (
+              <FontAwesomeIcon
+                icon={faEdit}
+                color={theme.colors.yellow.DEFAULT}
+                size={size}
+              />
+            )}
+          >
+            Edit info
+          </Button>
+          <Text style={styles.label}>Athlete name</Text>
+          <Text
+            style={[
+              styles.item,
+              {
+                color: theme.colors.white.DEFAULT,
+                marginBottom: theme.spacing.md,
+              },
+            ]}
+          >
+            {athlete.athleteName}
+          </Text>
+        </View>
         <View style={styles.cardContainer}>
           <CardShadowBox color={theme.colors.black.light}>
             <View
