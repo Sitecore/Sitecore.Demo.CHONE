@@ -2,21 +2,23 @@
   "name": "play-media",
   "version": "0.1.0",
   "private": true,
+  "description": "PLAY! Media Next.js website using Content Hub ONE",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "tenant:add": "ch-one-cli tenant add",
-    "tenant:list": "ch-one-cli tenant list",
-    "ser:pull-content-types": "cd items && ch-one-cli ser pull content-type",
-    "ser:push-content-types": "cd items && ch-one-cli ser push content-type",
-    "ser:pull-content-items": "cd items && ch-one-cli ser pull content-item -c Sport && ch-one-cli ser pull content-item -c Athlete && ch-one-cli ser pull content-item -c Event",
-    "ser:push-content-items": "cd items && ch-one-cli ser push content-item -c Sport && ch-one-cli ser push content-item -c Athlete && ch-one-cli ser push content-item -c Event",
-    "publish-item": "cd items && ch-one-cli delivery content publish",
-    "publish-all-items": "ts-node --project tsconfig.scripts.json scripts/publishContentItems.ts",
-    "remove-media-fields": "ts-node --project tsconfig.scripts.json scripts/removeMediaFromContentItems.ts"
+    "lint": "next lint"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sitecore/Sitecore.Demo.CHONE.git"
+  },
+  "author": "Sitecore Demo Solutions team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sitecore/Sitecore.Demo.CHONE/issues"
+  },
+  "homepage": "https://github.com/Sitecore/Sitecore.Demo.CHONE#readme",
   "dependencies": {
     "@types/node": "18.11.10",
     "@types/react": "18.0.26",
@@ -38,14 +40,11 @@
   },
   "devDependencies": {
     "@types/color-hash": "^1.0.2",
-    "@types/js-yaml": "^4.0.5",
     "autoprefixer": "^10.4.13",
-    "js-yaml": "^4.1.0",
     "postcss": "^8.4.19",
     "stylelint": "^14.16.0",
     "stylelint-config-prettier": "^9.0.4",
     "stylelint-config-standard": "^29.0.0",
-    "tailwindcss": "^3.2.4",
-    "ts-node": "^10.9.1"
+    "tailwindcss": "^3.2.4"
   }
 }
