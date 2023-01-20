@@ -12,7 +12,7 @@ import {
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
 import { getDate, getYear } from "../helpers/dateHelper";
-import { getAccentColor } from "../helpers/colorHelper";
+import { getAccentColor, getTextColor } from "../helpers/colorHelper";
 import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 
 const styles = StyleSheet.create({
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   quotationMark: {
-    color: theme.colors.white.DEFAULT,
     fontSize: 40,
     fontWeight: "bold",
     fontStyle: "italic",
@@ -43,7 +42,6 @@ const styles = StyleSheet.create({
     paddingLeft: theme.spacing.sm,
   },
   quote: {
-    color: theme.colors.white.DEFAULT,
     fontSize: 20,
     fontStyle: "italic",
     width: "80%",
@@ -100,6 +98,11 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     return <Text>Athlete could not be fetched!</Text>;
   }
 
+  const accentColor =
+    getAccentColor(athlete?.sport?.results[0]?.title) ||
+    theme.colors.gray.DEFAULT;
+  const textColor = getTextColor(accentColor) || theme.colors.white.DEFAULT;
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView decelerationRate={0.5}>
@@ -133,15 +136,19 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
               style={[
                 styles.quoteContainer,
                 {
-                  backgroundColor: getAccentColor(
-                    athlete.sport.results[0]?.title
-                  ),
+                  backgroundColor: accentColor,
                 },
               ]}
             >
-              <Text style={styles.quotationMark}>"</Text>
-              <Text style={styles.quote}>{athlete.athleteQuote}</Text>
-              <Text style={styles.quotationMark}>"</Text>
+              <Text style={[styles.quotationMark, { color: textColor }]}>
+                "
+              </Text>
+              <Text style={[styles.quote, { color: textColor }]}>
+                {athlete.athleteQuote}
+              </Text>
+              <Text style={[styles.quotationMark, { color: textColor }]}>
+                "
+              </Text>
             </View>
           </CardShadowBox>
         </View>
