@@ -6,8 +6,8 @@ import { getAllAthletes } from "../api/queries/getAthletes";
 import { useQuery } from "react-query";
 import { StatusBar } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
-import { defaultStyle } from "../components/BottomFAB/BottomFAB";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
+import { styles } from "../theme/styles";
 
 export const AthletesListingScreen = ({ navigation }) => {
   const { data: athletes, isFetching } = useQuery("athletes", () =>
@@ -40,7 +40,7 @@ export const AthletesListingScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("AddAthlete")}
         animateFrom={"right"}
         iconMode={"dynamic"}
-        style={defaultStyle.fab}
+        style={styles.fab}
       />
     </>
   );
