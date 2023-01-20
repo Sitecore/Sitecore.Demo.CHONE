@@ -16,6 +16,8 @@ const walk = (dir: fs.PathLike): fs.PathLike[] => {
   return results as fs.PathLike[];
 };
 
+console.log('Removing media fields...');
+
 // Find all content item paths
 const contentItemPaths = walk(`${__dirname}/../items/contentItems`);
 
@@ -28,11 +30,24 @@ contentItemPaths.forEach((path) => {
 
     // Remove the media fields (that currently cannot be serialized using the Content Hub ONE CLI)
     // from each content item's yaml file
-    const edited = yaml.dump(doc, {
+    let edited = yaml.dump(doc, {
       replacer: (key, value) => (keysToRemove.includes(key) ? undefined : value),
+      noArrayIndent: true,
+      lineWidth: -1,
     });
 
-    fs.writeFileSync(path, edited);
+    // Remove single quotes around IDs
+    edited = edited.replace(/^(id: )'([^']+)'/g, '$1$2');
+
+    // Convert '|-' back to '>-'
+    edited = edited.replace(/^(\s*- )\|-/gm, '$1>-');
+    edited = edited.replace(/^(\s*value: )\|-/gm, '$1>-');
+
+    // Convert LF line endings back to CRLF
+    edited = edited.replace(/\n(?<!\r\n)/g, '\r\n');
+
+    // Rewrite the file with a UTF8 byte order mark (BOM) prefix
+    fs.writeFileSync(path, `\ufeff${edited}`, { encoding: 'utf8' });
   } catch (e) {
     console.log(e);
   }

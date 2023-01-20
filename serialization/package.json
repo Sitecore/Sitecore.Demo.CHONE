@@ -11,11 +11,10 @@
     "tenant:list": "ch-one-cli tenant list",
     "pull:types": "cd items && ch-one-cli ser pull content-type",
     "push:types": "cd items && ch-one-cli ser push content-type",
-    "pull:items": "cd items && ch-one-cli ser pull content-item -c Sport && ch-one-cli ser pull content-item -c Athlete && ch-one-cli ser pull content-item -c Event",
+    "pull:items": "cd items && ch-one-cli ser pull content-item -c Sport && ch-one-cli ser pull content-item -c Athlete && ch-one-cli ser pull content-item -c Event && cd .. && ts-node scripts/removeMediaFromContentItems.ts",
     "push:items": "cd items && ch-one-cli ser push content-item -c Sport && ch-one-cli ser push content-item -c Athlete && ch-one-cli ser push content-item -c Event",
     "publish:item": "cd items && ch-one-cli delivery content publish",
-    "publish:items": "ts-node --project tsconfig.scripts.json scripts/publishContentItems.ts",
-    "remove-media-fields": "ts-node --project tsconfig.scripts.json scripts/removeMediaFromContentItems.ts"
+    "publish:items": "ts-node scripts/publishContentItems.ts"
   },
   "repository": {
     "type": "git",

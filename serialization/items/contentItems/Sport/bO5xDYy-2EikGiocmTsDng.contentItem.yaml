@@ -7,6 +7,3 @@ fields:
   description:
     value: Mountain biking is a sport of riding bicycles off-road, often over rough terrain, usually using specially designed mountain bikes.
     type: ShortText
-  featuredImage:
-    value: []
-    type: Media

@@ -8,7 +8,7 @@ fields:
     value: false
     type: Boolean
   timeAndDate:
-    value: 2023-01-25T00:00:00.0000000+02:00
+    value: 2023-01-24T22:00:00.000Z
     type: DateTime
   location:
     value: French Alps
@@ -61,25 +61,19 @@ fields:
       }
     type: Reference
   similarEvents:
-    value: []
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "eibM5C0OVUexMb30n-l2Rg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/eibM5C0OVUexMb30n-l2Rg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "XrfWe3ezQUm59fsgQiyjYA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/XrfWe3ezQUm59fsgQiyjYA"
+      }
     type: Reference
-  featuredImage:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "MWFM-JABBEyierR85C1Kxg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/MWFM-JABBEyierR85C1Kxg"
-      }
-    type: Media
-  relatedMedia:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "MWFM-JABBEyierR85C1Kxg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/MWFM-JABBEyierR85C1Kxg"
-      }
-    type: Media

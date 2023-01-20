@@ -7,6 +7,3 @@ fields:
   description:
     value: Climbing is the activity of using one's hands, feet, or any other part of the body to ascend a steep topographical object.
     type: ShortText
-  featuredImage:
-    value: []
-    type: Media

@@ -8,7 +8,7 @@ fields:
     value: false
     type: Boolean
   timeAndDate:
-    value: 2023-10-10T01:00:00.0000000+03:00
+    value: 2023-10-09T22:00:00.000Z
     type: DateTime
   location:
     value: California
@@ -62,38 +62,11 @@ fields:
         "id": "gF8ESrWYOEqZen_1Sf2kUQ",
         "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/gF8ESrWYOEqZen_1Sf2kUQ"
       }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "m4KjdQZmekSMkbbz51_umQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/m4KjdQZmekSMkbbz51_umQ"
+      }
     type: Reference
-  featuredImage:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "fvxx9tyJ9kOs-l2zwlFFiA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/fvxx9tyJ9kOs-l2zwlFFiA"
-      }
-    type: Media
-  relatedMedia:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "2B4UIzJru0iCMPgKOa3lVQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/2B4UIzJru0iCMPgKOa3lVQ"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "okt_XZWc40SxzQUJf8mq7g",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/okt_XZWc40SxzQUJf8mq7g"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "fvxx9tyJ9kOs-l2zwlFFiA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/fvxx9tyJ9kOs-l2zwlFFiA"
-      }
-    type: Media

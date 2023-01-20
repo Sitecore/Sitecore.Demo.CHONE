@@ -8,7 +8,7 @@ fields:
     value: false
     type: Boolean
   timeAndDate:
-    value: 2022-12-16T00:00:00.0000000+02:00
+    value: 2022-12-15T22:00:00.000Z
     type: DateTime
   location:
     value: Marseille, France
@@ -61,39 +61,19 @@ fields:
       }
     type: Reference
   similarEvents:
-    value: []
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "_DMvNe_n6EaXJJLvDJQG8w",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/_DMvNe_n6EaXJJLvDJQG8w"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "m4KjdQZmekSMkbbz51_umQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/m4KjdQZmekSMkbbz51_umQ"
+      }
     type: Reference
-  featuredImage:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "kbFKD_Wfo0q5ybomqoXmpA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/kbFKD_Wfo0q5ybomqoXmpA"
-      }
-    type: Media
-  relatedMedia:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "6oAIIENkdEicr7wI9sUlQw",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/6oAIIENkdEicr7wI9sUlQw"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "kbFKD_Wfo0q5ybomqoXmpA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/kbFKD_Wfo0q5ybomqoXmpA"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "zcOUCVU9GEaXmc4DaS0jFg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/zcOUCVU9GEaXmc4DaS0jFg"
-      }
-    type: Media

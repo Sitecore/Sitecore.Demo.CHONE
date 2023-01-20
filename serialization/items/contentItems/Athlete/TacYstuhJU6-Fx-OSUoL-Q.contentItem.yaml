@@ -7,6 +7,12 @@ fields:
   isFeatured:
     value: true
     type: Boolean
+  dateOfBirth:
+    value: null
+    type: DateTime
+  careerStartDate:
+    value: null
+    type: DateTime
   athleteQuote:
     value: Winners never quit and quitters never win.
     type: ShortText
@@ -26,47 +32,3 @@ fields:
         "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
       }
     type: Reference
-  profilePhoto:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "zvO8rqihIk2zQR74-dkQNA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/zvO8rqihIk2zQR74-dkQNA"
-      }
-    type: Media
-  featuredImage:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "2rVZg5sVFUemjwHSTexL1A",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/2rVZg5sVFUemjwHSTexL1A"
-      }
-    type: Media
-  relatedMedia:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "YoLjCqhmUkiY6sIJwrkpKA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/YoLjCqhmUkiY6sIJwrkpKA"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "2rVZg5sVFUemjwHSTexL1A",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/2rVZg5sVFUemjwHSTexL1A"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "ypw5D3yWm0OhDSerAQ1nKA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/ypw5D3yWm0OhDSerAQ1nKA"
-      }
-    type: Media

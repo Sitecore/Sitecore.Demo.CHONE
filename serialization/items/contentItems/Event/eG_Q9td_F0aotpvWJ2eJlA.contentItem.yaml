@@ -5,10 +5,10 @@ fields:
     value: Filming of 'Critical time' with Louise G. Dolphin
     type: ShortText
   isFeatured:
-    value: true
+    value: false
     type: Boolean
   timeAndDate:
-    value: 2022-12-18T00:00:00.0000000+02:00
+    value: 2022-12-17T22:00:00.000Z
     type: DateTime
   location:
     value: China
@@ -27,52 +27,6 @@ fields:
               {
                 "type": "text",
                 "text": "Louise G. Dolphin, a decorated slopestyle competitor, and Olympian, braved the backcountry to film for CRITICAL TIME in 2022, balancing a wild year that included competing at the Olympics in China as well as snowmobiling deep into British Columbia to stack big-mountain footage for the movie of the season."
-              }
-            ]
-          },
-          {
-            "type": "paragraph"
-          },
-          {
-            "type": "paragraph",
-            "content": [
-              {
-                "type": "text",
-                "marks": [
-                  {
-                    "type": "bold"
-                  }
-                ],
-                "text": "BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test BOld test "
-              }
-            ]
-          },
-          {
-            "type": "paragraph"
-          },
-          {
-            "type": "blockquote",
-            "content": [
-              {
-                "type": "paragraph",
-                "content": [
-                  {
-                    "type": "text",
-                    "text": "Quote for testing"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "codeBlock",
-            "attrs": {
-              "language": null
-            },
-            "content": [
-              {
-                "type": "text",
-                "text": "Code example bla bla bla bla bla bla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla blabla bla bla bla bla"
               }
             ]
           }
@@ -130,44 +84,3 @@ fields:
         "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/ZO99BtbiNUqdMBp1FwypDQ"
       }
     type: Reference
-  featuredImage:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "iu3Gd2U0YkC8R-0qAJuSlQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/iu3Gd2U0YkC8R-0qAJuSlQ"
-      }
-    type: Media
-  relatedMedia:
-    value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "eICbeym4vUmdrBQn9OUSNw",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/eICbeym4vUmdrBQn9OUSNw"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "dd6ke9VEmEm_a0cjS0RWOA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/dd6ke9VEmEm_a0cjS0RWOA"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "iu3Gd2U0YkC8R-0qAJuSlQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/iu3Gd2U0YkC8R-0qAJuSlQ"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Media",
-        "id": "jppytjGEGUOpewHrMxSuUg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/media/jppytjGEGUOpewHrMxSuUg"
-      }
-    type: Media
