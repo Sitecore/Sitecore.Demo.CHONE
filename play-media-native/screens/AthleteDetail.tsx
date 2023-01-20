@@ -44,6 +44,40 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       >
         {athlete.athleteName}
       </Text>
+      <View style={{ margin: theme.spacing.xs }}>
+        <CardShadowBox color={theme.colors.black.light}>
+          <View
+            style={[
+              styles.quoteContainer,
+              {
+                backgroundColor: getAccentColor(
+                  athlete.sport.results[0]?.title
+                ),
+              },
+            ]}
+          >
+            <Text style={styles.quotationMark}>"</Text>
+            <Text style={styles.quote}>{athlete.athleteQuote}</Text>
+            <Text style={styles.quotationMark}>"</Text>
+          </View>
+        </CardShadowBox>
+      </View>
+      <View style={{ margin: theme.spacing.xs }}>
+        <CardShadowBox color={getAccentColor(athlete.sport.results[0]?.title)}>
+          <View style={styles.infoContainer}>
+            <Text style={styles.infoLabel}>Nationality</Text>
+            <Text style={styles.infoItem}>{athlete.nationality}</Text>
+            <Text style={styles.infoLabel}>Hobby</Text>
+            <Text style={styles.infoItem}>{athlete.hobby}</Text>
+            <Text style={styles.infoLabel}>Date of birth</Text>
+            <Text style={styles.infoItem}>{getDate(athlete.dateOfBirth)}</Text>
+            <Text style={styles.infoLabel}>Career start</Text>
+            <Text style={styles.infoItem}>
+              {getYear(athlete.careerStartDate)}
+            </Text>
+          </View>
+        </CardShadowBox>
+      </View>
       <Image
         source={{
           uri: athlete.featuredImage.results[0].fileUrl,
