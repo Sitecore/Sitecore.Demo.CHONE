@@ -103,86 +103,90 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView decelerationRate={0.5}>
-      <Text style={styles.label}>Sport</Text>
-      <Text
-        style={[
-          styles.item,
+        <Text style={styles.label}>Sport</Text>
+        <Text
+          style={[
+            styles.item,
             {
               color: getAccentColor(athlete.sport.results[0]?.title),
               marginBottom: theme.spacing.sm,
             },
-        ]}
-      >
-        {athlete.sport.results[0].title}
-      </Text>
-      <Text style={styles.label}>Athlete name</Text>
-      <Text
-        style={[
-          styles.item,
+          ]}
+        >
+          {athlete.sport.results[0].title}
+        </Text>
+        <Text style={styles.label}>Athlete name</Text>
+        <Text
+          style={[
+            styles.item,
             {
               color: theme.colors.white.DEFAULT,
               marginBottom: theme.spacing.md,
             },
-        ]}
-      >
-        {athlete.athleteName}
-      </Text>
+          ]}
+        >
+          {athlete.athleteName}
+        </Text>
         <View style={styles.cardContainer}>
-        <CardShadowBox color={theme.colors.black.light}>
-          <View
-            style={[
-              styles.quoteContainer,
-              {
-                backgroundColor: getAccentColor(
-                  athlete.sport.results[0]?.title
-                ),
-              },
-            ]}
-          >
-            <Text style={styles.quotationMark}>"</Text>
-            <Text style={styles.quote}>{athlete.athleteQuote}</Text>
-            <Text style={styles.quotationMark}>"</Text>
-          </View>
-        </CardShadowBox>
-      </View>
+          <CardShadowBox color={theme.colors.black.light}>
+            <View
+              style={[
+                styles.quoteContainer,
+                {
+                  backgroundColor: getAccentColor(
+                    athlete.sport.results[0]?.title
+                  ),
+                },
+              ]}
+            >
+              <Text style={styles.quotationMark}>"</Text>
+              <Text style={styles.quote}>{athlete.athleteQuote}</Text>
+              <Text style={styles.quotationMark}>"</Text>
+            </View>
+          </CardShadowBox>
+        </View>
         <View style={styles.cardContainer}>
           <CardShadowBox
             color={getAccentColor(athlete.sport.results[0]?.title)}
           >
-          <View style={styles.infoContainer}>
-            <Text style={styles.infoLabel}>Nationality</Text>
-            <Text style={styles.infoItem}>{athlete.nationality}</Text>
-            <Text style={styles.infoLabel}>Hobby</Text>
-            <Text style={styles.infoItem}>{athlete.hobby}</Text>
-            <Text style={styles.infoLabel}>Date of birth</Text>
+            <View style={styles.infoContainer}>
+              <Text style={styles.infoLabel}>Nationality</Text>
+              <Text style={styles.infoItem}>{athlete.nationality}</Text>
+              <Text style={styles.infoLabel}>Hobby</Text>
+              <Text style={styles.infoItem}>{athlete.hobby}</Text>
+              <Text style={styles.infoLabel}>Date of birth</Text>
               <Text style={styles.infoItem}>
                 {getDate(athlete.dateOfBirth)}
               </Text>
-            <Text style={styles.infoLabel}>Career start</Text>
-            <Text style={styles.infoItem}>
-              {getYear(athlete.careerStartDate)}
-            </Text>
+              <Text style={styles.infoLabel}>Career start</Text>
+              <Text style={styles.infoItem}>
+                {getYear(athlete.careerStartDate)}
+              </Text>
+            </View>
+          </CardShadowBox>
+        </View>
+        {athlete?.profilePhoto?.results[0]?.fileUrl && (
+          <View style={styles.imageContainer}>
+            <Text style={styles.imageLabel}>Profile photo</Text>
+            <Image
+              source={{
+                uri: athlete.profilePhoto.results[0].fileUrl,
+              }}
+              style={styles.imageItem}
+            />
           </View>
-        </CardShadowBox>
-      </View>
-      <View style={styles.imageContainer}>
-        <Text style={styles.imageLabel}>Profile photo</Text>
-        <Image
-          source={{
-            uri: athlete.profilePhoto.results[0].fileUrl,
-          }}
-          style={styles.imageItem}
-        />
-      </View>
-      <View style={styles.imageContainer}>
-        <Text style={styles.imageLabel}>Featured image</Text>
-        <Image
-          source={{
-            uri: athlete.featuredImage.results[0].fileUrl,
-          }}
-          style={styles.imageItem}
-        />
-      </View>
+        )}
+        {athlete?.featuredImage?.results[0]?.fileUrl && (
+          <View style={styles.imageContainer}>
+            <Text style={styles.imageLabel}>Featured image</Text>
+            <Image
+              source={{
+                uri: athlete.featuredImage.results[0].fileUrl,
+              }}
+              style={styles.imageItem}
+            />
+          </View>
+        )}
         {athlete?.relatedMedia?.results.length > 0 && (
           <View style={styles.imageContainer}>
             <Text style={styles.imageLabel}>Related media</Text>
@@ -192,7 +196,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             />
           </View>
         )}
-    </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
