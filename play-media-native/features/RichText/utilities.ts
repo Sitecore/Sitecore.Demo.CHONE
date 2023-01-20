@@ -29,7 +29,6 @@ const getComponentFromChild = (
 };
 
 export const getComponentTree = (content: any, componentMap: any) => {
-  console.log(content);
   return content.map((element: any, index: number) =>
     getComponentFromChild(element, componentMap, index)
   );

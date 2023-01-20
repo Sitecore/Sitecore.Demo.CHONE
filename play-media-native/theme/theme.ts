@@ -14,6 +14,7 @@ export const theme = {
       lightest: "#666666",
       dark: "#0a0a0a",
       darkest: "#000000",
+      transluscent: "rgba(0, 0, 0, 0.8)",
     },
     gray: {
       DEFAULT: "#cccccc",

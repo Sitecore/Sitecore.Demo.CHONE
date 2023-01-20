@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { getAllEvents } from "../api/queries/getEvents";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../theme/theme";
@@ -11,6 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { RichText } from "../features/RichText/RichText";
 import { getAccentColor } from "../helpers/colorHelper";
+import { ImageOverlayCarousel } from "../features/ImageOverlayCarousel/ImageOverlayCarousel";
+import { Media } from "../interfaces/media";
+import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 
 export const EventDetailScreen = ({ route, navigation }) => {
   const { data: events, isFetching } = useQuery("events", getAllEvents);
@@ -18,7 +21,8 @@ export const EventDetailScreen = ({ route, navigation }) => {
     ? events.find((item) => item.id === route.params.id)
     : undefined;
 
-  const accentColor = getAccentColor(event.sport.results[0].title);
+  const [carouselStartIndex, setCarouselStartIndex] = useState(0);
+  const [overlayVisible, setOverlayVisible] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -32,6 +36,24 @@ export const EventDetailScreen = ({ route, navigation }) => {
       title: athlete.athleteName,
     });
   }, []);
+
+  const onOverlayClose = useCallback(() => {
+    setOverlayVisible(false);
+  }, []);
+
+  const onImagePress = useCallback((i: number) => {
+    setCarouselStartIndex(i);
+    setOverlayVisible(true);
+  }, []);
+
+  const accentColor = useMemo(
+    () => getAccentColor(event.sport.results[0].title),
+    [event]
+  );
+
+  const imageUriArray = useMemo(() => {
+    return event.relatedMedia.results.map((img: Media) => img.fileUrl);
+  }, [event]);
 
   const styles = StyleSheet.create({
     title: {
@@ -83,10 +105,13 @@ export const EventDetailScreen = ({ route, navigation }) => {
       style={{
         flex: 1,
         backgroundColor: theme.colors.black.darkest,
-        paddingHorizontal: theme.spacing.sm,
       }}
     >
-      <ScrollView>
+      <ScrollView
+        style={{
+          paddingHorizontal: theme.spacing.sm,
+        }}
+      >
         <View>
           <Button
             icon={({ size, color }) => (
@@ -135,6 +160,11 @@ export const EventDetailScreen = ({ route, navigation }) => {
           </Text>
           <RichText body={event.body.content} accentColor={accentColor} />
         </View>
+        <ImageGrid
+          images={imageUriArray}
+          onImagePress={onImagePress}
+          style={{ marginTop: theme.spacing.lg }}
+        />
         <View style={{ marginTop: theme.spacing.lg }}>
           {event.athletes.results.map((athlete: Athlete) => (
             <CardAvatar
@@ -145,6 +175,12 @@ export const EventDetailScreen = ({ route, navigation }) => {
           ))}
         </View>
       </ScrollView>
+      <ImageOverlayCarousel
+        images={imageUriArray}
+        startIndex={carouselStartIndex}
+        visible={overlayVisible}
+        onClose={onOverlayClose}
+      />
     </SafeAreaView>
   );
 };
