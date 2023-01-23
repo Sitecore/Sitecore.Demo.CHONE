@@ -14,7 +14,7 @@ export const CardEvent = ({ item, onCardPress }) => {
     <>
       <Pressable onPress={onCardPress}>
         <Image
-          source={{ uri: item.featuredImage.results[0].fileUrl }}
+          source={{ uri: item?.featuredImage?.results[0]?.fileUrl }}
           style={{
             height: 200,
             resizeMode: "cover",

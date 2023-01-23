@@ -10,12 +10,13 @@ import {
 } from "react-native";
 import { Text, ActivityIndicator } from "react-native-paper";
 import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from "../../constants/pagination";
+import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 import { mockFetchData } from "../../helpers/mockPagination";
 import { theme } from "../../theme/theme";
 
 type ListingProps = {
   data: any;
-  isLoading: boolean;
+  isLoading?: boolean;
   renderItem: ListRenderItem<any>;
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 };
@@ -69,19 +70,7 @@ export const Listing = ({
   );
 
   if (isLoading) {
-    return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          backgroundColor: theme.colors.black.darkest,
-        }}
-      >
-        <ActivityIndicator animating={true} size="large" />
-      </SafeAreaView>
-    );
+    return <LoadingScreen />;
   }
 
   return (

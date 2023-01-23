@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useQuery } from "react-query";
 import { getAllEvents } from "../api/queries/getEvents";
 import { Listing } from "../components/Listing/Listing";
@@ -6,8 +6,8 @@ import { CardEvent } from "../features/CardEvent/CardEvent";
 import { Event } from "../interfaces/event";
 import { StatusBar } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
-import { defaultStyle } from "../components/BottomFAB/BottomFAB";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
+import { styles } from "../theme/styles";
 
 export const EventsListingScreen = ({ navigation }) => {
   const { data: events, isFetching } = useQuery("events", getAllEvents);
@@ -38,7 +38,7 @@ export const EventsListingScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("AddEvent")}
         animateFrom={"right"}
         iconMode={"dynamic"}
-        style={defaultStyle.fab}
+        style={styles.fab}
       />
     </>
   );

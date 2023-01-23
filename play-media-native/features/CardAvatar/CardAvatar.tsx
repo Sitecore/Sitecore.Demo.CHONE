@@ -32,7 +32,7 @@ export const CardAvatar = ({ item, onCardPress }) => {
                 left: theme.spacing.xxs,
               }}
               source={{
-                uri: item.profilePhoto.results[0].fileUrl,
+                uri: item?.profilePhoto?.results[0]?.fileUrl,
               }}
             />
           </View>
