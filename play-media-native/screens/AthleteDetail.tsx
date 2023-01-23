@@ -16,6 +16,7 @@ import { getAccentColor, getTextColor } from "../helpers/colorHelper";
 import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 
 const styles = StyleSheet.create({
   container: {
@@ -34,44 +35,45 @@ const styles = StyleSheet.create({
   },
   item: {
     marginBottom: theme.spacing.xs,
-    fontWeight: "bold",
+    fontFamily: theme.fontFamily.bold,
   },
   cardContainer: { marginVertical: theme.spacing.xs },
   quoteContainer: {
     display: "flex",
     flexDirection: "row",
+    paddingHorizontal: theme.spacing.xs,
   },
   quotationMark: {
-    fontSize: 40,
-    fontWeight: "bold",
-    fontStyle: "italic",
-    width: "10%",
-    paddingLeft: theme.spacing.sm,
-    paddingTop: theme.spacing.md,
+    fontSize: 80,
+    fontFamily: theme.fontFamily.italic,
+    textAlign: "center",
+    lineHeight: 100,
+    flexBasis: "15%",
   },
   quote: {
-    fontSize: 20,
-    fontStyle: "italic",
-    width: "80%",
-    paddingVertical: theme.spacing.md,
+    fontSize: theme.fontSize.lg,
+    lineHeight: theme.spacing.lg,
+    fontFamily: theme.fontFamily.italic,
+    flexBasis: "70%",
+    paddingVertical: theme.spacing.lg,
     textAlign: "center",
   },
   infoContainer: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: theme.colors.black.light,
-    paddingTop: theme.spacing.xs,
+    paddingTop: theme.spacing.sm,
   },
   infoLabel: {
     color: theme.colors.gray.DEFAULT,
-    marginLeft: theme.spacing.md,
+    marginLeft: theme.spacing.sm,
     marginBottom: theme.spacing.xxs,
   },
   infoItem: {
     color: theme.colors.white.DEFAULT,
-    marginLeft: theme.spacing.md,
+    marginLeft: theme.spacing.sm,
     marginBottom: theme.spacing.md,
-    fontWeight: "bold",
+    fontFamily: theme.fontFamily.bold,
   },
   imageContainer: {
     marginBottom: theme.spacing.md,
@@ -99,7 +101,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   }, []);
 
   if (isFetching) {
-    return <Text>Loading .....</Text>;
+    return <LoadingScreen />;
   }
 
   if (!athlete) {
