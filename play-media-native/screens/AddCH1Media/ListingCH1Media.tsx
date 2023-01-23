@@ -3,7 +3,7 @@ import { Image, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
-import { getFileTypeFromURL } from "../../helpers/media";
+import { getFileType, removeFileExtension } from "../../helpers/media";
 import {
   ListingImageDisplayType,
   ListingImages,
@@ -36,11 +36,7 @@ const fullWidthStyle = {
   borderRadius: theme.spacing.xxs,
 };
 
-export const ListingAddedCH1Media = ({
-  images,
-  onSelect,
-  selectedMedia,
-}: Props) => {
+export const ListingCH1Media = ({ images, onSelect, selectedMedia }: Props) => {
   const { media } = useMedia();
   const renderItems = useMemo(
     () => ({
@@ -86,11 +82,11 @@ export const ListingAddedCH1Media = ({
               marginLeft: theme.spacing.xs,
             }}
           >
-            <ListItemField title="Name" value={item.fileName} />
             <ListItemField
-              title="File type"
-              value={getFileTypeFromURL(item.fileUrl)}
+              title="Name"
+              value={removeFileExtension(item.name)}
             />
+            <ListItemField title="File type" value={getFileType(item)} />
             <ListItemField
               title="Dimensions"
               value={`${item.fileWidth} x ${item.fileHeight}`}
@@ -126,12 +122,12 @@ export const ListingAddedCH1Media = ({
             }}
           >
             <View style={{ position: "relative", width: "100%" }}>
-              <ListItemField title="Name" value={item.fileName} />
-              <ListItemField title="Description" value={item.description} />
               <ListItemField
-                title="File type"
-                value={getFileTypeFromURL(item.fileUrl)}
+                title="Name"
+                value={removeFileExtension(item.name)}
               />
+              <ListItemField title="Description" value={item.description} />
+              <ListItemField title="File type" value={getFileType(item)} />
               <ListItemField
                 title="Dimensions"
                 value={`${item.fileWidth} x ${item.fileHeight}`}

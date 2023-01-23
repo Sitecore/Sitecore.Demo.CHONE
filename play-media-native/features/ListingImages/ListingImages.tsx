@@ -24,8 +24,8 @@ interface Props {
 }
 
 const SEGMENTED_BUTTON_ITEMS = [
-  { value: ListingImageDisplayType.GRID, icon: "view-grid", label: "Grid" },
   { value: ListingImageDisplayType.LIST, icon: "view-list", label: "List" },
+  { value: ListingImageDisplayType.GRID, icon: "view-grid", label: "Grid" },
   { value: ListingImageDisplayType.CARDS, icon: "cards", label: "Cards" },
 ];
 
@@ -40,7 +40,7 @@ export const ListingImages = ({
   style,
 }: Props) => {
   const [displayType, setDisplayType] = useState<string>(
-    ListingImageDisplayType.GRID
+    ListingImageDisplayType.LIST
   );
 
   const listStyle = useMemo(() => ({ ...listingStyle, ...style }), [style]);

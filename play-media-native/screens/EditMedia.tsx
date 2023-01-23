@@ -1,12 +1,15 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Image, SafeAreaView, StatusBar, View } from "react-native";
 import { theme } from "../theme/theme";
 import { InputText } from "../components/InputText/InputText";
 import { inputContainerStyle } from "./CreateEvent/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { useMedia } from "../hooks/useMedia/useMedia";
-import { Button } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { Media } from "../interfaces/media";
+import { getFileType } from "../helpers/media";
+import { generateID } from "../helpers/uuid";
+import { useFocusEffect } from "@react-navigation/native";
 
 const imageStyle = {
   height: 200,
@@ -26,29 +29,59 @@ const labelStyle = {
 };
 
 export const EditMediaScreen = ({ navigation, route }) => {
-  const { temp, add, editTemp, clearTemp } = useMedia();
-  const params = route.params;
+  const { add, edit } = useMedia();
+  const [editedImage, setEditedImage] = useState<Partial<Media>>();
+  const isEdit = !!route?.params?.image?.id;
 
   const onNameChange = useCallback((text: string) => {
-    editTemp({ fileName: text });
+    setEditedImage((prev) => ({
+      ...prev,
+      name: text,
+    }));
   }, []);
 
   const onDescriptionChange = useCallback((text: string) => {
-    editTemp({ description: text });
+    setEditedImage((prev) => ({
+      ...prev,
+      description: text,
+    }));
   }, []);
 
   const onCancel = useCallback(() => {
-    clearTemp();
     navigation.goBack();
-  }, [clearTemp, navigation]);
+  }, [navigation]);
 
   const onAdd = useCallback(() => {
-    add([temp] as Media[]);
-    clearTemp();
+    if (isEdit) {
+      edit(editedImage as Media);
+    } else {
+      add([{ ...editedImage, id: generateID() } as Media]);
+    }
     navigation.goBack();
-  }, [add, clearTemp, navigation, temp]);
+  }, [add, edit, editedImage, isEdit, navigation]);
 
-  console.log("params", params);
+  useFocusEffect(
+    useCallback(() => {
+      console.log("route.params.image\n", route.params.image);
+      setEditedImage(
+        route?.params?.image
+          ? {
+              ...route.params.image,
+              description: route.params.image.description || "",
+              name: route.params.image.name || "",
+              fileHeight: route.params.image.height,
+              fileWidth: route.params.image.width,
+              fileType: getFileType(route.params.image),
+              fileUrl: route.params.image?.fileUrl || route.params.image?.uri,
+            }
+          : null
+      );
+    }, [route.params.image])
+  );
+
+  if (!editedImage) {
+    return <Text>Something went wrong!</Text>;
+  }
 
   return (
     <SafeAreaView
@@ -61,21 +94,21 @@ export const EditMediaScreen = ({ navigation, route }) => {
     >
       <StatusBar barStyle={"light-content"} />
       <View>
-        <Image source={{ uri: temp.fileUrl }} style={imageStyle} />
+        <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />
       </View>
       <InputText
         containerStyle={inputContainerStyle}
         label="Name"
         multiline
         onChange={onNameChange}
-        value={temp?.fileName || ""}
+        value={editedImage?.name || ""}
       />
       <InputText
         containerStyle={inputContainerStyle}
         label="Description"
         multiline
         onChange={onDescriptionChange}
-        value={temp?.description || ""}
+        value={editedImage?.description || ""}
       />
       <BottomActions>
         <Button

@@ -4,12 +4,10 @@ import { Media } from "../interfaces/media";
 
 export interface MediaState {
   media: Media[];
-  temp: Partial<Media>;
 }
 
 const initialState: MediaState = {
   media: [],
-  temp: null,
 };
 
 export const mediaSlice = createSlice({
@@ -27,13 +25,14 @@ export const mediaSlice = createSlice({
     clear: (state: MediaState) => {
       state.media = [];
     },
-    clearTemp: (state: MediaState) => {
-      state.temp = null;
-    },
-    editTemp: (state: MediaState, action: PayloadAction<Partial<Media>>) => {
-      state.temp = state.temp
-        ? { ...state.temp, ...action.payload }
-        : action.payload;
+    edit: (state: MediaState, action: PayloadAction<Media>) => {
+      state.media = state.media.map((item) => {
+        if (action.payload.id === item.id) {
+          return action.payload;
+        }
+
+        return item;
+      });
     },
     remove: (state: MediaState, action: PayloadAction<Media[]>) => {
       const IDsToBeRemoved = action.payload.map((item) => item.id);
@@ -45,6 +44,6 @@ export const mediaSlice = createSlice({
   },
 });
 
-export const { add, clear, clearTemp, editTemp, remove } = mediaSlice.actions;
+export const { add, clear, edit, remove } = mediaSlice.actions;
 
 export default mediaSlice.reducer;

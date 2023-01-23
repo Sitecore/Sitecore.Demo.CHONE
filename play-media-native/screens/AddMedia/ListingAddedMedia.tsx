@@ -2,17 +2,14 @@ import { useCallback, useMemo } from "react";
 import { Image, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
-import { DeviceMedia, Media } from "../../interfaces/media";
-import { getFileTypeFromURL } from "../../helpers/media";
+import { Media } from "../../interfaces/media";
+import { getFileType, removeFileExtension } from "../../helpers/media";
 import { ActionMenu } from "../../features/ActionMenu/ActionMenu";
 import {
   ListingImageDisplayType,
   ListingImages,
 } from "../../features/ListingImages/ListingImages";
-import {
-  RootStackParamList,
-  StackNavigationProp,
-} from "../../interfaces/navigators";
+import { StackNavigationProp } from "../../interfaces/navigators";
 import { useNavigation } from "@react-navigation/native";
 import { useMedia } from "../../hooks/useMedia/useMedia";
 
@@ -64,24 +61,27 @@ export const ListingAddedMedia = ({ images }: Props) => {
     [navigation]
   );
 
-  const resolveActionsForItem = useCallback((item: Media) => {
-    return [
-      {
-        icon: "circle-edit-outline",
-        handler: () => {
-          editImage(item);
+  const resolveActionsForItem = useCallback(
+    (item: Media) => {
+      return [
+        {
+          icon: "circle-edit-outline",
+          handler: () => {
+            editImage(item);
+          },
+          title: "Edit",
         },
-        title: "Edit",
-      },
-      {
-        icon: "delete-outline",
-        handler: () => {
-          deleteImage(item);
+        {
+          icon: "delete-outline",
+          handler: () => {
+            deleteImage(item);
+          },
+          title: "Delete",
         },
-        title: "Delete",
-      },
-    ];
-  }, []);
+      ];
+    },
+    [editImage, deleteImage]
+  );
 
   const renderItems = useMemo(
     () => ({
@@ -132,11 +132,11 @@ export const ListingAddedMedia = ({ images }: Props) => {
               marginLeft: theme.spacing.xs,
             }}
           >
-            <ListItemField title="Name" value={item.fileName} />
             <ListItemField
-              title="File type"
-              value={getFileTypeFromURL(item.fileUrl)}
+              title="Name"
+              value={removeFileExtension(item.name)}
             />
+            <ListItemField title="File type" value={getFileType(item)} />
             <ListItemField
               title="Dimensions"
               value={`${item.fileWidth} x ${item.fileHeight}`}
@@ -176,12 +176,12 @@ export const ListingAddedMedia = ({ images }: Props) => {
             }}
           >
             <View style={{ position: "relative", width: "100%" }}>
-              <ListItemField title="Name" value={item.fileName} />
-              <ListItemField title="Description" value={item.description} />
               <ListItemField
-                title="File type"
-                value={getFileTypeFromURL(item.fileUrl)}
+                title="Name"
+                value={removeFileExtension(item.name)}
               />
+              <ListItemField title="Description" value={item.description} />
+              <ListItemField title="File type" value={getFileType(item)} />
               <ListItemField
                 title="Dimensions"
                 value={`${item.fileWidth} x ${item.fileHeight}`}

@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { StyleProp, View } from "react-native";
 import { IconButton, Menu } from "react-native-paper";
-import { theme } from "../../theme/theme";
 
 export interface MenuItem {
   icon: string;
@@ -29,11 +28,14 @@ export const ActionMenu = ({
       <Menu.Item
         key={item.title}
         leadingIcon={item.icon}
-        onPress={item.handler}
+        onPress={() => {
+          setVisible(false);
+          item.handler();
+        }}
         title={item.title}
       />
     ));
-  }, []);
+  }, [menuItems]);
 
   const onClose = useCallback(() => {
     setVisible(false);

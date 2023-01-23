@@ -7,14 +7,7 @@ import { Media } from "../../interfaces/media";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
 import { useMedia } from "../../hooks/useMedia/useMedia";
-import { ListingAddedCH1Media } from "./ListingAddedCH1Media";
-
-const fullWidthStyle = {
-  borderRadius: 5,
-  height: 200,
-  width: "100%",
-  marginVertical: theme.spacing.xxs,
-};
+import { ListingCH1Media } from "./ListingCH1Media";
 
 const buttonStyle = {
   borderWidth: 1,
@@ -30,7 +23,7 @@ const labelStyle = {
 
 export const AddCH1MediaScreen = ({ navigation }) => {
   const { data: media, isFetching } = useQuery("media", getAllMedia);
-  const { add, media: storeMedia, temp } = useMedia();
+  const { add, media: storeMedia } = useMedia();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
 
   const onSelect = useCallback(
@@ -93,26 +86,11 @@ export const AddCH1MediaScreen = ({ navigation }) => {
       style={{ backgroundColor: theme.colors.black.darkest, height: "100%" }}
     >
       <StatusBar barStyle={"light-content"} />
-      {/* <Listing
-        data={media}
-        isLoading={isFetching}
-        renderItem={({ item }) => (
-          <SelectableImage
-            key={item.id}
-            onSelect={() => onSelect(item)}
-            selected={selectedMedia.includes(item) || storeMedia.includes(item)}
-            uri={item.fileUrl}
-            style={fullWidthStyle}
-          />
-        )}
-      /> */}
-      {media?.length && (
-        <ListingAddedCH1Media
-          images={media}
-          onSelect={onSelect}
-          selectedMedia={selectedMedia}
-        />
-      )}
+      <ListingCH1Media
+        images={media as Media[]}
+        onSelect={onSelect}
+        selectedMedia={selectedMedia}
+      />
       {actions}
     </SafeAreaView>
   );

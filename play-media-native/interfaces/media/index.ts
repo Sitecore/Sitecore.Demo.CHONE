@@ -11,7 +11,6 @@ export interface Media {
   name: string;
   description: string;
   fileId: string;
-  fileName: string;
   fileHeight: number;
   fileWidth: number;
   fileSize: number;

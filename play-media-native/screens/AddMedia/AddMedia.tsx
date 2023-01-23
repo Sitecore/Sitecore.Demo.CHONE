@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 
 export const AddMediaScreen = () => {
   const navigation = useNavigation<StackNavigationProp>();
-  const { add, clear, clearTemp, editTemp, media, temp } = useMedia();
+  const { add, clear, media } = useMedia();
   const [status, requestPermissions] = useCameraPermissions();
 
   const initImage = useCallback(
@@ -83,15 +83,9 @@ export const AddMediaScreen = () => {
       if (!image) {
         return;
       }
-
-      editTemp({
-        fileUrl: image.uri,
-        fileHeight: image.height,
-        fileWidth: image.width,
-      });
-      navigation.navigate("EditMedia");
+      navigation.navigate("EditMedia", { image });
     },
-    [editTemp, navigation]
+    [navigation]
   );
 
   const handleLaunchCamera = useCallback(async () => {
@@ -163,6 +157,8 @@ export const AddMediaScreen = () => {
 
     requestUserPermission();
   }, []);
+
+  console.log("media\n", media);
 
   if (!media?.length) {
     return (
