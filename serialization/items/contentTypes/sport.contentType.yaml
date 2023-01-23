@@ -1,0 +1,27 @@
+﻿id: sport
+name:
+  en-US: Sport
+description:
+  en-US: For the different types of sport.
+fields:
+- id: title
+  name:
+    en-US: Title
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: featuredImage
+  name:
+    en-US: Featured image
+  type: Media
+  required: false
+  helpText:
+    en-US: ''
+- id: description
+  name:
+    en-US: Description
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''

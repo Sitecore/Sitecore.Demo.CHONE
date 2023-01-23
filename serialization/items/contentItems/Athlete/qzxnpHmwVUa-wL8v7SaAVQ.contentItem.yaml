@@ -1,0 +1,34 @@
+﻿id: qzxnpHmwVUa-wL8v7SaAVQ
+name: Anna Gerst
+fields:
+  athleteName:
+    value: Anna Gerst
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  dateOfBirth:
+    value: null
+    type: DateTime
+  careerStartDate:
+    value: null
+    type: DateTime
+  athleteQuote:
+    value: If you think you’re done, you always have at least 40 percent more.
+    type: ShortText
+  nationality:
+    value: American
+    type: ShortText
+  hobby:
+    value: Camping adventures
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
+      }
+    type: Reference

@@ -1,0 +1,72 @@
+﻿id: eibM5C0OVUexMb30n-l2Rg
+name: The Dual Ascent
+fields:
+  title:
+    value: The Dual Ascent
+    type: ShortText
+  isFeatured:
+    value: true
+    type: Boolean
+  timeAndDate:
+    value: 2023-10-19T22:00:00.000Z
+    type: DateTime
+  location:
+    value: Switzerland
+    type: ShortText
+  teaser:
+    value: Sixteen of the very best competition and multi-pitch/rock climbers are invited to compete in teams of two across three days at the first-ever head-to-head multi-pitch climbing competition on artificial routes.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "The Play!Media Dual Ascent is a new team climbing event, that took place on October 26-29. Sixteen of the very best competition and multi-pitch/rock climbers are invited to compete in teams of two across three days at the first-ever head-to-head multi-pitch climbing competition on artificial routes."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "k0--_hvyvkyuiVNjww_3oQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "TacYstuhJU6-Fx-OSUoL-Q",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/TacYstuhJU6-Fx-OSUoL-Q"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "uOjQGioIUUmYPB5Kz-sZCQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5Kz-sZCQ"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "ywmaOWtjf0W7-33SV14dVQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/ywmaOWtjf0W7-33SV14dVQ"
+      }
+    type: Reference

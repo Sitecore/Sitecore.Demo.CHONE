@@ -1,0 +1,83 @@
+﻿id: athlete
+name:
+  en-US: Athlete
+description:
+  en-US: A content type that contains all athlete information.
+fields:
+- id: athleteName
+  name:
+    en-US: Athlete name
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: profilePhoto
+  name:
+    en-US: Profile photo
+  type: Media
+  required: false
+  helpText:
+    en-US: ''
+- id: featuredImage
+  name:
+    en-US: Featured image
+  type: Media
+  required: false
+  helpText:
+    en-US: ''
+- id: isFeatured
+  name:
+    en-US: Is featured?
+  type: Boolean
+  required: true
+  helpText:
+    en-US: ''
+- id: sport
+  name:
+    en-US: Sport
+  type: Reference
+  required: false
+  helpText:
+    en-US: ''
+- id: dateOfBirth
+  name:
+    en-US: Date of birth
+  type: DateTime
+  required: false
+  helpText:
+    en-US: ''
+- id: careerStartDate
+  name:
+    en-US: Career start date
+  type: DateTime
+  required: false
+  helpText:
+    en-US: ''
+- id: athleteQuote
+  name:
+    en-US: Athlete quote
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: nationality
+  name:
+    en-US: Nationality
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: hobby
+  name:
+    en-US: Hobby
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: relatedMedia
+  name:
+    en-US: Related media
+  type: Media
+  required: false
+  helpText:
+    en-US: ''
