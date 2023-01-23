@@ -6,7 +6,9 @@ import {
   NativeSyntheticEvent,
   RefreshControl,
   SafeAreaView,
+  StyleProp,
   View,
+  ViewStyle,
 } from "react-native";
 import { Text, ActivityIndicator } from "react-native-paper";
 import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from "../../constants/pagination";
@@ -19,6 +21,7 @@ type ListingProps = {
   isLoading?: boolean;
   renderItem: ListRenderItem<any>;
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  style?: StyleProp<ViewStyle>;
 };
 
 export const Listing = ({
@@ -26,6 +29,7 @@ export const Listing = ({
   isLoading,
   renderItem,
   onScroll,
+  style,
 }: ListingProps) => {
   const [items, setItems] = useState(data?.slice(0, PAGE_SIZE));
   const [loading, setLoading] = useState(false);
@@ -74,7 +78,9 @@ export const Listing = ({
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.black.darkest }}>
+    <SafeAreaView
+      style={[{ backgroundColor: theme.colors.black.darkest }, style]}
+    >
       <View
         style={{
           position: "absolute",
@@ -86,7 +92,6 @@ export const Listing = ({
         <ActivityIndicator animating={refreshing} size="small" />
       </View>
       <FlatList
-        style={{ paddingHorizontal: theme.spacing.sm }}
         data={items}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}

@@ -1,6 +1,7 @@
 import { Dimensions, Image, StyleSheet } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { IconButton, Modal, Portal } from "react-native-paper";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const ImageOverlayCarousel = ({
   images,
@@ -25,25 +26,27 @@ export const ImageOverlayCarousel = ({
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onClose}>
-        <Carousel
-          loop
-          width={width}
-          height={height}
-          data={images}
-          defaultIndex={startIndex}
-          renderItem={({ item }) => {
-            return (
-              <Image
-                source={{ uri: item }}
-                style={{
-                  height: height,
-                  width: width,
-                  resizeMode: "contain",
-                }}
-              />
-            );
-          }}
-        />
+        <GestureHandlerRootView>
+          <Carousel
+            loop
+            width={width}
+            height={height}
+            data={images}
+            defaultIndex={startIndex}
+            renderItem={({ item }) => {
+              return (
+                <Image
+                  source={{ uri: item }}
+                  style={{
+                    height: height,
+                    width: width,
+                    resizeMode: "contain",
+                  }}
+                />
+              );
+            }}
+          />
+        </GestureHandlerRootView>
         <IconButton
           icon="close"
           onPress={onClose}
