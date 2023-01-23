@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     width: "10%",
     paddingLeft: theme.spacing.sm,
+    paddingTop: theme.spacing.md,
   },
   quote: {
     fontSize: 20,
