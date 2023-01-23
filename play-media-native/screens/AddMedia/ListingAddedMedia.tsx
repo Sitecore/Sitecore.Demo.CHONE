@@ -2,13 +2,19 @@ import { useCallback, useMemo } from "react";
 import { Image, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
-import { Media } from "../../interfaces/media";
+import { DeviceMedia, Media } from "../../interfaces/media";
 import { getFileTypeFromURL } from "../../helpers/media";
 import { ActionMenu } from "../../features/ActionMenu/ActionMenu";
 import {
   ListingImageDisplayType,
   ListingImages,
 } from "../../features/ListingImages/ListingImages";
+import {
+  RootStackParamList,
+  StackNavigationProp,
+} from "../../interfaces/navigators";
+import { useNavigation } from "@react-navigation/native";
+import { useMedia } from "../../hooks/useMedia/useMedia";
 
 interface Props {
   images: Media[];
@@ -33,19 +39,44 @@ const listingImagesStyle = {
 };
 
 export const ListingAddedMedia = ({ images }: Props) => {
+  const navigation = useNavigation<StackNavigationProp>();
+  const { remove } = useMedia();
+
+  const editImage = useCallback(
+    (image: Media) => {
+      if (!image) {
+        return;
+      }
+
+      navigation.navigate("EditMedia", { image });
+    },
+    [navigation]
+  );
+
+  const deleteImage = useCallback(
+    (image: Media) => {
+      if (!image) {
+        return;
+      }
+
+      remove([image]);
+    },
+    [navigation]
+  );
+
   const resolveActionsForItem = useCallback((item: Media) => {
     return [
       {
         icon: "circle-edit-outline",
         handler: () => {
-          console.log("item", item);
+          editImage(item);
         },
         title: "Edit",
       },
       {
         icon: "delete-outline",
         handler: () => {
-          console.log("item", item);
+          deleteImage(item);
         },
         title: "Delete",
       },

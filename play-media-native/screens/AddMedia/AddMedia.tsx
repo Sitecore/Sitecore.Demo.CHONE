@@ -78,7 +78,7 @@ export const AddMediaScreen = () => {
   const { add, clear, clearTemp, editTemp, media, temp } = useMedia();
   const [status, requestPermissions] = useCameraPermissions();
 
-  const editImage = useCallback(
+  const initImage = useCallback(
     (image: DeviceMedia) => {
       if (!image) {
         return;
@@ -103,8 +103,8 @@ export const AddMediaScreen = () => {
     });
 
     const image = !result.canceled ? result.assets[0] : null;
-    editImage(image);
-  }, [editImage]);
+    initImage(image);
+  }, [initImage]);
 
   const handleImageLibrary = useCallback(async () => {
     let result = await launchImageLibraryAsync({
@@ -115,8 +115,8 @@ export const AddMediaScreen = () => {
     });
 
     const image = !result.canceled ? result.assets[0] : null;
-    editImage(image);
-  }, [editImage]);
+    initImage(image);
+  }, [initImage]);
 
   const handleRemoteMedia = useCallback(async () => {
     navigation.navigate("AddCH1Media");

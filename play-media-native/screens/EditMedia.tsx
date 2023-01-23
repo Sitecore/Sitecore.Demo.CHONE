@@ -25,8 +25,9 @@ const labelStyle = {
   lineHeight: 30,
 };
 
-export const EditMediaScreen = ({ navigation }) => {
+export const EditMediaScreen = ({ navigation, route }) => {
   const { temp, add, editTemp, clearTemp } = useMedia();
+  const params = route.params;
 
   const onNameChange = useCallback((text: string) => {
     editTemp({ fileName: text });
@@ -46,6 +47,8 @@ export const EditMediaScreen = ({ navigation }) => {
     clearTemp();
     navigation.goBack();
   }, [add, clearTemp, navigation, temp]);
+
+  console.log("params", params);
 
   return (
     <SafeAreaView
