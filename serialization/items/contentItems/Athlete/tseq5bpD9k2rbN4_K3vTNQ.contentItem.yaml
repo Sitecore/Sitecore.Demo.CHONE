@@ -1,0 +1,34 @@
+﻿id: tseq5bpD9k2rbN4_K3vTNQ
+name: Nick O’ Teen
+fields:
+  athleteName:
+    value: Nick O’ Teen
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  dateOfBirth:
+    value: null
+    type: DateTime
+  careerStartDate:
+    value: null
+    type: DateTime
+  athleteQuote:
+    value: It is action that creates motivation.
+    type: ShortText
+  nationality:
+    value: African
+    type: ShortText
+  hobby:
+    value: Volunteering
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
+      }
+    type: Reference

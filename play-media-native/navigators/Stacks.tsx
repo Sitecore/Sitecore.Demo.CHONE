@@ -9,17 +9,24 @@ import { AddConnectionScreen } from "../screens/AddConnection";
 import { RootStackParamList } from "../interfaces/navigators";
 import { RemoveConnectionScreen } from "../screens/RemoveConnection";
 import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHeader";
+import { SafeAreaView } from "react-native";
+import { theme } from "../theme/theme";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Stacks = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        header: () => <StackScreenHeader />,
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.black.darkest,
       }}
     >
-      <>
+      <Stack.Navigator
+        screenOptions={{
+          header: () => <StackScreenHeader />,
+        }}
+      >
         <Stack.Screen
           name="SelectConnection"
           component={SelectConnectionScreen}
@@ -64,7 +71,7 @@ export const Stacks = () => {
           component={EventDetailScreen}
           options={{ title: "Event Detail" }}
         />
-      </>
-    </Stack.Navigator>
+      </Stack.Navigator>
+    </SafeAreaView>
   );
 };

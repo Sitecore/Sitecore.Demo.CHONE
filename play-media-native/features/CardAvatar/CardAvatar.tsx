@@ -11,12 +11,7 @@ export const CardAvatar = ({ item, onCardPress }) => {
   return (
     <CardShadowBox color={color} onCardPress={onCardPress}>
       <Card.Content style={{ flexDirection: "row" }}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: "flex-end",
-          }}
-        >
+        <View>
           <View
             style={{
               backgroundColor: color,
@@ -37,7 +32,11 @@ export const CardAvatar = ({ item, onCardPress }) => {
             />
           </View>
         </View>
-        <View style={{ flex: 2, justifyContent: "center" }}>
+        <View
+          style={{
+            justifyContent: "center",
+          }}
+        >
           <Text style={{ marginLeft: theme.spacing.xxs }} variant="titleMedium">
             {item.athleteName}
           </Text>

@@ -8,6 +8,7 @@ import { StatusBar } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { styles } from "../theme/styles";
+import { theme } from "../theme/theme";
 
 export const AthletesListingScreen = ({ navigation }) => {
   const { data: athletes, isFetching } = useQuery("athletes", () =>
@@ -32,6 +33,7 @@ export const AthletesListingScreen = ({ navigation }) => {
           <CardAvatar item={item} onCardPress={() => onCardPress(item)} />
         )}
         onScroll={calcScrollOffset}
+        style={{ paddingHorizontal: theme.spacing.sm }}
       />
       <AnimatedFAB
         icon={"plus"}

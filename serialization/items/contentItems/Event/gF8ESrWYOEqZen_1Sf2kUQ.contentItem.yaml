@@ -1,0 +1,79 @@
+﻿id: gF8ESrWYOEqZen_1Sf2kUQ
+name: Play! Bowl Rippers
+fields:
+  title:
+    value: Play! Bowl Rippers
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  timeAndDate:
+    value: 2022-12-15T22:00:00.000Z
+    type: DateTime
+  location:
+    value: Marseille, France
+    type: ShortText
+  teaser:
+    value: Play! Bowl Rippers is a team skateboard competition that gathers all the generations of skateboarders in one place.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "For generations, Marseille, France, has been a constant on the global skate calendar and Play! Bowl Rippers re-invents the contest for the current generation."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "3s8Fg2nxBk-roDm4OQq6xw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBk-roDm4OQq6xw"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "jHYl1rczfkKS47wXn2Ms-g",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/jHYl1rczfkKS47wXn2Ms-g"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "VKShDiQ0iku2RgZFhylwyg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/VKShDiQ0iku2RgZFhylwyg"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "_DMvNe_n6EaXJJLvDJQG8w",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/_DMvNe_n6EaXJJLvDJQG8w"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "m4KjdQZmekSMkbbz51_umQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/m4KjdQZmekSMkbbz51_umQ"
+      }
+    type: Reference
