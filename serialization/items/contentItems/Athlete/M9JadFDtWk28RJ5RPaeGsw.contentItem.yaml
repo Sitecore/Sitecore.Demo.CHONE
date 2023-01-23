@@ -1,0 +1,34 @@
+﻿id: M9JadFDtWk28RJ5RPaeGsw
+name: Phil Down
+fields:
+  athleteName:
+    value: Phil Down
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  dateOfBirth:
+    value: 2018-01-29T22:00:00.000Z
+    type: DateTime
+  careerStartDate:
+    value: null
+    type: DateTime
+  athleteQuote:
+    value: A trophy carries dust. Memories last forever.
+    type: ShortText
+  nationality:
+    value: French
+    type: ShortText
+  hobby:
+    value: Rock painting
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "bO5xDYy-2EikGiocmTsDng",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
+      }
+    type: Reference

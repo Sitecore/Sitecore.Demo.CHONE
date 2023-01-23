@@ -1,0 +1,34 @@
+﻿id: TacYstuhJU6-Fx-OSUoL-Q
+name: Ivana Shroom
+fields:
+  athleteName:
+    value: Ivana Shroom
+    type: ShortText
+  isFeatured:
+    value: true
+    type: Boolean
+  dateOfBirth:
+    value: null
+    type: DateTime
+  careerStartDate:
+    value: null
+    type: DateTime
+  athleteQuote:
+    value: Winners never quit and quitters never win.
+    type: ShortText
+  nationality:
+    value: Belgian
+    type: ShortText
+  hobby:
+    value: Bonsai
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "k0--_hvyvkyuiVNjww_3oQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
+      }
+    type: Reference

@@ -1,0 +1,79 @@
+﻿id: ywmaOWtjf0W7-33SV14dVQ
+name: Ice climbing world championship
+fields:
+  title:
+    value: Ice climbing world championship
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  timeAndDate:
+    value: 2023-01-24T22:00:00.000Z
+    type: DateTime
+  location:
+    value: French Alps
+    type: ShortText
+  teaser:
+    value: The freezing conditions, high altitude, and stunning scenery of the French Alps provide the perfect playground for.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "A veritable playground for ice climbing, the French Alps are a well-established venue known for its piercing temperatures, technically challenging ice wall, and outstanding hospitality."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "k0--_hvyvkyuiVNjww_3oQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "uOjQGioIUUmYPB5Kz-sZCQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5Kz-sZCQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "TacYstuhJU6-Fx-OSUoL-Q",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/TacYstuhJU6-Fx-OSUoL-Q"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "eibM5C0OVUexMb30n-l2Rg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/eibM5C0OVUexMb30n-l2Rg"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "XrfWe3ezQUm59fsgQiyjYA",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/XrfWe3ezQUm59fsgQiyjYA"
+      }
+    type: Reference
