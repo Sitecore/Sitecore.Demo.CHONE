@@ -6,18 +6,22 @@ import {
   NativeSyntheticEvent,
   RefreshControl,
   SafeAreaView,
+  StyleProp,
   View,
+  ViewStyle,
 } from "react-native";
 import { Text, ActivityIndicator } from "react-native-paper";
 import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from "../../constants/pagination";
+import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 import { mockFetchData } from "../../helpers/mockPagination";
 import { theme } from "../../theme/theme";
 
 type ListingProps = {
   data: any;
-  isLoading: boolean;
+  isLoading?: boolean;
   renderItem: ListRenderItem<any>;
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  style?: StyleProp<ViewStyle>;
 };
 
 export const Listing = ({
@@ -25,6 +29,7 @@ export const Listing = ({
   isLoading,
   renderItem,
   onScroll,
+  style,
 }: ListingProps) => {
   const [items, setItems] = useState(data?.slice(0, PAGE_SIZE));
   const [loading, setLoading] = useState(false);
@@ -69,23 +74,13 @@ export const Listing = ({
   );
 
   if (isLoading) {
-    return (
-      <SafeAreaView
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          backgroundColor: theme.colors.black.darkest,
-        }}
-      >
-        <ActivityIndicator animating={true} size="large" />
-      </SafeAreaView>
-    );
+    return <LoadingScreen />;
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: theme.colors.black.darkest }}>
+    <SafeAreaView
+      style={[{ backgroundColor: theme.colors.black.darkest }, style]}
+    >
       <View
         style={{
           position: "absolute",
@@ -97,7 +92,6 @@ export const Listing = ({
         <ActivityIndicator animating={refreshing} size="small" />
       </View>
       <FlatList
-        style={{ paddingHorizontal: theme.spacing.sm }}
         data={items}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
