@@ -3,6 +3,7 @@ import { AppState, AppStateStatus } from "react-native";
 import {
   configureFonts,
   MD3LightTheme,
+  Portal,
   Provider as PaperProvider,
 } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
@@ -76,7 +77,9 @@ export default function App() {
       <GlobalStateProvider store={store}>
         <QueryClientProvider client={queryClient}>
           <PaperProvider theme={paperTheme}>
-            <Main />
+            <Portal.Host>
+              <Main />
+            </Portal.Host>
           </PaperProvider>
         </QueryClientProvider>
       </GlobalStateProvider>
