@@ -47,7 +47,10 @@ export const ListingAddedCH1Media = ({
       [ListingImageDisplayType.GRID]: ({ item }) => (
         <SelectableImage
           key={item.id}
-          containerStyle={{ width: "50%" }}
+          containerStyle={{
+            flex: 0.5,
+            marginHorizontal: theme.spacing.xxs,
+          }}
           onSelect={() => onSelect(item)}
           selected={selectedMedia.includes(item) || media.includes(item)}
           uri={item.fileUrl}
