@@ -1,0 +1,34 @@
+﻿id: -Wjtw2SOuE-mm6Gz1_7QsA
+name: Apollo Kenith
+fields:
+  athleteName:
+    value: Apollo Kenith
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  dateOfBirth:
+    value: 1999-01-10T23:00:00.000Z
+    type: DateTime
+  careerStartDate:
+    value: 2018-03-31T22:00:00.000Z
+    type: DateTime
+  athleteQuote:
+    value: If you fail to prepare, you’re prepared to fail.
+    type: ShortText
+  nationality:
+    value: Slovak
+    type: ShortText
+  hobby:
+    value: Stand-up comedy
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
+      }
+    type: Reference

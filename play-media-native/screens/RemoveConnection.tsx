@@ -6,6 +6,7 @@ import { useConnections } from "../hooks/useConnections/useConnections";
 import { deleteValuesFor } from "../helpers/secureStorage";
 import { removeConnections } from "../helpers/connections";
 import { theme } from "../theme/theme";
+import { CenteredScreen } from "../features/CenteredScreen/CenteredScreen";
 
 export const RemoveConnectionScreen = () => {
   const { connections, remove } = useConnections();
@@ -46,14 +47,7 @@ export const RemoveConnectionScreen = () => {
   }, [connectionOptions, remove]);
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: theme.colors.black.darkest,
-      }}
-    >
+    <CenteredScreen>
       <StatusBar barStyle={"light-content"} />
       <View
         style={{
@@ -82,6 +76,6 @@ export const RemoveConnectionScreen = () => {
           {`Remove ${selectedCount || ""}`}
         </Button>
       </View>
-    </SafeAreaView>
+    </CenteredScreen>
   );
 };
