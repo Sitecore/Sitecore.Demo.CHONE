@@ -2,6 +2,7 @@
   "name": "play-media",
   "version": "0.1.0",
   "private": true,
+  "description": "PLAY! Media Next.js website using Content Hub ONE",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,6 +11,16 @@
     "dev:preview": "cross-env PREVIEW_MODE_ENABLED=true next dev",
     "build:preview": "cross-env PREVIEW_MODE_ENABLED=true next build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sitecore/Sitecore.Demo.CHONE.git"
+  },
+  "author": "Sitecore Demo Solutions team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sitecore/Sitecore.Demo.CHONE/issues"
+  },
+  "homepage": "https://github.com/Sitecore/Sitecore.Demo.CHONE#readme",
   "dependencies": {
     "@types/node": "18.11.10",
     "@types/react": "18.0.26",

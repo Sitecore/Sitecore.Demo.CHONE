@@ -1,0 +1,34 @@
+﻿id: hmOxouM4gUGR7rIjE30GTQ
+name: Eleanor Yasmin
+fields:
+  athleteName:
+    value: Eleanor Yasmin
+    type: ShortText
+  isFeatured:
+    value: true
+    type: Boolean
+  dateOfBirth:
+    value: null
+    type: DateTime
+  careerStartDate:
+    value: null
+    type: DateTime
+  athleteQuote:
+    value: You control your own wins and losses.
+    type: ShortText
+  nationality:
+    value: German
+    type: ShortText
+  hobby:
+    value: Baking
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "bO5xDYy-2EikGiocmTsDng",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
+      }
+    type: Reference

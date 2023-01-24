@@ -1,18 +1,14 @@
 import { KeyboardAvoidingView, Platform, StatusBar, View } from "react-native";
 import { Text } from "react-native-paper";
 import { FormAddConnection } from "../features/FormAddConnection/FormAddConnection";
+import { styles } from "../theme/styles";
 import { theme } from "../theme/theme";
 
 export const AddConnectionScreen = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: theme.colors.black.darkest,
-      }}
+      style={styles.centeredScreen}
     >
       <StatusBar barStyle={"light-content"} />
       <View
