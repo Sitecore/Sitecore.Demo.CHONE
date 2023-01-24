@@ -31,7 +31,7 @@ const labelStyle = {
 export const EditMediaScreen = ({ navigation, route }) => {
   const { add, edit } = useMedia();
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
-  const isEdit = !!route?.params?.image?.id;
+  const isEdit: boolean = route.params.editMode;
 
   const onNameChange = useCallback((text: string) => {
     setEditedImage((prev) => ({
@@ -62,7 +62,6 @@ export const EditMediaScreen = ({ navigation, route }) => {
 
   useFocusEffect(
     useCallback(() => {
-      console.log("route.params.image\n", route.params.image);
       setEditedImage(
         route?.params?.image
           ? {
@@ -125,7 +124,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
           style={buttonStyle}
           onPress={onAdd}
         >
-          Add Media
+          {isEdit ? "Edit Media" : "Add Media"}
         </Button>
       </BottomActions>
     </SafeAreaView>

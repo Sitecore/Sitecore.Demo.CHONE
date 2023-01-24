@@ -23,9 +23,9 @@ const labelStyle = {
 };
 
 export const AddCH1MediaScreen = ({ navigation }) => {
-  const { data: media, isFetching } = useQuery("media", getAllMedia);
   const { add, media: storeMedia } = useMedia();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
+  const selectedMediaIDs = selectedMedia.map((item) => item.id);
 
   const onSelect = useCallback(
     (image: Media) => {
@@ -37,7 +37,7 @@ export const AddCH1MediaScreen = ({ navigation }) => {
 
       setSelectedMedia((prevSelectedMedia) => {
         if (prevSelectedMedia.includes(image)) {
-          return prevSelectedMedia.filter((item) => item !== image);
+          return prevSelectedMedia.filter((item) => item.id !== image.id);
         }
 
         return [...prevSelectedMedia, image];
@@ -77,7 +77,7 @@ export const AddCH1MediaScreen = ({ navigation }) => {
           style={buttonStyle}
           onPress={onAdd}
         >
-          {selectedMedia?.length ? `Add ${selectedMedia.length} items` : `Add`}
+          {selectedMedia?.length ? `Add ${selectedMedia.length}` : `Add`}
         </Button>
       </BottomActions>
     ),
@@ -90,9 +90,8 @@ export const AddCH1MediaScreen = ({ navigation }) => {
     >
       <StatusBar barStyle={"light-content"} />
       <ListingCH1Media
-        images={media as Media[]}
         onSelect={onSelect}
-        selectedMedia={selectedMedia}
+        selectedMediaIDs={selectedMediaIDs}
       />
       {actions}
     </SafeAreaView>

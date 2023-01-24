@@ -24,9 +24,24 @@ interface Props {
 }
 
 const SEGMENTED_BUTTON_ITEMS = [
-  { value: ListingImageDisplayType.LIST, icon: "view-list", label: "List" },
-  { value: ListingImageDisplayType.GRID, icon: "view-grid", label: "Grid" },
-  { value: ListingImageDisplayType.CARDS, icon: "cards", label: "Cards" },
+  {
+    value: ListingImageDisplayType.LIST,
+    icon: "view-list",
+    label: "List",
+    color: theme.colors.white.DEFAULT,
+  },
+  {
+    value: ListingImageDisplayType.GRID,
+    icon: "view-grid",
+    label: "Grid",
+    color: theme.colors.white.DEFAULT,
+  },
+  {
+    value: ListingImageDisplayType.CARDS,
+    icon: "cards",
+    label: "Cards",
+    color: theme.colors.white.DEFAULT,
+  },
 ];
 
 const listingStyle = {

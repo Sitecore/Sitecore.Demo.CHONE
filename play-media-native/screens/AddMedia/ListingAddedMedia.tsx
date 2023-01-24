@@ -22,7 +22,13 @@ interface Props {
 const ListItemField = ({ title, value }: { title: string; value: string }) => (
   <View style={{ flexDirection: "row", alignItems: "center" }}>
     <Text style={{ color: theme.colors.yellow.DEFAULT }}>{`${title}:  `}</Text>
-    <Text>{value}</Text>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={1}
+      style={{ color: theme.colors.white.DEFAULT, flex: 1 }}
+    >
+      {value}
+    </Text>
   </View>
 );
 
@@ -72,7 +78,7 @@ export const ListingAddedMedia = ({ images }: Props) => {
         return;
       }
 
-      navigation.navigate("EditMedia", { image });
+      navigation.navigate("EditMedia", { image, editMode: true });
     },
     [navigation]
   );
@@ -197,7 +203,7 @@ export const ListingAddedMedia = ({ images }: Props) => {
           />
           <MediaSourceIcon
             source={item.source}
-            style={{ ...mediaSourceIconStyle, top: 10, right: 14 }}
+            style={{ ...mediaSourceIconStyle, top: 5, right: 14 }}
           />
         </View>
       ),

@@ -77,13 +77,11 @@ export const Stacks = () => {
           title: "Remove Connection",
         }}
       />
-      <>
-        <Stack.Screen
-          name="SelectConnection"
-          component={SelectConnectionScreen}
-          options={{ headerShown: false }}
-        />
-      </>
+      <Stack.Screen
+        name="SelectConnection"
+        component={SelectConnectionScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };

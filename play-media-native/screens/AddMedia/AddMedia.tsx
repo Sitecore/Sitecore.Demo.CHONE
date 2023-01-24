@@ -65,8 +65,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
+    color: theme.colors.white.DEFAULT,
     textAlign: "center",
-    marginBottom: theme.spacing.xs,
+    marginBottom: theme.spacing.xxs,
   },
   cardLabel: {
     color: theme.colors.black.DEFAULT,
@@ -97,8 +98,11 @@ export const AddMediaScreen = () => {
       quality: 1,
     });
 
-    const image = !result.canceled ? result.assets[0] : null;
-    initImage({ ...image, source: MEDIA_SOURCES.CAMERA });
+    if (result.canceled) {
+      return null;
+    } else {
+      initImage({ ...result.assets[0], source: MEDIA_SOURCES.CAMERA });
+    }
   }, [initImage]);
 
   const handleImageLibrary = useCallback(async () => {
@@ -109,8 +113,11 @@ export const AddMediaScreen = () => {
       quality: 1,
     });
 
-    const image = !result.canceled ? result.assets[0] : null;
-    initImage({ ...image, source: MEDIA_SOURCES.LIBRARY });
+    if (result.canceled) {
+      return null;
+    } else {
+      initImage({ ...result.assets[0], source: MEDIA_SOURCES.LIBRARY });
+    }
   }, [initImage]);
 
   const handleRemoteMedia = useCallback(async () => {
@@ -144,7 +151,7 @@ export const AddMediaScreen = () => {
           style={buttonStyle}
           onPress={onReview}
         >
-          {media?.length ? `Add ${media.length} items` : `Add`}
+          {media?.length ? `Add ${media.length}` : `Add`}
         </Button>
       </BottomActions>
     ),
@@ -236,7 +243,7 @@ export const AddMediaScreen = () => {
           </Card.Content>
         </Card>
       </View>
-      <Text style={{ ...styles.header, marginTop: theme.spacing.sm }}>
+      <Text style={{ ...styles.header, marginTop: theme.spacing.xs }}>
         Items Added
       </Text>
       <ListingAddedMedia images={media} />
