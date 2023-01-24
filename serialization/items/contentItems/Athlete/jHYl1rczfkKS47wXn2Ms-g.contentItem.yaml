@@ -1,0 +1,34 @@
+﻿id: jHYl1rczfkKS47wXn2Ms-g
+name: Helena Zia
+fields:
+  athleteName:
+    value: Helena Zia
+    type: ShortText
+  isFeatured:
+    value: true
+    type: Boolean
+  dateOfBirth:
+    value: 1997-04-27T22:00:00.000Z
+    type: DateTime
+  careerStartDate:
+    value: 2016-01-02T22:00:00.000Z
+    type: DateTime
+  athleteQuote:
+    value: You win some, lose some, and wreck some.
+    type: ShortText
+  nationality:
+    value: Latvian
+    type: ShortText
+  hobby:
+    value: Origami
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "3s8Fg2nxBk-roDm4OQq6xw",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBk-roDm4OQq6xw"
+      }
+    type: Reference

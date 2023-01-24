@@ -1,17 +1,9 @@
 import { useMemo } from "react";
-import { StyleProp, StyleSheet, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import { FAB } from "react-native-paper";
 import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
+import { styles } from "../../theme/styles";
 import { theme } from "../../theme/theme";
-
-export const defaultStyle = StyleSheet.create({
-  fab: {
-    position: "absolute",
-    margin: theme.spacing.xs,
-    right: theme.spacing.xs,
-    bottom: theme.spacing.xs,
-  },
-});
 
 interface Props {
   color?: string;
@@ -30,7 +22,7 @@ export const BottomFAB = ({
   style,
   onPress,
 }: Props) => {
-  const stylesFinal = useMemo(() => [defaultStyle.fab, style], []);
+  const stylesFinal = useMemo(() => [styles.fab, style], []);
 
   return (
     <FAB

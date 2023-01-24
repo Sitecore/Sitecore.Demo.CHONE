@@ -14,7 +14,7 @@ export const CardEvent = ({ item, onCardPress }) => {
     <>
       <Pressable onPress={onCardPress}>
         <Image
-          source={{ uri: item.featuredImage.results[0].fileUrl }}
+          source={{ uri: item?.featuredImage?.results[0]?.fileUrl }}
           style={{
             height: 200,
             resizeMode: "cover",
@@ -24,35 +24,37 @@ export const CardEvent = ({ item, onCardPress }) => {
           }}
         />
       </Pressable>
-      <CardShadowBox color={color} onCardPress={onCardPress}>
-        <Card.Content
-          style={{
-            paddingHorizontal: theme.spacing.sm,
-            paddingVertical: theme.spacing.sm,
-          }}
-        >
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-            <Text
-              style={{
-                backgroundColor: color,
-                color: getTextColor(color),
-                paddingLeft: theme.spacing.lg,
-                paddingRight: theme.spacing.xxs,
-                marginLeft: -theme.spacing.lg,
-                marginRight: theme.spacing.sm,
-              }}
-            >
-              {sport?.title || "Sport"}
-            </Text>
-            <Text style={{ color: theme.colors.gray.DEFAULT }}>
-              {rightLabel}
-            </Text>
-          </View>
-          <View>
-            <Text variant="titleMedium">{item.title}</Text>
-          </View>
-        </Card.Content>
-      </CardShadowBox>
+      <View style={{ paddingHorizontal: theme.spacing.sm }}>
+        <CardShadowBox color={color} onCardPress={onCardPress}>
+          <Card.Content
+            style={{
+              paddingHorizontal: theme.spacing.sm,
+              paddingVertical: theme.spacing.sm,
+            }}
+          >
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              <Text
+                style={{
+                  backgroundColor: color,
+                  color: getTextColor(color),
+                  paddingLeft: theme.spacing.lg,
+                  paddingRight: theme.spacing.xxs,
+                  marginLeft: -theme.spacing.lg,
+                  marginRight: theme.spacing.sm,
+                }}
+              >
+                {sport?.title || "Sport"}
+              </Text>
+              <Text style={{ color: theme.colors.gray.DEFAULT }}>
+                {rightLabel}
+              </Text>
+            </View>
+            <View>
+              <Text variant="titleMedium">{item.title}</Text>
+            </View>
+          </Card.Content>
+        </CardShadowBox>
+      </View>
     </>
   );
 };

@@ -1,0 +1,9 @@
+﻿id: k0--_hvyvkyuiVNjww_3oQ
+name: Climbing
+fields:
+  title:
+    value: Climbing
+    type: ShortText
+  description:
+    value: Climbing is the activity of using one's hands, feet, or any other part of the body to ascend a steep topographical object.
+    type: ShortText

@@ -1,8 +1,7 @@
 import { View } from "react-native";
 import { Logo } from "../../components/Logo/Logo";
-import { Button, IconButton, Text } from "react-native-paper";
+import { IconButton, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faFilter, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -16,12 +15,11 @@ type TabScreenHeaderProps = {
 export const TabScreenHeader = ({ type }: TabScreenHeaderProps) => {
   const navigation = useNavigation<TabHeaderNavigationProp>();
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const insets = useSafeAreaInsets();
 
   return (
     <View
       style={{
-        paddingTop: insets.top + theme.spacing.xs,
+        paddingTop: theme.spacing.xs,
         paddingBottom: theme.spacing.xs,
         paddingLeft: theme.spacing.sm,
         paddingRight: theme.spacing.sm,
