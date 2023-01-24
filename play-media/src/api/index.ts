@@ -3,8 +3,14 @@ type GraphQLResponseWithErrors = {
 };
 
 export async function fetchGraphQL(query: string): Promise<unknown> {
-  const apiKey = process.env.NEXT_PUBLIC_CHONE_PREVIEW_API_KEY || "";
-  const endpointUrl = process.env.NEXT_PUBLIC_CHONE_PREVIEW_API_URL || "";
+  const apiKey =
+    process.env.PREVIEW_MODE_ENABLED === 'true'
+      ? process.env.NEXT_PUBLIC_CHONE_PREVIEW_API_KEY ?? ''
+      : process.env.NEXT_PUBLIC_CHONE_DELIVERY_API_KEY ?? '';
+  const endpointUrl =
+    process.env.PREVIEW_MODE_ENABLED === 'true'
+      ? process.env.NEXT_PUBLIC_CHONE_PREVIEW_API_URL ?? ''
+      : process.env.NEXT_PUBLIC_CHONE_DELIVERY_API_URL ?? '';
 
   try {
     return await fetch(endpointUrl, {
