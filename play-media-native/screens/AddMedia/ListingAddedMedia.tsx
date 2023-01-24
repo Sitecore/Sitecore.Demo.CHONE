@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { Image, View } from "react-native";
+import { Image, StyleProp, View } from "react-native";
 import { Card, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
@@ -12,6 +12,8 @@ import {
 import { StackNavigationProp } from "../../interfaces/navigators";
 import { useNavigation } from "@react-navigation/native";
 import { useMedia } from "../../hooks/useMedia/useMedia";
+import { MEDIA_SOURCES } from "../../constants/media";
+import { Icon } from "../../components/Icon/Icon";
 
 interface Props {
   images: Media[];
@@ -24,6 +26,26 @@ const ListItemField = ({ title, value }: { title: string; value: string }) => (
   </View>
 );
 
+const MediaSourceIcon = ({
+  size = 20,
+  source,
+  style,
+}: {
+  size?: number;
+  source: string;
+  style?: StyleProp<any>;
+}) => {
+  if (source === MEDIA_SOURCES.CAMERA) {
+    return <Icon name="camera-outline" size={size} style={style} />;
+  }
+
+  if (source === MEDIA_SOURCES.LIBRARY) {
+    return <Icon name="folder-open-outline" size={size} style={style} />;
+  }
+
+  return <Icon name="apps-outline" size={size} style={style} />;
+};
+
 const menuStyle = {
   position: "absolute",
   bottom: 0,
@@ -33,6 +55,11 @@ const menuStyle = {
 const listingImagesStyle = {
   paddingHorizontal: theme.spacing.sm,
   marginBottom: 75,
+};
+
+const mediaSourceIconStyle = {
+  position: "absolute",
+  color: theme.colors.white.DEFAULT,
 };
 
 export const ListingAddedMedia = ({ images }: Props) => {
@@ -63,22 +90,32 @@ export const ListingAddedMedia = ({ images }: Props) => {
 
   const resolveActionsForItem = useCallback(
     (item: Media) => {
-      return [
-        {
-          icon: "circle-edit-outline",
-          handler: () => {
-            editImage(item);
-          },
-          title: "Edit",
-        },
-        {
-          icon: "delete-outline",
-          handler: () => {
-            deleteImage(item);
-          },
-          title: "Delete",
-        },
-      ];
+      return item.source !== MEDIA_SOURCES.CH_ONE
+        ? [
+            {
+              icon: "circle-edit-outline",
+              handler: () => {
+                editImage(item);
+              },
+              title: "Edit",
+            },
+            {
+              icon: "delete-outline",
+              handler: () => {
+                deleteImage(item);
+              },
+              title: "Delete",
+            },
+          ]
+        : [
+            {
+              icon: "delete-outline",
+              handler: () => {
+                deleteImage(item);
+              },
+              title: "Delete",
+            },
+          ];
     },
     [editImage, deleteImage]
   );
@@ -101,6 +138,18 @@ export const ListingAddedMedia = ({ images }: Props) => {
             menuItems={resolveActionsForItem(item)}
             style={menuStyle}
           />
+          <MediaSourceIcon
+            size={15}
+            source={item.source}
+            style={{
+              ...mediaSourceIconStyle,
+              top: 8,
+              right: 5,
+              backgroundColor: theme.colors.black.DEFAULT,
+              borderRadius: 50,
+              padding: 8,
+            }}
+          />
         </View>
       ),
       [ListingImageDisplayType.LIST]: ({ item }) => (
@@ -117,7 +166,7 @@ export const ListingAddedMedia = ({ images }: Props) => {
         >
           <Image
             style={{
-              height: 100,
+              height: 110,
               width: "auto",
               margin: theme.spacing.xxs,
               borderRadius: theme.spacing.xxs,
@@ -138,13 +187,17 @@ export const ListingAddedMedia = ({ images }: Props) => {
             />
             <ListItemField title="File type" value={getFileType(item)} />
             <ListItemField
-              title="Dimensions"
+              title="Size"
               value={`${item.fileWidth} x ${item.fileHeight}`}
             />
           </View>
           <ActionMenu
             menuItems={resolveActionsForItem(item)}
             style={menuStyle}
+          />
+          <MediaSourceIcon
+            source={item.source}
+            style={{ ...mediaSourceIconStyle, top: 10, right: 14 }}
           />
         </View>
       ),
@@ -183,12 +236,16 @@ export const ListingAddedMedia = ({ images }: Props) => {
               <ListItemField title="Description" value={item.description} />
               <ListItemField title="File type" value={getFileType(item)} />
               <ListItemField
-                title="Dimensions"
+                title="Size"
                 value={`${item.fileWidth} x ${item.fileHeight}`}
               />
               <ActionMenu
                 menuItems={resolveActionsForItem(item)}
                 style={menuStyle}
+              />
+              <MediaSourceIcon
+                source={item.source}
+                style={{ ...mediaSourceIconStyle, bottom: 13, right: 45 }}
               />
             </View>
           </Card.Content>

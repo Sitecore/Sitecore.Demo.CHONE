@@ -1,29 +1,32 @@
-import { Image, StyleProp, View } from "react-native";
+import { PropsWithChildren, ReactNode } from "react";
+import { StyleProp, View } from "react-native";
 import { Checkbox } from "react-native-paper";
 import { theme } from "../../theme/theme";
 
 interface Props {
-  containerStyle?: StyleProp<any>;
+  children: PropsWithChildren<ReactNode | ReactNode[]>;
   onSelect: () => void;
+  right?: number;
   selected: boolean;
   style?: StyleProp<any>;
-  uri: string;
+  top?: number;
 }
 
-export const SelectableImage = ({
-  containerStyle,
+export const SelectableView = ({
+  children,
   onSelect,
+  right,
   selected,
   style,
-  uri,
+  top,
 }: Props) => {
   return (
-    <View style={containerStyle}>
+    <View style={style}>
       <View
         style={{
           position: "absolute",
-          top: 10,
-          right: 5,
+          top: top || 10,
+          right: right || 5,
           zIndex: 10,
         }}
       >
@@ -34,7 +37,7 @@ export const SelectableImage = ({
           uncheckedColor={theme.colors.pink.DEFAULT}
         />
       </View>
-      <Image source={{ uri }} style={style} />
+      {children}
     </View>
   );
 };

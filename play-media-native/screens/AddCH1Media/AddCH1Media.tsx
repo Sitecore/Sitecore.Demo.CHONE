@@ -8,6 +8,7 @@ import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
 import { useMedia } from "../../hooks/useMedia/useMedia";
 import { ListingCH1Media } from "./ListingCH1Media";
+import { MEDIA_SOURCES } from "../../constants/media";
 
 const buttonStyle = {
   borderWidth: 1,
@@ -46,7 +47,9 @@ export const AddCH1MediaScreen = ({ navigation }) => {
   );
 
   const onAdd = useCallback(() => {
-    add(selectedMedia);
+    add(
+      selectedMedia.map((item) => ({ ...item, source: MEDIA_SOURCES.CH_ONE }))
+    );
     setSelectedMedia([]);
     navigation.goBack();
   }, [add, selectedMedia]);

@@ -8,7 +8,7 @@ import {
   ListingImageDisplayType,
   ListingImages,
 } from "../../features/ListingImages/ListingImages";
-import { SelectableImage } from "../../components/SelectableImage/SelectableImage";
+import { SelectableView } from "../../components/SelectableView/SelectableView";
 import { useMedia } from "../../hooks/useMedia/useMedia";
 
 interface Props {
@@ -20,7 +20,9 @@ interface Props {
 const ListItemField = ({ title, value }: { title: string; value: string }) => (
   <View style={{ flexDirection: "row", alignItems: "center" }}>
     <Text style={{ color: theme.colors.yellow.DEFAULT }}>{`${title}:  `}</Text>
-    <Text>{value}</Text>
+    <Text ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
+      {value}
+    </Text>
   </View>
 );
 
@@ -41,100 +43,112 @@ export const ListingCH1Media = ({ images, onSelect, selectedMedia }: Props) => {
   const renderItems = useMemo(
     () => ({
       [ListingImageDisplayType.GRID]: ({ item }) => (
-        <SelectableImage
+        <SelectableView
           key={item.id}
-          containerStyle={{
+          onSelect={() => onSelect(item)}
+          selected={selectedMedia.includes(item) || media.includes(item)}
+          style={{
             flex: 0.5,
             marginHorizontal: theme.spacing.xxs,
           }}
-          onSelect={() => onSelect(item)}
-          selected={selectedMedia.includes(item) || media.includes(item)}
-          uri={item.fileUrl}
-          style={fullWidthStyle}
-        />
+        >
+          <Image source={{ uri: item.fileUrl }} style={fullWidthStyle} />
+        </SelectableView>
       ),
       [ListingImageDisplayType.LIST]: ({ item }) => (
-        <View
-          key={item.fileUrl}
-          style={{
-            width: "100%",
-            flexDirection: "row",
-            borderColor: theme.colors.yellow.DEFAULT,
-            borderWidth: 1,
-            borderRadius: 5,
-            marginBottom: theme.spacing.xs,
-          }}
+        <SelectableView
+          onSelect={() => onSelect(item)}
+          selected={selectedMedia.includes(item) || media.includes(item)}
+          top={-2}
         >
-          <Image
-            style={{
-              height: 100,
-              width: "auto",
-              margin: theme.spacing.xxs,
-              borderRadius: theme.spacing.xxs,
-              flex: 1,
-            }}
-            source={{ uri: item.fileUrl }}
-          />
           <View
+            key={item.fileUrl}
             style={{
-              flex: 2,
-              justifyContent: "center",
-              marginLeft: theme.spacing.xs,
+              width: "100%",
+              flexDirection: "row",
+              borderColor: theme.colors.yellow.DEFAULT,
+              borderWidth: 1,
+              borderRadius: 5,
+              marginBottom: theme.spacing.xs,
             }}
           >
-            <ListItemField
-              title="Name"
-              value={removeFileExtension(item.name)}
+            <Image
+              style={{
+                height: 110,
+                width: "auto",
+                margin: theme.spacing.xxs,
+                borderRadius: theme.spacing.xxs,
+                flex: 1,
+              }}
+              source={{ uri: item.fileUrl }}
             />
-            <ListItemField title="File type" value={getFileType(item)} />
-            <ListItemField
-              title="Dimensions"
-              value={`${item.fileWidth} x ${item.fileHeight}`}
-            />
-          </View>
-        </View>
-      ),
-      [ListingImageDisplayType.CARDS]: ({ item }) => (
-        <Card
-          key={item.fileUrl}
-          style={{
-            marginBottom: theme.spacing.xs,
-            borderWidth: 1,
-            borderColor: theme.colors.yellow.DEFAULT,
-          }}
-        >
-          <Card.Cover
-            style={{
-              backgroundColor: theme.colors.black.DEFAULT,
-              borderBottomLeftRadius: 0,
-              borderBottomRightRadius: 0,
-            }}
-            source={{ uri: item.fileUrl }}
-          />
-          <Card.Content
-            style={{
-              backgroundColor: theme.colors.black.darkest,
-              borderBottomLeftRadius: 5,
-              borderBottomRightRadius: 5,
-              paddingBottom: 0,
-              paddingRight: 0,
-              paddingTop: 0,
-            }}
-          >
-            <View style={{ position: "relative", width: "100%" }}>
+            <View
+              style={{
+                flex: 2,
+                justifyContent: "center",
+                marginLeft: theme.spacing.xs,
+              }}
+            >
               <ListItemField
                 title="Name"
                 value={removeFileExtension(item.name)}
               />
-              <ListItemField title="Description" value={item.description} />
               <ListItemField title="File type" value={getFileType(item)} />
               <ListItemField
-                title="Dimensions"
+                title="Size"
                 value={`${item.fileWidth} x ${item.fileHeight}`}
               />
             </View>
-          </Card.Content>
-        </Card>
+          </View>
+        </SelectableView>
+      ),
+      [ListingImageDisplayType.CARDS]: ({ item }) => (
+        <SelectableView
+          onSelect={() => onSelect(item)}
+          selected={selectedMedia.includes(item) || media.includes(item)}
+          top={200}
+        >
+          <Card
+            key={item.fileUrl}
+            style={{
+              marginBottom: theme.spacing.xs,
+              borderWidth: 1,
+              borderColor: theme.colors.yellow.DEFAULT,
+            }}
+          >
+            <Card.Cover
+              style={{
+                backgroundColor: theme.colors.black.DEFAULT,
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+              }}
+              source={{ uri: item.fileUrl }}
+            />
+            <Card.Content
+              style={{
+                backgroundColor: theme.colors.black.darkest,
+                borderBottomLeftRadius: 5,
+                borderBottomRightRadius: 5,
+                paddingBottom: 0,
+                paddingRight: 0,
+                paddingTop: 0,
+              }}
+            >
+              <View style={{ position: "relative", width: "100%" }}>
+                <ListItemField
+                  title="Name"
+                  value={removeFileExtension(item.name)}
+                />
+                <ListItemField title="Description" value={item.description} />
+                <ListItemField title="File type" value={getFileType(item)} />
+                <ListItemField
+                  title="Size"
+                  value={`${item.fileWidth} x ${item.fileHeight}`}
+                />
+              </View>
+            </Card.Content>
+          </Card>
+        </SelectableView>
       ),
     }),
     [selectedMedia]

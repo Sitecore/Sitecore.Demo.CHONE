@@ -16,6 +16,7 @@ import { useMedia } from "../../hooks/useMedia/useMedia";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ListingAddedMedia } from "./ListingAddedMedia";
+import { MEDIA_SOURCES } from "../../constants/media";
 
 const containerStyles = {
   height: "100%",
@@ -97,7 +98,7 @@ export const AddMediaScreen = () => {
     });
 
     const image = !result.canceled ? result.assets[0] : null;
-    initImage(image);
+    initImage({ ...image, source: MEDIA_SOURCES.CAMERA });
   }, [initImage]);
 
   const handleImageLibrary = useCallback(async () => {
@@ -109,7 +110,7 @@ export const AddMediaScreen = () => {
     });
 
     const image = !result.canceled ? result.assets[0] : null;
-    initImage(image);
+    initImage({ ...image, source: MEDIA_SOURCES.LIBRARY });
   }, [initImage]);
 
   const handleRemoteMedia = useCallback(async () => {
@@ -157,8 +158,6 @@ export const AddMediaScreen = () => {
 
     requestUserPermission();
   }, []);
-
-  console.log("media\n", media);
 
   if (!media?.length) {
     return (
