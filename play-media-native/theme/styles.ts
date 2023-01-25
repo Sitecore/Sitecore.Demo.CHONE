@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: theme.colors.black.darkest,
   },
+  container: {
+    paddingHorizontal: theme.spacing.sm,
+    backgroundColor: theme.colors.black.darkest,
+  },
   fab: {
     position: "absolute",
     margin: theme.spacing.xs,
