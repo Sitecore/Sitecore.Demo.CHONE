@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { Logo } from "../components/Logo/Logo";
 import { Button, Text } from "react-native-paper";
 import { useConnections } from "../hooks/useConnections/useConnections";
