@@ -1,14 +1,14 @@
 import { useCallback, useMemo, useState } from "react";
-import { SafeAreaView, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import { theme } from "../../theme/theme";
-import { useQuery } from "react-query";
-import { getAllMedia } from "../../api/queries/getMedia";
 import { Media } from "../../interfaces/media";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
 import { useMedia } from "../../hooks/useMedia/useMedia";
 import { ListingCH1Media } from "./ListingCH1Media";
 import { MEDIA_SOURCES } from "../../constants/media";
+import { styles } from "../../theme/styles";
+import { Screen } from "../../features/Screen/Screen";
 
 const buttonStyle = {
   borderWidth: 1,
@@ -64,8 +64,8 @@ export const AddCH1MediaScreen = ({ navigation }) => {
       <BottomActions>
         <Button
           mode="outlined"
-          labelStyle={labelStyle}
-          style={buttonStyle}
+          style={styles.button}
+          labelStyle={styles.buttonLabel}
           onPress={onDiscard}
         >
           Discard
@@ -73,8 +73,8 @@ export const AddCH1MediaScreen = ({ navigation }) => {
         <Button
           disabled={!selectedMedia?.length}
           mode="contained"
-          labelStyle={labelStyle}
-          style={buttonStyle}
+          style={styles.button}
+          labelStyle={styles.buttonLabel}
           onPress={onAdd}
         >
           {selectedMedia?.length ? `Add ${selectedMedia.length}` : `Add`}
@@ -85,15 +85,13 @@ export const AddCH1MediaScreen = ({ navigation }) => {
   );
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: theme.colors.black.darkest, height: "100%" }}
-    >
+    <Screen>
       <StatusBar barStyle={"light-content"} />
       <ListingCH1Media
         onSelect={onSelect}
         selectedMediaIDs={selectedMediaIDs}
       />
       {actions}
-    </SafeAreaView>
+    </Screen>
   );
 };

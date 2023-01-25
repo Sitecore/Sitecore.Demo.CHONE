@@ -5,7 +5,7 @@ import { inputContainerStyle } from "./styles";
 
 export const FieldsView = () => {
   return (
-    <View>
+    <>
       <InputText containerStyle={inputContainerStyle} label="Title" multiline />
       <InputText
         containerStyle={inputContainerStyle}
@@ -17,6 +17,6 @@ export const FieldsView = () => {
         label="Location"
         multiline
       />
-    </View>
+    </>
   );
 };

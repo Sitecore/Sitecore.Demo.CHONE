@@ -10,6 +10,7 @@ import { Media } from "../interfaces/media";
 import { getFileType } from "../helpers/media";
 import { generateID } from "../helpers/uuid";
 import { useFocusEffect } from "@react-navigation/native";
+import { styles } from "../theme/styles";
 
 const imageStyle = {
   height: 200,
@@ -112,17 +113,17 @@ export const EditMediaScreen = ({ navigation, route }) => {
       <BottomActions>
         <Button
           mode="outlined"
-          labelStyle={labelStyle}
-          style={buttonStyle}
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
           onPress={onCancel}
         >
           Discard
         </Button>
         <Button
           mode="contained"
-          labelStyle={labelStyle}
-          style={buttonStyle}
           onPress={onAdd}
+          // labelStyle={styles.buttonLabel}
+          // style={styles.button}
         >
           {isEdit ? "Edit Media" : "Add Media"}
         </Button>

@@ -14,26 +14,15 @@ import { Icon } from "../../components/Icon/Icon";
 import { DeviceMedia } from "../../interfaces/media";
 import { useMedia } from "../../hooks/useMedia/useMedia";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ListingAddedMedia } from "./ListingAddedMedia";
 import { MEDIA_SOURCES } from "../../constants/media";
+import { Screen } from "../../features/Screen/Screen";
+import { styles as themeStyles } from "../../theme/styles";
 
 const containerStyles = {
   height: "100%",
   backgroundColor: theme.colors.black.darkest,
   paddingTop: theme.spacing.xs,
-};
-
-const buttonStyle = {
-  borderWidth: 1,
-  borderColor: theme.colors.yellow.DEFAULT,
-  marginHorizontal: theme.spacing.xs,
-};
-
-const labelStyle = {
-  fontFamily: theme.fontFamily.medium,
-  fontSize: theme.fontSize.base,
-  lineHeight: 30,
 };
 
 const cardStyle = {
@@ -129,17 +118,15 @@ export const AddMediaScreen = () => {
     navigation.goBack();
   }, [clear, navigation]);
 
-  const onReview = useCallback(() => {
-    navigation.navigate("ReviewMedia");
-  }, [navigation]);
+  const onReview = useCallback(() => {}, [navigation]);
 
   const actions = useMemo(
     () => (
       <BottomActions>
         <Button
           mode="outlined"
-          labelStyle={labelStyle}
-          style={buttonStyle}
+          style={themeStyles.button}
+          labelStyle={themeStyles.buttonLabel}
           onPress={onDiscard}
         >
           Discard
@@ -147,8 +134,8 @@ export const AddMediaScreen = () => {
         <Button
           disabled={!media?.length}
           mode="contained"
-          labelStyle={labelStyle}
-          style={buttonStyle}
+          style={themeStyles.button}
+          labelStyle={themeStyles.buttonLabel}
           onPress={onReview}
         >
           {media?.length ? `Add ${media.length}` : `Add`}
@@ -168,7 +155,7 @@ export const AddMediaScreen = () => {
 
   if (!media?.length) {
     return (
-      <View style={styles.flexContainer}>
+      <Screen centered>
         <Text style={styles.header}>Select the media source</Text>
         <Card mode="contained" onPress={handleLaunchCamera} style={styles.card}>
           <Card.Content style={styles.cardContent}>
@@ -195,14 +182,12 @@ export const AddMediaScreen = () => {
           </Card.Content>
         </Card>
         {actions}
-      </View>
+      </Screen>
     );
   }
 
   return (
-    <SafeAreaView
-      style={{ backgroundColor: theme.colors.black.darkest, height: "100%" }}
-    >
+    <Screen>
       <StatusBar barStyle={"light-content"} />
       <Text style={styles.header}>Select the media source</Text>
       <View style={{ flexDirection: "row" }}>
@@ -248,6 +233,6 @@ export const AddMediaScreen = () => {
       </Text>
       <ListingAddedMedia images={media} />
       {actions}
-    </SafeAreaView>
+    </Screen>
   );
 };

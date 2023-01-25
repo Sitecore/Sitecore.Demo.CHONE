@@ -1,6 +1,5 @@
 import { PropsWithChildren, ReactNode } from "react";
 import { View } from "react-native";
-import { Button } from "react-native-paper";
 import { theme } from "../../theme/theme";
 
 interface Props {
@@ -17,6 +16,7 @@ export const BottomActions = ({ children }: Props) => {
         justifyContent: "flex-end",
         bottom: 0,
         zIndex: 10,
+        paddingTop: 10,
         paddingBottom: 10,
         backgroundColor: theme.colors.black.darkest,
       }}

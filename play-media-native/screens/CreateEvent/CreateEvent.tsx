@@ -6,6 +6,7 @@ import { theme } from "../../theme/theme";
 import { FieldsView } from "./FieldsView";
 import { RichTextView } from "./RichTextView";
 import { ReferencesView } from "./ReferencesView";
+import { Screen } from "../../features/Screen/Screen";
 
 export const CreateEventScreen = () => {
   const [step, setStep] = useState(0);
@@ -28,23 +29,15 @@ export const CreateEventScreen = () => {
   }, [step]);
 
   return (
-    <View
-      style={{
-        backgroundColor: "black",
-        height: "100%",
-        paddingTop: theme.spacing.xs,
-      }}
-    >
-      <View style={{ width: "100%" }}>
-        <Stepper
-          labels={steps}
-          onPress={onStepPress}
-          stepIndex={step}
-          steps={steps}
-        />
-      </View>
+    <Screen>
+      <Stepper
+        labels={steps}
+        onPress={onStepPress}
+        stepIndex={step}
+        steps={steps}
+      />
       {displayedScreen}
-      <BottomActions />
-    </View>
+      {/* <BottomActions /> */}
+    </Screen>
   );
 };
