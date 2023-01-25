@@ -1,0 +1,14 @@
+.hero-banner-event-details {
+  @apply pt-96;
+
+  .hero-banner-content {
+    .shadow-box {
+      @apply md:w-2/3;
+
+      h3 {
+        @apply text-4xl leading-relaxed text-black;
+        @apply dark:text-white;
+      }
+    }
+  }
+}

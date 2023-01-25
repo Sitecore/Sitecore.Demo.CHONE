@@ -1,0 +1,34 @@
+﻿id: uOjQGioIUUmYPB5Kz-sZCQ
+name: Doria Allen
+fields:
+  athleteName:
+    value: Doria Allen
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  dateOfBirth:
+    value: null
+    type: DateTime
+  careerStartDate:
+    value: null
+    type: DateTime
+  athleteQuote:
+    value: Don’t be afraid of failure. This is the way to succeed.
+    type: ShortText
+  nationality:
+    value: Polish
+    type: ShortText
+  hobby:
+    value: Gardening
+    type: ShortText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "k0--_hvyvkyuiVNjww_3oQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
+      }
+    type: Reference

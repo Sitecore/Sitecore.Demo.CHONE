@@ -1,0 +1,79 @@
+﻿id: XrfWe3ezQUm59fsgQiyjYA
+name: Boulder world cup
+fields:
+  title:
+    value: Boulder world cup
+    type: ShortText
+  isFeatured:
+    value: false
+    type: Boolean
+  timeAndDate:
+    value: 2023-05-17T22:00:00.000Z
+    type: DateTime
+  location:
+    value: Torino, Italy
+    type: ShortText
+  teaser:
+    value: Bouldering stars showcase their incredible climbing feats to an enthralled global audience.
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "Sports Climbing consists of three disciplines. There is the ‘Speed’ category that pits two climbers side by side in a timed race to the top of the wall, the polar opposite of the methodical approach needed to succeed in ‘Lead’ climbing. Perfectly placed between those two skill sets is ‘Bouldering’. Men and Women use a maximum of 10 movements to power over a vast array of shaped and sized boulders bolted onto steep vertical walls often topped off with an imposing overhang. They have no safety support other than the vice-like grip that their fingertips might allow them. This is a sport that truly lives up to the mantra of ‘living on the edge’."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
+  sport:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "k0--_hvyvkyuiVNjww_3oQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
+      }
+    type: Reference
+  athletes:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "uOjQGioIUUmYPB5Kz-sZCQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5Kz-sZCQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "TacYstuhJU6-Fx-OSUoL-Q",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/TacYstuhJU6-Fx-OSUoL-Q"
+      }
+    type: Reference
+  similarEvents:
+    value:
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "ywmaOWtjf0W7-33SV14dVQ",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/ywmaOWtjf0W7-33SV14dVQ"
+      }
+    - >-
+      {
+        "type": "Link",
+        "relatedType": "Content",
+        "id": "eibM5C0OVUexMb30n-l2Rg",
+        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/eibM5C0OVUexMb30n-l2Rg"
+      }
+    type: Reference

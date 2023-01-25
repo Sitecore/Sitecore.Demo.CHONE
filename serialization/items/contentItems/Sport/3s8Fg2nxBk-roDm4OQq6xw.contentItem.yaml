@@ -1,0 +1,9 @@
+﻿id: 3s8Fg2nxBk-roDm4OQq6xw
+name: Skateboarding
+fields:
+  title:
+    value: Skateboarding
+    type: ShortText
+  description:
+    value: Skateboarding is an action sport originating in the United States that involves riding and performing tricks using a skateboard, as well as a recreational activity, an art form, an entertainment industry job, and a method of transportation.
+    type: ShortText

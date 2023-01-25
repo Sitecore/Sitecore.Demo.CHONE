@@ -1,0 +1,43 @@
+.hero-banner-athlete-details {
+  @apply md:min-h-[27rem];
+
+  .hero-banner-content {
+    @apply grid grid-cols-1;
+    @apply md:grid-cols-5 md:mb-12;
+
+    .avatar {
+      @apply w-28 h-28 flex-shrink-0 flex-grow-0 rounded-full overflow-hidden;
+      @apply self-center justify-self-center mb-4;
+      @apply md:justify-self-auto md:mb-0;
+
+      img {
+        @apply w-full h-full object-cover;
+      }
+    }
+
+    .quote-and-name {
+      @apply md:col-span-4;
+
+      .shadow-box {
+        &-shadow {
+          @apply bg-black-light;
+        }
+
+        blockquote {
+          @apply w-full px-4 py-1 italic text-center text-white;
+          @apply dark:text-black;
+
+          &::before,
+          &::after {
+            @apply content-['"'] font-bold text-3xl not-italic;
+          }
+        }
+      }
+
+      h3 {
+        @apply mt-8 text-3xl font-bold text-center;
+        @apply md:text-left;
+      }
+    }
+  }
+}

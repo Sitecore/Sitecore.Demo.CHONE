@@ -1,0 +1,4 @@
+.facet-filters {
+  @apply flex flex-col gap-8;
+  @apply sm:flex-row;
+}

@@ -1,0 +1,14 @@
+.event-detail-content {
+  @apply flex flex-col overflow-hidden;
+  @apply md:block;
+}
+
+.event-detail-content > section:first-child {
+  @apply order-2;
+  @apply md:order-1;
+}
+
+section h2 {
+  @apply text-black-lightest;
+  @apply dark:text-white;
+}

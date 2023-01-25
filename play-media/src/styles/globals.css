@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-size: 16px;
+}
+
+body {
+  @apply bg-white text-black overflow-x-hidden;
+
+  &.dark {
+    @apply bg-black text-white;
+  }
+}
+
+a {
+  @apply no-underline text-blue;
+}
+
+a:hover,
+a:active,
+a:focus {
+  @apply opacity-100;
+}
+
+h1 {
+  @apply font-bold text-4xl my-2;
+}
+
+h2 {
+  @apply font-bold text-2xl my-3;
+}
+
+h3 {
+  @apply font-bold text-sm my-4;
+}
+
+h4 {
+  @apply font-bold text-xs my-5;
+}
+
+h5 {
+  @apply font-bold text-sm my-6;
+}
+
+h6 {
+  @apply font-bold text-xs my-8;
+}
+
+.text-dark {
+  @apply text-black;
+}
+
+select {
+  @apply text-black;
+}
+
+.error-container {
+  @apply h-screen flex flex-col justify-center items-center;
+}
+
+.react-parallax-bgimage {
+  @apply max-w-none;
+}
+
+@layer components {
+  .container {
+    @apply xl:max-w-container;
+  }
+
+  .content-section {
+    @apply my-14;
+    @apply md:my-20;
+  }
+}
