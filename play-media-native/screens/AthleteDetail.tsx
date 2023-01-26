@@ -111,7 +111,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView decelerationRate={0.5}>
+      <ScrollView>
         <View>
           <Button
             style={styles.button}
