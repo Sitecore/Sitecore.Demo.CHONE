@@ -5,6 +5,7 @@ export type RootStackParamList = {
   AddConnection: undefined;
   AddEvent: undefined;
   AthleteDetail: { id: string };
+  EditAthleteDetails: { id: string };
   EventDetail: { id: string };
   MainTabs: undefined;
   RemoveConnection: undefined;

@@ -11,6 +11,7 @@ import { RemoveConnectionScreen } from "../screens/RemoveConnection";
 import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHeader";
 import { SafeAreaView } from "react-native";
 import { theme } from "../theme/theme";
+import { EditAthleteDetailsScreen } from "../screens/EditAthleteDetails";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -65,6 +66,11 @@ export const Stacks = () => {
           name="AthleteDetail"
           component={AthleteDetailScreen}
           options={{ title: "Athlete Detail" }}
+        />
+        <Stack.Screen
+          name="EditAthleteDetails"
+          component={EditAthleteDetailsScreen}
+          options={{ title: "Edit Athlete Details" }}
         />
         <Stack.Screen
           name="EventDetail"
