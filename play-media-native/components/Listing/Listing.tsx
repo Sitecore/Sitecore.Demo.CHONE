@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Text, ActivityIndicator } from "react-native-paper";
 import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from "../../constants/pagination";
-import { CenteredScreen } from "../../features/CenteredScreen/CenteredScreen";
+import { Screen } from "../../features/Screen/Screen";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 import { mockFetchData } from "../../helpers/mockPagination";
 import { theme } from "../../theme/theme";
@@ -80,9 +80,9 @@ export const Listing = ({
 
   if (!!items && !items.length) {
     return (
-      <CenteredScreen>
+      <Screen centered>
         <Text>No items to show</Text>
-      </CenteredScreen>
+      </Screen>
     );
   }
 
