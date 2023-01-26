@@ -1,0 +1,49 @@
+﻿id: o-IjG5JYuE6JNUVx1KejPA
+name: The Play! Media History
+fields:
+  title:
+    value: The Play! Media History
+    type: LongText
+  body:
+    value: >-
+      {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "type": "text",
+                "text": "The "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "bold"
+                  }
+                ],
+                "text": "PLAY! "
+              },
+              {
+                "type": "text",
+                "text": "Media magazine was first launched in 1883 as a lightweight publication mostly centered on sports humor, but after it was purchased by John Jonah Jameson Jr. in 1936, it became a crucial weekly sports news publication in the United States focused on sports photojournalism. Until 2000, "
+              },
+              {
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "bold"
+                  }
+                ],
+                "text": "PLAY! "
+              },
+              {
+                "type": "text",
+                "text": "Media commissioned more than 120,000 stories and 10 million photographs. Throughout the decades, many generations of photographers passed through the magazine, as well as some of the greatest writers, editors, illustrators, and cartoonists of its time."
+              }
+            ]
+          }
+        ]
+      }
+    type: RichText
