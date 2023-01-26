@@ -14,7 +14,7 @@ import { getAccentColor } from "../helpers/colorHelper";
 import { Media } from "../interfaces/media";
 import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
-import { CenteredScreen } from "../features/CenteredScreen/CenteredScreen";
+import { Screen } from "../features/Screen/Screen";
 
 export const EventDetailScreen = ({ route, navigation }) => {
   const { data: events, isFetching } = useQuery("events", getAllEvents);
@@ -65,9 +65,9 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   if (!event) {
     return (
-      <CenteredScreen>
+      <Screen centered>
         <Text>Event could not be fetched!</Text>
-      </CenteredScreen>
+      </Screen>
     );
   }
 
