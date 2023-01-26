@@ -77,9 +77,7 @@ export default function App() {
       <GlobalStateProvider store={store}>
         <QueryClientProvider client={queryClient}>
           <PaperProvider theme={paperTheme}>
-            <Portal.Host>
-              <Main />
-            </Portal.Host>
+            <Main />
           </PaperProvider>
         </QueryClientProvider>
       </GlobalStateProvider>

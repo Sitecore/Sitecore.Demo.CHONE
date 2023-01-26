@@ -8,7 +8,7 @@ export const AddConnectionScreen = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.centeredScreen}
+      style={{ ...styles.screen, ...styles.centered }}
     >
       <StatusBar barStyle={"light-content"} />
       <View

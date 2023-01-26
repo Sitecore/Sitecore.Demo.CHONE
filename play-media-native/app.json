@@ -1,11 +1,19 @@
 {
   "expo": {
-    "name": "play-media-native",
-    "slug": "play-media-native",
+    "name": "Play! Media",
+    "slug": "play-media",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -25,15 +33,19 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.sitecoredemo.playmedianative"
+      "package": "com.sitecoredemo.playmedianative",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "96a76d66-97b2-4f65-9b10-56a86128fda9"
+        "projectId": "d8518653-26c5-47b9-a133-e41dddce9269"
       }
-    }
+    },
+    "owner": "troglis"
   }
 }

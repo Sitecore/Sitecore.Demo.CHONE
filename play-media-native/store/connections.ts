@@ -37,8 +37,6 @@ export const connectionsSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-//
 export const { add, connect, init, remove } = connectionsSlice.actions;
 
 export default connectionsSlice.reducer;

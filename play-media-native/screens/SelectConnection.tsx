@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { Logo } from "../components/Logo/Logo";
 import { Button, Text } from "react-native-paper";
 import { useConnections } from "../hooks/useConnections/useConnections";
@@ -7,13 +7,12 @@ import { Select } from "../components/Select/Select";
 import { BottomFAB } from "../components/BottomFAB/BottomFAB";
 import { Icon } from "../components/Icon/Icon";
 import { theme } from "../theme/theme";
-import { CenteredScreen } from "../features/CenteredScreen/CenteredScreen";
+import { Screen } from "../features/Screen/Screen";
+import { styles } from "../theme/styles";
 
-const styles = StyleSheet.create({
-  fabAdd: {
-    bottom: 75,
-  },
-});
+const fabAddStyle = {
+  bottom: 75,
+};
 
 export const SelectConnectionScreen = ({ navigation }) => {
   const { connections, connect } = useConnections();
@@ -56,7 +55,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
   }, [connections]);
 
   return (
-    <CenteredScreen>
+    <Screen centered>
       <StatusBar barStyle={"light-content"} />
       <View
         style={{
@@ -105,20 +104,21 @@ export const SelectConnectionScreen = ({ navigation }) => {
           />
           <Button
             icon="connection"
-            mode="outlined"
+            mode="contained"
             onPress={onConnect}
-            style={{ marginTop: theme.spacing.xs }}
+            style={{ ...styles.button, marginTop: theme.spacing.xs }}
+            labelStyle={styles.buttonLabel}
           >
             Connect
           </Button>
         </>
       )}
-      <BottomFAB icon="plus" onPress={onFabAddClick} style={styles.fabAdd} />
+      <BottomFAB icon="plus" onPress={onFabAddClick} style={fabAddStyle} />
       <BottomFAB
         disabled={noConnectionsAvailable}
         icon="delete"
         onPress={onFabRemoveClick}
       />
-    </CenteredScreen>
+    </Screen>
   );
 };

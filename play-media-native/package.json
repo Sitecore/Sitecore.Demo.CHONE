@@ -23,6 +23,7 @@
     "color-hash": "^2.0.2",
     "expo": "~47.0.9",
     "expo-font": "~11.0.1",
+    "expo-image-picker": "~14.0.2",
     "expo-secure-store": "~12.0.0",
     "expo-status-bar": "~1.4.2",
     "lodash.debounce": "^4.0.8",
@@ -37,6 +38,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-step-indicator": "^1.0.3",
     "react-native-svg": "13.4.0",
+    "react-native-uuid": "^2.0.1",
     "react-native-web": "^0.18.10",
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5"
@@ -47,6 +49,7 @@
     "@types/lodash.debounce": "^4.0.7",
     "@types/react": "~18.0.24",
     "@types/react-native": "~0.70.6",
+    "@types/uuid": "^9.0.0",
     "typescript": "^4.9.4"
   },
   "private": true
