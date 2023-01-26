@@ -3,6 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Stacks } from "../../navigators/Stacks";
 import { useConnections } from "../../hooks/useConnections/useConnections";
 import { getConnections } from "../../helpers/connections";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { styles } from "../../theme/styles";
 
 export const Main = () => {
   const { init } = useConnections();
@@ -20,7 +22,9 @@ export const Main = () => {
 
   return (
     <NavigationContainer>
-      <Stacks />
+      <SafeAreaView style={styles.screen}>
+        <Stacks />
+      </SafeAreaView>
     </NavigationContainer>
   );
 };

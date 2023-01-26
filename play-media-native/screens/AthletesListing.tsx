@@ -9,6 +9,7 @@ import { AnimatedFAB } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { styles } from "../theme/styles";
 import { theme } from "../theme/theme";
+import { Screen } from "../features/Screen/Screen";
 
 export const AthletesListingScreen = ({ navigation }) => {
   const { data: athletes, isFetching } = useQuery("athletes", () =>
@@ -24,7 +25,7 @@ export const AthletesListingScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <>
+    <Screen>
       <StatusBar barStyle={"light-content"} />
       <Listing
         data={athletes}
@@ -44,6 +45,6 @@ export const AthletesListingScreen = ({ navigation }) => {
         iconMode={"dynamic"}
         style={styles.fab}
       />
-    </>
+    </Screen>
   );
 };
