@@ -3,7 +3,6 @@ import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
 import { Button, Text } from "react-native-paper";
 import {
-  Image,
   View,
   StyleSheet,
   ScrollView,
@@ -13,10 +12,10 @@ import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
 import { getDate, getYear } from "../helpers/dateHelper";
 import { getAccentColor, getTextColor } from "../helpers/colorHelper";
-import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
+import { AthleteImages } from "../features/Screens/AthleteImages";
 
 const styles = StyleSheet.create({
   container: {
@@ -74,17 +73,6 @@ const styles = StyleSheet.create({
     marginLeft: theme.spacing.sm,
     marginBottom: theme.spacing.md,
     fontFamily: theme.fontFamily.bold,
-  },
-  imageContainer: {
-    marginBottom: theme.spacing.md,
-  },
-  imageLabel: {
-    color: theme.colors.gray.DEFAULT,
-    marginBottom: theme.spacing.xs,
-  },
-  imageItem: { height: 300, width: "100%", marginTop: theme.spacing.xs },
-  imageGrid: {
-    marginTop: theme.spacing.xs,
   },
 });
 
@@ -212,37 +200,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             </View>
           </CardShadowBox>
         </View>
-        {athlete?.profilePhoto?.results[0]?.fileUrl && (
-          <View style={styles.imageContainer}>
-            <Text style={styles.imageLabel}>Profile photo</Text>
-            <Image
-              source={{
-                uri: athlete.profilePhoto.results[0].fileUrl,
-              }}
-              style={styles.imageItem}
-            />
-          </View>
-        )}
-        {athlete?.featuredImage?.results[0]?.fileUrl && (
-          <View style={styles.imageContainer}>
-            <Text style={styles.imageLabel}>Featured image</Text>
-            <Image
-              source={{
-                uri: athlete.featuredImage.results[0].fileUrl,
-              }}
-              style={styles.imageItem}
-            />
-          </View>
-        )}
-        {athlete?.relatedMedia?.results.length > 0 && (
-          <View style={styles.imageContainer}>
-            <Text style={styles.imageLabel}>Related media</Text>
-            <ImageGrid
-              style={styles.imageGrid}
-              images={athlete.relatedMedia.results.map((img) => img.fileUrl)}
-            />
-          </View>
-        )}
+        <AthleteImages athlete={athlete} />
       </ScrollView>
     </SafeAreaView>
   );
