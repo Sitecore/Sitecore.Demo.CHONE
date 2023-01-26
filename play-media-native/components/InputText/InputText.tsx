@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { StyleProp, View } from "react-native";
-import { HelperText, TextInput } from "react-native-paper";
+import { HelperText, Text, TextInput } from "react-native-paper";
 import { Icon } from "../Icon/Icon";
+import { theme } from "../../theme/theme";
 
 interface Props {
   containerStyle: StyleProp<any>;
@@ -11,8 +12,10 @@ interface Props {
   errorText?: string;
   inputStyle?: StyleProp<any>;
   label: string;
+  multiline?: boolean;
   onChange: (text: string) => void;
   outlineStyle?: StyleProp<any>;
+  title?: string;
   underlineStyle?: StyleProp<any>;
   value: string;
 }
@@ -33,8 +36,10 @@ export const InputText = ({
   errorText,
   inputStyle,
   label,
+  multiline,
   onChange,
   outlineStyle,
+  title,
   underlineStyle,
   value,
 }: Props) => {
@@ -43,7 +48,7 @@ export const InputText = ({
       ...defaultContainerStyle,
       ...containerStyle,
     }),
-    [inputStyle]
+    [containerStyle]
   );
 
   const inputStyleFinal = useMemo(
@@ -56,10 +61,16 @@ export const InputText = ({
 
   return (
     <View style={containerStyleFinal}>
+      {title && (
+        <Text style={{ color: theme.colors.gray.dark }} variant="labelLarge">
+          {title}
+        </Text>
+      )}
       <TextInput
         contentStyle={contentStyle}
         disabled={disabled}
         label={label}
+        multiline={multiline}
         onChangeText={onChange}
         outlineStyle={outlineStyle}
         style={inputStyleFinal}

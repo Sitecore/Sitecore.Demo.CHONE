@@ -2,10 +2,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { View } from "react-native";
 import { IconButton, Menu } from "react-native-paper";
-import { TabHeaderNavigationProp } from "../../interfaces/navigators";
+import { StackNavigationProp } from "../../interfaces/navigators";
 
 export const SecondaryMenu = () => {
-  const navigation = useNavigation<TabHeaderNavigationProp>();
+  const navigation = useNavigation<StackNavigationProp>();
   const [visible, setVisible] = useState(true);
 
   const closeMenu = useCallback(() => {

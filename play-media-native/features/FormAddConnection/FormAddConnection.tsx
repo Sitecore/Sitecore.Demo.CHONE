@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { InputText } from "../../components/InputText/InputText";
 import { validateConnection } from "../../api/queries/validateConnection";
-import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { ActivityIndicator, Button } from "react-native-paper";
 import { Toast } from "../../components/Toast/Toast";
 import { storeConnection } from "../../helpers/connections";
 import { View } from "react-native";
@@ -9,6 +9,7 @@ import { useConnections } from "../../hooks/useConnections/useConnections";
 import debounce from "lodash.debounce";
 import { Connection } from "../../interfaces/connections";
 import { theme } from "../../theme/theme";
+import { styles } from "../../theme/styles";
 
 const defaultTextInputStyle = {
   width: "90%",
@@ -143,7 +144,8 @@ export const FormAddConnection = () => {
         icon="plus-circle-outline"
         mode="contained"
         onPress={onAddConnection}
-        style={{ marginTop: theme.spacing.xs }}
+        labelStyle={styles.buttonLabel}
+        style={{ marginTop: theme.spacing.xs, ...styles.button }}
       >
         Add Connection
       </Button>

@@ -2,12 +2,19 @@ import { StyleSheet } from "react-native";
 import { theme } from "./theme";
 
 export const styles = StyleSheet.create({
-  centeredScreen: {
-    flex: 1,
+  button: {
+    borderWidth: 1,
+    borderColor: theme.colors.yellow.DEFAULT,
+    marginHorizontal: theme.spacing.xs,
+  },
+  buttonLabel: {
+    fontFamily: theme.fontFamily.medium,
+    fontSize: theme.fontSize.base,
+    lineHeight: 30,
+  },
+  centered: {
     justifyContent: "center",
     alignItems: "center",
-    height: "100%",
-    backgroundColor: theme.colors.black.darkest,
   },
   container: {
     paddingHorizontal: theme.spacing.sm,
@@ -18,5 +25,10 @@ export const styles = StyleSheet.create({
     margin: theme.spacing.xs,
     right: theme.spacing.xs,
     bottom: theme.spacing.xs,
+  },
+  screen: {
+    flex: 1,
+    height: "100%",
+    backgroundColor: theme.colors.black.darkest,
   },
 });
