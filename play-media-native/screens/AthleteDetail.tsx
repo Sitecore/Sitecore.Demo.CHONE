@@ -1,14 +1,8 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
-import { Button, Text } from "react-native-paper";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { AnimatedFAB, Text } from "react-native-paper";
+import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
 import { getDate, getYear } from "../helpers/dateHelper";
@@ -17,17 +11,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { AthleteImages } from "../features/Screens/AthleteImages";
+import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.black.darkest,
     paddingTop: theme.spacing.md,
     paddingHorizontal: theme.spacing.sm,
-  },
-  button: {
-    position: "absolute",
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
   },
   label: {
     color: theme.colors.gray.DEFAULT,
@@ -75,9 +65,15 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
     fontFamily: theme.fontFamily.bold,
   },
+  bottomFAB: {
+    right: theme.spacing.sm,
+    bottom: theme.spacing.xs,
+  },
 });
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
+  const { isTopEdge } = useScrollOffset(true);
+
   const { data, isFetching } = useQuery("athlete", () =>
     getAthleteById(route.params.id)
   );
@@ -113,19 +109,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View>
-          <Button
-            style={styles.button}
-            textColor={theme.colors.yellow.DEFAULT}
-            icon={({ size }) => (
-              <FontAwesomeIcon
-                icon={faEdit}
-                color={theme.colors.yellow.DEFAULT}
-                size={size}
-              />
-            )}
-          >
-            Change
-          </Button>
           <Text style={styles.label}>Sport</Text>
           <Text
             style={[
@@ -139,23 +122,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             {athlete.sport.results[0].title}
           </Text>
         </View>
-        <TouchableOpacity
-          onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
-        >
         <View>
-          <Button
-            style={styles.button}
-            textColor={theme.colors.yellow.DEFAULT}
-            icon={({ size }) => (
-              <FontAwesomeIcon
-                icon={faEdit}
-                color={theme.colors.yellow.DEFAULT}
-                size={size}
-              />
-            )}
-          >
-            Edit info
-          </Button>
           <Text style={styles.label}>Athlete name</Text>
           <Text
             style={[
@@ -169,7 +136,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             {athlete.athleteName}
           </Text>
         </View>
-        </TouchableOpacity>
         <View style={styles.cardContainer}>
           <CardShadowBox color={theme.colors.black.light}>
             <View
@@ -214,6 +180,19 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
         </View>
         <AthleteImages athlete={athlete} />
       </ScrollView>
+      <AnimatedFAB
+        icon={({ size }) => (
+          <FontAwesomeIcon
+            icon={faEdit}
+            color={theme.colors.black.DEFAULT}
+            size={size}
+          />
+        )}
+        label={"Edit"}
+        extended={isTopEdge}
+        onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
+        style={styles.bottomFAB}
+      ></AnimatedFAB>
     </SafeAreaView>
   );
 };
