@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
@@ -16,11 +17,12 @@ export const useFilters = () => {
     visible,
     athleteFiltersActive,
     eventFiltersActive,
-    toggleVisible: () => dispatch(toggleVisible()),
-    setAthleteFiltersActive: (activeFilters: number) => {
+    toggleVisible: useCallback(() => dispatch(toggleVisible()), []),
+    setAthleteFiltersActive: useCallback((activeFilters: number) => {
       dispatch(setAthleteFiltersActive(activeFilters));
-    },
-    setEventFiltersActive: (activeFilters: number) =>
-      dispatch(setEventFiltersActive(activeFilters)),
+    }, []),
+    setEventFiltersActive: useCallback((activeFilters: number) => {
+      dispatch(setEventFiltersActive(activeFilters));
+    }, []),
   };
 };
