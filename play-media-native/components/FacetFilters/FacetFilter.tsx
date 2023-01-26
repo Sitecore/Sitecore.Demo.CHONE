@@ -1,5 +1,6 @@
 import { StyleProp, View, ViewStyle } from "react-native";
 import { Text } from "react-native-paper";
+import { theme } from "../../theme/theme";
 import { DropdownItem, DropdownPicker } from "../DropdownPicker/DropdownPicker";
 
 type FacetFilterProps = FacetFilter & {
@@ -26,7 +27,7 @@ export const FacetFilter = ({
 
   return (
     <View style={style}>
-      <Text>{label}</Text>
+      <Text style={{ marginBottom: theme.spacing.xxs }}>{label}</Text>
       <DropdownPicker selectItems={facets} onSelectItem={handleChange} />
     </View>
   );

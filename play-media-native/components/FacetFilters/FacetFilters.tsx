@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { styles } from "../../theme/styles";
 import { theme } from "../../theme/theme";
 import { DropdownItem } from "../DropdownPicker/DropdownPicker";
 import { FacetFilter } from "./FacetFilter";
@@ -16,15 +15,12 @@ export const FacetFilters = ({ facetFilters, onChange }: FacetFiltersProps) => {
 
   return (
     <View
-      style={[
-        styles.container,
-        {
-          flexDirection: "row",
-          justifyContent: "space-between",
-          marginHorizontal: -theme.spacing.xxs,
-          zIndex: 10,
-        },
-      ]}
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginHorizontal: -theme.spacing.xxs,
+        zIndex: 10,
+      }}
     >
       {facetFilters.map((facet, i) => (
         <FacetFilter

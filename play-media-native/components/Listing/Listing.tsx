@@ -78,7 +78,7 @@ export const Listing = ({
     return <LoadingScreen />;
   }
 
-  if (!items.length) {
+  if (!!items && !items.length) {
     return (
       <CenteredScreen>
         <Text>No items to show</Text>

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CardAvatar } from "../features/CardAvatar/CardAvatar";
 import { Listing } from "../components/Listing/Listing";
 import { Athlete } from "../interfaces/athlete";
@@ -9,17 +9,16 @@ import { AnimatedFAB } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { styles } from "../theme/styles";
 import { theme } from "../theme/theme";
-import { FacetFilters } from "../components/FacetFilters/FacetFilters";
 import { camelize } from "../helpers/textHelper";
 import { getAllSports } from "../api/queries/getSports";
-import { DropdownItem } from "../components/DropdownPicker/DropdownPicker";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
+import { AthleteFilters } from "../features/AthleteFilters/AthleteFilters";
+import { useFilters } from "../hooks/useFilters/useFilters";
+import { useNavigation } from "@react-navigation/native";
+import { TabHeaderNavigationProp } from "../interfaces/navigators";
+import { IIndexable } from "../interfaces/indexable";
 
-export interface IIndexable {
-  [key: string]: any;
-}
-
-export const AthletesListingScreen = ({ navigation }) => {
+export const AthletesListingScreen = () => {
   const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
     "athletes",
     () => getAllAthletes()
@@ -28,48 +27,28 @@ export const AthletesListingScreen = ({ navigation }) => {
     "sports",
     () => getAllSports()
   );
+  const [filteredAthletes, setFilteredAthletes] = useState(athletes);
+  const { visible } = useFilters();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const [facetValues, setFacetValues] = useState<IIndexable>({
-    athleteNationality: "",
-    athleteSport: "",
-  });
+  const navigation = useNavigation<TabHeaderNavigationProp>();
 
-  const nationalityFacets = useMemo(() => {
-    const nationalities = Array.from(
-      new Set(athletes?.map((athlete) => athlete.nationality).filter((n) => n))
-    );
-
-    return nationalities.map((nationality) => ({
-      label: nationality,
-      value: camelize(nationality),
-    }));
+  useEffect(() => {
+    setFilteredAthletes(athletes);
   }, [athletes]);
 
-  const sportFacets = useMemo(() => {
-    if (!sports) return;
-    return sports?.map((sport) => ({ label: sport.title, value: sport.id }));
-  }, [sports]);
-
-  const filteredAthletes = useMemo(() => {
-    let filteredAthletes = athletes;
+  const handleChange = (facetValues: IIndexable) => {
+    let _filteredAthletes = athletes;
     if (!!facetValues.athleteNationality) {
-      filteredAthletes = filteredAthletes.filter((athlete) => {
+      _filteredAthletes = _filteredAthletes.filter((athlete) => {
         return camelize(athlete.nationality) === facetValues.athleteNationality;
       });
     }
     if (!!facetValues.athleteSport) {
-      filteredAthletes = filteredAthletes.filter((athlete) => {
+      _filteredAthletes = _filteredAthletes.filter((athlete) => {
         return athlete.sport.results[0]?.id === facetValues.athleteSport;
       });
     }
-    return filteredAthletes;
-  }, [facetValues, athletes]);
-
-  const handleFacetsChange = (id: string, item: DropdownItem) => {
-    const newFacetValues = facetValues;
-    newFacetValues[id] = item.value;
-
-    setFacetValues({ ...newFacetValues });
+    setFilteredAthletes(_filteredAthletes);
   };
 
   const onCardPress = useCallback((athlete: Athlete) => {
@@ -86,20 +65,11 @@ export const AthletesListingScreen = ({ navigation }) => {
   return (
     <>
       <StatusBar barStyle={"light-content"} />
-      <FacetFilters
-        facetFilters={[
-          {
-            id: "athleteNationality",
-            label: "Nationality",
-            facets: [{ label: "All", value: "" }, ...nationalityFacets] || [],
-          },
-          {
-            id: "athleteSport",
-            label: "Sport",
-            facets: [{ label: "All", value: "" }, ...sportFacets] || [],
-          },
-        ]}
-        onChange={handleFacetsChange}
+      <AthleteFilters
+        athletes={athletes}
+        sports={sports}
+        onChange={handleChange}
+        visible={visible}
       />
       <Listing
         data={filteredAthletes}

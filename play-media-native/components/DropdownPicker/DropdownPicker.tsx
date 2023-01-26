@@ -34,6 +34,9 @@ export const DropdownPicker = ({
       placeholder={placeholder}
       style={{
         borderRadius: 0,
+        paddingVertical: 0,
+        minHeight: 40,
+        maxHeight: 40,
       }}
       dropDownContainerStyle={{
         borderRadius: 0,
