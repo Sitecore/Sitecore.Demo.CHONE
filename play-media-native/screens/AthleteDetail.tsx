@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
@@ -101,6 +102,13 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     theme.colors.gray.DEFAULT;
   const textColor = getTextColor(accentColor) || theme.colors.white.DEFAULT;
 
+  const handleEditInfo = (id: string, title: string) => {
+    navigation.navigate("EditAthleteDetails", {
+      id,
+      title,
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView decelerationRate={0.5}>
@@ -131,6 +139,9 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             {athlete.sport.results[0].title}
           </Text>
         </View>
+        <TouchableOpacity
+          onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
+        >
         <View>
           <Button
             style={styles.button}
@@ -158,6 +169,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             {athlete.athleteName}
           </Text>
         </View>
+        </TouchableOpacity>
         <View style={styles.cardContainer}>
           <CardShadowBox color={theme.colors.black.light}>
             <View
