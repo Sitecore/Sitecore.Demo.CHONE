@@ -31,6 +31,22 @@ npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <oauth-client-id> 
    npm run push:items
    ```
 
+## Pushing additional assets to Content Hub ONE (currently ContentBlock and Location)
+
+1. In order to push the additional content types run:
+
+   ```bash
+   npm run push:content-block-type
+   npm run push:location-type
+   ```
+
+1. In order to push the corresponding content items of the additional content types run:
+
+   ```bash
+   npm run push:content-block-items
+   npm run push:location-items
+   ```
+
 ## Publishing Content Hub ONE assets
 
 You can publish all of your content items to the delivery endpoint using a single command:
