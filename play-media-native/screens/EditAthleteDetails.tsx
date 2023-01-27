@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
   },
   item: {
     marginBottom: theme.spacing.xs,
-    fontFamily: theme.fontFamily.bold,
   },
   textInput: {
     height: 37,
