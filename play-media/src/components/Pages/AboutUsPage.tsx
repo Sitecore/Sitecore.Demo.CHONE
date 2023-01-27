@@ -2,6 +2,7 @@ import { ContentBlock as IContentBlock } from '../../interfaces/contentBlock';
 import { Location } from '../../interfaces/location';
 import ContentBlock from '../ContentBlock/ContentBlock';
 import { HeroBannerSection } from '../HeroBanner/HeroBannerSection';
+import LocationsGrid from '../LocationsGrid/LocationsGrid';
 
 export const AboutUsPage = ({
   contentBlocks,
@@ -25,12 +26,17 @@ export const AboutUsPage = ({
   };
 
   return (
-    <section>
+    <>
       <HeroBannerSection imageSrc={IMG_SRC}>
         <ContentBlock contentBlock={getContentBlock(CONTENT_IDS.ABOUT)} />
       </HeroBannerSection>
-      <ContentBlock contentBlock={getContentBlock(CONTENT_IDS.HISTORY)} />
-      <ContentBlock contentBlock={getContentBlock(CONTENT_IDS.LOCATIONS)} />
-    </section>
+      <section className="content-section">
+        <ContentBlock contentBlock={getContentBlock(CONTENT_IDS.HISTORY)} />
+      </section>
+      <section className="content-section">
+        <ContentBlock contentBlock={getContentBlock(CONTENT_IDS.LOCATIONS)} />
+        <LocationsGrid locations={locations} />
+      </section>
+    </>
   );
 };

@@ -19,6 +19,7 @@
 @import './components/HeroBanner/HeroBannerEventDetails.css';
 @import './components/HeroBanner/HeroBannerSection.css';
 @import './components/ImageGrid/ImageGrid.css';
+@import './components/LocationsGrid/LocationsGrid.css';
 @import './components/Common/Loader.css';
 @import './components/Modal/Modal.css';
 @import './components/RichText/RichText.css';
