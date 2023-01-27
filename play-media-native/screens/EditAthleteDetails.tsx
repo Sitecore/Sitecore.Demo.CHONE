@@ -1,13 +1,7 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  StyleSheet,
-  TextInput,
-} from "react-native";
+import { ScrollView, View, StyleSheet, TextInput } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
@@ -44,17 +38,6 @@ const pageStyles = StyleSheet.create({
     backgroundColor: theme.colors.white.DEFAULT,
     padding: theme.spacing.xs,
     marginBottom: theme.spacing.xs,
-  },
-  imageContainer: {
-    marginBottom: theme.spacing.md,
-  },
-  imageLabel: {
-    color: theme.colors.gray.DEFAULT,
-    marginBottom: theme.spacing.xs,
-  },
-  imageItem: { height: 300, width: "100%", marginTop: theme.spacing.xs },
-  imageGrid: {
-    marginTop: theme.spacing.xs,
   },
 });
 
