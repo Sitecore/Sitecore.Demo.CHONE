@@ -1,25 +1,23 @@
-import { FetchOptions } from "../..";
+import { FetchOptions } from "../../../interfaces/fetchOptions";
+import { generateToken } from "../generateToken";
 import { getAllAthletes } from "../getAthletes";
 import { getAllEvents } from "../getEvents";
 import { getAllSports } from "../getSports";
 
-// If athletes, events and sports reponses are valid, return true for valid connection
+// If token, athletes, events and sports reponses are valid, return true for valid connection
 // Else return false for invalid connection
 //
 export const validateConnection = async (
   options: FetchOptions
 ): Promise<boolean> => {
   const promises = [
+    generateToken(options),
     getAllAthletes(options),
     getAllEvents(options),
     getAllSports(options),
   ];
 
-  return await Promise.all(promises).then(([athletes, events, sports]) => {
-    if (athletes?.length && events?.length && sports?.length) {
-      return true;
-    }
-
-    throw "Invalid connection";
-  });
+  return await Promise.all(promises)
+    .then(() => true)
+    .catch(() => false);
 };
