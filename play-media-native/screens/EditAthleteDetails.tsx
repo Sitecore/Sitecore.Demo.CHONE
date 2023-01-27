@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
-  TouchableOpacity,
   View,
   StyleSheet,
   TextInput,
@@ -106,10 +105,10 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
 
   // TODO
   const handleChangeSport = (id: string, title: string) => {
-    navigation.navigate("EditSport", {
-      id,
-      title,
-    });
+    // navigation.navigate("EditSport", {
+    //   id,
+    //   title,
+    // });
   };
 
   // TODO
@@ -123,37 +122,20 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <TouchableOpacity
-          onPress={() => handleChangeSport(athlete.id, athlete.athleteName)}
-        >
-          <View>
-            <Button
-              style={styles.button}
-              textColor={theme.colors.yellow.DEFAULT}
-              icon={({ size }) => (
-                <FontAwesomeIcon
-                  icon={faEdit}
-                  color={theme.colors.yellow.DEFAULT}
-                  size={size}
-                />
-              )}
-            >
-              Change
-            </Button>
-            <Text style={styles.label}>Sport</Text>
-            <Text
-              style={[
-                styles.item,
-                {
-                  color: getAccentColor(athlete.sport.results[0]?.title),
-                  marginBottom: theme.spacing.sm,
-                },
-              ]}
-            >
-              {athlete.sport.results[0].title}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <View>
+          <Text style={styles.label}>Sport</Text>
+          <Text
+            style={[
+              styles.item,
+              {
+                color: getAccentColor(athlete.sport.results[0]?.title),
+                marginBottom: theme.spacing.sm,
+              },
+            ]}
+          >
+            {athlete.sport.results[0].title}
+          </Text>
+        </View>
         <View>
           <Text style={styles.label}>Athlete name</Text>
           <TextInput
@@ -228,6 +210,20 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           isEditMode={true}
           onAddBtnPress={() => handleAddMedia(athlete.id, athlete.athleteName)}
         />
+        <Button
+          style={styles.button}
+          textColor={theme.colors.yellow.DEFAULT}
+          icon={({ size }) => (
+            <FontAwesomeIcon
+              icon={faEdit}
+              color={theme.colors.yellow.DEFAULT}
+              size={size}
+            />
+          )}
+          onPress={() => handleChangeSport(athlete.id, athlete.athleteName)}
+        >
+          Change
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );
