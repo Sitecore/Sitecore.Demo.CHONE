@@ -10,7 +10,7 @@
     "tenant:add": "ch-one-cli tenant add",
     "tenant:list": "ch-one-cli tenant list",
     "pull:types": "cd items && ch-one-cli ser pull content-type -i Sport && ch-one-cli ser pull content-type -i Athlete && ch-one-cli ser pull content-type -i Event",
-    "pull:additional-types": "cd items && ch-one-cli ser pull content-type -i ContentBlock && ch-one-cli ser pull content-type -c Location",
+    "pull:additional-types": "cd items && ch-one-cli ser pull content-type -i ContentBlock && ch-one-cli ser pull content-type -i Location",
     "push:types": "cd items && ch-one-cli ser push content-type -i Sport && ch-one-cli ser push content-type -i Athlete && ch-one-cli ser push content-type -i Event",
     "push:additional-types": "cd items && ch-one-cli ser push content-type -i ContentBlock && ch-one-cli ser push content-type -i Location",
     "pull:items": "cd items && ch-one-cli ser pull content-item -c Sport && ch-one-cli ser pull content-item -c Athlete && ch-one-cli ser pull content-item -c Event && cd .. && ts-node scripts/removeMediaFromContentItems.ts",
