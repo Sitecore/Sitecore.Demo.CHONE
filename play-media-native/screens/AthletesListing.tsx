@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CardAvatar } from "../features/CardAvatar/CardAvatar";
 import { Listing } from "../components/Listing/Listing";
 import { Athlete } from "../interfaces/athlete";
@@ -9,13 +9,48 @@ import { AnimatedFAB } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { styles } from "../theme/styles";
 import { theme } from "../theme/theme";
+import { camelize } from "../helpers/textHelper";
+import { getAllSports } from "../api/queries/getSports";
+import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
+import { AthleteFilters } from "../features/AthleteFilters/AthleteFilters";
+import { useFilters } from "../hooks/useFilters/useFilters";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "../interfaces/navigators";
+import { IIndexable } from "../interfaces/indexable";
 import { Screen } from "../features/Screen/Screen";
 
-export const AthletesListingScreen = ({ navigation }) => {
-  const { data: athletes, isFetching } = useQuery("athletes", () =>
-    getAllAthletes()
+export const AthletesListingScreen = () => {
+  const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
+    "athletes",
+    () => getAllAthletes()
   );
+  const { data: sports, isFetching: isFetchingSports } = useQuery(
+    "sports",
+    () => getAllSports()
+  );
+  const [filteredAthletes, setFilteredAthletes] = useState(athletes);
+  const { visible } = useFilters();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+  const navigation = useNavigation<StackNavigationProp>();
+
+  useEffect(() => {
+    setFilteredAthletes(athletes);
+  }, [athletes]);
+
+  const handleChange = (facetValues: IIndexable) => {
+    let _filteredAthletes = athletes;
+    if (!!facetValues.athleteNationality) {
+      _filteredAthletes = _filteredAthletes.filter((athlete) => {
+        return camelize(athlete.nationality) === facetValues.athleteNationality;
+      });
+    }
+    if (!!facetValues.athleteSport) {
+      _filteredAthletes = _filteredAthletes.filter((athlete) => {
+        return athlete.sport.results[0]?.id === facetValues.athleteSport;
+      });
+    }
+    setFilteredAthletes(_filteredAthletes);
+  };
 
   const onCardPress = useCallback((athlete: Athlete) => {
     navigation.navigate("AthleteDetail", {
@@ -24,17 +59,29 @@ export const AthletesListingScreen = ({ navigation }) => {
     });
   }, []);
 
+  if (isFetchingAthletes || isFetchingSports) {
+    return <LoadingScreen />;
+  }
+
   return (
     <Screen>
       <StatusBar barStyle={"light-content"} />
+      <AthleteFilters
+        athletes={athletes}
+        sports={sports}
+        onChange={handleChange}
+        visible={visible}
+      />
       <Listing
-        data={athletes}
-        isLoading={isFetching}
+        data={filteredAthletes}
         renderItem={({ item }) => (
           <CardAvatar item={item} onCardPress={() => onCardPress(item)} />
         )}
         onScroll={calcScrollOffset}
-        style={{ paddingHorizontal: theme.spacing.sm }}
+        style={{
+          flex: 1,
+          paddingHorizontal: theme.spacing.sm,
+        }}
       />
       <AnimatedFAB
         icon={"plus"}
