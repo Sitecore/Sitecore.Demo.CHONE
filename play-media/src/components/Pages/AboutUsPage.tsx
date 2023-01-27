@@ -15,7 +15,7 @@ export const AboutUsPage = ({
   // Change these to the respective content ids in your Content Hub ONE instance
   const CONTENT_BLOCK_IDS = {
     ABOUT: 'YXcFXM4yp0aKvHu5S8tmOg',
-    HISTORY: 'o-IjG5JYuE6JNUVx1KejPA',
+    HISTORY: 'oIjG5JYuE6JNUVx1KejPA',
     LOCATIONS: 'cSaltKGqXESGBDpQvIzlBA',
   };
 
