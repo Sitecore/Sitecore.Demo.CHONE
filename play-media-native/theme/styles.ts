@@ -31,4 +31,7 @@ export const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: theme.colors.black.darkest,
   },
+  screenPadding: {
+    paddingHorizontal: theme.spacing.sm,
+  },
 });

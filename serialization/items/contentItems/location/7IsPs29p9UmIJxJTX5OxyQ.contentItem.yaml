@@ -1,0 +1,18 @@
+﻿id: 7IsPs29p9UmIJxJTX5OxyQ
+name: America - HQ
+fields:
+  title:
+    value: America - HQ
+    type: ShortText
+  address:
+    value: Why Worry Lane
+    type: ShortText
+  city:
+    value: Arizona city
+    type: ShortText
+  country:
+    value: USA
+    type: ShortText
+  phone:
+    value: 1 800 123-4567
+    type: ShortText

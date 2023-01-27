@@ -3,10 +3,10 @@ import { Logo } from "../../components/Logo/Logo";
 import { Badge, IconButton } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faFilter, faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { useMemo } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { TabHeaderNavigationProp } from "../../interfaces/navigators";
+import { StackNavigationProp } from "../../interfaces/navigators";
 import { useFilters } from "../../hooks/useFilters/useFilters";
 
 type TabScreenHeaderProps = {
@@ -14,7 +14,7 @@ type TabScreenHeaderProps = {
 };
 
 export const TabScreenHeader = ({ type }: TabScreenHeaderProps) => {
-  const navigation = useNavigation<TabHeaderNavigationProp>();
+  const navigation = useNavigation<StackNavigationProp>();
   const { visible, athleteFiltersActive, eventFiltersActive, toggleVisible } =
     useFilters();
 

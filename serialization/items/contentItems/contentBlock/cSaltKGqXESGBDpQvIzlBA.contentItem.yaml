@@ -1,0 +1,9 @@
+﻿id: cSaltKGqXESGBDpQvIzlBA
+name: Our locations
+fields:
+  title:
+    value: Our locations
+    type: LongText
+  body:
+    value: 
+    type: RichText
