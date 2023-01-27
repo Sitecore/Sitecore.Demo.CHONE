@@ -12,8 +12,8 @@ export const AboutUsPage = ({
   locations: Location[];
 }) => {
   // DEMO SCENARIO CUSTOMIZATION:
-  // Change these to the respective content ids in your instance
-  const CONTENT_IDS = {
+  // Change these to the respective content ids in your Content Hub ONE instance
+  const CONTENT_BLOCK_IDS = {
     ABOUT: 'YXcFXM4yp0aKvHu5S8tmOg',
     HISTORY: 'o-IjG5JYuE6JNUVx1KejPA',
     LOCATIONS: 'cSaltKGqXESGBDpQvIzlBA',
@@ -29,13 +29,13 @@ export const AboutUsPage = ({
   return (
     <>
       <HeroBannerSection imageSrc={IMG_SRC}>
-        <ContentBlock contentBlock={getContentBlock(CONTENT_IDS.ABOUT)} />
+        <ContentBlock contentBlock={getContentBlock(CONTENT_BLOCK_IDS.ABOUT)} />
       </HeroBannerSection>
       <section className="content-section">
-        <ContentBlock contentBlock={getContentBlock(CONTENT_IDS.HISTORY)} />
+        <ContentBlock contentBlock={getContentBlock(CONTENT_BLOCK_IDS.HISTORY)} />
       </section>
       <section className="content-section">
-        <ContentBlock contentBlock={getContentBlock(CONTENT_IDS.LOCATIONS)} />
+        <ContentBlock contentBlock={getContentBlock(CONTENT_BLOCK_IDS.LOCATIONS)} />
         <LocationsGrid locations={locations} />
       </section>
     </>

@@ -6,7 +6,7 @@ const ContentBlock = ({ contentBlock }: { contentBlock: ContentBlock | undefined
     <div className="content-block container">
       <h1 className="content-block-title">{contentBlock?.title}</h1>
       {contentBlock?.body && (
-        <RichText body={contentBlock?.body.content} className="content-block-body" />
+        <RichText body={contentBlock.body.content} className="content-block-body" />
       )}
     </div>
   );
