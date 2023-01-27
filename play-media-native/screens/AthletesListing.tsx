@@ -22,7 +22,11 @@ import { Screen } from "../features/Screen/Screen";
 export const AthletesListingScreen = () => {
   const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
     "athletes",
-    () => getAllAthletes()
+    () => getAllAthletes(),
+    {
+      onSuccess: (athletes) =>
+        athletes.sort((a, b) => a.athleteName!.localeCompare(b.athleteName!)),
+    }
   );
   const { data: sports, isFetching: isFetchingSports } = useQuery(
     "sports",
