@@ -14,6 +14,7 @@ import { Athlete } from "../interfaces/athlete";
 import { AthleteImages } from "../features/Screens/AthleteImages";
 import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
+import { BottomActions } from "../components/BottomActions/BottomActions";
 
 const pageStyles = StyleSheet.create({
   container: {
@@ -39,6 +40,7 @@ const pageStyles = StyleSheet.create({
     padding: theme.spacing.xs,
     marginBottom: theme.spacing.xs,
   },
+  actionBtns: { paddingBottom: 0, paddingRight: theme.spacing.xs },
 });
 
 export const EditAthleteDetailsScreen = ({ route, navigation }) => {
@@ -103,6 +105,10 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
       title,
     });
   };
+
+  // TODO Add functionality to action buttons
+  const handlePublishBtn = () => {};
+  const handleDiscardBtn = () => {};
 
   return (
     <Screen>
@@ -210,6 +216,25 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           Change
         </Button>
       </ScrollView>
+      <BottomActions style={pageStyles.actionBtns}>
+        <Button
+          mode="outlined"
+          style={styles.button}
+          labelStyle={styles.buttonLabel}
+          onPress={() => handleDiscardBtn()}
+        >
+          Discard
+        </Button>
+        <Button
+          // disabled={!media?.length}
+          mode="contained"
+          style={styles.button}
+          labelStyle={styles.buttonLabel}
+          onPress={() => handlePublishBtn()}
+        >
+          Publish
+        </Button>
+      </BottomActions>
     </Screen>
   );
 };
