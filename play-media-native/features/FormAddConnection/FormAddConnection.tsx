@@ -43,29 +43,47 @@ export const FormAddConnection = () => {
   const [apiKeyError, setApiKeyError] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
   const [previewUrlError, setPreviewUrlError] = useState(false);
+  const [clientID, setClientID] = useState("");
+  const [clientIDError, setClientIDError] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecretError, setClientSecretError] = useState(false);
 
   const nameInvalid = !name || nameError || nameExistsError;
   const apiKeyInvalid = !apiKey || apiKeyError;
   const previewUrlInvalid = !previewUrl || previewUrlError;
-  const buttonDisabled = nameInvalid || apiKeyInvalid || previewUrlInvalid;
+  const clientIDInvalid = !clientID || clientIDError;
+  const clientSecretInvalid = !clientSecret || clientSecretError;
+  const buttonDisabled =
+    nameInvalid ||
+    apiKeyInvalid ||
+    previewUrlInvalid ||
+    clientIDInvalid ||
+    clientSecretInvalid;
 
   const onAddConnection = useCallback(async () => {
     setValidating(true);
 
-    await validateConnection({ apiKey, previewUrl })
+    await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
       .then(async () => {
-        await storeConnection({ name, apiKey, previewUrl }).then(() => {
+        await storeConnection({
+          name,
+          apiKey,
+          previewUrl,
+          clientID,
+          clientSecret,
+        }).then(() => {
           setShowSuccessToast(true);
-          add({ name, apiKey, previewUrl });
+          add({ name, apiKey, previewUrl, clientID, clientSecret });
         });
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error(e);
         setShowErrorToast(true);
       })
       .finally(() => {
         setValidating(false);
       });
-  }, [name, apiKey, previewUrl]);
+  }, [name, apiKey, previewUrl, clientID, clientSecret]);
 
   const checkNameExists = useCallback(
     debounce((connectionName: string, existingConnections: Connection[]) => {
@@ -94,6 +112,16 @@ export const FormAddConnection = () => {
   const handlePreviewUrl = useCallback((text: string) => {
     setPreviewUrlError(!isPreviewUrlValid(text));
     setPreviewUrl(text);
+  }, []);
+
+  const handleClientID = useCallback((text: string) => {
+    setClientIDError(!text);
+    setClientID(text);
+  }, []);
+
+  const handleClientSecret = useCallback((text: string) => {
+    setClientSecretError(!text);
+    setClientSecret(text);
   }, []);
 
   const onSuccessToastDismiss = useCallback(() => {
@@ -133,6 +161,22 @@ export const FormAddConnection = () => {
         label="Preview endpoint URL"
         onChange={handlePreviewUrl}
         value={previewUrl}
+      />
+      <InputText
+        containerStyle={defaultTextInputStyle}
+        error={clientIDError}
+        errorText="Client ID should not be empty!"
+        label="Client ID"
+        onChange={handleClientID}
+        value={clientID}
+      />
+      <InputText
+        containerStyle={defaultTextInputStyle}
+        error={clientSecretError}
+        errorText="Client secret should not be empty!"
+        label="Client secret"
+        onChange={handleClientSecret}
+        value={clientSecret}
       />
       {validating && (
         <View>
