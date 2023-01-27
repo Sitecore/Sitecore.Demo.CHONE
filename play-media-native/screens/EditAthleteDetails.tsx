@@ -18,8 +18,10 @@ import { theme } from "../theme/theme";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Athlete } from "../interfaces/athlete";
 import { AthleteImages } from "../features/Screens/AthleteImages";
+import { Screen } from "../features/Screen/Screen";
+import { styles } from "../theme/styles";
 
-const styles = StyleSheet.create({
+const pageStyles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.black.darkest,
     paddingTop: theme.spacing.md,
@@ -120,13 +122,13 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+    <Screen>
+      <ScrollView style={styles.screenPadding}>
         <View>
-          <Text style={styles.label}>Sport</Text>
+          <Text style={pageStyles.label}>Sport</Text>
           <Text
             style={[
-              styles.item,
+              pageStyles.item,
               {
                 color: getAccentColor(athlete.sport.results[0]?.title),
                 marginBottom: theme.spacing.sm,
@@ -137,21 +139,21 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           </Text>
         </View>
         <View>
-          <Text style={styles.label}>Athlete name</Text>
+          <Text style={pageStyles.label}>Athlete name</Text>
           <TextInput
-            style={styles.textInput}
+            style={pageStyles.textInput}
             onChangeText={handleChangeName}
             value={name}
           />
-          <Text style={styles.label}>Nationality</Text>
+          <Text style={pageStyles.label}>Nationality</Text>
           <TextInput
-            style={styles.textInput}
+            style={pageStyles.textInput}
             onChangeText={handleChangeNationality}
             value={nationality}
           />
-          <Text style={styles.label}>Quote</Text>
+          <Text style={pageStyles.label}>Quote</Text>
           <TextInput
-            style={styles.textInput}
+            style={pageStyles.textInput}
             onChangeText={handleChangeQuote}
             value={quote}
             selection={quoteInputCursor}
@@ -162,9 +164,9 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               setQuoteInputCursor({ start: quote.length, end: quote.length })
             }
           />
-          <Text style={styles.label}>Birth date</Text>
+          <Text style={pageStyles.label}>Birth date</Text>
           <TextInput
-            style={styles.textInput}
+            style={pageStyles.textInput}
             onTouchStart={() => setShowBirthDatePicker(true)}
             value={getDate(birthDate)}
             showSoftInputOnFocus={false}
@@ -180,9 +182,9 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               }}
             />
           )}
-          <Text style={styles.label}>Career start</Text>
+          <Text style={pageStyles.label}>Career start</Text>
           <TextInput
-            style={styles.textInput}
+            style={pageStyles.textInput}
             onTouchStart={() => setShowCareerStartDatePicker(true)}
             value={getYear(careerStartDate)}
             showSoftInputOnFocus={false}
@@ -198,9 +200,9 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               }}
             />
           )}
-          <Text style={styles.label}>Hobby</Text>
+          <Text style={pageStyles.label}>Hobby</Text>
           <TextInput
-            style={[styles.textInput, { marginBottom: theme.spacing.md }]}
+            style={[pageStyles.textInput, { marginBottom: theme.spacing.md }]}
             onChangeText={handleChangeHobby}
             value={hobby}
           />
@@ -211,7 +213,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           onAddBtnPress={() => handleAddMedia(athlete.id, athlete.athleteName)}
         />
         <Button
-          style={styles.button}
+          style={pageStyles.button}
           textColor={theme.colors.yellow.DEFAULT}
           icon={({ size }) => (
             <FontAwesomeIcon
@@ -225,6 +227,6 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           Change
         </Button>
       </ScrollView>
-    </SafeAreaView>
+    </Screen>
   );
 };
