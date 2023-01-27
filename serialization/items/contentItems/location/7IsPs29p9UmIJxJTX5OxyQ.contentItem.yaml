@@ -14,5 +14,5 @@ fields:
     value: USA
     type: ShortText
   phone:
-    value: 044 773663
+    value: 1 800 123-4567
     type: ShortText
