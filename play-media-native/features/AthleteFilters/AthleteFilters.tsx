@@ -4,8 +4,7 @@ import { camelize } from "../../helpers/textHelper";
 import { DropdownItem } from "../../components/DropdownPicker/DropdownPicker";
 import { Athlete } from "../../interfaces/athlete";
 import { Sport } from "../../interfaces/sport";
-import { View } from "react-native";
-import { styles } from "../../theme/styles";
+import { Platform, View } from "react-native";
 import { theme } from "../../theme/theme";
 import { useFilters } from "../../hooks/useFilters/useFilters";
 import { IIndexable } from "../../interfaces/indexable";
@@ -63,14 +62,14 @@ export const AthleteFilters = ({
 
   return (
     <View
-      style={[
-        styles.container,
-        {
-          display: visible ? "flex" : "none",
-          paddingBottom: theme.spacing.sm,
+      style={{
+        display: visible ? "flex" : "none",
+        paddingHorizontal: theme.spacing.sm,
+        paddingBottom: theme.spacing.sm,
+        ...(Platform.OS !== "android" && {
           zIndex: 10,
-        },
-      ]}
+        }),
+      }}
     >
       <FacetFilters
         facetFilters={[

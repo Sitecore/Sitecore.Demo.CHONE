@@ -19,10 +19,9 @@ export const FacetFilters = ({ facetFilters, onChange }: FacetFiltersProps) => {
         flexDirection: "row",
         justifyContent: "space-between",
         marginHorizontal: -theme.spacing.xxs,
-        zIndex: 10,
       }}
     >
-      {facetFilters.map((facet, i) => (
+      {facetFilters.map((facet) => (
         <FacetFilter
           key={facet.id}
           id={facet.id}
@@ -32,7 +31,6 @@ export const FacetFilters = ({ facetFilters, onChange }: FacetFiltersProps) => {
           style={{
             paddingHorizontal: theme.spacing.xxs,
             flexShrink: 1,
-            zIndex: -i,
           }}
         />
       ))}

@@ -15,8 +15,9 @@ import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { AthleteFilters } from "../features/AthleteFilters/AthleteFilters";
 import { useFilters } from "../hooks/useFilters/useFilters";
 import { useNavigation } from "@react-navigation/native";
-import { TabHeaderNavigationProp } from "../interfaces/navigators";
+import { StackNavigationProp } from "../interfaces/navigators";
 import { IIndexable } from "../interfaces/indexable";
+import { Screen } from "../features/Screen/Screen";
 
 export const AthletesListingScreen = () => {
   const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
@@ -30,7 +31,7 @@ export const AthletesListingScreen = () => {
   const [filteredAthletes, setFilteredAthletes] = useState(athletes);
   const { visible } = useFilters();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const navigation = useNavigation<TabHeaderNavigationProp>();
+  const navigation = useNavigation<StackNavigationProp>();
 
   useEffect(() => {
     setFilteredAthletes(athletes);
@@ -63,7 +64,7 @@ export const AthletesListingScreen = () => {
   }
 
   return (
-    <>
+    <Screen>
       <StatusBar barStyle={"light-content"} />
       <AthleteFilters
         athletes={athletes}
@@ -91,6 +92,6 @@ export const AthletesListingScreen = () => {
         iconMode={"dynamic"}
         style={styles.fab}
       />
-    </>
+    </Screen>
   );
 };

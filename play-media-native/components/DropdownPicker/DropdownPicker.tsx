@@ -32,9 +32,9 @@ export const DropdownPicker = ({
         onSelectItem(item);
       }}
       placeholder={placeholder}
+      labelProps={{ numberOfLines: 1 }}
       style={{
         borderRadius: 0,
-        paddingVertical: 0,
         minHeight: 40,
         maxHeight: 40,
       }}
@@ -44,6 +44,10 @@ export const DropdownPicker = ({
       textStyle={{
         fontFamily: theme.fontFamily.DEFAULT,
         fontSize: theme.fontSize.xs,
+      }}
+      listItemContainerStyle={{
+        minHeight: 40,
+        height: "auto",
       }}
     />
   );

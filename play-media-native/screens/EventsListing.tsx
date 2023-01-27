@@ -9,13 +9,14 @@ import { AnimatedFAB } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { styles } from "../theme/styles";
 import { useNavigation } from "@react-navigation/native";
-import { TabHeaderNavigationProp } from "../interfaces/navigators";
+import { StackNavigationProp } from "../interfaces/navigators";
 import { EventFilters } from "../features/EventFilters/EventFilters";
 import { getAllSports } from "../api/queries/getSports";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { useFilters } from "../hooks/useFilters/useFilters";
 import { camelize } from "../helpers/textHelper";
 import { IIndexable } from "../interfaces/indexable";
+import { Screen } from "../features/Screen/Screen";
 
 export const EventsListingScreen = () => {
   const { data: events, isFetching: isFetchingEvents } = useQuery(
@@ -29,7 +30,7 @@ export const EventsListingScreen = () => {
   const [filteredEvents, setFilteredEvents] = useState(events);
   const { visible } = useFilters();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const navigation = useNavigation<TabHeaderNavigationProp>();
+  const navigation = useNavigation<StackNavigationProp>();
 
   useEffect(() => {
     setFilteredEvents(events);
@@ -62,7 +63,7 @@ export const EventsListingScreen = () => {
   }
 
   return (
-    <>
+    <Screen>
       <StatusBar barStyle={"light-content"} />
       <EventFilters
         events={events}
@@ -89,6 +90,6 @@ export const EventsListingScreen = () => {
         iconMode={"dynamic"}
         style={styles.fab}
       />
-    </>
+    </Screen>
   );
 };
