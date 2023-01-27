@@ -10,6 +10,8 @@ import debounce from "lodash.debounce";
 import { Connection } from "../../interfaces/connections";
 import { theme } from "../../theme/theme";
 import { styles } from "../../theme/styles";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "../../interfaces/navigators";
 
 const defaultTextInputStyle = {
   width: "90%",
@@ -59,6 +61,8 @@ export const FormAddConnection = () => {
     previewUrlInvalid ||
     clientIDInvalid ||
     clientSecretInvalid;
+
+  const navigation = useNavigation<StackNavigationProp>();
 
   const onAddConnection = useCallback(async () => {
     setValidating(true);
@@ -126,6 +130,7 @@ export const FormAddConnection = () => {
 
   const onSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
+    navigation.goBack();
   }, []);
 
   const onErrorToastDismiss = useCallback(() => {
