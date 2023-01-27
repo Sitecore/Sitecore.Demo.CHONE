@@ -1,0 +1,20 @@
+﻿id: contentBlock
+name:
+  en-US: Content block
+description:
+  en-US: Created for a small chunk of content.
+fields:
+- id: title
+  name:
+    en-US: Title
+  type: LongText
+  required: false
+  helpText:
+    en-US: ''
+- id: body
+  name:
+    en-US: Body
+  type: RichText
+  required: false
+  helpText:
+    en-US: ''
