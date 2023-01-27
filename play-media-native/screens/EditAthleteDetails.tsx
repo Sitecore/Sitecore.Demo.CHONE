@@ -103,7 +103,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     return <Text>Athlete could not be fetched!</Text>;
   }
 
-  // TODO
+  // TODO Update with the edit sport screen when available and relevant state
   const handleChangeSport = (id: string, title: string) => {
     // navigation.navigate("EditSport", {
     //   id,
@@ -111,7 +111,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     // });
   };
 
-  // TODO
+  // TODO Add state for media items
   const handleAddMedia = (id: string, title: string) => {
     navigation.navigate("AddMedia", {
       id,
