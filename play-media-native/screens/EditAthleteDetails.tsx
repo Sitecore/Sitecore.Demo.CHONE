@@ -78,6 +78,11 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     handleChangeHobby(athlete.hobby);
   };
 
+  const [quoteInputCursor, setQuoteInputCursor] = useState({
+    start: 0,
+    end: 0,
+  });
+
   const { data, isFetching } = useQuery(
     "editathlete",
     () => getAthleteById(route.params.id),
@@ -167,6 +172,13 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
             style={styles.textInput}
             onChangeText={handleChangeQuote}
             value={quote}
+            selection={quoteInputCursor}
+            onSelectionChange={({ nativeEvent: { selection } }) =>
+              setQuoteInputCursor(selection)
+            }
+            onPressIn={() =>
+              setQuoteInputCursor({ start: quote.length, end: quote.length })
+            }
           />
           <Text style={styles.label}>Birth date</Text>
           <TextInput
