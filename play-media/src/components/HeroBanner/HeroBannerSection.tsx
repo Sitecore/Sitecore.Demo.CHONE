@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { HeroBanner, HeroBannerProps } from './HeroBanner';
 
 type HeroBannerSectionProps = HeroBannerProps & {
-  title: string;
+  title?: string;
   body?: ReactNode;
 };
 

@@ -5,6 +5,7 @@
 @import './components/AthleteGrid/AthleteGrid.css';
 @import './components/Common/ShadowBox.css';
 @import './components/Common/InfiniteScroll.css';
+@import './components/ContentBlock/ContentBlock.css';
 @import './components/ErrorNotFound404/ErrorNotFound404.css';
 @import './components/EventDetail/EventDetail.css';
 @import './components/EventGrid/EventCard.css';
