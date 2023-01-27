@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
-import { AnimatedFAB, Text } from "react-native-paper";
-import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import { AnimatedFAB, Button, Text } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
 import { getDate, getYear } from "../helpers/dateHelper";
@@ -12,22 +12,26 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { AthleteImages } from "../features/Screens/AthleteImages";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
+import { Screen } from "../features/Screen/Screen";
+import { styles } from "../theme/styles";
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.black.darkest,
-    paddingTop: theme.spacing.md,
-    paddingHorizontal: theme.spacing.sm,
+const pageStyles = StyleSheet.create({
+  button: {
+    position: "absolute",
+    right: -theme.spacing.sm,
+    top: -theme.spacing.xs,
   },
   label: {
-    color: theme.colors.gray.DEFAULT,
-    marginBottom: theme.spacing.xs,
+    fontFamily: theme.fontFamily.bold,
+    color: theme.colors.gray.dark,
+    marginBottom: theme.spacing.xxs,
   },
   item: {
-    marginBottom: theme.spacing.xs,
-    fontFamily: theme.fontFamily.bold,
+    marginBottom: theme.spacing.sm,
   },
-  cardContainer: { marginVertical: theme.spacing.xs },
+  cardContainer: {
+    marginVertical: theme.spacing.xs,
+  },
   quoteContainer: {
     display: "flex",
     flexDirection: "row",
@@ -106,16 +110,28 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+    <Screen>
+      <ScrollView style={styles.screenPadding}>
         <View>
-          <Text style={styles.label}>Sport</Text>
+          <Button
+            style={pageStyles.button}
+            textColor={theme.colors.yellow.DEFAULT}
+            icon={({ size }) => (
+              <FontAwesomeIcon
+                icon={faEdit}
+                color={theme.colors.yellow.DEFAULT}
+                size={size}
+              />
+            )}
+          >
+            Change
+          </Button>
+          <Text style={pageStyles.label}>Sport</Text>
           <Text
             style={[
-              styles.item,
+              pageStyles.item,
               {
                 color: getAccentColor(athlete.sport.results[0]?.title),
-                marginBottom: theme.spacing.sm,
               },
             ]}
           >
@@ -123,10 +139,10 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           </Text>
         </View>
         <View>
-          <Text style={styles.label}>Athlete name</Text>
+          <Text style={pageStyles.label}>Athlete name</Text>
           <Text
             style={[
-              styles.item,
+              pageStyles.item,
               {
                 color: theme.colors.white.DEFAULT,
                 marginBottom: theme.spacing.md,
@@ -136,63 +152,63 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             {athlete.athleteName}
           </Text>
         </View>
-        <View style={styles.cardContainer}>
+        <View style={pageStyles.cardContainer}>
           <CardShadowBox color={theme.colors.black.light}>
             <View
               style={[
-                styles.quoteContainer,
+                pageStyles.quoteContainer,
                 {
                   backgroundColor: accentColor,
                 },
               ]}
             >
-              <Text style={[styles.quotationMark, { color: textColor }]}>
+              <Text style={[pageStyles.quotationMark, { color: textColor }]}>
                 "
               </Text>
-              <Text style={[styles.quote, { color: textColor }]}>
+              <Text style={[pageStyles.quote, { color: textColor }]}>
                 {athlete.athleteQuote}
               </Text>
-              <Text style={[styles.quotationMark, { color: textColor }]}>
+              <Text style={[pageStyles.quotationMark, { color: textColor }]}>
                 "
               </Text>
             </View>
           </CardShadowBox>
         </View>
-        <View style={styles.cardContainer}>
+        <View style={pageStyles.cardContainer}>
           <CardShadowBox
             color={getAccentColor(athlete.sport.results[0]?.title)}
           >
-            <View style={styles.infoContainer}>
-              <Text style={styles.infoLabel}>Nationality</Text>
-              <Text style={styles.infoItem}>{athlete.nationality}</Text>
-              <Text style={styles.infoLabel}>Hobby</Text>
-              <Text style={styles.infoItem}>{athlete.hobby}</Text>
-              <Text style={styles.infoLabel}>Date of birth</Text>
-              <Text style={styles.infoItem}>
+            <View style={pageStyles.infoContainer}>
+              <Text style={pageStyles.infoLabel}>Nationality</Text>
+              <Text style={pageStyles.infoItem}>{athlete.nationality}</Text>
+              <Text style={pageStyles.infoLabel}>Hobby</Text>
+              <Text style={pageStyles.infoItem}>{athlete.hobby}</Text>
+              <Text style={pageStyles.infoLabel}>Date of birth</Text>
+              <Text style={pageStyles.infoItem}>
                 {getDate(athlete.dateOfBirth)}
               </Text>
-              <Text style={styles.infoLabel}>Career start</Text>
-              <Text style={styles.infoItem}>
+              <Text style={pageStyles.infoLabel}>Career start</Text>
+              <Text style={pageStyles.infoItem}>
                 {getYear(athlete.careerStartDate)}
               </Text>
             </View>
           </CardShadowBox>
         </View>
         <AthleteImages athlete={athlete} />
+        <AnimatedFAB
+          icon={({ size }) => (
+            <FontAwesomeIcon
+              icon={faEdit}
+              color={theme.colors.black.DEFAULT}
+              size={size}
+            />
+          )}
+          label={"Edit"}
+          extended={isTopEdge}
+          onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
+          style={pageStyles.bottomFAB}
+        ></AnimatedFAB>
       </ScrollView>
-      <AnimatedFAB
-        icon={({ size }) => (
-          <FontAwesomeIcon
-            icon={faEdit}
-            color={theme.colors.black.DEFAULT}
-            size={size}
-          />
-        )}
-        label={"Edit"}
-        extended={isTopEdge}
-        onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
-        style={styles.bottomFAB}
-      ></AnimatedFAB>
-    </SafeAreaView>
+    </Screen>
   );
 };

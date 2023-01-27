@@ -1,4 +1,3 @@
-import { SafeAreaView } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CreateEventScreen } from "../screens/CreateEvent/CreateEvent";
 import { CreateAthleteScreen } from "../screens/CreateAthlete";
@@ -13,7 +12,6 @@ import { AddCH1MediaScreen } from "../screens/AddCH1Media/AddCH1Media";
 import { AddMediaScreen } from "../screens/AddMedia/AddMedia";
 import { EditMediaScreen } from "../screens/EditMedia";
 import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHeader";
-import { theme } from "../theme/theme";
 import { EditAthleteDetailsScreen } from "../screens/EditAthleteDetails";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

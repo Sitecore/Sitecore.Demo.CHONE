@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { getAllEvents } from "../api/queries/getEvents";
 import { useCallback, useEffect, useMemo } from "react";
 import { Button, Text } from "react-native-paper";
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../theme/theme";
 import { getDate, getTime } from "../helpers/dateHelper";
 import { CardAvatar } from "../features/CardAvatar/CardAvatar";
@@ -15,9 +15,10 @@ import { Media } from "../interfaces/media";
 import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { Screen } from "../features/Screen/Screen";
+import { styles } from "../theme/styles";
 
 export const EventDetailScreen = ({ route, navigation }) => {
-  const { data: events, isFetching } = useQuery("events", getAllEvents);
+  const { data: events, isFetching } = useQuery("events", () => getAllEvents());
   const event = Array.isArray(events)
     ? events.find((item) => item.id === route.params.id)
     : undefined;
@@ -44,9 +45,10 @@ export const EventDetailScreen = ({ route, navigation }) => {
     return event.relatedMedia.results.map((img: Media) => img.fileUrl);
   }, [event]);
 
-  const styles = StyleSheet.create({
+  const pageStyles = StyleSheet.create({
     title: {
-      color: theme.colors.gray.DEFAULT,
+      fontFamily: theme.fontFamily.bold,
+      color: theme.colors.gray.dark,
       marginBottom: theme.spacing.xxs,
     },
     body: {
@@ -72,31 +74,31 @@ export const EventDetailScreen = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: theme.colors.black.darkest,
-      }}
-    >
-      <ScrollView
-        style={{
-          paddingHorizontal: theme.spacing.sm,
-        }}
-      >
+    <Screen>
+      <ScrollView style={styles.screenPadding}>
         <View>
           <Button
             icon={({ size, color }) => (
               <FontAwesomeIcon icon={faEdit} color={color} size={size} />
             )}
             onPress={() => {}}
-            style={styles.button}
+            style={pageStyles.button}
           >
             Change
           </Button>
-          <Text variant="labelSmall" style={styles.title}>
+          <Text variant="labelSmall" style={pageStyles.title}>
             Sport
           </Text>
-          <Text style={styles.body}>{event.sport.results[0].title}</Text>
+          <Text
+            style={[
+              pageStyles.body,
+              {
+                color: accentColor,
+              },
+            ]}
+          >
+            {event.sport.results[0].title}
+          </Text>
         </View>
         <View>
           <Button
@@ -104,29 +106,29 @@ export const EventDetailScreen = ({ route, navigation }) => {
               <FontAwesomeIcon icon={faEdit} color={color} size={size} />
             )}
             onPress={() => {}}
-            style={styles.button}
+            style={pageStyles.button}
           >
             Edit
           </Button>
-          <Text variant="labelSmall" style={styles.title}>
+          <Text variant="labelSmall" style={pageStyles.title}>
             Title
           </Text>
-          <Text style={styles.body}>{event.title}</Text>
-          <Text variant="labelSmall" style={styles.title}>
+          <Text style={pageStyles.body}>{event.title}</Text>
+          <Text variant="labelSmall" style={pageStyles.title}>
             Summary
           </Text>
-          <Text style={styles.body}>{event.teaser}</Text>
-          <Text variant="labelSmall" style={styles.title}>
+          <Text style={pageStyles.body}>{event.teaser}</Text>
+          <Text variant="labelSmall" style={pageStyles.title}>
             Time and date
           </Text>
-          <Text style={styles.body}>
+          <Text style={pageStyles.body}>
             {getDate(event.timeAndDate)} {getTime(event.timeAndDate)}
           </Text>
-          <Text variant="labelSmall" style={styles.title}>
+          <Text variant="labelSmall" style={pageStyles.title}>
             Location
           </Text>
-          <Text style={styles.body}>{event.location}</Text>
-          <Text variant="labelSmall" style={styles.title}>
+          <Text style={pageStyles.body}>{event.location}</Text>
+          <Text variant="labelSmall" style={pageStyles.title}>
             Body
           </Text>
           <RichText body={event.body.content} accentColor={accentColor} />
@@ -145,6 +147,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Screen>
   );
 };
