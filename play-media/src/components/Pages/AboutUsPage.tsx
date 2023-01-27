@@ -11,6 +11,7 @@ export const AboutUsPage = ({
   contentBlocks: IContentBlock[];
   locations: Location[];
 }) => {
+  // DEMO SCENARIO CUSTOMIZATION:
   // Change these to the respective content ids in your instance
   const CONTENT_IDS = {
     ABOUT: 'YXcFXM4yp0aKvHu5S8tmOg',

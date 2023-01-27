@@ -1,3 +1,6 @@
+// DEMO SCENARIO CUSTOMIZATION:
+// Rename this file from about-us.tsx.demo to about-us.tsx to activate the page
+
 import Head from 'next/head';
 import { getAllContentBlocks } from '../api/queries/getContentBlocks';
 import { getAllLocations } from '../api/queries/getLocations';
