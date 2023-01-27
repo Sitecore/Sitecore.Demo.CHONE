@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
-import { AnimatedFAB, Button, Text } from "react-native-paper";
+import { AnimatedFAB, Text } from "react-native-paper";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
@@ -16,11 +16,6 @@ import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 
 const pageStyles = StyleSheet.create({
-  button: {
-    position: "absolute",
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
-  },
   label: {
     fontFamily: theme.fontFamily.bold,
     color: theme.colors.gray.dark,
@@ -70,13 +65,14 @@ const pageStyles = StyleSheet.create({
     fontFamily: theme.fontFamily.bold,
   },
   bottomFAB: {
+    position: "absolute",
     right: theme.spacing.sm,
     bottom: theme.spacing.xs,
   },
 });
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
-  const { isTopEdge } = useScrollOffset(true);
+  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const { data, isFetching } = useQuery("athlete", () =>
     getAthleteById(route.params.id)
@@ -111,21 +107,8 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView style={styles.screenPadding}>
+      <ScrollView style={styles.screenPadding} onScroll={calcScrollOffset}>
         <View>
-          <Button
-            style={pageStyles.button}
-            textColor={theme.colors.yellow.DEFAULT}
-            icon={({ size }) => (
-              <FontAwesomeIcon
-                icon={faEdit}
-                color={theme.colors.yellow.DEFAULT}
-                size={size}
-              />
-            )}
-          >
-            Change
-          </Button>
           <Text style={pageStyles.label}>Sport</Text>
           <Text
             style={[
@@ -195,20 +178,20 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           </CardShadowBox>
         </View>
         <AthleteImages athlete={athlete} />
-        <AnimatedFAB
-          icon={({ size }) => (
-            <FontAwesomeIcon
-              icon={faEdit}
-              color={theme.colors.black.DEFAULT}
-              size={size}
-            />
-          )}
-          label={"Edit"}
-          extended={isTopEdge}
-          onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
-          style={pageStyles.bottomFAB}
-        ></AnimatedFAB>
       </ScrollView>
+      <AnimatedFAB
+        icon={({ size }) => (
+          <FontAwesomeIcon
+            icon={faEdit}
+            color={theme.colors.black.DEFAULT}
+            size={size}
+          />
+        )}
+        label={"Edit"}
+        extended={isTopEdge}
+        onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
+        style={pageStyles.bottomFAB}
+      ></AnimatedFAB>
     </Screen>
   );
 };
