@@ -47,6 +47,11 @@ export const Header = () => {
               </Link>
             </li>
             <li>
+              <Link href={'/about-us'} onClick={handleNavClose}>
+                About Us
+              </Link>
+            </li>
+            <li>
               <div className="theme-switcher" onClick={toggleThemeHandler}>
                 <div className="theme-switcher-container">
                   <div className="moon-icon-container">
