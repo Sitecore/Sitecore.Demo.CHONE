@@ -1,16 +1,31 @@
 import { View } from "react-native";
-import { InputText } from "../../components/InputText/InputText";
-import { inputContainerStyle } from "./styles";
+import { RichTextEditor } from "../../components/RichTextEditor/RichTextEditor";
+import { Button } from "react-native-paper";
+import { styles } from "../../theme/styles";
+import { BottomActions } from "../../components/BottomActions/BottomActions";
 
 export const RichTextView = () => {
   return (
-    <View>
-      <InputText
-        containerStyle={inputContainerStyle}
-        label="Summary"
-        multiline
-      />
-      <InputText containerStyle={inputContainerStyle} label="Body" multiline />
-    </View>
+    <>
+      <RichTextEditor />
+      <BottomActions>
+        <Button
+          mode="outlined"
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
+          // onPress={onCancel}
+        >
+          Discard
+        </Button>
+        <Button
+          mode="contained"
+          // onPress={onAdd}
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
+        >
+          Review
+        </Button>
+      </BottomActions>
+    </>
   );
 };
