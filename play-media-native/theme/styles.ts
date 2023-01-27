@@ -16,6 +16,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  container: {
+    paddingHorizontal: theme.spacing.sm,
+    backgroundColor: theme.colors.black.darkest,
+  },
   fab: {
     position: "absolute",
     margin: theme.spacing.xs,
@@ -26,5 +30,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     backgroundColor: theme.colors.black.darkest,
+  },
+  screenPadding: {
+    paddingHorizontal: theme.spacing.sm,
   },
 });

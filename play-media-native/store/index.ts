@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import connectionsReducer from "./connections";
 import mediaReducer from "./media";
+import filtersReducer from "./filters";
 
 export const store = configureStore({
   reducer: {
     connections: connectionsReducer,
     media: mediaReducer,
+    filters: filtersReducer,
   },
 });
 
