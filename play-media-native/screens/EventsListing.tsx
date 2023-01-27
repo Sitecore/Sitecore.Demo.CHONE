@@ -8,9 +8,10 @@ import { StatusBar } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { styles } from "../theme/styles";
+import { Screen } from "../features/Screen/Screen";
 
 export const EventsListingScreen = ({ navigation }) => {
-  const { data: events, isFetching } = useQuery("events", getAllEvents);
+  const { data: events, isFetching } = useQuery("events", () => getAllEvents());
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const onCardPress = useCallback((event: Event) => {
@@ -21,7 +22,7 @@ export const EventsListingScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <>
+    <Screen>
       <StatusBar barStyle={"light-content"} />
       <Listing
         data={events}
@@ -40,6 +41,6 @@ export const EventsListingScreen = ({ navigation }) => {
         iconMode={"dynamic"}
         style={styles.fab}
       />
-    </>
+    </Screen>
   );
 };

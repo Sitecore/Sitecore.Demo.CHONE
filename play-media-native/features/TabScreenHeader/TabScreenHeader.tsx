@@ -6,14 +6,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faFilter, faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { TabHeaderNavigationProp } from "../../interfaces/navigators";
+import { StackNavigationProp } from "../../interfaces/navigators";
 
 type TabScreenHeaderProps = {
   type: "Event" | "Athlete";
 };
 
 export const TabScreenHeader = ({ type }: TabScreenHeaderProps) => {
-  const navigation = useNavigation<TabHeaderNavigationProp>();
+  const navigation = useNavigation<StackNavigationProp>();
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   return (
