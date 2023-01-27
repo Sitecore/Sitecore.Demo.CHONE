@@ -1,11 +1,11 @@
 import { Image, View, StyleSheet } from "react-native";
 import { Athlete } from "../../interfaces/athlete";
 import { theme } from "../../theme/theme";
-import { AnimatedFAB, Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { ImageGrid } from "../ImageGrid/ImageGrid";
-import { useScrollOffset } from "../../hooks/useScrollOffset/useScrollOffset";
+import { styles } from "../../theme/styles";
 
-const styles = StyleSheet.create({
+const pageStyles = StyleSheet.create({
   imageContainer: {
     paddingTop: theme.spacing.md,
     marginBottom: theme.spacing.md,
@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
   imageGrid: {
     marginTop: theme.spacing.xs,
   },
-  addButton: {
+  button: {
     position: "absolute",
-    right: theme.spacing.xxs,
-    marginBottom: theme.spacing.lg,
+    right: -theme.spacing.xs,
+    marginTop: theme.spacing.sm,
   },
 });
 
@@ -40,52 +40,51 @@ export const AthleteImages = ({
   isEditMode = false,
   onAddBtnPress = undefined,
 }: AthleteImagesProps) => {
-  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-
   const addBtn = isEditMode && (
-    <AnimatedFAB
+    <Button
       icon={"plus"}
-      label={"Add"}
-      extended={isTopEdge}
       onPress={onAddBtnPress}
-      style={styles.addButton}
-    />
+      style={[styles.button, pageStyles.button]}
+      mode="contained"
+    >
+      Add
+    </Button>
   );
 
   return (
     <>
       {athlete?.profilePhoto?.results[0]?.fileUrl && (
-        <View style={styles.imageContainer}>
-          {addBtn}
-          <Text style={styles.imageLabel}>Profile photo</Text>
+        <View style={pageStyles.imageContainer}>
+          <Text style={pageStyles.imageLabel}>Profile photo</Text>
           <Image
             source={{
               uri: athlete.profilePhoto.results[0].fileUrl,
             }}
-            style={styles.imageItem}
+            style={pageStyles.imageItem}
           />
+          {addBtn}
         </View>
       )}
       {athlete?.featuredImage?.results[0]?.fileUrl && (
-        <View style={styles.imageContainer}>
-          {addBtn}
-          <Text style={styles.imageLabel}>Featured image</Text>
+        <View style={pageStyles.imageContainer}>
+          <Text style={pageStyles.imageLabel}>Featured image</Text>
           <Image
             source={{
               uri: athlete.featuredImage.results[0].fileUrl,
             }}
-            style={styles.imageItem}
+            style={pageStyles.imageItem}
           />
+          {addBtn}
         </View>
       )}
       {athlete?.relatedMedia?.results.length > 0 && (
-        <View style={styles.imageContainer}>
-          {addBtn}
-          <Text style={styles.imageLabel}>Related media</Text>
+        <View style={pageStyles.imageContainer}>
+          <Text style={pageStyles.imageLabel}>Related media</Text>
           <ImageGrid
-            style={styles.imageGrid}
+            style={pageStyles.imageGrid}
             images={athlete.relatedMedia.results.map((img) => img.fileUrl)}
           />
+          {addBtn}
         </View>
       )}
     </>
