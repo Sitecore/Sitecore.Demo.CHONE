@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { View } from "react-native";
 import { theme } from "../../theme/theme";
 import { DropdownItem } from "../DropdownPicker/DropdownPicker";
@@ -9,9 +10,12 @@ type FacetFiltersProps = {
 };
 
 export const FacetFilters = ({ facetFilters, onChange }: FacetFiltersProps) => {
-  const handleChange = (id: string, item: DropdownItem) => {
-    onChange(id, item);
-  };
+  const handleChange = useCallback(
+    (id: string, item: DropdownItem) => {
+      onChange(id, item);
+    },
+    [onChange]
+  );
 
   return (
     <View

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { CardAvatar } from "../features/CardAvatar/CardAvatar";
 import { Listing } from "../components/Listing/Listing";
 import { Athlete } from "../interfaces/athlete";
@@ -9,17 +9,29 @@ import { AnimatedFAB } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { styles } from "../theme/styles";
 import { theme } from "../theme/theme";
-import { camelize } from "../helpers/textHelper";
 import { getAllSports } from "../api/queries/getSports";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { AthleteFilters } from "../features/AthleteFilters/AthleteFilters";
-import { useFilters } from "../hooks/useFilters/useFilters";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "../interfaces/navigators";
-import { IIndexable } from "../interfaces/indexable";
 import { Screen } from "../features/Screen/Screen";
+import { useFacets } from "../hooks/useFacets/useFacets";
+import { getNationalityOptions, getSportOptions } from "../helpers/facets";
+import { Sport } from "../interfaces/sport";
+import { ATHLETE_FACETS } from "../constants/filters";
 
-export const AthletesListingScreen = () => {
+const initializeAthletes = (athletes: Athlete[], sports: Sport[]) => {
+  if (!athletes || !sports) {
+    return [];
+  }
+
+  return athletes.map((item) => ({
+    ...item,
+    [ATHLETE_FACETS.sport]: item?.sport?.results?.length
+      ? item.sport.results[0]?.id
+      : null,
+  }));
+};
+
+export const AthletesListingScreen = ({ navigation }) => {
   const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
     "athletes",
     () => getAllAthletes()
@@ -28,29 +40,24 @@ export const AthletesListingScreen = () => {
     "sports",
     () => getAllSports()
   );
-  const [filteredAthletes, setFilteredAthletes] = useState(athletes);
-  const { visible } = useFilters();
+  const [facets, setFacets] = useState<Record<string, any>>({
+    [ATHLETE_FACETS.sport]: "",
+    [ATHLETE_FACETS.nationality]: "",
+  });
+  const filteredAthletes = useFacets({
+    initialItems: athletes?.length ? initializeAthletes(athletes, sports) : [],
+    facets,
+  });
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const navigation = useNavigation<StackNavigationProp>();
+  const nationalityOptions = useMemo(
+    () => getNationalityOptions(athletes),
+    [athletes]
+  );
+  const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
 
-  useEffect(() => {
-    setFilteredAthletes(athletes);
-  }, [athletes]);
-
-  const handleChange = (facetValues: IIndexable) => {
-    let _filteredAthletes = athletes;
-    if (!!facetValues.athleteNationality) {
-      _filteredAthletes = _filteredAthletes.filter((athlete) => {
-        return camelize(athlete.nationality) === facetValues.athleteNationality;
-      });
-    }
-    if (!!facetValues.athleteSport) {
-      _filteredAthletes = _filteredAthletes.filter((athlete) => {
-        return athlete.sport.results[0]?.id === facetValues.athleteSport;
-      });
-    }
-    setFilteredAthletes(_filteredAthletes);
-  };
+  const handleChange = useCallback((key: string, value: any) => {
+    setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
+  }, []);
 
   const onCardPress = useCallback((athlete: Athlete) => {
     navigation.navigate("AthleteDetail", {
@@ -67,10 +74,10 @@ export const AthletesListingScreen = () => {
     <Screen>
       <StatusBar barStyle={"light-content"} />
       <AthleteFilters
-        athletes={athletes}
-        sports={sports}
+        filters={facets}
+        nationalityOptions={nationalityOptions}
         onChange={handleChange}
-        visible={visible}
+        sportOptions={sportOptions}
       />
       <Listing
         data={filteredAthletes}

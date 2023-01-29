@@ -1,69 +1,46 @@
-import { useEffect, useState } from "react";
+import { useCallback } from "react";
 import { FacetFilters } from "../../components/FacetFilters/FacetFilters";
-import { camelize } from "../../helpers/textHelper";
 import { DropdownItem } from "../../components/DropdownPicker/DropdownPicker";
-import { Athlete } from "../../interfaces/athlete";
-import { Sport } from "../../interfaces/sport";
 import { Platform, View } from "react-native";
 import { theme } from "../../theme/theme";
 import { useFilters } from "../../hooks/useFilters/useFilters";
 import { IIndexable } from "../../interfaces/indexable";
+import { ATHLETE_FACETS } from "../../constants/filters";
 
 export const AthleteFilters = ({
-  athletes,
-  sports,
+  filters,
+  nationalityOptions,
   onChange,
-  visible = true,
+  sportOptions,
 }: {
-  athletes: Athlete[];
-  sports: Sport[];
-  onChange: (facetValues: IIndexable) => void;
-  visible?: boolean;
+  filters: IIndexable;
+  nationalityOptions: DropdownItem[];
+  onChange: (key: string, value: any) => void;
+  sportOptions: DropdownItem[];
 }) => {
-  const [nationalityFacets, setNationalityFacets] = useState([]);
-  const [sportFacets, setSportFacets] = useState([]);
+  const { setAthleteFiltersActive, visible } = useFilters();
 
-  const [facetValues, setFacetValues] = useState<IIndexable>({
-    athleteNationality: "",
-    athleteSport: "",
-  });
+  const handleFacetsChange = useCallback(
+    (id: string, item: DropdownItem) => {
+      const newFilters = { ...filters, [id]: item.value };
+      const activeFilters = Object.values(newFilters).filter(
+        (val) => !!val
+      ).length;
 
-  const { setAthleteFiltersActive } = useFilters();
+      setAthleteFiltersActive(activeFilters);
+      onChange(id, item.value);
+    },
+    [filters, onChange, setAthleteFiltersActive]
+  );
 
-  useEffect(() => {
-    const nationalities = Array.from(
-      new Set(athletes?.map((athlete) => athlete.nationality).filter((n) => n))
-    );
-    setNationalityFacets(
-      nationalities.map((nationality) => ({
-        label: nationality,
-        value: camelize(nationality),
-      }))
-    );
-  }, [athletes]);
-
-  useEffect(() => {
-    if (!sports) return;
-    setSportFacets(
-      sports?.map((sport) => ({ label: sport.title, value: sport.id }))
-    );
-  }, [sports]);
-
-  const handleFacetsChange = (id: string, item: DropdownItem) => {
-    const newFacetValues = facetValues;
-    newFacetValues[id] = item.value;
-    const activeFilters = Object.values(newFacetValues).filter(
-      (val) => val !== ""
-    ).length;
-    setAthleteFiltersActive(activeFilters);
-    setFacetValues({ ...newFacetValues });
-    onChange(facetValues);
-  };
+  if (!visible) {
+    return null;
+  }
 
   return (
     <View
       style={{
-        display: visible ? "flex" : "none",
+        display: "flex",
         paddingHorizontal: theme.spacing.sm,
         paddingBottom: theme.spacing.sm,
         ...(Platform.OS !== "android" && {
@@ -74,14 +51,14 @@ export const AthleteFilters = ({
       <FacetFilters
         facetFilters={[
           {
-            id: "athleteNationality",
+            id: ATHLETE_FACETS.nationality,
             label: "Nationality",
-            facets: [{ label: "All", value: "" }, ...nationalityFacets] || [],
+            facets: nationalityOptions,
           },
           {
-            id: "athleteSport",
+            id: ATHLETE_FACETS.sport,
             label: "Sport",
-            facets: [{ label: "All", value: "" }, ...sportFacets] || [],
+            facets: sportOptions,
           },
         ]}
         onChange={handleFacetsChange}
