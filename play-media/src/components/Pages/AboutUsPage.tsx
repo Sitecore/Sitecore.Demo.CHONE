@@ -5,37 +5,29 @@ import { HeroBannerSection } from '../HeroBanner/HeroBannerSection';
 import LocationsGrid from '../LocationsGrid/LocationsGrid';
 
 export const AboutUsPage = ({
-  contentBlocks,
+  contentBlockAbout,
+  contentBlockHistory,
+  contentBlockLocations,
   locations,
 }: {
-  contentBlocks: IContentBlock[];
+  contentBlockAbout: IContentBlock;
+  contentBlockHistory: IContentBlock;
+  contentBlockLocations: IContentBlock;
   locations: Location[];
 }) => {
-  // DEMO SCENARIO CUSTOMIZATION:
-  // Change these to the respective content ids in your Content Hub ONE instance
-  const CONTENT_BLOCK_IDS = {
-    ABOUT: 'YXcFXM4yp0aKvHu5S8tmOg',
-    HISTORY: 'oIjG5JYuE6JNUVx1KejPA',
-    LOCATIONS: 'cSaltKGqXESGBDpQvIzlBA',
-  };
-
   const IMG_SRC =
     'https://mms-delivery.sitecorecloud.io/api/media/v2/delivery/def8e638-4288-4482-51e5-08dad8591109/5a960059eed9440eb3c892738eef4ab1';
-
-  const getContentBlock = (id: string) => {
-    return contentBlocks.find((block) => block.id === id);
-  };
 
   return (
     <>
       <HeroBannerSection imageSrc={IMG_SRC}>
-        <ContentBlock contentBlock={getContentBlock(CONTENT_BLOCK_IDS.ABOUT)} />
+        <ContentBlock contentBlock={contentBlockAbout} />
       </HeroBannerSection>
       <section className="content-section">
-        <ContentBlock contentBlock={getContentBlock(CONTENT_BLOCK_IDS.HISTORY)} />
+        <ContentBlock contentBlock={contentBlockHistory} />
       </section>
       <section className="content-section">
-        <ContentBlock contentBlock={getContentBlock(CONTENT_BLOCK_IDS.LOCATIONS)} />
+        <ContentBlock contentBlock={contentBlockLocations} />
         <LocationsGrid locations={locations} />
       </section>
     </>

@@ -1,5 +1,9 @@
 import { fetchGraphQL } from '../..';
-import { AllContentBlockResponse, ContentBlock } from '../../../interfaces/contentBlock';
+import {
+  AllContentBlockResponse,
+  ContentBlock,
+  ContentBlockResponse,
+} from '../../../interfaces/contentBlock';
 
 const contentBlocksQuery = `
   query {
@@ -32,4 +36,27 @@ export const getAllContentBlocks = async (): Promise<Partial<ContentBlock>[] | n
   } catch {
     return null;
   }
+};
+
+const getContentBlockByIdQuery = (id: string) => {
+  return `
+    query {
+      contentBlock (id: "${id}") {
+        id
+        title
+        body
+      }
+    }`;
+};
+
+export const getContentBlockById = async (
+  id: string
+): Promise<{ contentBlock: Partial<ContentBlock> }> => {
+  const contentBlockResponse: ContentBlockResponse = (await fetchGraphQL(
+    getContentBlockByIdQuery(id)
+  )) as ContentBlockResponse;
+
+  return {
+    contentBlock: contentBlockResponse.data.contentBlock,
+  };
 };

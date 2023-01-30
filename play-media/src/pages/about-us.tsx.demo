@@ -2,7 +2,7 @@
 // Rename this file from about-us.tsx.demo to about-us.tsx to activate the page
 
 import Head from 'next/head';
-import { getAllContentBlocks } from '../api/queries/getContentBlocks';
+import { getContentBlockById } from '../api/queries/getContentBlocks';
 import { getAllLocations } from '../api/queries/getLocations';
 import { AboutUsPage } from '../components/Pages/AboutUsPage';
 import { REVALIDATE_INTERVAL } from '../constants/build';
@@ -10,10 +10,14 @@ import { ContentBlock } from '../interfaces/contentBlock';
 import { Location } from '../interfaces/location';
 
 export default function AboutUs({
-  contentBlocks,
+  contentBlockAbout,
+  contentBlockHistory,
+  contentBlockLocations,
   locations,
 }: {
-  contentBlocks: ContentBlock[];
+  contentBlockAbout: ContentBlock;
+  contentBlockHistory: ContentBlock;
+  contentBlockLocations: ContentBlock;
   locations: Location[];
 }) {
   return (
@@ -23,17 +27,32 @@ export default function AboutUs({
       </Head>
 
       <main>
-        <AboutUsPage contentBlocks={contentBlocks} locations={locations} />
+        <AboutUsPage
+          contentBlockAbout={contentBlockAbout}
+          contentBlockHistory={contentBlockHistory}
+          contentBlockLocations={contentBlockLocations}
+          locations={locations}
+        />
       </main>
     </>
   );
 }
 
 export const getStaticProps = async () => {
-  const contentBlocks = await getAllContentBlocks();
+  // DEMO SCENARIO CUSTOMIZATION:
+  // Change these to the respective content ids in your Content Hub ONE instance
+  const CONTENT_BLOCK_IDS = {
+    ABOUT: 'YXcFXM4yp0aKvHu5S8tmOg',
+    HISTORY: 'oIjG5JYuE6JNUVx1KejPA',
+    LOCATIONS: 'cSaltKGqXESGBDpQvIzlBA',
+  };
+
+  const contentBlockAbout = await getContentBlockById(CONTENT_BLOCK_IDS.ABOUT);
+  const contentBlockHistory = await getContentBlockById(CONTENT_BLOCK_IDS.HISTORY);
+  const contentBlockLocations = await getContentBlockById(CONTENT_BLOCK_IDS.LOCATIONS);
   const locations = await getAllLocations();
 
-  if (!contentBlocks || !locations) {
+  if (!contentBlockAbout || !contentBlockHistory || !contentBlockLocations || !locations) {
     return {
       notFound: true,
       revalidate: REVALIDATE_INTERVAL,
@@ -42,8 +61,10 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      contentBlocks: contentBlocks,
-      locations: locations,
+      contentBlockAbout: contentBlockAbout.contentBlock,
+      contentBlockHistory: contentBlockHistory.contentBlock,
+      contentBlockLocations: contentBlockLocations.contentBlock,
+      locations,
     },
     revalidate: REVALIDATE_INTERVAL,
   };

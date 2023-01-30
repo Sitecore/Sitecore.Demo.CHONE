@@ -11,3 +11,9 @@ export interface AllContentBlockResponse {
     };
   };
 }
+
+export interface ContentBlockResponse {
+  data: {
+    contentBlock: Partial<ContentBlock>;
+  };
+}
