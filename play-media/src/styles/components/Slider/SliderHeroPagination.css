@@ -1,0 +1,17 @@
+.hero-pagination {
+  @apply grid grid-cols-1;
+  @apply md:container md:grid-cols-2 md:gap-x-14;
+
+  &-inner {
+    @apply flex gap-2 pl-8 pr-4;
+    @apply md:col-start-2 md:h-2 md:pl-2 md:pr-0 md:translate-x-2;
+
+    > .swiper-pagination-bullet {
+      @apply h-1 w-full !m-0 rounded-none bg-white opacity-50 transition-all;
+
+      &-active {
+        @apply h-2;
+      }
+    }
+  }
+}
