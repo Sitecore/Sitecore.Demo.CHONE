@@ -4,4 +4,6 @@ interface Props {
   children: ReactNode[];
 }
 
-export const BlockQuote: FC<Props> = ({ children }) => <blockquote>{children}</blockquote>;
+export const BlockQuote: FC<Props> = ({ children }) => (
+  <blockquote className="flex">{children}</blockquote>
+);
