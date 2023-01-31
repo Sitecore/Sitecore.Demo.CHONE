@@ -107,7 +107,11 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView style={styles.screenPadding} onScroll={calcScrollOffset}>
+      <ScrollView
+        style={styles.screenPadding}
+        onScroll={calcScrollOffset}
+        scrollEventThrottle={0}
+      >
         <View>
           <Text style={pageStyles.label}>Sport</Text>
           <Text
