@@ -20,47 +20,32 @@
   }
 
   .code-block {
-    @apply py-4;
-    @apply px-6;
-    @apply rounded-md;
-    @apply bg-black-lightest;
+    @apply flex py-4 px-6 rounded-md bg-black-lightest;
   }
 
   blockquote {
-    @apply relative;
-    @apply py-5;
-    @apply px-10;
-    @apply my-10;
-    @apply rounded-md;
-    @apply shadow-md;
-    @apply shadow-pink-light;
-    @apply text-xl;
+    @apply flex relative py-5 px-10 my-10 rounded-md shadow-md shadow-pink-light text-xl;
   }
 
   blockquote::before,
   blockquote::after {
-    @apply absolute;
-    @apply text-[3rem];
+    @apply absolute text-[3rem];
   }
 
   blockquote::before {
-    @apply top-[15px];
-    @apply left-[15px];
+    @apply top-[15px] left-[15px];
 
     content: '“';
   }
 
   blockquote::after {
-    @apply bottom-[-5px];
-    @apply right-[15px];
+    @apply bottom-[-5px] right-[15px];
 
     content: '”';
   }
 
   a:link {
-    @apply text-blue-light;
-    @apply underline;
-    @apply cursor-pointer;
+    @apply text-blue-light underline cursor-pointer;
   }
 
   a:hover {
@@ -68,8 +53,7 @@
   }
 
   a:visited {
-    @apply text-blue-lightest;
-    @apply underline;
+    @apply text-blue-lightest underline;
   }
 
   a:visited:hover {
@@ -85,7 +69,6 @@
   }
 
   p {
-    @apply block;
-    @apply my-3;
+    @apply block my-3;
   }
 }
