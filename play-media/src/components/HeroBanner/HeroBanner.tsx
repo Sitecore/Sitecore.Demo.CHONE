@@ -9,7 +9,7 @@ export type HeroBannerProps = {
 
 export const HeroBanner = ({ imageSrc, className, children }: HeroBannerProps) => {
   return (
-    <Parallax blur={0} bgImage={imageSrc || EVENT_MOCK_IMG} bgImageAlt="the cat" strength={200}>
+    <Parallax blur={0} bgImage={imageSrc || EVENT_MOCK_IMG} bgImageAlt="event image" strength={200}>
       <section className={`hero-banner ${className}`}>
         <div className="hero-banner-content">{children}</div>
       </section>
