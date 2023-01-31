@@ -1,25 +1,21 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useEffect } from "react";
-import { Button, Text } from "react-native-paper";
-import { Image, View, StyleSheet, ScrollView } from "react-native";
+import { AnimatedFAB, Text } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
 import { getDate, getYear } from "../helpers/dateHelper";
 import { getAccentColor, getTextColor } from "../helpers/colorHelper";
-import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
+import { AthleteImages } from "../features/Screens/AthleteImages";
+import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 
 const pageStyles = StyleSheet.create({
-  button: {
-    position: "absolute",
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
-  },
   label: {
     fontFamily: theme.fontFamily.bold,
     color: theme.colors.gray.dark,
@@ -68,20 +64,16 @@ const pageStyles = StyleSheet.create({
     marginBottom: theme.spacing.md,
     fontFamily: theme.fontFamily.bold,
   },
-  imageContainer: {
-    marginBottom: theme.spacing.md,
-  },
-  imageLabel: {
-    color: theme.colors.gray.DEFAULT,
-    marginBottom: theme.spacing.xs,
-  },
-  imageItem: { height: 300, width: "100%", marginTop: theme.spacing.xs },
-  imageGrid: {
-    marginTop: theme.spacing.xs,
+  bottomFAB: {
+    position: "absolute",
+    right: theme.spacing.sm,
+    bottom: theme.spacing.xs,
   },
 });
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
+  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+
   const { data, isFetching } = useQuery("athlete", () =>
     getAthleteById(route.params.id)
   );
@@ -106,23 +98,21 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     theme.colors.gray.DEFAULT;
   const textColor = getTextColor(accentColor) || theme.colors.white.DEFAULT;
 
+  const handleEditInfo = (id: string, title: string) => {
+    navigation.navigate("EditAthleteDetails", {
+      id,
+      title,
+    });
+  };
+
   return (
     <Screen>
-      <ScrollView style={styles.screenPadding}>
+      <ScrollView
+        style={styles.screenPadding}
+        onScroll={calcScrollOffset}
+        scrollEventThrottle={0}
+      >
         <View>
-          <Button
-            style={pageStyles.button}
-            textColor={theme.colors.yellow.DEFAULT}
-            icon={({ size }) => (
-              <FontAwesomeIcon
-                icon={faEdit}
-                color={theme.colors.yellow.DEFAULT}
-                size={size}
-              />
-            )}
-          >
-            Change
-          </Button>
           <Text style={pageStyles.label}>Sport</Text>
           <Text
             style={[
@@ -136,19 +126,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           </Text>
         </View>
         <View>
-          <Button
-            style={pageStyles.button}
-            textColor={theme.colors.yellow.DEFAULT}
-            icon={({ size }) => (
-              <FontAwesomeIcon
-                icon={faEdit}
-                color={theme.colors.yellow.DEFAULT}
-                size={size}
-              />
-            )}
-          >
-            Edit info
-          </Button>
           <Text style={pageStyles.label}>Athlete name</Text>
           <Text
             style={[
@@ -204,38 +181,21 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             </View>
           </CardShadowBox>
         </View>
-        {athlete?.profilePhoto?.results[0]?.fileUrl && (
-          <View style={pageStyles.imageContainer}>
-            <Text style={pageStyles.imageLabel}>Profile photo</Text>
-            <Image
-              source={{
-                uri: athlete.profilePhoto.results[0].fileUrl,
-              }}
-              style={pageStyles.imageItem}
-            />
-          </View>
-        )}
-        {athlete?.featuredImage?.results[0]?.fileUrl && (
-          <View style={pageStyles.imageContainer}>
-            <Text style={pageStyles.imageLabel}>Featured image</Text>
-            <Image
-              source={{
-                uri: athlete.featuredImage.results[0].fileUrl,
-              }}
-              style={pageStyles.imageItem}
-            />
-          </View>
-        )}
-        {athlete?.relatedMedia?.results.length > 0 && (
-          <View style={pageStyles.imageContainer}>
-            <Text style={pageStyles.imageLabel}>Related media</Text>
-            <ImageGrid
-              style={pageStyles.imageGrid}
-              images={athlete.relatedMedia.results.map((img) => img.fileUrl)}
-            />
-          </View>
-        )}
+        <AthleteImages athlete={athlete} />
       </ScrollView>
+      <AnimatedFAB
+        icon={({ size }) => (
+          <FontAwesomeIcon
+            icon={faEdit}
+            color={theme.colors.black.DEFAULT}
+            size={size}
+          />
+        )}
+        label={"Edit"}
+        extended={isTopEdge}
+        onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
+        style={pageStyles.bottomFAB}
+      ></AnimatedFAB>
     </Screen>
   );
 };
