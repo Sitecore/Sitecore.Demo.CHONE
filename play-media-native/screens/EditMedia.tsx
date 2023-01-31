@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Image, SafeAreaView, StatusBar, View } from "react-native";
+import { Image, StatusBar, View } from "react-native";
 import { theme } from "../theme/theme";
 import { InputText } from "../components/InputText/InputText";
 import { inputContainerStyle } from "./CreateEvent/styles";
@@ -11,22 +11,11 @@ import { getFileType } from "../helpers/media";
 import { generateID } from "../helpers/uuid";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../theme/styles";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const imageStyle = {
   height: 200,
   width: 300,
-};
-
-const buttonStyle = {
-  borderWidth: 1,
-  borderColor: theme.colors.yellow.DEFAULT,
-  marginHorizontal: theme.spacing.xs,
-};
-
-const labelStyle = {
-  fontFamily: theme.fontFamily.medium,
-  fontSize: theme.fontSize.base,
-  lineHeight: 30,
 };
 
 export const EditMediaScreen = ({ navigation, route }) => {
@@ -84,13 +73,9 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: theme.colors.black.darkest,
-      }}
+    <KeyboardAwareScrollView
+      style={{ backgroundColor: theme.colors.black.darkest }}
+      contentContainerStyle={{ ...styles.screen, ...styles.centered }}
     >
       <StatusBar barStyle={"light-content"} />
       <View>
@@ -122,12 +107,12 @@ export const EditMediaScreen = ({ navigation, route }) => {
         <Button
           mode="contained"
           onPress={onAdd}
-          // labelStyle={styles.buttonLabel}
-          // style={styles.button}
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
         >
           {isEdit ? "Edit Media" : "Add Media"}
         </Button>
       </BottomActions>
-    </SafeAreaView>
+    </KeyboardAwareScrollView>
   );
 };

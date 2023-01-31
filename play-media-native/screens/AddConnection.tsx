@@ -1,4 +1,5 @@
-import { KeyboardAvoidingView, Platform, StatusBar, View } from "react-native";
+import { StatusBar, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Text } from "react-native-paper";
 import { FormAddConnection } from "../features/FormAddConnection/FormAddConnection";
 import { styles } from "../theme/styles";
@@ -6,9 +7,9 @@ import { theme } from "../theme/theme";
 
 export const AddConnectionScreen = () => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ ...styles.screen, ...styles.centered }}
+    <KeyboardAwareScrollView
+      style={{ backgroundColor: theme.colors.black.darkest }}
+      contentContainerStyle={{ ...styles.screen, ...styles.centered }}
     >
       <StatusBar barStyle={"light-content"} />
       <View
@@ -29,6 +30,6 @@ export const AddConnectionScreen = () => {
         </Text>
       </View>
       <FormAddConnection />
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
