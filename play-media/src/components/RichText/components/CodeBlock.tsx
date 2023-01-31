@@ -5,7 +5,7 @@ interface Props {
 }
 
 export const CodeBlock: FC<Props> = ({ children }) => (
-  <section className="code-block flex">
+  <section className="code-block">
     <code>{children}</code>
   </section>
 );
