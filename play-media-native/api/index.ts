@@ -18,10 +18,9 @@ export async function fetchGraphQL(
   options?: FetchOptions
 ): Promise<unknown> {
   const apiKey =
-    options?.apiKey || store.getState().connections.selectedConnection?.apiKey;
+    "b2FkSlNSaWg0QWdYV2NCVUk5eGc4L284N3M1aGxHVFVlM21kTDd5R1RhTT18aGMtZGVtby10ZWFtLXBsYXktbWVkaWEtZWE1YmE=";
   const previewUrl =
-    options?.previewUrl ||
-    store.getState().connections.selectedConnection?.previewUrl;
+    "https://content-api.sitecorecloud.io/api/content/v1/preview/graphql/";
 
   try {
     return await fetch(previewUrl, {
