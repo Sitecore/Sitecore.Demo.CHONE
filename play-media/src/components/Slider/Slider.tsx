@@ -51,7 +51,14 @@ const Slider: FC<Props> = ({
   if (!showThumb) {
     return (
       <Swiper
-        autoplay={!!autoplay ? { delay: autoplay } : false}
+        autoplay={
+          !!autoplay
+            ? {
+                delay: autoplay,
+                disableOnInteraction: false,
+              }
+            : false
+        }
         loop
         modules={[Autoplay, FreeMode, Navigation, Pagination]}
         navigation={navigation && showNavigation}
