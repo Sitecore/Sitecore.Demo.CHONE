@@ -21,6 +21,7 @@ const pageStyles = StyleSheet.create({
   },
   imageGrid: {
     marginTop: theme.spacing.xs,
+    marginBottom: theme.spacing.xl,
   },
   button: {
     position: "absolute",
