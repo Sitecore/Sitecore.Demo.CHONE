@@ -28,6 +28,10 @@ const defaultInputStyle = {
   borderRadius: 0,
 };
 
+const defaultContentStyle = {
+  fontFamily: theme.fontFamily.DEFAULT,
+};
+
 export const InputText = ({
   containerStyle,
   contentStyle,
@@ -59,6 +63,14 @@ export const InputText = ({
     [inputStyle]
   );
 
+  const contentStyleFinal = useMemo(
+    () => ({
+      ...defaultContentStyle,
+      ...contentStyle,
+    }),
+    [contentStyle]
+  );
+
   return (
     <View style={containerStyleFinal}>
       {title && (
@@ -67,7 +79,7 @@ export const InputText = ({
         </Text>
       )}
       <TextInput
-        contentStyle={contentStyle}
+        contentStyle={contentStyleFinal}
         disabled={disabled}
         label={label}
         multiline={multiline}
