@@ -9,12 +9,12 @@ import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { getAccentColor } from "../helpers/colorHelper";
 import { getDate, getYear } from "../helpers/dateHelper";
 import { theme } from "../theme/theme";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { Athlete } from "../interfaces/athlete";
 import { AthleteImages } from "../features/Screens/AthleteImages";
 import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
+import { DatePicker } from "../components/DatePicker/DatePicker";
 
 const pageStyles = StyleSheet.create({
   container: {
@@ -162,13 +162,11 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
             caretHidden={true}
           />
           {showBirthDatePicker && (
-            <DateTimePicker
-              value={new Date(birthDate)}
-              mode={"date"}
-              onChange={(e, selectedDate) => {
-                setShowBirthDatePicker(false);
-                handleChangeBirthDate(selectedDate);
-              }}
+            <DatePicker
+              value={birthDate}
+              visible={showBirthDatePicker}
+              onChange={handleChangeBirthDate}
+              onClose={setShowBirthDatePicker}
             />
           )}
           <Text style={pageStyles.label}>Career start</Text>
@@ -180,13 +178,11 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
             caretHidden={true}
           />
           {showCareerStartDatePicker && (
-            <DateTimePicker
-              value={new Date(careerStartDate)}
-              mode={"date"}
-              onChange={(e, selectedDate) => {
-                setShowCareerStartDatePicker(false);
-                handleChangeCareerStartDate(selectedDate);
-              }}
+            <DatePicker
+              value={careerStartDate}
+              visible={showCareerStartDatePicker}
+              onChange={handleChangeCareerStartDate}
+              onClose={setShowCareerStartDatePicker}
             />
           )}
           <Text style={pageStyles.label}>Hobby</Text>
