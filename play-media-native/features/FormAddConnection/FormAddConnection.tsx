@@ -79,7 +79,7 @@ export const FormAddConnection = () => {
 
   const handleName = useCallback(
     (text: string) => {
-      setName(text);
+      setName(text.trim());
       setNameError(!isNameValid(text));
       checkNameExists(text, connections);
     },
@@ -88,12 +88,12 @@ export const FormAddConnection = () => {
 
   const handleApiKey = useCallback((text: string) => {
     setApiKeyError(!isApiKeyValid(text));
-    setApiKey(text);
+    setApiKey(text.trim());
   }, []);
 
   const handlePreviewUrl = useCallback((text: string) => {
     setPreviewUrlError(!isPreviewUrlValid(text));
-    setPreviewUrl(text);
+    setPreviewUrl(text.trim());
   }, []);
 
   const onSuccessToastDismiss = useCallback(() => {
