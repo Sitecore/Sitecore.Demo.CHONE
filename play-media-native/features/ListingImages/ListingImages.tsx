@@ -132,7 +132,7 @@ export const ListingImages = ({
           style={{
             backgroundColor: theme.colors.white.DEFAULT,
             color: theme.colors.black.DEFAULT,
-            width: "60%",
+            flex: 1,
           }}
         />
         <SelectDisplayButtons

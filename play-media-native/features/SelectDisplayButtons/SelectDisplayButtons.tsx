@@ -35,7 +35,7 @@ export const SelectDisplayButtons = ({
   return (
     <View
       style={{
-        flex: 1,
+        width: 150,
         flexDirection: "row",
         marginLeft: theme.spacing.xxs,
       }}
