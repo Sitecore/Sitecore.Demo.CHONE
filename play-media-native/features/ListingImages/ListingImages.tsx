@@ -8,6 +8,7 @@ import {
   ListingImageDisplayType,
   SelectDisplayButtons,
 } from "../SelectDisplayButtons/SelectDisplayButtons";
+import debounce from "lodash.debounce";
 
 interface Props {
   images: Media[];
@@ -41,15 +42,22 @@ export const ListingImages = ({
 
   const listStyle = useMemo(() => ({ ...listingStyle, ...style }), [style]);
 
-  const onSearch = useCallback(
-    (query: string) => {
-      setSearchQuery(query);
+  const search = useCallback(
+    debounce((query: string) => {
       const results = !query
         ? images
         : fuse.search(query).map((item) => item.item);
       setDisplayedItems(results);
-    },
+    }, 500),
     [fuse]
+  );
+
+  const onSearch = useCallback(
+    (query: string) => {
+      setSearchQuery(query);
+      search(query);
+    },
+    [search, fuse]
   );
 
   const handleDisplayChange = useCallback(

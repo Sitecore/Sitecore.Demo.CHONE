@@ -74,7 +74,7 @@ export const SelectDisplayButtons = ({
       />
       <IconButton
         mode="contained"
-        icon="cards-outline"
+        icon="cards"
         iconColor={
           displayType === ListingImageDisplayType.CARDS
             ? theme.colors.yellow.DEFAULT
