@@ -4,15 +4,13 @@ import { Card, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
 import { getFileType, removeFileExtension } from "../../helpers/media";
-import {
-  ListingImageDisplayType,
-  ListingImages,
-} from "../../features/ListingImages/ListingImages";
+import { ListingImages } from "../../features/ListingImages/ListingImages";
 import { SelectableView } from "../../components/SelectableView/SelectableView";
 import { useMedia } from "../../hooks/useMedia/useMedia";
 import { useQuery } from "react-query";
 import { getAllMedia } from "../../api/queries/getMedia";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
+import { ListingImageDisplayType } from "../../features/SelectDisplayButtons/SelectDisplayButtons";
 
 interface Props {
   onSelect: (image: Media) => void;

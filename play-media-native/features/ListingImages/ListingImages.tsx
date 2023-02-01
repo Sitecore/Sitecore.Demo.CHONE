@@ -1,20 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
 import { FlatList, ListRenderItem, StyleProp, View } from "react-native";
-import { SegmentedButtons } from "react-native-paper";
+import { Searchbar } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
-
-export interface DisplayTypeOption {
-  icon: string;
-  label: string;
-  value: string;
-}
-
-export enum ListingImageDisplayType {
-  GRID = "grid",
-  LIST = "list",
-  CARDS = "cards",
-}
+import Fuse from "fuse.js";
+import {
+  ListingImageDisplayType,
+  SelectDisplayButtons,
+} from "../SelectDisplayButtons/SelectDisplayButtons";
 
 interface Props {
   images: Media[];
@@ -23,29 +16,12 @@ interface Props {
   style?: StyleProp<any>;
 }
 
-const SEGMENTED_BUTTON_ITEMS = [
-  {
-    value: ListingImageDisplayType.LIST,
-    icon: "view-list",
-    label: "List",
-    color: theme.colors.white.DEFAULT,
-  },
-  {
-    value: ListingImageDisplayType.GRID,
-    icon: "view-grid",
-    label: "Grid",
-    color: theme.colors.white.DEFAULT,
-  },
-  {
-    value: ListingImageDisplayType.CARDS,
-    icon: "cards",
-    label: "Cards",
-    color: theme.colors.white.DEFAULT,
-  },
-];
-
 const listingStyle = {
   paddingHorizontal: theme.spacing.sm,
+};
+
+const fuseOptions = {
+  keys: ["name"],
 };
 
 export const ListingImages = ({
@@ -57,8 +33,24 @@ export const ListingImages = ({
   const [displayType, setDisplayType] = useState<string>(
     ListingImageDisplayType.LIST
   );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [displayedItems, setDisplayedItems] = useState(images);
+  const fuse = useMemo(() => {
+    return new Fuse(images, fuseOptions);
+  }, [images]);
 
   const listStyle = useMemo(() => ({ ...listingStyle, ...style }), [style]);
+
+  const onSearch = useCallback(
+    (query: string) => {
+      setSearchQuery(query);
+      const results = !query
+        ? images
+        : fuse.search(query).map((item) => item.item);
+      setDisplayedItems(results);
+    },
+    [fuse]
+  );
 
   const handleDisplayChange = useCallback(
     (value: string) => {
@@ -118,21 +110,29 @@ export const ListingImages = ({
           width: "100%",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "row",
+          marginBottom: theme.spacing.sm,
         }}
       >
-        <SegmentedButtons
-          buttons={SEGMENTED_BUTTON_ITEMS}
-          density="small"
-          onValueChange={handleDisplayChange}
+        <Searchbar
+          iconColor={theme.colors.black.DEFAULT}
+          inputStyle={{ color: theme.colors.black.DEFAULT }}
+          placeholder="Search images..."
+          placeholderTextColor={theme.colors.black.DEFAULT}
+          onChangeText={onSearch}
+          value={searchQuery}
           style={{
-            width: 300,
-            marginBottom: theme.spacing.sm,
-            marginHorizontal: "auto",
+            backgroundColor: theme.colors.white.DEFAULT,
+            color: theme.colors.black.DEFAULT,
+            width: "60%",
           }}
-          value={displayType}
+        />
+        <SelectDisplayButtons
+          displayType={displayType}
+          onDisplayTypeChange={handleDisplayChange}
         />
       </View>
-      {renderList(images, displayType)}
+      {renderList(displayedItems, displayType)}
     </>
   );
 };
