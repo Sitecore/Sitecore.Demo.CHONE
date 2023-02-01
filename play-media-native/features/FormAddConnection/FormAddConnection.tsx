@@ -79,21 +79,27 @@ export const FormAddConnection = () => {
 
   const handleName = useCallback(
     (text: string) => {
-      setName(text.trim());
-      setNameError(!isNameValid(text));
-      checkNameExists(text, connections);
+      const trimmed = text.trim();
+
+      setName(trimmed);
+      setNameError(!isNameValid(trimmed));
+      checkNameExists(trimmed, connections);
     },
     [connections, checkNameExists]
   );
 
   const handleApiKey = useCallback((text: string) => {
-    setApiKeyError(!isApiKeyValid(text));
-    setApiKey(text.trim());
+    const trimmed = text.trim();
+
+    setApiKeyError(!isApiKeyValid(trimmed));
+    setApiKey(trimmed);
   }, []);
 
   const handlePreviewUrl = useCallback((text: string) => {
-    setPreviewUrlError(!isPreviewUrlValid(text));
-    setPreviewUrl(text.trim());
+    const trimmed = text.trim();
+
+    setPreviewUrlError(!isPreviewUrlValid(trimmed));
+    setPreviewUrl(trimmed);
   }, []);
 
   const onSuccessToastDismiss = useCallback(() => {
