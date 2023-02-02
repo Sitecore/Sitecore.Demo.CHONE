@@ -5,6 +5,7 @@ import { General } from "./General";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
 import { styles } from "../../theme/styles";
+import { Content } from "./Content";
 import { athleteStyles } from "./styles";
 import { useQuery } from "react-query";
 import { getAllSports } from "../../api/queries/getSports";
@@ -23,6 +24,10 @@ export const CreateAthleteScreen = ({ navigation }) => {
   const displayedScreen = useMemo(() => {
     if (step === 0) {
       return <General sports={sports} />;
+    }
+
+    if (step === 1) {
+      return <Content />;
     }
 
   }, [step, sports]);
