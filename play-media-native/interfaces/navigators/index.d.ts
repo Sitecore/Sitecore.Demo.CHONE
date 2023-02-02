@@ -4,6 +4,7 @@ import type { StackNavigationProp } from "@react-navigation/stack";
 
 export type RootStackParamList = {
   AddAthlete: undefined;
+  AddAthletes: undefined;
   AddConnection: undefined;
   AddEvent: undefined;
   AddCH1Media: undefined;
@@ -15,6 +16,7 @@ export type RootStackParamList = {
   EventDetail: { id: string };
   MainTabs: undefined;
   RemoveConnection: undefined;
+  ReviewAthletes: undefined;
   SelectConnection: undefined;
 };
 

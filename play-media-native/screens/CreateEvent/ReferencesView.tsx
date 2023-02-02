@@ -12,6 +12,10 @@ export const ReferencesView = () => {
     navigation.navigate("AddMedia");
   }, []);
 
+  const onAddAthletes = useCallback(() => {
+    navigation.navigate("AddAthletes");
+  }, []);
+
   return (
     <View style={{ width: "100%", justifyContent: "flex-end" }}>
       <Button
@@ -22,6 +26,15 @@ export const ReferencesView = () => {
         labelStyle={styles.buttonLabel}
       >
         Media
+      </Button>
+      <Button
+        icon="plus"
+        mode="contained"
+        onPress={onAddAthletes}
+        style={styles.button}
+        labelStyle={styles.buttonLabel}
+      >
+        Athletes
       </Button>
     </View>
   );

@@ -13,6 +13,8 @@ import { AddMediaScreen } from "../screens/AddMedia/AddMedia";
 import { EditMediaScreen } from "../screens/EditMedia";
 import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHeader";
 import { EditAthleteDetailsScreen } from "../screens/EditAthleteDetails";
+import { AddAthletesScreen } from "../screens/AddAthletes";
+import { ReviewAthletesScreen } from "../screens/ReviewAthletes";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -28,6 +30,11 @@ export const Stacks = () => {
         name="AddAthlete"
         component={CreateAthleteScreen}
         options={{ title: "Add Athlete" }}
+      />
+      <Stack.Screen
+        name="AddAthletes"
+        component={AddAthletesScreen}
+        options={{ title: "Add Athletes" }}
       />
       <Stack.Screen
         name="AddCH1Media"
@@ -81,6 +88,13 @@ export const Stacks = () => {
         component={RemoveConnectionScreen}
         options={{
           title: "Remove Connection",
+        }}
+      />
+      <Stack.Screen
+        name="ReviewAthletes"
+        component={ReviewAthletesScreen}
+        options={{
+          title: "Review Athletes",
         }}
       />
       <Stack.Screen
