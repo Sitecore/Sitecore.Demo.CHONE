@@ -5,13 +5,14 @@ import { General } from "./General";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
 import { styles } from "../../theme/styles";
+import { Content } from "./Content";
 import { athleteStyles } from "./styles";
 import { useQuery } from "react-query";
 import { getAllSports } from "../../api/queries/getSports";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 
 export const CreateAthleteScreen = ({ navigation }) => {
-  let [step, setStep] = useState(0);
+  const [step, setStep] = useState(0);
   const [sports, setSports] = useState([]);
 
   const steps = ["General", "Content", "References"];
@@ -24,7 +25,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
     navigation.goBack();
   }, []);
   const handleNextBtn = useCallback(() => {
-    onStepPress(++step);
+    setStep(step + 1);
   }, []);
   const handleSubmitBtn = useCallback(() => {
     // TODO Submit API request
@@ -33,6 +34,10 @@ export const CreateAthleteScreen = ({ navigation }) => {
   const displayedScreen = useMemo(() => {
     if (step === 0) {
       return <General sports={sports} />;
+    }
+    
+    if (step === 1) {
+      return <Content />;
     }
   }, [step, sports]);
 
