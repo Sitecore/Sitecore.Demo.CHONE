@@ -20,11 +20,20 @@ export const CreateAthleteScreen = ({ navigation }) => {
     setStep(index);
   }, []);
 
+  const handleDiscardBtn = useCallback(() => {
+    navigation.goBack();
+  }, []);
+  const handleNextBtn = useCallback(() => {
+    onStepPress(++step);
+  }, []);
+  const handleSubmitBtn = useCallback(() => {
+    // TODO Submit API request
+  }, []);
+
   const displayedScreen = useMemo(() => {
     if (step === 0) {
       return <General sports={sports} />;
     }
-
   }, [step, sports]);
 
   const { data, isFetching } = useQuery("sports", () => getAllSports(), {
@@ -34,16 +43,6 @@ export const CreateAthleteScreen = ({ navigation }) => {
   if (isFetching) {
     return <LoadingScreen />;
   }
-
-  const handleDiscardBtn = () => {
-    navigation.goBack();
-  };
-  const handleNextBtn = () => {
-    onStepPress(++step);
-  };
-  const handleSubmitBtn = () => {
-    // TODO Submit API request
-  };
 
   return (
     <Screen>
@@ -59,7 +58,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
           mode="outlined"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() => handleDiscardBtn()}
+          onPress={handleDiscardBtn}
         >
           Discard
         </Button>
@@ -67,9 +66,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() =>
-            step === steps.length - 1 ? handleSubmitBtn() : handleNextBtn()
-          }
+          onPress={step === steps.length - 1 ? handleSubmitBtn : handleNextBtn}
         >
           {step === steps.length - 1 ? "Submit" : "Next"}
         </Button>
