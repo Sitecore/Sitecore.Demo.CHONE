@@ -2,11 +2,17 @@ import { useState } from "react";
 import { View, TextInput } from "react-native";
 import { Text } from "react-native-paper";
 import { DatePicker } from "../../components/DatePicker/DatePicker";
+import { SportPicker } from "../../features/SportPicker/SportPicker";
 import { getDate } from "../../helpers/dateHelper";
+import { Sport } from "../../interfaces/sport";
 import { theme } from "../../theme/theme";
 import { athleteStyles } from "./styles";
 
-export const General = () => {
+type GeneralProps = {
+  sports: Sport[];
+};
+
+export const General = ({ sports }: GeneralProps) => {
   const [name, handleChangeName] = useState("");
   const [nationality, handleChangeNationality] = useState("");
   const [birthDate, handleChangeBirthDate] = useState(new Date());
@@ -42,6 +48,7 @@ export const General = () => {
           onClose={setShowBirthDatePicker}
         />
       )}
+      <SportPicker sports={sports} />
     </View>
   );
 };

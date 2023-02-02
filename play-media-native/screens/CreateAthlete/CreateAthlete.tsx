@@ -6,9 +6,13 @@ import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
 import { styles } from "../../theme/styles";
 import { athleteStyles } from "./styles";
+import { useQuery } from "react-query";
+import { getAllSports } from "../../api/queries/getSports";
+import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 
 export const CreateAthleteScreen = ({ navigation }) => {
   let [step, setStep] = useState(0);
+  const [sports, setSports] = useState([]);
 
   const steps = ["General", "Content", "References"];
 
@@ -18,10 +22,18 @@ export const CreateAthleteScreen = ({ navigation }) => {
 
   const displayedScreen = useMemo(() => {
     if (step === 0) {
-      return <General />;
+      return <General sports={sports} />;
     }
 
-  }, [step]);
+  }, [step, sports]);
+
+  const { data, isFetching } = useQuery("sports", () => getAllSports(), {
+    onSuccess: (data) => setSports(data),
+  });
+
+  if (isFetching) {
+    return <LoadingScreen />;
+  }
 
   const handleDiscardBtn = () => {
     navigation.goBack();
