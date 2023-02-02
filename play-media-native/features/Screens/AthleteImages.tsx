@@ -23,71 +23,83 @@ const pageStyles = StyleSheet.create({
     marginTop: theme.spacing.xs,
     marginBottom: theme.spacing.xl,
   },
-  button: {
-    position: "absolute",
-    right: -theme.spacing.xs,
-    marginTop: theme.spacing.sm,
+  imageBtns: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    marginBottom: theme.spacing.sm,
   },
 });
 
 type AthleteImagesProps = {
-  athlete: Partial<Athlete>;
+  athlete?: Partial<Athlete>;
   isEditMode?: boolean;
-  onAddBtnPress?: () => void;
+  onCameraBtnPress?: () => void;
+  onDeviceBtnPress?: () => void;
+  onCHOneBtnPress?: () => void;
 };
 
 export const AthleteImages = ({
-  athlete,
+  athlete = {},
   isEditMode = false,
-  onAddBtnPress = undefined,
+  onCameraBtnPress = undefined,
+  onDeviceBtnPress = undefined,
+  onCHOneBtnPress = undefined,
 }: AthleteImagesProps) => {
-  const addBtn = isEditMode && (
-    <Button
-      icon={"plus"}
-      onPress={onAddBtnPress}
-      style={[styles.button, pageStyles.button]}
-      mode="contained"
-    >
-      Add
-    </Button>
+  const imageBtns = isEditMode && (
+    <View style={pageStyles.imageBtns}>
+      <Button onPress={onCameraBtnPress} style={styles.button} mode="outlined">
+        Camera
+      </Button>
+      <Button onPress={onDeviceBtnPress} style={styles.button} mode="outlined">
+        Device
+      </Button>
+      <Button
+        onPress={onCHOneBtnPress}
+        style={[styles.button, { marginRight: 0 }]}
+        mode="contained"
+      >
+        CH ONE
+      </Button>
+    </View>
   );
 
   return (
     <>
-      {athlete?.profilePhoto?.results[0]?.fileUrl && (
-        <View style={pageStyles.imageContainer}>
-          <Text style={pageStyles.imageLabel}>Profile photo</Text>
+      <View style={pageStyles.imageContainer}>
+        <Text style={pageStyles.imageLabel}>Profile photo</Text>
+        {imageBtns}
+        {athlete?.profilePhoto?.results[0]?.fileUrl && (
           <Image
             source={{
               uri: athlete.profilePhoto.results[0].fileUrl,
             }}
             style={pageStyles.imageItem}
           />
-          {addBtn}
-        </View>
-      )}
-      {athlete?.featuredImage?.results[0]?.fileUrl && (
-        <View style={pageStyles.imageContainer}>
-          <Text style={pageStyles.imageLabel}>Featured image</Text>
+        )}
+      </View>
+      <View style={pageStyles.imageContainer}>
+        <Text style={pageStyles.imageLabel}>Featured image</Text>
+        {imageBtns}
+        {athlete?.featuredImage?.results[0]?.fileUrl && (
           <Image
             source={{
               uri: athlete.featuredImage.results[0].fileUrl,
             }}
             style={pageStyles.imageItem}
           />
-          {addBtn}
-        </View>
-      )}
-      {athlete?.relatedMedia?.results.length > 0 && (
-        <View style={pageStyles.imageContainer}>
-          <Text style={pageStyles.imageLabel}>Related media</Text>
+        )}
+      </View>
+      <View style={pageStyles.imageContainer}>
+        <Text style={pageStyles.imageLabel}>Related media</Text>
+        {imageBtns}
+        {athlete?.relatedMedia?.results.length > 0 && (
           <ImageGrid
             style={pageStyles.imageGrid}
             images={athlete.relatedMedia.results.map((img) => img.fileUrl)}
           />
-          {addBtn}
-        </View>
-      )}
+        )}
+      </View>
     </>
   );
 };
