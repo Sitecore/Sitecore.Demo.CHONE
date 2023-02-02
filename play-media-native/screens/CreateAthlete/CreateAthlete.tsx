@@ -12,7 +12,7 @@ import { getAllSports } from "../../api/queries/getSports";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 
 export const CreateAthleteScreen = ({ navigation }) => {
-  let [step, setStep] = useState(0);
+  const [step, setStep] = useState(0);
   const [sports, setSports] = useState([]);
 
   const steps = ["General", "Content", "References"];
@@ -44,7 +44,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
     navigation.goBack();
   };
   const handleNextBtn = () => {
-    onStepPress(++step);
+    setStep(step + 1);
   };
   const handleSubmitBtn = () => {
     // TODO Submit API request
