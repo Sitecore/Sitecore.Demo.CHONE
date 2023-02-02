@@ -9,7 +9,7 @@ import { getAllSports } from "../getSports";
 //
 export const validateConnection = async (
   options: FetchOptions
-): Promise<boolean> => {
+): Promise<boolean | unknown> => {
   const promises = [
     generateToken(options),
     getAllAthletes(options),
@@ -19,5 +19,7 @@ export const validateConnection = async (
 
   return await Promise.all(promises)
     .then(() => true)
-    .catch(() => false);
+    .catch((e) => {
+      throw e;
+    });
 };
