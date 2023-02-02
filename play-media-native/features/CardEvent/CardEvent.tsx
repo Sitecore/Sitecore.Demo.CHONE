@@ -4,8 +4,15 @@ import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
 import { getDate } from "../../helpers/dateHelper";
 import { theme } from "../../theme/theme";
 import { getAccentColor, getTextColor } from "../../helpers/colorHelper";
+import { Event } from "../../interfaces/event";
 
-export const CardEvent = ({ item, onCardPress }) => {
+export const CardEvent = ({
+  item,
+  onCardPress,
+}: {
+  item: Event;
+  onCardPress?: () => void;
+}) => {
   const sport = item.sport?.results[0];
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
   const rightLabel = `${getDate(item.timeAndDate)} | ${item.location}`;

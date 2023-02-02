@@ -16,6 +16,10 @@ export const ReferencesView = () => {
     navigation.navigate("AddAthletes");
   }, []);
 
+  const onAddEvents = useCallback(() => {
+    navigation.navigate("AddEvents");
+  }, []);
+
   return (
     <View style={{ width: "100%", justifyContent: "flex-end" }}>
       <Button
@@ -35,6 +39,15 @@ export const ReferencesView = () => {
         labelStyle={styles.buttonLabel}
       >
         Athletes
+      </Button>
+      <Button
+        icon="plus"
+        mode="contained"
+        onPress={onAddEvents}
+        style={styles.button}
+        labelStyle={styles.buttonLabel}
+      >
+        Events
       </Button>
     </View>
   );

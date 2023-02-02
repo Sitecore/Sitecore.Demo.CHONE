@@ -1,63 +1,61 @@
 import { useCallback, useMemo, useState } from "react";
-import { CardAvatar } from "../features/CardAvatar/CardAvatar";
 import { Listing } from "../components/Listing/Listing";
-import { Athlete } from "../interfaces/athlete";
-import { getAllAthletes } from "../api/queries/getAthletes";
 import { useQuery } from "react-query";
 import { Button } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { theme } from "../theme/theme";
 import { SelectableView } from "../components/SelectableView/SelectableView";
 import { BottomActions } from "../components/BottomActions/BottomActions";
-import { useAthletes } from "../hooks/useAthletes/useAthletes";
-import { ATHLETE_FACETS } from "../constants/filters";
+import { EVENT_FACETS } from "../constants/filters";
 import { useFacets } from "../hooks/useFacets/useFacets";
-import { initializeAthletes } from "../helpers/athletes";
 import { getAllSports } from "../api/queries/getSports";
-import { getNationalityOptions, getSportOptions } from "../helpers/facets";
+import { getLocationOptions, getSportOptions } from "../helpers/facets";
 import { AthleteFiltersView } from "../features/AthleteFilters/AthleteFiltersView";
 import { Screen } from "../features/Screen/Screen";
 import { DropdownItem } from "../components/DropdownPicker/DropdownPicker";
+import { getAllEvents } from "../api/queries/getEvents";
+import { initializeEvents } from "../helpers/events";
+import { Event } from "../interfaces/event";
+import { useEvents } from "../hooks/useEvents/useEvents";
+import { CardEvent } from "../features/CardEvent/CardEvent";
 import { styles } from "../theme/styles";
 
-export const AddAthletesScreen = ({ navigation }) => {
-  const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
-    "athletes",
-    () => getAllAthletes()
+export const AddEventsScreen = ({ navigation }) => {
+  const { data: events, isFetching: isFetchingEvents } = useQuery(
+    "events",
+    () => getAllEvents()
   );
   const { data: sports, isFetching: isFetchingSports } = useQuery(
     "sports",
     () => getAllSports()
   );
-  const { add, clear } = useAthletes();
+  const { add, clear } = useEvents();
   const [facets, setFacets] = useState<Record<string, any>>({
-    [ATHLETE_FACETS.sport]: "",
-    [ATHLETE_FACETS.nationality]: "",
+    [EVENT_FACETS.sport]: "",
+    [EVENT_FACETS.location]: "",
   });
-  const filteredAthletes = useFacets({
-    initialItems: athletes?.length ? initializeAthletes(athletes, sports) : [],
+  const filteredEvents = useFacets({
+    initialItems: events?.length ? initializeEvents(events, sports) : [],
     facets,
   });
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const [selectedAthleteIDs, setSelectedAthleteIDs] = useState<string[]>([]);
-  const noneSelected = !selectedAthleteIDs?.length;
-  const nationalityOptions = useMemo(
-    () => getNationalityOptions(athletes),
-    [athletes]
-  );
+  const [selectedEventIDs, setSelectedEventIDs] = useState<string[]>([]);
+  const noneSelected = !selectedEventIDs?.length;
+
+  const locationOptions = useMemo(() => getLocationOptions(events), [events]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
 
   const facetFilters = useMemo(
     () => [
       {
-        id: ATHLETE_FACETS.nationality,
-        label: "Nationality",
-        facets: nationalityOptions,
-      },
-      {
-        id: ATHLETE_FACETS.sport,
+        id: EVENT_FACETS.sport,
         label: "Sport",
         facets: sportOptions,
+      },
+      {
+        id: EVENT_FACETS.location,
+        label: "Location",
+        facets: locationOptions,
       },
     ],
     []
@@ -67,13 +65,13 @@ export const AddAthletesScreen = ({ navigation }) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
 
-  const onSelect = useCallback((athlete: Athlete) => {
-    setSelectedAthleteIDs((prevSelectedAthleteIDs) => {
-      if (prevSelectedAthleteIDs.includes(athlete.id)) {
-        return prevSelectedAthleteIDs.filter((item) => item !== athlete.id);
+  const onSelect = useCallback((event: Event) => {
+    setSelectedEventIDs((prevSelectedEventIDs) => {
+      if (prevSelectedEventIDs.includes(event.id)) {
+        return prevSelectedEventIDs.filter((item) => item !== event.id);
       }
 
-      return [...prevSelectedAthleteIDs, athlete.id];
+      return [...prevSelectedEventIDs, event.id];
     });
   }, []);
 
@@ -83,9 +81,9 @@ export const AddAthletesScreen = ({ navigation }) => {
   }, [clear]);
 
   const onSubmit = useCallback(() => {
-    add(athletes.filter((item) => selectedAthleteIDs.includes(item.id)));
-    navigation.navigate("ReviewAthletes");
-  }, [add, athletes, selectedAthleteIDs]);
+    add(events.filter((item) => selectedEventIDs.includes(item.id)));
+    navigation.navigate("ReviewEvents");
+  }, [add, events, selectedEventIDs]);
 
   return (
     <Screen>
@@ -94,14 +92,14 @@ export const AddAthletesScreen = ({ navigation }) => {
         handleFacetsChange={handleChange}
       />
       <Listing
-        data={filteredAthletes}
-        isLoading={isFetchingAthletes || isFetchingSports}
+        data={filteredEvents}
+        isLoading={isFetchingEvents || isFetchingSports}
         renderItem={({ item }) => (
           <SelectableView
             onSelect={() => onSelect(item)}
-            selected={selectedAthleteIDs.includes(item.id)}
+            selected={selectedEventIDs.includes(item.id)}
           >
-            <CardAvatar item={item} />
+            <CardEvent item={item} />
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
@@ -123,7 +121,7 @@ export const AddAthletesScreen = ({ navigation }) => {
           style={styles.button}
           onPress={onSubmit}
         >
-          {noneSelected ? "Add" : `Add ${selectedAthleteIDs.length}`}
+          {noneSelected ? "Add" : `Add ${selectedEventIDs.length}`}
         </Button>
       </BottomActions>
     </Screen>

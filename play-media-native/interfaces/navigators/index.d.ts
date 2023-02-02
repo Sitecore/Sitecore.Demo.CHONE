@@ -7,6 +7,7 @@ export type RootStackParamList = {
   AddAthletes: undefined;
   AddConnection: undefined;
   AddEvent: undefined;
+  AddEvents: undefined;
   AddCH1Media: undefined;
   AddMedia: undefined;
   AthleteDetail: { id: string };
@@ -17,6 +18,7 @@ export type RootStackParamList = {
   MainTabs: undefined;
   RemoveConnection: undefined;
   ReviewAthletes: undefined;
+  ReviewEvents: undefined;
   SelectConnection: undefined;
 };
 
