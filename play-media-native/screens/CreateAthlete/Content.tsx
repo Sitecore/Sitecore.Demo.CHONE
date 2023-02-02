@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { View, TextInput } from "react-native";
-import { Text } from "react-native-paper";
+import { View } from "react-native";
 import { DatePicker } from "../../components/DatePicker/DatePicker";
+import { InputText } from "../../components/InputText/InputText";
 import { getYear } from "../../helpers/dateHelper";
 import { theme } from "../../theme/theme";
-import { athleteStyles } from "./styles";
 
 export const Content = () => {
   const [quote, handleChangeQuote] = useState("");
@@ -16,19 +15,13 @@ export const Content = () => {
 
   return (
     <View style={{ marginTop: theme.spacing.lg }}>
-      <Text style={athleteStyles.label}>Quote</Text>
-      <TextInput
-        style={athleteStyles.textInput}
-        onChangeText={handleChangeQuote}
-        value={quote}
-      />
-      <Text style={athleteStyles.label}>Career start</Text>
-      <TextInput
-        style={athleteStyles.textInput}
-        onTouchStart={() => setShowCareerStartDatePicker(true)}
+      <InputText onChange={handleChangeQuote} value={quote} title="Quote" />
+      <InputText
         value={getYear(careerStartDate)}
+        title="Career start"
         showSoftInputOnFocus={false}
         caretHidden={true}
+        onTouchStart={() => setShowCareerStartDatePicker(true)}
       />
       {showCareerStartDatePicker && (
         <DatePicker
@@ -38,12 +31,7 @@ export const Content = () => {
           onClose={setShowCareerStartDatePicker}
         />
       )}
-      <Text style={athleteStyles.label}>Hobby</Text>
-      <TextInput
-        style={athleteStyles.textInput}
-        onChangeText={handleChangeHobby}
-        value={hobby}
-      />
+      <InputText onChange={handleChangeHobby} value={hobby} title={"Hobby"} />
     </View>
   );
 };
