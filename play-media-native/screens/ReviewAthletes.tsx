@@ -1,24 +1,12 @@
 import { useCallback } from "react";
 import { CardAvatar } from "../features/CardAvatar/CardAvatar";
 import { Athlete } from "../interfaces/athlete";
-import { StatusBar, View } from "react-native";
 import { Button } from "react-native-paper";
-import { theme } from "../theme/theme";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { useAthletes } from "../hooks/useAthletes/useAthletes";
 import { DraggableList } from "../components/DraggableList/DraggableList";
-
-const buttonStyle = {
-  borderWidth: 1,
-  borderColor: theme.colors.yellow.DEFAULT,
-  marginHorizontal: theme.spacing.xs,
-};
-
-const labelStyle = {
-  fontFamily: theme.fontFamily.medium,
-  fontSize: theme.fontSize.base,
-  lineHeight: 30,
-};
+import { Screen } from "../features/Screen/Screen";
+import { styles } from "../theme/styles";
 
 export const ReviewAthletesScreen = ({ navigation }) => {
   const { athletes } = useAthletes();
@@ -30,30 +18,30 @@ export const ReviewAthletesScreen = ({ navigation }) => {
   const onSubmit = useCallback(() => {}, []);
 
   return (
-    <View style={{ height: "100%", backgroundColor: "black" }}>
-      <StatusBar barStyle={"light-content"} />
+    <Screen>
       <DraggableList
         items={athletes}
         renderItem={(item: Athlete) => <CardAvatar item={item} />}
+        style={{ paddingBottom: 170 }}
       />
       <BottomActions>
         <Button
           mode="outlined"
-          labelStyle={labelStyle}
-          style={buttonStyle}
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
           onPress={onCancel}
         >
           Discard
         </Button>
         <Button
           mode="contained"
-          labelStyle={labelStyle}
-          style={buttonStyle}
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
           onPress={onSubmit}
         >
           Apply Changes
         </Button>
       </BottomActions>
-    </View>
+    </Screen>
   );
 };

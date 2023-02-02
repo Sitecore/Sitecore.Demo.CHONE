@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Pressable } from "react-native";
+import { Pressable, StyleProp } from "react-native";
 import DraggableFlatList, {
   ScaleDecorator,
 } from "react-native-draggable-flatlist";
@@ -10,9 +10,11 @@ import { theme } from "../../theme/theme";
 export const DraggableList = ({
   items,
   renderItem,
+  style,
 }: {
   items: any;
   renderItem: any;
+  style?: StyleProp<any>;
 }) => {
   const [data, setData] = useState(
     items.map((item: any) => ({ ...item, key: item.id }))
@@ -44,6 +46,7 @@ export const DraggableList = ({
           onDragEnd={({ data }) => setData(data)}
           keyExtractor={(item: any) => item.key}
           renderItem={renderer}
+          style={style}
         />
       </GestureHandlerRootView>
     </>
