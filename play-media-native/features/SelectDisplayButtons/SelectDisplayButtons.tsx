@@ -11,7 +11,7 @@ export enum ListingImageDisplayType {
 
 const buttonStyle = {
   borderRadius: 3,
-  marginHorizontal: theme.spacing.xxs,
+  marginLeft: theme.spacing.xs,
   height: 40,
   width: 40,
 };
@@ -35,9 +35,8 @@ export const SelectDisplayButtons = ({
   return (
     <View
       style={{
-        width: 150,
         flexDirection: "row",
-        marginLeft: theme.spacing.xxs,
+        marginRight: theme.spacing.xs,
       }}
     >
       <IconButton

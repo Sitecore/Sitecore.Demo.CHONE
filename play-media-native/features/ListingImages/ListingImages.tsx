@@ -115,26 +115,34 @@ export const ListingImages = ({
     <>
       <View
         style={{
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
           flexDirection: "row",
+          justifyContent: "space-between",
           marginBottom: theme.spacing.sm,
         }}
       >
-        <Searchbar
-          iconColor={theme.colors.black.DEFAULT}
-          inputStyle={{ color: theme.colors.black.DEFAULT }}
-          placeholder="Search images..."
-          placeholderTextColor={theme.colors.black.DEFAULT}
-          onChangeText={onSearch}
-          value={searchQuery}
+        <View
           style={{
-            backgroundColor: theme.colors.white.DEFAULT,
-            color: theme.colors.black.DEFAULT,
-            flex: 1,
+            flexBasis: "50%",
+            marginLeft: theme.spacing.sm,
           }}
-        />
+        >
+          <Searchbar
+            iconColor={theme.colors.black.DEFAULT}
+            inputStyle={{
+              width: "100%",
+              color: theme.colors.black.DEFAULT,
+            }}
+            placeholder="Search"
+            placeholderTextColor={theme.colors.black.DEFAULT}
+            onChangeText={onSearch}
+            value={searchQuery}
+            style={{
+              backgroundColor: theme.colors.white.DEFAULT,
+              color: theme.colors.black.DEFAULT,
+              width: "100%",
+            }}
+          />
+        </View>
         <SelectDisplayButtons
           displayType={displayType}
           onDisplayTypeChange={handleDisplayChange}
