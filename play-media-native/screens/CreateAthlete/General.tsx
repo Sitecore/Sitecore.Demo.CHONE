@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { View, TextInput } from "react-native";
-import { Text } from "react-native-paper";
+import { View } from "react-native";
 import { DatePicker } from "../../components/DatePicker/DatePicker";
+import { InputText } from "../../components/InputText/InputText";
 import { SportPicker } from "../../features/SportPicker/SportPicker";
 import { getDate } from "../../helpers/dateHelper";
 import { Sport } from "../../interfaces/sport";
 import { theme } from "../../theme/theme";
-import { athleteStyles } from "./styles";
 
 type GeneralProps = {
   sports: Sport[];
@@ -20,25 +19,22 @@ export const General = ({ sports }: GeneralProps) => {
 
   return (
     <View style={{ marginTop: theme.spacing.lg }}>
-      <Text style={athleteStyles.label}>Athlete name</Text>
-      <TextInput
-        style={athleteStyles.textInput}
-        onChangeText={handleChangeName}
+      <InputText
+        onChange={handleChangeName}
         value={name}
+        title={"Athlete name"}
       />
-      <Text style={athleteStyles.label}>Nationality</Text>
-      <TextInput
-        style={athleteStyles.textInput}
-        onChangeText={handleChangeNationality}
+      <InputText
+        onChange={handleChangeNationality}
         value={nationality}
+        title={"Nationality"}
       />
-      <Text style={athleteStyles.label}>Birth date</Text>
-      <TextInput
-        style={athleteStyles.textInput}
-        onTouchStart={() => setShowBirthDatePicker(true)}
+      <InputText
         value={getDate(birthDate)}
+        title={"Birth date"}
         showSoftInputOnFocus={false}
         caretHidden={true}
+        onTouchStart={() => setShowBirthDatePicker(true)}
       />
       {showBirthDatePicker && (
         <DatePicker

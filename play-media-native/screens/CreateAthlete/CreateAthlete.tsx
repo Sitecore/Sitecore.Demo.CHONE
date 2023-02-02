@@ -22,6 +22,16 @@ export const CreateAthleteScreen = ({ navigation }) => {
     setStep(index);
   }, []);
 
+  const handleDiscardBtn = useCallback(() => {
+    navigation.goBack();
+  }, []);
+  const handleNextBtn = useCallback(() => {
+    setStep(step + 1);
+  }, []);
+  const handleSubmitBtn = useCallback(() => {
+    // TODO Submit API request
+  }, []);
+
   const displayedScreen = useMemo(() => {
     if (step === 0) {
       return <General sports={sports} />;
@@ -42,16 +52,6 @@ export const CreateAthleteScreen = ({ navigation }) => {
     return <LoadingScreen />;
   }
 
-  const handleDiscardBtn = () => {
-    navigation.goBack();
-  };
-  const handleNextBtn = () => {
-    setStep(step + 1);
-  };
-  const handleSubmitBtn = () => {
-    // TODO Submit API request
-  };
-
   return (
     <Screen>
       <Stepper
@@ -66,7 +66,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
           mode="outlined"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() => handleDiscardBtn()}
+          onPress={handleDiscardBtn}
         >
           Discard
         </Button>
@@ -74,9 +74,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() =>
-            step === steps.length - 1 ? handleSubmitBtn() : handleNextBtn()
-          }
+          onPress={step === steps.length - 1 ? handleSubmitBtn : handleNextBtn}
         >
           {step === steps.length - 1 ? "Submit" : "Next"}
         </Button>
