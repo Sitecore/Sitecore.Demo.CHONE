@@ -10,6 +10,7 @@ import { athleteStyles } from "./styles";
 import { useQuery } from "react-query";
 import { getAllSports } from "../../api/queries/getSports";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
+import { References } from "./References";
 
 export const CreateAthleteScreen = ({ navigation }) => {
   const [step, setStep] = useState(0);
@@ -30,6 +31,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
       return <Content />;
     }
 
+    return <References />;
   }, [step, sports]);
 
   const { data, isFetching } = useQuery("sports", () => getAllSports(), {
