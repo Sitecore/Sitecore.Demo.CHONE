@@ -35,7 +35,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
     if (step === 0) {
       return <General sports={sports} />;
     }
-
+    
     if (step === 1) {
       return <Content />;
     }
