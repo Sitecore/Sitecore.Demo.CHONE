@@ -125,13 +125,17 @@ export const FormAddConnection = () => {
   }, []);
 
   const handleClientID = useCallback((text: string) => {
-    setClientIDError(!text);
-    setClientID(text);
+    const trimmed = text.trim();
+
+    setClientIDError(!trimmed);
+    setClientID(trimmed);
   }, []);
 
   const handleClientSecret = useCallback((text: string) => {
-    setClientSecretError(!text);
-    setClientSecret(text);
+    const trimmed = text.trim();
+
+    setClientSecretError(!trimmed);
+    setClientSecret(trimmed);
   }, []);
 
   const onSuccessToastDismiss = useCallback(() => {
