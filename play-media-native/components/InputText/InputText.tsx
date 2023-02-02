@@ -5,19 +5,22 @@ import { Icon } from "../Icon/Icon";
 import { theme } from "../../theme/theme";
 
 interface Props {
-  containerStyle: StyleProp<any>;
+  containerStyle?: StyleProp<any>;
   contentStyle?: StyleProp<any>;
   disabled?: boolean;
   error?: boolean;
   errorText?: string;
   inputStyle?: StyleProp<any>;
-  label: string;
+  label?: string;
   multiline?: boolean;
-  onChange: (text: string) => void;
+  onChange?: (text: string) => void;
   outlineStyle?: StyleProp<any>;
   title?: string;
   underlineStyle?: StyleProp<any>;
   value: string;
+  showSoftInputOnFocus?: boolean;
+  caretHidden?: boolean;
+  onTouchStart?: (e: unknown) => void;
 }
 
 const defaultContainerStyle = {
@@ -42,6 +45,9 @@ export const InputText = ({
   title,
   underlineStyle,
   value,
+  showSoftInputOnFocus,
+  caretHidden,
+  onTouchStart,
 }: Props) => {
   const containerStyleFinal = useMemo(
     () => ({
@@ -76,6 +82,9 @@ export const InputText = ({
         style={inputStyleFinal}
         underlineStyle={underlineStyle}
         value={value}
+        showSoftInputOnFocus={showSoftInputOnFocus}
+        caretHidden={caretHidden}
+        onTouchStart={onTouchStart}
       />
       {error && (
         <View style={{ flexDirection: "row", alignItems: "center" }}>

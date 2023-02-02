@@ -12,6 +12,4 @@ export const getTime = (date: Date): string =>
   });
 
 export const getYear = (date: Date): string =>
-  new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-  });
+  new Date(date).getUTCFullYear().toString();

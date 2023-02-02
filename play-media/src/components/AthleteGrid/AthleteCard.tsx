@@ -14,7 +14,7 @@ export const AthleteCard = ({ athlete }: { athlete: Athlete }) => {
       <Link href={`/athlete/${athlete.id}/${slugify(athlete.athleteName)}`}>
         <ShadowBox color={accentColor}>
           <div className="athlete-card-content">
-            <div className="athlete-card-image">
+            <div className="athlete-card-image" style={{ borderColor: accentColor }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={athlete?.profilePhoto?.results[0]?.fileUrl || ATHLETE_MOCK_IMG}

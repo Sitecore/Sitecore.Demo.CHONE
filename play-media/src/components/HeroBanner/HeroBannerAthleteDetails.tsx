@@ -12,7 +12,7 @@ export const HeroBannerAthleteDetails = ({ athlete }: { athlete: Athlete }) => {
       imageSrc={athlete?.featuredImage?.results[0]?.fileUrl || EVENT_MOCK_IMG}
       className="hero-banner-athlete-details"
     >
-      <div className="avatar">
+      <div className="avatar" style={{ borderColor: accentColor }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={athlete?.profilePhoto?.results[0]?.fileUrl || ATHLETE_MOCK_IMG}
