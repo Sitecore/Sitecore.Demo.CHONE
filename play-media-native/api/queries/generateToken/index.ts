@@ -31,9 +31,17 @@ export const generateToken = async (options?: FetchOptions): Promise<Token> => {
       const jsonResponsePromise = response.json();
       const data = (await jsonResponsePromise) as Token;
 
+      // If there is an error it means client ID and/ or client secret are invalid
+      if (data?.error) {
+        console.error(
+          `${data?.error_description}: Your client ID and/ or client secret are invalid`
+        );
+        throw data.error;
+      }
+
       return data;
     });
   } catch (error) {
-    console.error(error);
+    throw error;
   }
 };
