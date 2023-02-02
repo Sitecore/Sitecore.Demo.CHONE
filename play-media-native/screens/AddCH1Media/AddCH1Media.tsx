@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
 import { StatusBar } from "react-native";
-import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
@@ -9,18 +8,6 @@ import { ListingCH1Media } from "./ListingCH1Media";
 import { MEDIA_SOURCES } from "../../constants/media";
 import { styles } from "../../theme/styles";
 import { Screen } from "../../features/Screen/Screen";
-
-const buttonStyle = {
-  borderWidth: 1,
-  borderColor: theme.colors.yellow.DEFAULT,
-  marginHorizontal: theme.spacing.xs,
-};
-
-const labelStyle = {
-  fontFamily: theme.fontFamily.medium,
-  fontSize: theme.fontSize.base,
-  lineHeight: 30,
-};
 
 export const AddCH1MediaScreen = ({ navigation }) => {
   const { add, media: storeMedia } = useMedia();

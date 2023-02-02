@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { getAllEvents } from "../api/queries/getEvents";
 import { Listing } from "../components/Listing/Listing";
@@ -8,17 +8,29 @@ import { StatusBar } from "react-native";
 import { AnimatedFAB } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { styles } from "../theme/styles";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "../interfaces/navigators";
 import { EventFilters } from "../features/EventFilters/EventFilters";
 import { getAllSports } from "../api/queries/getSports";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
-import { useFilters } from "../hooks/useFilters/useFilters";
-import { camelize } from "../helpers/textHelper";
-import { IIndexable } from "../interfaces/indexable";
 import { Screen } from "../features/Screen/Screen";
+import { EVENT_FACETS } from "../constants/filters";
+import { useFacets } from "../hooks/useFacets/useFacets";
+import { Sport } from "../interfaces/sport";
+import { getLocationOptions, getSportOptions } from "../helpers/facets";
 
-export const EventsListingScreen = () => {
+const initializeEvents = (events: Event[], sports: Sport[]) => {
+  if (!events || !sports) {
+    return [];
+  }
+
+  return events.map((item) => ({
+    ...item,
+    [EVENT_FACETS.sport]: item?.sport?.results?.length
+      ? item.sport.results[0]?.id
+      : null,
+  }));
+};
+
+export const EventsListingScreen = ({ navigation }) => {
   const { data: events, isFetching: isFetchingEvents } = useQuery(
     "events",
     () => getAllEvents()
@@ -27,29 +39,21 @@ export const EventsListingScreen = () => {
     "sports",
     () => getAllSports()
   );
-  const [filteredEvents, setFilteredEvents] = useState(events);
-  const { visible } = useFilters();
+  const [facets, setFacets] = useState<Record<string, any>>({
+    [EVENT_FACETS.sport]: "",
+    [EVENT_FACETS.location]: "",
+  });
+  const filteredEvents = useFacets({
+    initialItems: events?.length ? initializeEvents(events, sports) : [],
+    facets,
+  });
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const navigation = useNavigation<StackNavigationProp>();
+  const locationOptions = useMemo(() => getLocationOptions(events), [events]);
+  const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
 
-  useEffect(() => {
-    setFilteredEvents(events);
-  }, [events]);
-
-  const handleChange = (facetValues: IIndexable) => {
-    let _filteredEvents = events;
-    if (!!facetValues.eventLocation) {
-      _filteredEvents = _filteredEvents.filter((event) => {
-        return camelize(event.location) === facetValues.eventLocation;
-      });
-    }
-    if (!!facetValues.eventSport) {
-      _filteredEvents = _filteredEvents.filter((event) => {
-        return event.sport.results[0]?.id === facetValues.eventSport;
-      });
-    }
-    setFilteredEvents(_filteredEvents);
-  };
+  const handleChange = useCallback((key: string, value: any) => {
+    setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
+  }, []);
 
   const onCardPress = useCallback((event: Event) => {
     navigation.navigate("EventDetail", {
@@ -66,10 +70,10 @@ export const EventsListingScreen = () => {
     <Screen>
       <StatusBar barStyle={"light-content"} />
       <EventFilters
-        events={events}
-        sports={sports}
+        filters={facets}
+        locationOptions={locationOptions}
         onChange={handleChange}
-        visible={visible}
+        sportOptions={sportOptions}
       />
       <Listing
         data={filteredEvents}
