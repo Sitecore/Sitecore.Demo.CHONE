@@ -47,10 +47,17 @@ export const getStaticProps = async () => {
     LOCATIONS: 'cSaltKGqXESGBDpQvIzlBA',
   };
 
-  const contentBlockAbout = await getContentBlockById(CONTENT_BLOCK_IDS.ABOUT);
-  const contentBlockHistory = await getContentBlockById(CONTENT_BLOCK_IDS.HISTORY);
-  const contentBlockLocations = await getContentBlockById(CONTENT_BLOCK_IDS.LOCATIONS);
-  const locations = await getAllLocations();
+  const contentBlockAboutPromise = getContentBlockById(CONTENT_BLOCK_IDS.ABOUT);
+  const contentBlockHistoryPromise = getContentBlockById(CONTENT_BLOCK_IDS.HISTORY);
+  const contentBlockLocationsPromise = getContentBlockById(CONTENT_BLOCK_IDS.LOCATIONS);
+  const locationsPromise = getAllLocations();
+
+  await Promise.all([contentBlockAboutPromise, contentBlockHistoryPromise, contentBlockLocationsPromise, locationsPromise]);
+
+  const contentBlockAbout = await contentBlockAboutPromise;
+  const contentBlockHistory = await contentBlockHistoryPromise;
+  const contentBlockLocations = await contentBlockLocationsPromise;
+  const locations = await locationsPromise;
 
   if (!contentBlockAbout || !contentBlockHistory || !contentBlockLocations || !locations) {
     return {
