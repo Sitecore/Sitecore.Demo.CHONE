@@ -11,28 +11,19 @@ import { getFileType } from "../helpers/media";
 import { generateID } from "../helpers/uuid";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../theme/styles";
+import { useTempMedia } from "../hooks/useTempMedia/useTempMedia";
 
 const imageStyle = {
   height: 200,
   width: 300,
 };
 
-const buttonStyle = {
-  borderWidth: 1,
-  borderColor: theme.colors.yellow.DEFAULT,
-  marginHorizontal: theme.spacing.xs,
-};
-
-const labelStyle = {
-  fontFamily: theme.fontFamily.medium,
-  fontSize: theme.fontSize.base,
-  lineHeight: 30,
-};
-
 export const EditMediaScreen = ({ navigation, route }) => {
   const { add, edit } = useMedia();
+  const { edit: editTempMedia } = useTempMedia();
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
   const isEdit: boolean = route.params.editMode;
+  const tempMediaKey = route.params.key;
 
   const onNameChange = useCallback((text: string) => {
     setEditedImage((prev) => ({
@@ -53,13 +44,24 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }, [navigation]);
 
   const onAdd = useCallback(() => {
-    if (isEdit) {
-      edit(editedImage as Media);
-    } else {
-      add([{ ...editedImage, id: generateID() } as Media]);
-    }
-    navigation.goBack();
-  }, [add, edit, editedImage, isEdit, navigation]);
+    // if (isEdit) {
+    //   edit(editedImage as Media);
+    // } else {
+    //   add([{ ...editedImage, id: generateID() } as Media]);
+    // }
+    console.log("\nonAdd", tempMediaKey, {
+      ...editedImage,
+      id: generateID(),
+    });
+    editTempMedia({
+      key: tempMediaKey,
+      image: { ...editedImage, id: generateID() },
+    });
+    navigation.navigate(route.params.initialRoute, {
+      key: tempMediaKey,
+      image: { ...editedImage, id: generateID() },
+    });
+  }, [editTempMedia, editedImage, navigation, tempMediaKey]);
 
   useFocusEffect(
     useCallback(() => {
@@ -78,6 +80,8 @@ export const EditMediaScreen = ({ navigation, route }) => {
       );
     }, [route.params.image])
   );
+
+  console.log("route.params.key", route.params.key);
 
   if (!editedImage) {
     return <Text>Something went wrong!</Text>;
@@ -122,8 +126,8 @@ export const EditMediaScreen = ({ navigation, route }) => {
         <Button
           mode="contained"
           onPress={onAdd}
-          // labelStyle={styles.buttonLabel}
-          // style={styles.button}
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
         >
           {isEdit ? "Edit Media" : "Add Media"}
         </Button>

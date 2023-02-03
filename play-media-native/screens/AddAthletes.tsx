@@ -19,8 +19,10 @@ import { AthleteFiltersView } from "../features/AthleteFilters/AthleteFiltersVie
 import { Screen } from "../features/Screen/Screen";
 import { DropdownItem } from "../components/DropdownPicker/DropdownPicker";
 import { styles } from "../theme/styles";
+import { useEventFields } from "../hooks/useEventFields/useEventFields";
 
-export const AddAthletesScreen = ({ navigation }) => {
+export const AddAthletesScreen = ({ navigation, route }) => {
+  const { eventFields, edit, reset } = useEventFields();
   const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
     "athletes",
     () => getAllAthletes()
@@ -29,7 +31,7 @@ export const AddAthletesScreen = ({ navigation }) => {
     "sports",
     () => getAllSports()
   );
-  const { add, clear } = useAthletes();
+  const { add } = useAthletes();
   const [facets, setFacets] = useState<Record<string, any>>({
     [ATHLETE_FACETS.sport]: "",
     [ATHLETE_FACETS.nationality]: "",
@@ -39,7 +41,9 @@ export const AddAthletesScreen = ({ navigation }) => {
     facets,
   });
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const [selectedAthleteIDs, setSelectedAthleteIDs] = useState<string[]>([]);
+  const [selectedAthleteIDs, setSelectedAthleteIDs] = useState<string[]>(
+    eventFields.athletes.map((item) => item.id)
+  );
   const noneSelected = !selectedAthleteIDs?.length;
   const nationalityOptions = useMemo(
     () => getNationalityOptions(athletes),
@@ -78,14 +82,17 @@ export const AddAthletesScreen = ({ navigation }) => {
   }, []);
 
   const onCancel = useCallback(() => {
-    clear();
+    reset();
     navigation.goBack();
-  }, [clear]);
+  }, [reset]);
 
   const onSubmit = useCallback(() => {
-    add(athletes.filter((item) => selectedAthleteIDs.includes(item.id)));
-    navigation.navigate("ReviewAthletes");
-  }, [add, athletes, selectedAthleteIDs]);
+    edit({
+      key: route.params.key,
+      value: athletes.filter((item) => selectedAthleteIDs.includes(item.id)),
+    });
+    navigation.navigate("AddEvent");
+  }, [add, athletes, edit, selectedAthleteIDs]);
 
   return (
     <Screen>

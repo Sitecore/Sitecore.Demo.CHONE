@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Pressable, StyleProp } from "react-native";
-import DraggableFlatList, {
+import {
+  NestableDraggableFlatList,
   ScaleDecorator,
 } from "react-native-draggable-flatlist";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
 
@@ -28,6 +28,12 @@ export const DraggableList = ({
     []
   );
 
+  // update data on props change
+  //
+  useEffect(() => {
+    setData(items.map((item: any) => ({ ...item, key: item.id })));
+  }, [items]);
+
   if (!data?.length) {
     return null;
   }
@@ -40,15 +46,13 @@ export const DraggableList = ({
       >
         Keep an item pressed to drag and drop
       </Text>
-      <GestureHandlerRootView>
-        <DraggableFlatList
-          data={data}
-          onDragEnd={({ data }) => setData(data)}
-          keyExtractor={(item: any) => item.key}
-          renderItem={renderer}
-          style={style}
-        />
-      </GestureHandlerRootView>
+      <NestableDraggableFlatList
+        data={data}
+        onDragEnd={({ data }) => setData(data)}
+        keyExtractor={(item: any) => item.key}
+        renderItem={renderer}
+        style={style}
+      />
     </>
   );
 };

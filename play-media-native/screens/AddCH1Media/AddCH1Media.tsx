@@ -8,8 +8,10 @@ import { ListingCH1Media } from "./ListingCH1Media";
 import { MEDIA_SOURCES } from "../../constants/media";
 import { styles } from "../../theme/styles";
 import { Screen } from "../../features/Screen/Screen";
+import { useEventFields } from "../../hooks/useEventFields/useEventFields";
 
 export const AddCH1MediaScreen = ({ navigation }) => {
+  const { edit } = useEventFields();
   const { add, media: storeMedia } = useMedia();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
   const selectedMediaIDs = selectedMedia.map((item) => item.id);
@@ -34,15 +36,17 @@ export const AddCH1MediaScreen = ({ navigation }) => {
   );
 
   const onAdd = useCallback(() => {
-    add(
-      selectedMedia.map((item) => ({ ...item, source: MEDIA_SOURCES.CH_ONE }))
-    );
-    setSelectedMedia([]);
+    edit({
+      key: "relatedMedia",
+      value: selectedMedia.map((item) => ({
+        ...item,
+        source: MEDIA_SOURCES.CH_ONE,
+      })),
+    });
     navigation.goBack();
-  }, [add, selectedMedia]);
+  }, [edit, selectedMedia]);
 
   const onDiscard = useCallback(() => {
-    setSelectedMedia([]);
     navigation.goBack();
   }, [navigation]);
 

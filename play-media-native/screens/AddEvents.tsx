@@ -19,8 +19,9 @@ import { Event } from "../interfaces/event";
 import { useEvents } from "../hooks/useEvents/useEvents";
 import { CardEvent } from "../features/CardEvent/CardEvent";
 import { styles } from "../theme/styles";
+import { useEventFields } from "../hooks/useEventFields/useEventFields";
 
-export const AddEventsScreen = ({ navigation }) => {
+export const AddEventsScreen = ({ navigation, route }) => {
   const { data: events, isFetching: isFetchingEvents } = useQuery(
     "events",
     () => getAllEvents()
@@ -29,6 +30,7 @@ export const AddEventsScreen = ({ navigation }) => {
     "sports",
     () => getAllSports()
   );
+  const { edit } = useEventFields();
   const { add, clear } = useEvents();
   const [facets, setFacets] = useState<Record<string, any>>({
     [EVENT_FACETS.sport]: "",
@@ -81,9 +83,12 @@ export const AddEventsScreen = ({ navigation }) => {
   }, [clear]);
 
   const onSubmit = useCallback(() => {
-    add(events.filter((item) => selectedEventIDs.includes(item.id)));
-    navigation.navigate("ReviewEvents");
-  }, [add, events, selectedEventIDs]);
+    edit({
+      key: route.params.key,
+      value: events.filter((item) => selectedEventIDs.includes(item.id)),
+    });
+    navigation.navigate("AddEvent");
+  }, [edit, events, route?.params, selectedEventIDs]);
 
   return (
     <Screen>
