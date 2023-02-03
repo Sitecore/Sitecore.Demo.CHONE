@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatedFAB, Text } from "react-native-paper";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { theme } from "../theme/theme";
@@ -14,6 +14,7 @@ import { AthleteImages } from "../features/Screens/AthleteImages";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
+import { Athlete } from "../interfaces/athlete";
 
 const pageStyles = StyleSheet.create({
   sportAndNameContainer: {
@@ -76,12 +77,8 @@ const pageStyles = StyleSheet.create({
 });
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
+  const [athlete, setAthlete] = useState<Partial<Athlete>>({});
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-
-  const { data, isFetching } = useQuery("athlete", () =>
-    getAthleteById(route.params.id)
-  );
-  const athlete = data?.athlete;
 
   useEffect(() => {
     navigation.setOptions({
@@ -97,6 +94,28 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       </Screen>
     );
   }, []);
+
+  if (route.params.isReview) {
+    // Retrieve athlete to review from global store
+    const athleteToReview = undefined;
+
+    if (!athleteToReview) {
+      return displayError("Redux error");
+    }
+
+    setAthlete(athleteToReview);
+  }
+
+  const { data, isFetching, error } = useQuery(
+    "athlete",
+    () => getAthleteById(route.params.id),
+    {
+      enabled: !route.params.isReview,
+      onSuccess: (data) => {
+        setAthlete(data.athlete);
+      },
+    }
+  );
 
   if (isFetching) {
     return <LoadingScreen />;
