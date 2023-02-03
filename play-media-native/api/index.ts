@@ -1,12 +1,8 @@
+import { FetchOptions } from "../interfaces/fetchOptions";
 import { store } from "../store";
 
 type GraphQLResponseWithErrors = {
   errors: unknown[];
-};
-
-export type FetchOptions = {
-  apiKey: string;
-  previewUrl: string;
 };
 
 // API key and Preview URL are by default provided by the Redux store.

@@ -4,15 +4,13 @@ import { Card, Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
 import { getFileType, removeFileExtension } from "../../helpers/media";
-import {
-  ListingImageDisplayType,
-  ListingImages,
-} from "../../features/ListingImages/ListingImages";
+import { ListingImages } from "../../features/ListingImages/ListingImages";
 import { SelectableView } from "../../components/SelectableView/SelectableView";
 import { useMedia } from "../../hooks/useMedia/useMedia";
 import { useQuery } from "react-query";
 import { getAllMedia } from "../../api/queries/getMedia";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
+import { ListingImageDisplayType } from "../../features/SelectDisplayButtons/SelectDisplayButtons";
 
 interface Props {
   onSelect: (image: Media) => void;
@@ -21,7 +19,7 @@ interface Props {
 
 const ListItemField = ({ title, value }: { title: string; value: string }) => (
   <View style={{ flexDirection: "row", alignItems: "center" }}>
-    <Text style={{ color: theme.colors.yellow.DEFAULT }}>{`${title}:  `}</Text>
+    <Text style={{ fontFamily: theme.fontFamily.bold }}>{`${title}:  `}</Text>
     <Text ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
       {value}
     </Text>
@@ -36,8 +34,7 @@ const listingImagesStyle = {
 const fullWidthStyle = {
   height: 120,
   width: "100%",
-  margin: theme.spacing.xxs,
-  borderRadius: theme.spacing.xxs,
+  margin: 2,
 };
 
 export const ListingCH1Media = ({ onSelect, selectedMediaIDs }: Props) => {
@@ -56,7 +53,7 @@ export const ListingCH1Media = ({ onSelect, selectedMediaIDs }: Props) => {
           }
           style={{
             flex: 0.5,
-            marginHorizontal: theme.spacing.xxs,
+            marginHorizontal: 2,
           }}
         >
           <Image source={{ uri: item.fileUrl }} style={fullWidthStyle} />
@@ -75,18 +72,14 @@ export const ListingCH1Media = ({ onSelect, selectedMediaIDs }: Props) => {
             style={{
               width: "100%",
               flexDirection: "row",
-              borderColor: theme.colors.yellow.DEFAULT,
-              borderWidth: 1,
-              borderRadius: 5,
               marginBottom: theme.spacing.xs,
+              backgroundColor: theme.colors.black.lightest,
             }}
           >
             <Image
               style={{
                 height: 110,
                 width: "auto",
-                margin: theme.spacing.xxs,
-                borderRadius: theme.spacing.xxs,
                 flex: 1,
               }}
               source={{ uri: item.fileUrl }}
@@ -123,23 +116,17 @@ export const ListingCH1Media = ({ onSelect, selectedMediaIDs }: Props) => {
             key={item.fileUrl}
             style={{
               marginBottom: theme.spacing.xs,
-              borderWidth: 1,
-              borderColor: theme.colors.yellow.DEFAULT,
             }}
           >
             <Card.Cover
               style={{
-                backgroundColor: theme.colors.black.DEFAULT,
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: 0,
+                backgroundColor: theme.colors.black.lightest,
               }}
               source={{ uri: item.fileUrl }}
             />
             <Card.Content
               style={{
-                backgroundColor: theme.colors.black.darkest,
-                borderBottomLeftRadius: 5,
-                borderBottomRightRadius: 5,
+                backgroundColor: theme.colors.black.lightest,
                 paddingBottom: 0,
                 paddingRight: 0,
                 paddingTop: 0,

@@ -1,0 +1,41 @@
+﻿id: location
+name:
+  en-US: Location
+description:
+  en-US: For the locations of the Play!Media offices.
+fields:
+- id: title
+  name:
+    en-US: Title
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: address
+  name:
+    en-US: Address
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: city
+  name:
+    en-US: City
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: country
+  name:
+    en-US: Country
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''
+- id: phone
+  name:
+    en-US: Phone
+  type: ShortText
+  required: false
+  helpText:
+    en-US: ''

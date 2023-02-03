@@ -50,7 +50,7 @@ export const CardAvatar = ({ item, onCardPress }) => {
               paddingVertical: theme.spacing.xxs,
             }}
           >
-            {sport.title}
+            {sport?.title}
           </Text>
           <Text
             style={{

@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Stacks } from "../../navigators/Stacks";
 import { useConnections } from "../../hooks/useConnections/useConnections";
 import { getConnections } from "../../helpers/connections";
+import { Screen } from "../Screen/Screen";
 
 export const Main = () => {
   const { init } = useConnections();
@@ -20,7 +21,9 @@ export const Main = () => {
 
   return (
     <NavigationContainer>
-      <Stacks />
+      <Screen>
+        <Stacks />
+      </Screen>
     </NavigationContainer>
   );
 };

@@ -1,4 +1,5 @@
-import { FetchOptions, fetchGraphQL } from "../..";
+import { fetchGraphQL } from "../..";
+import { FetchOptions } from "../../../interfaces/fetchOptions";
 import { AllSportsResponse, Sport } from "../../../interfaces/sport";
 
 const sportsQuery = `
