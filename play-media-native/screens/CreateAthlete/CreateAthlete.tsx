@@ -26,7 +26,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
   }, []);
   const handleNextBtn = useCallback(() => {
     setStep(step + 1);
-  }, []);
+  }, [step]);
   const handleSubmitBtn = useCallback(() => {
     // TODO Submit API request
   }, []);
