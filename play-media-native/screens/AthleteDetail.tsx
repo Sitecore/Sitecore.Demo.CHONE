@@ -16,6 +16,10 @@ import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 
 const pageStyles = StyleSheet.create({
+  sportAndNameContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
   label: {
     fontFamily: theme.fontFamily.bold,
     color: theme.colors.gray.dark,
@@ -107,81 +111,92 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView
-        style={styles.screenPadding}
-        onScroll={calcScrollOffset}
-        scrollEventThrottle={0}
-      >
-        <View>
-          <Text style={pageStyles.label}>Sport</Text>
-          <Text
-            style={[
-              pageStyles.item,
-              {
-                color: getAccentColor(athlete.sport.results[0]?.title),
-              },
-            ]}
-          >
-            {athlete.sport.results[0].title}
-          </Text>
-        </View>
-        <View>
-          <Text style={pageStyles.label}>Athlete name</Text>
-          <Text
-            style={[
-              pageStyles.item,
-              {
-                color: theme.colors.white.DEFAULT,
-                marginBottom: theme.spacing.md,
-              },
-            ]}
-          >
-            {athlete.athleteName}
-          </Text>
-        </View>
-        <View style={pageStyles.cardContainer}>
-          <CardShadowBox color={theme.colors.black.light}>
-            <View
+      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
+        <View style={pageStyles.sportAndNameContainer}>
+          <View style={{ marginRight: theme.spacing.xl }}>
+            <Text
               style={[
-                pageStyles.quoteContainer,
+                pageStyles.label,
+                { paddingHorizontal: theme.spacing.sm },
+              ]}
+            >
+              Sport
+            </Text>
+            <Text
+              style={[
+                pageStyles.item,
                 {
-                  backgroundColor: accentColor,
+                  backgroundColor: getAccentColor(
+                    athlete.sport.results[0]?.title
+                  ),
+                  color: textColor,
+                  paddingHorizontal: theme.spacing.sm,
                 },
               ]}
             >
-              <Text style={[pageStyles.quotationMark, { color: textColor }]}>
-                "
-              </Text>
-              <Text style={[pageStyles.quote, { color: textColor }]}>
-                {athlete.athleteQuote}
-              </Text>
-              <Text style={[pageStyles.quotationMark, { color: textColor }]}>
-                "
-              </Text>
-            </View>
-          </CardShadowBox>
+              {athlete.sport.results[0].title}
+            </Text>
+          </View>
+          <View>
+            <Text style={pageStyles.label}>Athlete name</Text>
+            <Text
+              style={[
+                pageStyles.item,
+                {
+                  color: theme.colors.white.DEFAULT,
+                  marginBottom: theme.spacing.md,
+                },
+              ]}
+            >
+              {athlete.athleteName}
+            </Text>
+          </View>
         </View>
-        <View style={pageStyles.cardContainer}>
-          <CardShadowBox
-            color={getAccentColor(athlete.sport.results[0]?.title)}
-          >
-            <View style={pageStyles.infoContainer}>
-              <Text style={pageStyles.infoLabel}>Nationality</Text>
-              <Text style={pageStyles.infoItem}>{athlete.nationality}</Text>
-              <Text style={pageStyles.infoLabel}>Hobby</Text>
-              <Text style={pageStyles.infoItem}>{athlete.hobby}</Text>
-              <Text style={pageStyles.infoLabel}>Date of birth</Text>
-              <Text style={pageStyles.infoItem}>
-                {getDate(athlete.dateOfBirth)}
-              </Text>
-              <Text style={pageStyles.infoLabel}>Career start</Text>
-              <Text style={pageStyles.infoItem}>
-                {getYear(athlete.careerStartDate)}
-              </Text>
-            </View>
-          </CardShadowBox>
+        <View style={styles.screenPadding}>
+          <View style={pageStyles.cardContainer}>
+            <CardShadowBox color={theme.colors.black.light}>
+              <View
+                style={[
+                  pageStyles.quoteContainer,
+                  {
+                    backgroundColor: accentColor,
+                  },
+                ]}
+              >
+                <Text style={[pageStyles.quotationMark, { color: textColor }]}>
+                  "
+                </Text>
+                <Text style={[pageStyles.quote, { color: textColor }]}>
+                  {athlete.athleteQuote}
+                </Text>
+                <Text style={[pageStyles.quotationMark, { color: textColor }]}>
+                  "
+                </Text>
+              </View>
+            </CardShadowBox>
+          </View>
+          <View style={pageStyles.cardContainer}>
+            <CardShadowBox
+              color={getAccentColor(athlete.sport.results[0]?.title)}
+            >
+              <View style={pageStyles.infoContainer}>
+                <Text style={pageStyles.infoLabel}>Nationality</Text>
+                <Text style={pageStyles.infoItem}>{athlete.nationality}</Text>
+                <Text style={pageStyles.infoLabel}>Hobby</Text>
+                <Text style={pageStyles.infoItem}>{athlete.hobby}</Text>
+                <Text style={pageStyles.infoLabel}>Date of birth</Text>
+                <Text style={pageStyles.infoItem}>
+                  {getDate(athlete.dateOfBirth)}
+                </Text>
+                <Text style={pageStyles.infoLabel}>Career start</Text>
+                <Text style={pageStyles.infoItem}>
+                  {getYear(athlete.careerStartDate)}
+                </Text>
+              </View>
+            </CardShadowBox>
+          </View>
+          <AthleteImages athlete={athlete} />
         </View>
-        <AthleteImages athlete={athlete} />
       </ScrollView>
       <AnimatedFAB
         icon={({ size }) => (
