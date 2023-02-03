@@ -15,7 +15,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useCamera } from "../../hooks/useCamera/useCamera";
 import { CardEvent } from "../../features/CardEvent/CardEvent";
 import { Event } from "../../interfaces/event";
-import { MEDIA_SOURCES } from "../../constants/media";
 import { useDeviceLibrary } from "../../hooks/useDeviceLibrary/useDeviceLibrary";
 
 export const ReferencesView = () => {
@@ -37,7 +36,7 @@ export const ReferencesView = () => {
     [launchCamera, navigation]
   );
 
-  const handleDevicePress = useCallback(
+  const handleMediaLibraryPress = useCallback(
     (stateKey: string) => {
       launchLibrary((image: DeviceMedia) => {
         navigation.navigate("EditMedia", {
@@ -83,7 +82,7 @@ export const ReferencesView = () => {
         <Button
           compact
           mode="outlined"
-          onPress={() => handleDevicePress("relatedMedia")}
+          onPress={() => handleMediaLibraryPress("relatedMedia")}
           style={styles.button}
           labelStyle={styles.buttonLabel}
         >
