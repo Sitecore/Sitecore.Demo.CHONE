@@ -29,7 +29,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
     setStep(step + 1);
   }, []);
   const handleSubmitBtn = useCallback(() => {
-    // TODO Submit API request
+    // TODO Redirect to Athlete Review screen
   }, []);
 
   const displayedScreen = useMemo(() => {

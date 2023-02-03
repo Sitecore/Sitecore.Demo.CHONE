@@ -31,10 +31,10 @@ export const SelectableView = ({
         }}
       >
         <Checkbox
-          color={theme.colors.pink.DEFAULT}
+          color={theme.colors.white.DEFAULT}
           onPress={onSelect}
           status={selected ? "checked" : "unchecked"}
-          uncheckedColor={theme.colors.pink.DEFAULT}
+          uncheckedColor={theme.colors.white.DEFAULT}
         />
       </View>
       {children}
