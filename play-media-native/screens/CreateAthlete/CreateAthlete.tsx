@@ -28,14 +28,17 @@ export const CreateAthleteScreen = ({ navigation }) => {
     setStep(step + 1);
   }, [step]);
   const handleSubmitBtn = useCallback(() => {
-    // TODO Submit API request
+    navigation.navigate("AthleteReview", {
+      title: "Review new athlete",
+      isReview: true,
+    });
   }, []);
 
   const displayedScreen = useMemo(() => {
     if (step === 0) {
       return <General sports={sports} />;
     }
-    
+
     if (step === 1) {
       return <Content />;
     }

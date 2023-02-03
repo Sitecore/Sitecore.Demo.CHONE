@@ -1,6 +1,6 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ScrollView, View, StyleSheet, TextInput } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useQuery } from "react-query";
@@ -43,6 +43,16 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     end: 0,
   });
 
+  const handleSubmitBtn = useCallback(() => {
+    navigation.navigate("AthleteReview", {
+      title: "Review edited athlete",
+      isReview: true,
+    });
+  }, []);
+
+  // TODO Add functionality to discard button
+  const handleDiscardBtn = () => {};
+
   const { data, isFetching } = useQuery(
     "editathlete",
     () => getAthleteById(route.params.id),
@@ -79,10 +89,6 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
       title,
     });
   };
-
-  // TODO Add functionality to action buttons
-  const handlePublishBtn = () => {};
-  const handleDiscardBtn = () => {};
 
   return (
     <Screen>
@@ -199,13 +205,12 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           Discard
         </Button>
         <Button
-          // disabled={!media?.length}
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() => handlePublishBtn()}
+          onPress={() => handleSubmitBtn()}
         >
-          Publish
+          Submit
         </Button>
       </BottomActions>
     </Screen>
