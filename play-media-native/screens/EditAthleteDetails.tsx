@@ -15,33 +15,7 @@ import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { DatePicker } from "../components/DatePicker/DatePicker";
-
-const pageStyles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.colors.black.darkest,
-    paddingTop: theme.spacing.md,
-    paddingHorizontal: theme.spacing.sm,
-  },
-  button: {
-    position: "absolute",
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
-  },
-  label: {
-    color: theme.colors.white.DEFAULT,
-    marginBottom: theme.spacing.xxs,
-  },
-  item: {
-    marginBottom: theme.spacing.xs,
-  },
-  textInput: {
-    height: 37,
-    backgroundColor: theme.colors.white.DEFAULT,
-    padding: theme.spacing.xs,
-    marginBottom: theme.spacing.xs,
-  },
-  actionBtns: { paddingBottom: 0, paddingRight: theme.spacing.xs },
-});
+import { athleteStyles } from "./CreateAthlete/styles";
 
 export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   const [name, handleChangeName] = useState("");
@@ -114,10 +88,10 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     <Screen>
       <ScrollView style={styles.screenPadding}>
         <View>
-          <Text style={pageStyles.label}>Sport</Text>
+          <Text style={athleteStyles.label}>Sport</Text>
           <Text
             style={[
-              pageStyles.item,
+              athleteStyles.item,
               {
                 color: getAccentColor(athlete.sport.results[0]?.title),
                 marginBottom: theme.spacing.sm,
@@ -128,21 +102,21 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           </Text>
         </View>
         <View>
-          <Text style={pageStyles.label}>Athlete name</Text>
+          <Text style={athleteStyles.label}>Athlete name</Text>
           <TextInput
-            style={pageStyles.textInput}
+            style={athleteStyles.textInput}
             onChangeText={handleChangeName}
             value={name}
           />
-          <Text style={pageStyles.label}>Nationality</Text>
+          <Text style={athleteStyles.label}>Nationality</Text>
           <TextInput
-            style={pageStyles.textInput}
+            style={athleteStyles.textInput}
             onChangeText={handleChangeNationality}
             value={nationality}
           />
-          <Text style={pageStyles.label}>Quote</Text>
+          <Text style={athleteStyles.label}>Quote</Text>
           <TextInput
-            style={pageStyles.textInput}
+            style={athleteStyles.textInput}
             onChangeText={handleChangeQuote}
             value={quote}
             selection={quoteInputCursor}
@@ -153,9 +127,9 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               setQuoteInputCursor({ start: quote.length, end: quote.length })
             }
           />
-          <Text style={pageStyles.label}>Birth date</Text>
+          <Text style={athleteStyles.label}>Birth date</Text>
           <TextInput
-            style={pageStyles.textInput}
+            style={athleteStyles.textInput}
             onTouchStart={() => setShowBirthDatePicker(true)}
             value={getDate(birthDate)}
             showSoftInputOnFocus={false}
@@ -169,9 +143,9 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               onClose={setShowBirthDatePicker}
             />
           )}
-          <Text style={pageStyles.label}>Career start</Text>
+          <Text style={athleteStyles.label}>Career start</Text>
           <TextInput
-            style={pageStyles.textInput}
+            style={athleteStyles.textInput}
             onTouchStart={() => setShowCareerStartDatePicker(true)}
             value={getYear(careerStartDate)}
             showSoftInputOnFocus={false}
@@ -185,9 +159,12 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               onClose={setShowCareerStartDatePicker}
             />
           )}
-          <Text style={pageStyles.label}>Hobby</Text>
+          <Text style={athleteStyles.label}>Hobby</Text>
           <TextInput
-            style={[pageStyles.textInput, { marginBottom: theme.spacing.md }]}
+            style={[
+              athleteStyles.textInput,
+              { marginBottom: theme.spacing.md },
+            ]}
             onChangeText={handleChangeHobby}
             value={hobby}
           />
@@ -198,7 +175,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           onAddBtnPress={() => handleAddMedia(athlete.id, athlete.athleteName)}
         />
         <Button
-          style={pageStyles.button}
+          style={athleteStyles.button}
           textColor={theme.colors.yellow.DEFAULT}
           icon={({ size }) => (
             <FontAwesomeIcon
@@ -212,7 +189,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           Change
         </Button>
       </ScrollView>
-      <BottomActions style={pageStyles.actionBtns}>
+      <BottomActions style={athleteStyles.actionBtns}>
         <Button
           mode="outlined"
           style={styles.button}

@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CreateEventScreen } from "../screens/CreateEvent/CreateEvent";
-import { CreateAthleteScreen } from "../screens/CreateAthlete";
+import { CreateAthleteScreen } from "../screens/CreateAthlete/CreateAthlete";
 import { AthleteDetailScreen } from "../screens/AthleteDetail";
 import { EventDetailScreen } from "../screens/EventDetail";
 import { SelectConnectionScreen } from "../screens/SelectConnection";
