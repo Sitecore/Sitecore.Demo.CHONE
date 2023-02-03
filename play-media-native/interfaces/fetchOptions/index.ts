@@ -1,5 +1,4 @@
-export interface Connection {
-  name: string;
+export interface FetchOptions {
   apiKey: string;
   previewUrl: string;
   clientID: string;

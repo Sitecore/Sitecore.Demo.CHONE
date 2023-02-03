@@ -1,5 +1,6 @@
 import { FC, ReactNode, useMemo, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { PaginationOptions } from 'swiper/types';
 import type { Swiper as SwiperType } from 'swiper';
 
 // Swiper styles
@@ -17,9 +18,10 @@ interface Props {
   children: ReactNode[];
   displayedIndex?: number;
   navigation?: boolean;
-  pagination?: boolean;
+  pagination?: boolean | PaginationOptions;
   showThumb?: boolean;
   spaceBetween?: number;
+  paginationContainer?: ReactNode;
 }
 
 const DEFAULT_THUMB_SLIDE_NUMBER = 4;
@@ -33,6 +35,7 @@ const Slider: FC<Props> = ({
   pagination = false,
   showThumb = false,
   spaceBetween = 10,
+  paginationContainer,
 }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const slides = useMemo(
@@ -43,11 +46,19 @@ const Slider: FC<Props> = ({
     children.length < DEFAULT_THUMB_SLIDE_NUMBER ? children.length : DEFAULT_THUMB_SLIDE_NUMBER;
   const thumbSliderWidth = `${thumbSlidesPerView * 25}%`;
   const showNavigation = slides.length > 1;
+  const customPaginationContainer = paginationContainer ? paginationContainer : <></>;
 
   if (!showThumb) {
     return (
       <Swiper
-        autoplay={!!autoplay ? { delay: autoplay } : false}
+        autoplay={
+          !!autoplay
+            ? {
+                delay: autoplay,
+                disableOnInteraction: false,
+              }
+            : false
+        }
         loop
         modules={[Autoplay, FreeMode, Navigation, Pagination]}
         navigation={navigation && showNavigation}
@@ -57,6 +68,7 @@ const Slider: FC<Props> = ({
         className={className}
       >
         {slides}
+        {customPaginationContainer}
       </Swiper>
     );
   }

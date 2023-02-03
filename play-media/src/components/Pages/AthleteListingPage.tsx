@@ -83,7 +83,7 @@ export const AthleteListingPage = ({
             statistics, success stories, recent results and more!
           </p>
         }
-        imageSrc={randomFeaturedImage}
+        imageSrc="./tourists-go-up-hill-sunrise.webp"
       >
         <AthleteSlider athletes={featuredAthletes} />
       </HeroBannerSection>

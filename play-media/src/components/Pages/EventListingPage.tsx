@@ -24,7 +24,21 @@ export const EventListingPage = ({ events }: { events: Event[] }) => {
     }
 
     return (
-      <Slider autoplay={5000} spaceBetween={0} className="hero-banner-slider">
+      <Slider
+        autoplay={5000}
+        spaceBetween={0}
+        className="hero-banner-slider"
+        pagination={{
+          clickable: true,
+          el: '.hero-pagination-inner',
+          type: 'bullets',
+        }}
+        paginationContainer={
+          <div className="hero-pagination">
+            <div className="hero-pagination-inner"></div>
+          </div>
+        }
+      >
         {featuredEvents.map((event) => (
           <HeroBannerFeaturedEvent key={event.id} event={event} />
         ))}

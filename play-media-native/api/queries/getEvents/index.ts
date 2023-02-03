@@ -1,4 +1,5 @@
-import { FetchOptions, fetchGraphQL } from "../..";
+import { fetchGraphQL } from "../..";
+import { FetchOptions } from "../../../interfaces/fetchOptions";
 import { Event, AllEventsResponse } from "../../../interfaces/event";
 
 const eventsQuery = `
