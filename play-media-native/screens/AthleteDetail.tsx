@@ -89,12 +89,21 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     });
   }, []);
 
+  const displayError = useCallback((e: unknown) => {
+    console.error(e);
+    return (
+      <Screen centered>
+        <Text>Athlete could not be fetched!</Text>
+      </Screen>
+    );
+  }, []);
+
   if (isFetching) {
     return <LoadingScreen />;
   }
 
-  if (!athlete) {
-    return <Text>Athlete could not be fetched!</Text>;
+  if (error) {
+    return displayError(error);
   }
 
   const accentColor =
