@@ -1,16 +1,12 @@
 import { StatusBar, View } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Text } from "react-native-paper";
 import { FormAddConnection } from "../features/FormAddConnection/FormAddConnection";
-import { styles } from "../theme/styles";
+import { KeyboardAwareScreen } from "../features/Screen/KeyboardAwareScreen";
 import { theme } from "../theme/theme";
 
 export const AddConnectionScreen = () => {
   return (
-    <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.black.darkest }}
-      contentContainerStyle={{ ...styles.screen, ...styles.centered }}
-    >
+    <KeyboardAwareScreen>
       <StatusBar barStyle={"light-content"} />
       <View
         style={{
@@ -30,6 +26,6 @@ export const AddConnectionScreen = () => {
         </Text>
       </View>
       <FormAddConnection />
-    </KeyboardAwareScrollView>
+    </KeyboardAwareScreen>
   );
 };

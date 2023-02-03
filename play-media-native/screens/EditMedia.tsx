@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { Image, StatusBar, View } from "react-native";
-import { theme } from "../theme/theme";
 import { InputText } from "../components/InputText/InputText";
 import { inputContainerStyle } from "./CreateEvent/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
@@ -11,7 +10,7 @@ import { getFileType } from "../helpers/media";
 import { generateID } from "../helpers/uuid";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../theme/styles";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScreen } from "../features/Screen/KeyboardAwareScreen";
 
 const imageStyle = {
   height: 200,
@@ -73,10 +72,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }
 
   return (
-    <KeyboardAwareScrollView
-      style={{ backgroundColor: theme.colors.black.darkest }}
-      contentContainerStyle={{ ...styles.screen, ...styles.centered }}
-    >
+    <KeyboardAwareScreen>
       <StatusBar barStyle={"light-content"} />
       <View>
         <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />
@@ -113,6 +109,6 @@ export const EditMediaScreen = ({ navigation, route }) => {
           {isEdit ? "Edit Media" : "Add Media"}
         </Button>
       </BottomActions>
-    </KeyboardAwareScrollView>
+    </KeyboardAwareScreen>
   );
 };

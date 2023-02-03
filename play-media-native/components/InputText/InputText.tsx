@@ -97,10 +97,15 @@ export const InputText = ({
         showSoftInputOnFocus={showSoftInputOnFocus}
         caretHidden={caretHidden}
         onTouchStart={onTouchStart}
+        error={error}
       />
       {error && (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icon name="warning-outline" color="red" size={16} />
+          <Icon
+            name="warning-outline"
+            color={theme.colors.pink.DEFAULT}
+            size={16}
+          />
           <HelperText type="error" visible>
             {errorText}
           </HelperText>
