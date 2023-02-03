@@ -13,18 +13,20 @@ import { DeviceMedia, Media } from "../../interfaces/media";
 import { NestableScrollContainer } from "react-native-draggable-flatlist";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useCamera } from "../../hooks/useCamera/useCamera";
-import { useTempMedia } from "../../hooks/useTempMedia/useTempMedia";
 import { CardEvent } from "../../features/CardEvent/CardEvent";
 import { Event } from "../../interfaces/event";
+import { MEDIA_SOURCES } from "../../constants/media";
+import { useDeviceLibrary } from "../../hooks/useDeviceLibrary/useDeviceLibrary";
 
 export const ReferencesView = () => {
   const { eventFields } = useEventFields();
-  const { launch } = useCamera();
+  const { launch: launchCamera } = useCamera();
+  const { launch: launchLibrary } = useDeviceLibrary();
   const navigation = useNavigation<StackNavigationProp>();
 
   const handleCameraPress = useCallback(
     (stateKey: string) => {
-      launch((image: DeviceMedia) => {
+      launchCamera((image: DeviceMedia) => {
         navigation.navigate("EditMedia", {
           initialRoute: "AddEvent",
           image,
@@ -32,7 +34,20 @@ export const ReferencesView = () => {
         });
       });
     },
-    [launch, navigation]
+    [launchCamera, navigation]
+  );
+
+  const handleDevicePress = useCallback(
+    (stateKey: string) => {
+      launchLibrary((image: DeviceMedia) => {
+        navigation.navigate("EditMedia", {
+          initialRoute: "AddEvent",
+          image,
+          key: stateKey,
+        });
+      });
+    },
+    [launchLibrary, navigation]
   );
 
   const onAddMedia = useCallback(() => {
@@ -46,8 +61,6 @@ export const ReferencesView = () => {
   const onAddEvents = useCallback(() => {
     navigation.navigate("AddEvents", { key: "relatedEvents" });
   }, []);
-
-  console.log("\n\neventFields", eventFields);
 
   return (
     <NestableScrollContainer>
@@ -70,7 +83,7 @@ export const ReferencesView = () => {
         <Button
           compact
           mode="outlined"
-          onPress={onAddMedia}
+          onPress={() => handleDevicePress("relatedMedia")}
           style={styles.button}
           labelStyle={styles.buttonLabel}
         >
@@ -130,6 +143,7 @@ export const ReferencesView = () => {
           renderItem={(item: Event) => <CardEvent item={item} />}
         />
       </GestureHandlerRootView>
+      <View style={{ paddingBottom: 100 }} />
     </NestableScrollContainer>
   );
 };
