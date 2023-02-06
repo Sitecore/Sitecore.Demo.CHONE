@@ -91,6 +91,19 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (isReview) {
+      // Retrieve athlete to review from global store
+      let athleteToReview = undefined;
+
+      if (!athleteToReview) {
+        return setError("Redux error");
+      }
+
+      setAthlete(athleteToReview);
+    }
+  }, []);
+
   const displayError = useCallback((e: unknown) => {
     console.error(e);
     return (
