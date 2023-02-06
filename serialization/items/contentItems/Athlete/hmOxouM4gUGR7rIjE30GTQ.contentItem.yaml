@@ -8,10 +8,10 @@ fields:
     value: true
     type: Boolean
   dateOfBirth:
-    value: null
+    value: 
     type: DateTime
   careerStartDate:
-    value: null
+    value: 
     type: DateTime
   athleteQuote:
     value: You control your own wins and losses.

@@ -5,7 +5,7 @@ fields:
     value: 'MTB Fest '
     type: ShortText
   isFeatured:
-    value: null
+    value: 
     type: Boolean
   timeAndDate:
     value: 2023-07-12T22:00:00.000Z

@@ -8,10 +8,10 @@ fields:
     value: false
     type: Boolean
   dateOfBirth:
-    value: null
+    value: 
     type: DateTime
   careerStartDate:
-    value: null
+    value: 
     type: DateTime
   athleteQuote:
     value: It is action that creates motivation.

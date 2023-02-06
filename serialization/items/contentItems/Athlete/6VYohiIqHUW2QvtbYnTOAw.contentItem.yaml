@@ -8,10 +8,10 @@ fields:
     value: false
     type: Boolean
   dateOfBirth:
-    value: null
+    value: 
     type: DateTime
   careerStartDate:
-    value: null
+    value: 
     type: DateTime
   athleteQuote:
     value: Passion first and everything will fall into place.
