@@ -1,0 +1,78 @@
+// DEMO SCENARIO CUSTOMIZATION:
+// Rename this file from about-us.tsx.demo to about-us.tsx to activate the page
+
+import Head from 'next/head';
+import { getContentBlockById } from '../api/queries/getContentBlocks';
+import { getAllLocations } from '../api/queries/getLocations';
+import { AboutUsPage } from '../components/Pages/AboutUsPage';
+import { REVALIDATE_INTERVAL } from '../constants/build';
+import { ContentBlock } from '../interfaces/contentBlock';
+import { Location } from '../interfaces/location';
+
+export default function AboutUs({
+  contentBlockAbout,
+  contentBlockHistory,
+  contentBlockLocations,
+  locations,
+}: {
+  contentBlockAbout: ContentBlock;
+  contentBlockHistory: ContentBlock;
+  contentBlockLocations: ContentBlock;
+  locations: Location[];
+}) {
+  return (
+    <>
+      <Head>
+        <title>About us | PLAY! Media</title>
+      </Head>
+
+      <main>
+        <AboutUsPage
+          contentBlockAbout={contentBlockAbout}
+          contentBlockHistory={contentBlockHistory}
+          contentBlockLocations={contentBlockLocations}
+          locations={locations}
+        />
+      </main>
+    </>
+  );
+}
+
+export const getStaticProps = async () => {
+  // DEMO SCENARIO CUSTOMIZATION:
+  // Change these to the respective content ids in your Content Hub ONE instance
+  const CONTENT_BLOCK_IDS = {
+    ABOUT: 'YXcFXM4yp0aKvHu5S8tmOg',
+    HISTORY: 'oIjG5JYuE6JNUVx1KejPA',
+    LOCATIONS: 'cSaltKGqXESGBDpQvIzlBA',
+  };
+
+  const contentBlockAboutPromise = getContentBlockById(CONTENT_BLOCK_IDS.ABOUT);
+  const contentBlockHistoryPromise = getContentBlockById(CONTENT_BLOCK_IDS.HISTORY);
+  const contentBlockLocationsPromise = getContentBlockById(CONTENT_BLOCK_IDS.LOCATIONS);
+  const locationsPromise = getAllLocations();
+
+  await Promise.all([contentBlockAboutPromise, contentBlockHistoryPromise, contentBlockLocationsPromise, locationsPromise]);
+
+  const contentBlockAbout = await contentBlockAboutPromise;
+  const contentBlockHistory = await contentBlockHistoryPromise;
+  const contentBlockLocations = await contentBlockLocationsPromise;
+  const locations = await locationsPromise;
+
+  if (!contentBlockAbout || !contentBlockHistory || !contentBlockLocations || !locations) {
+    return {
+      notFound: true,
+      revalidate: REVALIDATE_INTERVAL,
+    };
+  }
+
+  return {
+    props: {
+      contentBlockAbout: contentBlockAbout.contentBlock,
+      contentBlockHistory: contentBlockHistory.contentBlock,
+      contentBlockLocations: contentBlockLocations.contentBlock,
+      locations,
+    },
+    revalidate: REVALIDATE_INTERVAL,
+  };
+};
