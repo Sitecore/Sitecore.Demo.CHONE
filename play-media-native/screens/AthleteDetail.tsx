@@ -106,7 +106,10 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  const handleDiscardBtn = useCallback(() => {}, []);
+  const handleDiscardBtn = useCallback(() => {
+    navigation.goBack();
+  }, []);
+
   const handlePublishBtn = useCallback(() => {}, []);
 
   const bottomActions = useMemo(
@@ -117,7 +120,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             mode="outlined"
             style={styles.button}
             labelStyle={styles.buttonLabel}
-            onPress={() => handleDiscardBtn()}
+            onPress={handleDiscardBtn}
           >
             Discard
           </Button>
