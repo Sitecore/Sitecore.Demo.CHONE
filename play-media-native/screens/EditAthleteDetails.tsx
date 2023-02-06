@@ -1,12 +1,9 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useCallback, useEffect, useState } from "react";
 import { ScrollView, View, TextInput } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
-import { getAccentColor } from "../helpers/colorHelper";
 import { getDate, getYear } from "../helpers/dateHelper";
 import { theme } from "../theme/theme";
 import { Athlete } from "../interfaces/athlete";
@@ -74,14 +71,6 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   if (!athlete) {
     return <Text>Athlete could not be fetched!</Text>;
   }
-
-  // TODO Update with the edit sport screen when available and relevant state
-  const handleChangeSport = (id: string, title: string) => {
-    // navigation.navigate("EditSport", {
-    //   id,
-    //   title,
-    // });
-  };
 
   // TODO Add state for media items
   const handleAddMedia = (id: string, title: string) => {
@@ -181,20 +170,6 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           isEditMode={true}
           onAddBtnPress={() => handleAddMedia(athlete.id, athlete.athleteName)}
         />
-        <Button
-          style={athleteStyles.button}
-          textColor={theme.colors.yellow.DEFAULT}
-          icon={({ size }) => (
-            <FontAwesomeIcon
-              icon={faEdit}
-              color={theme.colors.yellow.DEFAULT}
-              size={size}
-            />
-          )}
-          onPress={() => handleChangeSport(athlete.id, athlete.athleteName)}
-        >
-          Change
-        </Button>
       </ScrollView>
       <BottomActions style={athleteStyles.actionBtns}>
         <Button
