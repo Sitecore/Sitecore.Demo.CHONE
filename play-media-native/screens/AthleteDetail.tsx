@@ -95,6 +95,13 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     );
   }, []);
 
+  const handleEditInfo = useCallback((id: string, title: string) => {
+    navigation.navigate("EditAthleteDetails", {
+      id,
+      title,
+    });
+  }, []);
+
   if (route.params.isReview) {
     // Retrieve athlete to review from global store
     const athleteToReview = undefined;
@@ -129,13 +136,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     getAccentColor(athlete?.sport?.results[0]?.title) ||
     theme.colors.gray.DEFAULT;
   const textColor = getTextColor(accentColor) || theme.colors.white.DEFAULT;
-
-  const handleEditInfo = (id: string, title: string) => {
-    navigation.navigate("EditAthleteDetails", {
-      id,
-      title,
-    });
-  };
 
   return (
     <Screen>
