@@ -79,7 +79,8 @@ const pageStyles = StyleSheet.create({
 });
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
-  const [athlete, setAthlete] = useState<Partial<Athlete>>({});
+  const [athlete, setAthlete] = useState<Partial<Athlete>>(undefined);
+  const [error, setError] = useState<unknown>();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const isReview = route.params.isReview;
@@ -158,18 +159,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     ]
   );
 
-  if (isReview) {
-    // Retrieve athlete to review from global store
-    const athleteToReview = undefined;
-
-    if (!athleteToReview) {
-      return displayError("Redux error");
-    }
-
-    setAthlete(athleteToReview);
-  }
-
-  const { data, isFetching, error } = useQuery(
+  const { data, isFetching } = useQuery(
     "athlete",
     () => getAthleteById(route.params.id),
     {
@@ -177,15 +167,18 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       onSuccess: (data) => {
         setAthlete(data.athlete);
       },
+      onError: (error) => {
+        setError(error);
+      },
     }
   );
 
-  if (isFetching) {
-    return <LoadingScreen />;
-  }
-
   if (error) {
     return displayError(error);
+  }
+
+  if (isFetching || !athlete) {
+    return <LoadingScreen />;
   }
 
   const accentColor =
