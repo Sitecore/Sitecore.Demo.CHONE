@@ -50,8 +50,9 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  // TODO Add functionality to discard button
-  const handleDiscardBtn = () => {};
+  const handleDiscardBtn = useCallback(() => {
+    navigation.goBack();
+  }, []);
 
   const { data, isFetching } = useQuery(
     "editathlete",
@@ -200,7 +201,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           mode="outlined"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() => handleDiscardBtn()}
+          onPress={handleDiscardBtn}
         >
           Discard
         </Button>
@@ -208,7 +209,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() => handleSubmitBtn()}
+          onPress={handleSubmitBtn}
         >
           Submit
         </Button>
