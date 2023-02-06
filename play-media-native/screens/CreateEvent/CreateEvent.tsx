@@ -52,20 +52,37 @@ export const CreateEventScreen = ({ navigation, route }) => {
   //
   useFocusEffect(
     useCallback(() => {
-      if (!route?.params?.key || !route?.params?.image) {
+      const isFromEditMedia = !!route?.params?.isEditMedia;
+
+      // console.log("route.params", route.params);
+
+      if (!isFromEditMedia) {
         return;
       }
 
+      // console.log(
+      //   "eventFields[route.params.key]",
+      //   eventFields[route.params.key]
+      // );
+
       if (Array.isArray(eventFields[route.params.key])) {
+        console.log("edit Add Event 1");
         edit({
           key: route.params.key,
           value: [...eventFields[route.params.key], route.params.image],
         });
       } else {
+        console.log("edit Add Event 2");
         edit({ key: route.params.key, value: route.params.image });
       }
-    }, [route?.params, edit])
+    }, [edit, route?.params?.isEditMedia])
   );
+
+  // console.log(
+  //   "eventFields.relatedMedia",
+  //   eventFields.relatedMedia.map((item) => item.id)
+  // );
+  // console.log("state", state);
 
   return (
     <Screen>

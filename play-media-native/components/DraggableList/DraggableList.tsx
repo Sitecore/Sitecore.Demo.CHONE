@@ -6,6 +6,7 @@ import {
 } from "react-native-draggable-flatlist";
 import { Text } from "react-native-paper";
 import { theme } from "../../theme/theme";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const DraggableList = ({
   items,
@@ -39,7 +40,7 @@ export const DraggableList = ({
   }
 
   return (
-    <>
+    <GestureHandlerRootView>
       <Text
         style={{ marginVertical: theme.spacing.sm, textAlign: "center" }}
         variant="titleSmall"
@@ -53,6 +54,6 @@ export const DraggableList = ({
         renderItem={renderer}
         style={style}
       />
-    </>
+    </GestureHandlerRootView>
   );
 };

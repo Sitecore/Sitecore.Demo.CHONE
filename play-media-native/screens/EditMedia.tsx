@@ -19,7 +19,6 @@ const imageStyle = {
 };
 
 export const EditMediaScreen = ({ navigation, route }) => {
-  const { add, edit } = useMedia();
   const { edit: editTempMedia } = useTempMedia();
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
   const isEdit: boolean = route.params.editMode;
@@ -44,24 +43,12 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }, [navigation]);
 
   const onAdd = useCallback(() => {
-    // if (isEdit) {
-    //   edit(editedImage as Media);
-    // } else {
-    //   add([{ ...editedImage, id: generateID() } as Media]);
-    // }
-    console.log("\nonAdd", tempMediaKey, {
-      ...editedImage,
-      id: generateID(),
-    });
-    editTempMedia({
-      key: tempMediaKey,
-      image: { ...editedImage, id: generateID() },
-    });
     navigation.navigate(route.params.initialRoute, {
       key: tempMediaKey,
       image: { ...editedImage, id: generateID() },
+      isEditMedia: true,
     });
-  }, [editTempMedia, editedImage, navigation, tempMediaKey]);
+  }, [editedImage, navigation, tempMediaKey]);
 
   useFocusEffect(
     useCallback(() => {
@@ -80,8 +67,6 @@ export const EditMediaScreen = ({ navigation, route }) => {
       );
     }, [route.params.image])
   );
-
-  console.log("route.params.key", route.params.key);
 
   if (!editedImage) {
     return <Text>Something went wrong!</Text>;

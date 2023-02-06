@@ -3,26 +3,21 @@ import { StatusBar } from "react-native";
 import { Media } from "../../interfaces/media";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
-import { useMedia } from "../../hooks/useMedia/useMedia";
 import { ListingCH1Media } from "./ListingCH1Media";
 import { MEDIA_SOURCES } from "../../constants/media";
 import { styles } from "../../theme/styles";
 import { Screen } from "../../features/Screen/Screen";
 import { useEventFields } from "../../hooks/useEventFields/useEventFields";
 
-export const AddCH1MediaScreen = ({ navigation }) => {
-  const { edit } = useEventFields();
-  const { add, media: storeMedia } = useMedia();
+export const AddCH1MediaScreen = ({ navigation, route }) => {
+  const { eventFields, edit } = useEventFields();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
   const selectedMediaIDs = selectedMedia.map((item) => item.id);
 
   const onSelect = useCallback(
     (image: Media) => {
-      // Cannot change selected status if media in global state
+      // Cannot change selected status if media already selected
       //
-      if (storeMedia.includes(image)) {
-        return;
-      }
 
       setSelectedMedia((prevSelectedMedia) => {
         if (prevSelectedMedia.includes(image)) {
@@ -32,19 +27,47 @@ export const AddCH1MediaScreen = ({ navigation }) => {
         return [...prevSelectedMedia, image];
       });
     },
-    [storeMedia]
+    [route?.params?.existingIDs]
   );
 
   const onAdd = useCallback(() => {
-    edit({
-      key: "relatedMedia",
+    if (!route?.params?.key) {
+      return;
+    }
+
+    console.log("onAdd CH1", {
+      key: route.params.key,
       value: selectedMedia.map((item) => ({
         ...item,
         source: MEDIA_SOURCES.CH_ONE,
       })),
     });
-    navigation.goBack();
-  }, [edit, selectedMedia]);
+
+    edit({
+      key: route.params.key,
+      // value: selectedMedia.map((item) => ({
+      //   ...item,
+      //   source: MEDIA_SOURCES.CH_ONE,
+      // })),
+      value: Array.isArray(eventFields[route.params.key])
+        ? [
+            ...eventFields[route.params.key],
+            ...selectedMedia.map((item) => ({
+              ...item,
+              source: MEDIA_SOURCES.CH_ONE,
+            })),
+          ]
+        : selectedMedia.map((item) => ({
+            ...item,
+            source: MEDIA_SOURCES.CH_ONE,
+          })),
+    });
+    console.log("edit CH1");
+
+    navigation.navigate(route?.params?.initialRoute, {
+      isEditMedia: false,
+    });
+  }, [edit, eventFields, navigation, route?.params, selectedMedia]);
 
   const onDiscard = useCallback(() => {
     navigation.goBack();
