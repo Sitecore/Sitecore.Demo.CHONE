@@ -148,7 +148,14 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           style={pageStyles.bottomFAB}
         ></AnimatedFAB>
       ),
-    [isReview, isTopEdge, handleDiscardBtn, handlePublishBtn, handleEditInfo]
+    [
+      athlete,
+      isTopEdge,
+      isReview,
+      handleEditInfo,
+      handleDiscardBtn,
+      handlePublishBtn,
+    ]
   );
 
   if (isReview) {
