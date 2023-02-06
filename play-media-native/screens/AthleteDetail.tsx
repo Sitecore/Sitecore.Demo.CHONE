@@ -93,7 +93,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (isReview) {
-      // Retrieve athlete to review from global store
+      // TODO Retrieve athlete to review from global store
       let athleteToReview = undefined;
 
       if (!athleteToReview) {
@@ -124,6 +124,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     navigation.goBack();
   }, []);
 
+  // TODO Add API request to create/ update athlete
   const handlePublishBtn = useCallback(() => {}, []);
 
   const bottomActions = useMemo(
