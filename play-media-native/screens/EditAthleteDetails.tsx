@@ -13,6 +13,7 @@ import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { DatePicker } from "../components/DatePicker/DatePicker";
 import { athleteStyles } from "./CreateAthlete/styles";
+import { getAllSports } from "../api/queries/getSports";
 
 export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   const [name, handleChangeName] = useState("");
@@ -51,12 +52,17 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     navigation.goBack();
   }, []);
 
-  const { data, isFetching } = useQuery(
+  const { data, isFetching: isFetchingAthletes } = useQuery(
     "editathlete",
     () => getAthleteById(route.params.id),
     { onSuccess: (data) => setAthleteData(data.athlete) }
   );
   const athlete = data?.athlete;
+
+  const { data: sports, isFetching: isFetchingSports } = useQuery(
+    "sports",
+    () => getAllSports()
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -64,7 +70,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  if (isFetching) {
+  if (isFetchingAthletes || isFetchingSports) {
     return <LoadingScreen />;
   }
 
