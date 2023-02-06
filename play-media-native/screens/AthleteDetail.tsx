@@ -203,9 +203,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
               style={[
                 pageStyles.item,
                 {
-                  backgroundColor: getAccentColor(
-                    athlete.sport.results[0]?.title
-                  ),
+                  backgroundColor: accentColor,
                   color: textColor,
                   paddingHorizontal: theme.spacing.sm,
                 },
@@ -253,9 +251,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             </CardShadowBox>
           </View>
           <View style={pageStyles.cardContainer}>
-            <CardShadowBox
-              color={getAccentColor(athlete.sport.results[0]?.title)}
-            >
+            <CardShadowBox color={accentColor}>
               <View style={pageStyles.infoContainer}>
                 <Text style={pageStyles.infoLabel}>Nationality</Text>
                 <Text style={pageStyles.infoItem}>{athlete.nationality}</Text>
