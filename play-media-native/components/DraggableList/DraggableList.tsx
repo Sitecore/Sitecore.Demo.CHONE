@@ -41,12 +41,6 @@ export const DraggableList = ({
 
   return (
     <GestureHandlerRootView>
-      <Text
-        style={{ marginVertical: theme.spacing.sm, textAlign: "center" }}
-        variant="titleSmall"
-      >
-        Keep an item pressed to drag and drop
-      </Text>
       <NestableDraggableFlatList
         data={data}
         onDragEnd={({ data }) => setData(data)}

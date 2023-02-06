@@ -1,7 +1,4 @@
-import { useCallback } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
-import { StackNavigationProp } from "../../interfaces/navigators";
 import { Athlete } from "../../interfaces/athlete";
 import { CardAvatar } from "../../features/CardAvatar/CardAvatar";
 import { useEventFields } from "../../hooks/useEventFields/useEventFields";
@@ -11,18 +8,11 @@ import { Event } from "../../interfaces/event";
 import { ContentFieldMedia } from "../../features/ContentFieldMedia/ContentFieldMedia";
 import { theme } from "../../theme/theme";
 import { ContentFieldReference } from "../../features/ContentFieldReference/ContentFieldReference";
+import { CONTENT_TYPES } from "../../constants/contentTypes";
 
 export const ReferencesView = () => {
   const { eventFields } = useEventFields();
-  const navigation = useNavigation<StackNavigationProp>();
-
-  const onAddAthletes = useCallback(() => {
-    navigation.navigate("AddAthletes", { key: "athletes" });
-  }, []);
-
-  const onAddEvents = useCallback(() => {
-    navigation.navigate("AddEvents", { key: "relatedEvents" });
-  }, []);
+  const contentType = CONTENT_TYPES.EVENT;
 
   return (
     <NestableScrollContainer>
@@ -30,27 +20,33 @@ export const ReferencesView = () => {
         fieldKey="featuredImage"
         fieldTitle="Featured Image"
         initialRoute="AddEvent"
+        items={eventFields.featuredImage}
         style={{ marginTop: theme.spacing.md }}
       />
       <ContentFieldMedia
         fieldKey="relatedMedia"
         fieldTitle="Related Media"
         initialRoute="AddEvent"
+        items={eventFields.relatedMedia}
         style={{ marginTop: theme.spacing.lg }}
       />
       <ContentFieldReference
         addRoute={"AddAthletes"}
+        contentType={contentType}
         createRoute={"AddAthlete"}
         fieldKey="athletes"
         fieldTitle="Related Athletes"
+        initialRoute={"AddEvent"}
         renderItem={(item: Athlete) => <CardAvatar item={item} />}
         style={{ marginTop: theme.spacing.lg }}
       />
       <ContentFieldReference
         addRoute={"AddEvents"}
+        contentType={contentType}
         createRoute={"AddEvent"}
         fieldKey="relatedEvents"
         fieldTitle="Similar Events"
+        initialRoute={"AddEvent"}
         renderItem={(item: Event) => <CardEvent item={item} />}
         style={{ marginTop: theme.spacing.lg }}
       />

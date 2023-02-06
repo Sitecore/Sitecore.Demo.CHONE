@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
+import { FlatList, ListRenderItem } from "react-native";
 import { CardAvatar } from "../features/CardAvatar/CardAvatar";
-import { Listing } from "../components/Listing/Listing";
 import { Athlete } from "../interfaces/athlete";
 import { getAllAthletes } from "../api/queries/getAthletes";
 import { useQuery } from "react-query";
@@ -12,7 +12,7 @@ import { BottomActions } from "../components/BottomActions/BottomActions";
 import { useAthletes } from "../hooks/useAthletes/useAthletes";
 import { ATHLETE_FACETS } from "../constants/filters";
 import { useFacets } from "../hooks/useFacets/useFacets";
-import { initializeAthletes } from "../helpers/athletes";
+import { initializeAthletes, removeAlreadySelected } from "../helpers/athletes";
 import { getAllSports } from "../api/queries/getSports";
 import { getNationalityOptions, getSportOptions } from "../helpers/facets";
 import { AthleteFiltersView } from "../features/AthleteFilters/AthleteFiltersView";
@@ -20,9 +20,16 @@ import { Screen } from "../features/Screen/Screen";
 import { DropdownItem } from "../components/DropdownPicker/DropdownPicker";
 import { styles } from "../theme/styles";
 import { useEventFields } from "../hooks/useEventFields/useEventFields";
+import { CONTENT_TYPES } from "../constants/contentTypes";
 
 export const AddAthletesScreen = ({ navigation, route }) => {
-  const { eventFields, edit, reset } = useEventFields();
+  const contentType = useMemo(
+    () => route?.params?.contentType,
+    [route?.params]
+  );
+  const fieldKey = route?.params?.key;
+  const single = route?.params?.single;
+  const { eventFields, edit: editEventFields } = useEventFields();
   const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
     "athletes",
     () => getAllAthletes()
@@ -36,14 +43,18 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     [ATHLETE_FACETS.sport]: "",
     [ATHLETE_FACETS.nationality]: "",
   });
+  const initialAthletes = useMemo(() => {
+    const initialized = initializeAthletes(athletes, sports);
+    return contentType === CONTENT_TYPES.EVENT
+      ? removeAlreadySelected(initialized, eventFields[fieldKey])
+      : removeAlreadySelected(initialized, eventFields[fieldKey]);
+  }, [contentType, eventFields, fieldKey]);
   const filteredAthletes = useFacets({
-    initialItems: athletes?.length ? initializeAthletes(athletes, sports) : [],
+    initialItems: athletes?.length ? initialAthletes : [],
     facets,
   });
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const [selectedAthleteIDs, setSelectedAthleteIDs] = useState<string[]>(
-    eventFields.athletes.map((item) => item.id)
-  );
+  const [selectedAthleteIDs, setSelectedAthleteIDs] = useState<string[]>([]);
   const noneSelected = !selectedAthleteIDs?.length;
   const nationalityOptions = useMemo(
     () => getNationalityOptions(athletes),
@@ -67,6 +78,17 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     []
   );
 
+  const edit = useCallback(
+    ({ key, value }: { key: string; value: Athlete[] }) => {
+      if (contentType === CONTENT_TYPES.EVENT) {
+        editEventFields({ key, value: [...eventFields[key], ...value] });
+      } else if (contentType === CONTENT_TYPES.ATHLETE) {
+        // TODO
+      }
+    },
+    [contentType, editEventFields]
+  );
+
   const handleChange = useCallback((key: string, item: DropdownItem) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
@@ -82,17 +104,21 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   }, []);
 
   const onCancel = useCallback(() => {
-    reset();
     navigation.goBack();
-  }, [reset]);
+  }, [navigation]);
 
   const onSubmit = useCallback(() => {
+    if (!route?.params?.key || !route?.params?.initialRoute) {
+      return;
+    }
+
     edit({
       key: route.params.key,
       value: athletes.filter((item) => selectedAthleteIDs.includes(item.id)),
     });
-    navigation.navigate("AddEvent");
-  }, [add, athletes, edit, selectedAthleteIDs]);
+
+    navigation.navigate(route.params.initialRoute);
+  }, [add, athletes, edit, navigation, route?.params, selectedAthleteIDs]);
 
   return (
     <Screen>
@@ -100,19 +126,18 @@ export const AddAthletesScreen = ({ navigation, route }) => {
         facets={facetFilters}
         handleFacetsChange={handleChange}
       />
-      <Listing
+      <FlatList
         data={filteredAthletes}
-        isLoading={isFetchingAthletes || isFetchingSports}
         renderItem={({ item }) => (
           <SelectableView
-            onSelect={() => onSelect(item)}
+            onSelect={() => onSelect(item as Athlete)}
             selected={selectedAthleteIDs.includes(item.id)}
           >
-            <CardAvatar item={item} />
+            <CardAvatar item={item as Athlete} />
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
-        style={{ paddingHorizontal: theme.spacing.sm, paddingBottom: 170 }}
+        style={{ paddingHorizontal: theme.spacing.sm, marginBottom: 70 }}
       />
       <BottomActions>
         <Button

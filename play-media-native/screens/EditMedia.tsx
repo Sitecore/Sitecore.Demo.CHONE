@@ -3,14 +3,12 @@ import { Image, StatusBar, View } from "react-native";
 import { InputText } from "../components/InputText/InputText";
 import { inputContainerStyle } from "./CreateEvent/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
-import { useMedia } from "../hooks/useMedia/useMedia";
 import { Button, Text } from "react-native-paper";
 import { Media } from "../interfaces/media";
 import { getFileType } from "../helpers/media";
 import { generateID } from "../helpers/uuid";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../theme/styles";
-import { useTempMedia } from "../hooks/useTempMedia/useTempMedia";
 import { KeyboardAwareScreen } from "../features/Screen/KeyboardAwareScreen";
 
 const imageStyle = {
@@ -19,7 +17,6 @@ const imageStyle = {
 };
 
 export const EditMediaScreen = ({ navigation, route }) => {
-  const { edit: editTempMedia } = useTempMedia();
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
   const isEdit: boolean = route.params.editMode;
   const tempMediaKey = route.params.key;

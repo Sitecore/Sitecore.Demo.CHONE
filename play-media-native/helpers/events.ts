@@ -14,3 +14,13 @@ export const initializeEvents = (events: Event[], sports: Sport[]) => {
       : null,
   }));
 };
+
+// return only atheltes not already selected in global state
+//
+export const removeAlreadySelected = (
+  events: Event[],
+  existingEvents: Event[]
+) => {
+  const existingEventIDs = existingEvents.map((item) => item.id);
+  return events.filter((event) => !existingEventIDs.includes(event.id));
+};

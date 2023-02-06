@@ -1,14 +1,12 @@
 import { useMemo } from "react";
 import { Image, View } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { Card } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
 import { getFileType, removeFileExtension } from "../../helpers/media";
 import { ListingImages } from "../../features/ListingImages/ListingImages";
 import { SelectableView } from "../../components/SelectableView/SelectableView";
 import { useMedia } from "../../hooks/useMedia/useMedia";
-import { useQuery } from "react-query";
-import { getAllMedia } from "../../api/queries/getMedia";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 import { ListingImageDisplayType } from "../../features/SelectDisplayButtons/SelectDisplayButtons";
 import { MediaItemListDisplay } from "../../features/MediaItemListDisplay/MediaItemListDisplay";
@@ -26,12 +24,18 @@ const fullWidthStyle = {
 };
 
 interface Props {
+  images: Media[];
+  isFetching: boolean;
   onSelect: (image: Media) => void;
   selectedMediaIDs: string[];
 }
 
-export const ListingCH1Media = ({ onSelect, selectedMediaIDs }: Props) => {
-  const { data: images, isFetching } = useQuery("media", () => getAllMedia());
+export const ListingCH1Media = ({
+  images,
+  isFetching,
+  onSelect,
+  selectedMediaIDs,
+}: Props) => {
   const { media } = useMedia();
   const mediaIDs = media.map((item) => item.id);
 
