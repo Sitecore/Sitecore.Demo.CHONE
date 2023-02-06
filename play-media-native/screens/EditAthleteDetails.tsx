@@ -14,6 +14,7 @@ import { BottomActions } from "../components/BottomActions/BottomActions";
 import { DatePicker } from "../components/DatePicker/DatePicker";
 import { athleteStyles } from "./CreateAthlete/styles";
 import { getAllSports } from "../api/queries/getSports";
+import { SportPicker } from "../features/SportPicker/SportPicker";
 
 export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   const [name, handleChangeName] = useState("");
@@ -90,18 +91,10 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     <Screen>
       <ScrollView style={styles.screenPadding}>
         <View>
-          <Text style={athleteStyles.label}>Sport</Text>
-          <Text
-            style={[
-              athleteStyles.item,
-              {
-                color: getAccentColor(athlete.sport.results[0]?.title),
-                marginBottom: theme.spacing.sm,
-              },
-            ]}
-          >
-            {athlete.sport.results[0].title}
-          </Text>
+          <SportPicker
+            sports={sports}
+            initialValue={athlete.sport?.results[0]?.title}
+          />
         </View>
         <View>
           <Text style={athleteStyles.label}>Athlete name</Text>
