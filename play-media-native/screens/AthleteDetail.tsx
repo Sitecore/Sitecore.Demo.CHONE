@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
-import { useCallback, useEffect, useState } from "react";
-import { AnimatedFAB, Text } from "react-native-paper";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { AnimatedFAB, Button, Text } from "react-native-paper";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
@@ -15,6 +15,8 @@ import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { Athlete } from "../interfaces/athlete";
+import { athleteStyles } from "./CreateAthlete/styles";
+import { BottomActions } from "../components/BottomActions/BottomActions";
 
 const pageStyles = StyleSheet.create({
   sportAndNameContainer: {
@@ -80,6 +82,8 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [athlete, setAthlete] = useState<Partial<Athlete>>({});
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
+  const isReview = route.params.isReview;
+
   useEffect(() => {
     navigation.setOptions({
       title: route.params.title,
@@ -102,7 +106,49 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  if (route.params.isReview) {
+  const handleDiscardBtn = useCallback(() => {}, []);
+  const handlePublishBtn = useCallback(() => {}, []);
+
+  const bottomActions = useMemo(
+    () =>
+      isReview ? (
+        <BottomActions style={athleteStyles.actionBtns}>
+          <Button
+            mode="outlined"
+            style={styles.button}
+            labelStyle={styles.buttonLabel}
+            onPress={() => handleDiscardBtn()}
+          >
+            Discard
+          </Button>
+          <Button
+            mode="contained"
+            style={styles.button}
+            labelStyle={styles.buttonLabel}
+            onPress={() => handlePublishBtn()}
+          >
+            Publish
+          </Button>
+        </BottomActions>
+      ) : (
+        <AnimatedFAB
+          icon={({ size }) => (
+            <FontAwesomeIcon
+              icon={faEdit}
+              color={theme.colors.black.DEFAULT}
+              size={size}
+            />
+          )}
+          label={"Edit"}
+          extended={isTopEdge}
+          onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
+          style={pageStyles.bottomFAB}
+        ></AnimatedFAB>
+      ),
+    [isReview, isTopEdge, handleDiscardBtn, handlePublishBtn, handleEditInfo]
+  );
+
+  if (isReview) {
     // Retrieve athlete to review from global store
     const athleteToReview = undefined;
 
@@ -226,19 +272,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           <AthleteImages athlete={athlete} />
         </View>
       </ScrollView>
-      <AnimatedFAB
-        icon={({ size }) => (
-          <FontAwesomeIcon
-            icon={faEdit}
-            color={theme.colors.black.DEFAULT}
-            size={size}
-          />
-        )}
-        label={"Edit"}
-        extended={isTopEdge}
-        onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
-        style={pageStyles.bottomFAB}
-      ></AnimatedFAB>
+      {bottomActions}
     </Screen>
   );
 };
