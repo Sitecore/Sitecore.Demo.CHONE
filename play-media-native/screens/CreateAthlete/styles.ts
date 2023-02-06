@@ -24,6 +24,7 @@ export const athleteStyles = StyleSheet.create({
     backgroundColor: theme.colors.white.DEFAULT,
     padding: theme.spacing.xs,
     marginBottom: theme.spacing.xs,
+    fontFamily: theme.fontFamily.DEFAULT,
   },
   actionBtns: {
     paddingBottom: 0,

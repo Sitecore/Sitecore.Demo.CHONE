@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
-import { Image, SafeAreaView, StatusBar, View } from "react-native";
-import { theme } from "../theme/theme";
+import { Image, StatusBar, View } from "react-native";
 import { InputText } from "../components/InputText/InputText";
 import { inputContainerStyle } from "./CreateEvent/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
@@ -12,6 +11,7 @@ import { generateID } from "../helpers/uuid";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../theme/styles";
 import { useTempMedia } from "../hooks/useTempMedia/useTempMedia";
+import { KeyboardAwareScreen } from "../features/Screen/KeyboardAwareScreen";
 
 const imageStyle = {
   height: 200,
@@ -73,14 +73,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: theme.colors.black.darkest,
-      }}
-    >
+    <KeyboardAwareScreen>
       <StatusBar barStyle={"light-content"} />
       <View>
         <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />
@@ -117,6 +110,6 @@ export const EditMediaScreen = ({ navigation, route }) => {
           {isEdit ? "Edit Media" : "Add Media"}
         </Button>
       </BottomActions>
-    </SafeAreaView>
+    </KeyboardAwareScreen>
   );
 };
