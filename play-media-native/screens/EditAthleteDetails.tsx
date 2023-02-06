@@ -1,7 +1,7 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { useCallback, useEffect, useState } from "react";
-import { ScrollView, View, StyleSheet, TextInput } from "react-native";
+import { ScrollView, View, TextInput } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
