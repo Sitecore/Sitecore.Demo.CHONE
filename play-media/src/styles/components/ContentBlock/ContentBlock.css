@@ -1,0 +1,11 @@
+.content-block {
+  @apply my-10;
+
+  &-title {
+    @apply mb-6 text-center;
+  }
+
+  &-body {
+    @apply text-xl;
+  }
+}

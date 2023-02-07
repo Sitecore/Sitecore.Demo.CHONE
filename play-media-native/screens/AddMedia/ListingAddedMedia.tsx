@@ -5,15 +5,13 @@ import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
 import { getFileType, removeFileExtension } from "../../helpers/media";
 import { ActionMenu } from "../../features/ActionMenu/ActionMenu";
-import {
-  ListingImageDisplayType,
-  ListingImages,
-} from "../../features/ListingImages/ListingImages";
+import { ListingImages } from "../../features/ListingImages/ListingImages";
 import { StackNavigationProp } from "../../interfaces/navigators";
 import { useNavigation } from "@react-navigation/native";
 import { useMedia } from "../../hooks/useMedia/useMedia";
 import { MEDIA_SOURCES } from "../../constants/media";
 import { Icon } from "../../components/Icon/Icon";
+import { ListingImageDisplayType } from "../../features/SelectDisplayButtons/SelectDisplayButtons";
 
 interface Props {
   images: Media[];
