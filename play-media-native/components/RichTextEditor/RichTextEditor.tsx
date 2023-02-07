@@ -7,23 +7,31 @@ import {
   StyleSheet,
   Text,
 } from "react-native";
+import { Button } from "react-native-paper";
 import {
   actions,
   RichEditor,
   RichToolbar,
 } from "react-native-pell-rich-editor";
+import { RichText } from "../../features/RichText/RichText";
 import { theme } from "../../theme/theme";
+import generateJson from "./generateJson";
 
 export const RichTextEditor = () => {
   const richText = useRef<any>();
 
   const [descHTML, setDescHTML] = useState("");
+  const [descJSON, setDescJSON] = useState();
   const [showDescError, setShowDescError] = useState(false);
 
   const richTextHandle = (descriptionText) => {
     if (descriptionText) {
       setShowDescError(false);
       setDescHTML(descriptionText);
+      setDescJSON(generateJson(descriptionText));
+
+      console.log(descriptionText);
+      console.log(generateJson(descriptionText).content);
     } else {
       setShowDescError(true);
       setDescHTML("");
@@ -31,15 +39,14 @@ export const RichTextEditor = () => {
   };
 
   const submitContentHandle = () => {
-    const replaceHTML = descHTML.replace(/<(.|\n)*?>/g, "").trim();
-    const replaceWhiteSpace = replaceHTML.replace(/&nbsp;/g, "").trim();
-
-    if (replaceWhiteSpace.length <= 0) {
+    if (!descHTML) {
       setShowDescError(true);
     } else {
       // send data to your server!
     }
   };
+
+  const richTextDisplay = descJSON ? <RichText body={descJSON.content} /> : "";
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,6 +55,13 @@ export const RichTextEditor = () => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
         >
+          <Button
+            onPress={() => {
+              setDescJSON(generateJson(descHTML));
+            }}
+          >
+            print text
+          </Button>
           <RichEditor
             editorStyle={{
               backgroundColor: theme.colors.black.light,
@@ -56,7 +70,8 @@ export const RichTextEditor = () => {
             initialHeight={400}
             ref={richText}
             onChange={(descriptionText) => {
-              console.log("descriptionText:", descriptionText);
+              richTextHandle(descriptionText);
+              submitContentHandle();
             }}
             // onCursorPosition={() => {
             //   richText.current.scrollTo({
@@ -131,10 +146,11 @@ export const RichTextEditor = () => {
         iconTint={theme.colors.black.DEFAULT}
         style={{
           ...styles.richTextToolbarStyle,
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
+          borderTopLeftRadius: theme.spacing.xs,
+          borderTopRightRadius: theme.spacing.xs,
         }}
       />
+      {richTextDisplay}
     </SafeAreaView>
   );
 };
