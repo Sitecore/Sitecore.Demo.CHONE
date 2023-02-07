@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
-import { Image, SafeAreaView, StatusBar, View } from "react-native";
-import { theme } from "../theme/theme";
+import { Image, StatusBar, View } from "react-native";
 import { InputText } from "../components/InputText/InputText";
 import { inputContainerStyle } from "./CreateEvent/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
@@ -11,22 +10,11 @@ import { getFileType } from "../helpers/media";
 import { generateID } from "../helpers/uuid";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../theme/styles";
+import { KeyboardAwareScreen } from "../features/Screen/KeyboardAwareScreen";
 
 const imageStyle = {
   height: 200,
   width: 300,
-};
-
-const buttonStyle = {
-  borderWidth: 1,
-  borderColor: theme.colors.yellow.DEFAULT,
-  marginHorizontal: theme.spacing.xs,
-};
-
-const labelStyle = {
-  fontFamily: theme.fontFamily.medium,
-  fontSize: theme.fontSize.base,
-  lineHeight: 30,
 };
 
 export const EditMediaScreen = ({ navigation, route }) => {
@@ -84,14 +72,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: theme.colors.black.darkest,
-      }}
-    >
+    <KeyboardAwareScreen>
       <StatusBar barStyle={"light-content"} />
       <View>
         <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />
@@ -122,12 +103,12 @@ export const EditMediaScreen = ({ navigation, route }) => {
         <Button
           mode="contained"
           onPress={onAdd}
-          // labelStyle={styles.buttonLabel}
-          // style={styles.button}
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
         >
           {isEdit ? "Edit Media" : "Add Media"}
         </Button>
       </BottomActions>
-    </SafeAreaView>
+    </KeyboardAwareScreen>
   );
 };

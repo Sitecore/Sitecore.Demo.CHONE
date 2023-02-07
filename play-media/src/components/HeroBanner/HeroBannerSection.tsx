@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { HeroBanner, HeroBannerProps } from './HeroBanner';
 
 type HeroBannerSectionProps = HeroBannerProps & {
-  title: string;
+  title?: string;
   body?: ReactNode;
 };
 
@@ -19,7 +19,7 @@ export const HeroBannerSection = ({
       className={`hero-banner-section ${!!className ? className : ''}`}
     >
       <div className="hero-banner-section-content">
-        <h1>{title}</h1>
+        {title && <h1>{title}</h1>}
         <div className="hero-banner-section-content-body richtext">{body}</div>
       </div>
       {children}

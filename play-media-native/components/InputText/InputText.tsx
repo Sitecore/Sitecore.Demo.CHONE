@@ -31,6 +31,10 @@ const defaultInputStyle = {
   borderRadius: 0,
 };
 
+const defaultContentStyle = {
+  fontFamily: theme.fontFamily.DEFAULT,
+};
+
 export const InputText = ({
   containerStyle,
   contentStyle,
@@ -65,6 +69,14 @@ export const InputText = ({
     [inputStyle]
   );
 
+  const contentStyleFinal = useMemo(
+    () => ({
+      ...defaultContentStyle,
+      ...contentStyle,
+    }),
+    [contentStyle]
+  );
+
   return (
     <View style={containerStyleFinal}>
       {title && (
@@ -73,7 +85,7 @@ export const InputText = ({
         </Text>
       )}
       <TextInput
-        contentStyle={contentStyle}
+        contentStyle={contentStyleFinal}
         disabled={disabled}
         label={label}
         multiline={multiline}
@@ -85,10 +97,15 @@ export const InputText = ({
         showSoftInputOnFocus={showSoftInputOnFocus}
         caretHidden={caretHidden}
         onTouchStart={onTouchStart}
+        error={error}
       />
       {error && (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icon name="warning-outline" color="red" size={16} />
+          <Icon
+            name="warning-outline"
+            color={theme.colors.pink.DEFAULT}
+            size={16}
+          />
           <HelperText type="error" visible>
             {errorText}
           </HelperText>

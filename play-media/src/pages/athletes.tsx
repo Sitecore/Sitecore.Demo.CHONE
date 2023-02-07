@@ -21,6 +21,11 @@ export default function Athletes({ athletes, sports }: { athletes: Athlete[]; sp
 }
 
 export const getStaticProps = async () => {
+  const athletesPromise = getAllAthletes();
+  const sportsPromise = getAllSports();
+
+  await Promise.all([athletesPromise, sportsPromise]);
+
   const athletes = await getAllAthletes();
   const sports = await getAllSports();
 

@@ -1,0 +1,16 @@
+.locations-grid {
+  @apply grid grid-cols-1 gap-8;
+  @apply md:grid-cols-2 md:gap-24;
+}
+
+.location-card {
+  @apply px-16 py-9 bg-black-light;
+
+  &-title {
+    @apply my-0 mb-1 text-3xl font-normal text-blue-light;
+  }
+
+  p {
+    @apply text-xl font-bold;
+  }
+}
