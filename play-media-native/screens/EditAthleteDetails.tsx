@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { ScrollView, View, TextInput } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
@@ -11,10 +11,10 @@ import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { DatePicker } from "../components/DatePicker/DatePicker";
-import { athleteStyles } from "./CreateAthlete/styles";
 import { getAllSports } from "../api/queries/getSports";
 import { SportPicker } from "../features/SportPicker/SportPicker";
 import { InputText } from "../components/InputText/InputText";
+import { theme } from "../theme/theme";
 
 export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   const [name, handleChangeName] = useState("");
@@ -161,7 +161,12 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           onAddBtnPress={() => handleAddMedia(athlete.id, athlete.athleteName)}
         />
       </ScrollView>
-      <BottomActions style={athleteStyles.actionBtns}>
+      <BottomActions
+        style={{
+          paddingBottom: 0,
+          paddingRight: theme.spacing.xs,
+        }}
+      >
         <Button
           mode="outlined"
           style={styles.button}
