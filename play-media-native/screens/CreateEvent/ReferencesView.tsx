@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from "react";
 import { View } from "react-native";
 import { Athlete } from "../../interfaces/athlete";
 import { CardAvatar } from "../../features/CardAvatar/CardAvatar";
@@ -9,10 +10,45 @@ import { ContentFieldMedia } from "../../features/ContentFieldMedia/ContentField
 import { theme } from "../../theme/theme";
 import { ContentFieldReference } from "../../features/ContentFieldReference/ContentFieldReference";
 import { CONTENT_TYPES } from "../../constants/contentTypes";
+import { ActionMenu } from "../../features/ActionMenu/ActionMenu";
+
+const athleteMenuStyle = {
+  position: "absolute",
+  bottom: 15,
+  right: 0,
+  zIndex: 12,
+};
+
+const eventMenuStyle = {
+  position: "absolute",
+  bottom: 20,
+  right: 18,
+  zIndex: 10,
+};
 
 export const ReferencesView = () => {
-  const { eventFields } = useEventFields();
+  const { eventFields, remove } = useEventFields();
   const contentType = CONTENT_TYPES.EVENT;
+
+  const deleteItem = useCallback(
+    (item: any) => {
+      remove(item);
+    },
+    [remove]
+  );
+
+  const getMenuItems = useCallback(
+    (item: any) => [
+      {
+        icon: "delete-outline",
+        handler: () => deleteItem(item),
+        title: "Delete",
+      },
+    ],
+    [deleteItem]
+  );
+
+  console.log("eventFields", eventFields);
 
   return (
     <NestableScrollContainer>
@@ -37,7 +73,17 @@ export const ReferencesView = () => {
         fieldKey="athletes"
         fieldTitle="Related Athletes"
         initialRoute={"AddEvent"}
-        renderItem={(item: Athlete) => <CardAvatar item={item} />}
+        renderItem={(item: Athlete) => (
+          <View style={{ position: "relative" }}>
+            <CardAvatar item={item} />
+            <ActionMenu
+              iconColor={theme.colors.black.DEFAULT}
+              iconSize={25}
+              menuItems={getMenuItems(item)}
+              style={athleteMenuStyle}
+            />
+          </View>
+        )}
         style={{ marginTop: theme.spacing.lg }}
       />
       <ContentFieldReference
@@ -47,7 +93,17 @@ export const ReferencesView = () => {
         fieldKey="relatedEvents"
         fieldTitle="Similar Events"
         initialRoute={"AddEvent"}
-        renderItem={(item: Event) => <CardEvent item={item} />}
+        renderItem={(item: Event) => (
+          <View style={{ position: "relative" }}>
+            <CardEvent item={item} />
+            <ActionMenu
+              iconColor={theme.colors.black.DEFAULT}
+              iconSize={25}
+              menuItems={getMenuItems(item)}
+              style={eventMenuStyle}
+            />
+          </View>
+        )}
         style={{ marginTop: theme.spacing.lg }}
       />
       <View style={{ paddingBottom: 100 }} />
