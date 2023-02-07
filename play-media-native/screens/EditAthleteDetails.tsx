@@ -5,7 +5,6 @@ import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { getDate, getYear } from "../helpers/dateHelper";
-import { theme } from "../theme/theme";
 import { Athlete } from "../interfaces/athlete";
 import { AthleteImages } from "../features/Screens/AthleteImages";
 import { Screen } from "../features/Screen/Screen";
@@ -15,6 +14,7 @@ import { DatePicker } from "../components/DatePicker/DatePicker";
 import { athleteStyles } from "./CreateAthlete/styles";
 import { getAllSports } from "../api/queries/getSports";
 import { SportPicker } from "../features/SportPicker/SportPicker";
+import { InputText } from "../components/InputText/InputText";
 
 export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   const [name, handleChangeName] = useState("");
@@ -97,23 +97,20 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           />
         </View>
         <View>
-          <Text style={athleteStyles.label}>Athlete name</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onChangeText={handleChangeName}
+          <InputText
+            onChange={handleChangeName}
             value={name}
+            title={"Athlete name"}
           />
-          <Text style={athleteStyles.label}>Nationality</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onChangeText={handleChangeNationality}
+          <InputText
+            onChange={handleChangeNationality}
             value={nationality}
+            title={"Nationality"}
           />
-          <Text style={athleteStyles.label}>Quote</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onChangeText={handleChangeQuote}
+          <InputText
+            onChange={handleChangeQuote}
             value={quote}
+            title="Quote"
             selection={quoteInputCursor}
             onSelectionChange={({ nativeEvent: { selection } }) =>
               setQuoteInputCursor(selection)
@@ -122,13 +119,12 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               setQuoteInputCursor({ start: quote.length, end: quote.length })
             }
           />
-          <Text style={athleteStyles.label}>Birth date</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onTouchStart={() => setShowBirthDatePicker(true)}
+          <InputText
             value={getDate(birthDate)}
+            title={"Birth date"}
             showSoftInputOnFocus={false}
             caretHidden={true}
+            onTouchStart={() => setShowBirthDatePicker(true)}
           />
           {showBirthDatePicker && (
             <DatePicker
@@ -138,13 +134,12 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               onClose={setShowBirthDatePicker}
             />
           )}
-          <Text style={athleteStyles.label}>Career start</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onTouchStart={() => setShowCareerStartDatePicker(true)}
+          <InputText
             value={getYear(careerStartDate)}
+            title="Career start"
             showSoftInputOnFocus={false}
             caretHidden={true}
+            onTouchStart={() => setShowCareerStartDatePicker(true)}
           />
           {showCareerStartDatePicker && (
             <DatePicker
@@ -154,14 +149,10 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               onClose={setShowCareerStartDatePicker}
             />
           )}
-          <Text style={athleteStyles.label}>Hobby</Text>
-          <TextInput
-            style={[
-              athleteStyles.textInput,
-              { marginBottom: theme.spacing.md },
-            ]}
-            onChangeText={handleChangeHobby}
+          <InputText
+            onChange={handleChangeHobby}
             value={hobby}
+            title={"Hobby"}
           />
         </View>
         <AthleteImages
