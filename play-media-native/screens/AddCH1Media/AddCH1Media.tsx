@@ -56,7 +56,7 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
     (image: Media) => {
       editEventFields({
         key: route.params.key,
-        value: image,
+        value: { ...image, source: MEDIA_SOURCES.CH_ONE },
       });
 
       navigation.navigate(route?.params?.initialRoute, {

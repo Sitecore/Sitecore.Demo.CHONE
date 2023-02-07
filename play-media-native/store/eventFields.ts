@@ -30,12 +30,11 @@ export const eventFieldsSlice = createSlice({
   name: "eventFields",
   initialState,
   reducers: {
+    edit: (state: EventFieldsState, action: PayloadAction<EventField>) => {
+      return { ...state, [action.payload.key]: action.payload.value };
+    },
     remove: (state: EventFieldsState, action: PayloadAction<EventField>) => {
-      console.log("\n\n");
-      console.log("action.payload\n", action.payload);
-      console.log("\n\n");
-
-      if (!Array.isArray(action.payload.value)) {
+      if (!Array.isArray(state[action.payload.key])) {
         return {
           ...state,
           [action.payload.key]: null,
@@ -43,21 +42,41 @@ export const eventFieldsSlice = createSlice({
       }
 
       const previousItems = [...state[action.payload.key]];
-      const indexOfDeleted = previousItems.indexOf(action.payload.value);
-
-      console.log("\n\n");
-      console.log("indexOfDeleted\n", indexOfDeleted);
-      console.log("\n\n");
+      const indexOfDeleted = previousItems
+        .map((item) => item.id)
+        .indexOf(action.payload.value.id);
+      previousItems.splice(indexOfDeleted, 1);
 
       return indexOfDeleted > -1
         ? {
             ...state,
-            [action.payload.key]: previousItems.splice(indexOfDeleted),
+            [action.payload.key]: previousItems,
           }
-        : state;
+        : { ...state };
     },
-    edit: (state: EventFieldsState, action: PayloadAction<EventField>) => {
-      return { ...state, [action.payload.key]: action.payload.value };
+    replace: (state: EventFieldsState, action: PayloadAction<EventField>) => {
+      if (!Array.isArray(state[action.payload.key])) {
+        return {
+          ...state,
+          [action.payload.key]: action.payload.value,
+        };
+      }
+
+      const previousItems = [...state[action.payload.key]];
+      const indexOfReplaced = previousItems
+        .map((item) => item.id)
+        .indexOf(action.payload.value.id);
+
+      if (indexOfReplaced > -1) {
+        previousItems[indexOfReplaced] = action.payload.value;
+
+        return {
+          ...state,
+          [action.payload.key]: previousItems,
+        };
+      }
+
+      return { ...state };
     },
     reset: (state: EventFieldsState) => {
       return {
@@ -71,6 +90,6 @@ export const eventFieldsSlice = createSlice({
   },
 });
 
-export const { edit, remove, reset } = eventFieldsSlice.actions;
+export const { edit, remove, replace, reset } = eventFieldsSlice.actions;
 
 export default eventFieldsSlice.reducer;

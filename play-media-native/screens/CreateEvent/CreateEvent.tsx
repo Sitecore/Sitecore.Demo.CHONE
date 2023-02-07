@@ -9,11 +9,8 @@ import { Button } from "react-native-paper";
 import { styles } from "../../theme/styles";
 import { useEventFields } from "../../hooks/useEventFields/useEventFields";
 import { useFocusEffect } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 
 export const CreateEventScreen = ({ navigation, route }) => {
-  const state = useSelector((state: RootState) => state);
   const { eventFields, edit, reset } = useEventFields();
   const [step, setStep] = useState(0);
   const steps = ["Fields", "Rich Text", "References"];

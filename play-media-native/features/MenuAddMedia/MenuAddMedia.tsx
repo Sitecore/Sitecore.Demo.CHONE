@@ -88,7 +88,7 @@ export const MenuAddMedia = ({
         onPress={handleMediaLibraryPress}
         title="Device"
       />
-      <Menu.Item onPress={handleCHonePress} title="CH ONE" />
+      <Menu.Item leadingIcon="apps" onPress={handleCHonePress} title="CH ONE" />
     </Menu>
   );
 };

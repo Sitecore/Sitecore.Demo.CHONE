@@ -31,24 +31,22 @@ export const ReferencesView = () => {
   const contentType = CONTENT_TYPES.EVENT;
 
   const deleteItem = useCallback(
-    (item: any) => {
-      remove(item);
+    (key: string, item: any) => {
+      remove({ key, value: item });
     },
     [remove]
   );
 
   const getMenuItems = useCallback(
-    (item: any) => [
+    (key: string, item: any) => [
       {
         icon: "delete-outline",
-        handler: () => deleteItem(item),
+        handler: () => deleteItem(key, item),
         title: "Delete",
       },
     ],
     [deleteItem]
   );
-
-  console.log("eventFields", eventFields);
 
   return (
     <NestableScrollContainer>
@@ -79,7 +77,7 @@ export const ReferencesView = () => {
             <ActionMenu
               iconColor={theme.colors.black.DEFAULT}
               iconSize={25}
-              menuItems={getMenuItems(item)}
+              menuItems={getMenuItems("athletes", item)}
               style={athleteMenuStyle}
             />
           </View>
@@ -99,7 +97,7 @@ export const ReferencesView = () => {
             <ActionMenu
               iconColor={theme.colors.black.DEFAULT}
               iconSize={25}
-              menuItems={getMenuItems(item)}
+              menuItems={getMenuItems("relatedEvents", item)}
               style={eventMenuStyle}
             />
           </View>

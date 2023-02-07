@@ -9,6 +9,10 @@ import { MenuAddMedia } from "../MenuAddMedia/MenuAddMedia";
 import { ActionMenu, MenuItem } from "../ActionMenu/ActionMenu";
 import { MEDIA_SOURCES } from "../../constants/media";
 import { MediaSourceIcon } from "../MediaSourceIcon/MediaSourceIcon";
+import { useEventFields } from "../../hooks/useEventFields/useEventFields";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "../../interfaces/navigators";
+import { CONTENT_TYPES } from "../../constants/contentTypes";
 
 const menuStyle = {
   position: "absolute",
@@ -65,28 +69,58 @@ export const ContentFieldMedia = ({
   items: Media[] | Media;
   style?: StyleProp<any>;
 }) => {
-  const resolveActionsForItem = useCallback((item: Media) => {
-    return item.source !== MEDIA_SOURCES.CH_ONE
-      ? [
-          {
-            icon: "circle-edit-outline",
-            handler: () => {},
-            title: "Edit",
-          },
-          {
-            icon: "delete-outline",
-            handler: () => {},
-            title: "Delete",
-          },
-        ]
-      : [
-          {
-            icon: "delete-outline",
-            handler: () => {},
-            title: "Delete",
-          },
-        ];
-  }, []);
+  const navigation = useNavigation<StackNavigationProp>();
+  const { remove } = useEventFields();
+
+  const single = !Array.isArray(items);
+  const empty = Array.isArray(items) ? items?.length === 0 : !items;
+  const headerText = `${fieldTitle} ${single ? " (single)" : ""}`;
+
+  const editMedia = useCallback(
+    (image: Media) => {
+      navigation.navigate("EditMedia", {
+        contentType: CONTENT_TYPES.EVENT,
+        isEditMode: true,
+        initialRoute,
+        image,
+        key: fieldKey,
+        single,
+      });
+    },
+    [fieldKey, initialRoute, navigation, single]
+  );
+
+  const resolveActionsForItem = useCallback(
+    (item: Media) => {
+      return item.source !== MEDIA_SOURCES.CH_ONE
+        ? [
+            {
+              icon: "circle-edit-outline",
+              handler: () => {
+                editMedia(item);
+              },
+              title: "Edit",
+            },
+            {
+              icon: "delete-outline",
+              handler: () => {
+                remove({ key: fieldKey, value: item });
+              },
+              title: "Delete",
+            },
+          ]
+        : [
+            {
+              icon: "delete-outline",
+              handler: () => {
+                remove({ key: fieldKey, value: item });
+              },
+              title: "Delete",
+            },
+          ];
+    },
+    [editMedia, fieldKey, remove]
+  );
 
   const content = useMemo(
     () =>
@@ -104,9 +138,6 @@ export const ContentFieldMedia = ({
       ),
     [items]
   );
-  const single = !Array.isArray(items);
-  const empty = Array.isArray(items) ? items?.length === 0 : !items;
-  const headerText = `${fieldTitle} ${single ? " (single)" : ""}`;
 
   return (
     <View style={style}>
