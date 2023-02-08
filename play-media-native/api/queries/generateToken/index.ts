@@ -5,10 +5,10 @@ import { store } from "../../../store";
 export const generateToken = async (options?: FetchOptions): Promise<Token> => {
   const details = {
     client_id:
-      options.clientID ||
+      options?.clientID ||
       store.getState().connections.selectedConnection?.clientID,
     client_secret:
-      options.clientSecret ||
+      options?.clientSecret ||
       store.getState().connections.selectedConnection?.clientSecret,
     audience: "https://api.sitecorecloud.io",
     grant_type: "client_credentials",
