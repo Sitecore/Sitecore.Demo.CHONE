@@ -15,7 +15,6 @@ import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { Athlete } from "../interfaces/athlete";
-import { athleteStyles } from "./CreateAthlete/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 
 const pageStyles = StyleSheet.create({
@@ -76,6 +75,10 @@ const pageStyles = StyleSheet.create({
     right: theme.spacing.sm,
     bottom: theme.spacing.xs,
   },
+  actionBtns: {
+    paddingBottom: 0,
+    paddingRight: theme.spacing.xs,
+  },
 });
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
@@ -130,7 +133,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const bottomActions = useMemo(
     () =>
       isReview ? (
-        <BottomActions style={athleteStyles.actionBtns}>
+        <BottomActions style={pageStyles.actionBtns}>
           <Button
             mode="outlined"
             style={styles.button}
