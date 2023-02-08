@@ -1,16 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Athlete } from "../interfaces/athlete";
-import { Sport } from "../interfaces/sport";
-import { Media } from "../interfaces/media";
 import { Event } from "../interfaces/event";
+import { MEDIA_SOURCES } from "../constants/media";
+
+const initializeEventFields = (event: Event) => {
+  console.log("event initializeEventFields", event);
+
+  return {
+    ...event,
+    athletes: event?.athletes?.length ? event?.athletes : [],
+    sport: event?.sport || null,
+    featuredImage: event?.featuredImage
+      ? { ...event.featuredImage, source: MEDIA_SOURCES.CH_ONE }
+      : null,
+    relatedMedia: event?.relatedMedia?.length
+      ? event.relatedMedia.map((item) => ({
+          ...item,
+          source: MEDIA_SOURCES.CH_ONE,
+        }))
+      : [],
+    relatedEvents: event?.similarEvents?.length ? event.similarEvents : [],
+  };
+};
 
 export interface EventFieldsState {
-  sport: Sport;
-  featuredImage: Media;
-  relatedMedia: Media[];
-  athletes: Athlete[];
-  relatedEvents: Event[];
+  [key: string]: any;
 }
 
 export interface EventField {
@@ -32,6 +46,13 @@ export const eventFieldsSlice = createSlice({
   reducers: {
     edit: (state: EventFieldsState, action: PayloadAction<EventField>) => {
       return { ...state, [action.payload.key]: action.payload.value };
+    },
+    init: (state: EventFieldsState, action: PayloadAction<Event>) => {
+      if (!action.payload) {
+        return { ...state };
+      }
+
+      return { ...state, ...initializeEventFields(action.payload) };
     },
     remove: (state: EventFieldsState, action: PayloadAction<EventField>) => {
       if (!Array.isArray(state[action.payload.key])) {
@@ -90,6 +111,6 @@ export const eventFieldsSlice = createSlice({
   },
 });
 
-export const { edit, remove, replace, reset } = eventFieldsSlice.actions;
+export const { edit, init, remove, replace, reset } = eventFieldsSlice.actions;
 
 export default eventFieldsSlice.reducer;

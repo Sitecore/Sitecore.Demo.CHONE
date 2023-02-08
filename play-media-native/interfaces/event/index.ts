@@ -2,7 +2,7 @@ import { Athlete } from "../athlete";
 import { Sport } from "../sport";
 import { Media } from "../media";
 
-export interface Event {
+export interface EventResponse {
   id: string;
   title: string;
   sport: {
@@ -23,14 +23,29 @@ export interface Event {
     results: Partial<Athlete>[];
   };
   similarEvents: {
-    results: Partial<Event>[];
+    results: Partial<EventResponse>[];
   };
 }
 
 export interface AllEventsResponse {
   data: {
     allEvent: {
-      results: Partial<Event>[];
+      results: Partial<EventResponse>[];
     };
   };
+}
+
+export interface Event {
+  id: string;
+  title: string;
+  sport: Partial<Sport>;
+  isFeatured: boolean;
+  timeAndDate: Date;
+  location: string;
+  featuredImage: Partial<Media>;
+  relatedMedia: Partial<Media>[];
+  teaser: string;
+  body: any;
+  athletes: Partial<Athlete>[];
+  similarEvents: Partial<EventResponse>[];
 }

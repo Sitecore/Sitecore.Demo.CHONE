@@ -50,7 +50,7 @@ export const ReferencesView = () => {
   );
 
   return (
-    <NestableScrollContainer>
+    <NestableScrollContainer style={{ paddingHorizontal: theme.spacing.sm }}>
       <ContentFieldMedia
         contentType={contentType}
         fieldKey="featuredImage"

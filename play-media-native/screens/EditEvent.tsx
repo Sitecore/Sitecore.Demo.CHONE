@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useQuery } from "react-query";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
@@ -13,87 +13,153 @@ import { SportPicker } from "../features/SportPicker/SportPicker";
 import { InputText } from "../components/InputText/InputText";
 import { theme } from "../theme/theme";
 import { ContentFieldMedia } from "../features/ContentFieldMedia/ContentFieldMedia";
-import { getAllEvents } from "../api/queries/getEvents";
 import { RichTextEditor } from "../components/RichTextEditor/RichTextEditor";
+import { useEventFields } from "../hooks/useEventFields/useEventFields";
+import { CONTENT_TYPES } from "../constants/contentTypes";
+import { NestableScrollContainer } from "react-native-draggable-flatlist";
+import { CardEvent } from "../features/CardEvent/CardEvent";
+import { ActionMenu } from "../features/ActionMenu/ActionMenu";
+import { ContentFieldReference } from "../features/ContentFieldReference/ContentFieldReference";
+import { Athlete } from "../interfaces/athlete";
+import { CardAvatar } from "../features/CardAvatar/CardAvatar";
+import { Event } from "../interfaces/event";
+import { useFocusEffect } from "@react-navigation/native";
+import { Sport } from "../interfaces/sport";
+
+const inputContainerStyle = {
+  marginBottom: theme.spacing.sm,
+};
+
+const athleteMenuStyle = {
+  position: "absolute",
+  bottom: 15,
+  right: 0,
+  zIndex: 12,
+};
+
+const eventMenuStyle = {
+  position: "absolute",
+  bottom: 20,
+  right: 18,
+  zIndex: 10,
+};
+
+const contentType = CONTENT_TYPES.EVENT;
+const initialRoute = "EditEvent";
 
 export const EditEventScreen = ({ route, navigation }) => {
-  const id = route?.params?.id;
+  const { eventFields: event, edit, remove } = useEventFields();
   const { data: sports, isFetching: isFetchingSports } = useQuery(
     "sports",
     () => getAllSports()
   );
-  const { data: events, isFetching: isFetchingEvents } = useQuery(
-    "events",
-    () => getAllEvents()
-  );
-  const event = events ? events.find((item) => item.id === id) : null;
 
   const [title, setTitle] = useState("");
+  const [sport, setSport] = useState<Sport>();
   const [summary, setSummary] = useState("");
   const [date, setDate] = useState(new Date());
   const [location, setLocation] = useState("");
   const [body, setBody] = useState<string>();
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const isLoading = isFetchingEvents || isFetchingSports;
+  const deleteItem = useCallback(
+    (key: string, item: any) => {
+      remove({ key, value: item });
+    },
+    [remove]
+  );
 
-  //   const setAthleteData = (athlete: Partial<Athlete>) => {
-  //     handleChangeName(athlete.athleteName);
-  //     handleChangeNationality(athlete.nationality);
-  //     handleChangeQuote(athlete.athleteQuote);
-  //     handleChangeBirthDate(athlete.dateOfBirth);
-  //     handleChangeCareerStartDate(athlete.careerStartDate);
-  //     handleChangeHobby(athlete.hobby);
-  //   };
+  const getMenuItems = useCallback(
+    (key: string, item: any) => [
+      {
+        icon: "delete-outline",
+        handler: () => deleteItem(key, item),
+        title: "Delete",
+      },
+    ],
+    [deleteItem]
+  );
 
-  const handleSubmitBtn = useCallback(() => {
-    navigation.navigate("EventReview", {
+  const handleSportChange = useCallback(
+    (sportName: string) => {
+      setSport(sports.find((sport) => sport.title === sportName));
+    },
+    [sports]
+  );
+
+  const handleReview = useCallback(() => {
+    navigation.navigate("ReviewEvent", {
       title: "Review edited event",
-      isReview: true,
+      event,
     });
   }, [navigation]);
 
-  const handleDiscardBtn = useCallback(() => {
+  const handleDiscard = useCallback(() => {
     navigation.goBack();
-  }, []);
+  }, [navigation]);
 
   useEffect(() => {
     navigation.setOptions({
-      title: route.params.title,
+      title: event?.title || "Edit Event",
     });
   }, []);
 
-  console.log("body", body);
+  // Check route params for images added from route EditMedia (camera, library)
+  //
+  useFocusEffect(
+    useCallback(() => {
+      if (!route?.params?.isEditMedia || !route?.params?.key) {
+        return;
+      }
 
-  if (isLoading) {
+      if (Array.isArray(event[route.params.key])) {
+        edit({
+          key: route.params.key,
+          value: [...event[route.params.key], route.params.image],
+        });
+      } else {
+        edit({ key: route.params.key, value: route.params.image });
+      }
+    }, [edit, route?.params])
+  );
+
+  console.log("state", title, summary, date, location);
+  console.log("\n\n");
+  console.log("state", body);
+
+  if (isFetchingSports) {
     return <LoadingScreen />;
   }
 
-  if (!event && !isLoading) {
+  if (!event && !isFetchingSports) {
     return <Text>Athlete could not be fetched!</Text>;
   }
 
   return (
     <Screen>
-      <ScrollView style={styles.screenPadding}>
+      <NestableScrollContainer>
         <View>
           <SportPicker
+            onChange={handleSportChange}
             sports={sports}
-            initialValue={event.sport?.results[0]?.title}
+            initialValue={event.sport?.title}
           />
-        </View>
-        <View>
-          <InputText onChange={setTitle} value={title} title={"Title"} />
-          <InputText onChange={setSummary} value={summary} title={"Summary"} />
           <InputText
-            onChange={setLocation}
-            value={location}
-            title={"Location"}
+            containerStyle={inputContainerStyle}
+            onChange={setTitle}
+            value={title}
+            title={"Title"}
           />
-          <RichTextEditor onChange={(json: string) => setBody(json)} />
           <InputText
+            containerStyle={inputContainerStyle}
+            onChange={setSummary}
+            value={summary}
+            title={"Summary"}
+          />
+          <InputText
+            containerStyle={inputContainerStyle}
             value={getDate(date)}
-            title={"Time and Date"}
+            title={"Event Date"}
             showSoftInputOnFocus={false}
             caretHidden={true}
             onTouchStart={() => setShowDatePicker(true)}
@@ -106,10 +172,75 @@ export const EditEventScreen = ({ route, navigation }) => {
               onClose={setShowDatePicker}
             />
           )}
+          <InputText
+            containerStyle={inputContainerStyle}
+            onChange={setLocation}
+            value={location}
+            title={"Location"}
+          />
+          <View style={inputContainerStyle}>
+            <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
+            <RichTextEditor onChange={(json: string) => setBody(json)} />
+          </View>
+          <ContentFieldMedia
+            contentType={contentType}
+            fieldKey="featuredImage"
+            fieldTitle="Featured Image"
+            initialRoute={initialRoute}
+            items={event.featuredImage}
+            style={{ marginTop: theme.spacing.md }}
+          />
+          <ContentFieldMedia
+            contentType={contentType}
+            fieldKey="relatedMedia"
+            fieldTitle="Related Media"
+            initialRoute={initialRoute}
+            items={event.relatedMedia}
+            style={{ marginTop: theme.spacing.lg }}
+          />
+          <ContentFieldReference
+            addRoute={"AddAthletes"}
+            contentType={contentType}
+            createRoute={"AddAthlete"}
+            fieldKey="athletes"
+            fieldTitle="Related Athletes"
+            initialRoute={initialRoute}
+            renderItem={(item: Athlete) => (
+              <View style={{ position: "relative" }}>
+                <CardAvatar item={item} />
+                <ActionMenu
+                  iconColor={theme.colors.black.DEFAULT}
+                  iconSize={25}
+                  menuItems={getMenuItems("athletes", item)}
+                  style={athleteMenuStyle}
+                />
+              </View>
+            )}
+            style={{ marginTop: theme.spacing.lg }}
+          />
+          <ContentFieldReference
+            addRoute={"AddEvents"}
+            contentType={contentType}
+            createRoute={"AddEvent"}
+            fieldKey="relatedEvents"
+            fieldTitle="Similar Events"
+            initialRoute={initialRoute}
+            renderItem={(item: Event) => (
+              <View style={{ position: "relative" }}>
+                <CardEvent item={item} />
+                <ActionMenu
+                  iconColor={theme.colors.black.DEFAULT}
+                  iconSize={25}
+                  menuItems={getMenuItems("relatedEvents", item)}
+                  style={eventMenuStyle}
+                />
+              </View>
+            )}
+            style={{ marginTop: theme.spacing.lg }}
+          />
+          <View style={{ paddingBottom: 75 }} />
         </View>
-        {/* <ContentFieldMedia /> */}
-        <View style={{ paddingBottom: 75 }} />
-      </ScrollView>
+      </NestableScrollContainer>
       <BottomActions
         style={{
           paddingBottom: 0,
@@ -120,7 +251,7 @@ export const EditEventScreen = ({ route, navigation }) => {
           mode="outlined"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handleDiscardBtn}
+          onPress={handleDiscard}
         >
           Discard
         </Button>
@@ -128,9 +259,9 @@ export const EditEventScreen = ({ route, navigation }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handleSubmitBtn}
+          onPress={handleReview}
         >
-          Submit
+          Review
         </Button>
       </BottomActions>
     </Screen>

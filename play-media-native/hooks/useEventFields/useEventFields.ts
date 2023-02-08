@@ -4,10 +4,12 @@ import { RootState } from "../../store";
 import {
   EventField,
   edit,
+  init,
   remove,
   replace,
   reset,
 } from "../../store/eventFields";
+import { Event } from "../../interfaces/event";
 
 export const useEventFields = () => {
   const eventFields = useSelector((state: RootState) => state.eventFields);
@@ -18,6 +20,12 @@ export const useEventFields = () => {
     edit: useCallback(
       (field: EventField) => {
         dispatch(edit(field));
+      },
+      [dispatch]
+    ),
+    init: useCallback(
+      (event: Event) => {
+        dispatch(init(event));
       },
       [dispatch]
     ),

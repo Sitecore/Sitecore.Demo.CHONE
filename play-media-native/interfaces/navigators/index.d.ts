@@ -20,7 +20,7 @@ export type RootStackParamList = {
   MainTabs: undefined;
   RemoveConnection: undefined;
   ReviewAthletes: undefined;
-  ReviewEvents: undefined;
+  ReviewEvent: undefined;
   SelectConnection: undefined;
 };
 

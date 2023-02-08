@@ -62,7 +62,7 @@ export const ContentFieldReference = ({
           marginBottom: theme.spacing.xs,
         }}
       >
-        <Button
+        {/* <Button
           compact
           mode="outlined"
           onPress={handleCreateNew}
@@ -70,15 +70,16 @@ export const ContentFieldReference = ({
           labelStyle={styles.buttonLabel}
         >
           Create New
-        </Button>
+        </Button> */}
         <Button
           compact
+          icon="plus"
           mode="contained"
           onPress={handleAddExisting}
-          style={styles.button}
+          style={{ ...styles.button, marginRight: 0 }}
           labelStyle={styles.buttonLabel}
         >
-          Add Existing
+          Add
         </Button>
       </View>
       <DraggableList items={eventFields[fieldKey]} renderItem={renderItem} />

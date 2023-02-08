@@ -18,6 +18,7 @@ import { ReviewAthletesScreen } from "../screens/ReviewAthletes";
 import { ReviewEventsScreen } from "../screens/ReviewEvents";
 import { AddEventsScreen } from "../screens/AddEvents";
 import { EditEventScreen } from "../screens/EditEvent";
+import { ReviewEventScreen } from "../screens/ReviewEvent";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -116,8 +117,8 @@ export const Stacks = () => {
         }}
       />
       <Stack.Screen
-        name="ReviewEvents"
-        component={ReviewEventsScreen}
+        name="ReviewEvent"
+        component={ReviewEventScreen}
         options={{
           title: "Review Events",
         }}

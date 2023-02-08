@@ -6,9 +6,7 @@ import { Media } from "../interfaces/media";
 import { Event } from "../interfaces/event";
 
 export interface AthleteFieldsState {
-  featuredImage: Media;
-  profilePhoto: Media;
-  relatedMedia: Media[];
+  [key: string]: any;
 }
 
 export interface AthleteField {
@@ -28,6 +26,9 @@ export const athleteFieldsSlice = createSlice({
   reducers: {
     edit: (state: AthleteFieldsState, action: PayloadAction<AthleteField>) => {
       return { ...state, [action.payload.key]: action.payload.value };
+    },
+    init: (state: AthleteFieldsState, action: PayloadAction<Athlete>) => {
+      return { ...state, ...action.payload };
     },
     remove: (
       state: AthleteFieldsState,
