@@ -1,21 +1,20 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useEffect, useState } from "react";
-import { ScrollView, View, StyleSheet, TextInput } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
-import { getAccentColor } from "../helpers/colorHelper";
 import { getDate, getYear } from "../helpers/dateHelper";
-import { theme } from "../theme/theme";
 import { Athlete } from "../interfaces/athlete";
 import { AthleteImages } from "../features/Screens/AthleteImages";
 import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { DatePicker } from "../components/DatePicker/DatePicker";
-import { athleteStyles } from "./CreateAthlete/styles";
+import { getAllSports } from "../api/queries/getSports";
+import { SportPicker } from "../features/SportPicker/SportPicker";
+import { InputText } from "../components/InputText/InputText";
+import { theme } from "../theme/theme";
 
 export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   const [name, handleChangeName] = useState("");
@@ -43,12 +42,28 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     end: 0,
   });
 
-  const { data, isFetching } = useQuery(
+  const handleSubmitBtn = useCallback(() => {
+    navigation.navigate("AthleteReview", {
+      title: "Review edited athlete",
+      isReview: true,
+    });
+  }, []);
+
+  const handleDiscardBtn = useCallback(() => {
+    navigation.goBack();
+  }, []);
+
+  const { data, isFetching: isFetchingAthletes } = useQuery(
     "editathlete",
     () => getAthleteById(route.params.id),
     { onSuccess: (data) => setAthleteData(data.athlete) }
   );
   const athlete = data?.athlete;
+
+  const { data: sports, isFetching: isFetchingSports } = useQuery(
+    "sports",
+    () => getAllSports()
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -56,21 +71,13 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  if (isFetching) {
+  if (isFetchingAthletes || isFetchingSports) {
     return <LoadingScreen />;
   }
 
   if (!athlete) {
     return <Text>Athlete could not be fetched!</Text>;
   }
-
-  // TODO Update with the edit sport screen when available and relevant state
-  const handleChangeSport = (id: string, title: string) => {
-    // navigation.navigate("EditSport", {
-    //   id,
-    //   title,
-    // });
-  };
 
   // TODO Add state for media items
   const handleAddMedia = (id: string, title: string) => {
@@ -80,45 +87,30 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     });
   };
 
-  // TODO Add functionality to action buttons
-  const handlePublishBtn = () => {};
-  const handleDiscardBtn = () => {};
-
   return (
     <Screen>
       <ScrollView style={styles.screenPadding}>
         <View>
-          <Text style={athleteStyles.label}>Sport</Text>
-          <Text
-            style={[
-              athleteStyles.item,
-              {
-                color: getAccentColor(athlete.sport.results[0]?.title),
-                marginBottom: theme.spacing.sm,
-              },
-            ]}
-          >
-            {athlete.sport.results[0].title}
-          </Text>
+          <SportPicker
+            sports={sports}
+            initialValue={athlete.sport?.results[0]?.title}
+          />
         </View>
         <View>
-          <Text style={athleteStyles.label}>Athlete name</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onChangeText={handleChangeName}
+          <InputText
+            onChange={handleChangeName}
             value={name}
+            title={"Athlete name"}
           />
-          <Text style={athleteStyles.label}>Nationality</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onChangeText={handleChangeNationality}
+          <InputText
+            onChange={handleChangeNationality}
             value={nationality}
+            title={"Nationality"}
           />
-          <Text style={athleteStyles.label}>Quote</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onChangeText={handleChangeQuote}
+          <InputText
+            onChange={handleChangeQuote}
             value={quote}
+            title="Quote"
             selection={quoteInputCursor}
             onSelectionChange={({ nativeEvent: { selection } }) =>
               setQuoteInputCursor(selection)
@@ -127,13 +119,12 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               setQuoteInputCursor({ start: quote.length, end: quote.length })
             }
           />
-          <Text style={athleteStyles.label}>Birth date</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onTouchStart={() => setShowBirthDatePicker(true)}
+          <InputText
             value={getDate(birthDate)}
+            title={"Birth date"}
             showSoftInputOnFocus={false}
             caretHidden={true}
+            onTouchStart={() => setShowBirthDatePicker(true)}
           />
           {showBirthDatePicker && (
             <DatePicker
@@ -143,13 +134,12 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               onClose={setShowBirthDatePicker}
             />
           )}
-          <Text style={athleteStyles.label}>Career start</Text>
-          <TextInput
-            style={athleteStyles.textInput}
-            onTouchStart={() => setShowCareerStartDatePicker(true)}
+          <InputText
             value={getYear(careerStartDate)}
+            title="Career start"
             showSoftInputOnFocus={false}
             caretHidden={true}
+            onTouchStart={() => setShowCareerStartDatePicker(true)}
           />
           {showCareerStartDatePicker && (
             <DatePicker
@@ -159,14 +149,10 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               onClose={setShowCareerStartDatePicker}
             />
           )}
-          <Text style={athleteStyles.label}>Hobby</Text>
-          <TextInput
-            style={[
-              athleteStyles.textInput,
-              { marginBottom: theme.spacing.md },
-            ]}
-            onChangeText={handleChangeHobby}
+          <InputText
+            onChange={handleChangeHobby}
             value={hobby}
+            title={"Hobby"}
           />
         </View>
         <AthleteImages
@@ -174,38 +160,28 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           isEditMode={true}
           onAddBtnPress={() => handleAddMedia(athlete.id, athlete.athleteName)}
         />
-        <Button
-          style={athleteStyles.button}
-          textColor={theme.colors.yellow.DEFAULT}
-          icon={({ size }) => (
-            <FontAwesomeIcon
-              icon={faEdit}
-              color={theme.colors.yellow.DEFAULT}
-              size={size}
-            />
-          )}
-          onPress={() => handleChangeSport(athlete.id, athlete.athleteName)}
-        >
-          Change
-        </Button>
       </ScrollView>
-      <BottomActions style={athleteStyles.actionBtns}>
+      <BottomActions
+        style={{
+          paddingBottom: 0,
+          paddingRight: theme.spacing.xs,
+        }}
+      >
         <Button
           mode="outlined"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() => handleDiscardBtn()}
+          onPress={handleDiscardBtn}
         >
           Discard
         </Button>
         <Button
-          // disabled={!media?.length}
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={() => handlePublishBtn()}
+          onPress={handleSubmitBtn}
         >
-          Publish
+          Submit
         </Button>
       </BottomActions>
     </Screen>

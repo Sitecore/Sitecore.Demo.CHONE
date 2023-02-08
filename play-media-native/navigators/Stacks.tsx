@@ -47,6 +47,11 @@ export const Stacks = () => {
         options={{ title: "Athlete Detail" }}
       />
       <Stack.Screen
+        name="AthleteReview"
+        component={AthleteDetailScreen}
+        options={{ title: "Athlete Review" }}
+      />
+      <Stack.Screen
         name="EditAthleteDetails"
         component={EditAthleteDetailsScreen}
         options={{ title: "Edit Athlete Details" }}
