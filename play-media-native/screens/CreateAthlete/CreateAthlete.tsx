@@ -10,6 +10,7 @@ import { athleteStyles } from "./styles";
 import { useQuery } from "react-query";
 import { getAllSports } from "../../api/queries/getSports";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
+import { References } from "./References";
 
 export const CreateAthleteScreen = ({ navigation }) => {
   const [step, setStep] = useState(0);
@@ -28,17 +29,19 @@ export const CreateAthleteScreen = ({ navigation }) => {
     setStep(step + 1);
   }, []);
   const handleSubmitBtn = useCallback(() => {
-    // TODO Submit API request
+    // TODO Redirect to Athlete Review screen
   }, []);
 
   const displayedScreen = useMemo(() => {
     if (step === 0) {
       return <General sports={sports} />;
     }
-    
+
     if (step === 1) {
       return <Content />;
     }
+
+    return <References />;
   }, [step, sports]);
 
   const { data, isFetching } = useQuery("sports", () => getAllSports(), {
