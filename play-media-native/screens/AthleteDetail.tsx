@@ -141,6 +141,9 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
         ? [...v["results"].map((obj: { id: string }) => ({ id: obj.id }))]
         : v,
     }));
+    // Delete the id from the request fields to avoid errors
+    delete requestFields.id;
+
 
     if (isNewAthlete) {
       createContentItem({
