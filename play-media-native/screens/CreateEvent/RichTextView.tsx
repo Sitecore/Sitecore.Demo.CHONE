@@ -1,13 +1,36 @@
-import { View } from "react-native";
 import { RichTextEditor } from "../../components/RichTextEditor/RichTextEditor";
 import { Button } from "react-native-paper";
 import { styles } from "../../theme/styles";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
+import { KeyboardAwareScreen } from "../../features/Screen/KeyboardAwareScreen";
+import { useState } from "react";
 
 export const RichTextView = () => {
+  const [rteJson, setRteJson] = useState();
+  const [showError, setShowError] = useState(false);
+
+  const handleChange = (jsonData) => {
+    setShowError(!jsonData);
+    setRteJson(jsonData);
+  };
+
+  const handleSubmit = () => {
+    if (!!rteJson) {
+      setShowError(false);
+      // TODO: send to server/set global state
+      console.log(rteJson);
+    } else {
+      setShowError(true);
+    }
+  };
+
   return (
-    <>
-      <RichTextEditor />
+    <KeyboardAwareScreen>
+      <RichTextEditor
+        showError={showError}
+        errorText={"Please enter a description."}
+        onChange={handleChange}
+      />
       <BottomActions>
         <Button
           mode="outlined"
@@ -19,13 +42,13 @@ export const RichTextView = () => {
         </Button>
         <Button
           mode="contained"
-          // onPress={onAdd}
+          onPress={handleSubmit}
           labelStyle={styles.buttonLabel}
           style={styles.button}
         >
           Review
         </Button>
       </BottomActions>
-    </>
+    </KeyboardAwareScreen>
   );
 };

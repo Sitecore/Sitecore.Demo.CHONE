@@ -72,7 +72,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }
 
   return (
-    <KeyboardAwareScreen>
+    <KeyboardAwareScreen centered>
       <StatusBar barStyle={"light-content"} />
       <View>
         <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />

@@ -6,7 +6,7 @@ import { theme } from "../theme/theme";
 
 export const AddConnectionScreen = () => {
   return (
-    <KeyboardAwareScreen>
+    <KeyboardAwareScreen centered>
       <StatusBar barStyle={"light-content"} />
       <View
         style={{
