@@ -1,11 +1,9 @@
-import { useCallback } from "react";
-import { FacetFilters } from "../../components/FacetFilters/FacetFilters";
+import { useCallback, useMemo } from "react";
 import { DropdownItem } from "../../components/DropdownPicker/DropdownPicker";
-import { Platform, View } from "react-native";
-import { theme } from "../../theme/theme";
 import { useFilters } from "../../hooks/useFilters/useFilters";
 import { IIndexable } from "../../interfaces/indexable";
 import { ATHLETE_FACETS } from "../../constants/filters";
+import { AthleteFiltersView } from "./AthleteFiltersView";
 
 export const AthleteFilters = ({
   filters,
@@ -33,36 +31,30 @@ export const AthleteFilters = ({
     [filters, onChange, setAthleteFiltersActive]
   );
 
+  const facetFilters = useMemo(
+    () => [
+      {
+        id: ATHLETE_FACETS.nationality,
+        label: "Nationality",
+        facets: nationalityOptions,
+      },
+      {
+        id: ATHLETE_FACETS.sport,
+        label: "Sport",
+        facets: sportOptions,
+      },
+    ],
+    []
+  );
+
   if (!visible) {
     return null;
   }
 
   return (
-    <View
-      style={{
-        display: "flex",
-        paddingHorizontal: theme.spacing.sm,
-        paddingBottom: theme.spacing.sm,
-        ...(Platform.OS !== "android" && {
-          zIndex: 10,
-        }),
-      }}
-    >
-      <FacetFilters
-        facetFilters={[
-          {
-            id: ATHLETE_FACETS.nationality,
-            label: "Nationality",
-            facets: nationalityOptions,
-          },
-          {
-            id: ATHLETE_FACETS.sport,
-            label: "Sport",
-            facets: sportOptions,
-          },
-        ]}
-        onChange={handleFacetsChange}
-      />
-    </View>
+    <AthleteFiltersView
+      facets={facetFilters}
+      handleFacetsChange={handleFacetsChange}
+    />
   );
 };

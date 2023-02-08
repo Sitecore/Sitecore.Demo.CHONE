@@ -13,6 +13,10 @@ import { AddMediaScreen } from "../screens/AddMedia/AddMedia";
 import { EditMediaScreen } from "../screens/EditMedia";
 import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHeader";
 import { EditAthleteDetailsScreen } from "../screens/EditAthleteDetails";
+import { AddAthletesScreen } from "../screens/AddAthletes";
+import { ReviewAthletesScreen } from "../screens/ReviewAthletes";
+import { ReviewEventsScreen } from "../screens/ReviewEvents";
+import { AddEventsScreen } from "../screens/AddEvents";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,6 +34,16 @@ export const Stacks = () => {
         options={{ title: "Add Athlete" }}
       />
       <Stack.Screen
+        name="AddAthletes"
+        component={AddAthletesScreen}
+        options={{ title: "Add Athletes" }}
+      />
+      <Stack.Screen
+        name="AddEvents"
+        component={AddEventsScreen}
+        options={{ title: "Add Events" }}
+      />
+      <Stack.Screen
         name="AddCH1Media"
         component={AddCH1MediaScreen}
         options={{ title: "Add CH One Media" }}
@@ -45,6 +59,11 @@ export const Stacks = () => {
         name="AthleteDetail"
         component={AthleteDetailScreen}
         options={{ title: "Athlete Detail" }}
+      />
+      <Stack.Screen
+        name="AthleteReview"
+        component={AthleteDetailScreen}
+        options={{ title: "Athlete Review" }}
       />
       <Stack.Screen
         name="EditAthleteDetails"
@@ -81,6 +100,20 @@ export const Stacks = () => {
         component={RemoveConnectionScreen}
         options={{
           title: "Remove Connection",
+        }}
+      />
+      <Stack.Screen
+        name="ReviewAthletes"
+        component={ReviewAthletesScreen}
+        options={{
+          title: "Review Athletes",
+        }}
+      />
+      <Stack.Screen
+        name="ReviewEvents"
+        component={ReviewEventsScreen}
+        options={{
+          title: "Review Events",
         }}
       />
       <Stack.Screen

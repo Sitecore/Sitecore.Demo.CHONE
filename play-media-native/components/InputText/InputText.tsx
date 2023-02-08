@@ -20,7 +20,10 @@ interface Props {
   value: string;
   showSoftInputOnFocus?: boolean;
   caretHidden?: boolean;
+  selection?: { start: number; end: number };
   onTouchStart?: (e: unknown) => void;
+  onSelectionChange?: (e: unknown) => void;
+  onPressIn?: (e: unknown) => void;
 }
 
 const defaultContainerStyle = {
@@ -51,7 +54,10 @@ export const InputText = ({
   value,
   showSoftInputOnFocus,
   caretHidden,
+  selection,
   onTouchStart,
+  onSelectionChange,
+  onPressIn,
 }: Props) => {
   const containerStyleFinal = useMemo(
     () => ({
@@ -98,6 +104,9 @@ export const InputText = ({
         caretHidden={caretHidden}
         onTouchStart={onTouchStart}
         error={error}
+        selection={selection}
+        onSelectionChange={onSelectionChange}
+        onPressIn={onPressIn}
       />
       {error && (
         <View style={{ flexDirection: "row", alignItems: "center" }}>

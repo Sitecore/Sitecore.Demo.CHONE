@@ -1,9 +1,8 @@
 import { useCallback, useState } from "react";
-import { SafeAreaView, StatusBar, View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { MultiSelectChips } from "../components/MultiSelectChips/MultiSelectChips";
 import { useConnections } from "../hooks/useConnections/useConnections";
-import { deleteValuesFor } from "../helpers/secureStorage";
 import { removeConnections } from "../helpers/connections";
 import { theme } from "../theme/theme";
 import { Screen } from "../features/Screen/Screen";

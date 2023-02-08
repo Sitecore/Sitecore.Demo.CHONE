@@ -6,10 +6,11 @@ import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { Button } from "react-native-paper";
 import { styles } from "../../theme/styles";
 import { Content } from "./Content";
-import { athleteStyles } from "./styles";
 import { useQuery } from "react-query";
 import { getAllSports } from "../../api/queries/getSports";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
+import { References } from "./References";
+import { theme } from "../../theme/theme";
 
 export const CreateAthleteScreen = ({ navigation }) => {
   const [step, setStep] = useState(0);
@@ -26,19 +27,24 @@ export const CreateAthleteScreen = ({ navigation }) => {
   }, []);
   const handleNextBtn = useCallback(() => {
     setStep(step + 1);
-  }, []);
+  }, [step]);
   const handleSubmitBtn = useCallback(() => {
-    // TODO Submit API request
+    navigation.navigate("AthleteReview", {
+      title: "Review new athlete",
+      isReview: true,
+    });
   }, []);
 
   const displayedScreen = useMemo(() => {
     if (step === 0) {
       return <General sports={sports} />;
     }
-    
+
     if (step === 1) {
       return <Content />;
     }
+
+    return <References />;
   }, [step, sports]);
 
   const { data, isFetching } = useQuery("sports", () => getAllSports(), {
@@ -58,7 +64,12 @@ export const CreateAthleteScreen = ({ navigation }) => {
         steps={steps}
       />
       {displayedScreen}
-      <BottomActions style={athleteStyles.actionBtns}>
+      <BottomActions
+        style={{
+          paddingBottom: 0,
+          paddingRight: theme.spacing.xs,
+        }}
+      >
         <Button
           mode="outlined"
           style={styles.button}

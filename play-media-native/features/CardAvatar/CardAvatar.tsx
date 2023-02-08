@@ -3,8 +3,15 @@ import { Avatar, Card, Text } from "react-native-paper";
 import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
 import { theme } from "../../theme/theme";
 import { getAccentColor, getTextColor } from "../../helpers/colorHelper";
+import { Athlete } from "../../interfaces/athlete";
 
-export const CardAvatar = ({ item, onCardPress }) => {
+export const CardAvatar = ({
+  item,
+  onCardPress,
+}: {
+  item: Athlete;
+  onCardPress?: () => void;
+}) => {
   const sport = item.sport?.results[0];
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
 

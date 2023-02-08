@@ -1,30 +1,16 @@
 import { useMemo } from "react";
 import { Image, View } from "react-native";
-import { Card, Text } from "react-native-paper";
+import { Card } from "react-native-paper";
 import { theme } from "../../theme/theme";
 import { Media } from "../../interfaces/media";
 import { getFileType, removeFileExtension } from "../../helpers/media";
 import { ListingImages } from "../../features/ListingImages/ListingImages";
 import { SelectableView } from "../../components/SelectableView/SelectableView";
 import { useMedia } from "../../hooks/useMedia/useMedia";
-import { useQuery } from "react-query";
-import { getAllMedia } from "../../api/queries/getMedia";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 import { ListingImageDisplayType } from "../../features/SelectDisplayButtons/SelectDisplayButtons";
-
-interface Props {
-  onSelect: (image: Media) => void;
-  selectedMediaIDs: string[];
-}
-
-const ListItemField = ({ title, value }: { title: string; value: string }) => (
-  <View style={{ flexDirection: "row", alignItems: "center" }}>
-    <Text style={{ fontFamily: theme.fontFamily.bold }}>{`${title}:  `}</Text>
-    <Text ellipsizeMode="tail" numberOfLines={1} style={{ flex: 1 }}>
-      {value}
-    </Text>
-  </View>
-);
+import { MediaItemListDisplay } from "../../features/MediaItemListDisplay/MediaItemListDisplay";
+import { Field } from "../../features/Field/Field";
 
 const listingImagesStyle = {
   paddingHorizontal: theme.spacing.sm,
@@ -37,8 +23,19 @@ const fullWidthStyle = {
   margin: 2,
 };
 
-export const ListingCH1Media = ({ onSelect, selectedMediaIDs }: Props) => {
-  const { data: images, isFetching } = useQuery("media", getAllMedia);
+interface Props {
+  images: Media[];
+  isFetching: boolean;
+  onSelect: (image: Media) => void;
+  selectedMediaIDs: string[];
+}
+
+export const ListingCH1Media = ({
+  images,
+  isFetching,
+  onSelect,
+  selectedMediaIDs,
+}: Props) => {
   const { media } = useMedia();
   const mediaIDs = media.map((item) => item.id);
 
@@ -67,41 +64,7 @@ export const ListingCH1Media = ({ onSelect, selectedMediaIDs }: Props) => {
           }
           top={-2}
         >
-          <View
-            key={item.fileUrl}
-            style={{
-              width: "100%",
-              flexDirection: "row",
-              marginBottom: theme.spacing.xs,
-              backgroundColor: theme.colors.black.lightest,
-            }}
-          >
-            <Image
-              style={{
-                height: 110,
-                width: "auto",
-                flex: 1,
-              }}
-              source={{ uri: item.fileUrl }}
-            />
-            <View
-              style={{
-                flex: 2,
-                justifyContent: "center",
-                marginLeft: theme.spacing.xs,
-              }}
-            >
-              <ListItemField
-                title="Name"
-                value={removeFileExtension(item.name)}
-              />
-              <ListItemField title="File type" value={getFileType(item)} />
-              <ListItemField
-                title="Size"
-                value={`${item.fileWidth} x ${item.fileHeight}`}
-              />
-            </View>
-          </View>
+          <MediaItemListDisplay item={item} />
         </SelectableView>
       ),
       [ListingImageDisplayType.CARDS]: ({ item }) => (
@@ -133,13 +96,10 @@ export const ListingCH1Media = ({ onSelect, selectedMediaIDs }: Props) => {
               }}
             >
               <View style={{ position: "relative", width: "100%" }}>
-                <ListItemField
-                  title="Name"
-                  value={removeFileExtension(item.name)}
-                />
-                <ListItemField title="Description" value={item.description} />
-                <ListItemField title="File type" value={getFileType(item)} />
-                <ListItemField
+                <Field title="Name" value={removeFileExtension(item.name)} />
+                <Field title="Description" value={item.description} />
+                <Field title="File type" value={getFileType(item)} />
+                <Field
                   title="Size"
                   value={`${item.fileWidth} x ${item.fileHeight}`}
                 />
