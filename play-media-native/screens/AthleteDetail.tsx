@@ -16,6 +16,8 @@ import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { Athlete } from "../interfaces/athlete";
 import { BottomActions } from "../components/BottomActions/BottomActions";
+import { createContentItem } from "../api/queries/contentItems";
+import { mapContentItem } from "../helpers/contentItemHelper";
 
 const pageStyles = StyleSheet.create({
   sportAndNameContainer: {
@@ -87,6 +89,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const isReview = route.params.isReview;
+  const isNewAthlete = route.params.isNewAthlete;
 
   useEffect(() => {
     navigation.setOptions({
@@ -128,7 +131,19 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   }, []);
 
   // TODO Add API request to create/ update athlete
-  const handlePublishBtn = useCallback(() => {}, []);
+  const handlePublishBtn = useCallback(() => {
+    if (isNewAthlete) {
+      createContentItem({
+        contentTypeId: "athlete",
+        name: athlete.athleteName,
+        fields: mapContentItem(athlete, (k, v) => ({
+          value: v?.["results"]
+            ? [...v["results"].map((obj: { id: string }) => ({ id: obj.id }))]
+            : v,
+        })),
+      });
+    }
+  }, []);
 
   const bottomActions = useMemo(
     () =>
