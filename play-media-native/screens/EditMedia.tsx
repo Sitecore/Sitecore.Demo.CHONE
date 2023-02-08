@@ -3,7 +3,6 @@ import { Image, StatusBar, View } from "react-native";
 import { InputText } from "../components/InputText/InputText";
 import { inputContainerStyle } from "./CreateEvent/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
-import { useMedia } from "../hooks/useMedia/useMedia";
 import { Button, Text } from "react-native-paper";
 import { Media } from "../interfaces/media";
 import { getFileType } from "../helpers/media";
@@ -11,6 +10,8 @@ import { generateID } from "../helpers/uuid";
 import { useFocusEffect } from "@react-navigation/native";
 import { styles } from "../theme/styles";
 import { KeyboardAwareScreen } from "../features/Screen/KeyboardAwareScreen";
+import { useEventFields } from "../hooks/useEventFields/useEventFields";
+import { CONTENT_TYPES } from "../constants/contentTypes";
 
 const imageStyle = {
   height: 200,
@@ -18,9 +19,24 @@ const imageStyle = {
 };
 
 export const EditMediaScreen = ({ navigation, route }) => {
-  const { add, edit } = useMedia();
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
-  const isEdit: boolean = route.params.editMode;
+  const { replace: replaceEventFields } = useEventFields();
+  const contentType = route?.params?.contentType;
+  const isEdit: boolean = route?.params?.isEditMode;
+  const initialRoute = route?.params?.initialRoute;
+  const tempMediaKey = route.params.key;
+  const single = route?.params?.single;
+
+  const onEdit = useCallback(() => {
+    if (contentType === CONTENT_TYPES.EVENT) {
+      replaceEventFields({ key: tempMediaKey, value: editedImage });
+    } else if (contentType === CONTENT_TYPES.ATHLETE) {
+      // TODO
+    }
+    navigation.navigate(initialRoute, {
+      isEditMedia: false,
+    });
+  }, [contentType, editedImage, replaceEventFields, tempMediaKey]);
 
   const onNameChange = useCallback((text: string) => {
     setEditedImage((prev) => ({
@@ -42,12 +58,14 @@ export const EditMediaScreen = ({ navigation, route }) => {
 
   const onAdd = useCallback(() => {
     if (isEdit) {
-      edit(editedImage as Media);
     } else {
-      add([{ ...editedImage, id: generateID() } as Media]);
+      navigation.navigate(initialRoute, {
+        key: tempMediaKey,
+        image: { ...editedImage, id: generateID() },
+        isEditMedia: true,
+      });
     }
-    navigation.goBack();
-  }, [add, edit, editedImage, isEdit, navigation]);
+  }, [editedImage, initialRoute, isEdit, navigation, tempMediaKey]);
 
   useFocusEffect(
     useCallback(() => {
@@ -102,7 +120,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
         </Button>
         <Button
           mode="contained"
-          onPress={onAdd}
+          onPress={isEdit ? onEdit : onAdd}
           labelStyle={styles.buttonLabel}
           style={styles.button}
         >

@@ -14,21 +14,8 @@ import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 import { Screen } from "../features/Screen/Screen";
 import { EVENT_FACETS } from "../constants/filters";
 import { useFacets } from "../hooks/useFacets/useFacets";
-import { Sport } from "../interfaces/sport";
 import { getLocationOptions, getSportOptions } from "../helpers/facets";
-
-const initializeEvents = (events: Event[], sports: Sport[]) => {
-  if (!events || !sports) {
-    return [];
-  }
-
-  return events.map((item) => ({
-    ...item,
-    [EVENT_FACETS.sport]: item?.sport?.results?.length
-      ? item.sport.results[0]?.id
-      : null,
-  }));
-};
+import { initializeEvents } from "../helpers/events";
 
 export const EventsListingScreen = ({ navigation }) => {
   const { data: events, isFetching: isFetchingEvents } = useQuery(
