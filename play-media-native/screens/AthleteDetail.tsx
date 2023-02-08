@@ -86,7 +86,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [error, setError] = useState<unknown>();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
-  const isReview = route.params.isReview;
+  const isReview = route?.params?.isReview;
 
   useEffect(() => {
     navigation.setOptions({
@@ -164,7 +164,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           extended={isTopEdge}
           onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
           style={pageStyles.bottomFAB}
-        ></AnimatedFAB>
+        />
       ),
     [
       athlete,

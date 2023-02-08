@@ -17,6 +17,7 @@ import { AddAthletesScreen } from "../screens/AddAthletes";
 import { ReviewAthletesScreen } from "../screens/ReviewAthletes";
 import { ReviewEventsScreen } from "../screens/ReviewEvents";
 import { AddEventsScreen } from "../screens/AddEvents";
+import { EditEventScreen } from "../screens/EditEvent";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -68,6 +69,11 @@ export const Stacks = () => {
       <Stack.Screen
         name="EditAthleteDetails"
         component={EditAthleteDetailsScreen}
+        options={{ title: "Edit Athlete Details" }}
+      />
+      <Stack.Screen
+        name="EditEvent"
+        component={EditEventScreen}
         options={{ title: "Edit Athlete Details" }}
       />
       <Stack.Screen

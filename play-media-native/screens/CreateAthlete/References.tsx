@@ -3,8 +3,10 @@ import { NestableScrollContainer } from "react-native-draggable-flatlist";
 import { ContentFieldMedia } from "../../features/ContentFieldMedia/ContentFieldMedia";
 import { theme } from "../../theme/theme";
 import { useAthleteFields } from "../../hooks/useAthleteFields/useAthleteFields";
+import { CONTENT_TYPES } from "../../constants/contentTypes";
 
 const initialRoute = "AddAthlete";
+const contentType = CONTENT_TYPES.ATHLETE;
 
 export const References = () => {
   const { athleteFields } = useAthleteFields();
@@ -12,6 +14,7 @@ export const References = () => {
   return (
     <NestableScrollContainer>
       <ContentFieldMedia
+        contentType={contentType}
         fieldKey="featuredImage"
         fieldTitle="Featured Image"
         initialRoute={initialRoute}
@@ -19,6 +22,7 @@ export const References = () => {
         style={{ marginTop: theme.spacing.md }}
       />
       <ContentFieldMedia
+        contentType={contentType}
         fieldKey="profilePhoto"
         fieldTitle="Profile photo"
         initialRoute={initialRoute}
@@ -26,6 +30,7 @@ export const References = () => {
         style={{ marginTop: theme.spacing.md }}
       />
       <ContentFieldMedia
+        contentType={contentType}
         fieldKey="relatedMedia"
         fieldTitle="Related Media"
         initialRoute={initialRoute}
