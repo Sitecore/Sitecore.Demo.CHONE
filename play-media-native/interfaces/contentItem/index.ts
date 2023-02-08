@@ -4,7 +4,7 @@ export interface ContentItem {
   contentTypeId: string;
   fields: {
     [prop: string]: {
-      value: unknown | unknown[];
+      value?: unknown;
     };
   };
 }
