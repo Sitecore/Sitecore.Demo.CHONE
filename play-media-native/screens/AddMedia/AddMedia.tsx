@@ -80,6 +80,8 @@ export const AddMediaScreen = () => {
   );
 
   const handleLaunchCamera = useCallback(async () => {
+    await requestPermissions();
+
     let result = await launchCameraAsync({
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
@@ -92,9 +94,11 @@ export const AddMediaScreen = () => {
     } else {
       initImage({ ...result.assets[0], source: MEDIA_SOURCES.CAMERA });
     }
-  }, [initImage]);
+  }, [initImage, requestPermissions]);
 
   const handleImageLibrary = useCallback(async () => {
+    await requestPermissions();
+
     let result = await launchImageLibraryAsync({
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
@@ -107,7 +111,7 @@ export const AddMediaScreen = () => {
     } else {
       initImage({ ...result.assets[0], source: MEDIA_SOURCES.LIBRARY });
     }
-  }, [initImage]);
+  }, [initImage, requestPermissions]);
 
   const handleRemoteMedia = useCallback(async () => {
     navigation.navigate("AddCH1Media");

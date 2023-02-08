@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
 import { StyleProp, View } from "react-native";
-import { IconButton, Menu, Portal } from "react-native-paper";
+import { IconButton, Menu } from "react-native-paper";
 
 export interface MenuItem {
   icon: string;
-  handler: () => void;
+  handler: (item?: any) => void;
   title: string;
 }
 
@@ -15,12 +15,7 @@ interface Props {
   style?: StyleProp<any>;
 }
 
-export const ActionMenu = ({
-  iconColor,
-  iconSize,
-  menuItems,
-  style,
-}: Props) => {
+export const ActionMenu = ({ iconSize, menuItems, style }: Props) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const items = useMemo(() => {
@@ -45,12 +40,22 @@ export const ActionMenu = ({
     setVisible(true);
   }, []);
 
+  if (menuItems?.length === 1) {
+    return (
+      <IconButton
+        icon={menuItems[0].icon}
+        onPress={menuItems[0].handler}
+        size={iconSize || 20}
+        style={style}
+      />
+    );
+  }
+
   return (
     <View style={style}>
       <Menu
         anchor={
           <IconButton
-            containerColor={iconColor}
             icon="dots-vertical"
             onPress={onOpen}
             size={iconSize || 20}

@@ -17,19 +17,7 @@ import { useFacets } from "../hooks/useFacets/useFacets";
 import { getNationalityOptions, getSportOptions } from "../helpers/facets";
 import { Sport } from "../interfaces/sport";
 import { ATHLETE_FACETS } from "../constants/filters";
-
-const initializeAthletes = (athletes: Athlete[], sports: Sport[]) => {
-  if (!athletes || !sports) {
-    return [];
-  }
-
-  return athletes.map((item) => ({
-    ...item,
-    [ATHLETE_FACETS.sport]: item?.sport?.results?.length
-      ? item.sport.results[0]?.id
-      : null,
-  }));
-};
+import { initializeAthletes } from "../helpers/athletes";
 
 export const AthletesListingScreen = ({ navigation }) => {
   const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
