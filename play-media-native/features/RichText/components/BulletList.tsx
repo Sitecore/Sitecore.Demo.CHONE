@@ -14,8 +14,8 @@ export const BulletList: FC<Props> = ({ children }) => (
       marginVertical: theme.spacing.xxs,
     }}
   >
-    {children.map((child) => (
-      <Text>
+    {children.map((child, i) => (
+      <Text key={i}>
         {`\u2022`}
         {"  "}
         {child}
