@@ -12,6 +12,7 @@ import { styles } from "../theme/styles";
 import { KeyboardAwareScreen } from "../features/Screen/KeyboardAwareScreen";
 import { useEventFields } from "../hooks/useEventFields/useEventFields";
 import { CONTENT_TYPES } from "../constants/contentTypes";
+import { useAthleteFields } from "../hooks/useAthleteFields/useAthleteFields";
 
 const imageStyle = {
   height: 200,
@@ -21,6 +22,7 @@ const imageStyle = {
 export const EditMediaScreen = ({ navigation, route }) => {
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
   const { replace: replaceEventFields } = useEventFields();
+  const { replace: replaceAthleteFields } = useAthleteFields();
   const contentType = route?.params?.contentType;
   const isEdit: boolean = route?.params?.isEditMode;
   const initialRoute = route?.params?.initialRoute;
@@ -31,12 +33,18 @@ export const EditMediaScreen = ({ navigation, route }) => {
     if (contentType === CONTENT_TYPES.EVENT) {
       replaceEventFields({ key: tempMediaKey, value: editedImage });
     } else if (contentType === CONTENT_TYPES.ATHLETE) {
-      // TODO
+      replaceAthleteFields({ key: tempMediaKey, value: editedImage });
     }
     navigation.navigate(initialRoute, {
       isEditMedia: false,
     });
-  }, [contentType, editedImage, replaceEventFields, tempMediaKey]);
+  }, [
+    contentType,
+    editedImage,
+    replaceAthleteFields,
+    replaceEventFields,
+    tempMediaKey,
+  ]);
 
   const onNameChange = useCallback((text: string) => {
     setEditedImage((prev) => ({
@@ -57,15 +65,12 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }, [navigation]);
 
   const onAdd = useCallback(() => {
-    if (isEdit) {
-    } else {
-      navigation.navigate(initialRoute, {
-        key: tempMediaKey,
-        image: { ...editedImage, id: generateID() },
-        isEditMedia: true,
-      });
-    }
-  }, [editedImage, initialRoute, isEdit, navigation, tempMediaKey]);
+    navigation.navigate(initialRoute, {
+      key: tempMediaKey,
+      image: { ...editedImage, id: generateID() },
+      isEditMedia: true,
+    });
+  }, [editedImage, initialRoute, navigation, tempMediaKey]);
 
   useFocusEffect(
     useCallback(() => {

@@ -13,6 +13,7 @@ import { useEventFields } from "../../hooks/useEventFields/useEventFields";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "../../interfaces/navigators";
 import { CONTENT_TYPES } from "../../constants/contentTypes";
+import { useAthleteFields } from "../../hooks/useAthleteFields/useAthleteFields";
 
 const menuStyle = {
   position: "absolute",
@@ -57,12 +58,14 @@ export const ListItem = ({
 };
 
 export const ContentFieldMedia = ({
+  contentType,
   fieldKey,
   fieldTitle,
   initialRoute,
   items,
   style,
 }: {
+  contentType: string;
   fieldKey: string;
   fieldTitle: string;
   initialRoute: string;
@@ -70,7 +73,8 @@ export const ContentFieldMedia = ({
   style?: StyleProp<any>;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
-  const { remove } = useEventFields();
+  const { remove: removeAthleteFields } = useAthleteFields();
+  const { remove: removeEventFields } = useEventFields();
 
   const single = !Array.isArray(items);
   const empty = Array.isArray(items) ? items?.length === 0 : !items;
@@ -79,7 +83,7 @@ export const ContentFieldMedia = ({
   const editMedia = useCallback(
     (image: Media) => {
       navigation.navigate("EditMedia", {
-        contentType: CONTENT_TYPES.EVENT,
+        contentType,
         isEditMode: true,
         initialRoute,
         image,
@@ -87,7 +91,16 @@ export const ContentFieldMedia = ({
         single,
       });
     },
-    [fieldKey, initialRoute, navigation, single]
+    [contentType, fieldKey, initialRoute, navigation, single]
+  );
+
+  const deleteMedia = useCallback(
+    ({ key, value }: { key: string; value: Media }) => {
+      contentType === CONTENT_TYPES.EVENT
+        ? removeEventFields({ key, value })
+        : removeAthleteFields({ key, value });
+    },
+    [contentType, removeAthleteFields, removeEventFields]
   );
 
   const resolveActionsForItem = useCallback(
@@ -104,7 +117,7 @@ export const ContentFieldMedia = ({
             {
               icon: "delete-outline",
               handler: () => {
-                remove({ key: fieldKey, value: item });
+                deleteMedia({ key: fieldKey, value: item });
               },
               title: "Delete",
             },
@@ -113,13 +126,13 @@ export const ContentFieldMedia = ({
             {
               icon: "delete-outline",
               handler: () => {
-                remove({ key: fieldKey, value: item });
+                deleteMedia({ key: fieldKey, value: item });
               },
               title: "Delete",
             },
           ];
     },
-    [editMedia, fieldKey, remove]
+    [editMedia, fieldKey, deleteMedia]
   );
 
   const content = useMemo(
@@ -136,7 +149,7 @@ export const ContentFieldMedia = ({
           <ListItem item={items} menuItems={resolveActionsForItem(items)} />
         )
       ),
-    [items]
+    [items, resolveActionsForItem]
   );
 
   return (
@@ -153,6 +166,7 @@ export const ContentFieldMedia = ({
           {headerText}
         </Text>
         <MenuAddMedia
+          contentType={contentType}
           empty={empty}
           fieldKey={fieldKey}
           initialRoute={initialRoute}

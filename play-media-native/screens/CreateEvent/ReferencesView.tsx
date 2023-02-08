@@ -26,9 +26,10 @@ const eventMenuStyle = {
   zIndex: 10,
 };
 
+const contentType = CONTENT_TYPES.EVENT;
+
 export const ReferencesView = () => {
   const { eventFields, remove } = useEventFields();
-  const contentType = CONTENT_TYPES.EVENT;
 
   const deleteItem = useCallback(
     (key: string, item: any) => {
@@ -51,6 +52,7 @@ export const ReferencesView = () => {
   return (
     <NestableScrollContainer>
       <ContentFieldMedia
+        contentType={contentType}
         fieldKey="featuredImage"
         fieldTitle="Featured Image"
         initialRoute="AddEvent"
@@ -58,6 +60,7 @@ export const ReferencesView = () => {
         style={{ marginTop: theme.spacing.md }}
       />
       <ContentFieldMedia
+        contentType={contentType}
         fieldKey="relatedMedia"
         fieldTitle="Related Media"
         initialRoute="AddEvent"

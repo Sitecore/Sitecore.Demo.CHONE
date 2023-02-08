@@ -20,10 +20,7 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
   const { data: images, isFetching } = useQuery("media", () => getAllMedia());
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
   const selectedMediaIDs = selectedMedia.map((item) => item.id);
-  const contentType = useMemo(
-    () => route?.params?.contentType,
-    [route?.params]
-  );
+  const contentType = route?.params?.contentType;
   const single = route?.params?.single;
   const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
