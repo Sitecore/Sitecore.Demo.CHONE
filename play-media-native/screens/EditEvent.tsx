@@ -68,11 +68,11 @@ export const EditEventScreen = ({ route, navigation }) => {
     return null;
   }, [event, sports]);
 
-  const [title, setTitle] = useState(event?.);
+  const [title, setTitle] = useState(event?.title);
   const [sport, setSport] = useState<Sport>();
-  const [summary, setSummary] = useState("");
+  const [summary, setSummary] = useState(event?.teaser);
   const [date, setDate] = useState(new Date());
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(event?.location);
   const [body, setBody] = useState<string>(event?.body);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -185,7 +185,7 @@ export const EditEventScreen = ({ route, navigation }) => {
             containerStyle={inputContainerStyle}
             onChange={setSummary}
             value={summary}
-            title={"Summary"}
+            title={"Teaser"}
           />
           <InputText
             containerStyle={inputContainerStyle}
@@ -213,7 +213,7 @@ export const EditEventScreen = ({ route, navigation }) => {
             <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
             <RichTextEditor onChange={(json: string) => setBody(json)} />
           </View>
-          {/* <ContentFieldMedia
+          <ContentFieldMedia
             contentType={contentType}
             fieldKey="featuredImage"
             fieldTitle="Featured Image"
@@ -268,7 +268,7 @@ export const EditEventScreen = ({ route, navigation }) => {
               </View>
             )}
             style={{ marginTop: theme.spacing.lg }}
-          /> */}
+          />
           <View style={{ paddingBottom: 75 }} />
         </View>
       </NestableScrollContainer>
