@@ -103,6 +103,9 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
+  const [newAthleteID, setNewAthleteID] = useState(undefined);
+  const [newAthleteName, setNewAthleteName] = useState("");
+
   const isReview = route.params.isReview;
   const isNewAthlete = route.params.isNewAthlete;
 
@@ -141,13 +144,19 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     );
   }, []);
 
+  const processResponse = useCallback((res: { id: string; name: string }) => {
+    setNewAthleteID(res.id);
+    setNewAthleteName(res.name);
+    setShowSuccessToast(true);
+  }, []);
+
   const handleSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
     navigation.navigate("AthleteDetail", {
-      id: athlete.id,
-      title: athlete.athleteName,
+      id: newAthleteID,
+      title: newAthleteName,
     });
-  }, []);
+  }, [newAthleteID, newAthleteName]);
 
   const handleErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
@@ -182,7 +191,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
         name: athlete.athleteName,
         fields: requestFields,
       })
-        .then(() => setShowSuccessToast(true))
+        .then((res: { id: string; name: string }) => processResponse(res))
         .catch(() => setShowErrorToast(true))
         .finally(() => setIsValidating(false));
     } else {
@@ -191,7 +200,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
         name: athlete.athleteName,
         fields: requestFields,
       })
-        .then(() => setShowSuccessToast(true))
+        .then((res: { id: string; name: string }) => processResponse(res))
         .catch(() => setShowErrorToast(true))
         .finally(() => setIsValidating(false));
     }
