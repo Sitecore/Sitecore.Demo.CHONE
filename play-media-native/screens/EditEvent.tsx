@@ -177,18 +177,21 @@ export const EditEventScreen = ({ route, navigation }) => {
 
           <InputText
             containerStyle={inputContainerStyle}
+            multiline
             onChange={setTitle}
             value={title}
             title={"Title"}
           />
           <InputText
             containerStyle={inputContainerStyle}
+            multiline
             onChange={setSummary}
             value={summary}
             title={"Teaser"}
           />
           <InputText
             containerStyle={inputContainerStyle}
+            multiline
             value={getDate(date)}
             title={"Event Date"}
             showSoftInputOnFocus={false}
@@ -205,6 +208,7 @@ export const EditEventScreen = ({ route, navigation }) => {
           )}
           <InputText
             containerStyle={inputContainerStyle}
+            multiline
             onChange={setLocation}
             value={location}
             title={"Location"}
