@@ -36,6 +36,7 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
     navigation.navigate("AthleteReview", {
       title: "Review new athlete",
       isReview: true,
+      isNewAthlete: true,
     });
   }, []);
 
