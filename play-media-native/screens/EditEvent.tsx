@@ -155,8 +155,6 @@ export const EditEventScreen = ({ route, navigation }) => {
     }, [edit, route?.params])
   );
 
-  console.log("event", event);
-
   if (isFetchingSports) {
     return <LoadingScreen />;
   }

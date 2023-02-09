@@ -4,12 +4,14 @@ import { RootState } from "../../store";
 import {
   EventField,
   edit,
+  editMultiple,
   init,
   remove,
   replace,
   reset,
 } from "../../store/eventFields";
 import { Event } from "../../interfaces/event";
+import { IIndexable } from "../../interfaces/indexable";
 
 export const useEventFields = () => {
   const eventFields = useSelector((state: RootState) => state.eventFields);
@@ -20,6 +22,12 @@ export const useEventFields = () => {
     edit: useCallback(
       (field: EventField) => {
         dispatch(edit(field));
+      },
+      [dispatch]
+    ),
+    editMultiple: useCallback(
+      (field: IIndexable) => {
+        dispatch(editMultiple(field));
       },
       [dispatch]
     ),

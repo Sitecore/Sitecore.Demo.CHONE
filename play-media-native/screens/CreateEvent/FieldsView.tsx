@@ -52,7 +52,7 @@ export const FieldsView = ({
       <SportPicker
         onChange={handleSportChange}
         sports={sports}
-        initialValue={sports[0]}
+        initialValue={sport?.title || sports[0]?.title}
       />
     </>
   );

@@ -14,6 +14,7 @@ import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { CardEvent } from "../features/CardEvent/CardEvent";
 import { Event } from "../interfaces/event";
+import { useEventFields } from "../hooks/useEventFields/useEventFields";
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -41,23 +42,15 @@ const pageStyles = StyleSheet.create({
 });
 
 export const ReviewEventScreen = ({ navigation, route }) => {
-  const event = route?.params?.event as Event;
+  // const event = route?.params?.event as Event;
+
+  const { eventFields: event } = useEventFields();
 
   useEffect(() => {
     navigation.setOptions({
       title: `Review ${event.title}`,
     });
   }, [event, navigation]);
-
-  const onCardPress = useCallback(
-    (athlete: Athlete) => {
-      navigation.navigate("AthleteDetail", {
-        id: athlete.id,
-        title: athlete.athleteName,
-      });
-    },
-    [navigation]
-  );
 
   const handleDraft = useCallback(() => {
     // TODO draft case

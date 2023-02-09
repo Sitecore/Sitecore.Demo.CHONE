@@ -12,7 +12,7 @@ const inputContainerStyle = {
   marginBottom: theme.spacing.sm,
 };
 
-export const RichTextView = ({ setBody, setSummary, summary }) => {
+export const RichTextView = ({ setBody, setTeaser, teaser }) => {
   const [rteJson, setRteJson] = useState();
   const [showError, setShowError] = useState(false);
 
@@ -22,15 +22,14 @@ export const RichTextView = ({ setBody, setSummary, summary }) => {
     setBody(jsonData);
   };
 
-  const handleSubmit = () => {
-    if (!!rteJson) {
-      setShowError(false);
-      // TODO: send to server/set global state
-      console.log(rteJson);
-    } else {
-      setShowError(true);
-    }
-  };
+  // const handleSubmit = () => {
+  //   if (!!rteJson) {
+  //     setShowError(false);
+  //     // TODO: send to server/set global state
+  //   } else {
+  //     setShowError(true);
+  //   }
+  // };
 
   return (
     <KeyboardAwareScreen>
@@ -41,10 +40,10 @@ export const RichTextView = ({ setBody, setSummary, summary }) => {
         }}
       >
         <InputText
-          onChange={setSummary}
+          onChange={setTeaser}
           containerStyle={inputContainerStyle}
-          value={summary}
-          title={"Summary"}
+          value={teaser}
+          title={"Teaser"}
         />
         <RichTextEditor
           showError={showError}
@@ -52,24 +51,6 @@ export const RichTextView = ({ setBody, setSummary, summary }) => {
           onChange={handleChange}
         />
       </View>
-      <BottomActions>
-        <Button
-          mode="outlined"
-          labelStyle={styles.buttonLabel}
-          style={styles.button}
-          // onPress={onCancel}
-        >
-          Discard
-        </Button>
-        <Button
-          mode="contained"
-          onPress={handleSubmit}
-          labelStyle={styles.buttonLabel}
-          style={styles.button}
-        >
-          Review
-        </Button>
-      </BottomActions>
     </KeyboardAwareScreen>
   );
 };

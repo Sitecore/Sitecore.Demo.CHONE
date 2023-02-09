@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { View } from "react-native";
 import { Stepper } from "../../components/Stepper/Stepper";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { FieldsView } from "./FieldsView";
 import { RichTextView } from "./RichTextView";
 import { ReferencesView } from "./ReferencesView";
-import { Screen } from "../../features/Screen/Screen";
 import { Button } from "react-native-paper";
 import { styles } from "../../theme/styles";
 import { useEventFields } from "../../hooks/useEventFields/useEventFields";
@@ -12,9 +12,10 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Sport } from "../../interfaces/sport";
 import { getAllSports } from "../../api/queries/getSports";
 import { useQuery } from "react-query";
+import { KeyboardAwareScreen } from "../../features/Screen/KeyboardAwareScreen";
 
 export const CreateEventScreen = ({ navigation, route }) => {
-  const { eventFields, edit, reset } = useEventFields();
+  const { eventFields, edit, editMultiple, reset } = useEventFields();
   const { data: sports, isFetching: isFetchingSports } = useQuery(
     "sports",
     () => getAllSports()
@@ -22,7 +23,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
   const [title, setTitle] = useState();
   const [body, setBody] = useState<string>();
   const [sport, setSport] = useState<Sport>();
-  const [summary, setSummary] = useState();
+  const [teaser, setTeaser] = useState();
   const [date, setDate] = useState(new Date());
   const [location, setLocation] = useState();
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -61,11 +62,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
     if (step === 1) {
       return (
-        <RichTextView
-          setBody={setBody}
-          summary={summary}
-          setSummary={setSummary}
-        />
+        <RichTextView setBody={setBody} teaser={teaser} setTeaser={setTeaser} />
       );
     }
 
@@ -97,28 +94,41 @@ export const CreateEventScreen = ({ navigation, route }) => {
       return;
     }
 
-    navigation.navigate("ReviewEvent", {
-      title: title || "Review Event",
-      event: {
-        ...eventFields,
-        body,
-        location,
-        sport: sports[0],
-        summary,
-        timeAndDate: date,
-        title,
-      },
+    editMultiple({
+      body,
+      location,
+      sport: sport || sports[0],
+      teaser,
+      timeAndDate: date,
+      title,
     });
+
+    // navigation.navigate("ReviewEvent", {
+    //   title: title || "Review Event",
+    //   event: {
+    //     ...eventFields,
+    //     body,
+    //     location,
+    //     sport: sport || sports[0],
+    //     teaser,
+    //     timeAndDate: date,
+    //     title,
+    //   },
+    // });
+
+    navigation.navigate("ReviewEvent");
   }, [
     body,
-    location,
-    sports,
-    summary,
     date,
-    title,
+    editMultiple,
     eventFields,
+    location,
     navigation,
+    sport,
+    sports,
     step,
+    teaser,
+    title,
   ]);
 
   // reset global state on unmount
@@ -149,7 +159,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
   );
 
   return (
-    <Screen>
+    <KeyboardAwareScreen>
       <Stepper
         labels={steps}
         onPress={onStepPress}
@@ -158,33 +168,51 @@ export const CreateEventScreen = ({ navigation, route }) => {
       />
       {displayedScreen}
       <BottomActions>
-        {step !== 0 && (
-          <Button
-            mode="outlined"
-            labelStyle={styles.buttonLabel}
-            style={styles.button}
-            onPress={onBack}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <View>
+            {step !== 0 && (
+              <Button
+                mode="outlined"
+                labelStyle={styles.buttonLabel}
+                style={styles.button}
+                onPress={onBack}
+              >
+                Back
+              </Button>
+            )}
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              flex: 1,
+              justifyContent: "flex-end",
+            }}
           >
-            Back
-          </Button>
-        )}
-        <Button
-          mode="outlined"
-          labelStyle={styles.buttonLabel}
-          style={styles.button}
-          onPress={onCancel}
-        >
-          Discard
-        </Button>
-        <Button
-          mode="contained"
-          labelStyle={styles.buttonLabel}
-          style={styles.button}
-          onPress={onNext}
-        >
-          {step !== 2 ? "Next" : "Review"}
-        </Button>
+            <Button
+              mode="outlined"
+              labelStyle={styles.buttonLabel}
+              style={styles.button}
+              onPress={onCancel}
+            >
+              Discard
+            </Button>
+            <Button
+              mode="contained"
+              labelStyle={styles.buttonLabel}
+              style={styles.button}
+              onPress={onNext}
+            >
+              {step !== 2 ? "Next" : "Review"}
+            </Button>
+          </View>
+        </View>
       </BottomActions>
-    </Screen>
+    </KeyboardAwareScreen>
   );
 };
