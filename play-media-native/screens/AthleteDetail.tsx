@@ -101,6 +101,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
+  const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
   const isReview = route.params.isReview;
   const isNewAthlete = route.params.isNewAthlete;
@@ -110,6 +111,13 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       title: route.params.title,
     });
   }, []);
+
+  // Hide bottom action buttons if a loading indicator or a toaster is shown
+  useEffect(() => {
+    if (isValidating || showSuccessToast || showErrorToast) {
+      setShouldShowBottomActions(false);
+    }
+  }, [isValidating, showSuccessToast, showErrorToast]);
 
   useEffect(() => {
     if (isReview) {
@@ -374,7 +382,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
         visible={showErrorToast}
         type="warning"
       />
-      {bottomActions}
+      {shouldShowBottomActions && bottomActions}
     </Screen>
   );
 };
