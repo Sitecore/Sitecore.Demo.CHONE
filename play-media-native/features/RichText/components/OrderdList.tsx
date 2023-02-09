@@ -15,7 +15,7 @@ export const OrderedList: FC<Props> = ({ children }) => (
     }}
   >
     {children.map((child, i) => (
-      <Text>
+      <Text key={i}>
         {++i}
         {".  "}
         {child}

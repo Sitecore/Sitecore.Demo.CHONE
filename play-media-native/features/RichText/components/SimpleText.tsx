@@ -18,6 +18,10 @@ export const SimpleText: FC<Props> = ({ children, marks = [] }) => {
     underline: {
       textDecorationLine: "underline",
     },
+    strike: {
+      textDecorationLine: "line-through",
+      textDecorationStyle: "solid",
+    },
   });
 
   const calcAllStyles = () => {
@@ -33,6 +37,10 @@ export const SimpleText: FC<Props> = ({ children, marks = [] }) => {
 
     if (marks.some((mark) => mark.type === "underline")) {
       allStyles = { ...allStyles, ...styles.underline };
+    }
+
+    if (marks.some((mark) => mark.type === "strike")) {
+      allStyles = { ...allStyles, ...styles.strike };
     }
 
     return allStyles;

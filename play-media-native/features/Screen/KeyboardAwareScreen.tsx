@@ -1,9 +1,18 @@
+import { ReactNode } from "react";
 import { Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { styles } from "../../theme/styles";
 import { theme } from "../../theme/theme";
 
-export const KeyboardAwareScreen = ({ children }) => {
+export const KeyboardAwareScreen = ({
+  centered,
+  children,
+}: {
+  centered?: boolean;
+  children: ReactNode;
+}) => {
+  const centeredStyle = centered ? styles.centered : {};
+
   return (
     <KeyboardAwareScrollView
       enableOnAndroid={true}
@@ -15,7 +24,7 @@ export const KeyboardAwareScreen = ({ children }) => {
       }}
       contentContainerStyle={{
         ...styles.screen,
-        ...styles.centered,
+        ...centeredStyle,
         flexGrow: 1,
       }}
     >
