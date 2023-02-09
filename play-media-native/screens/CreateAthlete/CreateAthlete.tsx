@@ -32,6 +32,7 @@ export const CreateAthleteScreen = ({ navigation }) => {
     navigation.navigate("AthleteReview", {
       title: "Review new athlete",
       isReview: true,
+      isNewAthlete: true,
     });
   }, []);
 
