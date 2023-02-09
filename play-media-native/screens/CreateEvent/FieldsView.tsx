@@ -54,17 +54,6 @@ export const FieldsView = ({
         sports={sports}
         initialValue={sports[0]}
       />
-      {/* <InputText containerStyle={inputContainerStyle} label="Title" multiline />
-      <InputText
-        containerStyle={inputContainerStyle}
-        label="Time and Date"
-        multiline
-      />
-      <InputText
-        containerStyle={inputContainerStyle}
-        label="Location"
-        multiline
-      /> */}
     </>
   );
 };
