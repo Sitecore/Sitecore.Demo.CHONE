@@ -1,7 +1,12 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatedFAB, Button, Text } from "react-native-paper";
+import {
+  ActivityIndicator,
+  AnimatedFAB,
+  Button,
+  Text,
+} from "react-native-paper";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
@@ -22,6 +27,7 @@ import {
 } from "../api/queries/contentItems";
 import { mapContentItem } from "../helpers/contentItemHelper";
 import { CONTENT_TYPES } from "../constants/contentTypes";
+import { Toast } from "../components/Toast/Toast";
 
 const pageStyles = StyleSheet.create({
   sportAndNameContainer: {
@@ -92,6 +98,10 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [error, setError] = useState<unknown>();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
+  const [isValidating, setIsValidating] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+
   const isReview = route.params.isReview;
   const isNewAthlete = route.params.isNewAthlete;
 
@@ -121,6 +131,18 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
         <Text>Athlete could not be fetched!</Text>
       </Screen>
     );
+  }, []);
+
+  const handleSuccessToastDismiss = useCallback(() => {
+    setShowSuccessToast(false);
+    navigation.navigate("AthleteDetail", {
+      id: athlete.id,
+      title: athlete.athleteName,
+    });
+  }, []);
+
+  const handleErrorToastDismiss = useCallback(() => {
+    setShowErrorToast(false);
   }, []);
 
   const handleEditInfo = useCallback((id: string, title: string) => {
@@ -317,7 +339,33 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           <AthleteImages athlete={athlete} />
         </View>
       </ScrollView>
-      {bottomActions}
+      {isValidating && (
+        <View>
+          <ActivityIndicator size="small" animating />
+        </View>
+      )}
+      <Toast
+        duration={2000}
+        message={
+          isNewAthlete
+            ? "Athlete created successfully!"
+            : "Athlete updated successfully!"
+        }
+        onDismiss={handleSuccessToastDismiss}
+        visible={showSuccessToast}
+        type="success"
+      />
+      <Toast
+        duration={2000}
+        message={
+          isNewAthlete
+            ? "Athlete could not be created"
+            : "Athlete could not be updated"
+        }
+        onDismiss={handleErrorToastDismiss}
+        visible={showErrorToast}
+        type="warning"
+      />
     </Screen>
   );
 };
