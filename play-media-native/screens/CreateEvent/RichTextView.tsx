@@ -6,14 +6,20 @@ import { BottomActions } from "../../components/BottomActions/BottomActions";
 import { KeyboardAwareScreen } from "../../features/Screen/KeyboardAwareScreen";
 import { useState } from "react";
 import { theme } from "../../theme/theme";
+import { InputText } from "../../components/InputText/InputText";
 
-export const RichTextView = () => {
+const inputContainerStyle = {
+  marginBottom: theme.spacing.sm,
+};
+
+export const RichTextView = ({ setBody, setSummary, summary }) => {
   const [rteJson, setRteJson] = useState();
   const [showError, setShowError] = useState(false);
 
   const handleChange = (jsonData) => {
     setShowError(!jsonData);
     setRteJson(jsonData);
+    setBody(jsonData);
   };
 
   const handleSubmit = () => {
@@ -28,7 +34,18 @@ export const RichTextView = () => {
 
   return (
     <KeyboardAwareScreen>
-      <View style={{ paddingHorizontal: theme.spacing.sm }}>
+      <View
+        style={{
+          paddingHorizontal: theme.spacing.sm,
+          marginTop: theme.spacing.sm,
+        }}
+      >
+        <InputText
+          onChange={setSummary}
+          containerStyle={inputContainerStyle}
+          value={summary}
+          title={"Summary"}
+        />
         <RichTextEditor
           showError={showError}
           errorText={"Please enter a description."}
