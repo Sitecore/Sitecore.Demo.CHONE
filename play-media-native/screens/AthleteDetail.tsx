@@ -156,7 +156,9 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     navigation.goBack();
   }, []);
 
-  const handlePublishBtn = useCallback(() => {
+  const handlePublishBtn = useCallback(async () => {
+    setIsValidating(true);
+
     // Map athlete object to a form suitable for the API request
     const requestFields = mapContentItem(athlete, (k, v) => ({
       value: v?.["results"]
@@ -167,17 +169,23 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     delete requestFields.id;
 
     if (isNewAthlete) {
-      createContentItem({
+      await createContentItem({
         contentTypeId: CONTENT_TYPES.ATHLETE,
         name: athlete.athleteName,
         fields: requestFields,
-      });
+      })
+        .then(() => setShowSuccessToast(true))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
     } else {
-      updateContentItem({
+      await updateContentItem({
         id: athlete.id,
         name: athlete.athleteName,
         fields: requestFields,
-      });
+      })
+        .then(() => setShowSuccessToast(true))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
     }
   }, [isNewAthlete, athlete]);
 
@@ -366,6 +374,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
         visible={showErrorToast}
         type="warning"
       />
+      {bottomActions}
     </Screen>
   );
 };
