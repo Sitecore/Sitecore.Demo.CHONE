@@ -12,7 +12,6 @@ import { ImageGrid } from "../features/ImageGrid/ImageGrid";
 import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
-import { useEventFields } from "../hooks/useEventFields/useEventFields";
 import { CardEvent } from "../features/CardEvent/CardEvent";
 import { Event } from "../interfaces/event";
 
@@ -42,7 +41,6 @@ const pageStyles = StyleSheet.create({
 });
 
 export const ReviewEventScreen = ({ navigation, route }) => {
-  //   const { eventFields: event } = useEventFields();
   const event = route?.params?.event as Event;
 
   useEffect(() => {
@@ -100,6 +98,9 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     ),
     [event, handlePublishBtn]
   );
+
+  console.log("\n\n\n\n\nevent Review Event", event);
+  console.log("\n\n\n\n\n");
 
   if (!event) {
     return (
@@ -161,10 +162,11 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           ))}
         </View>
         <View style={{ marginTop: theme.spacing.lg }}>
-          {event.relatedMedia.map((athlete: Athlete) => (
+          {event.similarEvents.map((event: Event) => (
             <CardEvent key={event.id} item={event} />
           ))}
         </View>
+        <View style={{ paddingBottom: 70 }} />
       </ScrollView>
       {bottomActions}
     </Screen>

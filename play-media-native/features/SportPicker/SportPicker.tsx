@@ -33,7 +33,7 @@ export const SportPicker = ({
   sports,
   initialValue = "",
 }: SportPickerProps) => {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState<string>();
 
   const handleChange = useCallback(
     (value: string) => {
@@ -49,7 +49,10 @@ export const SportPicker = ({
   return (
     <>
       <Text style={styles.topLabel}>Sport</Text>
-      <RadioButton.Group onValueChange={handleChange} value={value}>
+      <RadioButton.Group
+        onValueChange={handleChange}
+        value={value || initialValue}
+      >
         {sports?.map((sport) => (
           <RadioButton.Item
             key={sport.title}
@@ -58,7 +61,7 @@ export const SportPicker = ({
               styles.radioButton,
               {
                 backgroundColor:
-                  value === sport.title
+                  value === sport.title || initialValue === sport.title
                     ? theme.colors.yellow.DEFAULT
                     : theme.colors.white.DEFAULT,
               },

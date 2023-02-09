@@ -47,5 +47,5 @@ export interface Event {
   teaser: string;
   body: any;
   athletes: Partial<Athlete>[];
-  similarEvents: Partial<EventResponse>[];
+  similarEvents: Partial<Event>[];
 }

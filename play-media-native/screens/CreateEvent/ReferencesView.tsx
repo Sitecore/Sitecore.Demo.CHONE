@@ -91,7 +91,7 @@ export const ReferencesView = () => {
         addRoute={"AddEvents"}
         contentType={contentType}
         createRoute={"AddEvent"}
-        fieldKey="relatedEvents"
+        fieldKey="similarEvents"
         fieldTitle="Similar Events"
         initialRoute={"AddEvent"}
         renderItem={(item: Event) => (
@@ -100,7 +100,7 @@ export const ReferencesView = () => {
             <ActionMenu
               iconColor={theme.colors.black.DEFAULT}
               iconSize={25}
-              menuItems={getMenuItems("relatedEvents", item)}
+              menuItems={getMenuItems("similarEvents", item)}
               style={eventMenuStyle}
             />
           </View>

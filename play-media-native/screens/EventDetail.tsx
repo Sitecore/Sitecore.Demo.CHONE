@@ -138,7 +138,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
     };
   }, []);
 
-  console.log("\n\nevent Details", event.relatedEvents);
+  console.log("\n\nevent Details", event.similarEvents);
 
   if (!event) {
     return (
@@ -210,12 +210,12 @@ export const EventDetailScreen = ({ route, navigation }) => {
             />
           ))}
         </View>
-        {!!event?.relatedEvents?.length && (
+        {!!event?.similarEvents?.length && (
           <View style={{ marginTop: theme.spacing.lg }}>
             <Text variant="labelSmall" style={pageStyles.title}>
               Similar Events
             </Text>
-            {event.relatedEvents.map((event: Event) => (
+            {event.similarEvents.map((event: Event) => (
               <CardEvent key={event.id} item={event} />
             ))}
           </View>

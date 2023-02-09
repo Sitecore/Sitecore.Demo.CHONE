@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useQuery } from "react-query";
@@ -53,13 +53,27 @@ export const EditEventScreen = ({ route, navigation }) => {
     "sports",
     () => getAllSports()
   );
+  const defaultSport = useMemo(() => {
+    const hasSport = !!event?.sport?.title;
+    const sportsFetched = !!sports?.length;
 
-  const [title, setTitle] = useState("");
+    if (hasSport) {
+      return event.sport.title;
+    }
+
+    if (!hasSport && sportsFetched) {
+      return sports[0]?.title;
+    }
+
+    return null;
+  }, [event, sports]);
+
+  const [title, setTitle] = useState(event?.);
   const [sport, setSport] = useState<Sport>();
   const [summary, setSummary] = useState("");
   const [date, setDate] = useState(new Date());
   const [location, setLocation] = useState("");
-  const [body, setBody] = useState<string>();
+  const [body, setBody] = useState<string>(event?.body);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const deleteItem = useCallback(
@@ -90,9 +104,27 @@ export const EditEventScreen = ({ route, navigation }) => {
   const handleReview = useCallback(() => {
     navigation.navigate("ReviewEvent", {
       title: "Review edited event",
-      event,
+      event: {
+        ...event,
+        body,
+        location,
+        sport: sport || sports.find((item) => item.title === defaultSport),
+        summary,
+        timeAndDate: date,
+        title,
+      },
     });
-  }, [navigation]);
+  }, [
+    body,
+    date,
+    defaultSport,
+    event,
+    location,
+    sport,
+    summary,
+    title,
+    navigation,
+  ]);
 
   const handleDiscard = useCallback(() => {
     navigation.goBack();
@@ -123,9 +155,7 @@ export const EditEventScreen = ({ route, navigation }) => {
     }, [edit, route?.params])
   );
 
-  console.log("state", title, summary, date, location);
-  console.log("\n\n");
-  console.log("state", body);
+  console.log("event", event);
 
   if (isFetchingSports) {
     return <LoadingScreen />;
@@ -142,8 +172,9 @@ export const EditEventScreen = ({ route, navigation }) => {
           <SportPicker
             onChange={handleSportChange}
             sports={sports}
-            initialValue={event.sport?.title}
+            initialValue={defaultSport}
           />
+
           <InputText
             containerStyle={inputContainerStyle}
             onChange={setTitle}
@@ -182,7 +213,7 @@ export const EditEventScreen = ({ route, navigation }) => {
             <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
             <RichTextEditor onChange={(json: string) => setBody(json)} />
           </View>
-          <ContentFieldMedia
+          {/* <ContentFieldMedia
             contentType={contentType}
             fieldKey="featuredImage"
             fieldTitle="Featured Image"
@@ -222,7 +253,7 @@ export const EditEventScreen = ({ route, navigation }) => {
             addRoute={"AddEvents"}
             contentType={contentType}
             createRoute={"AddEvent"}
-            fieldKey="relatedEvents"
+            fieldKey="similarEvents"
             fieldTitle="Similar Events"
             initialRoute={initialRoute}
             renderItem={(item: Event) => (
@@ -231,13 +262,13 @@ export const EditEventScreen = ({ route, navigation }) => {
                 <ActionMenu
                   iconColor={theme.colors.black.DEFAULT}
                   iconSize={25}
-                  menuItems={getMenuItems("relatedEvents", item)}
+                  menuItems={getMenuItems("similarEvents", item)}
                   style={eventMenuStyle}
                 />
               </View>
             )}
             style={{ marginTop: theme.spacing.lg }}
-          />
+          /> */}
           <View style={{ paddingBottom: 75 }} />
         </View>
       </NestableScrollContainer>

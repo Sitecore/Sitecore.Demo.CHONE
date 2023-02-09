@@ -19,7 +19,6 @@ const initializeEventFields = (event: Event) => {
           source: MEDIA_SOURCES.CH_ONE,
         }))
       : [],
-    relatedEvents: event?.similarEvents?.length ? event.similarEvents : [],
   };
 };
 
@@ -37,7 +36,7 @@ const initialState: EventFieldsState = {
   featuredImage: null,
   relatedMedia: [],
   athletes: [],
-  relatedEvents: [],
+  similarEvents: [],
 };
 
 export const eventFieldsSlice = createSlice({
@@ -105,7 +104,7 @@ export const eventFieldsSlice = createSlice({
         featuredImage: null,
         relatedMedia: [],
         athletes: [],
-        relatedEvents: [],
+        similarEvents: [],
       };
     },
   },
