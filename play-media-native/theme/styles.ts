@@ -17,7 +17,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    paddingHorizontal: theme.spacing.sm,
     backgroundColor: theme.colors.black.darkest,
   },
   fab: {

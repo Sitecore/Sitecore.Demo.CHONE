@@ -86,9 +86,7 @@ export const InputText = ({
   return (
     <View style={containerStyleFinal}>
       {title && (
-        <Text style={{ color: theme.colors.gray.dark }} variant="labelLarge">
-          {title}
-        </Text>
+        <Text style={{ marginBottom: theme.spacing.xxs }}>{title}</Text>
       )}
       <TextInput
         contentStyle={contentStyleFinal}

@@ -11,7 +11,15 @@ import { theme } from "../../theme/theme";
 import { Icon } from "../Icon/Icon";
 import generateJson from "./generateJson";
 
-export const RichTextEditor = ({ showError, errorText, onChange }) => {
+export const RichTextEditor = ({
+  showError,
+  errorText,
+  onChange,
+}: {
+  showError?: boolean;
+  errorText?: string;
+  onChange: (json: string) => void;
+}) => {
   const richText = useRef<any>();
   const richTextScroll = useRef<any>();
 

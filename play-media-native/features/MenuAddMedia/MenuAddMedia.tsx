@@ -7,11 +7,13 @@ import { StackNavigationProp } from "../../interfaces/navigators";
 import { DeviceMedia } from "../../interfaces/media";
 
 export const MenuAddMedia = ({
+  contentType,
   empty,
   fieldKey,
   initialRoute,
   single = false,
 }: {
+  contentType: string;
   empty: boolean;
   fieldKey: string;
   initialRoute: string;
@@ -52,10 +54,15 @@ export const MenuAddMedia = ({
   }, [close, fieldKey, launchLibrary, navigation, single]);
 
   const handleCHonePress = useCallback(() => {
-    navigation.navigate("AddCH1Media", { key: fieldKey, initialRoute, single });
+    navigation.navigate("AddCH1Media", {
+      contentType,
+      key: fieldKey,
+      initialRoute,
+      single,
+    });
 
     close();
-  }, [close, fieldKey, navigation, single]);
+  }, [close, contentType, fieldKey, initialRoute, navigation, single]);
 
   const buttonLabel = useMemo(() => {
     const add = "Add";

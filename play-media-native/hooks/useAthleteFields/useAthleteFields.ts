@@ -2,30 +2,22 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
-  EventField,
+  AthleteField,
   edit,
-  init,
   remove,
   replace,
   reset,
-} from "../../store/eventFields";
-import { Event } from "../../interfaces/event";
+} from "../../store/athleteFields";
 
-export const useEventFields = () => {
-  const eventFields = useSelector((state: RootState) => state.eventFields);
+export const useAthleteFields = () => {
+  const athleteFields = useSelector((state: RootState) => state.athleteFields);
   const dispatch = useDispatch();
 
   return {
-    eventFields,
+    athleteFields,
     edit: useCallback(
-      (field: EventField) => {
+      (field: AthleteField) => {
         dispatch(edit(field));
-      },
-      [dispatch]
-    ),
-    init: useCallback(
-      (event: Event) => {
-        dispatch(init(event));
       },
       [dispatch]
     ),

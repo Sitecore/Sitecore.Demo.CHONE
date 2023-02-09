@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import athleteFieldsReducer from "./athleteFields";
 import athletesReducer from "./athletes";
 import connectionsReducer from "./connections";
 import eventFieldsReducer from "./eventFields";
@@ -9,6 +10,7 @@ import tempMediaReducer from "./tempMedia";
 
 export const store = configureStore({
   reducer: {
+    athleteFields: athleteFieldsReducer,
     athletes: athletesReducer,
     connections: connectionsReducer,
     eventFields: eventFieldsReducer,

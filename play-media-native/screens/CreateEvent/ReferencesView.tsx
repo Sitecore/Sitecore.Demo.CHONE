@@ -26,9 +26,10 @@ const eventMenuStyle = {
   zIndex: 10,
 };
 
+const contentType = CONTENT_TYPES.EVENT;
+
 export const ReferencesView = () => {
   const { eventFields, remove } = useEventFields();
-  const contentType = CONTENT_TYPES.EVENT;
 
   const deleteItem = useCallback(
     (key: string, item: any) => {
@@ -49,8 +50,9 @@ export const ReferencesView = () => {
   );
 
   return (
-    <NestableScrollContainer>
+    <NestableScrollContainer style={{ paddingHorizontal: theme.spacing.sm }}>
       <ContentFieldMedia
+        contentType={contentType}
         fieldKey="featuredImage"
         fieldTitle="Featured Image"
         initialRoute="AddEvent"
@@ -58,6 +60,7 @@ export const ReferencesView = () => {
         style={{ marginTop: theme.spacing.md }}
       />
       <ContentFieldMedia
+        contentType={contentType}
         fieldKey="relatedMedia"
         fieldTitle="Related Media"
         initialRoute="AddEvent"
@@ -88,7 +91,7 @@ export const ReferencesView = () => {
         addRoute={"AddEvents"}
         contentType={contentType}
         createRoute={"AddEvent"}
-        fieldKey="relatedEvents"
+        fieldKey="similarEvents"
         fieldTitle="Similar Events"
         initialRoute={"AddEvent"}
         renderItem={(item: Event) => (
@@ -97,7 +100,7 @@ export const ReferencesView = () => {
             <ActionMenu
               iconColor={theme.colors.black.DEFAULT}
               iconSize={25}
-              menuItems={getMenuItems("relatedEvents", item)}
+              menuItems={getMenuItems("similarEvents", item)}
               style={eventMenuStyle}
             />
           </View>

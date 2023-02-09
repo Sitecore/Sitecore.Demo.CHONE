@@ -1,59 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { Athlete } from "../interfaces/athlete";
+import { Sport } from "../interfaces/sport";
+import { Media } from "../interfaces/media";
 import { Event } from "../interfaces/event";
-import { MEDIA_SOURCES } from "../constants/media";
 
-const initializeEventFields = (event: Event) => {
-  console.log("event initializeEventFields", event);
-
-  return {
-    ...event,
-    athletes: event?.athletes?.length ? event?.athletes : [],
-    sport: event?.sport || null,
-    featuredImage: event?.featuredImage
-      ? { ...event.featuredImage, source: MEDIA_SOURCES.CH_ONE }
-      : null,
-    relatedMedia: event?.relatedMedia?.length
-      ? event.relatedMedia.map((item) => ({
-          ...item,
-          source: MEDIA_SOURCES.CH_ONE,
-        }))
-      : [],
-  };
-};
-
-export interface EventFieldsState {
+export interface AthleteFieldsState {
   [key: string]: any;
 }
 
-export interface EventField {
+export interface AthleteField {
   key: string;
   value: any;
 }
 
-const initialState: EventFieldsState = {
-  sport: null,
+const initialState: AthleteFieldsState = {
   featuredImage: null,
+  profilePhoto: null,
   relatedMedia: [],
-  athletes: [],
-  similarEvents: [],
 };
 
-export const eventFieldsSlice = createSlice({
-  name: "eventFields",
+export const athleteFieldsSlice = createSlice({
+  name: "athleteFields",
   initialState,
   reducers: {
-    edit: (state: EventFieldsState, action: PayloadAction<EventField>) => {
+    edit: (state: AthleteFieldsState, action: PayloadAction<AthleteField>) => {
       return { ...state, [action.payload.key]: action.payload.value };
     },
-    init: (state: EventFieldsState, action: PayloadAction<Event>) => {
-      if (!action.payload) {
-        return { ...state };
-      }
-
-      return { ...state, ...initializeEventFields(action.payload) };
+    init: (state: AthleteFieldsState, action: PayloadAction<Athlete>) => {
+      return { ...state, ...action.payload };
     },
-    remove: (state: EventFieldsState, action: PayloadAction<EventField>) => {
+    remove: (
+      state: AthleteFieldsState,
+      action: PayloadAction<AthleteField>
+    ) => {
       if (!Array.isArray(state[action.payload.key])) {
         return {
           ...state,
@@ -74,7 +54,10 @@ export const eventFieldsSlice = createSlice({
           }
         : { ...state };
     },
-    replace: (state: EventFieldsState, action: PayloadAction<EventField>) => {
+    replace: (
+      state: AthleteFieldsState,
+      action: PayloadAction<AthleteField>
+    ) => {
       if (!Array.isArray(state[action.payload.key])) {
         return {
           ...state,
@@ -98,18 +81,16 @@ export const eventFieldsSlice = createSlice({
 
       return { ...state };
     },
-    reset: (state: EventFieldsState) => {
+    reset: (state: AthleteFieldsState) => {
       return {
-        sport: null,
         featuredImage: null,
+        profilePhoto: null,
         relatedMedia: [],
-        athletes: [],
-        similarEvents: [],
       };
     },
   },
 });
 
-export const { edit, init, remove, replace, reset } = eventFieldsSlice.actions;
+export const { edit, remove, replace, reset } = athleteFieldsSlice.actions;
 
-export default eventFieldsSlice.reducer;
+export default athleteFieldsSlice.reducer;

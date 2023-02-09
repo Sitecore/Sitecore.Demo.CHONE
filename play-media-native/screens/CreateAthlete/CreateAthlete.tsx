@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Screen } from "../../features/Screen/Screen";
 import { Stepper } from "../../components/Stepper/Stepper";
 import { useCallback, useMemo, useState } from "react";
@@ -11,8 +12,11 @@ import { getAllSports } from "../../api/queries/getSports";
 import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
 import { References } from "./References";
 import { theme } from "../../theme/theme";
+import { useFocusEffect } from "@react-navigation/native";
+import { useAthleteFields } from "../../hooks/useAthleteFields/useAthleteFields";
 
-export const CreateAthleteScreen = ({ navigation }) => {
+export const CreateAthleteScreen = ({ navigation, route }) => {
+  const { athleteFields, edit, reset } = useAthleteFields();
   const [step, setStep] = useState(0);
   const [sports, setSports] = useState([]);
 
@@ -51,6 +55,33 @@ export const CreateAthleteScreen = ({ navigation }) => {
   const { data, isFetching } = useQuery("sports", () => getAllSports(), {
     onSuccess: (data) => setSports(data),
   });
+
+  // reset global state on unmount
+  //
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, [reset]);
+
+  // Check route params for images added from route EditMedia (camera, library)
+  //
+  useFocusEffect(
+    useCallback(() => {
+      if (!route?.params?.isEditMedia || !route?.params?.key) {
+        return;
+      }
+
+      if (Array.isArray(athleteFields[route.params.key])) {
+        edit({
+          key: route.params.key,
+          value: [...athleteFields[route.params.key], route.params.image],
+        });
+      } else {
+        edit({ key: route.params.key, value: route.params.image });
+      }
+    }, [edit, route?.params])
+  );
 
   if (isFetching) {
     return <LoadingScreen />;

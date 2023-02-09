@@ -16,8 +16,10 @@ import { EVENT_FACETS } from "../constants/filters";
 import { useFacets } from "../hooks/useFacets/useFacets";
 import { getLocationOptions, getSportOptions } from "../helpers/facets";
 import { initializeEvents } from "../helpers/events";
+import { useEventFields } from "../hooks/useEventFields/useEventFields";
 
 export const EventsListingScreen = ({ navigation }) => {
+  const { init } = useEventFields();
   const { data: events, isFetching: isFetchingEvents } = useQuery(
     "events",
     () => getAllEvents()
@@ -42,12 +44,15 @@ export const EventsListingScreen = ({ navigation }) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
   }, []);
 
-  const onCardPress = useCallback((event: Event) => {
-    navigation.navigate("EventDetail", {
-      id: event.id,
-      title: event.title,
-    });
-  }, []);
+  const onCardPress = useCallback(
+    (event: Event) => {
+      init(event);
+      navigation.navigate("EventDetail");
+    },
+    [init, navigation]
+  );
+
+  console.log("\n\nevents EventsListing", events && events[0]);
 
   if (isFetchingEvents || isFetchingSports) {
     return <LoadingScreen />;
