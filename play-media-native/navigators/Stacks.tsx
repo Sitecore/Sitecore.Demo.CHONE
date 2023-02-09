@@ -17,6 +17,8 @@ import { AddAthletesScreen } from "../screens/AddAthletes";
 import { ReviewAthletesScreen } from "../screens/ReviewAthletes";
 import { ReviewEventsScreen } from "../screens/ReviewEvents";
 import { AddEventsScreen } from "../screens/AddEvents";
+import { EditEventScreen } from "../screens/EditEvent";
+import { ReviewEventScreen } from "../screens/ReviewEvent";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -71,6 +73,11 @@ export const Stacks = () => {
         options={{ title: "Edit Athlete Details" }}
       />
       <Stack.Screen
+        name="EditEvent"
+        component={EditEventScreen}
+        options={{ title: "Edit Athlete Details" }}
+      />
+      <Stack.Screen
         name="AddEvent"
         component={CreateEventScreen}
         options={{ title: "Add Event" }}
@@ -110,8 +117,8 @@ export const Stacks = () => {
         }}
       />
       <Stack.Screen
-        name="ReviewEvents"
-        component={ReviewEventsScreen}
+        name="ReviewEvent"
+        component={ReviewEventScreen}
         options={{
           title: "Review Events",
         }}

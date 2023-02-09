@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet } from "react-native";
 import { RadioButton, Text } from "react-native-paper";
 import { Sport } from "../../interfaces/sport";
@@ -23,22 +23,35 @@ const styles = StyleSheet.create({
 });
 
 type SportPickerProps = {
-  sports: Sport[];
   initialValue?: string;
+  onChange: (value: string) => void;
+  sports: Sport[];
 };
 
 export const SportPicker = ({
+  onChange,
   sports,
   initialValue = "",
 }: SportPickerProps) => {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState<string>();
+
+  const handleChange = useCallback(
+    (value: string) => {
+      setValue(value);
+
+      if (onChange) {
+        onChange(value);
+      }
+    },
+    [onChange]
+  );
 
   return (
     <>
       <Text style={styles.topLabel}>Sport</Text>
       <RadioButton.Group
-        onValueChange={(value) => setValue(value)}
-        value={value}
+        onValueChange={handleChange}
+        value={value || initialValue}
       >
         {sports?.map((sport) => (
           <RadioButton.Item
@@ -48,7 +61,7 @@ export const SportPicker = ({
               styles.radioButton,
               {
                 backgroundColor:
-                  value === sport.title
+                  value === sport.title || initialValue === sport.title
                     ? theme.colors.yellow.DEFAULT
                     : theme.colors.white.DEFAULT,
               },

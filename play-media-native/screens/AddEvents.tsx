@@ -22,6 +22,9 @@ import { styles } from "../theme/styles";
 import { useEventFields } from "../hooks/useEventFields/useEventFields";
 
 export const AddEventsScreen = ({ navigation, route }) => {
+  const initialRoute = route?.params?.initialRoute;
+  const key = route?.params?.key;
+
   const { data: events, isFetching: isFetchingEvents } = useQuery(
     "events",
     () => getAllEvents()
@@ -78,17 +81,16 @@ export const AddEventsScreen = ({ navigation, route }) => {
   }, []);
 
   const onCancel = useCallback(() => {
-    clear();
     navigation.goBack();
-  }, [clear]);
+  }, [navigation]);
 
   const onSubmit = useCallback(() => {
     edit({
-      key: route.params.key,
+      key,
       value: events.filter((item) => selectedEventIDs.includes(item.id)),
     });
-    navigation.navigate("AddEvent");
-  }, [edit, events, route?.params, selectedEventIDs]);
+    navigation.navigate(initialRoute);
+  }, [edit, events, key, navigation, selectedEventIDs]);
 
   return (
     <Screen>

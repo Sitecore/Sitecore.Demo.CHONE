@@ -1,6 +1,11 @@
 import { fetchGraphQL } from "../..";
 import { FetchOptions } from "../../../interfaces/fetchOptions";
-import { Event, AllEventsResponse } from "../../../interfaces/event";
+import {
+  Event,
+  AllEventsResponse,
+  EventResponse,
+} from "../../../interfaces/event";
+import { normalizeEvent } from "../../../helpers/events";
 
 const eventsQuery = `
 query {
@@ -24,17 +29,25 @@ query {
       featuredImage {
         results {
           id
-          name
-          fileUrl
           description
+          fileHeight
+          fileSize
+          fileType
+          fileUrl
+          fileWidth
+          name
         }
       }
       relatedMedia {
         results {
           id
-          name
-          fileUrl
           description
+          fileHeight
+          fileSize
+          fileType
+          fileUrl
+          fileWidth
+          name
         }
       }
       teaser
@@ -71,6 +84,7 @@ query {
         results {
           ... on Event {
             id
+            location
             title
             sport {
               results {
@@ -105,24 +119,7 @@ export const getAllEvents = async (
     eventsQuery,
     options
   )) as AllEventsResponse;
-  const events: Partial<Event>[] = [];
-
-  results.data.allEvent.results.forEach((event: Partial<Event>) => {
-    events.push({
-      id: event.id,
-      title: event.title,
-      sport: event.sport,
-      isFeatured: event.isFeatured,
-      timeAndDate: event.timeAndDate,
-      location: event.location,
-      featuredImage: event.featuredImage,
-      relatedMedia: event.relatedMedia,
-      teaser: event.teaser,
-      body: event.body,
-      athletes: event.athletes,
-      similarEvents: event.similarEvents,
-    });
-  });
-
-  return events as Event[];
+  return results.data.allEvent.results.map((event: Partial<EventResponse>) =>
+    normalizeEvent(event as EventResponse)
+  );
 };

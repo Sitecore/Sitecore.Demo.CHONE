@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { FlatList, ListRenderItem } from "react-native";
+import { FlatList } from "react-native";
 import { CardAvatar } from "../features/CardAvatar/CardAvatar";
 import { Athlete } from "../interfaces/athlete";
 import { getAllAthletes } from "../api/queries/getAthletes";

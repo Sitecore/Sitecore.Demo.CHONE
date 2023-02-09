@@ -13,7 +13,7 @@ export const CardEvent = ({
   item: Event;
   onCardPress?: () => void;
 }) => {
-  const sport = item.sport?.results[0];
+  const sport = item.sport;
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
   const rightLabel = `${getDate(item.timeAndDate)} | ${item.location}`;
 
@@ -21,7 +21,7 @@ export const CardEvent = ({
     <>
       <Pressable onPress={onCardPress}>
         <Image
-          source={{ uri: item?.featuredImage?.results[0]?.fileUrl }}
+          source={{ uri: item?.featuredImage?.fileUrl }}
           style={{
             height: 200,
             resizeMode: "cover",

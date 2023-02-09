@@ -144,7 +144,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     // Delete the id from the request fields to avoid errors
     delete requestFields.id;
 
-
     if (isNewAthlete) {
       createContentItem({
         contentTypeId: CONTENT_TYPES.ATHLETE,
@@ -194,7 +193,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           extended={isTopEdge}
           onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
           style={pageStyles.bottomFAB}
-        ></AnimatedFAB>
+        />
       ),
     [
       athlete,
