@@ -48,7 +48,9 @@ const contentType = CONTENT_TYPES.EVENT;
 const initialRoute = "EditEvent";
 
 export const EditEventScreen = ({ route, navigation }) => {
-  const { eventFields: event, edit, remove } = useEventFields();
+  const { eventFields, edit, remove } = useEventFields();
+  const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
+
   const { data: sports, isFetching: isFetchingSports } = useQuery(
     "sports",
     () => getAllSports()
@@ -71,7 +73,7 @@ export const EditEventScreen = ({ route, navigation }) => {
   const [title, setTitle] = useState(event?.title);
   const [sport, setSport] = useState<Sport>();
   const [summary, setSummary] = useState(event?.teaser);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(event?.timeAndDate || new Date());
   const [location, setLocation] = useState(event?.location);
   const [body, setBody] = useState<string>(event?.body);
   const [showDatePicker, setShowDatePicker] = useState(false);

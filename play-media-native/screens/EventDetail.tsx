@@ -138,8 +138,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
     };
   }, []);
 
-  console.log("\n\nevent Details", event.similarEvents);
-
   if (!event) {
     return (
       <Screen centered>

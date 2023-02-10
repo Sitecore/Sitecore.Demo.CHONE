@@ -42,10 +42,10 @@ export interface Event {
   isFeatured: boolean;
   timeAndDate: Date;
   location: string;
-  featuredImage: Partial<Media>;
-  relatedMedia: Partial<Media>[];
+  featuredImage: Media;
+  relatedMedia: Media[];
   teaser: string;
   body: any;
-  athletes: Partial<Athlete>[];
-  similarEvents: Partial<Event>[];
+  athletes: Athlete[];
+  similarEvents: Event[];
 }
