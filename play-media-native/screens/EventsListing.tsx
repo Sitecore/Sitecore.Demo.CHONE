@@ -52,8 +52,6 @@ export const EventsListingScreen = ({ navigation }) => {
     [init, navigation]
   );
 
-  console.log("\n\nevents EventsListing", events && events[0]);
-
   if (isFetchingEvents || isFetchingSports) {
     return <LoadingScreen />;
   }

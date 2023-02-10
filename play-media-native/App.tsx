@@ -27,6 +27,22 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { store } from "./store";
 import { Provider as GlobalStateProvider } from "react-redux";
 
+if (__DEV__) {
+  const ignoreWarns = [
+    "VirtualizedLists should never be nested inside plain ScrollViews",
+  ];
+
+  const errorWarn = global.console.error;
+  global.console.error = (...arg) => {
+    for (const error of ignoreWarns) {
+      if (arg[0].startsWith(error)) {
+        return;
+      }
+    }
+    errorWarn(...arg);
+  };
+}
+
 // Create a client
 const queryClient = new QueryClient();
 
