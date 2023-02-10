@@ -116,7 +116,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     if (isNewEvent) {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
-        name: event.name,
+        name: eventToReview.name,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
@@ -124,8 +124,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         .finally(() => setIsValidating(false));
     } else {
       await updateContentItem({
-        id: event.id,
-        name: event.name,
+        id: eventToReview.id,
+        name: eventToReview.name,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
