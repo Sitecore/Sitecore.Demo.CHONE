@@ -99,9 +99,6 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     [event, handlePublishBtn]
   );
 
-  console.log("\n\n\n\n\nevent Review Event", event);
-  console.log("\n\n\n\n\n");
-
   if (!event) {
     return (
       <Screen centered>
