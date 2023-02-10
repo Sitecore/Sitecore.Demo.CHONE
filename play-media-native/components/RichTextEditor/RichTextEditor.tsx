@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { HelperText } from "react-native-paper";
 import {
@@ -9,19 +9,24 @@ import {
 import { styles } from "../../theme/styles";
 import { theme } from "../../theme/theme";
 import { Icon } from "../Icon/Icon";
+import { generateHtml } from "./generateHtml";
 import generateJson from "./generateJson";
 
 export const RichTextEditor = ({
+  initialValue,
   showError,
   errorText,
   onChange,
 }: {
+  initialValue?: any;
   showError?: boolean;
   errorText?: string;
   onChange: (json: string) => void;
 }) => {
   const richText = useRef<any>();
   const richTextScroll = useRef<any>();
+
+  const initialHtml = useMemo(() => generateHtml(initialValue), [initialValue]);
 
   const richTextHandle = (descriptionText) => {
     if (descriptionText) {
@@ -107,14 +112,12 @@ export const RichTextEditor = ({
             style={pageStyles.scrollContainerStyle}
           >
             <RichEditor
-              editorStyle={{
-                backgroundColor: theme.colors.white.DEFAULT,
-                color: theme.colors.black.darkest,
-              }}
+              editorStyle={pageStyles.richTextEditorStyle}
               initialHeight={pageStyles.scrollContainerStyle.height}
               initialFocus={false}
               pasteAsPlainText={true}
               ref={richText}
+              initialContentHTML={initialHtml}
               onChange={(descriptionText) => {
                 richTextHandle(descriptionText);
               }}
@@ -148,7 +151,7 @@ export const RichTextEditor = ({
 const pageStyles = StyleSheet.create({
   richTextEditorStyle: {
     backgroundColor: theme.colors.white.DEFAULT,
-    elevation: 4,
+    color: theme.colors.black.darkest,
   },
 
   richTextToolbarStyle: {
