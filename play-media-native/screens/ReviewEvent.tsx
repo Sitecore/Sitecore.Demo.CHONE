@@ -100,7 +100,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     // TODO draft case
   }, []);
 
-  const handlePublishBtn = useCallback(async () => {
+  const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
 
     // Map eventToReview object to a form suitable for the API request
@@ -158,13 +158,13 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handlePublishBtn}
+          onPress={handleSubmitBtn}
         >
-          Publish
+          Submit
         </Button>
       </BottomActions>
     ),
-    [event, handlePublishBtn]
+    [event, handleSubmitBtn]
   );
 
   if (!event) {
