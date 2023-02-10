@@ -24,9 +24,8 @@ export const createContentItem = async (
       const jsonResponsePromise = response.json();
       const data = await jsonResponsePromise;
 
-      if (data?.error) {
-        console.error(data?.error_description);
-        throw data.error;
+      if (data?.status) {
+        throw data?.status;
       }
 
       return data;
@@ -54,9 +53,8 @@ export const updateContentItem = async (
       const jsonResponsePromise = response.json();
       const data = await jsonResponsePromise;
 
-      if (data?.error) {
-        console.error(data?.error_description);
-        throw data.error;
+      if (data?.status) {
+        throw data?.status;
       }
 
 
