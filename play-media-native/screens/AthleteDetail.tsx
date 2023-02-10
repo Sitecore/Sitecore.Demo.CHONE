@@ -119,6 +119,8 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (isValidating || showSuccessToast || showErrorToast) {
       setShouldShowBottomActions(false);
+    } else {
+      setShouldShowBottomActions(true);
     }
   }, [isValidating, showSuccessToast, showErrorToast]);
 
