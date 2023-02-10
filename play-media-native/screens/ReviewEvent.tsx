@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Text } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../theme/theme";
@@ -13,7 +13,13 @@ import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { CardEvent } from "../features/CardEvent/CardEvent";
-import { Event } from "../interfaces/event";
+import { Event, EventResponse } from "../interfaces/event";
+import {
+  createContentItem,
+  updateContentItem,
+} from "../api/queries/contentItems";
+import { mapContentItem } from "../helpers/contentItemHelper";
+import { CONTENT_TYPES } from "../constants/contentTypes";
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -43,28 +49,57 @@ const pageStyles = StyleSheet.create({
 export const ReviewEventScreen = ({ navigation, route }) => {
   const event = route?.params?.event as Event;
 
+  // TODO Retrieve event to review from global store
+  let eventToReview = undefined as EventResponse;
+
+  const [newEventID, setNewEventID] = useState(undefined);
+  const [newEventName, setNewEventName] = useState("");
+
+  const isNewEvent = route.params.isNewAthlete;
+
   useEffect(() => {
     navigation.setOptions({
       title: `Review ${event?.title}`,
     });
   }, [event, navigation]);
 
-  const onCardPress = useCallback(
-    (athlete: Athlete) => {
-      navigation.navigate("AthleteDetail", {
-        id: athlete.id,
-        title: athlete.athleteName,
-      });
-    },
-    [navigation]
-  );
+  const processResponse = useCallback((res: { id: string; name: string }) => {
+    setNewEventID(res.id);
+    setNewEventName(res.name);
+  }, []);
+
 
   const handleDraft = useCallback(() => {
     // TODO draft case
   }, []);
 
-  // TODO Add API request to create/ update athlete
-  const handlePublishBtn = useCallback(() => {}, []);
+  const handlePublishBtn = useCallback(async () => {
+    // Map eventToReview object to a form suitable for the API request
+    const requestFields = mapContentItem(eventToReview, (k, v) => ({
+      value: v?.["results"]
+        ? [...v["results"].map((obj: { id: string }) => ({ id: obj.id }))]
+        : v,
+    }));
+    // Delete the id, name from the request fields to avoid errors
+    delete requestFields.id;
+    delete requestFields.name;
+
+    if (isNewEvent) {
+      await createContentItem({
+        contentTypeId: CONTENT_TYPES.EVENT,
+        name: event.name,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+    } else {
+      await updateContentItem({
+        id: event.id,
+        name: event.name,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+    }
+  }, []);
 
   const accentColor = useMemo(
     () => getAccentColor(event?.sport?.title),
