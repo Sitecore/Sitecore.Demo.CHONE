@@ -45,7 +45,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: `Review ${event.title}`,
+      title: `Review ${event?.title}`,
     });
   }, [event, navigation]);
 
@@ -72,7 +72,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   );
 
   const imageUriArray = useMemo(() => {
-    return event.relatedMedia.map((img: Media) => img.fileUrl);
+    return event?.relatedMedia.map((img: Media) => img.fileUrl);
   }, [event]);
 
   const bottomActions = useMemo(
