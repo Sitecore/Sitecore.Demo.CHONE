@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Text } from "react-native-paper";
+import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../theme/theme";
 import { getDate, getTime } from "../helpers/dateHelper";
@@ -20,6 +20,7 @@ import {
 } from "../api/queries/contentItems";
 import { mapContentItem } from "../helpers/contentItemHelper";
 import { CONTENT_TYPES } from "../constants/contentTypes";
+import { Toast } from "../components/Toast/Toast";
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -55,6 +56,11 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const [newEventID, setNewEventID] = useState(undefined);
   const [newEventName, setNewEventName] = useState("");
 
+  const [isValidating, setIsValidating] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+
   const isNewEvent = route.params.isNewAthlete;
 
   useEffect(() => {
@@ -63,17 +69,40 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     });
   }, [event, navigation]);
 
+  // Hide bottom action buttons if a loading indicator or a toaster is shown
+  useEffect(() => {
+    if (isValidating || showSuccessToast || showErrorToast) {
+      setShouldShowBottomActions(false);
+    } else {
+      setShouldShowBottomActions(true);
+    }
+  }, [isValidating, showSuccessToast, showErrorToast]);
+
   const processResponse = useCallback((res: { id: string; name: string }) => {
     setNewEventID(res.id);
     setNewEventName(res.name);
+    setShowSuccessToast(true);
   }, []);
 
+  const handleSuccessToastDismiss = useCallback(() => {
+    setShowSuccessToast(false);
+    navigation.navigate("EventDetail", {
+      id: newEventID,
+      title: newEventName,
+    });
+  }, [newEventID, newEventName]);
+
+  const handleErrorToastDismiss = useCallback(() => {
+    setShowErrorToast(false);
+  }, []);
 
   const handleDraft = useCallback(() => {
     // TODO draft case
   }, []);
 
   const handlePublishBtn = useCallback(async () => {
+    setIsValidating(true);
+
     // Map eventToReview object to a form suitable for the API request
     const requestFields = mapContentItem(eventToReview, (k, v) => ({
       value: v?.["results"]
@@ -91,6 +120,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
     } else {
       await updateContentItem({
         id: event.id,
@@ -98,6 +129,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
     }
   }, []);
 
@@ -200,7 +233,34 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         </View>
         <View style={{ paddingBottom: 70 }} />
       </ScrollView>
-      {bottomActions}
+      {isValidating && (
+        <View>
+          <ActivityIndicator size="small" animating />
+        </View>
+      )}
+      <Toast
+        duration={2000}
+        message={
+          isNewEvent
+            ? "Event created successfully!"
+            : "Event updated successfully!"
+        }
+        onDismiss={handleSuccessToastDismiss}
+        visible={showSuccessToast}
+        type="success"
+      />
+      <Toast
+        duration={2000}
+        message={
+          isNewEvent
+            ? "Event could not be created"
+            : "Event could not be updated"
+        }
+        onDismiss={handleErrorToastDismiss}
+        visible={showErrorToast}
+        type="warning"
+      />
+      {shouldShowBottomActions && bottomActions}
     </Screen>
   );
 };
