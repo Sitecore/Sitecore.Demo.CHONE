@@ -48,7 +48,7 @@ const contentType = CONTENT_TYPES.EVENT;
 const initialRoute = "EditEvent";
 
 export const EditEventScreen = ({ route, navigation }) => {
-  const { eventFields, edit, remove } = useEventFields();
+  const { eventFields, edit, editMultiple, remove } = useEventFields();
   const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
 
   const { data: sports, isFetching: isFetchingSports } = useQuery(
@@ -56,26 +56,26 @@ export const EditEventScreen = ({ route, navigation }) => {
     () => getAllSports()
   );
   const defaultSport = useMemo(() => {
-    const hasSport = !!event?.sport?.title;
+    const hasSport = !!event?.sport;
     const sportsFetched = !!sports?.length;
 
     if (hasSport) {
-      return event.sport.title;
+      return event.sport;
     }
 
     if (!hasSport && sportsFetched) {
-      return sports[0]?.title;
+      return sports[0];
     }
 
     return null;
   }, [event, sports]);
 
   const [title, setTitle] = useState(event?.title);
-  const [sport, setSport] = useState<Sport>();
-  const [summary, setSummary] = useState(event?.teaser);
+  const [sport, setSport] = useState<Sport>(defaultSport);
+  const [teaser, setTeaser] = useState(event?.teaser);
   const [date, setDate] = useState(event?.timeAndDate || new Date());
   const [location, setLocation] = useState(event?.location);
-  const [body, setBody] = useState<string>(event?.body);
+  const [body, setBody] = useState<any>(event?.body);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const deleteItem = useCallback(
@@ -104,28 +104,29 @@ export const EditEventScreen = ({ route, navigation }) => {
   );
 
   const handleReview = useCallback(() => {
+    editMultiple({
+      body: body,
+      location,
+      sport: sport || sports[0],
+      teaser,
+      timeAndDate: date,
+      title,
+    });
+
     navigation.navigate("ReviewEvent", {
-      title: "Review edited event",
-      event: {
-        ...event,
-        body,
-        location,
-        sport: sport || sports.find((item) => item.title === defaultSport),
-        summary,
-        timeAndDate: date,
-        title,
-      },
+      title: `Review ${title || "Event"}`,
     });
   }, [
     body,
     date,
-    defaultSport,
+    editMultiple,
     event,
     location,
-    sport,
-    summary,
-    title,
     navigation,
+    sport,
+    sports,
+    teaser,
+    title,
   ]);
 
   const handleDiscard = useCallback(() => {
@@ -172,7 +173,7 @@ export const EditEventScreen = ({ route, navigation }) => {
           <SportPicker
             onChange={handleSportChange}
             sports={sports}
-            initialValue={defaultSport}
+            initialValue={defaultSport?.title}
           />
 
           <InputText
@@ -185,8 +186,8 @@ export const EditEventScreen = ({ route, navigation }) => {
           <InputText
             containerStyle={inputContainerStyle}
             multiline
-            onChange={setSummary}
-            value={summary}
+            onChange={setTeaser}
+            value={teaser}
             title={"Teaser"}
           />
           <InputText
@@ -196,7 +197,7 @@ export const EditEventScreen = ({ route, navigation }) => {
             title={"Event Date"}
             showSoftInputOnFocus={false}
             caretHidden={true}
-            onTouchStart={() => setShowDatePicker(true)}
+            onPressIn={() => setShowDatePicker(true)}
           />
           {showDatePicker && (
             <DatePicker
@@ -215,7 +216,10 @@ export const EditEventScreen = ({ route, navigation }) => {
           />
           <View style={inputContainerStyle}>
             <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
-            <RichTextEditor onChange={(json: string) => setBody(json)} />
+            <RichTextEditor
+              initialValue={body?.content}
+              onChange={(json: string) => setBody(json)}
+            />
           </View>
           <ContentFieldMedia
             contentType={contentType}

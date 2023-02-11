@@ -159,7 +159,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
             <CardEvent key={event.id} item={event} />
           ))}
         </View>
-        <View style={{ paddingBottom: 70 }} />
+        <View style={{ paddingBottom: 50 }} />
       </ScrollView>
       {bottomActions}
     </Screen>

@@ -9,7 +9,6 @@ import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { theme } from "../theme/theme";
 import { SelectableView } from "../components/SelectableView/SelectableView";
 import { BottomActions } from "../components/BottomActions/BottomActions";
-import { useAthletes } from "../hooks/useAthletes/useAthletes";
 import { ATHLETE_FACETS } from "../constants/filters";
 import { useFacets } from "../hooks/useFacets/useFacets";
 import { initializeAthletes, removeAlreadySelected } from "../helpers/athletes";
@@ -21,15 +20,18 @@ import { DropdownItem } from "../components/DropdownPicker/DropdownPicker";
 import { styles } from "../theme/styles";
 import { useEventFields } from "../hooks/useEventFields/useEventFields";
 import { CONTENT_TYPES } from "../constants/contentTypes";
+import { useAthleteFields } from "../hooks/useAthleteFields/useAthleteFields";
+import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 
 export const AddAthletesScreen = ({ navigation, route }) => {
-  const contentType = useMemo(
-    () => route?.params?.contentType,
-    [route?.params]
-  );
+  const contentType = route?.params?.contentType;
   const fieldKey = route?.params?.key;
   const single = route?.params?.single;
+  const initialRoute = route?.params?.initialRoute;
+
   const { eventFields, edit: editEventFields } = useEventFields();
+  const { athleteFields, edit: editAthleteFields } = useAthleteFields();
+
   const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
     "athletes",
     () => getAllAthletes()
@@ -38,7 +40,7 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     "sports",
     () => getAllSports()
   );
-  const { add } = useAthletes();
+
   const [facets, setFacets] = useState<Record<string, any>>({
     [ATHLETE_FACETS.sport]: "",
     [ATHLETE_FACETS.nationality]: "",
@@ -47,15 +49,16 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     const initialized = initializeAthletes(athletes, sports);
     return contentType === CONTENT_TYPES.EVENT
       ? removeAlreadySelected(initialized, eventFields[fieldKey])
-      : removeAlreadySelected(initialized, eventFields[fieldKey]);
-  }, [contentType, eventFields, fieldKey]);
+      : removeAlreadySelected(initialized, athleteFields[fieldKey]);
+  }, [athleteFields, athletes, contentType, eventFields, fieldKey, sports]);
   const filteredAthletes = useFacets({
-    initialItems: athletes?.length ? initialAthletes : [],
+    initialItems: initialAthletes?.length ? initialAthletes : [],
     facets,
   });
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
   const [selectedAthleteIDs, setSelectedAthleteIDs] = useState<string[]>([]);
   const noneSelected = !selectedAthleteIDs?.length;
+
   const nationalityOptions = useMemo(
     () => getNationalityOptions(athletes),
     [athletes]
@@ -83,13 +86,19 @@ export const AddAthletesScreen = ({ navigation, route }) => {
       if (contentType === CONTENT_TYPES.EVENT) {
         editEventFields({ key, value: [...eventFields[key], ...value] });
       } else if (contentType === CONTENT_TYPES.ATHLETE) {
-        // TODO
+        editAthleteFields({ key, value: [...athleteFields[key], ...value] });
       }
     },
-    [contentType, editEventFields]
+    [
+      athleteFields,
+      contentType,
+      editAthleteFields,
+      editEventFields,
+      eventFields,
+    ]
   );
 
-  const handleChange = useCallback((key: string, item: DropdownItem) => {
+  const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
 
@@ -108,23 +117,27 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   }, [navigation]);
 
   const onSubmit = useCallback(() => {
-    if (!route?.params?.key || !route?.params?.initialRoute) {
+    if (!fieldKey || !initialRoute) {
       return;
     }
 
     edit({
-      key: route.params.key,
+      key: fieldKey,
       value: athletes.filter((item) => selectedAthleteIDs.includes(item.id)),
     });
 
-    navigation.navigate(route.params.initialRoute);
-  }, [add, athletes, edit, navigation, route?.params, selectedAthleteIDs]);
+    navigation.navigate(initialRoute);
+  }, [athletes, edit, fieldKey, initialRoute, navigation, selectedAthleteIDs]);
+
+  if (isFetchingAthletes || isFetchingSports) {
+    return <LoadingScreen />;
+  }
 
   return (
     <Screen>
       <AthleteFiltersView
         facets={facetFilters}
-        handleFacetsChange={handleChange}
+        handleFacetsChange={handleFacetsChange}
       />
       <FlatList
         data={filteredAthletes}

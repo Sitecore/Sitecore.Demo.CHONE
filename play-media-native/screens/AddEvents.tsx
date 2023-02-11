@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from "react";
-import { Listing } from "../components/Listing/Listing";
 import { useQuery } from "react-query";
 import { Button } from "react-native-paper";
 import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
@@ -14,16 +13,24 @@ import { AthleteFiltersView } from "../features/AthleteFilters/AthleteFiltersVie
 import { Screen } from "../features/Screen/Screen";
 import { DropdownItem } from "../components/DropdownPicker/DropdownPicker";
 import { getAllEvents } from "../api/queries/getEvents";
-import { initializeEvents } from "../helpers/events";
+import { initializeEvents, removeAlreadySelected } from "../helpers/events";
 import { Event } from "../interfaces/event";
-import { useEvents } from "../hooks/useEvents/useEvents";
 import { CardEvent } from "../features/CardEvent/CardEvent";
 import { styles } from "../theme/styles";
 import { useEventFields } from "../hooks/useEventFields/useEventFields";
+import { CONTENT_TYPES } from "../constants/contentTypes";
+import { useAthleteFields } from "../hooks/useAthleteFields/useAthleteFields";
+import { FlatList } from "react-native";
+import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 
 export const AddEventsScreen = ({ navigation, route }) => {
+  const contentType = route?.params?.contentType;
+  const fieldKey = route?.params?.key;
+  const single = route?.params?.single;
   const initialRoute = route?.params?.initialRoute;
-  const key = route?.params?.key;
+
+  const { eventFields, edit: editEventFields } = useEventFields();
+  const { athleteFields, edit: editAthleteFields } = useAthleteFields();
 
   const { data: events, isFetching: isFetchingEvents } = useQuery(
     "events",
@@ -33,14 +40,19 @@ export const AddEventsScreen = ({ navigation, route }) => {
     "sports",
     () => getAllSports()
   );
-  const { edit } = useEventFields();
-  const { add, clear } = useEvents();
+
   const [facets, setFacets] = useState<Record<string, any>>({
     [EVENT_FACETS.sport]: "",
     [EVENT_FACETS.location]: "",
   });
+  const initialEvents = useMemo(() => {
+    const initialized = initializeEvents(events, sports);
+    return contentType === CONTENT_TYPES.EVENT
+      ? removeAlreadySelected(initialized, eventFields[fieldKey])
+      : removeAlreadySelected(initialized, athleteFields[fieldKey]);
+  }, [athleteFields, contentType, eventFields, fieldKey, sports]);
   const filteredEvents = useFacets({
-    initialItems: events?.length ? initializeEvents(events, sports) : [],
+    initialItems: initialEvents?.length ? initialEvents : [],
     facets,
   });
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
@@ -66,7 +78,24 @@ export const AddEventsScreen = ({ navigation, route }) => {
     []
   );
 
-  const handleChange = useCallback((key: string, item: DropdownItem) => {
+  const edit = useCallback(
+    ({ key, value }: { key: string; value: Event[] }) => {
+      if (contentType === CONTENT_TYPES.EVENT) {
+        editEventFields({ key, value: [...eventFields[key], ...value] });
+      } else if (contentType === CONTENT_TYPES.ATHLETE) {
+        editAthleteFields({ key, value: [...athleteFields[key], ...value] });
+      }
+    },
+    [
+      athleteFields,
+      contentType,
+      editAthleteFields,
+      editEventFields,
+      eventFields,
+    ]
+  );
+
+  const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
 
@@ -85,32 +114,40 @@ export const AddEventsScreen = ({ navigation, route }) => {
   }, [navigation]);
 
   const onSubmit = useCallback(() => {
+    if (!fieldKey || !initialRoute) {
+      return;
+    }
+
     edit({
-      key,
+      key: fieldKey,
       value: events.filter((item) => selectedEventIDs.includes(item.id)),
     });
+
     navigation.navigate(initialRoute);
-  }, [edit, events, key, navigation, selectedEventIDs]);
+  }, [edit, events, fieldKey, initialRoute, navigation, selectedEventIDs]);
+
+  if (isFetchingEvents || isFetchingSports) {
+    return <LoadingScreen />;
+  }
 
   return (
     <Screen>
       <AthleteFiltersView
         facets={facetFilters}
-        handleFacetsChange={handleChange}
+        handleFacetsChange={handleFacetsChange}
       />
-      <Listing
+      <FlatList
         data={filteredEvents}
-        isLoading={isFetchingEvents || isFetchingSports}
         renderItem={({ item }) => (
           <SelectableView
-            onSelect={() => onSelect(item)}
+            onSelect={() => onSelect(item as Event)}
             selected={selectedEventIDs.includes(item.id)}
           >
-            <CardEvent item={item} />
+            <CardEvent item={item as Event} />
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
-        style={{ paddingHorizontal: theme.spacing.sm, paddingBottom: 170 }}
+        style={{ paddingHorizontal: theme.spacing.sm, marginBottom: 70 }}
       />
       <BottomActions>
         <Button

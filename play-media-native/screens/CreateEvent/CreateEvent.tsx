@@ -16,6 +16,8 @@ import { KeyboardAwareScreen } from "../../features/Screen/KeyboardAwareScreen";
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { eventFields, edit, editMultiple, reset } = useEventFields();
+  const event = useMemo(() => event, [eventFields]) as unknown as Event;
+
   const { data: sports, isFetching: isFetchingSports } = useQuery(
     "sports",
     () => getAllSports()
@@ -103,25 +105,14 @@ export const CreateEventScreen = ({ navigation, route }) => {
       title,
     });
 
-    // navigation.navigate("ReviewEvent", {
-    //   title: title || "Review Event",
-    //   event: {
-    //     ...eventFields,
-    //     body,
-    //     location,
-    //     sport: sport || sports[0],
-    //     teaser,
-    //     timeAndDate: date,
-    //     title,
-    //   },
-    // });
-
-    navigation.navigate("ReviewEvent");
+    navigation.navigate("ReviewEvent", {
+      title: `Review ${title || "Event"}`,
+    });
   }, [
     body,
     date,
     editMultiple,
-    eventFields,
+    event,
     location,
     navigation,
     sport,
@@ -147,10 +138,10 @@ export const CreateEventScreen = ({ navigation, route }) => {
         return;
       }
 
-      if (Array.isArray(eventFields[route.params.key])) {
+      if (Array.isArray(event[route.params.key])) {
         edit({
           key: route.params.key,
-          value: [...eventFields[route.params.key], route.params.image],
+          value: [...event[route.params.key], route.params.image],
         });
       } else {
         edit({ key: route.params.key, value: route.params.image });

@@ -5,14 +5,14 @@ export interface Athlete {
   id: string;
   athleteName: string;
   profilePhoto: {
-    results: Partial<Media>[];
+    results: Media[];
   };
   featuredImage: {
-    results: Partial<Media>[];
+    results: Media[];
   };
   isFeatured: boolean;
   sport: {
-    results: Partial<Sport>[];
+    results: Sport[];
   };
   athleteQuote: string;
   nationality: string;
@@ -20,20 +20,20 @@ export interface Athlete {
   careerStartDate: Date;
   hobby: string;
   relatedMedia: {
-    results: Partial<Media>[];
+    results: Media[];
   };
 }
 
 export interface AllAthletesResponse {
   data: {
     allAthlete: {
-      results: Partial<Athlete>[];
+      results: Athlete[];
     };
   };
 }
 
 export interface AthleteResponse {
   data: {
-    athlete: Partial<Athlete>;
+    athlete: Athlete;
   };
 }

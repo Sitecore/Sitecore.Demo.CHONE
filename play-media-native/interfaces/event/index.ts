@@ -6,31 +6,31 @@ export interface EventResponse {
   id: string;
   title: string;
   sport: {
-    results: Partial<Sport>[];
+    results: Sport[];
   };
   isFeatured: boolean;
   timeAndDate: Date;
   location: string;
   featuredImage: {
-    results: Partial<Media>[];
+    results: Media[];
   };
   relatedMedia: {
-    results: Partial<Media>[];
+    results: Media[];
   };
   teaser: string;
   body: any;
   athletes: {
-    results: Partial<Athlete>[];
+    results: Athlete[];
   };
   similarEvents: {
-    results: Partial<EventResponse>[];
+    results: EventResponse[];
   };
 }
 
 export interface AllEventsResponse {
   data: {
     allEvent: {
-      results: Partial<EventResponse>[];
+      results: EventResponse[];
     };
   };
 }
@@ -38,7 +38,7 @@ export interface AllEventsResponse {
 export interface Event {
   id: string;
   title: string;
-  sport: Partial<Sport>;
+  sport: Sport;
   isFeatured: boolean;
   timeAndDate: Date;
   location: string;
