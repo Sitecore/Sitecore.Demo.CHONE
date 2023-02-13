@@ -103,6 +103,20 @@ export const Stacks = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="ManualConnection"
+        component={ManualConnectionScreen}
+        options={{
+          title: "Create a connection",
+        }}
+      />
+      <Stack.Screen
+        name="QRCodeConnection"
+        component={QRCodeConnectionScreen}
+        options={{
+          title: "",
+        }}
+      />
+      <Stack.Screen
         name="RemoveConnection"
         component={RemoveConnectionScreen}
         options={{
