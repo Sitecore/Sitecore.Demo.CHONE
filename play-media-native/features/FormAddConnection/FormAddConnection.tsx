@@ -133,7 +133,7 @@ export const FormAddConnection = () => {
   }, []);
 
   const handleDiscardBtn = useCallback(() => {
-    navigation.goBack();
+    navigation.navigate("MainTabs");
   }, []);
   const handleConnectBtn = useCallback(async () => {
     setIsValidating(true);
