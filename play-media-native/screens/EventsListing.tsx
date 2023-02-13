@@ -20,14 +20,18 @@ import { useEventFields } from "../hooks/useEventFields/useEventFields";
 
 export const EventsListingScreen = ({ navigation }) => {
   const { init } = useEventFields();
-  const { data: events, isFetching: isFetchingEvents } = useQuery(
-    "events",
-    () => getAllEvents()
-  );
-  const { data: sports, isFetching: isFetchingSports } = useQuery(
-    "sports",
-    () => getAllSports()
-  );
+  const {
+    data: events,
+    isLoading: isFetchingInitialEvents,
+    refetch: refetchEvents,
+    isRefetching: isRefetchingEvents,
+  } = useQuery("events", () => getAllEvents());
+  const {
+    data: sports,
+    isLoading: isFetchingInitialSports,
+    refetch: refetchSports,
+    isRefetching: isRefetchingSports,
+  } = useQuery("sports", () => getAllSports());
   const [facets, setFacets] = useState<Record<string, any>>({
     [EVENT_FACETS.sport]: "",
     [EVENT_FACETS.location]: "",
@@ -44,6 +48,11 @@ export const EventsListingScreen = ({ navigation }) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
   }, []);
 
+  const handleRefresh = useCallback(() => {
+    refetchEvents();
+    refetchSports();
+  }, []);
+
   const onCardPress = useCallback(
     (event: Event) => {
       init(event);
@@ -52,7 +61,7 @@ export const EventsListingScreen = ({ navigation }) => {
     [init, navigation]
   );
 
-  if (isFetchingEvents || isFetchingSports) {
+  if (isFetchingInitialEvents || isFetchingInitialSports) {
     return <LoadingScreen />;
   }
 
@@ -71,6 +80,8 @@ export const EventsListingScreen = ({ navigation }) => {
           <CardEvent item={item} onCardPress={() => onCardPress(item)} />
         )}
         onScroll={calcScrollOffset}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefetchingEvents || isRefetchingSports}
         style={{
           flex: 1,
         }}
