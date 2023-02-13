@@ -54,7 +54,6 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   let eventToReview = undefined as EventResponse;
 
   const [newEventID, setNewEventID] = useState(undefined);
-  const [newEventName, setNewEventName] = useState("");
 
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -80,17 +79,15 @@ export const ReviewEventScreen = ({ navigation, route }) => {
 
   const processResponse = useCallback((res: { id: string; name: string }) => {
     setNewEventID(res.id);
-    setNewEventName(res.name);
     setShowSuccessToast(true);
   }, []);
 
   const handleSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
-    navigation.navigate("EventDetail", {
+    navigation.navigate("MainTabs", {
       id: newEventID,
-      title: newEventName,
     });
-  }, [newEventID, newEventName]);
+  }, [newEventID]);
 
   const handleErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
