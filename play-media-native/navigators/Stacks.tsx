@@ -54,7 +54,7 @@ export const Stacks = () => {
         name="AddConnection"
         component={AddConnectionScreen}
         options={{
-          title: "Add Connection",
+          title: "Create a connection",
         }}
       />
       <Stack.Screen
