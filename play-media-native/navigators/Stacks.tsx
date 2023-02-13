@@ -3,11 +3,11 @@ import { CreateEventScreen } from "../screens/CreateEvent/CreateEvent";
 import { CreateAthleteScreen } from "../screens/CreateAthlete/CreateAthlete";
 import { AthleteDetailScreen } from "../screens/AthleteDetail";
 import { EventDetailScreen } from "../screens/EventDetail";
-import { SelectConnectionScreen } from "../screens/SelectConnection";
+import { SelectConnectionScreen } from "../screens/Connection/SelectConnection";
 import { Tabs } from "./Tabs";
-import { AddConnectionScreen } from "../screens/AddConnection";
+import { AddConnectionScreen } from "../screens/Connection/AddConnection";
 import { RootStackParamList } from "../interfaces/navigators";
-import { RemoveConnectionScreen } from "../screens/RemoveConnection";
+import { RemoveConnectionScreen } from "../screens/Connection/RemoveConnection";
 import { AddCH1MediaScreen } from "../screens/AddCH1Media/AddCH1Media";
 import { AddMediaScreen } from "../screens/AddMedia/AddMedia";
 import { EditMediaScreen } from "../screens/EditMedia";
@@ -15,10 +15,11 @@ import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHead
 import { EditAthleteDetailsScreen } from "../screens/EditAthleteDetails";
 import { AddAthletesScreen } from "../screens/AddAthletes";
 import { ReviewAthletesScreen } from "../screens/ReviewAthletes";
-import { ReviewEventsScreen } from "../screens/ReviewEvents";
 import { AddEventsScreen } from "../screens/AddEvents";
 import { EditEventScreen } from "../screens/EditEvent";
 import { ReviewEventScreen } from "../screens/ReviewEvent";
+import { ManualConnectionScreen } from "../screens/Connection/ManualConnection";
+import { QRCodeConnectionScreen } from "../screens/Connection/QRCodeConnection";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
