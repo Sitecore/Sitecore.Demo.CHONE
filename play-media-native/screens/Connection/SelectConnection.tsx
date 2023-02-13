@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { StatusBar, View } from "react-native";
-import { Logo } from "../components/Logo/Logo";
+import { Logo } from "../../components/Logo/Logo";
 import { Button, Text } from "react-native-paper";
-import { useConnections } from "../hooks/useConnections/useConnections";
-import { Select } from "../components/Select/Select";
-import { BottomFAB } from "../components/BottomFAB/BottomFAB";
-import { Icon } from "../components/Icon/Icon";
-import { theme } from "../theme/theme";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
+import { useConnections } from "../../hooks/useConnections/useConnections";
+import { Select } from "../../components/Select/Select";
+import { BottomFAB } from "../../components/BottomFAB/BottomFAB";
+import { Icon } from "../../components/Icon/Icon";
+import { theme } from "../../theme/theme";
+import { Screen } from "../../features/Screen/Screen";
+import { styles } from "../../theme/styles";
 
 const fabAddStyle = {
   bottom: 75,
