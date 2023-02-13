@@ -13,7 +13,7 @@ import { styles } from "../../theme/styles";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "../../interfaces/navigators";
 import { BottomActions } from "../../components/BottomActions/BottomActions";
-import pageStyles from "../../screens/Connection/styles";
+import connectionStyles from "../../screens/Connection/styles";
 
 const defaultTextInputStyle = {
   width: "90%",
@@ -162,7 +162,7 @@ export const FormAddConnection = () => {
 
   const bottomActions = useMemo(
     () => (
-      <BottomActions style={pageStyles.actionBtns}>
+      <BottomActions style={connectionStyles.actionBtns}>
         <Button
           mode="outlined"
           style={styles.button}
