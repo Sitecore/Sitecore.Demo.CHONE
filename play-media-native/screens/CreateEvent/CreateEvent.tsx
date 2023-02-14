@@ -62,7 +62,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
       } else {
         edit({ key: route.params.key, value: route.params.image });
       }
-    }, [edit, eventFields, route.params.image, route.params?.isEditMedia, route.params.key])
+    }, [edit, eventFields, route.params?.image, route.params?.isEditMedia, route.params?.key])
   );
 
   return (
