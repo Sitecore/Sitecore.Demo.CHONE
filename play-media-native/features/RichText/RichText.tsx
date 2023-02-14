@@ -51,7 +51,7 @@ export const RichText: FC<Props> = ({ body, accentColor }) => {
         );
       },
       horizontalRule: (context: any, children: any, key: string) => {
-        return <HorizontalRule />;
+        return <HorizontalRule key={key} />;
       },
       text: (context: any, children: any, key: string) => {
         const hasMarks = !!context?.marks?.length;

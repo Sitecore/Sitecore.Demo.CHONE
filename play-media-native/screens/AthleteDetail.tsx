@@ -104,7 +104,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
   const [newAthleteID, setNewAthleteID] = useState(undefined);
-  const [newAthleteName, setNewAthleteName] = useState("");
 
   const isReview = route.params.isReview;
   const isNewAthlete = route.params.isNewAthlete;
@@ -148,17 +147,16 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   const processResponse = useCallback((res: { id: string; name: string }) => {
     setNewAthleteID(res.id);
-    setNewAthleteName(res.name);
     setShowSuccessToast(true);
   }, []);
 
   const handleSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
-    navigation.navigate("AthleteDetail", {
+    navigation.navigate("MainTabs", {
+      screen: "Athletes",
       id: newAthleteID,
-      title: newAthleteName,
     });
-  }, [newAthleteID, newAthleteName]);
+  }, [newAthleteID]);
 
   const handleErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
@@ -171,9 +169,11 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  const handleDiscardBtn = useCallback(() => {
-    navigation.goBack();
-  }, []);
+  // TODO Save as draft functionality
+  const handleDraftBtn = useCallback(() => {}, []);
+
+  const handleSubmitBtn = useCallback(async () => {
+    setIsValidating(true);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
@@ -216,17 +216,17 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             mode="outlined"
             style={styles.button}
             labelStyle={styles.buttonLabel}
-            onPress={handleDiscardBtn}
+            onPress={handleDraftBtn}
           >
-            Discard
+            Save as draft
           </Button>
           <Button
             mode="contained"
             style={styles.button}
             labelStyle={styles.buttonLabel}
-            onPress={() => handlePublishBtn()}
+            onPress={handleSubmitBtn}
           >
-            Publish
+            Submit
           </Button>
         </BottomActions>
       ) : (
@@ -249,8 +249,8 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       isTopEdge,
       isReview,
       handleEditInfo,
-      handleDiscardBtn,
-      handlePublishBtn,
+      handleDraftBtn,
+      handleSubmitBtn,
     ]
   );
 

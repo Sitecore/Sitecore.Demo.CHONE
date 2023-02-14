@@ -11,6 +11,7 @@ import { OrderedList } from './components/OrderdList';
 import { RichTextLink } from './components/RichTextLink';
 import { CodeText } from './components/CodeText';
 import clsx from 'clsx';
+import { HorizontalRule } from './components/HorizontalRule';
 
 interface Props {
   body: any;
@@ -48,6 +49,9 @@ export const RichText: FC<Props> = ({ body, className }) => {
       },
       blockquote: (context: any, children: any, key: string) => {
         return <BlockQuote key={key}>{children}</BlockQuote>;
+      },
+      horizontalRule: (context: any, children: any, key: string) => {
+        return <HorizontalRule key={key} />;
       },
       text: (context: any, children: any, key: string) => {
         const hasMarks = !!context?.marks?.length;
