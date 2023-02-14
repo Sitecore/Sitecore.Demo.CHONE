@@ -175,9 +175,6 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
 
-  const handlePublishBtn = useCallback(async () => {
-    setIsValidating(true);
-
     // Map athlete object to a form suitable for the API request
     const requestFields = mapContentItem(athlete, (k, v) => ({
       value: v?.["results"]
