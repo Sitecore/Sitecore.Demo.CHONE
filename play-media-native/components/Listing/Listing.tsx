@@ -20,22 +20,25 @@ import { theme } from "../../theme/theme";
 type ListingProps = {
   data: any;
   isLoading?: boolean;
+  isRefreshing?: boolean;
   renderItem: ListRenderItem<any>;
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  onRefresh: () => void;
   style?: StyleProp<ViewStyle>;
 };
 
 export const Listing = ({
   data,
   isLoading,
+  isRefreshing,
   renderItem,
   onScroll,
+  onRefresh,
   style,
 }: ListingProps) => {
   const [items, setItems] = useState(data?.slice(0, PAGE_SIZE));
   const [loading, setLoading] = useState(false);
   const [isListEnd, setIsListEnd] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     setItems(data?.slice(0, PAGE_SIZE));
@@ -48,15 +51,6 @@ export const Listing = ({
   const fetchMoreData = useCallback(() => {
     !isListEnd && mockFetchData(data, items, setItems, setLoading);
   }, [data, items, isListEnd]);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setItems(data?.slice(0, PAGE_SIZE));
-      setIsListEnd(false);
-      setRefreshing(false);
-    }, MOCK_FETCH_TIMEOUT);
-  }, [data]);
 
   const ListFooter = (
     <>
@@ -98,7 +92,7 @@ export const Listing = ({
           justifyContent: "center",
         }}
       >
-        <ActivityIndicator animating={refreshing} size="small" />
+        <ActivityIndicator animating={isRefreshing} size="small" />
       </View>
       <FlatList
         data={items}
@@ -109,7 +103,7 @@ export const Listing = ({
         ListFooterComponent={ListFooter}
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
+            refreshing={isRefreshing}
             onRefresh={onRefresh}
             colors={[theme.colors.transparent]}
             tintColor={theme.colors.transparent}

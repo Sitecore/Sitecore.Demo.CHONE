@@ -15,23 +15,25 @@ import { AthleteFilters } from "../features/AthleteFilters/AthleteFilters";
 import { Screen } from "../features/Screen/Screen";
 import { useFacets } from "../hooks/useFacets/useFacets";
 import { getNationalityOptions, getSportOptions } from "../helpers/facets";
-import { Sport } from "../interfaces/sport";
 import { ATHLETE_FACETS } from "../constants/filters";
 import { initializeAthletes } from "../helpers/athletes";
 
 export const AthletesListingScreen = ({ navigation }) => {
-  const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
-    "athletes",
-    () => getAllAthletes(),
-    {
-      onSuccess: (athletes) =>
-        athletes.sort((a, b) => a.athleteName!.localeCompare(b.athleteName!)),
-    }
-  );
-  const { data: sports, isFetching: isFetchingSports } = useQuery(
-    "sports",
-    () => getAllSports()
-  );
+  const {
+    data: athletes,
+    isLoading: isFetchingInitialAthletes,
+    refetch: refetchAthletes,
+    isRefetching: isRefetchingAthletes,
+  } = useQuery("athletes", () => getAllAthletes(), {
+    onSuccess: (athletes) =>
+      athletes.sort((a, b) => a.athleteName!.localeCompare(b.athleteName!)),
+  });
+  const {
+    data: sports,
+    isLoading: isFetchingInitialSports,
+    refetch: refetchSports,
+    isRefetching: isRefetchingSports,
+  } = useQuery("sports", () => getAllSports());
   const [facets, setFacets] = useState<Record<string, any>>({
     [ATHLETE_FACETS.sport]: "",
     [ATHLETE_FACETS.nationality]: "",
@@ -51,6 +53,11 @@ export const AthletesListingScreen = ({ navigation }) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
   }, []);
 
+  const handleRefresh = useCallback(() => {
+    refetchAthletes();
+    refetchSports();
+  }, []);
+
   const onCardPress = useCallback((athlete: Athlete) => {
     navigation.navigate("AthleteDetail", {
       id: athlete.id,
@@ -58,7 +65,7 @@ export const AthletesListingScreen = ({ navigation }) => {
     });
   }, []);
 
-  if (isFetchingAthletes || isFetchingSports) {
+  if (isFetchingInitialAthletes || isFetchingInitialSports) {
     return <LoadingScreen />;
   }
 
@@ -77,6 +84,8 @@ export const AthletesListingScreen = ({ navigation }) => {
           <CardAvatar item={item} onCardPress={() => onCardPress(item)} />
         )}
         onScroll={calcScrollOffset}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefetchingAthletes || isRefetchingSports}
         style={{
           flex: 1,
           paddingHorizontal: theme.spacing.sm,
