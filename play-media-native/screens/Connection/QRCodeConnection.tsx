@@ -3,6 +3,10 @@ import { View, StyleSheet } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Screen } from "../../features/Screen/Screen";
+import { Connection } from "../../interfaces/connections";
+import { validateConnection } from "../../api/queries/validateConnection";
+import { storeConnection } from "../../helpers/connections";
+import { add } from "../../store/connections";
 
 const pageStyles = StyleSheet.create({
   container: {
@@ -28,7 +32,25 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     })();
   }, []);
 
-  const handleQRCodeScan = useCallback(({ type, data }) => {
+  const handleQRCodeScan = useCallback(async ({ data }) => {
+    const qrConnectionObject: Connection = JSON.parse(data);
+    const { name, apiKey, previewUrl, clientID, clientSecret } =
+      qrConnectionObject;
+
+    if (name && apiKey && previewUrl && clientID && clientSecret) {
+      await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
+        .then(async () => {
+          await storeConnection(qrConnectionObject).then(() => {
+            add(qrConnectionObject);
+
+            navigation.navigate("MainTabs");
+          });
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+
     setIsQRScanned(true);
   }, []);
 
