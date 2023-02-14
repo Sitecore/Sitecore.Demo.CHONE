@@ -13,6 +13,7 @@ query {
     total
     results {
       id
+      name
       title
       sport {
         results {
@@ -84,6 +85,7 @@ query {
         results {
           ... on Event {
             id
+            name
             location
             title
             sport {

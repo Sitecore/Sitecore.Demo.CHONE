@@ -118,6 +118,8 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (isValidating || showSuccessToast || showErrorToast) {
       setShouldShowBottomActions(false);
+    } else {
+      setShouldShowBottomActions(true);
     }
   }, [isValidating, showSuccessToast, showErrorToast]);
 
@@ -171,6 +173,9 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const handleDraftBtn = useCallback(() => {}, []);
 
   const handleSubmitBtn = useCallback(async () => {
+    setIsValidating(true);
+
+  const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
 
     // Map athlete object to a form suitable for the API request

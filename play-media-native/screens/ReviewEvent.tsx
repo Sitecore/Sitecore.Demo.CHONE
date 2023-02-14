@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { Button, Text } from "react-native-paper";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../theme/theme";
 import { getDate, getTime } from "../helpers/dateHelper";
@@ -13,7 +13,14 @@ import { Screen } from "../features/Screen/Screen";
 import { styles } from "../theme/styles";
 import { BottomActions } from "../components/BottomActions/BottomActions";
 import { CardEvent } from "../features/CardEvent/CardEvent";
-import { Event } from "../interfaces/event";
+import { Event, EventResponse } from "../interfaces/event";
+import {
+  createContentItem,
+  updateContentItem,
+} from "../api/queries/contentItems";
+import { mapContentItem } from "../helpers/contentItemHelper";
+import { CONTENT_TYPES } from "../constants/contentTypes";
+import { Toast } from "../components/Toast/Toast";
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -43,28 +50,86 @@ const pageStyles = StyleSheet.create({
 export const ReviewEventScreen = ({ navigation, route }) => {
   const event = route?.params?.event as Event;
 
+  // TODO Retrieve event to review from global store
+  let eventToReview = undefined as EventResponse;
+
+  const [newEventID, setNewEventID] = useState(undefined);
+
+  const [isValidating, setIsValidating] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+
+  const isNewEvent = route.params.isNewAthlete;
+
   useEffect(() => {
     navigation.setOptions({
-      title: `Review ${event.title}`,
+      title: `Review ${event?.title}`,
     });
   }, [event, navigation]);
 
-  const onCardPress = useCallback(
-    (athlete: Athlete) => {
-      navigation.navigate("AthleteDetail", {
-        id: athlete.id,
-        title: athlete.athleteName,
-      });
-    },
-    [navigation]
-  );
+  // Hide bottom action buttons if a loading indicator or a toaster is shown
+  useEffect(() => {
+    if (isValidating || showSuccessToast || showErrorToast) {
+      setShouldShowBottomActions(false);
+    } else {
+      setShouldShowBottomActions(true);
+    }
+  }, [isValidating, showSuccessToast, showErrorToast]);
+
+  const processResponse = useCallback((res: { id: string; name: string }) => {
+    setNewEventID(res.id);
+    setShowSuccessToast(true);
+  }, []);
+
+  const handleSuccessToastDismiss = useCallback(() => {
+    setShowSuccessToast(false);
+    navigation.navigate("MainTabs", {
+      id: newEventID,
+    });
+  }, [newEventID]);
+
+  const handleErrorToastDismiss = useCallback(() => {
+    setShowErrorToast(false);
+  }, []);
 
   const handleDraft = useCallback(() => {
     // TODO draft case
   }, []);
 
-  // TODO Add API request to create/ update athlete
-  const handlePublishBtn = useCallback(() => {}, []);
+  const handleSubmitBtn = useCallback(async () => {
+    setIsValidating(true);
+
+    // Map eventToReview object to a form suitable for the API request
+    const requestFields = mapContentItem(eventToReview, (k, v) => ({
+      value: v?.["results"]
+        ? [...v["results"].map((obj: { id: string }) => ({ id: obj.id }))]
+        : v,
+    }));
+    // Delete the id, name from the request fields to avoid errors
+    delete requestFields.id;
+    delete requestFields.name;
+
+    if (isNewEvent) {
+      await createContentItem({
+        contentTypeId: CONTENT_TYPES.EVENT,
+        name: eventToReview.name,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
+    } else {
+      await updateContentItem({
+        id: eventToReview.id,
+        name: eventToReview.name,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
+    }
+  }, []);
 
   const accentColor = useMemo(
     () => getAccentColor(event?.sport?.title),
@@ -72,7 +137,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   );
 
   const imageUriArray = useMemo(() => {
-    return event.relatedMedia.map((img: Media) => img.fileUrl);
+    return event?.relatedMedia.map((img: Media) => img.fileUrl);
   }, [event]);
 
   const bottomActions = useMemo(
@@ -90,17 +155,14 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handlePublishBtn}
+          onPress={handleSubmitBtn}
         >
-          Publish
+          Submit
         </Button>
       </BottomActions>
     ),
-    [event, handlePublishBtn]
+    [event, handleSubmitBtn]
   );
-
-  console.log("\n\n\n\n\nevent Review Event", event);
-  console.log("\n\n\n\n\n");
 
   if (!event) {
     return (
@@ -168,7 +230,34 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         </View>
         <View style={{ paddingBottom: 70 }} />
       </ScrollView>
-      {bottomActions}
+      {isValidating && (
+        <View>
+          <ActivityIndicator size="small" animating />
+        </View>
+      )}
+      <Toast
+        duration={2000}
+        message={
+          isNewEvent
+            ? "Event created successfully!"
+            : "Event updated successfully!"
+        }
+        onDismiss={handleSuccessToastDismiss}
+        visible={showSuccessToast}
+        type="success"
+      />
+      <Toast
+        duration={2000}
+        message={
+          isNewEvent
+            ? "Event could not be created"
+            : "Event could not be updated"
+        }
+        onDismiss={handleErrorToastDismiss}
+        visible={showErrorToast}
+        type="warning"
+      />
+      {shouldShowBottomActions && bottomActions}
     </Screen>
   );
 };
