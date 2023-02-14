@@ -1,7 +1,12 @@
 import { useQuery } from "react-query";
 import { getAthleteById } from "../api/queries/getAthletes";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatedFAB, Button, Text } from "react-native-paper";
+import {
+  ActivityIndicator,
+  AnimatedFAB,
+  Button,
+  Text,
+} from "react-native-paper";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { theme } from "../theme/theme";
 import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
@@ -22,6 +27,7 @@ import {
 } from "../api/queries/contentItems";
 import { mapContentItem } from "../helpers/contentItemHelper";
 import { CONTENT_TYPES } from "../constants/contentTypes";
+import { Toast } from "../components/Toast/Toast";
 
 const pageStyles = StyleSheet.create({
   sportAndNameContainer: {
@@ -92,6 +98,13 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [error, setError] = useState<unknown>();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
+  const [isValidating, setIsValidating] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+
+  const [newAthleteID, setNewAthleteID] = useState(undefined);
+
   const isReview = route.params.isReview;
   const isNewAthlete = route.params.isNewAthlete;
 
@@ -100,6 +113,13 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       title: route.params.title,
     });
   }, []);
+
+  // Hide bottom action buttons if a loading indicator or a toaster is shown
+  useEffect(() => {
+    if (isValidating || showSuccessToast || showErrorToast) {
+      setShouldShowBottomActions(false);
+    }
+  }, [isValidating, showSuccessToast, showErrorToast]);
 
   useEffect(() => {
     if (isReview) {
@@ -123,6 +143,23 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     );
   }, []);
 
+  const processResponse = useCallback((res: { id: string; name: string }) => {
+    setNewAthleteID(res.id);
+    setShowSuccessToast(true);
+  }, []);
+
+  const handleSuccessToastDismiss = useCallback(() => {
+    setShowSuccessToast(false);
+    navigation.navigate("MainTabs", {
+      screen: "Athletes",
+      id: newAthleteID,
+    });
+  }, [newAthleteID]);
+
+  const handleErrorToastDismiss = useCallback(() => {
+    setShowErrorToast(false);
+  }, []);
+
   const handleEditInfo = useCallback((id: string, title: string) => {
     navigation.navigate("EditAthleteDetails", {
       id,
@@ -130,11 +167,12 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  const handleDiscardBtn = useCallback(() => {
-    navigation.goBack();
-  }, []);
+  // TODO Save as draft functionality
+  const handleDraftBtn = useCallback(() => {}, []);
 
-  const handlePublishBtn = useCallback(() => {
+  const handleSubmitBtn = useCallback(async () => {
+    setIsValidating(true);
+
     // Map athlete object to a form suitable for the API request
     const requestFields = mapContentItem(athlete, (k, v) => ({
       value: v?.["results"]
@@ -145,17 +183,23 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     delete requestFields.id;
 
     if (isNewAthlete) {
-      createContentItem({
+      await createContentItem({
         contentTypeId: CONTENT_TYPES.ATHLETE,
         name: athlete.athleteName,
         fields: requestFields,
-      });
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
     } else {
-      updateContentItem({
+      await updateContentItem({
         id: athlete.id,
         name: athlete.athleteName,
         fields: requestFields,
-      });
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
     }
   }, [isNewAthlete, athlete]);
 
@@ -167,17 +211,17 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             mode="outlined"
             style={styles.button}
             labelStyle={styles.buttonLabel}
-            onPress={handleDiscardBtn}
+            onPress={handleDraftBtn}
           >
-            Discard
+            Save as draft
           </Button>
           <Button
             mode="contained"
             style={styles.button}
             labelStyle={styles.buttonLabel}
-            onPress={() => handlePublishBtn()}
+            onPress={handleSubmitBtn}
           >
-            Publish
+            Submit
           </Button>
         </BottomActions>
       ) : (
@@ -200,8 +244,8 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       isTopEdge,
       isReview,
       handleEditInfo,
-      handleDiscardBtn,
-      handlePublishBtn,
+      handleDraftBtn,
+      handleSubmitBtn,
     ]
   );
 
@@ -317,7 +361,34 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
           <AthleteImages athlete={athlete} />
         </View>
       </ScrollView>
-      {bottomActions}
+      {isValidating && (
+        <View>
+          <ActivityIndicator size="small" animating />
+        </View>
+      )}
+      <Toast
+        duration={2000}
+        message={
+          isNewAthlete
+            ? "Athlete created successfully!"
+            : "Athlete updated successfully!"
+        }
+        onDismiss={handleSuccessToastDismiss}
+        visible={showSuccessToast}
+        type="success"
+      />
+      <Toast
+        duration={2000}
+        message={
+          isNewAthlete
+            ? "Athlete could not be created"
+            : "Athlete could not be updated"
+        }
+        onDismiss={handleErrorToastDismiss}
+        visible={showErrorToast}
+        type="warning"
+      />
+      {shouldShowBottomActions && bottomActions}
     </Screen>
   );
 };
