@@ -1,26 +1,27 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
-import { Button, Card, Text } from "react-native-paper";
+import { useNavigation } from '@react-navigation/native';
 import {
   MediaTypeOptions,
   launchCameraAsync,
   launchImageLibraryAsync,
   useCameraPermissions,
-} from "expo-image-picker";
-import { useNavigation } from "@react-navigation/native";
-import { theme } from "../../theme/theme";
-import { StackNavigationProp } from "../../interfaces/navigators";
-import { Icon } from "../../components/Icon/Icon";
-import { DeviceMedia } from "../../interfaces/media";
-import { useMedia } from "../../hooks/useMedia/useMedia";
-import { BottomActions } from "../../components/BottomActions/BottomActions";
-import { ListingAddedMedia } from "./ListingAddedMedia";
-import { MEDIA_SOURCES } from "../../constants/media";
-import { Screen } from "../../features/Screen/Screen";
-import { styles as themeStyles } from "../../theme/styles";
+} from 'expo-image-picker';
+import { useCallback, useEffect, useMemo } from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import { Button, Card, Text } from 'react-native-paper';
+
+import { ListingAddedMedia } from './ListingAddedMedia';
+import { BottomActions } from '../../components/BottomActions/BottomActions';
+import { Icon } from '../../components/Icon/Icon';
+import { MEDIA_SOURCES } from '../../constants/media';
+import { Screen } from '../../features/Screen/Screen';
+import { useMedia } from '../../hooks/useMedia/useMedia';
+import { DeviceMedia } from '../../interfaces/media';
+import { StackNavigationProp } from '../../interfaces/navigators';
+import { styles as themeStyles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
 
 const containerStyles = {
-  height: "100%",
+  height: '100%',
   backgroundColor: theme.colors.black.darkest,
   paddingTop: theme.spacing.xs,
 };
@@ -33,8 +34,8 @@ const cardStyle = {
 
 const styles = StyleSheet.create({
   flexContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     ...containerStyles,
   },
   simpleContainer: {
@@ -50,23 +51,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardContent: {
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   header: {
     color: theme.colors.white.DEFAULT,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: theme.spacing.xxs,
   },
   cardLabel: {
     color: theme.colors.black.DEFAULT,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 
 export const AddMediaScreen = () => {
   const navigation = useNavigation<StackNavigationProp>();
-  const { add, clear, media } = useMedia();
+  const { clear, media } = useMedia();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [status, requestPermissions] = useCameraPermissions();
 
   const initImage = useCallback(
@@ -74,7 +76,7 @@ export const AddMediaScreen = () => {
       if (!image) {
         return;
       }
-      navigation.navigate("EditMedia", { image });
+      navigation.navigate('EditMedia', { image });
     },
     [navigation]
   );
@@ -82,7 +84,7 @@ export const AddMediaScreen = () => {
   const handleLaunchCamera = useCallback(async () => {
     await requestPermissions();
 
-    let result = await launchCameraAsync({
+    const result = await launchCameraAsync({
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
@@ -99,7 +101,7 @@ export const AddMediaScreen = () => {
   const handleImageLibrary = useCallback(async () => {
     await requestPermissions();
 
-    let result = await launchImageLibraryAsync({
+    const result = await launchImageLibraryAsync({
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
@@ -114,7 +116,7 @@ export const AddMediaScreen = () => {
   }, [initImage, requestPermissions]);
 
   const handleRemoteMedia = useCallback(async () => {
-    navigation.navigate("AddCH1Media");
+    navigation.navigate('AddCH1Media');
   }, [navigation]);
 
   const onDiscard = useCallback(() => {
@@ -122,7 +124,7 @@ export const AddMediaScreen = () => {
     navigation.goBack();
   }, [clear, navigation]);
 
-  const onReview = useCallback(() => {}, [navigation]);
+  const onReview = useCallback(() => {}, []);
 
   const actions = useMemo(
     () => (
@@ -142,7 +144,7 @@ export const AddMediaScreen = () => {
           labelStyle={themeStyles.buttonLabel}
           onPress={onReview}
         >
-          {media?.length ? `Add ${media.length}` : `Add`}
+          {media?.length ? `Add ${media.length}` : 'Add'}
         </Button>
       </BottomActions>
     ),
@@ -155,7 +157,7 @@ export const AddMediaScreen = () => {
     };
 
     requestUserPermission();
-  }, []);
+  }, [requestPermissions]);
 
   if (!media?.length) {
     return (
@@ -192,14 +194,10 @@ export const AddMediaScreen = () => {
 
   return (
     <Screen>
-      <StatusBar barStyle={"light-content"} />
+      <StatusBar barStyle="light-content" />
       <Text style={styles.header}>Select the media source</Text>
-      <View style={{ flexDirection: "row" }}>
-        <Card
-          mode="contained"
-          onPress={handleLaunchCamera}
-          style={styles.cardCompact}
-        >
+      <View style={{ flexDirection: 'row' }}>
+        <Card mode="contained" onPress={handleLaunchCamera} style={styles.cardCompact}>
           <Card.Content style={styles.cardContent}>
             <Icon name="camera-outline" />
             <Text style={styles.cardLabel} variant="labelMedium">
@@ -207,11 +205,7 @@ export const AddMediaScreen = () => {
             </Text>
           </Card.Content>
         </Card>
-        <Card
-          mode="contained"
-          onPress={handleImageLibrary}
-          style={styles.cardCompact}
-        >
+        <Card mode="contained" onPress={handleImageLibrary} style={styles.cardCompact}>
           <Card.Content style={styles.cardContent}>
             <Icon name="folder-open-outline" />
             <Text style={styles.cardLabel} variant="labelMedium">
@@ -219,11 +213,7 @@ export const AddMediaScreen = () => {
             </Text>
           </Card.Content>
         </Card>
-        <Card
-          mode="contained"
-          onPress={handleRemoteMedia}
-          style={styles.cardCompact}
-        >
+        <Card mode="contained" onPress={handleRemoteMedia} style={styles.cardCompact}>
           <Card.Content style={styles.cardContent}>
             <Icon name="apps-outline" />
             <Text style={styles.cardLabel} variant="labelMedium">
@@ -232,9 +222,7 @@ export const AddMediaScreen = () => {
           </Card.Content>
         </Card>
       </View>
-      <Text style={{ ...styles.header, marginTop: theme.spacing.xs }}>
-        Items Added
-      </Text>
+      <Text style={{ ...styles.header, marginTop: theme.spacing.xs }}>Items Added</Text>
       <ListingAddedMedia images={media} />
       {actions}
     </Screen>

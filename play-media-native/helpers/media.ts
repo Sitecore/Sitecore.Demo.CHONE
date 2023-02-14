@@ -1,12 +1,12 @@
-import { Media } from "../interfaces/media";
+import { Media } from '../interfaces/media';
 
 const afterExtensionRegex = /\.[0-9a-z]+$/i;
 
 export const getFileTypeFromURL = (url: string) => {
   try {
-    return `image/${url.match(afterExtensionRegex)[0].replace(".", "")}`;
+    return `image/${url.match(afterExtensionRegex)[0].replace('.', '')}`;
   } catch {
-    return "---";
+    return '---';
   }
 };
 
@@ -19,8 +19,8 @@ export const getFileType = (image: any) => {
 };
 
 export const removeFileExtension = (text: string) => {
-  if (text.includes(".")) {
-    return text.substring(0, text.lastIndexOf("."));
+  if (text.includes('.')) {
+    return text.substring(0, text.lastIndexOf('.'));
   }
 
   return text;
@@ -28,10 +28,7 @@ export const removeFileExtension = (text: string) => {
 
 // return only atheltes not already selected in global state
 //
-export const removeAlreadySelected = (
-  media: Media[],
-  existingMedia: Media[] | Media
-) => {
+export const removeAlreadySelected = (media: Media[], existingMedia: Media[] | Media) => {
   if (!existingMedia) {
     return media;
   }

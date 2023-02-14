@@ -1,19 +1,20 @@
-import { useCallback, useEffect, useMemo } from "react";
-import { Button, Text } from "react-native-paper";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { theme } from "../theme/theme";
-import { getDate, getTime } from "../helpers/dateHelper";
-import { CardAvatar } from "../features/CardAvatar/CardAvatar";
-import { Athlete } from "../interfaces/athlete";
-import { RichText } from "../features/RichText/RichText";
-import { getAccentColor } from "../helpers/colorHelper";
-import { Media } from "../interfaces/media";
-import { ImageGrid } from "../features/ImageGrid/ImageGrid";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { CardEvent } from "../features/CardEvent/CardEvent";
-import { Event } from "../interfaces/event";
+import { useCallback, useEffect, useMemo } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { CardAvatar } from '../features/CardAvatar/CardAvatar';
+import { CardEvent } from '../features/CardEvent/CardEvent';
+import { ImageGrid } from '../features/ImageGrid/ImageGrid';
+import { RichText } from '../features/RichText/RichText';
+import { Screen } from '../features/Screen/Screen';
+import { getAccentColor } from '../helpers/colorHelper';
+import { getDate, getTime } from '../helpers/dateHelper';
+import { Athlete } from '../interfaces/athlete';
+import { Event } from '../interfaces/event';
+import { Media } from '../interfaces/media';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -25,12 +26,12 @@ const pageStyles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   bottomFAB: {
-    position: "absolute",
+    position: 'absolute',
     right: theme.spacing.sm,
     bottom: theme.spacing.xs,
   },
   button: {
-    position: "absolute",
+    position: 'absolute',
     right: -theme.spacing.sm,
     top: -theme.spacing.xs,
   },
@@ -49,15 +50,15 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     });
   }, [event, navigation]);
 
-  const onCardPress = useCallback(
-    (athlete: Athlete) => {
-      navigation.navigate("AthleteDetail", {
-        id: athlete.id,
-        title: athlete.athleteName,
-      });
-    },
-    [navigation]
-  );
+  // const onCardPress = useCallback(
+  //   (athlete: Athlete) => {
+  //     navigation.navigate('AthleteDetail', {
+  //       id: athlete.id,
+  //       title: athlete.athleteName,
+  //     });
+  //   },
+  //   [navigation]
+  // );
 
   const handleDraft = useCallback(() => {
     // TODO draft case
@@ -66,10 +67,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   // TODO Add API request to create/ update athlete
   const handlePublishBtn = useCallback(() => {}, []);
 
-  const accentColor = useMemo(
-    () => getAccentColor(event?.sport?.title),
-    [event]
-  );
+  const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
 
   const imageUriArray = useMemo(() => {
     return event.relatedMedia.map((img: Media) => img.fileUrl);
@@ -96,11 +94,11 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         </Button>
       </BottomActions>
     ),
-    [event, handlePublishBtn]
+    [handleDraft, handlePublishBtn]
   );
 
-  console.log("\n\n\n\n\nevent Review Event", event);
-  console.log("\n\n\n\n\n");
+  console.log('\n\n\n\n\nevent Review Event', event);
+  console.log('\n\n\n\n\n');
 
   if (!event) {
     return (
@@ -125,7 +123,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
               },
             ]}
           >
-            {event.sport.title || ""}
+            {event.sport.title || ''}
           </Text>
         </View>
         <View>
@@ -152,10 +150,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           </Text>
           <RichText body={event.body.content} accentColor={accentColor} />
         </View>
-        <ImageGrid
-          images={imageUriArray}
-          style={{ marginTop: theme.spacing.lg }}
-        />
+        <ImageGrid images={imageUriArray} style={{ marginTop: theme.spacing.lg }} />
         <View style={{ marginTop: theme.spacing.lg }}>
           {event.athletes.map((athlete: Athlete) => (
             <CardAvatar key={athlete.id} item={athlete} />

@@ -1,26 +1,27 @@
-import { useCallback, useMemo } from "react";
-import { View } from "react-native";
-import { Athlete } from "../../interfaces/athlete";
-import { CardAvatar } from "../../features/CardAvatar/CardAvatar";
-import { useEventFields } from "../../hooks/useEventFields/useEventFields";
-import { NestableScrollContainer } from "react-native-draggable-flatlist";
-import { CardEvent } from "../../features/CardEvent/CardEvent";
-import { Event } from "../../interfaces/event";
-import { ContentFieldMedia } from "../../features/ContentFieldMedia/ContentFieldMedia";
-import { theme } from "../../theme/theme";
-import { ContentFieldReference } from "../../features/ContentFieldReference/ContentFieldReference";
-import { CONTENT_TYPES } from "../../constants/contentTypes";
-import { ActionMenu } from "../../features/ActionMenu/ActionMenu";
+import { useCallback } from 'react';
+import { View } from 'react-native';
+import { NestableScrollContainer } from 'react-native-draggable-flatlist';
+
+import { CONTENT_TYPES } from '../../constants/contentTypes';
+import { ActionMenu } from '../../features/ActionMenu/ActionMenu';
+import { CardAvatar } from '../../features/CardAvatar/CardAvatar';
+import { CardEvent } from '../../features/CardEvent/CardEvent';
+import { ContentFieldMedia } from '../../features/ContentFieldMedia/ContentFieldMedia';
+import { ContentFieldReference } from '../../features/ContentFieldReference/ContentFieldReference';
+import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { Athlete } from '../../interfaces/athlete';
+import { Event } from '../../interfaces/event';
+import { theme } from '../../theme/theme';
 
 const athleteMenuStyle = {
-  position: "absolute",
+  position: 'absolute',
   bottom: 15,
   right: 0,
   zIndex: 12,
 };
 
 const eventMenuStyle = {
-  position: "absolute",
+  position: 'absolute',
   bottom: 20,
   right: 18,
   zIndex: 10,
@@ -41,9 +42,9 @@ export const ReferencesView = () => {
   const getMenuItems = useCallback(
     (key: string, item: any) => [
       {
-        icon: "delete-outline",
+        icon: 'delete-outline',
         handler: () => deleteItem(key, item),
-        title: "Delete",
+        title: 'Delete',
       },
     ],
     [deleteItem]
@@ -68,19 +69,19 @@ export const ReferencesView = () => {
         style={{ marginTop: theme.spacing.lg }}
       />
       <ContentFieldReference
-        addRoute={"AddAthletes"}
+        addRoute="AddAthletes"
         contentType={contentType}
-        createRoute={"AddAthlete"}
+        createRoute="AddAthlete"
         fieldKey="athletes"
         fieldTitle="Related Athletes"
-        initialRoute={"AddEvent"}
+        initialRoute="AddEvent"
         renderItem={(item: Athlete) => (
-          <View style={{ position: "relative" }}>
+          <View style={{ position: 'relative' }}>
             <CardAvatar item={item} />
             <ActionMenu
               iconColor={theme.colors.black.DEFAULT}
               iconSize={25}
-              menuItems={getMenuItems("athletes", item)}
+              menuItems={getMenuItems('athletes', item)}
               style={athleteMenuStyle}
             />
           </View>
@@ -88,19 +89,19 @@ export const ReferencesView = () => {
         style={{ marginTop: theme.spacing.lg }}
       />
       <ContentFieldReference
-        addRoute={"AddEvents"}
+        addRoute="AddEvents"
         contentType={contentType}
-        createRoute={"AddEvent"}
+        createRoute="AddEvent"
         fieldKey="similarEvents"
         fieldTitle="Similar Events"
-        initialRoute={"AddEvent"}
+        initialRoute="AddEvent"
         renderItem={(item: Event) => (
-          <View style={{ position: "relative" }}>
+          <View style={{ position: 'relative' }}>
             <CardEvent item={item} />
             <ActionMenu
               iconColor={theme.colors.black.DEFAULT}
               iconSize={25}
-              menuItems={getMenuItems("similarEvents", item)}
+              menuItems={getMenuItems('similarEvents', item)}
               style={eventMenuStyle}
             />
           </View>

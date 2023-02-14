@@ -1,25 +1,26 @@
+import { faCalendarDays } from '@fortawesome/free-regular-svg-icons';
+import { faUsers } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabNavigationOptions,
-} from "@react-navigation/material-top-tabs";
-import { EventsListingScreen } from "../screens/EventsListing";
-import { TabScreenHeader } from "../features/TabScreenHeader/TabScreenHeader";
-import { AthletesListingScreen } from "../screens/AthletesListing";
-import { theme } from "../theme/theme";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCalendarDays } from "@fortawesome/free-regular-svg-icons";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
-import { RootTabParamList } from "../interfaces/navigators";
-import { Text } from "react-native-paper";
-import { View, StyleSheet } from "react-native";
-import { useState } from "react";
+} from '@react-navigation/material-top-tabs';
+import { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
+
+import { TabScreenHeader } from '../features/TabScreenHeader/TabScreenHeader';
+import { RootTabParamList } from '../interfaces/navigators';
+import { AthletesListingScreen } from '../screens/AthletesListing';
+import { EventsListingScreen } from '../screens/EventsListing';
+import { theme } from '../theme/theme';
 
 const Tab = createMaterialTopTabNavigator<RootTabParamList>();
 
 const styles = StyleSheet.create({
   labelContainer: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
   },
   label: {
     fontSize: theme.fontSize.base,
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
 });
 
 export const Tabs = () => {
-  const [activeTab, setActiveTab] = useState<"Event" | "Athlete">("Event");
+  const [activeTab, setActiveTab] = useState<'Event' | 'Athlete'>('Event');
 
   const tabScreenOptions: MaterialTopTabNavigationOptions = {
     tabBarActiveTintColor: theme.colors.yellow.DEFAULT,
@@ -45,13 +46,13 @@ export const Tabs = () => {
 
   return (
     <>
-      <TabScreenHeader type={activeTab}></TabScreenHeader>
+      <TabScreenHeader type={activeTab} />
       <Tab.Navigator
         tabBarPosition="bottom"
         screenOptions={tabScreenOptions}
         screenListeners={() => ({
           state: (e: any) => {
-            setActiveTab(e.data?.state?.index === 0 ? "Event" : "Athlete");
+            setActiveTab(e.data?.state?.index === 0 ? 'Event' : 'Athlete');
           },
         })}
       >

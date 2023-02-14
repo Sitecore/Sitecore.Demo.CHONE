@@ -1,19 +1,20 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Stepper } from "../../components/Stepper/Stepper";
-import { BottomActions } from "../../components/BottomActions/BottomActions";
-import { FieldsView } from "./FieldsView";
-import { RichTextView } from "./RichTextView";
-import { ReferencesView } from "./ReferencesView";
-import { Screen } from "../../features/Screen/Screen";
-import { Button } from "react-native-paper";
-import { styles } from "../../theme/styles";
-import { useEventFields } from "../../hooks/useEventFields/useEventFields";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button } from 'react-native-paper';
+
+import { FieldsView } from './FieldsView';
+import { ReferencesView } from './ReferencesView';
+import { RichTextView } from './RichTextView';
+import { BottomActions } from '../../components/BottomActions/BottomActions';
+import { Stepper } from '../../components/Stepper/Stepper';
+import { Screen } from '../../features/Screen/Screen';
+import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { styles } from '../../theme/styles';
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { eventFields, edit, reset } = useEventFields();
   const [step, setStep] = useState(0);
-  const steps = ["Fields", "Rich Text", "References"];
+  const steps = ['Fields', 'Rich Text', 'References'];
 
   const onStepPress = useCallback((index: number) => {
     setStep(index);
@@ -61,17 +62,12 @@ export const CreateEventScreen = ({ navigation, route }) => {
       } else {
         edit({ key: route.params.key, value: route.params.image });
       }
-    }, [edit, route?.params])
+    }, [edit, eventFields, route.params.image, route.params?.isEditMedia, route.params.key])
   );
 
   return (
     <Screen>
-      <Stepper
-        labels={steps}
-        onPress={onStepPress}
-        stepIndex={step}
-        steps={steps}
-      />
+      <Stepper labels={steps} onPress={onStepPress} stepIndex={step} steps={steps} />
       {displayedScreen}
       <BottomActions>
         <Button

@@ -1,33 +1,30 @@
-import ColorHash from "color-hash";
-import { theme } from "../theme/theme";
+import ColorHash from 'color-hash';
+
+import { theme } from '../theme/theme';
 
 export const getAccentColor = (str: string | undefined) => {
   if (!str) return;
 
   switch (str.toLowerCase()) {
-    case "mountain biking":
-      return "#ff8d00";
-    case "snowboarding":
-      return "#006ef9";
-    case "skateboarding":
-      return "#ff1886";
-    case "climbing":
-      return "#ffd31c";
+    // case 'mountain biking':
+    //   return '#ff8d00';
+    // case 'snowboarding':
+    //   return '#006ef9';
+    // case 'skateboarding':
+    //   return '#ff1886';
+    // case 'climbing':
+    //   return '#ffd31c';
     default:
-      const colorHash = new ColorHash({
+      return new ColorHash({
         hue: { min: 0, max: 270 },
         saturation: 1,
         lightness: getLightnessArr(49, 70),
-      });
-      return colorHash.hex(str);
+      }).hex(str);
   }
 };
 
 const getLightnessArr = (min: number, max: number) => {
-  return Array.from(
-    { length: max - min + 1 },
-    (_, index) => (min + index) / 100
-  );
+  return Array.from({ length: max - min + 1 }, (_, index) => (min + index) / 100);
 };
 
 export const getTextColor = (color: string | undefined) => {

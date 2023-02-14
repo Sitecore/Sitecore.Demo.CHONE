@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
   ListRenderItem,
@@ -9,13 +9,14 @@ import {
   StyleProp,
   View,
   ViewStyle,
-} from "react-native";
-import { Text, ActivityIndicator } from "react-native-paper";
-import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from "../../constants/pagination";
-import { Screen } from "../../features/Screen/Screen";
-import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
-import { mockFetchData } from "../../helpers/mockPagination";
-import { theme } from "../../theme/theme";
+} from 'react-native';
+import { Text, ActivityIndicator } from 'react-native-paper';
+
+import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from '../../constants/pagination';
+import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
+import { Screen } from '../../features/Screen/Screen';
+import { mockFetchData } from '../../helpers/mockPagination';
+import { theme } from '../../theme/theme';
 
 type ListingProps = {
   data: any;
@@ -25,13 +26,7 @@ type ListingProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const Listing = ({
-  data,
-  isLoading,
-  renderItem,
-  onScroll,
-  style,
-}: ListingProps) => {
+export const Listing = ({ data, isLoading, renderItem, onScroll, style }: ListingProps) => {
   const [items, setItems] = useState(data?.slice(0, PAGE_SIZE));
   const [loading, setLoading] = useState(false);
   const [isListEnd, setIsListEnd] = useState(false);
@@ -43,7 +38,7 @@ export const Listing = ({
 
   useEffect(() => {
     setIsListEnd(data && items && data?.length === items?.length);
-  }, [items]);
+  }, [data, items]);
 
   const fetchMoreData = useCallback(() => {
     !isListEnd && mockFetchData(data, items, setItems, setLoading);
@@ -64,7 +59,7 @@ export const Listing = ({
       {isListEnd && (
         <Text
           style={{
-            textAlign: "center",
+            textAlign: 'center',
             color: theme.colors.gray.DEFAULT,
           }}
         >
@@ -87,15 +82,13 @@ export const Listing = ({
   }
 
   return (
-    <SafeAreaView
-      style={[{ backgroundColor: theme.colors.black.darkest }, style]}
-    >
+    <SafeAreaView style={[{ backgroundColor: theme.colors.black.darkest }, style]}>
       <View
         style={{
-          position: "absolute",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
+          position: 'absolute',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <ActivityIndicator animating={refreshing} size="small" />

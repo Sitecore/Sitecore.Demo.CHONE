@@ -1,5 +1,5 @@
-import { Media } from "../media";
-import { Sport } from "../sport";
+import { Media } from '../media';
+import { Sport } from '../sport';
 
 export interface Athlete {
   id: string;

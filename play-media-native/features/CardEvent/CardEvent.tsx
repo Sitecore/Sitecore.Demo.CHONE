@@ -1,18 +1,13 @@
-import { View, Image, Pressable } from "react-native";
-import { Card, Text } from "react-native-paper";
-import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
-import { getDate } from "../../helpers/dateHelper";
-import { theme } from "../../theme/theme";
-import { getAccentColor, getTextColor } from "../../helpers/colorHelper";
-import { Event } from "../../interfaces/event";
+import { View, Image, Pressable } from 'react-native';
+import { Card, Text } from 'react-native-paper';
 
-export const CardEvent = ({
-  item,
-  onCardPress,
-}: {
-  item: Event;
-  onCardPress?: () => void;
-}) => {
+import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
+import { getDate } from '../../helpers/dateHelper';
+import { Event } from '../../interfaces/event';
+import { theme } from '../../theme/theme';
+import { CardShadowBox } from '../CardShadowBox/CardShadowBox';
+
+export const CardEvent = ({ item, onCardPress }: { item: Event; onCardPress?: () => void }) => {
   const sport = item.sport;
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
   const rightLabel = `${getDate(item.timeAndDate)} | ${item.location}`;
@@ -24,7 +19,7 @@ export const CardEvent = ({
           source={{ uri: item?.featuredImage?.fileUrl }}
           style={{
             height: 200,
-            resizeMode: "cover",
+            resizeMode: 'cover',
             marginLeft: -theme.spacing.sm,
             marginRight: -theme.spacing.sm,
             marginBottom: -theme.spacing.sm,
@@ -39,7 +34,7 @@ export const CardEvent = ({
               paddingVertical: theme.spacing.sm,
             }}
           >
-            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
               <Text
                 style={{
                   backgroundColor: color,
@@ -50,11 +45,9 @@ export const CardEvent = ({
                   marginRight: theme.spacing.sm,
                 }}
               >
-                {sport?.title || "Sport"}
+                {sport?.title || 'Sport'}
               </Text>
-              <Text style={{ color: theme.colors.gray.DEFAULT }}>
-                {rightLabel}
-              </Text>
+              <Text style={{ color: theme.colors.gray.DEFAULT }}>{rightLabel}</Text>
             </View>
             <View>
               <Text variant="titleMedium">{item.title}</Text>

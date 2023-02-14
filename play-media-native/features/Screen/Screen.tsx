@@ -1,6 +1,7 @@
-import { SafeAreaView } from "react-native";
-import { styles } from "../../theme/styles";
-import { PropsWithChildren, ReactNode, useMemo } from "react";
+import { PropsWithChildren, ReactNode, useMemo } from 'react';
+import { SafeAreaView } from 'react-native';
+
+import { styles } from '../../theme/styles';
 
 export const Screen = ({
   centered,

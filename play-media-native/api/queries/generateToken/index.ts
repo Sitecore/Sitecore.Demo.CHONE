@@ -1,30 +1,25 @@
-import { FetchOptions } from "../../../interfaces/fetchOptions";
-import { Token } from "../../../interfaces/token";
-import { store } from "../../../store";
+import { FetchOptions } from '../../../interfaces/fetchOptions';
+import { Token } from '../../../interfaces/token';
+import { store } from '../../../store';
 
 export const generateToken = async (options?: FetchOptions): Promise<Token> => {
   const details = {
-    client_id:
-      options?.clientID ||
-      store.getState().connections.selectedConnection?.clientID,
+    client_id: options?.clientID || store.getState().connections.selectedConnection?.clientID,
     client_secret:
-      options?.clientSecret ||
-      store.getState().connections.selectedConnection?.clientSecret,
-    audience: "https://api.sitecorecloud.io",
-    grant_type: "client_credentials",
+      options?.clientSecret || store.getState().connections.selectedConnection?.clientSecret,
+    audience: 'https://api.sitecorecloud.io',
+    grant_type: 'client_credentials',
   };
 
   const formBody = Object.keys(details)
-    .map(
-      (key) => encodeURIComponent(key) + "=" + encodeURIComponent(details[key])
-    )
-    .join("&");
+    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(details[key]))
+    .join('&');
 
   try {
-    return await fetch("https://auth.sitecorecloud.io/oauth/token/", {
-      method: "POST",
+    return await fetch('https://auth.sitecorecloud.io/oauth/token/', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
       body: formBody,
     }).then(async (response: Response) => {

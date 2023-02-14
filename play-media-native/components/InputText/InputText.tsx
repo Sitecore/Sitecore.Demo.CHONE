@@ -1,8 +1,9 @@
-import { useMemo } from "react";
-import { StyleProp, View } from "react-native";
-import { HelperText, Text, TextInput } from "react-native-paper";
-import { Icon } from "../Icon/Icon";
-import { theme } from "../../theme/theme";
+import { useMemo } from 'react';
+import { StyleProp, View } from 'react-native';
+import { HelperText, Text, TextInput } from 'react-native-paper';
+
+import { theme } from '../../theme/theme';
+import { Icon } from '../Icon/Icon';
 
 interface Props {
   containerStyle?: StyleProp<any>;
@@ -27,7 +28,7 @@ interface Props {
 }
 
 const defaultContainerStyle = {
-  width: "100%",
+  width: '100%',
 };
 
 const defaultInputStyle = {
@@ -85,9 +86,7 @@ export const InputText = ({
 
   return (
     <View style={containerStyleFinal}>
-      {title && (
-        <Text style={{ marginBottom: theme.spacing.xxs }}>{title}</Text>
-      )}
+      {title && <Text style={{ marginBottom: theme.spacing.xxs }}>{title}</Text>}
       <TextInput
         contentStyle={contentStyleFinal}
         disabled={disabled}
@@ -107,12 +106,8 @@ export const InputText = ({
         onPressIn={onPressIn}
       />
       {error && (
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icon
-            name="warning-outline"
-            color={theme.colors.pink.DEFAULT}
-            size={16}
-          />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Icon name="warning-outline" color={theme.colors.pink.DEFAULT} size={16} />
           <HelperText type="error" visible>
             {errorText}
           </HelperText>

@@ -1,12 +1,13 @@
-import { useCallback } from "react";
-import { CardAvatar } from "../features/CardAvatar/CardAvatar";
-import { Athlete } from "../interfaces/athlete";
-import { Button } from "react-native-paper";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { useAthletes } from "../hooks/useAthletes/useAthletes";
-import { DraggableList } from "../components/DraggableList/DraggableList";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
+import { useCallback } from 'react';
+import { Button } from 'react-native-paper';
+
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { DraggableList } from '../components/DraggableList/DraggableList';
+import { CardAvatar } from '../features/CardAvatar/CardAvatar';
+import { Screen } from '../features/Screen/Screen';
+import { useAthletes } from '../hooks/useAthletes/useAthletes';
+import { Athlete } from '../interfaces/athlete';
+import { styles } from '../theme/styles';
 
 export const ReviewAthletesScreen = ({ navigation }) => {
   const { athletes } = useAthletes();

@@ -1,11 +1,12 @@
-import { View } from "react-native";
-import { Logo } from "../../components/Logo/Logo";
-import { IconButton } from "react-native-paper";
-import { theme } from "../../theme/theme";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useNavigation } from "@react-navigation/native";
-import { TabHeaderNavigationProp } from "../../interfaces/navigators";
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useNavigation } from '@react-navigation/native';
+import { View } from 'react-native';
+import { IconButton } from 'react-native-paper';
+
+import { Logo } from '../../components/Logo/Logo';
+import { TabHeaderNavigationProp } from '../../interfaces/navigators';
+import { theme } from '../../theme/theme';
 
 export const StackScreenHeader = () => {
   const navigation = useNavigation<TabHeaderNavigationProp>();
@@ -18,17 +19,15 @@ export const StackScreenHeader = () => {
         paddingLeft: theme.spacing.sm,
         paddingRight: theme.spacing.sm,
         backgroundColor: theme.colors.black.darkest,
-        alignItems: "center",
+        alignItems: 'center',
       }}
     >
       <IconButton
-        icon={({ size, color }) => (
-          <FontAwesomeIcon icon={faArrowLeft} color={color} size={size} />
-        )}
+        icon={({ size, color }) => <FontAwesomeIcon icon={faArrowLeft} color={color} size={size} />}
         iconColor={theme.colors.white.DEFAULT}
         containerColor={theme.colors.transparent}
         style={{
-          position: "absolute",
+          position: 'absolute',
           left: 0,
           top: 0,
         }}

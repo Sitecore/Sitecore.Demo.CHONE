@@ -1,20 +1,21 @@
-import { useCallback, useState } from "react";
-import { InputText } from "../../components/InputText/InputText";
-import { validateConnection } from "../../api/queries/validateConnection";
-import { ActivityIndicator, Button } from "react-native-paper";
-import { Toast } from "../../components/Toast/Toast";
-import { storeConnection } from "../../helpers/connections";
-import { View } from "react-native";
-import { useConnections } from "../../hooks/useConnections/useConnections";
-import debounce from "lodash.debounce";
-import { Connection } from "../../interfaces/connections";
-import { theme } from "../../theme/theme";
-import { styles } from "../../theme/styles";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "../../interfaces/navigators";
+import { useNavigation } from '@react-navigation/native';
+import debounce from 'lodash.debounce';
+import { useCallback, useState } from 'react';
+import { View } from 'react-native';
+import { ActivityIndicator, Button } from 'react-native-paper';
+
+import { validateConnection } from '../../api/queries/validateConnection';
+import { InputText } from '../../components/InputText/InputText';
+import { Toast } from '../../components/Toast/Toast';
+import { storeConnection } from '../../helpers/connections';
+import { useConnections } from '../../hooks/useConnections/useConnections';
+import { Connection } from '../../interfaces/connections';
+import { StackNavigationProp } from '../../interfaces/navigators';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
 
 const defaultTextInputStyle = {
-  width: "90%",
+  width: '90%',
   marginVertical: theme.spacing.xxs,
 };
 
@@ -27,8 +28,8 @@ const isApiKeyValid = (text: string) => !!text;
 // Preview URL validation
 //
 const isPreviewUrlValid = (text: string) => {
-  const startsCorrectly = text.startsWith("https://");
-  const endsCorrectly = text.endsWith("/api/content/v1/preview/graphql/");
+  const startsCorrectly = text.startsWith('https://');
+  const endsCorrectly = text.endsWith('/api/content/v1/preview/graphql/');
 
   return startsCorrectly && endsCorrectly;
 };
@@ -38,16 +39,16 @@ export const FormAddConnection = () => {
   const [validating, setValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [nameError, setNameError] = useState(false);
   const [nameExistsError, setNameExistsError] = useState(false);
-  const [apiKey, setApiKey] = useState("");
+  const [apiKey, setApiKey] = useState('');
   const [apiKeyError, setApiKeyError] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState("");
+  const [previewUrl, setPreviewUrl] = useState('');
   const [previewUrlError, setPreviewUrlError] = useState(false);
-  const [clientID, setClientID] = useState("");
+  const [clientID, setClientID] = useState('');
   const [clientIDError, setClientIDError] = useState(false);
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState('');
   const [clientSecretError, setClientSecretError] = useState(false);
 
   const nameInvalid = !name || nameError || nameExistsError;
@@ -56,11 +57,7 @@ export const FormAddConnection = () => {
   const clientIDInvalid = !clientID || clientIDError;
   const clientSecretInvalid = !clientSecret || clientSecretError;
   const buttonDisabled =
-    nameInvalid ||
-    apiKeyInvalid ||
-    previewUrlInvalid ||
-    clientIDInvalid ||
-    clientSecretInvalid;
+    nameInvalid || apiKeyInvalid || previewUrlInvalid || clientIDInvalid || clientSecretInvalid;
 
   const navigation = useNavigation<StackNavigationProp>();
 
@@ -87,8 +84,9 @@ export const FormAddConnection = () => {
       .finally(() => {
         setValidating(false);
       });
-  }, [name, apiKey, previewUrl, clientID, clientSecret]);
+  }, [apiKey, previewUrl, clientID, clientSecret, name, add]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const checkNameExists = useCallback(
     debounce((connectionName: string, existingConnections: Connection[]) => {
       const nameAlreadyExists = !!existingConnections.find(
@@ -141,15 +139,15 @@ export const FormAddConnection = () => {
   const onSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
     navigation.goBack();
-  }, []);
+  }, [navigation]);
 
   const onErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
   }, []);
 
   const nameErrorText = nameExistsError
-    ? "Name already taken!"
-    : "Name should contain only letters, numbers and hyphens!";
+    ? 'Name already taken!'
+    : 'Name should contain only letters, numbers and hyphens!';
 
   return (
     <>

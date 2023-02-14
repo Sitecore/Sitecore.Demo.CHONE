@@ -1,12 +1,13 @@
-import { useCallback } from "react";
-import { Button } from "react-native-paper";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { DraggableList } from "../components/DraggableList/DraggableList";
-import { CardEvent } from "../features/CardEvent/CardEvent";
-import { useEvents } from "../hooks/useEvents/useEvents";
-import { Event } from "../interfaces/event";
-import { styles } from "../theme/styles";
-import { Screen } from "../features/Screen/Screen";
+import { useCallback } from 'react';
+import { Button } from 'react-native-paper';
+
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { DraggableList } from '../components/DraggableList/DraggableList';
+import { CardEvent } from '../features/CardEvent/CardEvent';
+import { Screen } from '../features/Screen/Screen';
+import { useEvents } from '../hooks/useEvents/useEvents';
+import { Event } from '../interfaces/event';
+import { styles } from '../theme/styles';
 
 export const ReviewEventsScreen = ({ navigation }) => {
   const { events } = useEvents();
