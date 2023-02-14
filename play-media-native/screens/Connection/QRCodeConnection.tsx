@@ -8,12 +8,16 @@ import { validateConnection } from "../../api/queries/validateConnection";
 import { storeConnection } from "../../helpers/connections";
 import { add } from "../../store/connections";
 import { styles } from "../../theme/styles";
+import { theme } from "../../theme/theme";
 
 const pageStyles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
+  },
+  failureTextMsg: {
+    marginBottom: theme.spacing.sm,
   },
 });
 
@@ -65,6 +69,20 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     </View>
   );
 
+  const scanAgain = isQRScanned && (
+    <Screen centered>
+      <Text style={pageStyles.failureTextMsg}>Adding a connection failed</Text>
+      <Button
+        mode="contained"
+        style={styles.button}
+        labelStyle={styles.buttonLabel}
+        onPress={() => setIsQRScanned(false)}
+      >
+        Tap to Scan Again
+      </Button>
+    </Screen>
+  );
+
   if (!hasPermission) {
     return (
       <Screen centered>
@@ -76,6 +94,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
   return (
     <>
       {qrCodeScanner}
+      {scanAgain}
     </>
   );
 };
