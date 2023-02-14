@@ -7,6 +7,7 @@ import { Connection } from "../../interfaces/connections";
 import { validateConnection } from "../../api/queries/validateConnection";
 import { storeConnection } from "../../helpers/connections";
 import { add } from "../../store/connections";
+import { styles } from "../../theme/styles";
 
 const pageStyles = StyleSheet.create({
   container: {
@@ -54,6 +55,16 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     setIsQRScanned(true);
   }, []);
 
+  const qrCodeScanner = !isQRScanned && (
+    <View style={pageStyles.container}>
+      <BarCodeScanner
+        barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+        onBarCodeScanned={isQRScanned ? undefined : handleQRCodeScan}
+        style={StyleSheet.absoluteFillObject}
+      />
+    </View>
+  );
+
   if (!hasPermission) {
     return (
       <Screen centered>
@@ -63,12 +74,8 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={pageStyles.container}>
-      <BarCodeScanner
-        barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-        onBarCodeScanned={isQRScanned ? undefined : handleQRCodeScan}
-        style={StyleSheet.absoluteFillObject}
-      />
-    </View>
+    <>
+      {qrCodeScanner}
+    </>
   );
 };
