@@ -167,11 +167,10 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     });
   }, []);
 
-  const handleDiscardBtn = useCallback(() => {
-    navigation.goBack();
-  }, []);
+  // TODO Save as draft functionality
+  const handleDraftBtn = useCallback(() => {}, []);
 
-  const handlePublishBtn = useCallback(async () => {
+  const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
 
     // Map athlete object to a form suitable for the API request
@@ -212,17 +211,17 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
             mode="outlined"
             style={styles.button}
             labelStyle={styles.buttonLabel}
-            onPress={handleDiscardBtn}
+            onPress={handleDraftBtn}
           >
-            Discard
+            Save as draft
           </Button>
           <Button
             mode="contained"
             style={styles.button}
             labelStyle={styles.buttonLabel}
-            onPress={() => handlePublishBtn()}
+            onPress={handleSubmitBtn}
           >
-            Publish
+            Submit
           </Button>
         </BottomActions>
       ) : (
@@ -245,8 +244,8 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       isTopEdge,
       isReview,
       handleEditInfo,
-      handleDiscardBtn,
-      handlePublishBtn,
+      handleDraftBtn,
+      handleSubmitBtn,
     ]
   );
 
