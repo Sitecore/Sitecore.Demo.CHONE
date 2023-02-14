@@ -140,10 +140,9 @@ export const EditEventScreen = ({ route, navigation }) => {
       } else {
         edit({ key: route.params.key, value: route.params.image });
       }
-    }, [edit, event, route.params.image, route.params?.isEditMedia, route.params.key])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [edit, route?.params])
   );
-
-  console.log('event', event);
 
   if (isFetchingSports) {
     return <LoadingScreen />;
