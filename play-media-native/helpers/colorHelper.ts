@@ -6,14 +6,14 @@ export const getAccentColor = (str: string | undefined) => {
   if (!str) return;
 
   switch (str.toLowerCase()) {
-    // case 'mountain biking':
-    //   return '#ff8d00';
-    // case 'snowboarding':
-    //   return '#006ef9';
-    // case 'skateboarding':
-    //   return '#ff1886';
-    // case 'climbing':
-    //   return '#ffd31c';
+    case 'mountain biking':
+      return '#ff8d00';
+    case 'snowboarding':
+      return '#006ef9';
+    case 'skateboarding':
+      return '#ff1886';
+    case 'climbing':
+      return '#ffd31c';
     default:
       return new ColorHash({
         hue: { min: 0, max: 270 },
