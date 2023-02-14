@@ -16,10 +16,8 @@ import { EVENT_FACETS } from "../constants/filters";
 import { useFacets } from "../hooks/useFacets/useFacets";
 import { getLocationOptions, getSportOptions } from "../helpers/facets";
 import { initializeEvents } from "../helpers/events";
-import { useEventFields } from "../hooks/useEventFields/useEventFields";
 
 export const EventsListingScreen = ({ navigation }) => {
-  const { init } = useEventFields();
   const { data: events, isFetching: isFetchingEvents } = useQuery(
     "events",
     () => getAllEvents()
@@ -46,10 +44,9 @@ export const EventsListingScreen = ({ navigation }) => {
 
   const onCardPress = useCallback(
     (event: Event) => {
-      init(event);
-      navigation.navigate("EventDetail");
+      navigation.navigate("EventDetail", { id: event.id, title: event.title });
     },
-    [init, navigation]
+    [navigation]
   );
 
   if (isFetchingEvents || isFetchingSports) {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatedFAB, Button, Text } from "react-native-paper";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../theme/theme";
@@ -18,6 +18,9 @@ import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
 import { useEventFields } from "../hooks/useEventFields/useEventFields";
 import { CardEvent } from "../features/CardEvent/CardEvent";
 import { Event } from "../interfaces/event";
+import { useQuery } from "react-query";
+import { getEventById } from "../api/queries/getEvents";
+import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -44,13 +47,26 @@ const pageStyles = StyleSheet.create({
 });
 
 export const EventDetailScreen = ({ route, navigation }) => {
+  const id = route?.params?.id;
   const isReview = route?.params?.isReview;
-  const { eventFields: event, reset } = useEventFields();
+  const [error, setError] = useState<unknown>();
+
+  const { data: event, isFetching } = useQuery(
+    "event",
+    () => getEventById(id),
+    {
+      onError: (error) => {
+        setError(error);
+      },
+    }
+  );
+
+  const { eventFields, init, reset } = useEventFields();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   useEffect(() => {
     navigation.setOptions({
-      title: event.title,
+      title: event?.title,
     });
   }, [event, navigation]);
 
@@ -65,8 +81,9 @@ export const EventDetailScreen = ({ route, navigation }) => {
   );
 
   const handleEditInfo = useCallback(() => {
+    init(event);
     navigation.navigate("EditEvent");
-  }, [navigation]);
+  }, [event, init, navigation]);
 
   const handleDiscardBtn = useCallback(() => {
     navigation.goBack();
@@ -81,6 +98,10 @@ export const EventDetailScreen = ({ route, navigation }) => {
   );
 
   const imageUriArray = useMemo(() => {
+    if (!event?.relatedMedia?.length) {
+      return [];
+    }
+
     return event.relatedMedia.map((img: Media) => img.fileUrl);
   }, [event]);
 
@@ -137,6 +158,10 @@ export const EventDetailScreen = ({ route, navigation }) => {
       reset();
     };
   }, []);
+
+  if (isFetching) {
+    return <LoadingScreen />;
+  }
 
   if (!event) {
     return (

@@ -123,3 +123,111 @@ export const getAllEvents = async (
     normalizeEvent(event as EventResponse)
   );
 };
+
+const getEventByIdQuery = (id: string) => {
+  return `
+    query {
+      event (id: "${id}") {
+        id
+        title
+        sport {
+          results {
+            ... on Sport {
+              id
+              title
+              description
+            }
+          }
+        }
+        isFeatured
+        timeAndDate
+        location
+        featuredImage {
+          results {
+            id
+            name
+            fileUrl
+            description
+          }
+        }
+        relatedMedia {
+          results {
+            id
+            name
+            fileUrl
+            description
+          }
+        }
+        teaser
+        body
+        athletes {
+          results {
+            ... on Athlete {
+              id
+              athleteName
+              athleteQuote
+              dateOfBirth
+              nationality
+              profilePhoto {
+                results {
+                  id
+                  name
+                  fileUrl
+                  description
+                }
+              }
+              sport {
+                results {
+                  ... on Sport {
+                    id
+                    title
+                    description
+                  }
+                }
+              }
+            }
+          }
+        }
+        similarEvents {
+          results {
+            ... on Event {
+              id
+              title
+              sport {
+                results {
+                  ... on Sport {
+                    id
+                    title
+                    description
+                  }
+                }
+              }
+              timeAndDate
+              featuredImage {
+                results {
+                  id
+                  name
+                  fileUrl
+                  description
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    `;
+};
+
+export const getEventById = async (id: string): Promise<Event | null> => {
+  try {
+    const eventResponse: { data: { event: EventResponse } } =
+      (await fetchGraphQL(getEventByIdQuery(id))) as {
+        data: { event: EventResponse };
+      };
+
+    return normalizeEvent(eventResponse.data.event);
+  } catch {
+    return null;
+  }
+};
