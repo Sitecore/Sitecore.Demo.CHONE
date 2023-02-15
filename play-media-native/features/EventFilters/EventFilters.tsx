@@ -3,6 +3,7 @@ import { Platform, View } from 'react-native';
 
 import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
 import { FacetFilters } from '../../components/FacetFilters/FacetFilters';
+import { CONTENT_TYPES } from '../../constants/contentTypes';
 import { EVENT_FACETS } from '../../constants/filters';
 import { useFilters } from '../../hooks/useFilters/useFilters';
 import { IIndexable } from '../../interfaces/indexable';
@@ -19,17 +20,19 @@ export const EventFilters = ({
   onChange: (key: string, value: string) => void;
   sportOptions: DropdownItem[];
 }) => {
-  const { setEventFiltersActive, visible } = useFilters();
+  const { visible, setEventFiltersActive, setEventFilterValues } = useFilters();
 
   const handleFacetsChange = useCallback(
     (id: string, item: DropdownItem) => {
       const newFilters = { ...filters, [id]: item.value };
-      const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
+      setEventFilterValues(newFilters);
 
+      const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
       setEventFiltersActive(activeFilters);
+
       onChange(id, item.value);
     },
-    [filters, onChange, setEventFiltersActive]
+    [filters, onChange, setEventFiltersActive, setEventFilterValues]
   );
 
   if (!visible) {
@@ -61,6 +64,7 @@ export const EventFilters = ({
           },
         ]}
         onChange={handleFacetsChange}
+        type={CONTENT_TYPES.EVENT}
       />
     </View>
   );
