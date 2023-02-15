@@ -15,11 +15,12 @@ import { getAccentColor } from '../helpers/colorHelper';
 import { mapContentItem } from '../helpers/contentItemHelper';
 import { getDate, getTime } from '../helpers/dateHelper';
 import { Athlete } from '../interfaces/athlete';
-import { Event, EventResponse } from '../interfaces/event';
+import { Event } from '../interfaces/event';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { prepareRequestFields } from '../helpers/events';
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -47,7 +48,8 @@ const pageStyles = StyleSheet.create({
 });
 
 export const ReviewEventScreen = ({ navigation, route }) => {
-  const { eventFields: event } = useEventFields();
+  const { eventFields } = useEventFields();
+  const event = eventFields as Event;
 
   const [newEventID, setNewEventID] = useState(undefined);
 
@@ -96,10 +98,11 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
 
-    // Map eventToReview object to a form suitable for the API request
-    const requestFields = mapContentItem(event, (k, v) => ({
+    //  Map eventToReview object to a form suitable for the API request
+    const requestFields = mapContentItem(prepareRequestFields(event), (k, v) => ({
       value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
     }));
+
     // Delete the id, name from the request fields to avoid errors
     delete requestFields.id;
     delete requestFields.name;
@@ -154,8 +157,6 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     ),
     [handleDraft, handleSubmitBtn]
   );
-
-  console.log("event", event)
 
   if (!event) {
     return (

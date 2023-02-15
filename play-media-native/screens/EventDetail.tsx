@@ -2,7 +2,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { AnimatedFAB, Button, Text } from 'react-native-paper';
+import { AnimatedFAB, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';

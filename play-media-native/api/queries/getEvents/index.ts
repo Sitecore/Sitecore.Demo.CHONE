@@ -125,6 +125,7 @@ const getEventByIdQuery = (id: string) => {
     query {
       event (id: "${id}") {
         id
+        name
         title
         sport {
           results {
