@@ -49,8 +49,6 @@ const pageStyles = StyleSheet.create({
 export const ReviewEventScreen = ({ navigation, route }) => {
   const { eventFields: event } = useEventFields();
 
-  const eventToReview = undefined as EventResponse;
-
   const [newEventID, setNewEventID] = useState(undefined);
 
   const [isValidating, setIsValidating] = useState(false);
@@ -58,7 +56,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
-  const isNewEvent = route.params.isNewAthlete;
+  const isNew = route?.params?.isNew;
 
   useEffect(() => {
     navigation.setOptions({
@@ -99,17 +97,17 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     setIsValidating(true);
 
     // Map eventToReview object to a form suitable for the API request
-    const requestFields = mapContentItem(eventToReview, (k, v) => ({
+    const requestFields = mapContentItem(event, (k, v) => ({
       value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
     }));
     // Delete the id, name from the request fields to avoid errors
     delete requestFields.id;
     delete requestFields.name;
 
-    if (isNewEvent) {
+    if (isNew) {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
-        name: eventToReview.name,
+        name: event.name,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
@@ -117,15 +115,18 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         .finally(() => setIsValidating(false));
     } else {
       await updateContentItem({
-        id: eventToReview.id,
-        name: eventToReview.name,
+        id: event.id,
+        name: event.name,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
+        .catch((e) => {
+          console.log("error", e);
+          setShowErrorToast(true)
+        })
         .finally(() => setIsValidating(false));
     }
-  }, [eventToReview, isNewEvent, processResponse]);
+  }, [event, isNew, processResponse]);
 
   const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
 
@@ -227,14 +228,14 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       )}
       <Toast
         duration={2000}
-        message={isNewEvent ? 'Event created successfully!' : 'Event updated successfully!'}
+        message={isNew ? 'Event created successfully!' : 'Event updated successfully!'}
         onDismiss={handleSuccessToastDismiss}
         visible={showSuccessToast}
         type="success"
       />
       <Toast
         duration={2000}
-        message={isNewEvent ? 'Event could not be created' : 'Event could not be updated'}
+        message={isNew ? 'Event could not be created' : 'Event could not be updated'}
         onDismiss={handleErrorToastDismiss}
         visible={showErrorToast}
         type="warning"

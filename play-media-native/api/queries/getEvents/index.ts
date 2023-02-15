@@ -206,6 +206,7 @@ const getEventByIdQuery = (id: string) => {
                   }
                 }
               }
+              location
               timeAndDate
               featuredImage {
                 results {

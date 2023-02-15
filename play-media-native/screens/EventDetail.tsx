@@ -5,7 +5,6 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { AnimatedFAB, Button, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
-import { BottomActions } from '../components/BottomActions/BottomActions';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { ImageGrid } from '../features/ImageGrid/ImageGrid';
@@ -49,7 +48,6 @@ const pageStyles = StyleSheet.create({
 
 export const EventDetailScreen = ({ route, navigation }) => {
   const id = route?.params?.id;
-  const isReview = route?.params?.isReview;
   const [error, setError] = useState<unknown>();
 
   const { data: event, isFetching } = useQuery(
@@ -62,7 +60,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
     }
   );
 
-  const { eventFields, init, reset } = useEventFields();
+  const { init, reset } = useEventFields();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   useEffect(() => {
@@ -74,8 +72,8 @@ export const EventDetailScreen = ({ route, navigation }) => {
   const onCardPress = useCallback(
     (athlete: Athlete) => {
       navigation.navigate('AthleteDetail', {
-        id: athlete.id,
-        title: athlete.athleteName,
+        id: athlete?.id,
+        title: athlete?.athleteName,
       });
     },
     [navigation]
@@ -90,9 +88,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
     navigation.goBack();
   }, [navigation]);
 
-  // TODO Add API request to create/ update athlete
-  const handlePublishBtn = useCallback(() => {}, []);
-
   const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
 
   const imageUriArray = useMemo(() => {
@@ -105,26 +100,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   const bottomActions = useMemo(
     () =>
-      isReview ? (
-        <BottomActions style={pageStyles.actionBtns}>
-          <Button
-            mode="outlined"
-            style={styles.button}
-            labelStyle={styles.buttonLabel}
-            onPress={handleDiscardBtn}
-          >
-            Discard
-          </Button>
-          <Button
-            mode="contained"
-            style={styles.button}
-            labelStyle={styles.buttonLabel}
-            onPress={() => handlePublishBtn()}
-          >
-            Publish
-          </Button>
-        </BottomActions>
-      ) : (
+      (
         <AnimatedFAB
           icon={({ size }) => (
             <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
@@ -135,7 +111,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
           style={pageStyles.bottomFAB}
         />
       ),
-    [isTopEdge, isReview, handleEditInfo, handleDiscardBtn, handlePublishBtn]
+    [isTopEdge, handleEditInfo, handleDiscardBtn]
   );
 
   // clear global state on unmount
