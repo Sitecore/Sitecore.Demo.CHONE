@@ -4,6 +4,7 @@ import { Sport } from '../sport';
 
 export interface EventResponse {
   id: string;
+  name: string;
   title: string;
   sport: {
     results: Partial<Sport>[];
@@ -37,6 +38,7 @@ export interface AllEventsResponse {
 
 export interface Event {
   id: string;
+  name: string;
   title: string;
   sport: Partial<Sport>;
   isFeatured: boolean;

@@ -23,6 +23,7 @@ export const removeAlreadySelected = (events: Event[], existingEvents: Event[]) 
 export const normalizeEvent = (event: EventResponse) => {
   return {
     id: event.id,
+    name: event.name,
     title: event.title,
     sport: event.sport?.results[0] || null,
     isFeatured: event.isFeatured,
