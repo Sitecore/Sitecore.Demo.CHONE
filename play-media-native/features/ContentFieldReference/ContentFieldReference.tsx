@@ -1,12 +1,13 @@
-import { useCallback } from "react";
-import { StyleProp, View } from "react-native";
-import { Button, Text } from "react-native-paper";
-import { useEventFields } from "../../hooks/useEventFields/useEventFields";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "../../interfaces/navigators";
-import { styles } from "../../theme/styles";
-import { DraggableList } from "../../components/DraggableList/DraggableList";
-import { theme } from "../../theme/theme";
+import { useNavigation } from '@react-navigation/native';
+import { useCallback } from 'react';
+import { StyleProp, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+
+import { DraggableList } from '../../components/DraggableList/DraggableList';
+import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { StackNavigationProp } from '../../interfaces/navigators';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
 
 export const ContentFieldReference = ({
   addRoute,
@@ -32,13 +33,13 @@ export const ContentFieldReference = ({
   const { eventFields } = useEventFields();
   const navigation = useNavigation<StackNavigationProp>();
 
-  const handleCreateNew = useCallback(() => {
-    navigation.navigate(createRoute, {
-      key: fieldKey,
-      contentType,
-      initialRoute,
-    });
-  }, [contentType, createRoute, fieldKey, initialRoute, navigation]);
+  // const handleCreateNew = useCallback(() => {
+  //   navigation.navigate(createRoute, {
+  //     key: fieldKey,
+  //     contentType,
+  //     initialRoute,
+  //   });
+  // }, [contentType, createRoute, fieldKey, initialRoute, navigation]);
 
   const handleAddExisting = useCallback(() => {
     navigation.navigate(addRoute, {
@@ -56,9 +57,9 @@ export const ContentFieldReference = ({
       </Text>
       <View
         style={{
-          width: "100%",
-          flexDirection: "row",
-          justifyContent: "flex-end",
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
           marginBottom: theme.spacing.xs,
         }}
       >

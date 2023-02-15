@@ -1,6 +1,7 @@
-import { StyleProp } from "react-native";
-import { MEDIA_SOURCES } from "../../constants/media";
-import { Icon } from "../../components/Icon/Icon";
+import { StyleProp } from 'react-native';
+
+import { Icon } from '../../components/Icon/Icon';
+import { MEDIA_SOURCES } from '../../constants/media';
 
 export const MediaSourceIcon = ({
   size = 20,

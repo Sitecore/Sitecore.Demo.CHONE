@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
-import { theme } from "./theme";
+import { StyleSheet } from 'react-native';
+
+import { theme } from './theme';
 
 export const styles = StyleSheet.create({
   button: {
@@ -13,21 +14,21 @@ export const styles = StyleSheet.create({
     lineHeight: 30,
   },
   centered: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   container: {
     backgroundColor: theme.colors.black.darkest,
   },
   fab: {
-    position: "absolute",
+    position: 'absolute',
     margin: theme.spacing.xs,
     right: theme.spacing.xs,
     bottom: theme.spacing.xs,
   },
   screen: {
     flex: 1,
-    height: "100%",
+    height: '100%',
     backgroundColor: theme.colors.black.darkest,
   },
   screenPadding: {

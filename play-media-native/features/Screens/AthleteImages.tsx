@@ -1,9 +1,10 @@
-import { Image, View, StyleSheet } from "react-native";
-import { Athlete } from "../../interfaces/athlete";
-import { theme } from "../../theme/theme";
-import { Button, Text } from "react-native-paper";
-import { ImageGrid } from "../ImageGrid/ImageGrid";
-import { styles } from "../../theme/styles";
+import { Image, View, StyleSheet } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+
+import { Athlete } from '../../interfaces/athlete';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
+import { ImageGrid } from '../ImageGrid/ImageGrid';
 
 const pageStyles = StyleSheet.create({
   imageContainer: {
@@ -16,7 +17,7 @@ const pageStyles = StyleSheet.create({
   },
   imageItem: {
     height: 300,
-    width: "100%",
+    width: '100%',
     marginTop: theme.spacing.xs,
   },
   imageGrid: {
@@ -24,9 +25,9 @@ const pageStyles = StyleSheet.create({
     marginBottom: theme.spacing.xl,
   },
   imageBtns: {
-    display: "flex",
-    flexDirection: "row",
-    alignSelf: "flex-end",
+    display: 'flex',
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
     marginBottom: theme.spacing.sm,
   },
 });

@@ -1,16 +1,17 @@
-import { Image, View } from "react-native";
-import { getFileType, removeFileExtension } from "../../helpers/media";
-import { Media } from "../../interfaces/media";
-import { theme } from "../../theme/theme";
-import { Field } from "../Field/Field";
+import { Image, View } from 'react-native';
+
+import { getFileType, removeFileExtension } from '../../helpers/media';
+import { Media } from '../../interfaces/media';
+import { theme } from '../../theme/theme';
+import { Field } from '../Field/Field';
 
 export const MediaItemListDisplay = ({ item }: { item: Media }) => {
   return (
     <View
       key={item.fileUrl}
       style={{
-        width: "100%",
-        flexDirection: "row",
+        width: '100%',
+        flexDirection: 'row',
         marginBottom: theme.spacing.xs,
         backgroundColor: theme.colors.black.lightest,
       }}
@@ -18,7 +19,7 @@ export const MediaItemListDisplay = ({ item }: { item: Media }) => {
       <Image
         style={{
           height: 110,
-          width: "auto",
+          width: 'auto',
           flex: 1,
         }}
         source={{ uri: item.fileUrl }}
@@ -26,7 +27,7 @@ export const MediaItemListDisplay = ({ item }: { item: Media }) => {
       <View
         style={{
           flex: 2,
-          justifyContent: "center",
+          justifyContent: 'center',
           marginLeft: theme.spacing.xs,
         }}
       >

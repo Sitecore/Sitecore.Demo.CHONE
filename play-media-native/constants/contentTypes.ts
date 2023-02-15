@@ -1,4 +1,4 @@
 export const CONTENT_TYPES = {
-  ATHLETE: "athlete",
-  EVENT: "event",
+  ATHLETE: 'athlete',
+  EVENT: 'event',
 };

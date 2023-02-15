@@ -1,19 +1,12 @@
-import {
-  CONNECTIONS_KEY,
-  SELECTED_CONNECTION_KEY,
-} from "../constants/connections";
-import { Connection } from "../interfaces/connections";
-import { getValueFor, save } from "./secureStorage";
+import { getValueFor, save } from './secureStorage';
+import { CONNECTIONS_KEY, SELECTED_CONNECTION_KEY } from '../constants/connections';
+import { Connection } from '../interfaces/connections';
 
 // Check if user-provided connection name already exists
 //
-export const nameAlreadyExists = async (
-  connection: Connection
-): Promise<boolean> => {
+export const nameAlreadyExists = async (connection: Connection): Promise<boolean> => {
   const existingConnections = await getConnections();
-  return !!existingConnections.find(
-    (item: Connection) => item.name === connection.name
-  );
+  return !!existingConnections.find((item: Connection) => item.name === connection.name);
 };
 
 // Get all connections already stored in secure storage
@@ -25,26 +18,19 @@ export const getConnections = async (): Promise<Connection[] | null> => {
 
 // Save connection object in secure storage
 //
-export const storeConnection = async (
-  connection: Connection
-): Promise<void> => {
+export const storeConnection = async (connection: Connection): Promise<void> => {
   const existingConnections = await getConnections();
 
   if (!existingConnections) {
     await save(CONNECTIONS_KEY, JSON.stringify([connection]));
   } else {
-    await save(
-      CONNECTIONS_KEY,
-      JSON.stringify([...existingConnections, connection])
-    );
+    await save(CONNECTIONS_KEY, JSON.stringify([...existingConnections, connection]));
   }
 };
 
 // Save connection object in secure storage
 //
-export const removeConnections = async (
-  connections: Connection[]
-): Promise<void> => {
+export const removeConnections = async (connections: Connection[]): Promise<void> => {
   const existingConnections = await getConnections();
 
   if (!existingConnections) {
@@ -54,9 +40,7 @@ export const removeConnections = async (
   const namesToRemove = connections.map((item) => item.name);
   await save(
     CONNECTIONS_KEY,
-    JSON.stringify(
-      existingConnections.filter((item) => !namesToRemove.includes(item.name))
-    )
+    JSON.stringify(existingConnections.filter((item) => !namesToRemove.includes(item.name)))
   );
 };
 

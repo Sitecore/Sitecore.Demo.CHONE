@@ -1,6 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { clear, edit } from "../../store/tempMedia";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { RootState } from '../../store';
+import { clear, edit } from '../../store/tempMedia';
 
 export const useTempMedia = () => {
   const { image, key } = useSelector((state: RootState) => state.tempMedia);

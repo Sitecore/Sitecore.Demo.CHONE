@@ -1,11 +1,12 @@
-import { useCallback } from "react";
-import { View } from "react-native";
-import { theme } from "../../theme/theme";
-import { DropdownItem } from "../DropdownPicker/DropdownPicker";
-import { FacetFilter } from "./FacetFilter";
+import { useCallback } from 'react';
+import { View } from 'react-native';
+
+import { FacetFilter, IFacetFilter } from './FacetFilter';
+import { theme } from '../../theme/theme';
+import { DropdownItem } from '../DropdownPicker/DropdownPicker';
 
 type FacetFiltersProps = {
-  facetFilters: FacetFilter[];
+  facetFilters: IFacetFilter[];
   onChange: (id: string, item: DropdownItem) => void;
 };
 
@@ -20,8 +21,8 @@ export const FacetFilters = ({ facetFilters, onChange }: FacetFiltersProps) => {
   return (
     <View
       style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginHorizontal: -theme.spacing.xxs,
       }}
     >

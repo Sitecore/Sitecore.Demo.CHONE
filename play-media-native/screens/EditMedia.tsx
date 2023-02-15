@@ -1,18 +1,19 @@
-import { useCallback, useState } from "react";
-import { Image, StatusBar, View } from "react-native";
-import { InputText } from "../components/InputText/InputText";
-import { inputContainerStyle } from "./CreateEvent/styles";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { Button, Text } from "react-native-paper";
-import { Media } from "../interfaces/media";
-import { getFileType } from "../helpers/media";
-import { generateID } from "../helpers/uuid";
-import { useFocusEffect } from "@react-navigation/native";
-import { styles } from "../theme/styles";
-import { KeyboardAwareScreen } from "../features/Screen/KeyboardAwareScreen";
-import { useEventFields } from "../hooks/useEventFields/useEventFields";
-import { CONTENT_TYPES } from "../constants/contentTypes";
-import { useAthleteFields } from "../hooks/useAthleteFields/useAthleteFields";
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import { Image, StatusBar, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+
+import { inputContainerStyle } from './CreateEvent/styles';
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { InputText } from '../components/InputText/InputText';
+import { CONTENT_TYPES } from '../constants/contentTypes';
+import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
+import { getFileType } from '../helpers/media';
+import { generateID } from '../helpers/uuid';
+import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
+import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { Media } from '../interfaces/media';
+import { styles } from '../theme/styles';
 
 const imageStyle = {
   height: 200,
@@ -27,7 +28,6 @@ export const EditMediaScreen = ({ navigation, route }) => {
   const isEdit: boolean = route?.params?.isEditMode;
   const initialRoute = route?.params?.initialRoute;
   const tempMediaKey = route.params.key;
-  const single = route?.params?.single;
 
   const onEdit = useCallback(() => {
     if (contentType === CONTENT_TYPES.EVENT) {
@@ -41,6 +41,8 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }, [
     contentType,
     editedImage,
+    initialRoute,
+    navigation,
     replaceAthleteFields,
     replaceEventFields,
     tempMediaKey,
@@ -78,8 +80,8 @@ export const EditMediaScreen = ({ navigation, route }) => {
         route?.params?.image
           ? {
               ...route.params.image,
-              description: route.params.image.description || "",
-              name: route.params.image.name || "",
+              description: route.params.image.description || '',
+              name: route.params.image.name || '',
               fileHeight: route.params.image.height,
               fileWidth: route.params.image.width,
               fileType: getFileType(route.params.image),
@@ -96,7 +98,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
 
   return (
     <KeyboardAwareScreen centered>
-      <StatusBar barStyle={"light-content"} />
+      <StatusBar barStyle="light-content" />
       <View>
         <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />
       </View>
@@ -105,14 +107,14 @@ export const EditMediaScreen = ({ navigation, route }) => {
         label="Name"
         multiline
         onChange={onNameChange}
-        value={editedImage?.name || ""}
+        value={editedImage?.name || ''}
       />
       <InputText
         containerStyle={inputContainerStyle}
         label="Description"
         multiline
         onChange={onDescriptionChange}
-        value={editedImage?.description || ""}
+        value={editedImage?.description || ''}
       />
       <BottomActions>
         <Button
@@ -129,7 +131,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
           labelStyle={styles.buttonLabel}
           style={styles.button}
         >
-          {isEdit ? "Edit Media" : "Add Media"}
+          {isEdit ? 'Edit Media' : 'Add Media'}
         </Button>
       </BottomActions>
     </KeyboardAwareScreen>

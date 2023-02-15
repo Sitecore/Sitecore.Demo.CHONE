@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
-import DropDownPicker from "react-native-dropdown-picker";
-import { theme } from "../../theme/theme";
+import { useEffect, useState } from 'react';
+import DropDownPicker from 'react-native-dropdown-picker';
+
+import { theme } from '../../theme/theme';
 
 export interface DropdownItem {
   label: string | undefined;
   value: string | undefined;
 }
 
-export const DropdownPicker = ({
-  selectItems,
-  onSelectItem,
-  placeholder = "All",
-}) => {
+export const DropdownPicker = ({ selectItems, onSelectItem, placeholder = 'All' }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState(selectItems);
@@ -47,7 +44,7 @@ export const DropdownPicker = ({
       }}
       listItemContainerStyle={{
         minHeight: 40,
-        height: "auto",
+        height: 'auto',
       }}
     />
   );

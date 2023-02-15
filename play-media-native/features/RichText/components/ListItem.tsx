@@ -1,5 +1,5 @@
-import { FC, ReactNode } from "react";
-import { Text } from "react-native-paper";
+import { FC, ReactNode } from 'react';
+import { Text } from 'react-native-paper';
 
 interface Props {
   children: ReactNode[];

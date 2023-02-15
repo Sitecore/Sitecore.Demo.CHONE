@@ -1,58 +1,56 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
-import { useQuery } from "react-query";
-import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
-import { getDate } from "../helpers/dateHelper";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { DatePicker } from "../components/DatePicker/DatePicker";
-import { getAllSports } from "../api/queries/getSports";
-import { SportPicker } from "../features/SportPicker/SportPicker";
-import { InputText } from "../components/InputText/InputText";
-import { theme } from "../theme/theme";
-import { ContentFieldMedia } from "../features/ContentFieldMedia/ContentFieldMedia";
-import { RichTextEditor } from "../components/RichTextEditor/RichTextEditor";
-import { useEventFields } from "../hooks/useEventFields/useEventFields";
-import { CONTENT_TYPES } from "../constants/contentTypes";
-import { NestableScrollContainer } from "react-native-draggable-flatlist";
-import { CardEvent } from "../features/CardEvent/CardEvent";
-import { ActionMenu } from "../features/ActionMenu/ActionMenu";
-import { ContentFieldReference } from "../features/ContentFieldReference/ContentFieldReference";
-import { Athlete } from "../interfaces/athlete";
-import { CardAvatar } from "../features/CardAvatar/CardAvatar";
-import { Event } from "../interfaces/event";
-import { useFocusEffect } from "@react-navigation/native";
-import { Sport } from "../interfaces/sport";
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { View } from 'react-native';
+import { NestableScrollContainer } from 'react-native-draggable-flatlist';
+import { Button, Text } from 'react-native-paper';
+import { useQuery } from 'react-query';
+
+import { getAllSports } from '../api/queries/getSports';
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { DatePicker } from '../components/DatePicker/DatePicker';
+import { InputText } from '../components/InputText/InputText';
+import { RichTextEditor } from '../components/RichTextEditor/RichTextEditor';
+import { CONTENT_TYPES } from '../constants/contentTypes';
+import { ActionMenu } from '../features/ActionMenu/ActionMenu';
+import { CardAvatar } from '../features/CardAvatar/CardAvatar';
+import { CardEvent } from '../features/CardEvent/CardEvent';
+import { ContentFieldMedia } from '../features/ContentFieldMedia/ContentFieldMedia';
+import { ContentFieldReference } from '../features/ContentFieldReference/ContentFieldReference';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
+import { Screen } from '../features/Screen/Screen';
+import { SportPicker } from '../features/SportPicker/SportPicker';
+import { getDate } from '../helpers/dateHelper';
+import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { Athlete } from '../interfaces/athlete';
+import { Event } from '../interfaces/event';
+import { Sport } from '../interfaces/sport';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 const inputContainerStyle = {
   marginBottom: theme.spacing.sm,
 };
 
 const athleteMenuStyle = {
-  position: "absolute",
+  position: 'absolute',
   bottom: 15,
   right: 0,
   zIndex: 12,
 };
 
 const eventMenuStyle = {
-  position: "absolute",
+  position: 'absolute',
   bottom: 20,
   right: 18,
   zIndex: 10,
 };
 
 const contentType = CONTENT_TYPES.EVENT;
-const initialRoute = "EditEvent";
+const initialRoute = 'EditEvent';
 
 export const EditEventScreen = ({ route, navigation }) => {
   const { eventFields: event, edit, remove } = useEventFields();
-  const { data: sports, isFetching: isFetchingSports } = useQuery(
-    "sports",
-    () => getAllSports()
-  );
+  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
   const defaultSport = useMemo(() => {
     const hasSport = !!event?.sport?.title;
     const sportsFetched = !!sports?.length;
@@ -86,9 +84,9 @@ export const EditEventScreen = ({ route, navigation }) => {
   const getMenuItems = useCallback(
     (key: string, item: any) => [
       {
-        icon: "delete-outline",
+        icon: 'delete-outline',
         handler: () => deleteItem(key, item),
-        title: "Delete",
+        title: 'Delete',
       },
     ],
     [deleteItem]
@@ -102,8 +100,8 @@ export const EditEventScreen = ({ route, navigation }) => {
   );
 
   const handleReview = useCallback(() => {
-    navigation.navigate("ReviewEvent", {
-      title: "Review edited event",
+    navigation.navigate('ReviewEvent', {
+      title: 'Review edited event',
       event: {
         ...event,
         body,
@@ -114,17 +112,7 @@ export const EditEventScreen = ({ route, navigation }) => {
         title,
       },
     });
-  }, [
-    body,
-    date,
-    defaultSport,
-    event,
-    location,
-    sport,
-    summary,
-    title,
-    navigation,
-  ]);
+  }, [navigation, event, body, location, sport, sports, summary, date, title, defaultSport]);
 
   const handleDiscard = useCallback(() => {
     navigation.goBack();
@@ -132,9 +120,9 @@ export const EditEventScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: event?.title || "Edit Event",
+      title: event?.title || 'Edit Event',
     });
-  }, []);
+  }, [event?.title, navigation]);
 
   // Check route params for images added from route EditMedia (camera, library)
   //
@@ -152,10 +140,9 @@ export const EditEventScreen = ({ route, navigation }) => {
       } else {
         edit({ key: route.params.key, value: route.params.image });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [edit, route?.params])
   );
-
-  console.log("event", event);
 
   if (isFetchingSports) {
     return <LoadingScreen />;
@@ -169,30 +156,26 @@ export const EditEventScreen = ({ route, navigation }) => {
     <Screen>
       <NestableScrollContainer>
         <View>
-          <SportPicker
-            onChange={handleSportChange}
-            sports={sports}
-            initialValue={defaultSport}
-          />
+          <SportPicker onChange={handleSportChange} sports={sports} initialValue={defaultSport} />
 
           <InputText
             containerStyle={inputContainerStyle}
             onChange={setTitle}
             value={title}
-            title={"Title"}
+            title="Title"
           />
           <InputText
             containerStyle={inputContainerStyle}
             onChange={setSummary}
             value={summary}
-            title={"Teaser"}
+            title="Teaser"
           />
           <InputText
             containerStyle={inputContainerStyle}
             value={getDate(date)}
-            title={"Event Date"}
+            title="Event Date"
             showSoftInputOnFocus={false}
-            caretHidden={true}
+            caretHidden
             onTouchStart={() => setShowDatePicker(true)}
           />
           {showDatePicker && (
@@ -207,7 +190,7 @@ export const EditEventScreen = ({ route, navigation }) => {
             containerStyle={inputContainerStyle}
             onChange={setLocation}
             value={location}
-            title={"Location"}
+            title="Location"
           />
           <View style={inputContainerStyle}>
             <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
@@ -230,19 +213,19 @@ export const EditEventScreen = ({ route, navigation }) => {
             style={{ marginTop: theme.spacing.lg }}
           />
           <ContentFieldReference
-            addRoute={"AddAthletes"}
+            addRoute="AddAthletes"
             contentType={contentType}
-            createRoute={"AddAthlete"}
+            createRoute="AddAthlete"
             fieldKey="athletes"
             fieldTitle="Related Athletes"
             initialRoute={initialRoute}
             renderItem={(item: Athlete) => (
-              <View style={{ position: "relative" }}>
+              <View style={{ position: 'relative' }}>
                 <CardAvatar item={item} />
                 <ActionMenu
                   iconColor={theme.colors.black.DEFAULT}
                   iconSize={25}
-                  menuItems={getMenuItems("athletes", item)}
+                  menuItems={getMenuItems('athletes', item)}
                   style={athleteMenuStyle}
                 />
               </View>
@@ -250,19 +233,19 @@ export const EditEventScreen = ({ route, navigation }) => {
             style={{ marginTop: theme.spacing.lg }}
           />
           <ContentFieldReference
-            addRoute={"AddEvents"}
+            addRoute="AddEvents"
             contentType={contentType}
-            createRoute={"AddEvent"}
+            createRoute="AddEvent"
             fieldKey="similarEvents"
             fieldTitle="Similar Events"
             initialRoute={initialRoute}
             renderItem={(item: Event) => (
-              <View style={{ position: "relative" }}>
+              <View style={{ position: 'relative' }}>
                 <CardEvent item={item} />
                 <ActionMenu
                   iconColor={theme.colors.black.DEFAULT}
                   iconSize={25}
-                  menuItems={getMenuItems("similarEvents", item)}
+                  menuItems={getMenuItems('similarEvents', item)}
                   style={eventMenuStyle}
                 />
               </View>

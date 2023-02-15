@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { StatusBar, View } from "react-native";
-import { Logo } from "../components/Logo/Logo";
-import { Button, Text } from "react-native-paper";
-import { useConnections } from "../hooks/useConnections/useConnections";
-import { Select } from "../components/Select/Select";
-import { BottomFAB } from "../components/BottomFAB/BottomFAB";
-import { Icon } from "../components/Icon/Icon";
-import { theme } from "../theme/theme";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { StatusBar, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+
+import { BottomFAB } from '../components/BottomFAB/BottomFAB';
+import { Icon } from '../components/Icon/Icon';
+import { Logo } from '../components/Logo/Logo';
+import { Select } from '../components/Select/Select';
+import { Screen } from '../features/Screen/Screen';
+import { useConnections } from '../hooks/useConnections/useConnections';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 const fabAddStyle = {
   bottom: 75,
@@ -20,11 +21,11 @@ export const SelectConnectionScreen = ({ navigation }) => {
   const noConnectionsAvailable = !connections?.length;
 
   const onFabAddClick = useCallback(() => {
-    navigation.navigate("AddConnection");
+    navigation.navigate('AddConnection');
   }, [navigation]);
 
   const onFabRemoveClick = useCallback(() => {
-    navigation.navigate("RemoveConnection");
+    navigation.navigate('RemoveConnection');
   }, [navigation]);
 
   const onSelect = useCallback((value) => {
@@ -33,8 +34,8 @@ export const SelectConnectionScreen = ({ navigation }) => {
 
   const onConnect = useCallback(() => {
     connect(connections.find((item) => item.name === selectedConnection));
-    navigation.navigate("MainTabs");
-  }, [selectedConnection]);
+    navigation.navigate('MainTabs');
+  }, [connect, connections, navigation, selectedConnection]);
 
   const connectionOptions = useMemo(
     () =>
@@ -56,41 +57,39 @@ export const SelectConnectionScreen = ({ navigation }) => {
 
   return (
     <Screen centered>
-      <StatusBar barStyle={"light-content"} />
+      <StatusBar barStyle="light-content" />
       <View
         style={{
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
           marginBottom: theme.spacing.lg,
         }}
       >
         <View>
           <Logo />
         </View>
-        <Text style={{ maxWidth: "80%", textAlign: "center" }}>
+        <Text style={{ maxWidth: '80%', textAlign: 'center' }}>
           Connect to a saved Content Hub One instance.
         </Text>
       </View>
       {noConnectionsAvailable ? (
         <View
           style={{
-            justifyContent: "center",
+            justifyContent: 'center',
             marginBottom: theme.spacing.xs,
           }}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Icon
               name="warning-outline"
               color={theme.colors.yellow.DEFAULT}
               size={25}
               style={{ marginRight: theme.spacing.xxs }}
             />
-            <Text style={{ textAlign: "center" }}>
-              No connections available yet!
-            </Text>
+            <Text style={{ textAlign: 'center' }}>No connections available yet!</Text>
           </View>
-          <Text style={{ textAlign: "center" }} variant="labelMedium">
+          <Text style={{ textAlign: 'center' }} variant="labelMedium">
             Add one by clicking on the + button below.
           </Text>
         </View>
@@ -100,7 +99,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
             items={connectionOptions}
             onChange={onSelect}
             selectedValue={selectedConnection}
-            style={{ width: "90%", marginBottom: theme.spacing.xxs }}
+            style={{ width: '90%', marginBottom: theme.spacing.xxs }}
           />
           <Button
             icon="connection"
@@ -114,11 +113,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
         </>
       )}
       <BottomFAB icon="plus" onPress={onFabAddClick} style={fabAddStyle} />
-      <BottomFAB
-        disabled={noConnectionsAvailable}
-        icon="delete"
-        onPress={onFabRemoveClick}
-      />
+      <BottomFAB disabled={noConnectionsAvailable} icon="delete" onPress={onFabRemoveClick} />
     </Screen>
   );
 };

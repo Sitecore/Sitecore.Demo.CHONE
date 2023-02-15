@@ -1,7 +1,8 @@
-import { FC, ReactNode } from "react";
-import { View } from "react-native";
-import { Text } from "react-native-paper";
-import { theme } from "../../../theme/theme";
+import { FC, ReactNode } from 'react';
+import { View } from 'react-native';
+import { Text } from 'react-native-paper';
+
+import { theme } from '../../../theme/theme';
 
 interface Props {
   children: ReactNode[];
@@ -19,9 +20,9 @@ export const BlockQuote: FC<Props> = ({ children, accentColor }) => (
     }}
   >
     <Text
-      variant={"displaySmall"}
+      variant="displaySmall"
       style={{
-        position: "absolute",
+        position: 'absolute',
         top: theme.spacing.xxs,
         left: theme.spacing.xs,
       }}
@@ -30,9 +31,9 @@ export const BlockQuote: FC<Props> = ({ children, accentColor }) => (
     </Text>
     {children}
     <Text
-      variant={"displaySmall"}
+      variant="displaySmall"
       style={{
-        position: "absolute",
+        position: 'absolute',
         bottom: -theme.spacing.sm,
         right: theme.spacing.xs,
       }}

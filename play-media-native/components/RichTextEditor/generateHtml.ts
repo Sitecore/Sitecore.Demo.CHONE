@@ -5,7 +5,7 @@ const elementMap = {
         </H${context.attrs.level}>`;
   },
   paragraph: (_: any, children: any) => {
-    return !!children ? `<p>${children}<p>` : `<br>`;
+    return children ? `<p>${children}<p>` : '<br>';
   },
   bulletList: (_: any, children: any) => {
     return `<ul>${children}</ul>`;
@@ -23,7 +23,7 @@ const elementMap = {
     return `<blockquote>${children}</blockquote>`;
   },
   horizontalRule: (_: any, __: any) => {
-    return `<hr />`;
+    return '<hr />';
   },
   text: (context: any, _: any) => {
     const hasMarks = !!context?.marks?.length;
@@ -32,8 +32,8 @@ const elementMap = {
       return `<span>${context.text}</span>`;
     }
 
-    if (hasMark(context.marks, "link")) {
-      const linkMark = context.marks.find((mark: any) => mark.type === "link");
+    if (hasMark(context.marks, 'link')) {
+      const linkMark = context.marks.find((mark: any) => mark.type === 'link');
 
       return `<a
           href=${linkMark.attrs.href}
@@ -43,7 +43,7 @@ const elementMap = {
         </a>`;
     }
 
-    if (hasMark(context.marks, "code")) {
+    if (hasMark(context.marks, 'code')) {
       return `<code>${context.text}</code>`;
     }
 
@@ -58,19 +58,19 @@ const hasMark = (marks: any, markType: string) => {
 const getTextMarkup = (marks: any, text: string) => {
   let markup = `${text}`;
 
-  if (hasMark(marks, "bold")) {
+  if (hasMark(marks, 'bold')) {
     markup = `<b>${markup}</b>`;
   }
 
-  if (hasMark(marks, "italic")) {
+  if (hasMark(marks, 'italic')) {
     markup = `<i>${markup}</i>`;
   }
 
-  if (hasMark(marks, "underline")) {
+  if (hasMark(marks, 'underline')) {
     markup = `<u>${markup}</u>`;
   }
 
-  if (hasMark(marks, "strike")) {
+  if (hasMark(marks, 'strike')) {
     markup = `<strike>${markup}</strike>`;
   }
 
@@ -85,10 +85,8 @@ const getElementFromChild = (
     return elementMap[child.type](
       child,
       child.content
-        .map((childContext: any) =>
-          getElementFromChild(childContext, elementMap)
-        )
-        .join("")
+        .map((childContext: any) => getElementFromChild(childContext, elementMap))
+        .join('')
     );
   }
 
@@ -96,14 +94,12 @@ const getElementFromChild = (
 };
 
 const getElementTree = (content: any, elementMap: any) => {
-  return content
-    .map((element: any) => getElementFromChild(element, elementMap))
-    .join("");
+  return content.map((element: any) => getElementFromChild(element, elementMap)).join('');
 };
 
 export const generateHtml = (rteJson) => {
   if (!rteJson) {
-    return "";
+    return '';
   }
 
   const html = getElementTree(rteJson, elementMap);

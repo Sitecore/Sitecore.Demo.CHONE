@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { Connection } from "../interfaces/connections";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { Connection } from '../interfaces/connections';
 
 export interface ConnectionsState {
   connections: Connection[];
@@ -13,7 +14,7 @@ const initialState: ConnectionsState = {
 };
 
 export const connectionsSlice = createSlice({
-  name: "connections",
+  name: 'connections',
   initialState,
   reducers: {
     add: (state, action: PayloadAction<Connection>) => {
@@ -26,9 +27,7 @@ export const connectionsSlice = createSlice({
       state.connections = action.payload || [];
     },
     remove: (state, action: PayloadAction<Connection[]>) => {
-      const namesToBeRemoved = action.payload.map(
-        (connection) => connection.name
-      );
+      const namesToBeRemoved = action.payload.map((connection) => connection.name);
 
       state.connections = state.connections.filter(
         (connection) => !namesToBeRemoved.includes(connection.name)

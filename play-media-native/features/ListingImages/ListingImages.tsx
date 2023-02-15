@@ -1,14 +1,15 @@
-import { useCallback, useMemo, useState } from "react";
-import { FlatList, ListRenderItem, StyleProp, View } from "react-native";
-import { Searchbar } from "react-native-paper";
-import { theme } from "../../theme/theme";
-import { Media } from "../../interfaces/media";
-import Fuse from "fuse.js";
+import Fuse from 'fuse.js';
+import debounce from 'lodash.debounce';
+import { useCallback, useMemo, useState } from 'react';
+import { FlatList, ListRenderItem, StyleProp, View } from 'react-native';
+import { Searchbar } from 'react-native-paper';
+
+import { Media } from '../../interfaces/media';
+import { theme } from '../../theme/theme';
 import {
   ListingImageDisplayType,
   SelectDisplayButtons,
-} from "../SelectDisplayButtons/SelectDisplayButtons";
-import debounce from "lodash.debounce";
+} from '../SelectDisplayButtons/SelectDisplayButtons';
 
 interface Props {
   images: Media[];
@@ -22,19 +23,12 @@ const listingStyle = {
 };
 
 const fuseOptions = {
-  keys: ["name"],
+  keys: ['name'],
 };
 
-export const ListingImages = ({
-  images,
-  onDisplayTypeChange,
-  renderItems,
-  style,
-}: Props) => {
-  const [displayType, setDisplayType] = useState<string>(
-    ListingImageDisplayType.LIST
-  );
-  const [searchQuery, setSearchQuery] = useState("");
+export const ListingImages = ({ images, onDisplayTypeChange, renderItems, style }: Props) => {
+  const [displayType, setDisplayType] = useState<string>(ListingImageDisplayType.LIST);
+  const [searchQuery, setSearchQuery] = useState('');
   const [displayedItems, setDisplayedItems] = useState(images);
   const fuse = useMemo(() => {
     return new Fuse(images, fuseOptions);
@@ -42,11 +36,10 @@ export const ListingImages = ({
 
   const listStyle = useMemo(() => ({ ...listingStyle, ...style }), [style]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const search = useCallback(
     debounce((query: string) => {
-      const results = !query
-        ? images
-        : fuse.search(query).map((item) => item.item);
+      const results = !query ? images : fuse.search(query).map((item) => item.item);
       setDisplayedItems(results);
     }, 500),
     [fuse]
@@ -57,7 +50,7 @@ export const ListingImages = ({
       setSearchQuery(query);
       search(query);
     },
-    [search, fuse]
+    [search]
   );
 
   const handleDisplayChange = useCallback(
@@ -108,28 +101,28 @@ export const ListingImages = ({
         />
       );
     },
-    [renderItems]
+    [listStyle, renderItems]
   );
 
   return (
     <>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
+          flexDirection: 'row',
+          justifyContent: 'space-between',
           marginBottom: theme.spacing.sm,
         }}
       >
         <View
           style={{
-            flexBasis: "50%",
+            flexBasis: '50%',
             marginLeft: theme.spacing.sm,
           }}
         >
           <Searchbar
             iconColor={theme.colors.black.DEFAULT}
             inputStyle={{
-              width: "100%",
+              width: '100%',
               color: theme.colors.black.DEFAULT,
             }}
             placeholder="Search"
@@ -139,14 +132,11 @@ export const ListingImages = ({
             style={{
               backgroundColor: theme.colors.white.DEFAULT,
               color: theme.colors.black.DEFAULT,
-              width: "100%",
+              width: '100%',
             }}
           />
         </View>
-        <SelectDisplayButtons
-          displayType={displayType}
-          onDisplayTypeChange={handleDisplayChange}
-        />
+        <SelectDisplayButtons displayType={displayType} onDisplayTypeChange={handleDisplayChange} />
       </View>
       {renderList(displayedItems, displayType)}
     </>

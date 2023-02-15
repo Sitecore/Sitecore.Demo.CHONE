@@ -1,7 +1,8 @@
-import { useCallback, useState } from "react";
-import { View, StyleProp, ViewStyle } from "react-native";
-import { ImageGridLayout } from "./ImageGridLayout";
-import { ImageOverlayCarousel } from "./ImageOverlayCarousel";
+import { useCallback, useState } from 'react';
+import { View, StyleProp, ViewStyle } from 'react-native';
+
+import { ImageGridLayout } from './ImageGridLayout';
+import { ImageOverlayCarousel } from './ImageOverlayCarousel';
 
 export const ImageGrid = ({
   images,

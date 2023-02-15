@@ -1,6 +1,6 @@
-import { Athlete } from "../athlete";
-import { Sport } from "../sport";
-import { Media } from "../media";
+import { Athlete } from '../athlete';
+import { Media } from '../media';
+import { Sport } from '../sport';
 
 export interface EventResponse {
   id: string;

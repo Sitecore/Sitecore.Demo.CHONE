@@ -1,24 +1,25 @@
-import { useCallback, useMemo } from "react";
-import { Image, StyleProp, View } from "react-native";
-import { Card, Text } from "react-native-paper";
-import { theme } from "../../theme/theme";
-import { Media } from "../../interfaces/media";
-import { getFileType, removeFileExtension } from "../../helpers/media";
-import { ActionMenu } from "../../features/ActionMenu/ActionMenu";
-import { ListingImages } from "../../features/ListingImages/ListingImages";
-import { StackNavigationProp } from "../../interfaces/navigators";
-import { useNavigation } from "@react-navigation/native";
-import { useMedia } from "../../hooks/useMedia/useMedia";
-import { MEDIA_SOURCES } from "../../constants/media";
-import { Icon } from "../../components/Icon/Icon";
-import { ListingImageDisplayType } from "../../features/SelectDisplayButtons/SelectDisplayButtons";
+import { useNavigation } from '@react-navigation/native';
+import { useCallback, useMemo } from 'react';
+import { Image, StyleProp, View } from 'react-native';
+import { Card, Text } from 'react-native-paper';
+
+import { Icon } from '../../components/Icon/Icon';
+import { MEDIA_SOURCES } from '../../constants/media';
+import { ActionMenu } from '../../features/ActionMenu/ActionMenu';
+import { ListingImages } from '../../features/ListingImages/ListingImages';
+import { ListingImageDisplayType } from '../../features/SelectDisplayButtons/SelectDisplayButtons';
+import { getFileType, removeFileExtension } from '../../helpers/media';
+import { useMedia } from '../../hooks/useMedia/useMedia';
+import { Media } from '../../interfaces/media';
+import { StackNavigationProp } from '../../interfaces/navigators';
+import { theme } from '../../theme/theme';
 
 interface Props {
   images: Media[];
 }
 
 const ListItemField = ({ title, value }: { title: string; value: string }) => (
-  <View style={{ flexDirection: "row", alignItems: "center" }}>
+  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
     <Text style={{ color: theme.colors.yellow.DEFAULT }}>{`${title}:  `}</Text>
     <Text
       ellipsizeMode="tail"
@@ -51,7 +52,7 @@ const MediaSourceIcon = ({
 };
 
 const menuStyle = {
-  position: "absolute",
+  position: 'absolute',
   bottom: 0,
   right: 0,
 };
@@ -62,7 +63,7 @@ const listingImagesStyle = {
 };
 
 const mediaSourceIconStyle = {
-  position: "absolute",
+  position: 'absolute',
   color: theme.colors.white.DEFAULT,
 };
 
@@ -76,7 +77,7 @@ export const ListingAddedMedia = ({ images }: Props) => {
         return;
       }
 
-      navigation.navigate("EditMedia", { image, editMode: true });
+      navigation.navigate('EditMedia', { image, editMode: true });
     },
     [navigation]
   );
@@ -89,7 +90,7 @@ export const ListingAddedMedia = ({ images }: Props) => {
 
       remove([image]);
     },
-    [navigation]
+    [remove]
   );
 
   const resolveActionsForItem = useCallback(
@@ -97,27 +98,27 @@ export const ListingAddedMedia = ({ images }: Props) => {
       return item.source !== MEDIA_SOURCES.CH_ONE
         ? [
             {
-              icon: "circle-edit-outline",
+              icon: 'circle-edit-outline',
               handler: () => {
                 editImage(item);
               },
-              title: "Edit",
+              title: 'Edit',
             },
             {
-              icon: "delete-outline",
+              icon: 'delete-outline',
               handler: () => {
                 deleteImage(item);
               },
-              title: "Delete",
+              title: 'Delete',
             },
           ]
         : [
             {
-              icon: "delete-outline",
+              icon: 'delete-outline',
               handler: () => {
                 deleteImage(item);
               },
-              title: "Delete",
+              title: 'Delete',
             },
           ];
     },
@@ -127,7 +128,7 @@ export const ListingAddedMedia = ({ images }: Props) => {
   const renderItems = useMemo(
     () => ({
       [ListingImageDisplayType.GRID]: ({ item }) => (
-        <View key={item.fileUrl} style={{ width: "50%" }}>
+        <View key={item.fileUrl} style={{ width: '50%' }}>
           <Image
             style={{
               height: 120,
@@ -160,8 +161,8 @@ export const ListingAddedMedia = ({ images }: Props) => {
         <View
           key={item.fileUrl}
           style={{
-            width: "100%",
-            flexDirection: "row",
+            width: '100%',
+            flexDirection: 'row',
             borderColor: theme.colors.yellow.DEFAULT,
             borderWidth: 1,
             borderRadius: 5,
@@ -171,7 +172,7 @@ export const ListingAddedMedia = ({ images }: Props) => {
           <Image
             style={{
               height: 110,
-              width: "auto",
+              width: 'auto',
               margin: theme.spacing.xxs,
               borderRadius: theme.spacing.xxs,
               flex: 1,
@@ -181,24 +182,15 @@ export const ListingAddedMedia = ({ images }: Props) => {
           <View
             style={{
               flex: 2,
-              justifyContent: "center",
+              justifyContent: 'center',
               marginLeft: theme.spacing.xs,
             }}
           >
-            <ListItemField
-              title="Name"
-              value={removeFileExtension(item.name)}
-            />
+            <ListItemField title="Name" value={removeFileExtension(item.name)} />
             <ListItemField title="File type" value={getFileType(item)} />
-            <ListItemField
-              title="Size"
-              value={`${item.fileWidth} x ${item.fileHeight}`}
-            />
+            <ListItemField title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
           </View>
-          <ActionMenu
-            menuItems={resolveActionsForItem(item)}
-            style={menuStyle}
-          />
+          <ActionMenu menuItems={resolveActionsForItem(item)} style={menuStyle} />
           <MediaSourceIcon
             source={item.source}
             style={{ ...mediaSourceIconStyle, top: 5, right: 14 }}
@@ -232,21 +224,12 @@ export const ListingAddedMedia = ({ images }: Props) => {
               paddingTop: 0,
             }}
           >
-            <View style={{ position: "relative", width: "100%" }}>
-              <ListItemField
-                title="Name"
-                value={removeFileExtension(item.name)}
-              />
+            <View style={{ position: 'relative', width: '100%' }}>
+              <ListItemField title="Name" value={removeFileExtension(item.name)} />
               <ListItemField title="Description" value={item.description} />
               <ListItemField title="File type" value={getFileType(item)} />
-              <ListItemField
-                title="Size"
-                value={`${item.fileWidth} x ${item.fileHeight}`}
-              />
-              <ActionMenu
-                menuItems={resolveActionsForItem(item)}
-                style={menuStyle}
-              />
+              <ListItemField title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
+              <ActionMenu menuItems={resolveActionsForItem(item)} style={menuStyle} />
               <MediaSourceIcon
                 source={item.source}
                 style={{ ...mediaSourceIconStyle, bottom: 13, right: 45 }}
@@ -259,11 +242,5 @@ export const ListingAddedMedia = ({ images }: Props) => {
     [resolveActionsForItem]
   );
 
-  return (
-    <ListingImages
-      images={images}
-      renderItems={renderItems}
-      style={listingImagesStyle}
-    />
-  );
+  return <ListingImages images={images} renderItems={renderItems} style={listingImagesStyle} />;
 };

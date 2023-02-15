@@ -1,15 +1,9 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import {
-  EventField,
-  edit,
-  init,
-  remove,
-  replace,
-  reset,
-} from "../../store/eventFields";
-import { Event } from "../../interfaces/event";
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Event } from '../../interfaces/event';
+import { RootState } from '../../store';
+import { EventField, edit, init, remove, replace, reset } from '../../store/eventFields';
 
 export const useEventFields = () => {
   const eventFields = useSelector((state: RootState) => state.eventFields);

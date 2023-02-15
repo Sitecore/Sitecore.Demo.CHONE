@@ -1,11 +1,7 @@
-import { fetchGraphQL } from "../..";
-import { FetchOptions } from "../../../interfaces/fetchOptions";
-import {
-  Event,
-  AllEventsResponse,
-  EventResponse,
-} from "../../../interfaces/event";
-import { normalizeEvent } from "../../../helpers/events";
+import { fetchGraphQL } from '../..';
+import { normalizeEvent } from '../../../helpers/events';
+import { Event, AllEventsResponse, EventResponse } from '../../../interfaces/event';
+import { FetchOptions } from '../../../interfaces/fetchOptions';
 
 const eventsQuery = `
 query {
@@ -114,9 +110,7 @@ query {
 }
 `;
 
-export const getAllEvents = async (
-  options?: FetchOptions
-): Promise<Event[]> => {
+export const getAllEvents = async (options?: FetchOptions): Promise<Event[]> => {
   const results: AllEventsResponse = (await fetchGraphQL(
     eventsQuery,
     options

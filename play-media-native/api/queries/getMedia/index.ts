@@ -1,6 +1,6 @@
-import { fetchGraphQL } from "../..";
-import { FetchOptions } from "../../../interfaces/fetchOptions";
-import { AllMediaResponse, Media } from "../../../interfaces/media";
+import { fetchGraphQL } from '../..';
+import { FetchOptions } from '../../../interfaces/fetchOptions';
+import { AllMediaResponse, Media } from '../../../interfaces/media';
 
 const mediaQuery = `
 query {
@@ -21,10 +21,7 @@ query {
 `;
 
 export const getAllMedia = async (options?: FetchOptions): Promise<Media[]> => {
-  const results: AllMediaResponse = (await fetchGraphQL(
-    mediaQuery,
-    options
-  )) as AllMediaResponse;
+  const results: AllMediaResponse = (await fetchGraphQL(mediaQuery, options)) as AllMediaResponse;
   const media: Partial<Media>[] = [];
 
   results.data.allMedia.results.forEach((item: Partial<Media>) => {

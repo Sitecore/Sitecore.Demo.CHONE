@@ -1,39 +1,32 @@
-import { useState } from "react";
-import { View } from "react-native";
-import { DatePicker } from "../../components/DatePicker/DatePicker";
-import { InputText } from "../../components/InputText/InputText";
-import { SportPicker } from "../../features/SportPicker/SportPicker";
-import { getDate } from "../../helpers/dateHelper";
-import { Sport } from "../../interfaces/sport";
-import { theme } from "../../theme/theme";
+import { useState } from 'react';
+import { View } from 'react-native';
+
+import { DatePicker } from '../../components/DatePicker/DatePicker';
+import { InputText } from '../../components/InputText/InputText';
+import { SportPicker } from '../../features/SportPicker/SportPicker';
+import { getDate } from '../../helpers/dateHelper';
+import { Sport } from '../../interfaces/sport';
+import { theme } from '../../theme/theme';
 
 type GeneralProps = {
   sports: Sport[];
 };
 
 export const General = ({ sports }: GeneralProps) => {
-  const [name, handleChangeName] = useState("");
-  const [nationality, handleChangeNationality] = useState("");
+  const [name, handleChangeName] = useState('');
+  const [nationality, handleChangeNationality] = useState('');
   const [birthDate, handleChangeBirthDate] = useState(new Date());
   const [showBirthDatePicker, setShowBirthDatePicker] = useState(false);
 
   return (
     <View style={{ marginTop: theme.spacing.lg }}>
-      <InputText
-        onChange={handleChangeName}
-        value={name}
-        title={"Athlete name"}
-      />
-      <InputText
-        onChange={handleChangeNationality}
-        value={nationality}
-        title={"Nationality"}
-      />
+      <InputText onChange={handleChangeName} value={name} title="Athlete name" />
+      <InputText onChange={handleChangeNationality} value={nationality} title="Nationality" />
       <InputText
         value={getDate(birthDate)}
-        title={"Birth date"}
+        title="Birth date"
         showSoftInputOnFocus={false}
-        caretHidden={true}
+        caretHidden
         onTouchStart={() => setShowBirthDatePicker(true)}
       />
       {showBirthDatePicker && (

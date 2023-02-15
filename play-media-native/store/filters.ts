@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface FiltersState {
   visible: boolean;
@@ -14,22 +14,16 @@ const initialState: FiltersState = {
 };
 
 export const filtersSlice = createSlice({
-  name: "filters",
+  name: 'filters',
   initialState,
   reducers: {
     toggleVisible: (state: FiltersState) => {
       state.visible = !state.visible;
     },
-    setAthleteFiltersActive: (
-      state: FiltersState,
-      action: PayloadAction<number>
-    ) => {
+    setAthleteFiltersActive: (state: FiltersState, action: PayloadAction<number>) => {
       state.athleteFiltersActive = action.payload;
     },
-    setEventFiltersActive: (
-      state: FiltersState,
-      action: PayloadAction<number>
-    ) => {
+    setEventFiltersActive: (state: FiltersState, action: PayloadAction<number>) => {
       state.eventFiltersActive = action.payload;
     },
   },
