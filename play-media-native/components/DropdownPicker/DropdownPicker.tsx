@@ -8,7 +8,17 @@ export interface DropdownItem {
   value: string | undefined;
 }
 
-export const DropdownPicker = ({ selectItems, onSelectItem, placeholder = 'All' }) => {
+type DropdownPickerProps = {
+  selectItems: DropdownItem[];
+  onSelectItem: (item: DropdownItem) => void;
+  placeholder?: string;
+};
+
+export const DropdownPicker = ({
+  selectItems,
+  onSelectItem,
+  placeholder = 'All',
+}: DropdownPickerProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState(selectItems);
