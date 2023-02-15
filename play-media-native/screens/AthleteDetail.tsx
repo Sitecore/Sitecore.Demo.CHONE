@@ -5,14 +5,17 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { ActivityIndicator, AnimatedFAB, Button, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
+import { createContentItem, updateContentItem } from '../api/queries/contentItems';
 import { getAthleteById } from '../api/queries/getAthletes';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
+import { CONTENT_TYPES } from '../constants/contentTypes';
 import { CardShadowBox } from '../features/CardShadowBox/CardShadowBox';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { AthleteImages } from '../features/Screens/AthleteImages';
 import { getAccentColor, getTextColor } from '../helpers/colorHelper';
+import { mapContentItem } from '../helpers/contentItemHelper';
 import { getDate, getYear } from '../helpers/dateHelper';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Athlete } from '../interfaces/athlete';
@@ -93,7 +96,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
-  const [newAthleteID] = useState(undefined);
+  const [newAthleteID, setNewAthleteID] = useState(undefined);
 
   const isReview = route.params.isReview;
   const isNewAthlete = route.params.isNewAthlete;
@@ -135,10 +138,10 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     );
   }, []);
 
-  // const processResponse = useCallback((res: { id: string; name: string }) => {
-  //   setNewAthleteID(res.id);
-  //   setShowSuccessToast(true);
-  // }, []);
+  const processResponse = useCallback((res: { id: string; name: string }) => {
+    setNewAthleteID(res.id);
+    setShowSuccessToast(true);
+  }, []);
 
   const handleSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
@@ -167,38 +170,34 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
-  }, []);
 
-  // const handlePublishBtn = useCallback(async () => {
-  //   setIsValidating(true);
+    // Map athlete object to a form suitable for the API request
+    const requestFields = mapContentItem(athlete, (k, v) => ({
+      value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
+    }));
+    // Delete the id from the request fields to avoid errors
+    delete requestFields.id;
 
-  //   // Map athlete object to a form suitable for the API request
-  //   const requestFields = mapContentItem(athlete, (k, v) => ({
-  //     value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
-  //   }));
-  //   // Delete the id from the request fields to avoid errors
-  //   delete requestFields.id;
-
-  //   if (isNewAthlete) {
-  //     await createContentItem({
-  //       contentTypeId: CONTENT_TYPES.ATHLETE,
-  //       name: athlete.athleteName,
-  //       fields: requestFields,
-  //     })
-  //       .then((res: { id: string; name: string }) => processResponse(res))
-  //       .catch(() => setShowErrorToast(true))
-  //       .finally(() => setIsValidating(false));
-  //   } else {
-  //     await updateContentItem({
-  //       id: athlete.id,
-  //       name: athlete.athleteName,
-  //       fields: requestFields,
-  //     })
-  //       .then((res: { id: string; name: string }) => processResponse(res))
-  //       .catch(() => setShowErrorToast(true))
-  //       .finally(() => setIsValidating(false));
-  //   }
-  // }, [isNewAthlete, athlete]);
+    if (isNewAthlete) {
+      await createContentItem({
+        contentTypeId: CONTENT_TYPES.ATHLETE,
+        name: athlete.athleteName,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
+    } else {
+      await updateContentItem({
+        id: athlete.id,
+        name: athlete.athleteName,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
+    }
+  }, [athlete, isNewAthlete, processResponse]);
 
   const bottomActions = useMemo(
     () =>
