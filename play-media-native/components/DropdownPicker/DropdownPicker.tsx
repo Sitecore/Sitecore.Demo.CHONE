@@ -12,15 +12,17 @@ type DropdownPickerProps = {
   selectItems: DropdownItem[];
   onSelectItem: (item: DropdownItem) => void;
   placeholder?: string;
+  selectedValue?: string;
 };
 
 export const DropdownPicker = ({
   selectItems,
   onSelectItem,
   placeholder = 'All',
+  selectedValue = null,
 }: DropdownPickerProps) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(selectedValue);
   const [items, setItems] = useState(selectItems);
 
   useEffect(() => {
