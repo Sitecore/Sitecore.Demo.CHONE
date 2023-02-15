@@ -1,8 +1,9 @@
-import { useMemo } from "react";
-import { Snackbar, Text } from "react-native-paper";
-import { Icon } from "../Icon/Icon";
-import { View } from "react-native";
-import { theme } from "../../theme/theme";
+import { useMemo } from 'react';
+import { View } from 'react-native';
+import { Snackbar, Text } from 'react-native-paper';
+
+import { theme } from '../../theme/theme';
+import { Icon } from '../Icon/Icon';
 
 interface Props {
   actionLabel?: string;
@@ -10,7 +11,7 @@ interface Props {
   message: string;
   onAction?: () => void;
   onDismiss?: () => void;
-  type: "error" | "info" | "warning" | "success";
+  type: 'error' | 'info' | 'warning' | 'success';
   visible: boolean;
 }
 
@@ -30,41 +31,33 @@ export const Toast = ({
   visible,
 }: Props) => {
   const icon = useMemo(() => {
-    if (type === "info") {
-      return (
-        <Icon
-          color="white"
-          name="information-circle-outline"
-          style={iconStyle}
-        />
-      );
+    if (type === 'info') {
+      return <Icon color="white" name="information-circle-outline" style={iconStyle} />;
     }
 
-    if (type === "error") {
+    if (type === 'error') {
       return <Icon name="close-circle-outline" color="red" style={iconStyle} />;
     }
 
-    if (type === "success") {
-      return (
-        <Icon name="checkmark-circle-outline" color="green" style={iconStyle} />
-      );
+    if (type === 'success') {
+      return <Icon name="checkmark-circle-outline" color="green" style={iconStyle} />;
     }
 
-    if (type === "warning") {
+    if (type === 'warning') {
       return <Icon name="warning-outline" color="yellow" style={iconStyle} />;
     }
 
     return null;
-  }, []);
+  }, [type]);
 
   const displayedMessage = useMemo(
     () => (
-      <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         {icon}
-        <Text style={{ color: "white" }}>{message}</Text>
+        <Text style={{ color: 'white' }}>{message}</Text>
       </View>
     ),
-    []
+    [icon, message]
   );
 
   return (

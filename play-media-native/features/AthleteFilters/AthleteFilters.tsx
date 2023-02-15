@@ -1,9 +1,10 @@
-import { useCallback, useMemo } from "react";
-import { DropdownItem } from "../../components/DropdownPicker/DropdownPicker";
-import { useFilters } from "../../hooks/useFilters/useFilters";
-import { IIndexable } from "../../interfaces/indexable";
-import { ATHLETE_FACETS } from "../../constants/filters";
-import { AthleteFiltersView } from "./AthleteFiltersView";
+import { useCallback, useMemo } from 'react';
+
+import { AthleteFiltersView } from './AthleteFiltersView';
+import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
+import { ATHLETE_FACETS } from '../../constants/filters';
+import { useFilters } from '../../hooks/useFilters/useFilters';
+import { IIndexable } from '../../interfaces/indexable';
 
 export const AthleteFilters = ({
   filters,
@@ -21,9 +22,7 @@ export const AthleteFilters = ({
   const handleFacetsChange = useCallback(
     (id: string, item: DropdownItem) => {
       const newFilters = { ...filters, [id]: item.value };
-      const activeFilters = Object.values(newFilters).filter(
-        (val) => !!val
-      ).length;
+      const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
 
       setAthleteFiltersActive(activeFilters);
       onChange(id, item.value);
@@ -35,26 +34,21 @@ export const AthleteFilters = ({
     () => [
       {
         id: ATHLETE_FACETS.nationality,
-        label: "Nationality",
+        label: 'Nationality',
         facets: nationalityOptions,
       },
       {
         id: ATHLETE_FACETS.sport,
-        label: "Sport",
+        label: 'Sport',
         facets: sportOptions,
       },
     ],
-    []
+    [nationalityOptions, sportOptions]
   );
 
   if (!visible) {
     return null;
   }
 
-  return (
-    <AthleteFiltersView
-      facets={facetFilters}
-      handleFacetsChange={handleFacetsChange}
-    />
-  );
+  return <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleFacetsChange} />;
 };

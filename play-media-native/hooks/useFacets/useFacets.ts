@@ -1,5 +1,6 @@
-import { useMemo } from "react";
-import { IIndexable } from "../../interfaces/indexable";
+import { useMemo } from 'react';
+
+import { IIndexable } from '../../interfaces/indexable';
 
 const shouldItemPass = (item: any, facets: IIndexable) => {
   let shouldPass = true;

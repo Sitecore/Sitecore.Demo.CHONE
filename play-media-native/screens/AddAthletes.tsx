@@ -1,27 +1,28 @@
-import { useCallback, useMemo, useState } from "react";
-import { FlatList } from "react-native";
-import { CardAvatar } from "../features/CardAvatar/CardAvatar";
-import { Athlete } from "../interfaces/athlete";
-import { getAllAthletes } from "../api/queries/getAthletes";
-import { useQuery } from "react-query";
-import { Button } from "react-native-paper";
-import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
-import { theme } from "../theme/theme";
-import { SelectableView } from "../components/SelectableView/SelectableView";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { ATHLETE_FACETS } from "../constants/filters";
-import { useFacets } from "../hooks/useFacets/useFacets";
-import { initializeAthletes, removeAlreadySelected } from "../helpers/athletes";
-import { getAllSports } from "../api/queries/getSports";
-import { getNationalityOptions, getSportOptions } from "../helpers/facets";
-import { AthleteFiltersView } from "../features/AthleteFilters/AthleteFiltersView";
-import { Screen } from "../features/Screen/Screen";
-import { DropdownItem } from "../components/DropdownPicker/DropdownPicker";
-import { styles } from "../theme/styles";
-import { useEventFields } from "../hooks/useEventFields/useEventFields";
-import { CONTENT_TYPES } from "../constants/contentTypes";
-import { useAthleteFields } from "../hooks/useAthleteFields/useAthleteFields";
-import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
+import { useCallback, useMemo, useState } from 'react';
+import { FlatList } from 'react-native';
+import { Button } from 'react-native-paper';
+import { useQuery } from 'react-query';
+
+import { getAllAthletes } from '../api/queries/getAthletes';
+import { getAllSports } from '../api/queries/getSports';
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
+import { SelectableView } from '../components/SelectableView/SelectableView';
+import { CONTENT_TYPES } from '../constants/contentTypes';
+import { ATHLETE_FACETS } from '../constants/filters';
+import { AthleteFiltersView } from '../features/AthleteFilters/AthleteFiltersView';
+import { CardAvatar } from '../features/CardAvatar/CardAvatar';
+import { Screen } from '../features/Screen/Screen';
+import { initializeAthletes, removeAlreadySelected } from '../helpers/athletes';
+import { getNationalityOptions, getSportOptions } from '../helpers/facets';
+import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { useFacets } from '../hooks/useFacets/useFacets';
+import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { Athlete } from '../interfaces/athlete';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
+import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 
 export const AddAthletesScreen = ({ navigation, route }) => {
   const contentType = route?.params?.contentType;
@@ -42,8 +43,8 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   );
 
   const [facets, setFacets] = useState<Record<string, any>>({
-    [ATHLETE_FACETS.sport]: "",
-    [ATHLETE_FACETS.nationality]: "",
+    [ATHLETE_FACETS.sport]: '',
+    [ATHLETE_FACETS.nationality]: '',
   });
   const initialAthletes = useMemo(() => {
     const initialized = initializeAthletes(athletes, sports);
@@ -55,30 +56,26 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     initialItems: initialAthletes?.length ? initialAthletes : [],
     facets,
   });
-  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+  const { calcScrollOffset } = useScrollOffset(true);
   const [selectedAthleteIDs, setSelectedAthleteIDs] = useState<string[]>([]);
   const noneSelected = !selectedAthleteIDs?.length;
-
-  const nationalityOptions = useMemo(
-    () => getNationalityOptions(athletes),
-    [athletes]
-  );
+  const nationalityOptions = useMemo(() => getNationalityOptions(athletes), [athletes]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
 
   const facetFilters = useMemo(
     () => [
       {
         id: ATHLETE_FACETS.nationality,
-        label: "Nationality",
+        label: 'Nationality',
         facets: nationalityOptions,
       },
       {
         id: ATHLETE_FACETS.sport,
-        label: "Sport",
+        label: 'Sport',
         facets: sportOptions,
       },
     ],
-    []
+    [nationalityOptions, sportOptions]
   );
 
   const edit = useCallback(
@@ -168,7 +165,7 @@ export const AddAthletesScreen = ({ navigation, route }) => {
           style={styles.button}
           onPress={onSubmit}
         >
-          {noneSelected ? "Add" : `Add ${selectedAthleteIDs.length}`}
+          {noneSelected ? 'Add' : `Add ${selectedAthleteIDs.length}`}
         </Button>
       </BottomActions>
     </Screen>

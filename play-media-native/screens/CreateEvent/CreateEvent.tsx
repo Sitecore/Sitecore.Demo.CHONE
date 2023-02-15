@@ -1,18 +1,19 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { View } from "react-native";
-import { Stepper } from "../../components/Stepper/Stepper";
-import { BottomActions } from "../../components/BottomActions/BottomActions";
-import { FieldsView } from "./FieldsView";
-import { RichTextView } from "./RichTextView";
-import { ReferencesView } from "./ReferencesView";
-import { Button } from "react-native-paper";
-import { styles } from "../../theme/styles";
-import { useEventFields } from "../../hooks/useEventFields/useEventFields";
-import { useFocusEffect } from "@react-navigation/native";
-import { Sport } from "../../interfaces/sport";
-import { getAllSports } from "../../api/queries/getSports";
-import { useQuery } from "react-query";
-import { KeyboardAwareScreen } from "../../features/Screen/KeyboardAwareScreen";
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useQuery } from 'react-query';
+import { View } from 'react-native';
+
+import { Button } from 'react-native-paper';
+import { FieldsView } from './FieldsView';
+import { ReferencesView } from './ReferencesView';
+import { RichTextView } from './RichTextView';
+import { BottomActions } from '../../components/BottomActions/BottomActions';
+import { Stepper } from '../../components/Stepper/Stepper';
+import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { styles } from '../../theme/styles';
+import { Sport } from '../../interfaces/sport';
+import { getAllSports } from '../../api/queries/getSports';
+import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { eventFields, edit, editMultiple, reset } = useEventFields();
@@ -30,7 +31,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
   const [location, setLocation] = useState();
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [step, setStep] = useState(0);
-  const steps = ["Fields", "Rich Text", "References"];
+  const steps = ['Fields', 'Rich Text', 'References'];
 
   const onStepPress = useCallback((index: number) => {
     setStep(index);
@@ -146,6 +147,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
       } else {
         edit({ key: route.params.key, value: route.params.image });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [edit, route?.params])
   );
 

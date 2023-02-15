@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react";
-import { StyleSheet } from "react-native";
-import { RadioButton, Text } from "react-native-paper";
-import { Sport } from "../../interfaces/sport";
-import { theme } from "../../theme/theme";
+import { useCallback, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { RadioButton, Text } from 'react-native-paper';
+
+import { Sport } from '../../interfaces/sport';
+import { theme } from '../../theme/theme';
 
 const styles = StyleSheet.create({
   topLabel: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   label: {
-    position: "absolute",
+    position: 'absolute',
     left: theme.spacing.lg,
     paddingLeft: theme.spacing.xs,
     color: theme.colors.black.DEFAULT,
@@ -28,11 +29,7 @@ type SportPickerProps = {
   sports: Sport[];
 };
 
-export const SportPicker = ({
-  onChange,
-  sports,
-  initialValue = "",
-}: SportPickerProps) => {
+export const SportPicker = ({ onChange, sports, initialValue = '' }: SportPickerProps) => {
   const [value, setValue] = useState<string>();
 
   const handleChange = useCallback(
@@ -49,10 +46,7 @@ export const SportPicker = ({
   return (
     <>
       <Text style={styles.topLabel}>Sport</Text>
-      <RadioButton.Group
-        onValueChange={handleChange}
-        value={value || initialValue}
-      >
+      <RadioButton.Group onValueChange={handleChange} value={value || initialValue}>
         {sports?.map((sport) => (
           <RadioButton.Item
             key={sport.title}

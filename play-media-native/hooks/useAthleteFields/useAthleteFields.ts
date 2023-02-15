@@ -1,13 +1,8 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import {
-  AthleteField,
-  edit,
-  remove,
-  replace,
-  reset,
-} from "../../store/athleteFields";
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { RootState } from '../../store';
+import { AthleteField, edit, remove, replace, reset } from '../../store/athleteFields';
 
 export const useAthleteFields = () => {
   const athleteFields = useSelector((state: RootState) => state.athleteFields);

@@ -1,8 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
-import { useCallback, useState } from "react";
-import { View } from "react-native";
-import { IconButton, Menu } from "react-native-paper";
-import { StackNavigationProp } from "../../interfaces/navigators";
+import { useNavigation } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import { View } from 'react-native';
+import { IconButton, Menu } from 'react-native-paper';
+
+import { StackNavigationProp } from '../../interfaces/navigators';
 
 export const SecondaryMenu = () => {
   const navigation = useNavigation<StackNavigationProp>();
@@ -19,9 +20,9 @@ export const SecondaryMenu = () => {
   return (
     <View
       style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 50,
       }}
     >
@@ -39,7 +40,7 @@ export const SecondaryMenu = () => {
         <Menu.Item
           onPress={() => {
             setVisible(false);
-            navigation.navigate("SelectConnection");
+            navigation.navigate('SelectConnection');
           }}
           title="Connections"
         />

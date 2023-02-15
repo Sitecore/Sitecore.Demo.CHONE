@@ -1,9 +1,9 @@
-import { useMemo } from "react";
-import { StyleProp, ViewStyle } from "react-native";
-import { FAB } from "react-native-paper";
-import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
-import { styles } from "../../theme/styles";
-import { theme } from "../../theme/theme";
+import { useMemo } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
+import { FAB } from 'react-native-paper';
+import { IconSource } from 'react-native-paper/lib/typescript/components/Icon';
+
+import { styles } from '../../theme/styles';
 
 interface Props {
   color?: string;
@@ -14,15 +14,8 @@ interface Props {
   style?: StyleProp<ViewStyle>;
 }
 
-export const BottomFAB = ({
-  color,
-  disabled,
-  icon,
-  label,
-  style,
-  onPress,
-}: Props) => {
-  const stylesFinal = useMemo(() => [styles.fab, style], []);
+export const BottomFAB = ({ color, disabled, icon, label, style, onPress }: Props) => {
+  const stylesFinal = useMemo(() => [styles.fab, style], [style]);
 
   return (
     <FAB

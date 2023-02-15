@@ -1,6 +1,6 @@
-import { EVENT_FACETS } from "../constants/filters";
-import { Event, EventResponse } from "../interfaces/event";
-import { Sport } from "../interfaces/sport";
+import { EVENT_FACETS } from '../constants/filters';
+import { Event, EventResponse } from '../interfaces/event';
+import { Sport } from '../interfaces/sport';
 
 export const initializeEvents = (events: Event[], sports: Sport[]) => {
   if (!events || !sports) {
@@ -15,10 +15,7 @@ export const initializeEvents = (events: Event[], sports: Sport[]) => {
 
 // return only atheltes not already selected in global state
 //
-export const removeAlreadySelected = (
-  events: Event[],
-  existingEvents: Event[]
-) => {
+export const removeAlreadySelected = (events: Event[], existingEvents: Event[]) => {
   const existingEventIDs = existingEvents.map((item) => item.id);
   return events.filter((event) => !existingEventIDs.includes(event.id));
 };
@@ -26,6 +23,7 @@ export const removeAlreadySelected = (
 export const normalizeEvent = (event: EventResponse) => {
   return {
     id: event.id,
+    name: event.name,
     title: event.title,
     sport: event.sport?.results[0] || null,
     isFeatured: event.isFeatured,
@@ -37,9 +35,7 @@ export const normalizeEvent = (event: EventResponse) => {
     body: event.body,
     athletes: event.athletes?.results || [],
     similarEvents: event.similarEvents?.results?.length
-      ? event.similarEvents.results.map((item) =>
-          normalizeEvent(item as EventResponse)
-        )
+      ? event.similarEvents.results.map((item) => normalizeEvent(item as EventResponse))
       : [],
   };
 };

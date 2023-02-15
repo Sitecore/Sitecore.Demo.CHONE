@@ -1,7 +1,7 @@
-import { Dimensions, Image, StyleSheet } from "react-native";
-import Carousel from "react-native-reanimated-carousel";
-import { IconButton, Modal, Portal } from "react-native-paper";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Dimensions, Image, StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { IconButton, Modal, Portal } from 'react-native-paper';
+import Carousel from 'react-native-reanimated-carousel';
 
 export const ImageOverlayCarousel = ({
   images,
@@ -14,12 +14,12 @@ export const ImageOverlayCarousel = ({
   visible: boolean;
   onClose: () => void;
 }) => {
-  const width = Dimensions.get("window").width;
-  const height = Dimensions.get("window").height;
+  const width = Dimensions.get('window').width;
+  const height = Dimensions.get('window').height;
 
   const styles = StyleSheet.create({
     visibilityStyle: {
-      display: visible ? "flex" : "none",
+      display: visible ? 'flex' : 'none',
     },
   });
 
@@ -38,9 +38,9 @@ export const ImageOverlayCarousel = ({
                 <Image
                   source={{ uri: item }}
                   style={{
-                    height: height,
-                    width: width,
-                    resizeMode: "contain",
+                    height,
+                    width,
+                    resizeMode: 'contain',
                   }}
                 />
               );
@@ -51,7 +51,7 @@ export const ImageOverlayCarousel = ({
           icon="close"
           onPress={onClose}
           style={{
-            position: "absolute",
+            position: 'absolute',
             top: 0,
             right: 0,
             ...styles.visibilityStyle,

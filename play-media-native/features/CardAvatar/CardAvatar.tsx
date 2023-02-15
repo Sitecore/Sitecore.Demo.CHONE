@@ -1,23 +1,18 @@
-import { View } from "react-native";
-import { Avatar, Card, Text } from "react-native-paper";
-import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
-import { theme } from "../../theme/theme";
-import { getAccentColor, getTextColor } from "../../helpers/colorHelper";
-import { Athlete } from "../../interfaces/athlete";
+import { View } from 'react-native';
+import { Avatar, Card, Text } from 'react-native-paper';
 
-export const CardAvatar = ({
-  item,
-  onCardPress,
-}: {
-  item: Athlete;
-  onCardPress?: () => void;
-}) => {
+import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
+import { Athlete } from '../../interfaces/athlete';
+import { theme } from '../../theme/theme';
+import { CardShadowBox } from '../CardShadowBox/CardShadowBox';
+
+export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?: () => void }) => {
   const sport = item.sport?.results[0];
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
 
   return (
     <CardShadowBox color={color} onCardPress={onCardPress}>
-      <Card.Content style={{ flexDirection: "row" }}>
+      <Card.Content style={{ flexDirection: 'row' }}>
         <View>
           <View
             style={{
@@ -41,7 +36,7 @@ export const CardAvatar = ({
         </View>
         <View
           style={{
-            justifyContent: "center",
+            justifyContent: 'center',
           }}
         >
           <Text style={{ marginLeft: theme.spacing.xxs }} variant="titleMedium">
@@ -49,7 +44,7 @@ export const CardAvatar = ({
           </Text>
           <Text
             style={{
-              alignSelf: "flex-start",
+              alignSelf: 'flex-start',
               backgroundColor: color,
               color: getTextColor(color),
               left: -theme.spacing.xxs,

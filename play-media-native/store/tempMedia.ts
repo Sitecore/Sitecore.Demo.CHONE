@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { Media } from "../interfaces/media";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { Media } from '../interfaces/media';
 
 export interface TempMediaState {
   image: Media;
@@ -9,20 +10,17 @@ export interface TempMediaState {
 
 const initialState: TempMediaState = {
   image: null,
-  key: "",
+  key: '',
 };
 
 export const tempMediaSlice = createSlice({
-  name: "tempMedia",
+  name: 'tempMedia',
   initialState,
   reducers: {
     clear: (state: TempMediaState) => {
       state.image = null;
     },
-    edit: (
-      state: TempMediaState,
-      action: PayloadAction<{ image: Media; key: string }>
-    ) => {
+    edit: (state: TempMediaState, action: PayloadAction<{ image: Media; key: string }>) => {
       state = { image: action.payload.image, key: action.payload.key };
     },
   },

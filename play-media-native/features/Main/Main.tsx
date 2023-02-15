@@ -1,9 +1,10 @@
-import { useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { Stacks } from "../../navigators/Stacks";
-import { useConnections } from "../../hooks/useConnections/useConnections";
-import { getConnections } from "../../helpers/connections";
-import { Screen } from "../Screen/Screen";
+import { NavigationContainer } from '@react-navigation/native';
+import { useEffect } from 'react';
+
+import { getConnections } from '../../helpers/connections';
+import { useConnections } from '../../hooks/useConnections/useConnections';
+import { Stacks } from '../../navigators/Stacks';
+import { Screen } from '../Screen/Screen';
 
 export const Main = () => {
   const { init } = useConnections();
@@ -17,7 +18,7 @@ export const Main = () => {
     };
 
     initializeConnections();
-  }, []);
+  }, [init]);
 
   return (
     <NavigationContainer>

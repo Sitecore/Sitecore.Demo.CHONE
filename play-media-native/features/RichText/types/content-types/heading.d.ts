@@ -7,6 +7,6 @@ export interface RichTextHeadingAttributes {
 
 export interface RichTextHeading {
   type: RichTextContentTypeLabels.heading;
-  content: Array<RichTextElement>;
+  content: RichTextElement[];
   attrs: RichTextHeadingAttributes;
 }

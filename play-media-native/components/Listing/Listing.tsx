@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
   ListRenderItem,
@@ -9,33 +9,37 @@ import {
   StyleProp,
   View,
   ViewStyle,
-} from "react-native";
-import { Text, ActivityIndicator } from "react-native-paper";
-import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from "../../constants/pagination";
-import { Screen } from "../../features/Screen/Screen";
-import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
-import { mockFetchData } from "../../helpers/mockPagination";
-import { theme } from "../../theme/theme";
+} from 'react-native';
+import { Text, ActivityIndicator } from 'react-native-paper';
+
+import { PAGE_SIZE } from '../../constants/pagination';
+import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
+import { Screen } from '../../features/Screen/Screen';
+import { mockFetchData } from '../../helpers/mockPagination';
+import { theme } from '../../theme/theme';
 
 type ListingProps = {
   data: any;
   isLoading?: boolean;
+  isRefreshing?: boolean;
   renderItem: ListRenderItem<any>;
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  onRefresh: () => void;
   style?: StyleProp<ViewStyle>;
 };
 
 export const Listing = ({
   data,
   isLoading,
+  isRefreshing,
   renderItem,
   onScroll,
+  onRefresh,
   style,
 }: ListingProps) => {
   const [items, setItems] = useState(data?.slice(0, PAGE_SIZE));
   const [loading, setLoading] = useState(false);
   const [isListEnd, setIsListEnd] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     setItems(data?.slice(0, PAGE_SIZE));
@@ -43,20 +47,11 @@ export const Listing = ({
 
   useEffect(() => {
     setIsListEnd(data && items && data?.length === items?.length);
-  }, [items]);
+  }, [data, items]);
 
   const fetchMoreData = useCallback(() => {
     !isListEnd && mockFetchData(data, items, setItems, setLoading);
   }, [data, items, isListEnd]);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setItems(data?.slice(0, PAGE_SIZE));
-      setIsListEnd(false);
-      setRefreshing(false);
-    }, MOCK_FETCH_TIMEOUT);
-  }, [data]);
 
   const ListFooter = (
     <>
@@ -64,7 +59,7 @@ export const Listing = ({
       {isListEnd && (
         <Text
           style={{
-            textAlign: "center",
+            textAlign: 'center',
             color: theme.colors.gray.DEFAULT,
           }}
         >
@@ -87,18 +82,16 @@ export const Listing = ({
   }
 
   return (
-    <SafeAreaView
-      style={[{ backgroundColor: theme.colors.black.darkest }, style]}
-    >
+    <SafeAreaView style={[{ backgroundColor: theme.colors.black.darkest }, style]}>
       <View
         style={{
-          position: "absolute",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
+          position: 'absolute',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        <ActivityIndicator animating={refreshing} size="small" />
+        <ActivityIndicator animating={isRefreshing} size="small" />
       </View>
       <FlatList
         data={items}
@@ -109,7 +102,7 @@ export const Listing = ({
         ListFooterComponent={ListFooter}
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
+            refreshing={isRefreshing}
             onRefresh={onRefresh}
             colors={[theme.colors.transparent]}
             tintColor={theme.colors.transparent}

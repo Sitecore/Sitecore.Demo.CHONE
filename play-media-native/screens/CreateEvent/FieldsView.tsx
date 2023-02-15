@@ -1,10 +1,9 @@
-import { View } from "react-native";
-import { InputText } from "../../components/InputText/InputText";
-import { theme } from "../../theme/theme";
-import { inputContainerStyle } from "./styles";
-import { SportPicker } from "../../features/SportPicker/SportPicker";
-import { getDate } from "../../helpers/dateHelper";
-import { DatePicker } from "../../components/DatePicker/DatePicker";
+
+import { SportPicker } from '../../features/SportPicker/SportPicker';
+import { getDate } from '../../helpers/dateHelper';
+import { DatePicker } from '../../components/DatePicker/DatePicker';
+import { inputContainerStyle } from './styles';
+import { InputText } from '../../components/InputText/InputText';
 
 export const FieldsView = ({
   date,

@@ -1,9 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { Athlete } from "../interfaces/athlete";
-import { Sport } from "../interfaces/sport";
-import { Media } from "../interfaces/media";
-import { Event } from "../interfaces/event";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { Athlete } from '../interfaces/athlete';
 
 export interface AthleteFieldsState {
   [key: string]: any;
@@ -21,7 +19,7 @@ const initialState: AthleteFieldsState = {
 };
 
 export const athleteFieldsSlice = createSlice({
-  name: "athleteFields",
+  name: 'athleteFields',
   initialState,
   reducers: {
     edit: (state: AthleteFieldsState, action: PayloadAction<AthleteField>) => {
@@ -30,10 +28,7 @@ export const athleteFieldsSlice = createSlice({
     init: (state: AthleteFieldsState, action: PayloadAction<Athlete>) => {
       return { ...state, ...action.payload };
     },
-    remove: (
-      state: AthleteFieldsState,
-      action: PayloadAction<AthleteField>
-    ) => {
+    remove: (state: AthleteFieldsState, action: PayloadAction<AthleteField>) => {
       if (!Array.isArray(state[action.payload.key])) {
         return {
           ...state,
@@ -42,9 +37,7 @@ export const athleteFieldsSlice = createSlice({
       }
 
       const previousItems = [...state[action.payload.key]];
-      const indexOfDeleted = previousItems
-        .map((item) => item.id)
-        .indexOf(action.payload.value.id);
+      const indexOfDeleted = previousItems.map((item) => item.id).indexOf(action.payload.value.id);
       previousItems.splice(indexOfDeleted, 1);
 
       return indexOfDeleted > -1
@@ -54,10 +47,7 @@ export const athleteFieldsSlice = createSlice({
           }
         : { ...state };
     },
-    replace: (
-      state: AthleteFieldsState,
-      action: PayloadAction<AthleteField>
-    ) => {
+    replace: (state: AthleteFieldsState, action: PayloadAction<AthleteField>) => {
       if (!Array.isArray(state[action.payload.key])) {
         return {
           ...state,
@@ -66,9 +56,7 @@ export const athleteFieldsSlice = createSlice({
       }
 
       const previousItems = [...state[action.payload.key]];
-      const indexOfReplaced = previousItems
-        .map((item) => item.id)
-        .indexOf(action.payload.value.id);
+      const indexOfReplaced = previousItems.map((item) => item.id).indexOf(action.payload.value.id);
 
       if (indexOfReplaced > -1) {
         previousItems[indexOfReplaced] = action.payload.value;

@@ -1,21 +1,23 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { CreateEventScreen } from "../screens/CreateEvent/CreateEvent";
-import { CreateAthleteScreen } from "../screens/CreateAthlete/CreateAthlete";
-import { AthleteDetailScreen } from "../screens/AthleteDetail";
-import { EventDetailScreen } from "../screens/EventDetail";
-import { SelectConnectionScreen } from "../screens/SelectConnection";
-import { Tabs } from "./Tabs";
-import { AddConnectionScreen } from "../screens/AddConnection";
-import { RootStackParamList } from "../interfaces/navigators";
-import { RemoveConnectionScreen } from "../screens/RemoveConnection";
-import { AddCH1MediaScreen } from "../screens/AddCH1Media/AddCH1Media";
-import { EditMediaScreen } from "../screens/EditMedia";
-import { StackScreenHeader } from "../features/StackScreenHeader/StackScreenHeader";
-import { EditAthleteDetailsScreen } from "../screens/EditAthleteDetails";
-import { AddAthletesScreen } from "../screens/AddAthletes";
-import { AddEventsScreen } from "../screens/AddEvents";
-import { EditEventScreen } from "../screens/EditEvent";
-import { ReviewEventScreen } from "../screens/ReviewEvent";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { Tabs } from './Tabs';
+import { StackScreenHeader } from '../features/StackScreenHeader/StackScreenHeader';
+import { RootStackParamList } from '../interfaces/navigators';
+import { AddAthletesScreen } from '../screens/AddAthletes';
+import { AddCH1MediaScreen } from '../screens/AddCH1Media/AddCH1Media';
+import { AddConnectionScreen } from '../screens/AddConnection';
+import { AddEventsScreen } from '../screens/AddEvents';
+import { AthleteDetailScreen } from '../screens/AthleteDetail';
+import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
+import { CreateEventScreen } from '../screens/CreateEvent/CreateEvent';
+import { EditAthleteDetailsScreen } from '../screens/EditAthleteDetails';
+import { EditEventScreen } from '../screens/EditEvent';
+import { EditMediaScreen } from '../screens/EditMedia';
+import { EventDetailScreen } from '../screens/EventDetail';
+import { RemoveConnectionScreen } from '../screens/RemoveConnection';
+import { ReviewAthletesScreen } from '../screens/ReviewAthletes';
+import { ReviewEventScreen } from '../screens/ReviewEvent';
+import { SelectConnectionScreen } from '../screens/SelectConnection';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,82 +32,78 @@ export const Stacks = () => {
       <Stack.Screen
         name="AddAthlete"
         component={CreateAthleteScreen}
-        options={{ title: "Add Athlete" }}
+        options={{ title: 'Add Athlete' }}
       />
       <Stack.Screen
         name="AddAthletes"
         component={AddAthletesScreen}
-        options={{ title: "Add Athletes" }}
+        options={{ title: 'Add Athletes' }}
       />
       <Stack.Screen
         name="AddEvents"
         component={AddEventsScreen}
-        options={{ title: "Add Events" }}
+        options={{ title: 'Add Events' }}
       />
       <Stack.Screen
         name="AddCH1Media"
         component={AddCH1MediaScreen}
-        options={{ title: "Add CH One Media" }}
+        options={{ title: 'Add CH One Media' }}
       />
       <Stack.Screen
         name="AddConnection"
         component={AddConnectionScreen}
         options={{
-          title: "Add Connection",
+          title: 'Add Connection',
         }}
       />
       <Stack.Screen
         name="AthleteDetail"
         component={AthleteDetailScreen}
-        options={{ title: "Athlete Detail" }}
+        options={{ title: 'Athlete Detail' }}
       />
       <Stack.Screen
         name="AthleteReview"
         component={AthleteDetailScreen}
-        options={{ title: "Athlete Review" }}
+        options={{ title: 'Athlete Review' }}
       />
       <Stack.Screen
         name="EditAthleteDetails"
         component={EditAthleteDetailsScreen}
-        options={{ title: "Edit Athlete Details" }}
+        options={{ title: 'Edit Athlete Details' }}
       />
       <Stack.Screen
         name="EditEvent"
         component={EditEventScreen}
-        options={{ title: "Edit Athlete Details" }}
+        options={{ title: 'Edit Athlete Details' }}
       />
       <Stack.Screen
         name="AddEvent"
         component={CreateEventScreen}
-        options={{ title: "Add Event" }}
+        options={{ title: 'Add Event' }}
       />
       <Stack.Screen
         name="EditMedia"
         component={EditMediaScreen}
-        options={{ title: "Edit Media" }}
+        options={{ title: 'Edit Media' }}
       />
       <Stack.Screen
         name="EventDetail"
         component={EventDetailScreen}
-        options={{ title: "Event Detail" }}
+        options={{ title: 'Event Detail' }}
       />
-      <Stack.Screen
-        name="MainTabs"
-        component={Tabs}
-        options={{ headerShown: false }}
-      />
+      <Stack.Screen name="MainTabs" component={Tabs} options={{ headerShown: false }} />
       <Stack.Screen
         name="RemoveConnection"
         component={RemoveConnectionScreen}
         options={{
-          title: "Remove Connection",
+          title: 'Remove Connection',
         }}
       />
       <Stack.Screen
         name="ReviewEvent"
         component={ReviewEventScreen}
         options={{
-          title: "Review Events",
+          title: 'Review Events',
         }}
       />
       <Stack.Screen

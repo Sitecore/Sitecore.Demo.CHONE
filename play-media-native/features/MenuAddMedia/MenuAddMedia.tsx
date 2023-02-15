@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from "react";
-import { Button, Menu } from "react-native-paper";
-import { useCamera } from "../../hooks/useCamera/useCamera";
-import { useDeviceLibrary } from "../../hooks/useDeviceLibrary/useDeviceLibrary";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "../../interfaces/navigators";
-import { DeviceMedia } from "../../interfaces/media";
+import { useNavigation } from '@react-navigation/native';
+import { useCallback, useMemo, useState } from 'react';
+import { Button, Menu } from 'react-native-paper';
+
+import { useCamera } from '../../hooks/useCamera/useCamera';
+import { useDeviceLibrary } from '../../hooks/useDeviceLibrary/useDeviceLibrary';
+import { DeviceMedia } from '../../interfaces/media';
+import { StackNavigationProp } from '../../interfaces/navigators';
 
 export const MenuAddMedia = ({
   contentType,
@@ -29,7 +30,7 @@ export const MenuAddMedia = ({
 
   const handleCameraPress = useCallback(() => {
     launchCamera((image: DeviceMedia) => {
-      navigation.navigate("EditMedia", {
+      navigation.navigate('EditMedia', {
         initialRoute,
         image,
         key: fieldKey,
@@ -38,11 +39,11 @@ export const MenuAddMedia = ({
     });
 
     close();
-  }, [close, fieldKey, launchCamera, navigation, single]);
+  }, [close, fieldKey, initialRoute, launchCamera, navigation, single]);
 
   const handleMediaLibraryPress = useCallback(() => {
     launchLibrary((image: DeviceMedia) => {
-      navigation.navigate("EditMedia", {
+      navigation.navigate('EditMedia', {
         initialRoute,
         image,
         key: fieldKey,
@@ -51,10 +52,10 @@ export const MenuAddMedia = ({
     });
 
     close();
-  }, [close, fieldKey, launchLibrary, navigation, single]);
+  }, [close, fieldKey, initialRoute, launchLibrary, navigation, single]);
 
   const handleCHonePress = useCallback(() => {
-    navigation.navigate("AddCH1Media", {
+    navigation.navigate('AddCH1Media', {
       contentType,
       key: fieldKey,
       initialRoute,
@@ -65,8 +66,8 @@ export const MenuAddMedia = ({
   }, [close, contentType, fieldKey, initialRoute, navigation, single]);
 
   const buttonLabel = useMemo(() => {
-    const add = "Add";
-    const replace = "Replace";
+    const add = 'Add';
+    const replace = 'Replace';
 
     if (empty) {
       return add;
@@ -85,16 +86,8 @@ export const MenuAddMedia = ({
         </Button>
       }
     >
-      <Menu.Item
-        leadingIcon="camera"
-        onPress={handleCameraPress}
-        title="Camera"
-      />
-      <Menu.Item
-        leadingIcon="folder"
-        onPress={handleMediaLibraryPress}
-        title="Device"
-      />
+      <Menu.Item leadingIcon="camera" onPress={handleCameraPress} title="Camera" />
+      <Menu.Item leadingIcon="folder" onPress={handleMediaLibraryPress} title="Device" />
       <Menu.Item leadingIcon="apps" onPress={handleCHonePress} title="CH ONE" />
     </Menu>
   );

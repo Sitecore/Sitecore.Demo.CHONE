@@ -1,6 +1,7 @@
-import { useCallback, useMemo } from "react";
-import { Dimensions, Image, View, StyleSheet, Pressable } from "react-native";
-import { theme } from "../../theme/theme";
+import { useCallback, useMemo } from 'react';
+import { Dimensions, Image, View, StyleSheet, Pressable } from 'react-native';
+
+import { theme } from '../../theme/theme';
 
 export const ImageGridLayout = ({
   images,
@@ -9,15 +10,15 @@ export const ImageGridLayout = ({
   images: string[];
   onImagePress: (i: number) => void;
 }) => {
-  const width = Dimensions.get("window").width;
+  const width = Dimensions.get('window').width;
   const oneThird = (width - 2 * theme.spacing.sm) / 3;
   const twoThirds = 2 * oneThird;
   const imagesPerRow = 4;
 
   const styles = StyleSheet.create({
     row: {
-      flexWrap: "wrap",
-      flexDirection: "row",
+      flexWrap: 'wrap',
+      flexDirection: 'row',
     },
     largeSquare: {
       width: twoThirds,
@@ -37,15 +38,18 @@ export const ImageGridLayout = ({
     },
   });
 
-  const getImageStyle = useCallback((i: number) => {
-    return i === 0
-      ? styles.largeSquare
-      : i === 1
-      ? styles.tallRectangle
-      : i === 2
-      ? styles.smallSquare
-      : styles.wideRectangle;
-  }, []);
+  const getImageStyle = useCallback(
+    (i: number) => {
+      return i === 0
+        ? styles.largeSquare
+        : i === 1
+        ? styles.tallRectangle
+        : i === 2
+        ? styles.smallSquare
+        : styles.wideRectangle;
+    },
+    [styles.largeSquare, styles.smallSquare, styles.tallRectangle, styles.wideRectangle]
+  );
 
   const imageRows = useMemo(() => {
     return images.reduce((result, item, index) => {
@@ -69,15 +73,10 @@ export const ImageGridLayout = ({
             {images.map((img: string, imageIndex: number) => {
               return (
                 <Pressable
-                  onPress={() =>
-                    onImagePress(rowIndex * imagesPerRow + imageIndex)
-                  }
+                  onPress={() => onImagePress(rowIndex * imagesPerRow + imageIndex)}
                   key={`${img}${imageIndex}`}
                 >
-                  <Image
-                    source={{ uri: img }}
-                    style={getImageStyle(imageIndex)}
-                  />
+                  <Image source={{ uri: img }} style={getImageStyle(imageIndex)} />
                 </Pressable>
               );
             })}

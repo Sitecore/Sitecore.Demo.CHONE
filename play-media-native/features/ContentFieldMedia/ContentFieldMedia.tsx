@@ -1,40 +1,35 @@
-import { useCallback, useMemo } from "react";
-import { StyleProp, View } from "react-native";
-import { Text } from "react-native-paper";
-import { Media } from "../../interfaces/media";
-import { DraggableList } from "../../components/DraggableList/DraggableList";
-import { MediaItemListDisplay } from "../MediaItemListDisplay/MediaItemListDisplay";
-import { theme } from "../../theme/theme";
-import { MenuAddMedia } from "../MenuAddMedia/MenuAddMedia";
-import { ActionMenu, MenuItem } from "../ActionMenu/ActionMenu";
-import { MEDIA_SOURCES } from "../../constants/media";
-import { MediaSourceIcon } from "../MediaSourceIcon/MediaSourceIcon";
-import { useEventFields } from "../../hooks/useEventFields/useEventFields";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "../../interfaces/navigators";
-import { CONTENT_TYPES } from "../../constants/contentTypes";
-import { useAthleteFields } from "../../hooks/useAthleteFields/useAthleteFields";
+import { useNavigation } from '@react-navigation/native';
+import { useCallback, useMemo } from 'react';
+import { StyleProp, View } from 'react-native';
+import { Text } from 'react-native-paper';
+
+import { DraggableList } from '../../components/DraggableList/DraggableList';
+import { CONTENT_TYPES } from '../../constants/contentTypes';
+import { MEDIA_SOURCES } from '../../constants/media';
+import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
+import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { Media } from '../../interfaces/media';
+import { StackNavigationProp } from '../../interfaces/navigators';
+import { theme } from '../../theme/theme';
+import { ActionMenu, MenuItem } from '../ActionMenu/ActionMenu';
+import { MediaItemListDisplay } from '../MediaItemListDisplay/MediaItemListDisplay';
+import { MediaSourceIcon } from '../MediaSourceIcon/MediaSourceIcon';
+import { MenuAddMedia } from '../MenuAddMedia/MenuAddMedia';
 
 const menuStyle = {
-  position: "absolute",
+  position: 'absolute',
   bottom: 0,
   right: -5,
 };
 
 const mediaSourceIconStyle = {
-  position: "absolute",
+  position: 'absolute',
   color: theme.colors.white.DEFAULT,
 };
 
-export const ListItem = ({
-  item,
-  menuItems,
-}: {
-  item: Media;
-  menuItems: MenuItem[];
-}) => {
+export const ListItem = ({ item, menuItems }: { item: Media; menuItems: MenuItem[] }) => {
   return (
-    <View style={{ position: "relative" }}>
+    <View style={{ position: 'relative' }}>
       <MediaItemListDisplay item={item} />
       <MediaSourceIcon
         size={15}
@@ -78,11 +73,11 @@ export const ContentFieldMedia = ({
 
   const single = !Array.isArray(items);
   const empty = Array.isArray(items) ? items?.length === 0 : !items;
-  const headerText = `${fieldTitle} ${single ? " (single)" : ""}`;
+  const headerText = `${fieldTitle} ${single ? ' (single)' : ''}`;
 
   const editMedia = useCallback(
     (image: Media) => {
-      navigation.navigate("EditMedia", {
+      navigation.navigate('EditMedia', {
         contentType,
         isEditMode: true,
         initialRoute,
@@ -96,9 +91,11 @@ export const ContentFieldMedia = ({
 
   const deleteMedia = useCallback(
     ({ key, value }: { key: string; value: Media }) => {
-      contentType === CONTENT_TYPES.EVENT
-        ? removeEventFields({ key, value })
-        : removeAthleteFields({ key, value });
+      if (contentType === CONTENT_TYPES.EVENT) {
+        removeEventFields({ key, value });
+      } else {
+        removeAthleteFields({ key, value });
+      }
     },
     [contentType, removeAthleteFields, removeEventFields]
   );
@@ -108,27 +105,27 @@ export const ContentFieldMedia = ({
       return item.source !== MEDIA_SOURCES.CH_ONE
         ? [
             {
-              icon: "circle-edit-outline",
+              icon: 'circle-edit-outline',
               handler: () => {
                 editMedia(item);
               },
-              title: "Edit",
+              title: 'Edit',
             },
             {
-              icon: "delete-outline",
+              icon: 'delete-outline',
               handler: () => {
                 deleteMedia({ key: fieldKey, value: item });
               },
-              title: "Delete",
+              title: 'Delete',
             },
           ]
         : [
             {
-              icon: "delete-outline",
+              icon: 'delete-outline',
               handler: () => {
                 deleteMedia({ key: fieldKey, value: item });
               },
-              title: "Delete",
+              title: 'Delete',
             },
           ];
     },
@@ -145,9 +142,7 @@ export const ContentFieldMedia = ({
           )}
         />
       ) : (
-        items && (
-          <ListItem item={items} menuItems={resolveActionsForItem(items)} />
-        )
+        items && <ListItem item={items} menuItems={resolveActionsForItem(items)} />
       ),
     [items, resolveActionsForItem]
   );
@@ -156,9 +151,9 @@ export const ContentFieldMedia = ({
     <View style={style}>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           marginBottom: theme.spacing.xs,
         }}
       >

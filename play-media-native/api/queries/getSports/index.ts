@@ -1,6 +1,6 @@
-import { fetchGraphQL } from "../..";
-import { FetchOptions } from "../../../interfaces/fetchOptions";
-import { AllSportsResponse, Sport } from "../../../interfaces/sport";
+import { fetchGraphQL } from '../..';
+import { FetchOptions } from '../../../interfaces/fetchOptions';
+import { AllSportsResponse, Sport } from '../../../interfaces/sport';
 
 const sportsQuery = `
 query {
@@ -14,9 +14,7 @@ query {
 }
 `;
 
-export const getAllSports = async (
-  options?: FetchOptions
-): Promise<Sport[]> => {
+export const getAllSports = async (options?: FetchOptions): Promise<Sport[]> => {
   const results: AllSportsResponse = (await fetchGraphQL(
     sportsQuery,
     options

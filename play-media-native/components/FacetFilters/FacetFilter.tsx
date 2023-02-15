@@ -1,26 +1,21 @@
-import { StyleProp, View, ViewStyle } from "react-native";
-import { Text } from "react-native-paper";
-import { theme } from "../../theme/theme";
-import { DropdownItem, DropdownPicker } from "../DropdownPicker/DropdownPicker";
+import { StyleProp, View, ViewStyle } from 'react-native';
+import { Text } from 'react-native-paper';
 
-type FacetFilterProps = FacetFilter & {
+import { theme } from '../../theme/theme';
+import { DropdownItem, DropdownPicker } from '../DropdownPicker/DropdownPicker';
+
+type FacetFilterProps = IFacetFilter & {
   onChange: (id: string, item: DropdownItem) => void;
   style?: StyleProp<ViewStyle>;
 };
 
-export interface FacetFilter {
+export interface IFacetFilter {
   id: string;
   label: string;
   facets: DropdownItem[];
 }
 
-export const FacetFilter = ({
-  id,
-  label,
-  facets,
-  onChange,
-  style,
-}: FacetFilterProps) => {
+export const FacetFilter = ({ id, label, facets, onChange, style }: FacetFilterProps) => {
   const handleChange = (item: DropdownItem) => {
     onChange(id, item);
   };

@@ -1,12 +1,13 @@
-import { View } from "react-native";
-import { theme } from "../../theme/theme";
-import { IconButton } from "react-native-paper";
-import { useCallback } from "react";
+import { useCallback } from 'react';
+import { View } from 'react-native';
+import { IconButton } from 'react-native-paper';
+
+import { theme } from '../../theme/theme';
 
 export enum ListingImageDisplayType {
-  GRID = "grid",
-  LIST = "list",
-  CARDS = "cards",
+  GRID = 'grid',
+  LIST = 'list',
+  CARDS = 'cards',
 }
 
 const buttonStyle = {
@@ -35,7 +36,7 @@ export const SelectDisplayButtons = ({
   return (
     <View
       style={{
-        flexDirection: "row",
+        flexDirection: 'row',
         marginRight: theme.spacing.xs,
       }}
     >

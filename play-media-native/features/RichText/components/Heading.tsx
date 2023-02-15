@@ -1,6 +1,7 @@
-import { createElement, FC } from "react";
-import { Text } from "react-native-paper";
-import { theme } from "../../../theme/theme";
+import { FC } from 'react';
+import { Text } from 'react-native-paper';
+
+import { theme } from '../../../theme/theme';
 
 interface Props {
   children: string;
@@ -9,32 +10,32 @@ interface Props {
 
 export const Heading: FC<Props> = ({ children, level }) => {
   let variant:
-    | "headlineLarge"
-    | "headlineMedium"
-    | "headlineSmall"
-    | "titleLarge"
-    | "titleMedium"
-    | "titleSmall"
-    | "labelLarge" = "titleSmall";
+    | 'headlineLarge'
+    | 'headlineMedium'
+    | 'headlineSmall'
+    | 'titleLarge'
+    | 'titleMedium'
+    | 'titleSmall'
+    | 'labelLarge' = 'titleSmall';
 
   switch (level) {
     case 1:
-      variant = "headlineLarge";
+      variant = 'headlineLarge';
       break;
     case 2:
-      variant = "headlineMedium";
+      variant = 'headlineMedium';
       break;
     case 3:
-      variant = "headlineSmall";
+      variant = 'headlineSmall';
       break;
     case 4:
-      variant = "titleLarge";
+      variant = 'titleLarge';
       break;
     case 5:
-      variant = "titleMedium";
+      variant = 'titleMedium';
       break;
     default:
-      variant = "titleSmall";
+      variant = 'titleSmall';
   }
 
   return (

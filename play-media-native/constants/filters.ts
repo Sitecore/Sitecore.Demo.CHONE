@@ -1,9 +1,9 @@
 export const ATHLETE_FACETS = {
-  nationality: "nationality",
-  sport: "sportId",
+  nationality: 'nationality',
+  sport: 'sportId',
 };
 
 export const EVENT_FACETS = {
-  location: "location",
-  sport: "sportId",
+  location: 'location',
+  sport: 'sportId',
 };

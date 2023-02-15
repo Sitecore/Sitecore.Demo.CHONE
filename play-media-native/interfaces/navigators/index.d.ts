@@ -1,6 +1,6 @@
 // https://reactnavigation.org/docs/typescript/
 
-import type { StackNavigationProp } from "@react-navigation/stack";
+import type { StackNavigationProp as RStackNavigationProp } from '@react-navigation/stack';
 
 export type RootStackParamList = {
   AddAthlete: undefined;
@@ -28,4 +28,4 @@ export type RootTabParamList = {
 
 // Navigation prop Stack navigator
 //
-export type StackNavigationProp = StackNavigationProp<RootStackParamList>;
+export type StackNavigationProp = RStackNavigationProp<RootStackParamList>;

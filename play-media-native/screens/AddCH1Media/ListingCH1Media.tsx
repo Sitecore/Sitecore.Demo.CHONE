@@ -1,16 +1,17 @@
-import { useMemo } from "react";
-import { Image, View } from "react-native";
-import { Card } from "react-native-paper";
-import { theme } from "../../theme/theme";
-import { Media } from "../../interfaces/media";
-import { getFileType, removeFileExtension } from "../../helpers/media";
-import { ListingImages } from "../../features/ListingImages/ListingImages";
-import { SelectableView } from "../../components/SelectableView/SelectableView";
-import { useMedia } from "../../hooks/useMedia/useMedia";
-import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
-import { ListingImageDisplayType } from "../../features/SelectDisplayButtons/SelectDisplayButtons";
-import { MediaItemListDisplay } from "../../features/MediaItemListDisplay/MediaItemListDisplay";
-import { Field } from "../../features/Field/Field";
+import { useMemo } from 'react';
+import { Image, View } from 'react-native';
+import { Card } from 'react-native-paper';
+
+import { SelectableView } from '../../components/SelectableView/SelectableView';
+import { Field } from '../../features/Field/Field';
+import { ListingImages } from '../../features/ListingImages/ListingImages';
+import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
+import { MediaItemListDisplay } from '../../features/MediaItemListDisplay/MediaItemListDisplay';
+import { ListingImageDisplayType } from '../../features/SelectDisplayButtons/SelectDisplayButtons';
+import { getFileType, removeFileExtension } from '../../helpers/media';
+import { useMedia } from '../../hooks/useMedia/useMedia';
+import { Media } from '../../interfaces/media';
+import { theme } from '../../theme/theme';
 
 const listingImagesStyle = {
   paddingHorizontal: theme.spacing.sm,
@@ -19,7 +20,7 @@ const listingImagesStyle = {
 
 const fullWidthStyle = {
   height: 120,
-  width: "100%",
+  width: '100%',
   margin: 2,
 };
 
@@ -30,12 +31,7 @@ interface Props {
   selectedMediaIDs: string[];
 }
 
-export const ListingCH1Media = ({
-  images,
-  isFetching,
-  onSelect,
-  selectedMediaIDs,
-}: Props) => {
+export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs }: Props) => {
   const { media } = useMedia();
   const mediaIDs = media.map((item) => item.id);
 
@@ -45,9 +41,7 @@ export const ListingCH1Media = ({
         <SelectableView
           key={item.id}
           onSelect={() => onSelect(item)}
-          selected={
-            selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)
-          }
+          selected={selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)}
           style={{
             flex: 0.5,
             marginHorizontal: 2,
@@ -59,9 +53,7 @@ export const ListingCH1Media = ({
       [ListingImageDisplayType.LIST]: ({ item }) => (
         <SelectableView
           onSelect={() => onSelect(item)}
-          selected={
-            selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)
-          }
+          selected={selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)}
           top={-2}
         >
           <MediaItemListDisplay item={item} />
@@ -70,9 +62,7 @@ export const ListingCH1Media = ({
       [ListingImageDisplayType.CARDS]: ({ item }) => (
         <SelectableView
           onSelect={() => onSelect(item)}
-          selected={
-            selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)
-          }
+          selected={selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)}
           top={200}
         >
           <Card
@@ -95,14 +85,11 @@ export const ListingCH1Media = ({
                 paddingTop: 0,
               }}
             >
-              <View style={{ position: "relative", width: "100%" }}>
+              <View style={{ position: 'relative', width: '100%' }}>
                 <Field title="Name" value={removeFileExtension(item.name)} />
                 <Field title="Description" value={item.description} />
                 <Field title="File type" value={getFileType(item)} />
-                <Field
-                  title="Size"
-                  value={`${item.fileWidth} x ${item.fileHeight}`}
-                />
+                <Field title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
               </View>
             </Card.Content>
           </Card>

@@ -1,7 +1,8 @@
-import { FC, useCallback } from "react";
-import { Linking, Pressable, TouchableWithoutFeedback } from "react-native";
-import { Text } from "react-native-paper";
-import { theme } from "../../../theme/theme";
+import { FC, useCallback } from 'react';
+import { Linking, TouchableWithoutFeedback } from 'react-native';
+import { Text } from 'react-native-paper';
+
+import { theme } from '../../../theme/theme';
 
 interface Props {
   children: string;
@@ -12,7 +13,7 @@ interface Props {
 
 export const RichTextLink: FC<Props> = ({ children, href, accentColor }) => {
   const getValidLink = useCallback((href: string) => {
-    const isValid = href.includes("https://") || href.includes("http://");
+    const isValid = href.includes('https://') || href.includes('http://');
 
     if (isValid) {
       return href;
@@ -30,7 +31,7 @@ export const RichTextLink: FC<Props> = ({ children, href, accentColor }) => {
       <Text
         style={{
           color: accentColor || theme.colors.blue.DEFAULT,
-          textDecorationLine: "underline",
+          textDecorationLine: 'underline',
         }}
       >
         {children}

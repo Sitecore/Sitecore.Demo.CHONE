@@ -1,26 +1,27 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { AnimatedFAB, Button, Text } from "react-native-paper";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { theme } from "../theme/theme";
-import { getDate, getTime } from "../helpers/dateHelper";
-import { CardAvatar } from "../features/CardAvatar/CardAvatar";
-import { Athlete } from "../interfaces/athlete";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { RichText } from "../features/RichText/RichText";
-import { getAccentColor } from "../helpers/colorHelper";
-import { Media } from "../interfaces/media";
-import { ImageGrid } from "../features/ImageGrid/ImageGrid";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
-import { useEventFields } from "../hooks/useEventFields/useEventFields";
-import { CardEvent } from "../features/CardEvent/CardEvent";
-import { Event } from "../interfaces/event";
-import { useQuery } from "react-query";
-import { getEventById } from "../api/queries/getEvents";
-import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { AnimatedFAB, Button, Text } from 'react-native-paper';
+import { useQuery } from 'react-query';
+
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { CardAvatar } from '../features/CardAvatar/CardAvatar';
+import { CardEvent } from '../features/CardEvent/CardEvent';
+import { ImageGrid } from '../features/ImageGrid/ImageGrid';
+import { RichText } from '../features/RichText/RichText';
+import { Screen } from '../features/Screen/Screen';
+import { getAccentColor } from '../helpers/colorHelper';
+import { getDate, getTime } from '../helpers/dateHelper';
+import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { Athlete } from '../interfaces/athlete';
+import { Event } from '../interfaces/event';
+import { Media } from '../interfaces/media';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
+import { getEventById } from '../api/queries/getEvents';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -31,12 +32,12 @@ const pageStyles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   bottomFAB: {
-    position: "absolute",
+    position: 'absolute',
     right: theme.spacing.sm,
     bottom: theme.spacing.xs,
   },
   button: {
-    position: "absolute",
+    position: 'absolute',
     right: -theme.spacing.sm,
     top: -theme.spacing.xs,
   },
@@ -72,7 +73,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   const onCardPress = useCallback(
     (athlete: Athlete) => {
-      navigation.navigate("AthleteDetail", {
+      navigation.navigate('AthleteDetail', {
         id: athlete.id,
         title: athlete.athleteName,
       });
@@ -92,10 +93,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
   // TODO Add API request to create/ update athlete
   const handlePublishBtn = useCallback(() => {}, []);
 
-  const accentColor = useMemo(
-    () => getAccentColor(event?.sport?.title),
-    [event]
-  );
+  const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
 
   const imageUriArray = useMemo(() => {
     if (!event?.relatedMedia?.length) {
@@ -129,26 +127,15 @@ export const EventDetailScreen = ({ route, navigation }) => {
       ) : (
         <AnimatedFAB
           icon={({ size }) => (
-            <FontAwesomeIcon
-              icon={faEdit}
-              color={theme.colors.black.DEFAULT}
-              size={size}
-            />
+            <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
           )}
-          label={"Edit"}
+          label="Edit"
           extended={isTopEdge}
           onPress={handleEditInfo}
           style={pageStyles.bottomFAB}
         />
       ),
-    [
-      event,
-      isTopEdge,
-      isReview,
-      handleEditInfo,
-      handleDiscardBtn,
-      handlePublishBtn,
-    ]
+    [isTopEdge, isReview, handleEditInfo, handleDiscardBtn, handlePublishBtn]
   );
 
   // clear global state on unmount
@@ -157,7 +144,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
     return () => {
       reset();
     };
-  }, []);
+  }, [reset]);
 
   if (isFetching) {
     return <LoadingScreen />;
@@ -173,11 +160,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView
-        onScroll={calcScrollOffset}
-        scrollEventThrottle={0}
-        style={styles.screenPadding}
-      >
+      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0} style={styles.screenPadding}>
         <View>
           <Text variant="labelSmall" style={pageStyles.title}>
             Sport
@@ -190,7 +173,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
               },
             ]}
           >
-            {event.sport.title || ""}
+            {event.sport.title || ''}
           </Text>
         </View>
         <View>
@@ -217,20 +200,13 @@ export const EventDetailScreen = ({ route, navigation }) => {
           </Text>
           <RichText body={event.body.content} accentColor={accentColor} />
         </View>
-        <ImageGrid
-          images={imageUriArray}
-          style={{ marginTop: theme.spacing.lg }}
-        />
+        <ImageGrid images={imageUriArray} style={{ marginTop: theme.spacing.lg }} />
         <View style={{ marginTop: theme.spacing.lg }}>
           <Text variant="labelSmall" style={pageStyles.title}>
             Athletes who joined
           </Text>
           {event.athletes.map((athlete: Athlete) => (
-            <CardAvatar
-              key={athlete.id}
-              item={athlete}
-              onCardPress={() => onCardPress(athlete)}
-            />
+            <CardAvatar key={athlete.id} item={athlete} onCardPress={() => onCardPress(athlete)} />
           ))}
         </View>
         {!!event?.similarEvents?.length && (

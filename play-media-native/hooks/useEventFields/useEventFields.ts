@@ -1,17 +1,10 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import {
-  EventField,
-  edit,
-  editMultiple,
-  init,
-  remove,
-  replace,
-  reset,
-} from "../../store/eventFields";
-import { Event } from "../../interfaces/event";
-import { IIndexable } from "../../interfaces/indexable";
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Event } from '../../interfaces/event';
+import { RootState } from '../../store';
+import { EventField, edit, editMultiple, init, remove, replace, reset } from '../../store/eventFields';
+import { IIndexable } from '../../interfaces/indexable';
+
 
 export const useEventFields = () => {
   const eventFields = useSelector((state: RootState) => state.eventFields);

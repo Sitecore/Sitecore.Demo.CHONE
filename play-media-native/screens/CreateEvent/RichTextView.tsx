@@ -1,12 +1,10 @@
-import { View } from "react-native";
-import { RichTextEditor } from "../../components/RichTextEditor/RichTextEditor";
-import { Button } from "react-native-paper";
-import { styles } from "../../theme/styles";
-import { BottomActions } from "../../components/BottomActions/BottomActions";
-import { KeyboardAwareScreen } from "../../features/Screen/KeyboardAwareScreen";
-import { useState } from "react";
-import { theme } from "../../theme/theme";
-import { InputText } from "../../components/InputText/InputText";
+import { useState } from 'react';
+import { View } from 'react-native';
+
+import { RichTextEditor } from '../../components/RichTextEditor/RichTextEditor';
+import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
+import { theme } from '../../theme/theme';
+import { InputText } from '../../components/InputText/InputText';
 
 const inputContainerStyle = {
   marginBottom: theme.spacing.sm,
@@ -21,15 +19,6 @@ export const RichTextView = ({ setBody, setTeaser, teaser }) => {
     setRteJson(jsonData);
     setBody(jsonData);
   };
-
-  // const handleSubmit = () => {
-  //   if (!!rteJson) {
-  //     setShowError(false);
-  //     // TODO: send to server/set global state
-  //   } else {
-  //     setShowError(true);
-  //   }
-  // };
 
   return (
     <KeyboardAwareScreen>
@@ -47,7 +36,7 @@ export const RichTextView = ({ setBody, setTeaser, teaser }) => {
         />
         <RichTextEditor
           showError={showError}
-          errorText={"Please enter a description."}
+          errorText="Please enter a description."
           onChange={handleChange}
         />
       </View>

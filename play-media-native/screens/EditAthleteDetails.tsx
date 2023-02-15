@@ -1,32 +1,32 @@
-import { useCallback, useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
-import { Button, Text } from "react-native-paper";
-import { useQuery } from "react-query";
-import { getAthleteById } from "../api/queries/getAthletes";
-import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
-import { getDate, getYear } from "../helpers/dateHelper";
-import { Athlete } from "../interfaces/athlete";
-import { AthleteImages } from "../features/Screens/AthleteImages";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { DatePicker } from "../components/DatePicker/DatePicker";
-import { getAllSports } from "../api/queries/getSports";
-import { SportPicker } from "../features/SportPicker/SportPicker";
-import { InputText } from "../components/InputText/InputText";
-import { theme } from "../theme/theme";
+import { useCallback, useEffect, useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+import { useQuery } from 'react-query';
+
+import { getAthleteById } from '../api/queries/getAthletes';
+import { getAllSports } from '../api/queries/getSports';
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { DatePicker } from '../components/DatePicker/DatePicker';
+import { InputText } from '../components/InputText/InputText';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
+import { Screen } from '../features/Screen/Screen';
+import { AthleteImages } from '../features/Screens/AthleteImages';
+import { SportPicker } from '../features/SportPicker/SportPicker';
+import { getDate, getYear } from '../helpers/dateHelper';
+import { Athlete } from '../interfaces/athlete';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 export const EditAthleteDetailsScreen = ({ route, navigation }) => {
-  const [name, handleChangeName] = useState("");
-  const [nationality, handleChangeNationality] = useState("");
-  const [quote, handleChangeQuote] = useState("");
+  const [name, handleChangeName] = useState('');
+  const [nationality, handleChangeNationality] = useState('');
+  const [quote, handleChangeQuote] = useState('');
   const [birthDate, handleChangeBirthDate] = useState(new Date());
   const [careerStartDate, handleChangeCareerStartDate] = useState(new Date());
-  const [hobby, handleChangeHobby] = useState("");
+  const [hobby, handleChangeHobby] = useState('');
 
   const [showBirthDatePicker, setShowBirthDatePicker] = useState(false);
-  const [showCareerStartDatePicker, setShowCareerStartDatePicker] =
-    useState(false);
+  const [showCareerStartDatePicker, setShowCareerStartDatePicker] = useState(false);
 
   const setAthleteData = (athlete: Partial<Athlete>) => {
     handleChangeName(athlete.athleteName);
@@ -43,33 +43,30 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   });
 
   const handleSubmitBtn = useCallback(() => {
-    navigation.navigate("AthleteReview", {
-      title: "Review edited athlete",
+    navigation.navigate('AthleteReview', {
+      title: 'Review edited athlete',
       isReview: true,
     });
-  }, []);
+  }, [navigation]);
 
   const handleDiscardBtn = useCallback(() => {
     navigation.goBack();
-  }, []);
+  }, [navigation]);
 
   const { data, isFetching: isFetchingAthletes } = useQuery(
-    "editathlete",
+    'editathlete',
     () => getAthleteById(route.params.id),
     { onSuccess: (data) => setAthleteData(data.athlete) }
   );
   const athlete = data?.athlete;
 
-  const { data: sports, isFetching: isFetchingSports } = useQuery(
-    "sports",
-    () => getAllSports()
-  );
+  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
 
   useEffect(() => {
     navigation.setOptions({
       title: route.params.title,
     });
-  }, []);
+  }, [navigation, route.params.title]);
 
   if (isFetchingAthletes || isFetchingSports) {
     return <LoadingScreen />;
@@ -81,7 +78,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
 
   // TODO Add state for media items
   const handleAddMedia = (id: string, title: string) => {
-    navigation.navigate("AddMedia", {
+    navigation.navigate('AddMedia', {
       id,
       title,
     });
@@ -91,39 +88,24 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
     <Screen>
       <ScrollView style={styles.screenPadding}>
         <View>
-          <SportPicker
-            sports={sports}
-            initialValue={athlete.sport?.results[0]?.title}
-          />
+          <SportPicker sports={sports} initialValue={athlete.sport?.results[0]?.title} />
         </View>
         <View>
-          <InputText
-            onChange={handleChangeName}
-            value={name}
-            title={"Athlete name"}
-          />
-          <InputText
-            onChange={handleChangeNationality}
-            value={nationality}
-            title={"Nationality"}
-          />
+          <InputText onChange={handleChangeName} value={name} title="Athlete name" />
+          <InputText onChange={handleChangeNationality} value={nationality} title="Nationality" />
           <InputText
             onChange={handleChangeQuote}
             value={quote}
             title="Quote"
             selection={quoteInputCursor}
-            onSelectionChange={({ nativeEvent: { selection } }) =>
-              setQuoteInputCursor(selection)
-            }
-            onPressIn={() =>
-              setQuoteInputCursor({ start: quote.length, end: quote.length })
-            }
+            onSelectionChange={({ nativeEvent: { selection } }) => setQuoteInputCursor(selection)}
+            onPressIn={() => setQuoteInputCursor({ start: quote.length, end: quote.length })}
           />
           <InputText
             value={getDate(birthDate)}
-            title={"Birth date"}
+            title="Birth date"
             showSoftInputOnFocus={false}
-            caretHidden={true}
+            caretHidden
             onTouchStart={() => setShowBirthDatePicker(true)}
           />
           {showBirthDatePicker && (
@@ -138,7 +120,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
             value={getYear(careerStartDate)}
             title="Career start"
             showSoftInputOnFocus={false}
-            caretHidden={true}
+            caretHidden
             onTouchStart={() => setShowCareerStartDatePicker(true)}
           />
           {showCareerStartDatePicker && (
@@ -149,15 +131,11 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               onClose={setShowCareerStartDatePicker}
             />
           )}
-          <InputText
-            onChange={handleChangeHobby}
-            value={hobby}
-            title={"Hobby"}
-          />
+          <InputText onChange={handleChangeHobby} value={hobby} title="Hobby" />
         </View>
         <AthleteImages
           athlete={athlete}
-          isEditMode={true}
+          isEditMode
           onAddBtnPress={() => handleAddMedia(athlete.id, athlete.athleteName)}
         />
       </ScrollView>

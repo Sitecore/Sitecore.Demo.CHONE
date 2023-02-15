@@ -1,7 +1,8 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { add, clear, edit, remove } from "../../store/media";
-import { Media } from "../../interfaces/media";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Media } from '../../interfaces/media';
+import { RootState } from '../../store';
+import { add, clear, edit, remove } from '../../store/media';
 
 export const useMedia = () => {
   const { media } = useSelector((state: RootState) => state.media);
