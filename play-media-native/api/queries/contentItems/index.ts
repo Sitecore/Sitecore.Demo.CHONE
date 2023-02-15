@@ -20,12 +20,14 @@ export const createContentItem = async (contentItem: ContentItemCreate): Promise
       const data = await jsonResponsePromise;
 
       if (data?.status) {
+        console.error(`${data.status} error: ${data?.detail}`);
         throw data?.status;
       }
 
       return data;
     });
   } catch (error) {
+    console.error(error);
     throw error;
   }
 };
@@ -47,12 +49,14 @@ export const updateContentItem = async (contentItem: ContentItemUpdate): Promise
       const data = await jsonResponsePromise;
 
       if (data?.status) {
+        console.error(`${data.status} error: ${data?.detail}`);
         throw data?.status;
       }
 
       return data;
     });
   } catch (error) {
+    console.error(error);
     throw error;
   }
 };
