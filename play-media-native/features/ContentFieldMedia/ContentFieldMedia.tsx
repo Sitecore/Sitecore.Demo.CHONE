@@ -68,8 +68,8 @@ export const ContentFieldMedia = ({
   style?: StyleProp<any>;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
-  const { remove: removeAthleteFields } = useAthleteFields();
-  const { remove: removeEventFields } = useEventFields();
+  const { edit: editAthleteFields, remove: removeAthleteFields } = useAthleteFields();
+  const { edit: editEventFields, remove: removeEventFields } = useEventFields();
 
   const single = !Array.isArray(items);
   const empty = Array.isArray(items) ? items?.length === 0 : !items;
@@ -99,6 +99,14 @@ export const ContentFieldMedia = ({
     },
     [contentType, removeAthleteFields, removeEventFields]
   );
+
+  const reorderItems = useCallback((items: Media) => {
+    if (contentType === CONTENT_TYPES.EVENT) {
+      editEventFields({key: fieldKey, value: items})
+    } else {
+      editAthleteFields({key: fieldKey, value: items})
+    }
+  }, [contentType, editAthleteFields, editEventFields, fieldKey])
 
   const resolveActionsForItem = useCallback(
     (item: Media) => {
@@ -137,6 +145,7 @@ export const ContentFieldMedia = ({
       Array.isArray(items) ? (
         <DraggableList
           items={items}
+          onDragEnd={reorderItems}
           renderItem={(item: Media) => (
             <ListItem item={item} menuItems={resolveActionsForItem(item)} />
           )}
@@ -144,7 +153,7 @@ export const ContentFieldMedia = ({
       ) : (
         items && <ListItem item={items} menuItems={resolveActionsForItem(items)} />
       ),
-    [items, resolveActionsForItem]
+    [items, reorderItems, resolveActionsForItem]
   );
 
   return (

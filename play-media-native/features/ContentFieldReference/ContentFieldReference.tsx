@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
@@ -8,6 +8,8 @@ import { useEventFields } from '../../hooks/useEventFields/useEventFields';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
+import { CONTENT_TYPES } from '../../constants/contentTypes';
+import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
 
 export const ContentFieldReference = ({
   addRoute,
@@ -30,8 +32,18 @@ export const ContentFieldReference = ({
   single?: boolean;
   style?: StyleProp<any>;
 }) => {
-  const { eventFields } = useEventFields();
+  const { edit: editEventFields, eventFields } = useEventFields();
+  const { edit: editAthleteFields, athleteFields } = useAthleteFields();
+
   const navigation = useNavigation<StackNavigationProp>();
+
+  const reorderItems = useCallback((items: any) => {
+    if (contentType === CONTENT_TYPES.EVENT) {
+      editEventFields({key: fieldKey, value: items})
+    } else {
+      editAthleteFields({key: fieldKey, value: items})
+    }
+  }, [contentType, editAthleteFields, editEventFields, fieldKey])
 
   // const handleCreateNew = useCallback(() => {
   //   navigation.navigate(createRoute, {
@@ -49,6 +61,14 @@ export const ContentFieldReference = ({
       single,
     });
   }, [addRoute, contentType, fieldKey, initialRoute, navigation, single]);
+
+  const items = useMemo(() => {
+    if (contentType === CONTENT_TYPES.EVENT) {
+      return eventFields[fieldKey]
+    }
+
+    return athleteFields[fieldKey];
+  }, [athleteFields, contentType, eventFields, fieldKey])
 
   return (
     <View style={style}>
@@ -83,7 +103,7 @@ export const ContentFieldReference = ({
           Add
         </Button>
       </View>
-      <DraggableList items={eventFields[fieldKey]} renderItem={renderItem} />
+      <DraggableList items={items} onDragEnd={reorderItems} renderItem={renderItem} />
     </View>
   );
 };

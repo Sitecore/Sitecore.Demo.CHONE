@@ -1,18 +1,19 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Pressable, StyleProp } from 'react-native';
 import { NestableDraggableFlatList, ScaleDecorator } from 'react-native-draggable-flatlist';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export const DraggableList = ({
   items,
+  onDragEnd,
   renderItem,
   style,
 }: {
   items: any;
+  onDragEnd: (items: any) => void;
   renderItem: any;
   style?: StyleProp<any>;
 }) => {
-  const [data, setData] = useState(items.map((item: any) => ({ ...item, key: item.id })));
   const renderer = useCallback(
     ({ item, drag, isActive }: any) => (
       <Pressable onLongPress={drag} disabled={isActive} delayLongPress={300}>
@@ -21,22 +22,21 @@ export const DraggableList = ({
     ),
     [renderItem]
   );
+  const handleDrag = useCallback(({ data }) => {
+    onDragEnd(data);
+  }, [onDragEnd])
 
-  // update data on props change
-  //
-  useEffect(() => {
-    setData(items.map((item: any) => ({ ...item, key: item.id })));
-  }, [items]);
+  const displayedItems = useMemo(() => items.map((item: any) => ({ ...item, key: item.id })), [items])
 
-  if (!data?.length) {
+  if (!items?.length) {
     return null;
   }
 
   return (
     <GestureHandlerRootView>
       <NestableDraggableFlatList
-        data={data}
-        onDragEnd={({ data }) => setData(data)}
+        data={displayedItems}
+        onDragEnd={handleDrag}
         keyExtractor={(item: any) => item.key}
         renderItem={renderer}
         style={style}
