@@ -90,7 +90,7 @@ export const RichTextEditor = ({
           }}
         />
         <View style={pageStyles.scrollContainerStyle}>
-          <ScrollView ref={richTextScroll} style={pageStyles.scrollContainerStyle}>
+          <ScrollView ref={richTextScroll} style={pageStyles.scrollContainerStyle} nestedScrollEnabled>
             <RichEditor
               editorStyle={pageStyles.richTextEditorStyle}
               initialHeight={pageStyles.scrollContainerStyle.height}
