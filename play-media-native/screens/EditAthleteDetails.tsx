@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -77,18 +77,22 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   }
 
   // TODO Add state for media items
-  const handleAddMedia = (id: string, title: string) => {
-    navigation.navigate('AddMedia', {
-      id,
-      title,
-    });
-  };
+  // const handleAddMedia = (id: string, title: string) => {
+  //   navigation.navigate('AddMedia', {
+  //     id,
+  //     title,
+  //   });
+  // };
 
   return (
     <Screen>
       <ScrollView style={styles.screenPadding}>
         <View>
-          <SportPicker sports={sports} initialValue={athlete.sport?.results[0]?.title} />
+          <SportPicker
+            onChange={() => {}}
+            sports={sports}
+            initialValue={athlete.sport?.results[0]?.title}
+          />
         </View>
         <View>
           <InputText onChange={handleChangeName} value={name} title="Athlete name" />
@@ -101,13 +105,16 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
             onSelectionChange={({ nativeEvent: { selection } }) => setQuoteInputCursor(selection)}
             onPressIn={() => setQuoteInputCursor({ start: quote.length, end: quote.length })}
           />
-          <InputText
-            value={getDate(birthDate)}
-            title="Birth date"
-            showSoftInputOnFocus={false}
-            caretHidden
-            onTouchStart={() => setShowBirthDatePicker(true)}
-          />
+          <Pressable onPress={() => setShowBirthDatePicker(true)}>
+            <View pointerEvents="none">
+              <InputText
+                value={getDate(birthDate)}
+                title="Birth date"
+                showSoftInputOnFocus={false}
+                caretHidden
+              />
+            </View>
+          </Pressable>
           {showBirthDatePicker && (
             <DatePicker
               value={birthDate}
@@ -123,6 +130,16 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
             caretHidden
             onTouchStart={() => setShowCareerStartDatePicker(true)}
           />
+          <Pressable onPress={() => setShowCareerStartDatePicker(true)}>
+            <View pointerEvents="none">
+              <InputText
+                value={getYear(careerStartDate)}
+                title="Career start"
+                showSoftInputOnFocus={false}
+                caretHidden
+              />
+            </View>
+          </Pressable>
           {showCareerStartDatePicker && (
             <DatePicker
               value={careerStartDate}
@@ -133,11 +150,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
           )}
           <InputText onChange={handleChangeHobby} value={hobby} title="Hobby" />
         </View>
-        <AthleteImages
-          athlete={athlete}
-          isEditMode
-          onAddBtnPress={() => handleAddMedia(athlete.id, athlete.athleteName)}
-        />
+        <AthleteImages athlete={athlete} isEditMode />
       </ScrollView>
       <BottomActions
         style={{

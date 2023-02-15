@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { DatePicker } from '../../components/DatePicker/DatePicker';
 import { InputText } from '../../components/InputText/InputText';
@@ -16,13 +16,16 @@ export const Content = () => {
   return (
     <View style={{ marginTop: theme.spacing.lg }}>
       <InputText onChange={handleChangeQuote} value={quote} title="Quote" />
-      <InputText
-        value={getYear(careerStartDate)}
-        title="Career start"
-        showSoftInputOnFocus={false}
-        caretHidden
-        onTouchStart={() => setShowCareerStartDatePicker(true)}
-      />
+      <Pressable onPress={() => setShowCareerStartDatePicker(true)}>
+        <View pointerEvents="none">
+          <InputText
+            value={getYear(careerStartDate)}
+            title="Career start"
+            showSoftInputOnFocus={false}
+            caretHidden
+          />
+        </View>
+      </Pressable>
       {showCareerStartDatePicker && (
         <DatePicker
           value={careerStartDate}
