@@ -144,6 +144,10 @@ const getEventByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
         relatedMedia {
@@ -152,6 +156,10 @@ const getEventByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
         teaser
