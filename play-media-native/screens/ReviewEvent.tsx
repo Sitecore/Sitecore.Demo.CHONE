@@ -120,10 +120,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
-        .catch((e) => {
-          console.log("error", e);
-          setShowErrorToast(true)
-        })
+        .catch(() => setShowErrorToast(true))
         .finally(() => setIsValidating(false));
     }
   }, [event, isNew, processResponse]);
@@ -157,6 +154,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     ),
     [handleDraft, handleSubmitBtn]
   );
+
+  console.log("event", event)
 
   if (!event) {
     return (
