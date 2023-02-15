@@ -1,26 +1,24 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Button, Text } from "react-native-paper";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { theme } from "../theme/theme";
-import { getDate, getTime } from "../helpers/dateHelper";
-import { CardAvatar } from "../features/CardAvatar/CardAvatar";
-import { Athlete } from "../interfaces/athlete";
-import { RichText } from "../features/RichText/RichText";
-import { getAccentColor } from "../helpers/colorHelper";
-import { Media } from "../interfaces/media";
-import { ImageGrid } from "../features/ImageGrid/ImageGrid";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import { CardEvent } from "../features/CardEvent/CardEvent";
-import { Event, EventResponse } from "../interfaces/event";
-import {
-  createContentItem,
-  updateContentItem,
-} from "../api/queries/contentItems";
-import { mapContentItem } from "../helpers/contentItemHelper";
-import { CONTENT_TYPES } from "../constants/contentTypes";
-import { Toast } from "../components/Toast/Toast";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Button, Text } from 'react-native-paper';
+
+import { createContentItem, updateContentItem } from '../api/queries/contentItems';
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { Toast } from '../components/Toast/Toast';
+import { CONTENT_TYPES } from '../constants/contentTypes';
+import { CardAvatar } from '../features/CardAvatar/CardAvatar';
+import { CardEvent } from '../features/CardEvent/CardEvent';
+import { ImageGrid } from '../features/ImageGrid/ImageGrid';
+import { RichText } from '../features/RichText/RichText';
+import { Screen } from '../features/Screen/Screen';
+import { getAccentColor } from '../helpers/colorHelper';
+import { mapContentItem } from '../helpers/contentItemHelper';
+import { getDate, getTime } from '../helpers/dateHelper';
+import { Athlete } from '../interfaces/athlete';
+import { Event, EventResponse } from '../interfaces/event';
+import { Media } from '../interfaces/media';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -32,12 +30,12 @@ const pageStyles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   bottomFAB: {
-    position: "absolute",
+    position: 'absolute',
     right: theme.spacing.sm,
     bottom: theme.spacing.xs,
   },
   button: {
-    position: "absolute",
+    position: 'absolute',
     right: -theme.spacing.sm,
     top: -theme.spacing.xs,
   },
@@ -51,7 +49,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const event = route?.params?.event as Event;
 
   // TODO Retrieve event to review from global store
-  let eventToReview = undefined as EventResponse;
+  const eventToReview = undefined as EventResponse;
 
   const [newEventID, setNewEventID] = useState(undefined);
 
@@ -84,10 +82,10 @@ export const ReviewEventScreen = ({ navigation, route }) => {
 
   const handleSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
-    navigation.navigate("MainTabs", {
+    navigation.navigate('MainTabs', {
       id: newEventID,
     });
-  }, [newEventID]);
+  }, [navigation, newEventID]);
 
   const handleErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
@@ -102,9 +100,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
 
     // Map eventToReview object to a form suitable for the API request
     const requestFields = mapContentItem(eventToReview, (k, v) => ({
-      value: v?.["results"]
-        ? [...v["results"].map((obj: { id: string }) => ({ id: obj.id }))]
-        : v,
+      value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
     }));
     // Delete the id, name from the request fields to avoid errors
     delete requestFields.id;
@@ -129,12 +125,9 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         .catch(() => setShowErrorToast(true))
         .finally(() => setIsValidating(false));
     }
-  }, []);
+  }, [eventToReview, isNewEvent, processResponse]);
 
-  const accentColor = useMemo(
-    () => getAccentColor(event?.sport?.title),
-    [event]
-  );
+  const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
 
   const imageUriArray = useMemo(() => {
     return event?.relatedMedia.map((img: Media) => img.fileUrl);
@@ -161,7 +154,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         </Button>
       </BottomActions>
     ),
-    [event, handleSubmitBtn]
+    [handleDraft, handleSubmitBtn]
   );
 
   if (!event) {
@@ -187,7 +180,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
               },
             ]}
           >
-            {event.sport.title || ""}
+            {event.sport.title || ''}
           </Text>
         </View>
         <View>
@@ -214,10 +207,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           </Text>
           <RichText body={event.body.content} accentColor={accentColor} />
         </View>
-        <ImageGrid
-          images={imageUriArray}
-          style={{ marginTop: theme.spacing.lg }}
-        />
+        <ImageGrid images={imageUriArray} style={{ marginTop: theme.spacing.lg }} />
         <View style={{ marginTop: theme.spacing.lg }}>
           {event.athletes.map((athlete: Athlete) => (
             <CardAvatar key={athlete.id} item={athlete} />
@@ -237,22 +227,14 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       )}
       <Toast
         duration={2000}
-        message={
-          isNewEvent
-            ? "Event created successfully!"
-            : "Event updated successfully!"
-        }
+        message={isNewEvent ? 'Event created successfully!' : 'Event updated successfully!'}
         onDismiss={handleSuccessToastDismiss}
         visible={showSuccessToast}
         type="success"
       />
       <Toast
         duration={2000}
-        message={
-          isNewEvent
-            ? "Event could not be created"
-            : "Event could not be updated"
-        }
+        message={isNewEvent ? 'Event could not be created' : 'Event could not be updated'}
         onDismiss={handleErrorToastDismiss}
         visible={showErrorToast}
         type="warning"

@@ -1,22 +1,23 @@
-import { useCallback, useMemo, useState } from "react";
-import { useQuery } from "react-query";
-import { getAllEvents } from "../api/queries/getEvents";
-import { Listing } from "../components/Listing/Listing";
-import { CardEvent } from "../features/CardEvent/CardEvent";
-import { Event } from "../interfaces/event";
-import { StatusBar } from "react-native";
-import { AnimatedFAB } from "react-native-paper";
-import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
-import { styles } from "../theme/styles";
-import { EventFilters } from "../features/EventFilters/EventFilters";
-import { getAllSports } from "../api/queries/getSports";
-import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
-import { Screen } from "../features/Screen/Screen";
-import { EVENT_FACETS } from "../constants/filters";
-import { useFacets } from "../hooks/useFacets/useFacets";
-import { getLocationOptions, getSportOptions } from "../helpers/facets";
-import { initializeEvents } from "../helpers/events";
-import { useEventFields } from "../hooks/useEventFields/useEventFields";
+import { useCallback, useMemo, useState } from 'react';
+import { StatusBar } from 'react-native';
+import { AnimatedFAB } from 'react-native-paper';
+import { useQuery } from 'react-query';
+
+import { getAllEvents } from '../api/queries/getEvents';
+import { getAllSports } from '../api/queries/getSports';
+import { Listing } from '../components/Listing/Listing';
+import { EVENT_FACETS } from '../constants/filters';
+import { CardEvent } from '../features/CardEvent/CardEvent';
+import { EventFilters } from '../features/EventFilters/EventFilters';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
+import { Screen } from '../features/Screen/Screen';
+import { initializeEvents } from '../helpers/events';
+import { getLocationOptions, getSportOptions } from '../helpers/facets';
+import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { useFacets } from '../hooks/useFacets/useFacets';
+import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { Event } from '../interfaces/event';
+import { styles } from '../theme/styles';
 
 export const EventsListingScreen = ({ navigation }) => {
   const { init } = useEventFields();
@@ -25,16 +26,16 @@ export const EventsListingScreen = ({ navigation }) => {
     isLoading: isFetchingInitialEvents,
     refetch: refetchEvents,
     isRefetching: isRefetchingEvents,
-  } = useQuery("events", () => getAllEvents());
+  } = useQuery('events', () => getAllEvents());
   const {
     data: sports,
     isLoading: isFetchingInitialSports,
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
-  } = useQuery("sports", () => getAllSports());
+  } = useQuery('sports', () => getAllSports());
   const [facets, setFacets] = useState<Record<string, any>>({
-    [EVENT_FACETS.sport]: "",
-    [EVENT_FACETS.location]: "",
+    [EVENT_FACETS.sport]: '',
+    [EVENT_FACETS.location]: '',
   });
   const filteredEvents = useFacets({
     initialItems: events?.length ? initializeEvents(events, sports) : [],
@@ -51,12 +52,12 @@ export const EventsListingScreen = ({ navigation }) => {
   const handleRefresh = useCallback(() => {
     refetchEvents();
     refetchSports();
-  }, []);
+  }, [refetchEvents, refetchSports]);
 
   const onCardPress = useCallback(
     (event: Event) => {
       init(event);
-      navigation.navigate("EventDetail");
+      navigation.navigate('EventDetail');
     },
     [init, navigation]
   );
@@ -67,7 +68,7 @@ export const EventsListingScreen = ({ navigation }) => {
 
   return (
     <Screen>
-      <StatusBar barStyle={"light-content"} />
+      <StatusBar barStyle="light-content" />
       <EventFilters
         filters={facets}
         locationOptions={locationOptions}
@@ -76,9 +77,7 @@ export const EventsListingScreen = ({ navigation }) => {
       />
       <Listing
         data={filteredEvents}
-        renderItem={({ item }) => (
-          <CardEvent item={item} onCardPress={() => onCardPress(item)} />
-        )}
+        renderItem={({ item }) => <CardEvent item={item} onCardPress={() => onCardPress(item)} />}
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingEvents || isRefetchingSports}
@@ -87,12 +86,12 @@ export const EventsListingScreen = ({ navigation }) => {
         }}
       />
       <AnimatedFAB
-        icon={"plus"}
-        label={"Add new event"}
+        icon="plus"
+        label="Add new event"
         extended={isTopEdge}
-        onPress={() => navigation.navigate("AddEvent")}
-        animateFrom={"right"}
-        iconMode={"dynamic"}
+        onPress={() => navigation.navigate('AddEvent')}
+        animateFrom="right"
+        iconMode="dynamic"
         style={styles.fab}
       />
     </Screen>

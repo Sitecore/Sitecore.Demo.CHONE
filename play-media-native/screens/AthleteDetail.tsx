@@ -1,38 +1,28 @@
-import { useQuery } from "react-query";
-import { getAthleteById } from "../api/queries/getAthletes";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  ActivityIndicator,
-  AnimatedFAB,
-  Button,
-  Text,
-} from "react-native-paper";
-import { View, StyleSheet, ScrollView } from "react-native";
-import { theme } from "../theme/theme";
-import { CardShadowBox } from "../features/CardShadowBox/CardShadowBox";
-import { getDate, getYear } from "../helpers/dateHelper";
-import { getAccentColor, getTextColor } from "../helpers/colorHelper";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { LoadingScreen } from "../features/LoadingScreen/LoadingScreen";
-import { AthleteImages } from "../features/Screens/AthleteImages";
-import { useScrollOffset } from "../hooks/useScrollOffset/useScrollOffset";
-import { Screen } from "../features/Screen/Screen";
-import { styles } from "../theme/styles";
-import { Athlete } from "../interfaces/athlete";
-import { BottomActions } from "../components/BottomActions/BottomActions";
-import {
-  createContentItem,
-  updateContentItem,
-} from "../api/queries/contentItems";
-import { mapContentItem } from "../helpers/contentItemHelper";
-import { CONTENT_TYPES } from "../constants/contentTypes";
-import { Toast } from "../components/Toast/Toast";
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { ActivityIndicator, AnimatedFAB, Button, Text } from 'react-native-paper';
+import { useQuery } from 'react-query';
+
+import { getAthleteById } from '../api/queries/getAthletes';
+import { BottomActions } from '../components/BottomActions/BottomActions';
+import { Toast } from '../components/Toast/Toast';
+import { CardShadowBox } from '../features/CardShadowBox/CardShadowBox';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
+import { Screen } from '../features/Screen/Screen';
+import { AthleteImages } from '../features/Screens/AthleteImages';
+import { getAccentColor, getTextColor } from '../helpers/colorHelper';
+import { getDate, getYear } from '../helpers/dateHelper';
+import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { Athlete } from '../interfaces/athlete';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 const pageStyles = StyleSheet.create({
   sportAndNameContainer: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
   },
   label: {
     fontFamily: theme.fontFamily.bold,
@@ -46,28 +36,28 @@ const pageStyles = StyleSheet.create({
     marginVertical: theme.spacing.xs,
   },
   quoteContainer: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     paddingHorizontal: theme.spacing.xs,
   },
   quotationMark: {
     fontSize: 80,
     fontFamily: theme.fontFamily.italic,
-    textAlign: "center",
+    textAlign: 'center',
     lineHeight: 100,
-    flexBasis: "15%",
+    flexBasis: '15%',
   },
   quote: {
     fontSize: theme.fontSize.lg,
     lineHeight: theme.spacing.lg,
     fontFamily: theme.fontFamily.italic,
-    flexBasis: "70%",
+    flexBasis: '70%',
     paddingVertical: theme.spacing.lg,
-    textAlign: "center",
+    textAlign: 'center',
   },
   infoContainer: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: theme.colors.black.light,
     paddingTop: theme.spacing.sm,
   },
@@ -83,7 +73,7 @@ const pageStyles = StyleSheet.create({
     fontFamily: theme.fontFamily.bold,
   },
   bottomFAB: {
-    position: "absolute",
+    position: 'absolute',
     right: theme.spacing.sm,
     bottom: theme.spacing.xs,
   },
@@ -103,7 +93,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
-  const [newAthleteID, setNewAthleteID] = useState(undefined);
+  const [newAthleteID] = useState(undefined);
 
   const isReview = route.params.isReview;
   const isNewAthlete = route.params.isNewAthlete;
@@ -112,7 +102,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     navigation.setOptions({
       title: route.params.title,
     });
-  }, []);
+  }, [navigation, route.params]);
 
   // Hide bottom action buttons if a loading indicator or a toaster is shown
   useEffect(() => {
@@ -126,15 +116,15 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (isReview) {
       // TODO Retrieve athlete to review from global store
-      let athleteToReview = undefined;
+      const athleteToReview = undefined;
 
       if (!athleteToReview) {
-        return setError("Redux error");
+        return setError('Redux error');
       }
 
       setAthlete(athleteToReview);
     }
-  }, []);
+  }, [isReview]);
 
   const displayError = useCallback((e: unknown) => {
     console.error(e);
@@ -145,68 +135,70 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     );
   }, []);
 
-  const processResponse = useCallback((res: { id: string; name: string }) => {
-    setNewAthleteID(res.id);
-    setShowSuccessToast(true);
-  }, []);
+  // const processResponse = useCallback((res: { id: string; name: string }) => {
+  //   setNewAthleteID(res.id);
+  //   setShowSuccessToast(true);
+  // }, []);
 
   const handleSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
-    navigation.navigate("MainTabs", {
-      screen: "Athletes",
+    navigation.navigate('MainTabs', {
+      screen: 'Athletes',
       id: newAthleteID,
     });
-  }, [newAthleteID]);
+  }, [navigation, newAthleteID]);
 
   const handleErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
   }, []);
 
-  const handleEditInfo = useCallback((id: string, title: string) => {
-    navigation.navigate("EditAthleteDetails", {
-      id,
-      title,
-    });
-  }, []);
+  const handleEditInfo = useCallback(
+    (id: string, title: string) => {
+      navigation.navigate('EditAthleteDetails', {
+        id,
+        title,
+      });
+    },
+    [navigation]
+  );
 
   // TODO Save as draft functionality
   const handleDraftBtn = useCallback(() => {}, []);
 
   const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
+  }, []);
 
-  const handlePublishBtn = useCallback(async () => {
-    setIsValidating(true);
+  // const handlePublishBtn = useCallback(async () => {
+  //   setIsValidating(true);
 
-    // Map athlete object to a form suitable for the API request
-    const requestFields = mapContentItem(athlete, (k, v) => ({
-      value: v?.["results"]
-        ? [...v["results"].map((obj: { id: string }) => ({ id: obj.id }))]
-        : v,
-    }));
-    // Delete the id from the request fields to avoid errors
-    delete requestFields.id;
+  //   // Map athlete object to a form suitable for the API request
+  //   const requestFields = mapContentItem(athlete, (k, v) => ({
+  //     value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
+  //   }));
+  //   // Delete the id from the request fields to avoid errors
+  //   delete requestFields.id;
 
-    if (isNewAthlete) {
-      await createContentItem({
-        contentTypeId: CONTENT_TYPES.ATHLETE,
-        name: athlete.athleteName,
-        fields: requestFields,
-      })
-        .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
-        .finally(() => setIsValidating(false));
-    } else {
-      await updateContentItem({
-        id: athlete.id,
-        name: athlete.athleteName,
-        fields: requestFields,
-      })
-        .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
-        .finally(() => setIsValidating(false));
-    }
-  }, [isNewAthlete, athlete]);
+  //   if (isNewAthlete) {
+  //     await createContentItem({
+  //       contentTypeId: CONTENT_TYPES.ATHLETE,
+  //       name: athlete.athleteName,
+  //       fields: requestFields,
+  //     })
+  //       .then((res: { id: string; name: string }) => processResponse(res))
+  //       .catch(() => setShowErrorToast(true))
+  //       .finally(() => setIsValidating(false));
+  //   } else {
+  //     await updateContentItem({
+  //       id: athlete.id,
+  //       name: athlete.athleteName,
+  //       fields: requestFields,
+  //     })
+  //       .then((res: { id: string; name: string }) => processResponse(res))
+  //       .catch(() => setShowErrorToast(true))
+  //       .finally(() => setIsValidating(false));
+  //   }
+  // }, [isNewAthlete, athlete]);
 
   const bottomActions = useMemo(
     () =>
@@ -232,41 +224,26 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       ) : (
         <AnimatedFAB
           icon={({ size }) => (
-            <FontAwesomeIcon
-              icon={faEdit}
-              color={theme.colors.black.DEFAULT}
-              size={size}
-            />
+            <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
           )}
-          label={"Edit"}
+          label="Edit"
           extended={isTopEdge}
           onPress={() => handleEditInfo(athlete.id, athlete.athleteName)}
           style={pageStyles.bottomFAB}
         />
       ),
-    [
-      athlete,
-      isTopEdge,
-      isReview,
-      handleEditInfo,
-      handleDraftBtn,
-      handleSubmitBtn,
-    ]
+    [athlete, isTopEdge, isReview, handleEditInfo, handleDraftBtn, handleSubmitBtn]
   );
 
-  const { data, isFetching } = useQuery(
-    "athlete",
-    () => getAthleteById(route.params.id),
-    {
-      enabled: !route.params.isReview,
-      onSuccess: (data) => {
-        setAthlete(data.athlete);
-      },
-      onError: (error) => {
-        setError(error);
-      },
-    }
-  );
+  const { isFetching } = useQuery('athlete', () => getAthleteById(route.params.id), {
+    enabled: !route.params.isReview,
+    onSuccess: (data) => {
+      setAthlete(data.athlete);
+    },
+    onError: (error) => {
+      setError(error);
+    },
+  });
 
   if (error) {
     return displayError(error);
@@ -277,8 +254,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   }
 
   const accentColor =
-    getAccentColor(athlete?.sport?.results[0]?.title) ||
-    theme.colors.gray.DEFAULT;
+    getAccentColor(athlete?.sport?.results[0]?.title) || theme.colors.gray.DEFAULT;
   const textColor = getTextColor(accentColor) || theme.colors.white.DEFAULT;
 
   return (
@@ -286,14 +262,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
         <View style={pageStyles.sportAndNameContainer}>
           <View style={{ marginRight: theme.spacing.xl }}>
-            <Text
-              style={[
-                pageStyles.label,
-                { paddingHorizontal: theme.spacing.sm },
-              ]}
-            >
-              Sport
-            </Text>
+            <Text style={[pageStyles.label, { paddingHorizontal: theme.spacing.sm }]}>Sport</Text>
             <Text
               style={[
                 pageStyles.item,
@@ -333,15 +302,9 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
                   },
                 ]}
               >
-                <Text style={[pageStyles.quotationMark, { color: textColor }]}>
-                  "
-                </Text>
-                <Text style={[pageStyles.quote, { color: textColor }]}>
-                  {athlete.athleteQuote}
-                </Text>
-                <Text style={[pageStyles.quotationMark, { color: textColor }]}>
-                  "
-                </Text>
+                <Text style={[pageStyles.quotationMark, { color: textColor }]}>"</Text>
+                <Text style={[pageStyles.quote, { color: textColor }]}>{athlete.athleteQuote}</Text>
+                <Text style={[pageStyles.quotationMark, { color: textColor }]}>"</Text>
               </View>
             </CardShadowBox>
           </View>
@@ -353,13 +316,9 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
                 <Text style={pageStyles.infoLabel}>Hobby</Text>
                 <Text style={pageStyles.infoItem}>{athlete.hobby}</Text>
                 <Text style={pageStyles.infoLabel}>Date of birth</Text>
-                <Text style={pageStyles.infoItem}>
-                  {getDate(athlete.dateOfBirth)}
-                </Text>
+                <Text style={pageStyles.infoItem}>{getDate(athlete.dateOfBirth)}</Text>
                 <Text style={pageStyles.infoLabel}>Career start</Text>
-                <Text style={pageStyles.infoItem}>
-                  {getYear(athlete.careerStartDate)}
-                </Text>
+                <Text style={pageStyles.infoItem}>{getYear(athlete.careerStartDate)}</Text>
               </View>
             </CardShadowBox>
           </View>
@@ -373,22 +332,14 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
       )}
       <Toast
         duration={2000}
-        message={
-          isNewAthlete
-            ? "Athlete created successfully!"
-            : "Athlete updated successfully!"
-        }
+        message={isNewAthlete ? 'Athlete created successfully!' : 'Athlete updated successfully!'}
         onDismiss={handleSuccessToastDismiss}
         visible={showSuccessToast}
         type="success"
       />
       <Toast
         duration={2000}
-        message={
-          isNewAthlete
-            ? "Athlete could not be created"
-            : "Athlete could not be updated"
-        }
+        message={isNewAthlete ? 'Athlete could not be created' : 'Athlete could not be updated'}
         onDismiss={handleErrorToastDismiss}
         visible={showErrorToast}
         type="warning"
