@@ -17,17 +17,19 @@ export const AthleteFilters = ({
   onChange: (key: string, value: any) => void;
   sportOptions: DropdownItem[];
 }) => {
-  const { setAthleteFiltersActive, visible } = useFilters();
+  const { visible, setAthleteFiltersActive, setAthleteFilterValues } = useFilters();
 
   const handleFacetsChange = useCallback(
     (id: string, item: DropdownItem) => {
       const newFilters = { ...filters, [id]: item.value };
-      const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
+      setAthleteFilterValues(newFilters);
 
+      const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
       setAthleteFiltersActive(activeFilters);
+
       onChange(id, item.value);
     },
-    [filters, onChange, setAthleteFiltersActive]
+    [filters, onChange, setAthleteFiltersActive, setAthleteFilterValues]
   );
 
   const facetFilters = useMemo(
