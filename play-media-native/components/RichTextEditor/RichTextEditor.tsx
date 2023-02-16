@@ -1,13 +1,13 @@
-import { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 
-import { generateHtml } from './generateHtml';
-import generateJson from './generateJson';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { Icon } from '../Icon/Icon';
+import { generateHtml } from './generateHtml';
+import generateJson from './generateJson';
 
 export const RichTextEditor = ({
   initialValue,
@@ -25,13 +25,24 @@ export const RichTextEditor = ({
 
   const initialHtml = useMemo(() => generateHtml(initialValue), [initialValue]);
 
-  const richTextHandle = (descriptionText) => {
-    if (descriptionText) {
-      onChange(generateJson(descriptionText));
-    } else {
-      onChange(null);
-    }
-  };
+  const richTextHandle = useCallback(
+    (descriptionText: string) => {
+      if (descriptionText) {
+        onChange(generateJson(descriptionText));
+      } else {
+        onChange(null);
+      }
+    },
+    [onChange]
+  );
+
+  const onCursorPosition = useCallback((offsetY: number) => {
+    richTextScroll.current.scrollTo({
+      y: offsetY,
+      duration: 100,
+      animated: true,
+    });
+  }, []);
 
   return (
     <>
@@ -90,7 +101,11 @@ export const RichTextEditor = ({
           }}
         />
         <View style={pageStyles.scrollContainerStyle}>
-          <ScrollView ref={richTextScroll} style={pageStyles.scrollContainerStyle}>
+          <ScrollView
+            ref={richTextScroll}
+            style={pageStyles.scrollContainerStyle}
+            nestedScrollEnabled
+          >
             <RichEditor
               editorStyle={pageStyles.richTextEditorStyle}
               initialHeight={pageStyles.scrollContainerStyle.height}
@@ -98,16 +113,8 @@ export const RichTextEditor = ({
               pasteAsPlainText
               ref={richText}
               initialContentHTML={initialHtml}
-              onChange={(descriptionText) => {
-                richTextHandle(descriptionText);
-              }}
-              onCursorPosition={(offsetY) => {
-                richTextScroll.current.scrollTo({
-                  y: offsetY,
-                  duration: 100,
-                  animated: true,
-                });
-              }}
+              onChange={richTextHandle}
+              onCursorPosition={onCursorPosition}
             />
           </ScrollView>
         </View>
