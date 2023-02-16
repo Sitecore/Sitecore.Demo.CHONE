@@ -74,7 +74,7 @@ export const EditEventScreen = ({ route, navigation }) => {
   const [body, setBody] = useState<any>(event?.body);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const handleBodyChange = useCallback((json: string) => setBody(json), [])
+  const handleBodyChange = useCallback((json: string) => setBody(json), []);
 
   const deleteItem = useCallback(
     (key: string, item: any) => {

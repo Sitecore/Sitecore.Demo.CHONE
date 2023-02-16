@@ -1,16 +1,13 @@
-import { useCallback, useMemo, useRef } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { HelperText } from "react-native-paper";
-import {
-  actions,
-  RichEditor,
-  RichToolbar,
-} from "react-native-pell-rich-editor";
-import { styles } from "../../theme/styles";
-import { theme } from "../../theme/theme";
-import { Icon } from "../Icon/Icon";
-import { generateHtml } from "./generateHtml";
-import generateJson from "./generateJson";
+import { useCallback, useMemo, useRef } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { HelperText } from 'react-native-paper';
+import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
+
+import { generateHtml } from './generateHtml';
+import generateJson from './generateJson';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
+import { Icon } from '../Icon/Icon';
 
 export const RichTextEditor = ({
   initialValue,
@@ -28,13 +25,16 @@ export const RichTextEditor = ({
 
   const initialHtml = useMemo(() => generateHtml(initialValue), [initialValue]);
 
-  const richTextHandle = useCallback((descriptionText: string) => {
-    if (descriptionText) {
-      onChange(generateJson(descriptionText));
-    } else {
-      onChange(null);
-    }
-  }, [onChange]);
+  const richTextHandle = useCallback(
+    (descriptionText: string) => {
+      if (descriptionText) {
+        onChange(generateJson(descriptionText));
+      } else {
+        onChange(null);
+      }
+    },
+    [onChange]
+  );
 
   const onCursorPosition = useCallback((offsetY: number) => {
     richTextScroll.current.scrollTo({
@@ -42,7 +42,7 @@ export const RichTextEditor = ({
       duration: 100,
       animated: true,
     });
-  }, [])
+  }, []);
 
   return (
     <>
@@ -61,9 +61,7 @@ export const RichTextEditor = ({
             actions.blockquote,
           ]}
           iconMap={{
-            [actions.heading1]: ({ tintColor }) => (
-              <Text style={[{ color: tintColor }]}>H1</Text>
-            ),
+            [actions.heading1]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H1</Text>,
           }}
           selectedIconTint={theme.colors.blue.light}
           iconTint={theme.colors.black.DEFAULT}
@@ -87,24 +85,12 @@ export const RichTextEditor = ({
             actions.redo,
           ]}
           iconMap={{
-            [actions.heading1]: ({ tintColor }) => (
-              <Text style={[{ color: tintColor }]}>H1</Text>
-            ),
-            [actions.heading2]: ({ tintColor }) => (
-              <Text style={[{ color: tintColor }]}>H2</Text>
-            ),
-            [actions.heading3]: ({ tintColor }) => (
-              <Text style={[{ color: tintColor }]}>H3</Text>
-            ),
-            [actions.heading4]: ({ tintColor }) => (
-              <Text style={[{ color: tintColor }]}>H4</Text>
-            ),
-            [actions.heading5]: ({ tintColor }) => (
-              <Text style={[{ color: tintColor }]}>H5</Text>
-            ),
-            [actions.heading6]: ({ tintColor }) => (
-              <Text style={[{ color: tintColor }]}>H6</Text>
-            ),
+            [actions.heading1]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H1</Text>,
+            [actions.heading2]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H2</Text>,
+            [actions.heading3]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H3</Text>,
+            [actions.heading4]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H4</Text>,
+            [actions.heading5]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H5</Text>,
+            [actions.heading6]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H6</Text>,
           }}
           selectedIconTint={theme.colors.blue.light}
           iconTint={theme.colors.black.DEFAULT}
@@ -124,7 +110,7 @@ export const RichTextEditor = ({
               editorStyle={pageStyles.richTextEditorStyle}
               initialHeight={pageStyles.scrollContainerStyle.height}
               initialFocus={false}
-              pasteAsPlainText={true}
+              pasteAsPlainText
               ref={richText}
               initialContentHTML={initialHtml}
               onChange={richTextHandle}
@@ -133,12 +119,8 @@ export const RichTextEditor = ({
           </ScrollView>
         </View>
         {showError && (
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Icon
-              name="warning-outline"
-              color={theme.colors.pink.DEFAULT}
-              size={16}
-            />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon name="warning-outline" color={theme.colors.pink.DEFAULT} size={16} />
             <HelperText type="error" visible>
               {errorText}
             </HelperText>
