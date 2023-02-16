@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { DatePicker } from '../../components/DatePicker/DatePicker';
 import { InputText } from '../../components/InputText/InputText';
@@ -22,13 +22,16 @@ export const General = ({ sports }: GeneralProps) => {
     <View style={{ marginTop: theme.spacing.lg }}>
       <InputText onChange={handleChangeName} value={name} title="Athlete name" />
       <InputText onChange={handleChangeNationality} value={nationality} title="Nationality" />
-      <InputText
-        value={getDate(birthDate)}
-        title="Birth date"
-        showSoftInputOnFocus={false}
-        caretHidden
-        onTouchStart={() => setShowBirthDatePicker(true)}
-      />
+      <Pressable onPress={() => setShowBirthDatePicker(true)}>
+        <View pointerEvents="none">
+          <InputText
+            value={getDate(birthDate)}
+            title="Birth date"
+            showSoftInputOnFocus={false}
+            caretHidden
+          />
+        </View>
+      </Pressable>
       {showBirthDatePicker && (
         <DatePicker
           value={birthDate}
@@ -37,7 +40,7 @@ export const General = ({ sports }: GeneralProps) => {
           onClose={setShowBirthDatePicker}
         />
       )}
-      <SportPicker sports={sports} />
+      <SportPicker onChange={() => {}} sports={sports} />
     </View>
   );
 };

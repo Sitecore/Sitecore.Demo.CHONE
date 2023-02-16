@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 import { Button, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
@@ -178,15 +178,17 @@ export const EditEventScreen = ({ route, navigation }) => {
             value={teaser}
             title="Teaser"
           />
-          <InputText
-            containerStyle={inputContainerStyle}
-            multiline
-            value={getDate(date)}
-            title="Event Date"
-            showSoftInputOnFocus={false}
-            caretHidden
-            onPressIn={() => setShowDatePicker(true)}
-          />
+          <Pressable onPress={() => setShowDatePicker(true)}>
+            <View pointerEvents="none">
+              <InputText
+                containerStyle={inputContainerStyle}
+                value={getDate(date)}
+                title="Event Date"
+                showSoftInputOnFocus={false}
+                caretHidden
+              />
+            </View>
+          </Pressable>
           {showDatePicker && (
             <DatePicker
               value={date}

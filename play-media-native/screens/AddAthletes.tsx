@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -7,12 +6,12 @@ import { getAllAthletes } from '../api/queries/getAthletes';
 import { getAllSports } from '../api/queries/getSports';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
+import { Listing } from '../components/Listing/Listing';
 import { SelectableView } from '../components/SelectableView/SelectableView';
 import { CONTENT_TYPES } from '../constants/contentTypes';
 import { ATHLETE_FACETS } from '../constants/filters';
 import { AthleteFiltersView } from '../features/AthleteFilters/AthleteFiltersView';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
-import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes, removeAlreadySelected } from '../helpers/athletes';
 import { getNationalityOptions, getSportOptions } from '../helpers/facets';
@@ -33,11 +32,18 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   const { eventFields, edit: editEventFields } = useEventFields();
   const { athleteFields, edit: editAthleteFields } = useAthleteFields();
 
-  const { data: athletes, isFetching: isFetchingAthletes } = useQuery('athletes', () =>
-    getAllAthletes()
-  );
-  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
-
+  const {
+    data: athletes,
+    isLoading: isFetchingInitialAthletes,
+    refetch: refetchAthletes,
+    isRefetching: isRefetchingAthletes,
+  } = useQuery('athletes', () => getAllAthletes());
+  const {
+    data: sports,
+    isLoading: isFetchingInitialSports,
+    refetch: refetchSports,
+    isRefetching: isRefetchingSports,
+  } = useQuery('sports', () => getAllSports());
   const [facets, setFacets] = useState<Record<string, any>>({
     [ATHLETE_FACETS.sport]: '',
     [ATHLETE_FACETS.nationality]: '',
@@ -89,6 +95,11 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
 
+  const handleRefresh = useCallback(() => {
+    refetchAthletes();
+    refetchSports();
+  }, [refetchAthletes, refetchSports]);
+
   const onSelect = useCallback((athlete: Athlete) => {
     setSelectedAthleteIDs((prevSelectedAthleteIDs) => {
       if (prevSelectedAthleteIDs.includes(athlete.id)) {
@@ -116,15 +127,12 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     navigation.navigate(initialRoute);
   }, [athletes, edit, fieldKey, initialRoute, navigation, selectedAthleteIDs]);
 
-  if (isFetchingAthletes || isFetchingSports) {
-    return <LoadingScreen />;
-  }
-
   return (
     <Screen>
       <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleFacetsChange} />
-      <FlatList
+      <Listing
         data={filteredAthletes}
+        isLoading={isFetchingInitialAthletes || isFetchingInitialSports}
         renderItem={({ item }) => (
           <SelectableView
             onSelect={() => onSelect(item as Athlete)}
@@ -134,7 +142,9 @@ export const AddAthletesScreen = ({ navigation, route }) => {
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
-        style={{ paddingHorizontal: theme.spacing.sm, marginBottom: 70 }}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefetchingAthletes || isRefetchingSports}
+        style={{ paddingHorizontal: theme.spacing.sm, marginBottom: 170 }}
       />
       <BottomActions>
         <Button

@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -7,12 +6,12 @@ import { getAllEvents } from '../api/queries/getEvents';
 import { getAllSports } from '../api/queries/getSports';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
+import { Listing } from '../components/Listing/Listing';
 import { SelectableView } from '../components/SelectableView/SelectableView';
 import { CONTENT_TYPES } from '../constants/contentTypes';
 import { EVENT_FACETS } from '../constants/filters';
 import { AthleteFiltersView } from '../features/AthleteFilters/AthleteFiltersView';
 import { CardEvent } from '../features/CardEvent/CardEvent';
-import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeEvents, removeAlreadySelected } from '../helpers/events';
 import { getLocationOptions, getSportOptions } from '../helpers/facets';
@@ -22,7 +21,6 @@ import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
-import { theme } from '../theme/theme';
 
 export const AddEventsScreen = ({ navigation, route }) => {
   const contentType = route?.params?.contentType;
@@ -33,8 +31,18 @@ export const AddEventsScreen = ({ navigation, route }) => {
   const { eventFields, edit: editEventFields } = useEventFields();
   const { athleteFields, edit: editAthleteFields } = useAthleteFields();
 
-  const { data: events, isFetching: isFetchingEvents } = useQuery('events', () => getAllEvents());
-  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
+  const {
+    data: events,
+    isLoading: isFetchingInitialEvents,
+    refetch: refetchEvents,
+    isRefetching: isRefetchingEvents,
+  } = useQuery('events', () => getAllEvents());
+  const {
+    data: sports,
+    isLoading: isFetchingInitialSports,
+    refetch: refetchSports,
+    isRefetching: isRefetchingSports,
+  } = useQuery('sports', () => getAllSports());
   const [facets, setFacets] = useState<Record<string, any>>({
     [EVENT_FACETS.sport]: '',
     [EVENT_FACETS.location]: '',
@@ -87,6 +95,11 @@ export const AddEventsScreen = ({ navigation, route }) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
 
+  const handleRefresh = useCallback(() => {
+    refetchEvents();
+    refetchSports();
+  }, [refetchEvents, refetchSports]);
+
   const onSelect = useCallback((event: Event) => {
     setSelectedEventIDs((prevSelectedEventIDs) => {
       if (prevSelectedEventIDs.includes(event.id)) {
@@ -114,15 +127,12 @@ export const AddEventsScreen = ({ navigation, route }) => {
     navigation.navigate(initialRoute);
   }, [edit, events, fieldKey, initialRoute, navigation, selectedEventIDs]);
 
-  if (isFetchingEvents || isFetchingSports) {
-    return <LoadingScreen />;
-  }
-
   return (
     <Screen>
       <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleFacetsChange} />
-      <FlatList
+      <Listing
         data={filteredEvents}
+        isLoading={isFetchingInitialEvents || isFetchingInitialSports}
         renderItem={({ item }) => (
           <SelectableView
             onSelect={() => onSelect(item as Event)}
@@ -132,7 +142,9 @@ export const AddEventsScreen = ({ navigation, route }) => {
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
-        style={{ paddingHorizontal: theme.spacing.sm, marginBottom: 70 }}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefetchingEvents || isRefetchingSports}
+        style={{ marginBottom: 170 }}
       />
       <BottomActions>
         <Button
