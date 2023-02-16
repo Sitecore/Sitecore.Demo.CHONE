@@ -43,6 +43,17 @@ export const SportPicker = ({ onChange, sports, initialValue = '' }: SportPicker
     [onChange]
   );
 
+  const isSelected = useCallback(
+    (title: string) => {
+      const noneSelected = !value;
+      const isCurrentValue = !value || value === title;
+      const isInitialValue = !initialValue || initialValue === title;
+
+      return noneSelected ? isInitialValue : isCurrentValue;
+    },
+    [value, initialValue]
+  );
+
   return (
     <>
       <Text style={styles.topLabel}>Sport</Text>
@@ -54,10 +65,9 @@ export const SportPicker = ({ onChange, sports, initialValue = '' }: SportPicker
             style={[
               styles.radioButton,
               {
-                backgroundColor:
-                  value === sport.title || initialValue === sport.title
-                    ? theme.colors.yellow.DEFAULT
-                    : theme.colors.white.DEFAULT,
+                backgroundColor: isSelected(sport.title)
+                  ? theme.colors.yellow.DEFAULT
+                  : theme.colors.white.DEFAULT,
               },
             ]}
             labelStyle={styles.label}
