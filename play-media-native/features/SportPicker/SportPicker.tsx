@@ -46,7 +46,7 @@ export const SportPicker = ({ onChange, sports, initialValue = '' }: SportPicker
   const isSelected = useCallback(
     (title: string) => {
       const isCurrentValue = value === title;
-      const isInitialValue = !initialValue || initialValue === title;
+      const isInitialValue = !initialValue ? false : initialValue === title;
 
       return !value ? isInitialValue : isCurrentValue;
     },
