@@ -1,9 +1,8 @@
-
+import { inputContainerStyle } from './styles';
+import { DatePicker } from '../../components/DatePicker/DatePicker';
+import { InputText } from '../../components/InputText/InputText';
 import { SportPicker } from '../../features/SportPicker/SportPicker';
 import { getDate } from '../../helpers/dateHelper';
-import { DatePicker } from '../../components/DatePicker/DatePicker';
-import { inputContainerStyle } from './styles';
-import { InputText } from '../../components/InputText/InputText';
 
 export const FieldsView = ({
   date,
@@ -24,14 +23,14 @@ export const FieldsView = ({
         containerStyle={inputContainerStyle}
         onChange={setTitle}
         value={title}
-        title={"Title"}
+        title="Title"
       />
       <InputText
         containerStyle={inputContainerStyle}
         value={getDate(date)}
-        title={"Event Date"}
+        title="Event Date"
         showSoftInputOnFocus={false}
-        caretHidden={true}
+        caretHidden
         onTouchStart={() => setShowDatePicker(true)}
       />
       {showDatePicker && (
@@ -46,7 +45,7 @@ export const FieldsView = ({
         containerStyle={inputContainerStyle}
         onChange={setLocation}
         value={location}
-        title={"Location"}
+        title="Location"
       />
       <SportPicker
         onChange={handleSportChange}

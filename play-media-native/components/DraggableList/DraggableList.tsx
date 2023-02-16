@@ -22,11 +22,17 @@ export const DraggableList = ({
     ),
     [renderItem]
   );
-  const handleDrag = useCallback(({ data }) => {
-    onDragEnd(data);
-  }, [onDragEnd])
+  const handleDrag = useCallback(
+    ({ data }) => {
+      onDragEnd(data);
+    },
+    [onDragEnd]
+  );
 
-  const displayedItems = useMemo(() => items.map((item: any) => ({ ...item, key: item.id })), [items])
+  const displayedItems = useMemo(
+    () => items.map((item: any) => ({ ...item, key: item.id })),
+    [items]
+  );
 
   if (!items?.length) {
     return null;

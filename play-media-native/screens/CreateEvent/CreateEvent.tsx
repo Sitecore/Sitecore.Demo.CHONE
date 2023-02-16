@@ -1,28 +1,25 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useQuery } from 'react-query';
 import { View } from 'react-native';
-
 import { Button } from 'react-native-paper';
+import { useQuery } from 'react-query';
+
 import { FieldsView } from './FieldsView';
 import { ReferencesView } from './ReferencesView';
 import { RichTextView } from './RichTextView';
+import { getAllSports } from '../../api/queries/getSports';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { Stepper } from '../../components/Stepper/Stepper';
-import { useEventFields } from '../../hooks/useEventFields/useEventFields';
-import { styles } from '../../theme/styles';
-import { Sport } from '../../interfaces/sport';
-import { getAllSports } from '../../api/queries/getSports';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
+import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { Sport } from '../../interfaces/sport';
+import { styles } from '../../theme/styles';
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { eventFields, edit, editMultiple, reset } = useEventFields();
   const event = useMemo(() => event, [eventFields]) as unknown as Event;
 
-  const { data: sports, isFetching: isFetchingSports } = useQuery(
-    "sports",
-    () => getAllSports()
-  );
+  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
   const [title, setTitle] = useState();
   const [body, setBody] = useState<string>();
   const [sport, setSport] = useState<Sport>();
@@ -64,22 +61,11 @@ export const CreateEventScreen = ({ navigation, route }) => {
     }
 
     if (step === 1) {
-      return (
-        <RichTextView setBody={setBody} teaser={teaser} setTeaser={setTeaser} />
-      );
+      return <RichTextView setBody={setBody} teaser={teaser} setTeaser={setTeaser} />;
     }
 
     return <ReferencesView />;
-  }, [
-    date,
-    location,
-    title,
-    sport,
-    step,
-    showDatePicker,
-    handleSportChange,
-    setShowDatePicker,
-  ]);
+  }, [date, location, title, sport, step, showDatePicker, handleSportChange, setShowDatePicker]);
 
   const onBack = useCallback(() => {
     if (step !== 0) {
@@ -106,22 +92,10 @@ export const CreateEventScreen = ({ navigation, route }) => {
       title,
     });
 
-    navigation.navigate("ReviewEvent", {
-      title: `Review ${title || "Event"}`,
+    navigation.navigate('ReviewEvent', {
+      title: `Review ${title || 'Event'}`,
     });
-  }, [
-    body,
-    date,
-    editMultiple,
-    event,
-    location,
-    navigation,
-    sport,
-    sports,
-    step,
-    teaser,
-    title,
-  ]);
+  }, [body, date, editMultiple, event, location, navigation, sport, sports, step, teaser, title]);
 
   // reset global state on unmount
   //
@@ -153,19 +127,14 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
   return (
     <KeyboardAwareScreen>
-      <Stepper
-        labels={steps}
-        onPress={onStepPress}
-        stepIndex={step}
-        steps={steps}
-      />
+      <Stepper labels={steps} onPress={onStepPress} stepIndex={step} steps={steps} />
       {displayedScreen}
       <BottomActions>
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            width: "100%",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
           }}
         >
           <View>
@@ -182,9 +151,9 @@ export const CreateEventScreen = ({ navigation, route }) => {
           </View>
           <View
             style={{
-              flexDirection: "row",
+              flexDirection: 'row',
               flex: 1,
-              justifyContent: "flex-end",
+              justifyContent: 'flex-end',
             }}
           >
             <Button
@@ -201,7 +170,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
               style={styles.button}
               onPress={onNext}
             >
-              {step !== 2 ? "Next" : "Review"}
+              {step !== 2 ? 'Next' : 'Review'}
             </Button>
           </View>
         </View>

@@ -15,7 +15,6 @@ import { EditEventScreen } from '../screens/EditEvent';
 import { EditMediaScreen } from '../screens/EditMedia';
 import { EventDetailScreen } from '../screens/EventDetail';
 import { RemoveConnectionScreen } from '../screens/RemoveConnection';
-import { ReviewAthletesScreen } from '../screens/ReviewAthletes';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
 import { SelectConnectionScreen } from '../screens/SelectConnection';
 

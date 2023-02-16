@@ -100,13 +100,16 @@ export const ContentFieldMedia = ({
     [contentType, removeAthleteFields, removeEventFields]
   );
 
-  const reorderItems = useCallback((items: Media) => {
-    if (contentType === CONTENT_TYPES.EVENT) {
-      editEventFields({key: fieldKey, value: items})
-    } else {
-      editAthleteFields({key: fieldKey, value: items})
-    }
-  }, [contentType, editAthleteFields, editEventFields, fieldKey])
+  const reorderItems = useCallback(
+    (items: Media) => {
+      if (contentType === CONTENT_TYPES.EVENT) {
+        editEventFields({ key: fieldKey, value: items });
+      } else {
+        editAthleteFields({ key: fieldKey, value: items });
+      }
+    },
+    [contentType, editAthleteFields, editEventFields, fieldKey]
+  );
 
   const resolveActionsForItem = useCallback(
     (item: Media) => {

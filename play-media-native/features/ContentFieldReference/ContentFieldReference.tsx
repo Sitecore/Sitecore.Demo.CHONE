@@ -4,12 +4,12 @@ import { StyleProp, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
+import { CONTENT_TYPES } from '../../constants/contentTypes';
+import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
 import { useEventFields } from '../../hooks/useEventFields/useEventFields';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
-import { CONTENT_TYPES } from '../../constants/contentTypes';
-import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
 
 export const ContentFieldReference = ({
   addRoute,
@@ -37,13 +37,16 @@ export const ContentFieldReference = ({
 
   const navigation = useNavigation<StackNavigationProp>();
 
-  const reorderItems = useCallback((items: any) => {
-    if (contentType === CONTENT_TYPES.EVENT) {
-      editEventFields({key: fieldKey, value: items})
-    } else {
-      editAthleteFields({key: fieldKey, value: items})
-    }
-  }, [contentType, editAthleteFields, editEventFields, fieldKey])
+  const reorderItems = useCallback(
+    (items: any) => {
+      if (contentType === CONTENT_TYPES.EVENT) {
+        editEventFields({ key: fieldKey, value: items });
+      } else {
+        editAthleteFields({ key: fieldKey, value: items });
+      }
+    },
+    [contentType, editAthleteFields, editEventFields, fieldKey]
+  );
 
   // const handleCreateNew = useCallback(() => {
   //   navigation.navigate(createRoute, {
@@ -64,11 +67,11 @@ export const ContentFieldReference = ({
 
   const items = useMemo(() => {
     if (contentType === CONTENT_TYPES.EVENT) {
-      return eventFields[fieldKey]
+      return eventFields[fieldKey];
     }
 
     return athleteFields[fieldKey];
-  }, [athleteFields, contentType, eventFields, fieldKey])
+  }, [athleteFields, contentType, eventFields, fieldKey]);
 
   return (
     <View style={style}>

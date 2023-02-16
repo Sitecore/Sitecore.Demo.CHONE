@@ -227,10 +227,11 @@ const getEventByIdQuery = (id: string) => {
 
 export const getEventById = async (id: string): Promise<Event | null> => {
   try {
-    const eventResponse: { data: { event: EventResponse } } =
-      (await fetchGraphQL(getEventByIdQuery(id))) as {
-        data: { event: EventResponse };
-      };
+    const eventResponse: { data: { event: EventResponse } } = (await fetchGraphQL(
+      getEventByIdQuery(id)
+    )) as {
+      data: { event: EventResponse };
+    };
 
     return normalizeEvent(eventResponse.data.event);
   } catch {

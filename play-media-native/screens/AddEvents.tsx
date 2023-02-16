@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { FlatList } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -7,22 +8,21 @@ import { getAllSports } from '../api/queries/getSports';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
 import { SelectableView } from '../components/SelectableView/SelectableView';
+import { CONTENT_TYPES } from '../constants/contentTypes';
 import { EVENT_FACETS } from '../constants/filters';
 import { AthleteFiltersView } from '../features/AthleteFilters/AthleteFiltersView';
 import { CardEvent } from '../features/CardEvent/CardEvent';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeEvents, removeAlreadySelected } from '../helpers/events';
 import { getLocationOptions, getSportOptions } from '../helpers/facets';
+import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
 import { useEventFields } from '../hooks/useEventFields/useEventFields';
 import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
-import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
-import { CONTENT_TYPES } from '../constants/contentTypes';
-import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
-import { FlatList } from 'react-native';
 
 export const AddEventsScreen = ({ navigation, route }) => {
   const contentType = route?.params?.contentType;
@@ -44,7 +44,7 @@ export const AddEventsScreen = ({ navigation, route }) => {
     return contentType === CONTENT_TYPES.EVENT
       ? removeAlreadySelected(initialized, eventFields[fieldKey])
       : removeAlreadySelected(initialized, athleteFields[fieldKey]);
-  }, [athleteFields, contentType, eventFields, fieldKey, sports]);
+  }, [athleteFields, contentType, eventFields, events, fieldKey, sports]);
   const filteredEvents = useFacets({
     initialItems: initialEvents?.length ? initialEvents : [],
     facets,
@@ -80,13 +80,7 @@ export const AddEventsScreen = ({ navigation, route }) => {
         editAthleteFields({ key, value: [...athleteFields[key], ...value] });
       }
     },
-    [
-      athleteFields,
-      contentType,
-      editAthleteFields,
-      editEventFields,
-      eventFields,
-    ]
+    [athleteFields, contentType, editAthleteFields, editEventFields, eventFields]
   );
 
   const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {
@@ -126,10 +120,7 @@ export const AddEventsScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <AthleteFiltersView
-        facets={facetFilters}
-        handleFacetsChange={handleFacetsChange}
-      />
+      <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleFacetsChange} />
       <FlatList
         data={filteredEvents}
         renderItem={({ item }) => (

@@ -52,10 +52,7 @@ export const EditEventScreen = ({ route, navigation }) => {
   const { eventFields, edit, editMultiple, remove } = useEventFields();
   const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
 
-  const { data: sports, isFetching: isFetchingSports } = useQuery(
-    "sports",
-    () => getAllSports()
-  );
+  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
   const defaultSport = useMemo(() => {
     const hasSport = !!event?.sport;
     const sportsFetched = !!sports?.length;
@@ -106,7 +103,7 @@ export const EditEventScreen = ({ route, navigation }) => {
 
   const handleReview = useCallback(() => {
     editMultiple({
-      body: body,
+      body,
       location,
       sport: sport || sports[0],
       teaser,
@@ -114,21 +111,10 @@ export const EditEventScreen = ({ route, navigation }) => {
       title,
     });
 
-    navigation.navigate("ReviewEvent", {
-      title: `Review ${title || "Event"}`,
+    navigation.navigate('ReviewEvent', {
+      title: `Review ${title || 'Event'}`,
     });
-  }, [
-    body,
-    date,
-    editMultiple,
-    event,
-    location,
-    navigation,
-    sport,
-    sports,
-    teaser,
-    title,
-  ]);
+  }, [body, date, editMultiple, location, navigation, sport, sports, teaser, title]);
 
   const handleDiscard = useCallback(() => {
     navigation.goBack();
@@ -190,7 +176,7 @@ export const EditEventScreen = ({ route, navigation }) => {
             multiline
             onChange={setTeaser}
             value={teaser}
-            title={"Teaser"}
+            title="Teaser"
           />
           <InputText
             containerStyle={inputContainerStyle}

@@ -41,19 +41,19 @@ export const normalizeEvent = (event: EventResponse) => {
 };
 
 export const prepareRequestFields = (event: Event) => {
-    return {
+  return {
     id: event.id,
     name: event.name,
     title: event.title,
-    sport: {results: [event.sport]},
+    sport: { results: [event.sport] },
     isFeatured: event.isFeatured,
     timeAndDate: event.timeAndDate,
     location: event.location,
-    featuredImage:  {results: [event.featuredImage]},
-    relatedMedia: {results: event.relatedMedia},
+    featuredImage: { results: [event.featuredImage] },
+    relatedMedia: { results: event.relatedMedia },
     teaser: event.teaser,
     body: event.body,
-    athletes: {results: event.athletes},
-    similarEvents: {results: event.similarEvents}
+    athletes: { results: event.athletes },
+    similarEvents: { results: event.similarEvents },
   };
-}
+};

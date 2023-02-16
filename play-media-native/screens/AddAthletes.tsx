@@ -12,17 +12,17 @@ import { CONTENT_TYPES } from '../constants/contentTypes';
 import { ATHLETE_FACETS } from '../constants/filters';
 import { AthleteFiltersView } from '../features/AthleteFilters/AthleteFiltersView';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes, removeAlreadySelected } from '../helpers/athletes';
 import { getNationalityOptions, getSportOptions } from '../helpers/facets';
+import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
 import { useEventFields } from '../hooks/useEventFields/useEventFields';
 import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
-import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
-import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 
 export const AddAthletesScreen = ({ navigation, route }) => {
   const contentType = route?.params?.contentType;
@@ -33,14 +33,10 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   const { eventFields, edit: editEventFields } = useEventFields();
   const { athleteFields, edit: editAthleteFields } = useAthleteFields();
 
-  const { data: athletes, isFetching: isFetchingAthletes } = useQuery(
-    "athletes",
-    () => getAllAthletes()
+  const { data: athletes, isFetching: isFetchingAthletes } = useQuery('athletes', () =>
+    getAllAthletes()
   );
-  const { data: sports, isFetching: isFetchingSports } = useQuery(
-    "sports",
-    () => getAllSports()
-  );
+  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
 
   const [facets, setFacets] = useState<Record<string, any>>({
     [ATHLETE_FACETS.sport]: '',
@@ -86,13 +82,7 @@ export const AddAthletesScreen = ({ navigation, route }) => {
         editAthleteFields({ key, value: [...athleteFields[key], ...value] });
       }
     },
-    [
-      athleteFields,
-      contentType,
-      editAthleteFields,
-      editEventFields,
-      eventFields,
-    ]
+    [athleteFields, contentType, editAthleteFields, editEventFields, eventFields]
   );
 
   const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {
@@ -132,10 +122,7 @@ export const AddAthletesScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <AthleteFiltersView
-        facets={facetFilters}
-        handleFacetsChange={handleFacetsChange}
-      />
+      <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleFacetsChange} />
       <FlatList
         data={filteredAthletes}
         renderItem={({ item }) => (

@@ -5,9 +5,11 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { AnimatedFAB, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
+import { getEventById } from '../api/queries/getEvents';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { ImageGrid } from '../features/ImageGrid/ImageGrid';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { RichText } from '../features/RichText/RichText';
 import { Screen } from '../features/Screen/Screen';
 import { getAccentColor } from '../helpers/colorHelper';
@@ -19,8 +21,6 @@ import { Event } from '../interfaces/event';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
-import { getEventById } from '../api/queries/getEvents';
-import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 
 const pageStyles = StyleSheet.create({
   title: {
@@ -50,15 +50,11 @@ export const EventDetailScreen = ({ route, navigation }) => {
   const id = route?.params?.id;
   const [error, setError] = useState<unknown>();
 
-  const { data: event, isFetching } = useQuery(
-    "event",
-    () => getEventById(id),
-    {
-      onError: (error) => {
-        setError(error);
-      },
-    }
-  );
+  const { data: event, isFetching } = useQuery('event', () => getEventById(id), {
+    onError: (error) => {
+      setError(error);
+    },
+  });
 
   const { init, reset } = useEventFields();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
@@ -81,12 +77,8 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   const handleEditInfo = useCallback(() => {
     init(event);
-    navigation.navigate("EditEvent");
+    navigation.navigate('EditEvent');
   }, [event, init, navigation]);
-
-  const handleDiscardBtn = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
 
   const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
 
@@ -99,19 +91,18 @@ export const EventDetailScreen = ({ route, navigation }) => {
   }, [event]);
 
   const bottomActions = useMemo(
-    () =>
-      (
-        <AnimatedFAB
-          icon={({ size }) => (
-            <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
-          )}
-          label="Edit"
-          extended={isTopEdge}
-          onPress={handleEditInfo}
-          style={pageStyles.bottomFAB}
-        />
-      ),
-    [isTopEdge, handleEditInfo, handleDiscardBtn]
+    () => (
+      <AnimatedFAB
+        icon={({ size }) => (
+          <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
+        )}
+        label="Edit"
+        extended={isTopEdge}
+        onPress={handleEditInfo}
+        style={pageStyles.bottomFAB}
+      />
+    ),
+    [isTopEdge, handleEditInfo]
   );
 
   // clear global state on unmount

@@ -46,10 +46,7 @@ export const eventFieldsSlice = createSlice({
     edit: (state: EventFieldsState, action: PayloadAction<EventField>) => {
       return { ...state, [action.payload.key]: action.payload.value };
     },
-    editMultiple: (
-      state: EventFieldsState,
-      action: PayloadAction<IIndexable>
-    ) => {
+    editMultiple: (state: EventFieldsState, action: PayloadAction<IIndexable>) => {
       return { ...state, ...action.payload };
     },
     init: (state: EventFieldsState, action: PayloadAction<Event>) => {
@@ -112,7 +109,6 @@ export const eventFieldsSlice = createSlice({
   },
 });
 
-export const { edit, editMultiple, init, remove, replace, reset } =
-  eventFieldsSlice.actions;
+export const { edit, editMultiple, init, remove, replace, reset } = eventFieldsSlice.actions;
 
 export default eventFieldsSlice.reducer;

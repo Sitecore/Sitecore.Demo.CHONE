@@ -20,7 +20,6 @@ import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
 
 export const EventsListingScreen = ({ navigation }) => {
-  const { init } = useEventFields();
   const {
     data: events,
     isLoading: isFetchingInitialEvents,
@@ -56,7 +55,7 @@ export const EventsListingScreen = ({ navigation }) => {
 
   const onCardPress = useCallback(
     (event: Event) => {
-      navigation.navigate("EventDetail", { id: event.id, title: event.title });
+      navigation.navigate('EventDetail', { id: event.id, title: event.title });
     },
     [navigation]
   );

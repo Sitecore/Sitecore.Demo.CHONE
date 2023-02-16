@@ -14,13 +14,13 @@ import { Screen } from '../features/Screen/Screen';
 import { getAccentColor } from '../helpers/colorHelper';
 import { mapContentItem } from '../helpers/contentItemHelper';
 import { getDate, getTime } from '../helpers/dateHelper';
+import { prepareRequestFields } from '../helpers/events';
+import { useEventFields } from '../hooks/useEventFields/useEventFields';
 import { Athlete } from '../interfaces/athlete';
 import { Event } from '../interfaces/event';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
-import { useEventFields } from '../hooks/useEventFields/useEventFields';
-import { prepareRequestFields } from '../helpers/events';
 
 const pageStyles = StyleSheet.create({
   title: {

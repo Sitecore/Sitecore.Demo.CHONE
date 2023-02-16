@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 
+import { InputText } from '../../components/InputText/InputText';
 import { RichTextEditor } from '../../components/RichTextEditor/RichTextEditor';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
 import { theme } from '../../theme/theme';
-import { InputText } from '../../components/InputText/InputText';
 
 const inputContainerStyle = {
   marginBottom: theme.spacing.sm,
@@ -32,7 +32,7 @@ export const RichTextView = ({ setBody, setTeaser, teaser }) => {
           onChange={setTeaser}
           containerStyle={inputContainerStyle}
           value={teaser}
-          title={"Teaser"}
+          title="Teaser"
         />
         <RichTextEditor
           showError={showError}
