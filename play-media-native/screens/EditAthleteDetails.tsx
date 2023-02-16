@@ -123,13 +123,6 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
               onClose={setShowBirthDatePicker}
             />
           )}
-          <InputText
-            value={getYear(careerStartDate)}
-            title="Career start"
-            showSoftInputOnFocus={false}
-            caretHidden
-            onTouchStart={() => setShowCareerStartDatePicker(true)}
-          />
           <Pressable onPress={() => setShowCareerStartDatePicker(true)}>
             <View pointerEvents="none">
               <InputText
