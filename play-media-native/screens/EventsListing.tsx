@@ -13,7 +13,6 @@ import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeEvents } from '../helpers/events';
 import { getLocationOptions, getSportOptions } from '../helpers/facets';
-import { useEventFields } from '../hooks/useEventFields/useEventFields';
 import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Event } from '../interfaces/event';
