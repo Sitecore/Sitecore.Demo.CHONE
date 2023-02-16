@@ -5,8 +5,6 @@ import { MEDIA_SOURCES } from '../constants/media';
 import { Event } from '../interfaces/event';
 
 const initializeEventFields = (event: Event) => {
-  console.log('event initializeEventFields', event);
-
   return {
     ...event,
     athletes: event?.athletes?.length ? event?.athletes : [],

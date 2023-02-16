@@ -71,8 +71,10 @@ export const EditEventScreen = ({ route, navigation }) => {
   const [summary, setSummary] = useState(event?.teaser);
   const [date, setDate] = useState(new Date());
   const [location, setLocation] = useState(event?.location);
-  const [body, setBody] = useState<string>(event?.body);
+  const [body, setBody] = useState<any>(event?.body);
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const handleBodyChange = useCallback((json: string) => setBody(json), []);
 
   const deleteItem = useCallback(
     (key: string, item: any) => {
@@ -197,7 +199,7 @@ export const EditEventScreen = ({ route, navigation }) => {
           />
           <View style={inputContainerStyle}>
             <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
-            <RichTextEditor onChange={(json: string) => setBody(json)} />
+            <RichTextEditor initialValue={event?.body?.content} onChange={handleBodyChange} />
           </View>
           <ContentFieldMedia
             contentType={contentType}
