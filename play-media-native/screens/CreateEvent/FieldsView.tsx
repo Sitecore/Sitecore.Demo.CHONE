@@ -1,3 +1,6 @@
+import { useCallback } from 'react';
+import { Pressable, View } from 'react-native';
+
 import { inputContainerStyle } from './styles';
 import { DatePicker } from '../../components/DatePicker/DatePicker';
 import { InputText } from '../../components/InputText/InputText';
@@ -17,6 +20,10 @@ export const FieldsView = ({
   sports,
   title,
 }) => {
+  const openDatePicker = useCallback(() => {
+    setShowDatePicker(true);
+  }, [setShowDatePicker]);
+
   return (
     <>
       <InputText
@@ -25,15 +32,18 @@ export const FieldsView = ({
         value={title}
         title="Title"
       />
-      <InputText
-        containerStyle={inputContainerStyle}
-        value={getDate(date)}
-        title="Event Date"
-        showSoftInputOnFocus={false}
-        caretHidden
-        onTouchStart={() => setShowDatePicker(true)}
-      />
-      {showDatePicker && (
+      <Pressable onPress={openDatePicker}>
+        <View pointerEvents="none">
+          <InputText
+            containerStyle={inputContainerStyle}
+            value={getDate(date)}
+            title="Event Date"
+            showSoftInputOnFocus={false}
+            caretHidden
+          />
+        </View>
+      </Pressable>
+      {setShowDatePicker && (
         <DatePicker
           value={date}
           visible={showDatePicker}

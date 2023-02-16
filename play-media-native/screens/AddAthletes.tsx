@@ -26,7 +26,6 @@ import { theme } from '../theme/theme';
 export const AddAthletesScreen = ({ navigation, route }) => {
   const contentType = route?.params?.contentType;
   const fieldKey = route?.params?.key;
-  const single = route?.params?.single;
   const initialRoute = route?.params?.initialRoute;
 
   const { eventFields, edit: editEventFields } = useEventFields();
