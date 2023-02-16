@@ -10,6 +10,7 @@ import { RichTextView } from './RichTextView';
 import { getAllSports } from '../../api/queries/getSports';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { Stepper } from '../../components/Stepper/Stepper';
+import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
 import { useEventFields } from '../../hooks/useEventFields/useEventFields';
 import { Sport } from '../../interfaces/sport';
@@ -17,7 +18,7 @@ import { styles } from '../../theme/styles';
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { eventFields, edit, editMultiple, reset } = useEventFields();
-  const event = useMemo(() => event, [eventFields]) as unknown as Event;
+  const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
 
   const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
   const [title, setTitle] = useState();
@@ -65,7 +66,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
     }
 
     return <ReferencesView />;
-  }, [date, location, title, sport, step, showDatePicker, handleSportChange, setShowDatePicker]);
+  }, [step, date, handleSportChange, location, showDatePicker, sport, sports, title, teaser]);
 
   const onBack = useCallback(() => {
     if (step !== 0) {
@@ -95,7 +96,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
     navigation.navigate('ReviewEvent', {
       title: `Review ${title || 'Event'}`,
     });
-  }, [body, date, editMultiple, event, location, navigation, sport, sports, step, teaser, title]);
+  }, [body, date, editMultiple, location, navigation, sport, sports, step, teaser, title]);
 
   // reset global state on unmount
   //
@@ -121,9 +122,12 @@ export const CreateEventScreen = ({ navigation, route }) => {
       } else {
         edit({ key: route.params.key, value: route.params.image });
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [edit, route?.params])
+    }, [edit, event, route?.params])
   );
+
+  if (isFetchingSports) {
+    return <LoadingScreen />;
+  }
 
   return (
     <KeyboardAwareScreen>
