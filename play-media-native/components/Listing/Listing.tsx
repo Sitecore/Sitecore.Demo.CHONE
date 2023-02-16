@@ -54,7 +54,7 @@ export const Listing = ({
   }, [data, items, isListEnd]);
 
   const ListFooter = (
-    <>
+    <View style={{ height: theme.spacing.xl }}>
       {loading && <ActivityIndicator animating={loading} />}
       {isListEnd && (
         <Text
@@ -66,7 +66,7 @@ export const Listing = ({
           No more items to show at the moment
         </Text>
       )}
-    </>
+    </View>
   );
 
   if (isLoading) {

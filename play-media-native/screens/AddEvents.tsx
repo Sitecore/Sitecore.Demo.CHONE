@@ -20,22 +20,35 @@ import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
-import { theme } from '../theme/theme';
 
 export const AddEventsScreen = ({ navigation, route }) => {
   const initialRoute = route?.params?.initialRoute;
   const key = route?.params?.key;
 
-  const { data: events, isFetching: isFetchingEvents } = useQuery('events', () => getAllEvents());
-  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
+  const {
+    data: events,
+    isLoading: isFetchingInitialEvents,
+    refetch: refetchEvents,
+    isRefetching: isRefetchingEvents,
+  } = useQuery('events', () => getAllEvents());
+  const {
+    data: sports,
+    isLoading: isFetchingInitialSports,
+    refetch: refetchSports,
+    isRefetching: isRefetchingSports,
+  } = useQuery('sports', () => getAllSports());
   const { edit } = useEventFields();
   // const { add, clear } = useEvents();
   const [facets, setFacets] = useState<Record<string, any>>({
     [EVENT_FACETS.sport]: '',
     [EVENT_FACETS.location]: '',
   });
+  const initialEvents = useMemo(() => {
+    return initializeEvents(events, sports);
+  }, [events, sports]);
+
   const filteredEvents = useFacets({
-    initialItems: events?.length ? initializeEvents(events, sports) : [],
+    initialItems: events?.length ? initialEvents : [],
     facets,
   });
   const { calcScrollOffset } = useScrollOffset(true);
@@ -65,6 +78,11 @@ export const AddEventsScreen = ({ navigation, route }) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
 
+  const handleRefresh = useCallback(() => {
+    refetchEvents();
+    refetchSports();
+  }, [refetchEvents, refetchSports]);
+
   const onSelect = useCallback((event: Event) => {
     setSelectedEventIDs((prevSelectedEventIDs) => {
       if (prevSelectedEventIDs.includes(event.id)) {
@@ -92,7 +110,7 @@ export const AddEventsScreen = ({ navigation, route }) => {
       <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleChange} />
       <Listing
         data={filteredEvents}
-        isLoading={isFetchingEvents || isFetchingSports}
+        isLoading={isFetchingInitialEvents || isFetchingInitialSports}
         renderItem={({ item }) => (
           <SelectableView
             onSelect={() => onSelect(item)}
@@ -102,7 +120,9 @@ export const AddEventsScreen = ({ navigation, route }) => {
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
-        style={{ paddingHorizontal: theme.spacing.sm, paddingBottom: 170 }}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefetchingEvents || isRefetchingSports}
+        style={{ marginBottom: 170 }}
       />
       <BottomActions>
         <Button

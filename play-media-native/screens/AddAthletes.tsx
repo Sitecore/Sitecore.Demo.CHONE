@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -7,6 +6,7 @@ import { getAllAthletes } from '../api/queries/getAthletes';
 import { getAllSports } from '../api/queries/getSports';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
+import { Listing } from '../components/Listing/Listing';
 import { SelectableView } from '../components/SelectableView/SelectableView';
 import { CONTENT_TYPES } from '../constants/contentTypes';
 import { ATHLETE_FACETS } from '../constants/filters';
@@ -26,8 +26,18 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   const contentType = useMemo(() => route?.params?.contentType, [route?.params]);
   const fieldKey = route?.params?.key;
   const { eventFields, edit: editEventFields } = useEventFields();
-  const { data: athletes } = useQuery('athletes', () => getAllAthletes());
-  const { data: sports } = useQuery('sports', () => getAllSports());
+  const {
+    data: athletes,
+    isLoading: isFetchingInitialAthletes,
+    refetch: refetchAthletes,
+    isRefetching: isRefetchingAthletes,
+  } = useQuery('athletes', () => getAllAthletes());
+  const {
+    data: sports,
+    isLoading: isFetchingInitialSports,
+    refetch: refetchSports,
+    isRefetching: isRefetchingSports,
+  } = useQuery('sports', () => getAllSports());
   const [facets, setFacets] = useState<Record<string, any>>({
     [ATHLETE_FACETS.sport]: '',
     [ATHLETE_FACETS.nationality]: '',
@@ -38,6 +48,7 @@ export const AddAthletesScreen = ({ navigation, route }) => {
       ? removeAlreadySelected(initialized, eventFields[fieldKey])
       : removeAlreadySelected(initialized, eventFields[fieldKey]);
   }, [athletes, contentType, eventFields, fieldKey, sports]);
+
   const filteredAthletes = useFacets({
     initialItems: athletes?.length ? initialAthletes : [],
     facets,
@@ -79,6 +90,11 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
 
+  const handleRefresh = useCallback(() => {
+    refetchAthletes();
+    refetchSports();
+  }, [refetchAthletes, refetchSports]);
+
   const onSelect = useCallback((athlete: Athlete) => {
     setSelectedAthleteIDs((prevSelectedAthleteIDs) => {
       if (prevSelectedAthleteIDs.includes(athlete.id)) {
@@ -109,8 +125,9 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   return (
     <Screen>
       <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleChange} />
-      <FlatList
+      <Listing
         data={filteredAthletes}
+        isLoading={isFetchingInitialAthletes || isFetchingInitialSports}
         renderItem={({ item }) => (
           <SelectableView
             onSelect={() => onSelect(item as Athlete)}
@@ -120,7 +137,9 @@ export const AddAthletesScreen = ({ navigation, route }) => {
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
-        style={{ paddingHorizontal: theme.spacing.sm, marginBottom: 70 }}
+        onRefresh={handleRefresh}
+        isRefreshing={isRefetchingAthletes || isRefetchingSports}
+        style={{ paddingHorizontal: theme.spacing.sm, marginBottom: 170 }}
       />
       <BottomActions>
         <Button
