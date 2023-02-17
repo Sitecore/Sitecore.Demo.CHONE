@@ -13,14 +13,12 @@ import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeEvents } from '../helpers/events';
 import { getLocationOptions, getSportOptions } from '../helpers/facets';
-import { useEventFields } from '../hooks/useEventFields/useEventFields';
 import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
 
 export const EventsListingScreen = ({ navigation }) => {
-  const { init } = useEventFields();
   const {
     data: events,
     isLoading: isFetchingInitialEvents,
@@ -56,10 +54,9 @@ export const EventsListingScreen = ({ navigation }) => {
 
   const onCardPress = useCallback(
     (event: Event) => {
-      init(event);
-      navigation.navigate('EventDetail');
+      navigation.navigate('EventDetail', { id: event.id, title: event.title });
     },
-    [init, navigation]
+    [navigation]
   );
 
   if (isFetchingInitialEvents || isFetchingInitialSports) {

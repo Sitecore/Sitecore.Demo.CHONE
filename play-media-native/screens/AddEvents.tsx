@@ -8,22 +8,27 @@ import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
 import { Listing } from '../components/Listing/Listing';
 import { SelectableView } from '../components/SelectableView/SelectableView';
+import { CONTENT_TYPES } from '../constants/contentTypes';
 import { EVENT_FACETS } from '../constants/filters';
 import { AthleteFiltersView } from '../features/AthleteFilters/AthleteFiltersView';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { Screen } from '../features/Screen/Screen';
-import { initializeEvents } from '../helpers/events';
+import { initializeEvents, removeAlreadySelected } from '../helpers/events';
 import { getLocationOptions, getSportOptions } from '../helpers/facets';
+import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
 import { useEventFields } from '../hooks/useEventFields/useEventFields';
-// import { useEvents } from '../hooks/useEvents/useEvents';
 import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
 
 export const AddEventsScreen = ({ navigation, route }) => {
+  const contentType = route?.params?.contentType;
+  const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
-  const key = route?.params?.key;
+
+  const { eventFields, edit: editEventFields } = useEventFields();
+  const { athleteFields, edit: editAthleteFields } = useAthleteFields();
 
   const {
     data: events,
@@ -37,18 +42,18 @@ export const AddEventsScreen = ({ navigation, route }) => {
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
   } = useQuery('sports', () => getAllSports());
-  const { edit } = useEventFields();
-  // const { add, clear } = useEvents();
   const [facets, setFacets] = useState<Record<string, any>>({
     [EVENT_FACETS.sport]: '',
     [EVENT_FACETS.location]: '',
   });
   const initialEvents = useMemo(() => {
-    return initializeEvents(events, sports);
-  }, [events, sports]);
-
+    const initialized = initializeEvents(events, sports);
+    return contentType === CONTENT_TYPES.EVENT
+      ? removeAlreadySelected(initialized, eventFields[fieldKey])
+      : removeAlreadySelected(initialized, athleteFields[fieldKey]);
+  }, [athleteFields, contentType, eventFields, events, fieldKey, sports]);
   const filteredEvents = useFacets({
-    initialItems: events?.length ? initialEvents : [],
+    initialItems: initialEvents?.length ? initialEvents : [],
     facets,
   });
   const { calcScrollOffset } = useScrollOffset(true);
@@ -74,7 +79,18 @@ export const AddEventsScreen = ({ navigation, route }) => {
     [locationOptions, sportOptions]
   );
 
-  const handleChange = useCallback((key: string, item: DropdownItem) => {
+  const edit = useCallback(
+    ({ key, value }: { key: string; value: Event[] }) => {
+      if (contentType === CONTENT_TYPES.EVENT) {
+        editEventFields({ key, value: [...eventFields[key], ...value] });
+      } else if (contentType === CONTENT_TYPES.ATHLETE) {
+        editAthleteFields({ key, value: [...athleteFields[key], ...value] });
+      }
+    },
+    [athleteFields, contentType, editAthleteFields, editEventFields, eventFields]
+  );
+
+  const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
   }, []);
 
@@ -98,25 +114,30 @@ export const AddEventsScreen = ({ navigation, route }) => {
   }, [navigation]);
 
   const onSubmit = useCallback(() => {
+    if (!fieldKey || !initialRoute) {
+      return;
+    }
+
     edit({
-      key,
+      key: fieldKey,
       value: events.filter((item) => selectedEventIDs.includes(item.id)),
     });
+
     navigation.navigate(initialRoute);
-  }, [edit, events, initialRoute, key, navigation, selectedEventIDs]);
+  }, [edit, events, fieldKey, initialRoute, navigation, selectedEventIDs]);
 
   return (
     <Screen>
-      <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleChange} />
+      <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleFacetsChange} />
       <Listing
         data={filteredEvents}
         isLoading={isFetchingInitialEvents || isFetchingInitialSports}
         renderItem={({ item }) => (
           <SelectableView
-            onSelect={() => onSelect(item)}
+            onSelect={() => onSelect(item as Event)}
             selected={selectedEventIDs.includes(item.id)}
           >
-            <CardEvent item={item} />
+            <CardEvent item={item as Event} />
           </SelectableView>
         )}
         onScroll={calcScrollOffset}

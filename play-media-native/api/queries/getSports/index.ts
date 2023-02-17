@@ -19,9 +19,9 @@ export const getAllSports = async (options?: FetchOptions): Promise<Sport[]> => 
     sportsQuery,
     options
   )) as AllSportsResponse;
-  const sports: Partial<Sport>[] = [];
+  const sports: Sport[] = [];
 
-  results.data.allSport.results.forEach((sport: Partial<Sport>) => {
+  results.data.allSport.results.forEach((sport: Sport) => {
     sports.push({
       id: sport.id,
       title: sport.title,

@@ -7,7 +7,7 @@ export interface Sport {
 export interface AllSportsResponse {
   data: {
     allSport: {
-      results: Partial<Sport>[];
+      results: Sport[];
     };
   };
 }

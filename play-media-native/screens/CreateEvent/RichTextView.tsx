@@ -1,59 +1,45 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Button } from 'react-native-paper';
 
-import { BottomActions } from '../../components/BottomActions/BottomActions';
+import { InputText } from '../../components/InputText/InputText';
 import { RichTextEditor } from '../../components/RichTextEditor/RichTextEditor';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
-import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
-export const RichTextView = () => {
+const inputContainerStyle = {
+  marginBottom: theme.spacing.sm,
+};
+
+export const RichTextView = ({ setBody, setTeaser, teaser }) => {
   const [rteJson, setRteJson] = useState();
   const [showError, setShowError] = useState(false);
 
   const handleChange = (jsonData) => {
     setShowError(!jsonData);
     setRteJson(jsonData);
-  };
-
-  const handleSubmit = () => {
-    if (rteJson) {
-      setShowError(false);
-      // TODO: send to server/set global state
-      console.log(rteJson);
-    } else {
-      setShowError(true);
-    }
+    setBody(jsonData);
   };
 
   return (
     <KeyboardAwareScreen>
-      <View style={{ paddingHorizontal: theme.spacing.sm }}>
+      <View
+        style={{
+          paddingHorizontal: theme.spacing.sm,
+          marginTop: theme.spacing.sm,
+        }}
+      >
+        <InputText
+          onChange={setTeaser}
+          containerStyle={inputContainerStyle}
+          value={teaser}
+          title="Teaser"
+        />
         <RichTextEditor
           showError={showError}
           errorText="Please enter a description."
           onChange={handleChange}
         />
       </View>
-      <BottomActions>
-        <Button
-          mode="outlined"
-          labelStyle={styles.buttonLabel}
-          style={styles.button}
-          // onPress={onCancel}
-        >
-          Discard
-        </Button>
-        <Button
-          mode="contained"
-          onPress={handleSubmit}
-          labelStyle={styles.buttonLabel}
-          style={styles.button}
-        >
-          Review
-        </Button>
-      </BottomActions>
     </KeyboardAwareScreen>
   );
 };

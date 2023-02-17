@@ -49,27 +49,29 @@ const contentType = CONTENT_TYPES.EVENT;
 const initialRoute = 'EditEvent';
 
 export const EditEventScreen = ({ route, navigation }) => {
-  const { eventFields: event, edit, remove } = useEventFields();
+  const { eventFields, edit, editMultiple, remove } = useEventFields();
+  const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
+
   const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
   const defaultSport = useMemo(() => {
-    const hasSport = !!event?.sport?.title;
+    const hasSport = !!event?.sport;
     const sportsFetched = !!sports?.length;
 
     if (hasSport) {
-      return event.sport.title;
+      return event.sport;
     }
 
     if (!hasSport && sportsFetched) {
-      return sports[0]?.title;
+      return sports[0];
     }
 
     return null;
   }, [event, sports]);
 
   const [title, setTitle] = useState(event?.title);
-  const [sport, setSport] = useState<Sport>();
-  const [summary, setSummary] = useState(event?.teaser);
-  const [date, setDate] = useState(new Date());
+  const [sport, setSport] = useState<Sport>(defaultSport);
+  const [teaser, setTeaser] = useState(event?.teaser);
+  const [date, setDate] = useState(event?.timeAndDate || new Date());
   const [location, setLocation] = useState(event?.location);
   const [body, setBody] = useState<any>(event?.body);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -102,19 +104,19 @@ export const EditEventScreen = ({ route, navigation }) => {
   );
 
   const handleReview = useCallback(() => {
-    navigation.navigate('ReviewEvent', {
-      title: 'Review edited event',
-      event: {
-        ...event,
-        body,
-        location,
-        sport: sport || sports.find((item) => item.title === defaultSport),
-        summary,
-        timeAndDate: date,
-        title,
-      },
+    editMultiple({
+      body,
+      location,
+      sport: sport || sports[0],
+      teaser,
+      timeAndDate: date,
+      title,
     });
-  }, [navigation, event, body, location, sport, sports, summary, date, title, defaultSport]);
+
+    navigation.navigate('ReviewEvent', {
+      title: `Review ${title || 'Event'}`,
+    });
+  }, [body, date, editMultiple, location, navigation, sport, sports, teaser, title]);
 
   const handleDiscard = useCallback(() => {
     navigation.goBack();
@@ -158,18 +160,24 @@ export const EditEventScreen = ({ route, navigation }) => {
     <Screen>
       <NestableScrollContainer>
         <View>
-          <SportPicker onChange={handleSportChange} sports={sports} initialValue={defaultSport} />
+          <SportPicker
+            onChange={handleSportChange}
+            sports={sports}
+            initialValue={defaultSport?.title}
+          />
 
           <InputText
             containerStyle={inputContainerStyle}
+            multiline
             onChange={setTitle}
             value={title}
             title="Title"
           />
           <InputText
             containerStyle={inputContainerStyle}
-            onChange={setSummary}
-            value={summary}
+            multiline
+            onChange={setTeaser}
+            value={teaser}
             title="Teaser"
           />
           <Pressable onPress={() => setShowDatePicker(true)}>
@@ -193,6 +201,7 @@ export const EditEventScreen = ({ route, navigation }) => {
           )}
           <InputText
             containerStyle={inputContainerStyle}
+            multiline
             onChange={setLocation}
             value={location}
             title="Location"

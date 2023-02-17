@@ -13,7 +13,7 @@ export const initializeEvents = (events: Event[], sports: Sport[]) => {
   }));
 };
 
-// return only atheltes not already selected in global state
+// return only athletes not already selected in global state
 //
 export const removeAlreadySelected = (events: Event[], existingEvents: Event[]) => {
   const existingEventIDs = existingEvents.map((item) => item.id);
@@ -37,5 +37,23 @@ export const normalizeEvent = (event: EventResponse) => {
     similarEvents: event.similarEvents?.results?.length
       ? event.similarEvents.results.map((item) => normalizeEvent(item as EventResponse))
       : [],
+  };
+};
+
+export const prepareRequestFields = (event: Event) => {
+  return {
+    id: event.id,
+    name: event.name,
+    title: event.title,
+    sport: { results: [event.sport] },
+    isFeatured: event.isFeatured,
+    timeAndDate: event.timeAndDate,
+    location: event.location,
+    featuredImage: { results: [event.featuredImage] },
+    relatedMedia: { results: event.relatedMedia },
+    teaser: event.teaser,
+    body: event.body,
+    athletes: { results: event.athletes },
+    similarEvents: { results: event.similarEvents },
   };
 };

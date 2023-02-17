@@ -7,7 +7,6 @@ import { AddAthletesScreen } from '../screens/AddAthletes';
 import { AddCH1MediaScreen } from '../screens/AddCH1Media/AddCH1Media';
 import { AddConnectionScreen } from '../screens/AddConnection';
 import { AddEventsScreen } from '../screens/AddEvents';
-import { AddMediaScreen } from '../screens/AddMedia/AddMedia';
 import { AthleteDetailScreen } from '../screens/AthleteDetail';
 import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
 import { CreateEventScreen } from '../screens/CreateEvent/CreateEvent';
@@ -16,7 +15,6 @@ import { EditEventScreen } from '../screens/EditEvent';
 import { EditMediaScreen } from '../screens/EditMedia';
 import { EventDetailScreen } from '../screens/EventDetail';
 import { RemoveConnectionScreen } from '../screens/RemoveConnection';
-import { ReviewAthletesScreen } from '../screens/ReviewAthletes';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
 import { SelectConnectionScreen } from '../screens/SelectConnection';
 
@@ -82,7 +80,6 @@ export const Stacks = () => {
         component={CreateEventScreen}
         options={{ title: 'Add Event' }}
       />
-      <Stack.Screen name="AddMedia" component={AddMediaScreen} options={{ title: 'Add Media' }} />
       <Stack.Screen
         name="EditMedia"
         component={EditMediaScreen}
@@ -99,13 +96,6 @@ export const Stacks = () => {
         component={RemoveConnectionScreen}
         options={{
           title: 'Remove Connection',
-        }}
-      />
-      <Stack.Screen
-        name="ReviewAthletes"
-        component={ReviewAthletesScreen}
-        options={{
-          title: 'Review Athletes',
         }}
       />
       <Stack.Screen

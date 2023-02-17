@@ -1,13 +1,15 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { AnimatedFAB, Button, Text } from 'react-native-paper';
+import { AnimatedFAB, Text } from 'react-native-paper';
+import { useQuery } from 'react-query';
 
-import { BottomActions } from '../components/BottomActions/BottomActions';
+import { getEventById } from '../api/queries/getEvents';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { ImageGrid } from '../features/ImageGrid/ImageGrid';
+import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { RichText } from '../features/RichText/RichText';
 import { Screen } from '../features/Screen/Screen';
 import { getAccentColor } from '../helpers/colorHelper';
@@ -45,76 +47,62 @@ const pageStyles = StyleSheet.create({
 });
 
 export const EventDetailScreen = ({ route, navigation }) => {
-  const isReview = route?.params?.isReview;
-  const { eventFields: event, reset } = useEventFields();
+  const id = route?.params?.id;
+  const [error, setError] = useState<unknown>();
+
+  const { data: event, isFetching } = useQuery('event', () => getEventById(id), {
+    onError: (error) => {
+      setError(error);
+    },
+  });
+
+  const { init, reset } = useEventFields();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   useEffect(() => {
     navigation.setOptions({
-      title: event.title,
+      title: event?.title,
     });
   }, [event, navigation]);
 
   const onCardPress = useCallback(
     (athlete: Athlete) => {
       navigation.navigate('AthleteDetail', {
-        id: athlete.id,
-        title: athlete.athleteName,
+        id: athlete?.id,
+        title: athlete?.athleteName,
       });
     },
     [navigation]
   );
 
   const handleEditInfo = useCallback(() => {
+    init(event);
     navigation.navigate('EditEvent');
-  }, [navigation]);
-
-  const handleDiscardBtn = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
-
-  // TODO Add API request to create/ update athlete
-  const handlePublishBtn = useCallback(() => {}, []);
+  }, [event, init, navigation]);
 
   const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
 
   const imageUriArray = useMemo(() => {
+    if (!event?.relatedMedia?.length) {
+      return [];
+    }
+
     return event.relatedMedia.map((img: Media) => img.fileUrl);
   }, [event]);
 
   const bottomActions = useMemo(
-    () =>
-      isReview ? (
-        <BottomActions style={pageStyles.actionBtns}>
-          <Button
-            mode="outlined"
-            style={styles.button}
-            labelStyle={styles.buttonLabel}
-            onPress={handleDiscardBtn}
-          >
-            Discard
-          </Button>
-          <Button
-            mode="contained"
-            style={styles.button}
-            labelStyle={styles.buttonLabel}
-            onPress={() => handlePublishBtn()}
-          >
-            Publish
-          </Button>
-        </BottomActions>
-      ) : (
-        <AnimatedFAB
-          icon={({ size }) => (
-            <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
-          )}
-          label="Edit"
-          extended={isTopEdge}
-          onPress={handleEditInfo}
-          style={pageStyles.bottomFAB}
-        />
-      ),
-    [isTopEdge, isReview, handleEditInfo, handleDiscardBtn, handlePublishBtn]
+    () => (
+      <AnimatedFAB
+        icon={({ size }) => (
+          <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
+        )}
+        label="Edit"
+        extended={isTopEdge}
+        onPress={handleEditInfo}
+        style={pageStyles.bottomFAB}
+      />
+    ),
+    [isTopEdge, handleEditInfo]
   );
 
   // clear global state on unmount
@@ -124,6 +112,10 @@ export const EventDetailScreen = ({ route, navigation }) => {
       reset();
     };
   }, [reset]);
+
+  if (isFetching) {
+    return <LoadingScreen />;
+  }
 
   if (!event) {
     return (

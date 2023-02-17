@@ -14,8 +14,10 @@ import { Screen } from '../features/Screen/Screen';
 import { getAccentColor } from '../helpers/colorHelper';
 import { mapContentItem } from '../helpers/contentItemHelper';
 import { getDate, getTime } from '../helpers/dateHelper';
+import { prepareRequestFields } from '../helpers/events';
+import { useEventFields } from '../hooks/useEventFields/useEventFields';
 import { Athlete } from '../interfaces/athlete';
-import { Event, EventResponse } from '../interfaces/event';
+import { Event } from '../interfaces/event';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
@@ -46,10 +48,8 @@ const pageStyles = StyleSheet.create({
 });
 
 export const ReviewEventScreen = ({ navigation, route }) => {
-  const event = route?.params?.event as Event;
-
-  // TODO Retrieve event to review from global store
-  const eventToReview = undefined as EventResponse;
+  const { eventFields } = useEventFields();
+  const event = eventFields as Event;
 
   const [newEventID, setNewEventID] = useState(undefined);
 
@@ -58,7 +58,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
-  const isNewEvent = route.params.isNewAthlete;
+  const isNew = route?.params?.isNew;
 
   useEffect(() => {
     navigation.setOptions({
@@ -98,18 +98,19 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
 
-    // Map eventToReview object to a form suitable for the API request
-    const requestFields = mapContentItem(eventToReview, (k, v) => ({
+    //  Map eventToReview object to a form suitable for the API request
+    const requestFields = mapContentItem(prepareRequestFields(event), (k, v) => ({
       value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
     }));
+
     // Delete the id, name from the request fields to avoid errors
     delete requestFields.id;
     delete requestFields.name;
 
-    if (isNewEvent) {
+    if (isNew) {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
-        name: eventToReview.name,
+        name: event.name,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
@@ -117,15 +118,15 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         .finally(() => setIsValidating(false));
     } else {
       await updateContentItem({
-        id: eventToReview.id,
-        name: eventToReview.name,
+        id: event.id,
+        name: event.name,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
         .catch(() => setShowErrorToast(true))
         .finally(() => setIsValidating(false));
     }
-  }, [eventToReview, isNewEvent, processResponse]);
+  }, [event, isNew, processResponse]);
 
   const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
 
@@ -218,7 +219,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
             <CardEvent key={event.id} item={event} />
           ))}
         </View>
-        <View style={{ paddingBottom: 70 }} />
+        <View style={{ paddingBottom: 50 }} />
       </ScrollView>
       {isValidating && (
         <View>
@@ -227,14 +228,14 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       )}
       <Toast
         duration={2000}
-        message={isNewEvent ? 'Event created successfully!' : 'Event updated successfully!'}
+        message={isNew ? 'Event created successfully!' : 'Event updated successfully!'}
         onDismiss={handleSuccessToastDismiss}
         visible={showSuccessToast}
         type="success"
       />
       <Toast
         duration={2000}
-        message={isNewEvent ? 'Event could not be created' : 'Event could not be updated'}
+        message={isNew ? 'Event could not be created' : 'Event could not be updated'}
         onDismiss={handleErrorToastDismiss}
         visible={showErrorToast}
         type="warning"

@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { MEDIA_SOURCES } from '../constants/media';
 import { Event } from '../interfaces/event';
+import { IIndexable } from '../interfaces/indexable';
 
 const initializeEventFields = (event: Event) => {
   return {
@@ -44,6 +45,9 @@ export const eventFieldsSlice = createSlice({
   reducers: {
     edit: (state: EventFieldsState, action: PayloadAction<EventField>) => {
       return { ...state, [action.payload.key]: action.payload.value };
+    },
+    editMultiple: (state: EventFieldsState, action: PayloadAction<IIndexable>) => {
+      return { ...state, ...action.payload };
     },
     init: (state: EventFieldsState, action: PayloadAction<Event>) => {
       if (!action.payload) {
@@ -105,6 +109,6 @@ export const eventFieldsSlice = createSlice({
   },
 });
 
-export const { edit, init, remove, replace, reset } = eventFieldsSlice.actions;
+export const { edit, editMultiple, init, remove, replace, reset } = eventFieldsSlice.actions;
 
 export default eventFieldsSlice.reducer;

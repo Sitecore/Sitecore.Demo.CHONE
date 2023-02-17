@@ -30,7 +30,7 @@ type SportPickerProps = {
 };
 
 export const SportPicker = ({ onChange, sports, initialValue = '' }: SportPickerProps) => {
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string>(initialValue);
 
   const handleChange = useCallback(
     (value: string) => {
@@ -55,9 +55,7 @@ export const SportPicker = ({ onChange, sports, initialValue = '' }: SportPicker
               styles.radioButton,
               {
                 backgroundColor:
-                  value === sport.title || initialValue === sport.title
-                    ? theme.colors.yellow.DEFAULT
-                    : theme.colors.white.DEFAULT,
+                  value === sport.title ? theme.colors.yellow.DEFAULT : theme.colors.white.DEFAULT,
               },
             ]}
             labelStyle={styles.label}
