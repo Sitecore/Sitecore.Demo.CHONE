@@ -7,6 +7,7 @@ import { DropdownItem, DropdownPicker } from '../DropdownPicker/DropdownPicker';
 type FacetFilterProps = IFacetFilter & {
   onChange: (id: string, item: DropdownItem) => void;
   style?: StyleProp<ViewStyle>;
+  selectedValue?: string;
 };
 
 export interface IFacetFilter {
@@ -15,7 +16,14 @@ export interface IFacetFilter {
   facets: DropdownItem[];
 }
 
-export const FacetFilter = ({ id, label, facets, onChange, style }: FacetFilterProps) => {
+export const FacetFilter = ({
+  id,
+  label,
+  facets,
+  onChange,
+  style,
+  selectedValue = null,
+}: FacetFilterProps) => {
   const handleChange = (item: DropdownItem) => {
     onChange(id, item);
   };
@@ -23,7 +31,11 @@ export const FacetFilter = ({ id, label, facets, onChange, style }: FacetFilterP
   return (
     <View style={style}>
       <Text style={{ marginBottom: theme.spacing.xxs }}>{label}</Text>
-      <DropdownPicker selectItems={facets} onSelectItem={handleChange} />
+      <DropdownPicker
+        selectItems={facets}
+        onSelectItem={handleChange}
+        selectedValue={selectedValue}
+      />
     </View>
   );
 };
