@@ -170,6 +170,7 @@ export const EditEventScreen = ({ route, navigation }) => {
             containerStyle={inputContainerStyle}
             onChange={setSummary}
             value={summary}
+            multiline
             title="Teaser"
           />
           <Pressable onPress={() => setShowDatePicker(true)}>

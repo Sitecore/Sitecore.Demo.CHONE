@@ -55,7 +55,7 @@ export const SportPicker = ({ onChange, sports, initialValue = '' }: SportPicker
               styles.radioButton,
               {
                 backgroundColor:
-                  value === sport.title || initialValue === sport.title
+                  value === sport.title || (!value && initialValue === sport.title)
                     ? theme.colors.yellow.DEFAULT
                     : theme.colors.white.DEFAULT,
               },
