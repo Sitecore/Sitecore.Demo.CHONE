@@ -43,7 +43,7 @@ export const FieldsView = ({
           />
         </View>
       </Pressable>
-      {setShowDatePicker && (
+      {showDatePicker && (
         <DatePicker
           value={date}
           visible={showDatePicker}
