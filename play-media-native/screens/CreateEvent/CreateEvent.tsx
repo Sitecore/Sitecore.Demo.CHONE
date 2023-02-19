@@ -12,13 +12,18 @@ import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { Stepper } from '../../components/Stepper/Stepper';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
-import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { generateID } from '../../helpers/uuid';
+import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
 
 export const CreateEventScreen = ({ navigation, route }) => {
-  const { eventFields, edit, editMultiple, reset } = useEventFields();
-  const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
+  const [stateKey] = useState<string>(generateID());
+  const { contentItems, edit, editMultiple, init, reset } = useContentItems();
+  const event = useMemo(
+    () => contentItems[stateKey] ?? null,
+    [contentItems, stateKey]
+  ) as unknown as Event;
 
   const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
   const [title, setTitle] = useState();
@@ -65,8 +70,19 @@ export const CreateEventScreen = ({ navigation, route }) => {
       return <RichTextView setBody={setBody} teaser={teaser} setTeaser={setTeaser} />;
     }
 
-    return <ReferencesView />;
-  }, [step, date, handleSportChange, location, showDatePicker, sport, sports, title, teaser]);
+    return <ReferencesView stateKey={stateKey} />;
+  }, [
+    step,
+    date,
+    handleSportChange,
+    location,
+    showDatePicker,
+    sport,
+    sports,
+    stateKey,
+    title,
+    teaser,
+  ]);
 
   const onBack = useCallback(() => {
     if (step !== 0) {
@@ -85,26 +101,57 @@ export const CreateEventScreen = ({ navigation, route }) => {
     }
 
     editMultiple({
-      body,
-      location,
-      sport: sport || sports[0],
-      teaser,
-      timeAndDate: date,
-      title,
+      id: stateKey,
+      fields: {
+        body,
+        location,
+        sport: sport || sports[0],
+        teaser,
+        timeAndDate: date,
+        title,
+      },
     });
 
     navigation.navigate('ReviewEvent', {
+      stateKey,
       title: `Review ${title || 'Event'}`,
     });
-  }, [body, date, editMultiple, location, navigation, sport, sports, step, teaser, title]);
+  }, [
+    body,
+    date,
+    editMultiple,
+    location,
+    navigation,
+    sport,
+    sports,
+    stateKey,
+    step,
+    teaser,
+    title,
+  ]);
 
-  // reset global state on unmount
-  //
   useEffect(() => {
+    // init global state
+    //
+    if (stateKey) {
+      init({
+        id: stateKey,
+        fields: {
+          sport: null,
+          featuredImage: null,
+          relatedMedia: [],
+          athletes: [],
+          similarEvents: [],
+        },
+      });
+    }
+
+    // reset global state on unmount
+    //
     return () => {
-      reset();
+      reset({ id: stateKey });
     };
-  }, [reset]);
+  }, [init, reset, stateKey]);
 
   // Check route params for images added from route EditMedia (camera, library)
   //
@@ -116,13 +163,14 @@ export const CreateEventScreen = ({ navigation, route }) => {
 
       if (Array.isArray(event[route.params.key])) {
         edit({
+          id: stateKey,
           key: route.params.key,
           value: [...event[route.params.key], route.params.image],
         });
       } else {
-        edit({ key: route.params.key, value: route.params.image });
+        edit({ id: stateKey, key: route.params.key, value: route.params.image });
       }
-    }, [edit, event, route?.params])
+    }, [edit, event, route?.params, stateKey])
   );
 
   if (isFetchingSports) {

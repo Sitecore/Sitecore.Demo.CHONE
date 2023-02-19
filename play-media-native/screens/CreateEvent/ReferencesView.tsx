@@ -2,13 +2,12 @@ import { useCallback } from 'react';
 import { View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 
-import { CONTENT_TYPES } from '../../constants/contentTypes';
 import { ActionMenu } from '../../features/ActionMenu/ActionMenu';
 import { CardAvatar } from '../../features/CardAvatar/CardAvatar';
 import { CardEvent } from '../../features/CardEvent/CardEvent';
 import { ContentFieldMedia } from '../../features/ContentFieldMedia/ContentFieldMedia';
 import { ContentFieldReference } from '../../features/ContentFieldReference/ContentFieldReference';
-import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Athlete } from '../../interfaces/athlete';
 import { Event } from '../../interfaces/event';
 import { theme } from '../../theme/theme';
@@ -27,16 +26,14 @@ const eventMenuStyle = {
   zIndex: 10,
 };
 
-const contentType = CONTENT_TYPES.EVENT;
-
-export const ReferencesView = () => {
-  const { eventFields, remove } = useEventFields();
+export const ReferencesView = ({ stateKey }: { stateKey: string }) => {
+  const { contentItems, remove } = useContentItems();
 
   const deleteItem = useCallback(
     (key: string, item: any) => {
-      remove({ key, value: item });
+      remove({ id: stateKey, key, value: item });
     },
-    [remove]
+    [remove, stateKey]
   );
 
   const getMenuItems = useCallback(
@@ -53,25 +50,23 @@ export const ReferencesView = () => {
   return (
     <NestableScrollContainer style={{ paddingHorizontal: theme.spacing.sm }}>
       <ContentFieldMedia
-        contentType={contentType}
         fieldKey="featuredImage"
         fieldTitle="Featured Image"
         initialRoute="AddEvent"
-        items={eventFields.featuredImage}
+        items={contentItems[stateKey].featuredImage}
+        stateKey={stateKey}
         style={{ marginTop: theme.spacing.md }}
       />
       <ContentFieldMedia
-        contentType={contentType}
         fieldKey="relatedMedia"
         fieldTitle="Related Media"
         initialRoute="AddEvent"
-        items={eventFields.relatedMedia}
+        items={contentItems[stateKey].relatedMedia}
+        stateKey={stateKey}
         style={{ marginTop: theme.spacing.lg }}
       />
       <ContentFieldReference
         addRoute="AddAthletes"
-        contentType={contentType}
-        createRoute="AddAthlete"
         fieldKey="athletes"
         fieldTitle="Related Athletes"
         initialRoute="AddEvent"
@@ -86,12 +81,11 @@ export const ReferencesView = () => {
             />
           </View>
         )}
+        stateKey={stateKey}
         style={{ marginTop: theme.spacing.lg }}
       />
       <ContentFieldReference
         addRoute="AddEvents"
-        contentType={contentType}
-        createRoute="AddEvent"
         fieldKey="similarEvents"
         fieldTitle="Similar Events"
         initialRoute="AddEvent"
@@ -106,6 +100,7 @@ export const ReferencesView = () => {
             />
           </View>
         )}
+        stateKey={stateKey}
         style={{ marginTop: theme.spacing.lg }}
       />
       <View style={{ paddingBottom: 100 }} />

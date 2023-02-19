@@ -9,7 +9,6 @@ import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { MediaItemListDisplay } from '../../features/MediaItemListDisplay/MediaItemListDisplay';
 import { ListingImageDisplayType } from '../../features/SelectDisplayButtons/SelectDisplayButtons';
 import { getFileType, removeFileExtension } from '../../helpers/media';
-import { useMedia } from '../../hooks/useMedia/useMedia';
 import { Media } from '../../interfaces/media';
 import { theme } from '../../theme/theme';
 
@@ -32,16 +31,13 @@ interface Props {
 }
 
 export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs }: Props) => {
-  const { media } = useMedia();
-  const mediaIDs = media.map((item) => item.id);
-
   const renderItems = useMemo(
     () => ({
       [ListingImageDisplayType.GRID]: ({ item }) => (
         <SelectableView
           key={item.id}
           onSelect={() => onSelect(item)}
-          selected={selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)}
+          selected={selectedMediaIDs.includes(item.id)}
           style={{
             flex: 0.5,
             marginHorizontal: 2,
@@ -53,7 +49,7 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
       [ListingImageDisplayType.LIST]: ({ item }) => (
         <SelectableView
           onSelect={() => onSelect(item)}
-          selected={selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)}
+          selected={selectedMediaIDs.includes(item.id)}
           top={-2}
         >
           <MediaItemListDisplay item={item} />
@@ -62,7 +58,7 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
       [ListingImageDisplayType.CARDS]: ({ item }) => (
         <SelectableView
           onSelect={() => onSelect(item)}
-          selected={selectedMediaIDs.includes(item.id) || mediaIDs.includes(item.id)}
+          selected={selectedMediaIDs.includes(item.id)}
           top={200}
         >
           <Card
@@ -96,7 +92,7 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
         </SelectableView>
       ),
     }),
-    [mediaIDs, selectedMediaIDs, onSelect]
+    [selectedMediaIDs, onSelect]
   );
 
   if (isFetching) {

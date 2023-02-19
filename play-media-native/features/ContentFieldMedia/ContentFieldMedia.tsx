@@ -4,10 +4,8 @@ import { StyleProp, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
-import { CONTENT_TYPES } from '../../constants/contentTypes';
 import { MEDIA_SOURCES } from '../../constants/media';
-import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
-import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Media } from '../../interfaces/media';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import { theme } from '../../theme/theme';
@@ -53,23 +51,22 @@ export const ListItem = ({ item, menuItems }: { item: Media; menuItems: MenuItem
 };
 
 export const ContentFieldMedia = ({
-  contentType,
   fieldKey,
   fieldTitle,
   initialRoute,
   items,
+  stateKey,
   style,
 }: {
-  contentType: string;
   fieldKey: string;
   fieldTitle: string;
   initialRoute: string;
   items: Media[] | Media;
+  stateKey: string;
   style?: StyleProp<any>;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
-  const { edit: editAthleteFields, remove: removeAthleteFields } = useAthleteFields();
-  const { edit: editEventFields, remove: removeEventFields } = useEventFields();
+  const { edit, remove } = useContentItems();
 
   const single = !Array.isArray(items);
   const empty = Array.isArray(items) ? items?.length === 0 : !items;
@@ -78,37 +75,29 @@ export const ContentFieldMedia = ({
   const editMedia = useCallback(
     (image: Media) => {
       navigation.navigate('EditMedia', {
-        contentType,
         isEditMode: true,
         initialRoute,
         image,
         key: fieldKey,
         single,
+        stateKey,
       });
     },
-    [contentType, fieldKey, initialRoute, navigation, single]
+    [fieldKey, initialRoute, navigation, single, stateKey]
   );
 
   const deleteMedia = useCallback(
     ({ key, value }: { key: string; value: Media }) => {
-      if (contentType === CONTENT_TYPES.EVENT) {
-        removeEventFields({ key, value });
-      } else {
-        removeAthleteFields({ key, value });
-      }
+      remove({ id: stateKey, key, value });
     },
-    [contentType, removeAthleteFields, removeEventFields]
+    [remove, stateKey]
   );
 
   const reorderItems = useCallback(
     (items: Media) => {
-      if (contentType === CONTENT_TYPES.EVENT) {
-        editEventFields({ key: fieldKey, value: items });
-      } else {
-        editAthleteFields({ key: fieldKey, value: items });
-      }
+      edit({ id: stateKey, key: fieldKey, value: items });
     },
-    [contentType, editAthleteFields, editEventFields, fieldKey]
+    [edit, fieldKey, stateKey]
   );
 
   const resolveActionsForItem = useCallback(
@@ -173,11 +162,11 @@ export const ContentFieldMedia = ({
           {headerText}
         </Text>
         <MenuAddMedia
-          contentType={contentType}
           empty={empty}
           fieldKey={fieldKey}
           initialRoute={initialRoute}
           single={single}
+          stateKey={stateKey}
         />
       </View>
       {content}

@@ -6,19 +6,12 @@ import { createContentItem, updateContentItem } from '../api/queries/contentItem
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { CONTENT_TYPES } from '../constants/contentTypes';
-import { CardAvatar } from '../features/CardAvatar/CardAvatar';
-import { CardEvent } from '../features/CardEvent/CardEvent';
-import { ImageGrid } from '../features/ImageGrid/ImageGrid';
-import { RichText } from '../features/RichText/RichText';
+import { EventDetail } from '../features/EventDetail/EventDetail';
 import { Screen } from '../features/Screen/Screen';
-import { getAccentColor } from '../helpers/colorHelper';
 import { mapContentItem } from '../helpers/contentItemHelper';
-import { getDate, getTime } from '../helpers/dateHelper';
 import { prepareRequestFields } from '../helpers/events';
-import { useEventFields } from '../hooks/useEventFields/useEventFields';
-import { Athlete } from '../interfaces/athlete';
+import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
-import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
@@ -48,8 +41,10 @@ const pageStyles = StyleSheet.create({
 });
 
 export const ReviewEventScreen = ({ navigation, route }) => {
-  const { eventFields } = useEventFields();
-  const event = eventFields as Event;
+  const stateKey = route?.params?.stateKey;
+
+  const { contentItems } = useContentItems();
+  const event = contentItems[stateKey] as Event;
 
   const [newEventID, setNewEventID] = useState(undefined);
 
@@ -128,12 +123,6 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     }
   }, [event, isNew, processResponse]);
 
-  const accentColor = useMemo(() => getAccentColor(event?.sport?.title), [event]);
-
-  const imageUriArray = useMemo(() => {
-    return event?.relatedMedia.map((img: Media) => img.fileUrl);
-  }, [event]);
-
   const bottomActions = useMemo(
     () => (
       <BottomActions style={pageStyles.actionBtns}>
@@ -169,56 +158,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   return (
     <Screen>
       <ScrollView scrollEventThrottle={0} style={styles.screenPadding}>
-        <View>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Sport
-          </Text>
-          <Text
-            style={[
-              pageStyles.body,
-              {
-                color: accentColor,
-              },
-            ]}
-          >
-            {event.sport.title || ''}
-          </Text>
-        </View>
-        <View>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Title
-          </Text>
-          <Text style={pageStyles.body}>{event.title}</Text>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Time and date
-          </Text>
-          <Text style={pageStyles.body}>
-            {getDate(event.timeAndDate)} {getTime(event.timeAndDate)}
-          </Text>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Summary
-          </Text>
-          <Text style={pageStyles.body}>{event.teaser}</Text>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Location
-          </Text>
-          <Text style={pageStyles.body}>{event.location}</Text>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Body
-          </Text>
-          <RichText body={event.body.content} accentColor={accentColor} />
-        </View>
-        <ImageGrid images={imageUriArray} style={{ marginTop: theme.spacing.lg }} />
-        <View style={{ marginTop: theme.spacing.lg }}>
-          {event.athletes.map((athlete: Athlete) => (
-            <CardAvatar key={athlete.id} item={athlete} />
-          ))}
-        </View>
-        <View style={{ marginTop: theme.spacing.lg }}>
-          {event.similarEvents.map((event: Event) => (
-            <CardEvent key={event.id} item={event} />
-          ))}
-        </View>
+        <EventDetail event={event} isReview />
         <View style={{ paddingBottom: 50 }} />
       </ScrollView>
       {isValidating && (

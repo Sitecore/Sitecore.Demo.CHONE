@@ -8,17 +8,17 @@ import { DeviceMedia } from '../../interfaces/media';
 import { StackNavigationProp } from '../../interfaces/navigators';
 
 export const MenuAddMedia = ({
-  contentType,
   empty,
   fieldKey,
   initialRoute,
   single = false,
+  stateKey,
 }: {
-  contentType: string;
   empty: boolean;
   fieldKey: string;
   initialRoute: string;
   single: boolean;
+  stateKey: string;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
   const [visible, setVisible] = useState(false);
@@ -35,11 +35,12 @@ export const MenuAddMedia = ({
         image,
         key: fieldKey,
         single,
+        stateKey,
       });
     });
 
     close();
-  }, [close, fieldKey, initialRoute, launchCamera, navigation, single]);
+  }, [close, fieldKey, initialRoute, launchCamera, navigation, single, stateKey]);
 
   const handleMediaLibraryPress = useCallback(() => {
     launchLibrary((image: DeviceMedia) => {
@@ -48,22 +49,23 @@ export const MenuAddMedia = ({
         image,
         key: fieldKey,
         single,
+        stateKey,
       });
     });
 
     close();
-  }, [close, fieldKey, initialRoute, launchLibrary, navigation, single]);
+  }, [close, fieldKey, initialRoute, launchLibrary, navigation, single, stateKey]);
 
   const handleCHonePress = useCallback(() => {
     navigation.navigate('AddCH1Media', {
-      contentType,
       key: fieldKey,
       initialRoute,
       single,
+      stateKey,
     });
 
     close();
-  }, [close, contentType, fieldKey, initialRoute, navigation, single]);
+  }, [close, stateKey, fieldKey, initialRoute, navigation, single]);
 
   const buttonLabel = useMemo(() => {
     const add = 'Add';
