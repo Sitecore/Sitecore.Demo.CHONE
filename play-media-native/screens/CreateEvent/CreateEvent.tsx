@@ -2,25 +2,24 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { FieldsView } from './FieldsView';
-import { ReferencesView } from './ReferencesView';
-import { RichTextView } from './RichTextView';
-import { getAllSports } from '../../api/queries/getSports';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { Stepper } from '../../components/Stepper/Stepper';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
 import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { useSportsQuery } from '../../hooks/useSportsQuery/useSportsQuery';
 import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
+import { FieldsView } from './FieldsView';
+import { ReferencesView } from './ReferencesView';
+import { RichTextView } from './RichTextView';
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { eventFields, edit, editMultiple, reset } = useEventFields();
   const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
 
-  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
+  const { data: sports, isFetching: isFetchingSports } = useSportsQuery();
   const [title, setTitle] = useState();
   const [body, setBody] = useState<string>();
   const [sport, setSport] = useState<Sport>();
