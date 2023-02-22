@@ -20,18 +20,20 @@ import { theme } from '../../theme/theme';
 
 type ListingProps = {
   data: any;
+  numColumns?: number;
   isLoading?: boolean;
   isRefreshing?: boolean;
   renderItem: ListRenderItem<any>;
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-  onRefresh: () => void;
+  onRefresh?: () => void;
   style?: StyleProp<ViewStyle>;
 };
 
 export const Listing = ({
   data,
+  numColumns,
   isLoading,
-  isRefreshing,
+  isRefreshing = false,
   renderItem,
   onScroll,
   onRefresh,
@@ -95,6 +97,7 @@ export const Listing = ({
       </View>
       <FlatList
         data={items}
+        numColumns={numColumns ? numColumns : 1}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         onEndReachedThreshold={0.2}
