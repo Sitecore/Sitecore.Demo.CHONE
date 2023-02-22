@@ -142,9 +142,6 @@ export const EditEventScreen = ({ navigation, route }) => {
     };
   }, [reset, stateKey]);
 
-  // console.log('contentItems', contentItems);
-  console.log('stateKey', stateKey);
-
   if (isFetchingSports) {
     return <LoadingScreen />;
   }

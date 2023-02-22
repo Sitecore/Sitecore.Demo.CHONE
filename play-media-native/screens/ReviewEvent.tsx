@@ -147,8 +147,6 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     [handleDraft, handleSubmitBtn]
   );
 
-  console.log('stateKey', stateKey);
-
   if (!event) {
     return (
       <Screen centered>
