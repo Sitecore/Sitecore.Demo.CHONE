@@ -4,7 +4,6 @@ import { Button, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
 import { getAthleteById } from '../api/queries/getAthletes';
-import { getAllSports } from '../api/queries/getSports';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DatePicker } from '../components/DatePicker/DatePicker';
 import { InputText } from '../components/InputText/InputText';
@@ -13,6 +12,7 @@ import { Screen } from '../features/Screen/Screen';
 import { AthleteImages } from '../features/Screens/AthleteImages';
 import { SportPicker } from '../features/SportPicker/SportPicker';
 import { getDate, getYear } from '../helpers/dateHelper';
+import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
@@ -60,7 +60,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   );
   const athlete = data?.athlete;
 
-  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
+  const { data: sports, isFetching: isFetchingSports } = useSportsQuery();
 
   useEffect(() => {
     navigation.setOptions({

@@ -1,10 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { getAllEvents } from '../api/queries/getEvents';
-import { getAllSports } from '../api/queries/getSports';
 import { Listing } from '../components/Listing/Listing';
 import { EVENT_FACETS } from '../constants/filters';
 import { CardEvent } from '../features/CardEvent/CardEvent';
@@ -13,8 +10,10 @@ import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeEvents } from '../helpers/events';
 import { getLocationOptions, getSportOptions } from '../helpers/facets';
+import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
 
@@ -24,13 +23,13 @@ export const EventsListingScreen = ({ navigation }) => {
     isLoading: isFetchingInitialEvents,
     refetch: refetchEvents,
     isRefetching: isRefetchingEvents,
-  } = useQuery('events', () => getAllEvents());
+  } = useEventsQuery();
   const {
     data: sports,
     isLoading: isFetchingInitialSports,
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
-  } = useQuery('sports', () => getAllSports());
+  } = useSportsQuery();
   const [facets, setFacets] = useState<Record<string, any>>({
     [EVENT_FACETS.sport]: '',
     [EVENT_FACETS.location]: '',

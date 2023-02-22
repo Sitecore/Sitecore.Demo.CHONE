@@ -3,9 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 import { Button, Text } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { getAllSports } from '../api/queries/getSports';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DatePicker } from '../components/DatePicker/DatePicker';
 import { InputText } from '../components/InputText/InputText';
@@ -21,6 +19,7 @@ import { Screen } from '../features/Screen/Screen';
 import { SportPicker } from '../features/SportPicker/SportPicker';
 import { getDate } from '../helpers/dateHelper';
 import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Athlete } from '../interfaces/athlete';
 import { Event } from '../interfaces/event';
 import { Sport } from '../interfaces/sport';
@@ -52,7 +51,7 @@ export const EditEventScreen = ({ route, navigation }) => {
   const { eventFields, edit, editMultiple, remove } = useEventFields();
   const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
 
-  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
+  const { data: sports, isFetching: isFetchingSports } = useSportsQuery();
   const defaultSport = useMemo(() => {
     const hasSport = !!event?.sport;
     const sportsFetched = !!sports?.length;
