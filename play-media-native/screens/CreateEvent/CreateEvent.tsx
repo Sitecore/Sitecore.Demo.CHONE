@@ -1,4 +1,3 @@
-import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
@@ -17,13 +16,9 @@ import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
 
-export const CreateEventScreen = ({ navigation, route }) => {
+export const CreateEventScreen = ({ navigation }) => {
   const [stateKey] = useState<string>(generateID());
-  const { contentItems, edit, editMultiple, init, reset } = useContentItems();
-  const event = useMemo(
-    () => contentItems[stateKey] ?? null,
-    [contentItems, stateKey]
-  ) as unknown as Event;
+  const { editMultiple, init, reset } = useContentItems();
 
   const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
   const [title, setTitle] = useState();
@@ -131,7 +126,7 @@ export const CreateEventScreen = ({ navigation, route }) => {
   ]);
 
   useEffect(() => {
-    // init global state
+    // init global state on mount
     //
     if (stateKey) {
       init({
@@ -152,26 +147,6 @@ export const CreateEventScreen = ({ navigation, route }) => {
       reset({ id: stateKey });
     };
   }, [init, reset, stateKey]);
-
-  // Check route params for images added from route EditMedia (camera, library)
-  //
-  useFocusEffect(
-    useCallback(() => {
-      if (!route?.params?.isEditMedia || !route?.params?.key) {
-        return;
-      }
-
-      if (Array.isArray(event[route.params.key])) {
-        edit({
-          id: stateKey,
-          key: route.params.key,
-          value: [...event[route.params.key], route.params.image],
-        });
-      } else {
-        edit({ id: stateKey, key: route.params.key, value: route.params.image });
-      }
-    }, [edit, event, route?.params, stateKey])
-  );
 
   if (isFetchingSports) {
     return <LoadingScreen />;

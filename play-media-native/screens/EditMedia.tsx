@@ -20,22 +20,35 @@ const imageStyle = {
 
 export const EditMediaScreen = ({ navigation, route }) => {
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
-  const { replace } = useContentItems();
+  const { contentItems, edit, replace } = useContentItems();
 
   // route params
   //
   const fieldKey = route?.params?.key;
   const isEdit: boolean = route?.params?.isEditMode;
   const initialRoute = route?.params?.initialRoute;
+  const single = route?.params?.single;
   const stateKey = route?.params?.stateKey;
 
   const onEdit = useCallback(() => {
     replace({ id: stateKey, key: fieldKey, value: editedImage });
 
-    navigation.navigate(initialRoute, {
-      isEditMedia: false,
-    });
+    navigation.navigate(initialRoute);
   }, [editedImage, fieldKey, initialRoute, navigation, replace, stateKey]);
+
+  const onAdd = useCallback(() => {
+    edit(
+      single
+        ? { id: stateKey, key: fieldKey, value: { ...editedImage, id: generateID() } }
+        : {
+            id: stateKey,
+            key: fieldKey,
+            value: [...contentItems[stateKey][fieldKey], { ...editedImage, id: generateID() }],
+          }
+    );
+
+    navigation.navigate(initialRoute);
+  }, [contentItems, edit, editedImage, fieldKey, initialRoute, navigation, single, stateKey]);
 
   const onNameChange = useCallback((text: string) => {
     setEditedImage((prev) => ({
@@ -54,14 +67,6 @@ export const EditMediaScreen = ({ navigation, route }) => {
   const onCancel = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
-
-  const onAdd = useCallback(() => {
-    navigation.navigate(initialRoute, {
-      key: fieldKey,
-      image: { ...editedImage, id: generateID() },
-      isEditMedia: true,
-    });
-  }, [editedImage, initialRoute, navigation, fieldKey]);
 
   useFocusEffect(
     useCallback(() => {

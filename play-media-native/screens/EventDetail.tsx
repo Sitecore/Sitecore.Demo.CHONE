@@ -9,10 +9,11 @@ import { getEventById } from '../api/queries/getEvents';
 import { EventDetail } from '../features/EventDetail/EventDetail';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
-import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
+import { generateID } from '../helpers/uuid';
 
 const pageStyles = StyleSheet.create({
   bottomFAB: {
@@ -43,7 +44,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
     },
   });
 
-  const { init, reset } = useEventFields();
+  const { init } = useContentItems();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   useEffect(() => {
@@ -53,8 +54,10 @@ export const EventDetailScreen = ({ route, navigation }) => {
   }, [event, navigation]);
 
   const handleEditInfo = useCallback(() => {
-    init(event);
-    navigation.navigate('EditEvent');
+    const stateKey = generateID();
+
+    init({ id: stateKey, fields: event });
+    navigation.navigate('EditEvent', { stateKey });
   }, [event, init, navigation]);
 
   const bottomActions = useMemo(
@@ -71,14 +74,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
     ),
     [isTopEdge, handleEditInfo]
   );
-
-  // clear global state on unmount
-  //
-  useEffect(() => {
-    return () => {
-      reset();
-    };
-  }, [reset]);
 
   if (isFetching) {
     return <LoadingScreen />;

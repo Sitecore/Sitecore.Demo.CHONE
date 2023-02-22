@@ -55,7 +55,7 @@ export const contentItemsSlice = createSlice({
       return { ...state, [action.payload.id]: action.payload.fields };
     },
     remove: (state: ContentItemsState, action: PayloadAction<ContentItemField>) => {
-      if (!Array.isArray(state[action.payload.key])) {
+      if (!Array.isArray(state[action.payload.id][action.payload.key])) {
         return {
           ...state,
           [action.payload.id]: {
@@ -80,7 +80,7 @@ export const contentItemsSlice = createSlice({
         : { ...state };
     },
     replace: (state: ContentItemsState, action: PayloadAction<ContentItemField>) => {
-      if (!Array.isArray(state[action.payload.key])) {
+      if (!Array.isArray(state[action.payload.id][action.payload.key])) {
         return {
           ...state,
           [action.payload.id]: {

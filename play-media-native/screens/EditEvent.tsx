@@ -1,4 +1,3 @@
-import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
@@ -10,7 +9,6 @@ import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DatePicker } from '../components/DatePicker/DatePicker';
 import { InputText } from '../components/InputText/InputText';
 import { RichTextEditor } from '../components/RichTextEditor/RichTextEditor';
-import { CONTENT_TYPES } from '../constants/contentTypes';
 import { ActionMenu } from '../features/ActionMenu/ActionMenu';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { CardEvent } from '../features/CardEvent/CardEvent';
@@ -20,7 +18,7 @@ import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { SportPicker } from '../features/SportPicker/SportPicker';
 import { getDate } from '../helpers/dateHelper';
-import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Athlete } from '../interfaces/athlete';
 import { Event } from '../interfaces/event';
 import { Sport } from '../interfaces/sport';
@@ -45,12 +43,16 @@ const eventMenuStyle = {
   zIndex: 10,
 };
 
-const contentType = CONTENT_TYPES.EVENT;
 const initialRoute = 'EditEvent';
 
-export const EditEventScreen = ({ route, navigation }) => {
-  const { eventFields, edit, editMultiple, remove } = useEventFields();
-  const event = useMemo(() => eventFields, [eventFields]) as unknown as Event;
+export const EditEventScreen = ({ navigation, route }) => {
+  const [stateKey] = useState(route?.params?.stateKey);
+  const { contentItems, editMultiple, remove, reset } = useContentItems();
+
+  const event = useMemo(
+    () => contentItems[stateKey] ?? null,
+    [contentItems, stateKey]
+  ) as unknown as Event;
 
   const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
   const defaultSport = useMemo(() => {
@@ -80,9 +82,9 @@ export const EditEventScreen = ({ route, navigation }) => {
 
   const deleteItem = useCallback(
     (key: string, item: any) => {
-      remove({ key, value: item });
+      remove({ id: stateKey, key, value: item });
     },
-    [remove]
+    [remove, stateKey]
   );
 
   const getMenuItems = useCallback(
@@ -105,18 +107,22 @@ export const EditEventScreen = ({ route, navigation }) => {
 
   const handleReview = useCallback(() => {
     editMultiple({
-      body,
-      location,
-      sport: sport || sports[0],
-      teaser,
-      timeAndDate: date,
-      title,
+      id: stateKey,
+      fields: {
+        body,
+        location,
+        sport: sport || sports[0],
+        teaser,
+        timeAndDate: date,
+        title,
+      },
     });
 
     navigation.navigate('ReviewEvent', {
+      stateKey,
       title: `Review ${title || 'Event'}`,
     });
-  }, [body, date, editMultiple, location, navigation, sport, sports, teaser, title]);
+  }, [body, date, editMultiple, location, navigation, sport, sports, stateKey, teaser, title]);
 
   const handleDiscard = useCallback(() => {
     navigation.goBack();
@@ -128,32 +134,23 @@ export const EditEventScreen = ({ route, navigation }) => {
     });
   }, [event?.title, navigation]);
 
-  // Check route params for images added from route EditMedia (camera, library)
+  // reset global state on unmount
   //
-  useFocusEffect(
-    useCallback(() => {
-      if (!route?.params?.isEditMedia || !route?.params?.key) {
-        return;
-      }
+  useEffect(() => {
+    return () => {
+      reset({ id: stateKey });
+    };
+  }, [reset, stateKey]);
 
-      if (Array.isArray(event[route.params.key])) {
-        edit({
-          key: route.params.key,
-          value: [...event[route.params.key], route.params.image],
-        });
-      } else {
-        edit({ key: route.params.key, value: route.params.image });
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [edit, route?.params])
-  );
+  // console.log('contentItems', contentItems);
+  console.log('stateKey', stateKey);
 
   if (isFetchingSports) {
     return <LoadingScreen />;
   }
 
   if (!event && !isFetchingSports) {
-    return <Text>Athlete could not be fetched!</Text>;
+    return <Text>Event not available!</Text>;
   }
 
   return (
@@ -165,7 +162,6 @@ export const EditEventScreen = ({ route, navigation }) => {
             sports={sports}
             initialValue={defaultSport?.title}
           />
-
           <InputText
             containerStyle={inputContainerStyle}
             multiline
@@ -211,25 +207,23 @@ export const EditEventScreen = ({ route, navigation }) => {
             <RichTextEditor initialValue={event?.body?.content} onChange={handleBodyChange} />
           </View>
           <ContentFieldMedia
-            contentType={contentType}
             fieldKey="featuredImage"
             fieldTitle="Featured Image"
             initialRoute={initialRoute}
             items={event.featuredImage}
+            stateKey={stateKey}
             style={{ marginTop: theme.spacing.md }}
           />
           <ContentFieldMedia
-            contentType={contentType}
             fieldKey="relatedMedia"
             fieldTitle="Related Media"
             initialRoute={initialRoute}
             items={event.relatedMedia}
+            stateKey={stateKey}
             style={{ marginTop: theme.spacing.lg }}
           />
           <ContentFieldReference
             addRoute="AddAthletes"
-            contentType={contentType}
-            createRoute="AddAthlete"
             fieldKey="athletes"
             fieldTitle="Related Athletes"
             initialRoute={initialRoute}
@@ -244,12 +238,11 @@ export const EditEventScreen = ({ route, navigation }) => {
                 />
               </View>
             )}
+            stateKey={stateKey}
             style={{ marginTop: theme.spacing.lg }}
           />
           <ContentFieldReference
             addRoute="AddEvents"
-            contentType={contentType}
-            createRoute="AddEvent"
             fieldKey="similarEvents"
             fieldTitle="Similar Events"
             initialRoute={initialRoute}
@@ -264,6 +257,7 @@ export const EditEventScreen = ({ route, navigation }) => {
                 />
               </View>
             )}
+            stateKey={stateKey}
             style={{ marginTop: theme.spacing.lg }}
           />
           <View style={{ paddingBottom: 75 }} />
