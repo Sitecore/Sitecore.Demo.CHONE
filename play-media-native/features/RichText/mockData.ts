@@ -1,503 +1,503 @@
 export const RICH_TEXT_RESPONSE = [
   {
     body: {
-      type: "doc",
+      type: 'doc',
       content: [
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 1,
           },
           content: [
             {
-              type: "text",
-              text: "Heading 1",
+              type: 'text',
+              text: 'Heading 1',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 2,
           },
           content: [
             {
-              type: "text",
-              text: "Heading 2",
+              type: 'text',
+              text: 'Heading 2',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 3,
           },
           content: [
             {
-              type: "text",
-              text: "Heading 3",
+              type: 'text',
+              text: 'Heading 3',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 4,
           },
           content: [
             {
-              type: "text",
-              text: "Heading 4",
+              type: 'text',
+              text: 'Heading 4',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 5,
           },
           content: [
             {
-              type: "text",
-              text: "Heading 5",
+              type: 'text',
+              text: 'Heading 5',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 6,
           },
           content: [
             {
-              type: "text",
-              text: "Heading 6",
+              type: 'text',
+              text: 'Heading 6',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
-              text: "Simple.",
+              type: 'text',
+              text: 'Simple.',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "bold",
+                  type: 'bold',
                 },
               ],
-              text: "Bold.",
+              text: 'Bold.',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "italic",
+                  type: 'italic',
                 },
               ],
-              text: "Italic.",
+              text: 'Italic.',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "underline",
+                  type: 'underline',
                 },
               ],
-              text: "Underlined.",
+              text: 'Underlined.',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "strike",
+                  type: 'strike',
                 },
               ],
-              text: "Strikethrough.",
+              text: 'Strikethrough.',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
-              text: "All ",
+              type: 'text',
+              text: 'All ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "bold",
+                  type: 'bold',
                 },
               ],
-              text: "the",
+              text: 'the',
             },
             {
-              type: "text",
-              text: " ",
+              type: 'text',
+              text: ' ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "italic",
+                  type: 'italic',
                 },
               ],
-              text: "types",
+              text: 'types',
             },
             {
-              type: "text",
-              text: " ",
+              type: 'text',
+              text: ' ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "underline",
+                  type: 'underline',
                 },
               ],
-              text: "of text",
+              text: 'of text',
             },
             {
-              type: "text",
-              text: " ",
+              type: 'text',
+              text: ' ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "strike",
+                  type: 'strike',
                 },
               ],
-              text: "combined",
+              text: 'combined',
             },
             {
-              type: "text",
-              text: " in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.",
+              type: 'text',
+              text: ' in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 3,
           },
           content: [
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "bold",
+                  type: 'bold',
                 },
               ],
-              text: "Simple bold text",
+              text: 'Simple bold text',
             },
             {
-              type: "text",
-              text: " and heading in same paragraph (lets see what it returns).",
+              type: 'text',
+              text: ' and heading in same paragraph (lets see what it returns).',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 2,
           },
           content: [
             {
-              type: "text",
-              text: "Links",
+              type: 'text',
+              text: 'Links',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "link",
+                  type: 'link',
                   attrs: {
-                    href: "https://www.sitecore.com/",
-                    target: "_blank",
+                    href: 'https://www.sitecore.com/',
+                    target: '_blank',
                     class: null,
                   },
                 },
               ],
-              text: "Standalone link.",
+              text: 'Standalone link.',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
-              text: "All ",
+              type: 'text',
+              text: 'All ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "bold",
+                  type: 'bold',
                 },
               ],
-              text: "the",
+              text: 'the',
             },
             {
-              type: "text",
-              text: " ",
+              type: 'text',
+              text: ' ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "italic",
+                  type: 'italic',
                 },
               ],
-              text: "types",
+              text: 'types',
             },
             {
-              type: "text",
-              text: " ",
+              type: 'text',
+              text: ' ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "underline",
+                  type: 'underline',
                 },
               ],
-              text: "of text",
+              text: 'of text',
             },
             {
-              type: "text",
-              text: " ",
+              type: 'text',
+              text: ' ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "strike",
+                  type: 'strike',
                 },
               ],
-              text: "combined",
+              text: 'combined',
             },
             {
-              type: "text",
-              text: " in one paragraph. Plus a ",
+              type: 'text',
+              text: ' in one paragraph. Plus a ',
             },
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "link",
+                  type: 'link',
                   attrs: {
-                    href: "www.sitecore.com",
-                    target: "_blank",
+                    href: 'www.sitecore.com',
+                    target: '_blank',
                     class: null,
                   },
                 },
               ],
-              text: "link",
+              text: 'link',
             },
             {
-              type: "text",
-              text: " inside a paragraph.",
+              type: 'text',
+              text: ' inside a paragraph.',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 2,
           },
           content: [
             {
-              type: "text",
-              text: "Lists",
+              type: 'text',
+              text: 'Lists',
             },
           ],
         },
         {
-          type: "bulletList",
+          type: 'bulletList',
           content: [
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
-                      text: "Simple.",
+                      type: 'text',
+                      text: 'Simple.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "bold",
+                          type: 'bold',
                         },
                       ],
-                      text: "Bold.",
+                      text: 'Bold.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "italic",
+                          type: 'italic',
                         },
                       ],
-                      text: "Italic.",
+                      text: 'Italic.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "underline",
+                          type: 'underline',
                         },
                       ],
-                      text: "Underlined.",
+                      text: 'Underlined.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "strike",
+                          type: 'strike',
                         },
                       ],
-                      text: "Strikethrough.",
+                      text: 'Strikethrough.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
-                      text: "All ",
+                      type: 'text',
+                      text: 'All ',
                     },
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "bold",
+                          type: 'bold',
                         },
                       ],
-                      text: "the",
+                      text: 'the',
                     },
                     {
-                      type: "text",
-                      text: " ",
+                      type: 'text',
+                      text: ' ',
                     },
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "italic",
+                          type: 'italic',
                         },
                       ],
-                      text: "types",
+                      text: 'types',
                     },
                     {
-                      type: "text",
-                      text: " ",
+                      type: 'text',
+                      text: ' ',
                     },
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "underline",
+                          type: 'underline',
                         },
                       ],
-                      text: "of text",
+                      text: 'of text',
                     },
                     {
-                      type: "text",
-                      text: " ",
+                      type: 'text',
+                      text: ' ',
                     },
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "strike",
+                          type: 'strike',
                         },
                       ],
-                      text: "combined",
+                      text: 'combined',
                     },
                     {
-                      type: "text",
-                      text: " in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.",
+                      type: 'text',
+                      text: ' in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.',
                     },
                   ],
                 },
@@ -506,162 +506,162 @@ export const RICH_TEXT_RESPONSE = [
           ],
         },
         {
-          type: "orderedList",
+          type: 'orderedList',
           attrs: {
             start: 1,
           },
           content: [
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
-                      text: "Simple.",
+                      type: 'text',
+                      text: 'Simple.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "bold",
+                          type: 'bold',
                         },
                       ],
-                      text: "Bold.",
+                      text: 'Bold.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "italic",
+                          type: 'italic',
                         },
                       ],
-                      text: "Italic.",
+                      text: 'Italic.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "underline",
+                          type: 'underline',
                         },
                       ],
-                      text: "Underlined.",
+                      text: 'Underlined.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "strike",
+                          type: 'strike',
                         },
                       ],
-                      text: "Strikethrough.",
+                      text: 'Strikethrough.',
                     },
                   ],
                 },
               ],
             },
             {
-              type: "listItem",
+              type: 'listItem',
               content: [
                 {
-                  type: "paragraph",
+                  type: 'paragraph',
                   content: [
                     {
-                      type: "text",
-                      text: "All ",
+                      type: 'text',
+                      text: 'All ',
                     },
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "bold",
+                          type: 'bold',
                         },
                       ],
-                      text: "the",
+                      text: 'the',
                     },
                     {
-                      type: "text",
-                      text: " ",
+                      type: 'text',
+                      text: ' ',
                     },
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "italic",
+                          type: 'italic',
                         },
                       ],
-                      text: "types",
+                      text: 'types',
                     },
                     {
-                      type: "text",
-                      text: " ",
+                      type: 'text',
+                      text: ' ',
                     },
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "underline",
+                          type: 'underline',
                         },
                       ],
-                      text: "of text",
+                      text: 'of text',
                     },
                     {
-                      type: "text",
-                      text: " ",
+                      type: 'text',
+                      text: ' ',
                     },
                     {
-                      type: "text",
+                      type: 'text',
                       marks: [
                         {
-                          type: "strike",
+                          type: 'strike',
                         },
                       ],
-                      text: "combined",
+                      text: 'combined',
                     },
                     {
-                      type: "text",
-                      text: " in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.",
+                      type: 'text',
+                      text: ' in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.',
                     },
                   ],
                 },
@@ -670,281 +670,281 @@ export const RICH_TEXT_RESPONSE = [
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 2,
           },
           content: [
             {
-              type: "text",
-              text: "Code",
+              type: 'text',
+              text: 'Code',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "code",
+                  type: 'code',
                 },
               ],
-              text: "Code element with just simple text.",
+              text: 'Code element with just simple text.',
             },
           ],
         },
         {
-          type: "codeBlock",
+          type: 'codeBlock',
           attrs: {
             language: null,
           },
           content: [
             {
-              type: "text",
-              text: "Code block element with just simple text.",
+              type: 'text',
+              text: 'Code block element with just simple text.',
             },
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
           content: [
             {
-              type: "text",
+              type: 'text',
               marks: [
                 {
-                  type: "code",
+                  type: 'code',
                 },
               ],
-              text: "All the types of text combined in one paragraph. This contained all sorts of text types and was marked as code to see if all other styles are gone in the data or remain there.",
+              text: 'All the types of text combined in one paragraph. This contained all sorts of text types and was marked as code to see if all other styles are gone in the data or remain there.',
             },
           ],
         },
         {
-          type: "codeBlock",
+          type: 'codeBlock',
           attrs: {
             language: null,
           },
           content: [
             {
-              type: "text",
-              text: "All the types of text combined in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.",
+              type: 'text',
+              text: 'All the types of text combined in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.',
             },
           ],
         },
         {
-          type: "heading",
+          type: 'heading',
           attrs: {
             level: 2,
           },
           content: [
             {
-              type: "text",
-              text: "Quotes",
+              type: 'text',
+              text: 'Quotes',
             },
           ],
         },
         {
-          type: "blockquote",
+          type: 'blockquote',
           content: [
             {
-              type: "paragraph",
+              type: 'paragraph',
               content: [
                 {
-                  type: "text",
-                  text: "Quote element with simple text.",
+                  type: 'text',
+                  text: 'Quote element with simple text.',
                 },
               ],
             },
           ],
         },
         {
-          type: "blockquote",
+          type: 'blockquote',
           content: [
             {
-              type: "paragraph",
+              type: 'paragraph',
               content: [
                 {
-                  type: "text",
-                  text: "All ",
+                  type: 'text',
+                  text: 'All ',
                 },
                 {
-                  type: "text",
+                  type: 'text',
                   marks: [
                     {
-                      type: "bold",
+                      type: 'bold',
                     },
                   ],
-                  text: "the",
+                  text: 'the',
                 },
                 {
-                  type: "text",
-                  text: " ",
+                  type: 'text',
+                  text: ' ',
                 },
                 {
-                  type: "text",
+                  type: 'text',
                   marks: [
                     {
-                      type: "italic",
+                      type: 'italic',
                     },
                   ],
-                  text: "types",
+                  text: 'types',
                 },
                 {
-                  type: "text",
-                  text: " ",
+                  type: 'text',
+                  text: ' ',
                 },
                 {
-                  type: "text",
+                  type: 'text',
                   marks: [
                     {
-                      type: "underline",
+                      type: 'underline',
                     },
                   ],
-                  text: "of text",
+                  text: 'of text',
                 },
                 {
-                  type: "text",
-                  text: " ",
+                  type: 'text',
+                  text: ' ',
                 },
                 {
-                  type: "text",
+                  type: 'text',
                   marks: [
                     {
-                      type: "strike",
+                      type: 'strike',
                     },
                   ],
-                  text: "combined",
+                  text: 'combined',
                 },
                 {
-                  type: "text",
-                  text: " in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.",
+                  type: 'text',
+                  text: ' in one paragraph. Marking a word in here as heading, makes the whole paragraph a heading.',
                 },
               ],
             },
           ],
         },
         {
-          type: "blockquote",
+          type: 'blockquote',
           content: [
             {
-              type: "paragraph",
+              type: 'paragraph',
               content: [
                 {
-                  type: "text",
+                  type: 'text',
                   marks: [
                     {
-                      type: "code",
+                      type: 'code',
                     },
                   ],
-                  text: "Quote element with code.",
+                  text: 'Quote element with code.',
                 },
               ],
             },
           ],
         },
         {
-          type: "blockquote",
+          type: 'blockquote',
           content: [
             {
-              type: "codeBlock",
+              type: 'codeBlock',
               attrs: {
                 language: null,
               },
               content: [
                 {
-                  type: "text",
-                  text: "Quote element with code block.",
+                  type: 'text',
+                  text: 'Quote element with code block.',
                 },
               ],
             },
           ],
         },
         {
-          type: "blockquote",
+          type: 'blockquote',
           content: [
             {
-              type: "paragraph",
+              type: 'paragraph',
               content: [
                 {
-                  type: "text",
-                  text: "Quote element with ",
+                  type: 'text',
+                  text: 'Quote element with ',
                 },
                 {
-                  type: "text",
+                  type: 'text',
                   marks: [
                     {
-                      type: "link",
+                      type: 'link',
                       attrs: {
-                        href: "www.sitecore.com",
-                        target: "_blank",
+                        href: 'www.sitecore.com',
+                        target: '_blank',
                         class: null,
                       },
                     },
                   ],
-                  text: "link",
+                  text: 'link',
                 },
                 {
-                  type: "text",
-                  text: ".",
+                  type: 'text',
+                  text: '.',
                 },
               ],
             },
           ],
         },
         {
-          type: "blockquote",
+          type: 'blockquote',
           content: [
             {
-              type: "paragraph",
+              type: 'paragraph',
               content: [
                 {
-                  type: "text",
-                  text: "Quote element with list.",
+                  type: 'text',
+                  text: 'Quote element with list.',
                 },
               ],
             },
             {
-              type: "bulletList",
+              type: 'bulletList',
               content: [
                 {
-                  type: "listItem",
+                  type: 'listItem',
                   content: [
                     {
-                      type: "paragraph",
+                      type: 'paragraph',
                       content: [
                         {
-                          type: "text",
-                          text: "one",
+                          type: 'text',
+                          text: 'one',
                         },
                       ],
                     },
                   ],
                 },
                 {
-                  type: "listItem",
+                  type: 'listItem',
                   content: [
                     {
-                      type: "paragraph",
+                      type: 'paragraph',
                       content: [
                         {
-                          type: "text",
-                          text: "two",
+                          type: 'text',
+                          text: 'two',
                         },
                       ],
                     },
                   ],
                 },
                 {
-                  type: "listItem",
+                  type: 'listItem',
                   content: [
                     {
-                      type: "paragraph",
+                      type: 'paragraph',
                       content: [
                         {
-                          type: "text",
-                          text: "three",
+                          type: 'text',
+                          text: 'three',
                         },
                       ],
                     },
@@ -955,10 +955,10 @@ export const RICH_TEXT_RESPONSE = [
           ],
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
         },
         {
-          type: "paragraph",
+          type: 'paragraph',
         },
       ],
     },

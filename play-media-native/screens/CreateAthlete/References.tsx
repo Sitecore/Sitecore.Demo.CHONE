@@ -1,11 +1,12 @@
-import { View } from "react-native";
-import { NestableScrollContainer } from "react-native-draggable-flatlist";
-import { ContentFieldMedia } from "../../features/ContentFieldMedia/ContentFieldMedia";
-import { theme } from "../../theme/theme";
-import { useAthleteFields } from "../../hooks/useAthleteFields/useAthleteFields";
-import { CONTENT_TYPES } from "../../constants/contentTypes";
+import { View } from 'react-native';
+import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 
-const initialRoute = "AddAthlete";
+import { CONTENT_TYPES } from '../../constants/contentTypes';
+import { ContentFieldMedia } from '../../features/ContentFieldMedia/ContentFieldMedia';
+import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
+import { theme } from '../../theme/theme';
+
+const initialRoute = 'AddAthlete';
 const contentType = CONTENT_TYPES.ATHLETE;
 
 export const References = () => {

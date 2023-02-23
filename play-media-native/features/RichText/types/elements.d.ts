@@ -1,7 +1,7 @@
 export interface RichTextTextElement {
   type: RichTextElementTypes.text;
   text: string;
-  marks?: Array<RichTextElementMarks>;
+  marks?: RichTextElementMarks[];
 }
 
 export enum RichTextElementTypes {
@@ -10,5 +10,5 @@ export enum RichTextElementTypes {
 
 export interface RichTextElement {
   type: RichTextElementTypes;
-  content: Array<RichTextTextElement>;
+  content: RichTextTextElement[];
 }

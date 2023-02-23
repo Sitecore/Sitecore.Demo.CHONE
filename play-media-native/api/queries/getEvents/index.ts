@@ -1,11 +1,7 @@
-import { fetchGraphQL } from "../..";
-import { FetchOptions } from "../../../interfaces/fetchOptions";
-import {
-  Event,
-  AllEventsResponse,
-  EventResponse,
-} from "../../../interfaces/event";
-import { normalizeEvent } from "../../../helpers/events";
+import { fetchGraphQL } from '../..';
+import { normalizeEvent } from '../../../helpers/events';
+import { Event, AllEventsResponse, EventResponse } from '../../../interfaces/event';
+import { FetchOptions } from '../../../interfaces/fetchOptions';
 
 const eventsQuery = `
 query {
@@ -13,6 +9,7 @@ query {
     total
     results {
       id
+      name
       title
       sport {
         results {
@@ -84,6 +81,7 @@ query {
         results {
           ... on Event {
             id
+            name
             location
             title
             sport {
@@ -112,9 +110,7 @@ query {
 }
 `;
 
-export const getAllEvents = async (
-  options?: FetchOptions
-): Promise<Event[]> => {
+export const getAllEvents = async (options?: FetchOptions): Promise<Event[]> => {
   const results: AllEventsResponse = (await fetchGraphQL(
     eventsQuery,
     options
@@ -122,4 +118,123 @@ export const getAllEvents = async (
   return results.data.allEvent.results.map((event: Partial<EventResponse>) =>
     normalizeEvent(event as EventResponse)
   );
+};
+
+const getEventByIdQuery = (id: string) => {
+  return `
+    query {
+      event (id: "${id}") {
+        id
+        name
+        title
+        sport {
+          results {
+            ... on Sport {
+              id
+              title
+              description
+            }
+          }
+        }
+        isFeatured
+        timeAndDate
+        location
+        featuredImage {
+          results {
+            id
+            name
+            fileUrl
+            description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
+          }
+        }
+        relatedMedia {
+          results {
+            id
+            name
+            fileUrl
+            description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
+          }
+        }
+        teaser
+        body
+        athletes {
+          results {
+            ... on Athlete {
+              id
+              athleteName
+              athleteQuote
+              dateOfBirth
+              nationality
+              profilePhoto {
+                results {
+                  id
+                  name
+                  fileUrl
+                  description
+                }
+              }
+              sport {
+                results {
+                  ... on Sport {
+                    id
+                    title
+                    description
+                  }
+                }
+              }
+            }
+          }
+        }
+        similarEvents {
+          results {
+            ... on Event {
+              id
+              title
+              sport {
+                results {
+                  ... on Sport {
+                    id
+                    title
+                    description
+                  }
+                }
+              }
+              location
+              timeAndDate
+              featuredImage {
+                results {
+                  id
+                  name
+                  fileUrl
+                  description
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    `;
+};
+
+export const getEventById = async (id: string): Promise<Event | null> => {
+  try {
+    const eventResponse: { data: { event: EventResponse } } = (await fetchGraphQL(
+      getEventByIdQuery(id)
+    )) as {
+      data: { event: EventResponse };
+    };
+
+    return normalizeEvent(eventResponse.data.event);
+  } catch {
+    return null;
+  }
 };

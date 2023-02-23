@@ -1,12 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { add, connect, init, remove } from "../../store/connections";
-import { Connection } from "../../interfaces/connections";
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Connection } from '../../interfaces/connections';
+import { RootState } from '../../store';
+import { add, connect, init, remove } from '../../store/connections';
 
 export const useConnections = () => {
-  const { connections, selectedConnection } = useSelector(
-    (state: RootState) => state.connections
-  );
+  const { connections, selectedConnection } = useSelector((state: RootState) => state.connections);
   const dispatch = useDispatch();
 
   return {

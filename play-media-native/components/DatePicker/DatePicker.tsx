@@ -1,7 +1,8 @@
-import { Portal, Modal } from "react-native-paper";
-import { theme } from "../../theme/theme";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Platform } from "react-native";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
+import { Portal, Modal } from 'react-native-paper';
+
+import { theme } from '../../theme/theme';
 
 export const DatePicker = ({ value, visible, onChange, onClose }) => {
   const iosDatePicker = (
@@ -20,7 +21,7 @@ export const DatePicker = ({ value, visible, onChange, onClose }) => {
           themeVariant="dark"
           accentColor={theme.colors.yellow.DEFAULT}
           value={new Date(value)}
-          mode={"date"}
+          mode="date"
           onChange={(_, selectedDate) => {
             onChange(selectedDate);
           }}
@@ -32,12 +33,12 @@ export const DatePicker = ({ value, visible, onChange, onClose }) => {
   const androidDatePicker = (
     <DateTimePicker
       value={new Date(value)}
-      mode={"date"}
+      mode="date"
       onChange={(_, selectedDate) => {
         onClose();
         onChange(selectedDate);
       }}
     />
   );
-  return Platform.OS === "ios" ? iosDatePicker : androidDatePicker;
+  return Platform.OS === 'ios' ? iosDatePicker : androidDatePicker;
 };

@@ -1,14 +1,11 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 const getComponentFromChild = (
   child: any,
-  componentMap: Record<
-    string,
-    (context: any, children: any, key: string) => ReactNode
-  >,
+  componentMap: Record<string, (context: any, children: any, key: string) => ReactNode>,
   ...indexes: number[]
 ): ReactNode => {
-  const key = indexes.join("_");
+  const key = indexes.join('_');
   const unsupportedTypeWarning = () =>
     console.warn(`Unsupported rich text content type: ${child.type}`);
 
@@ -21,12 +18,7 @@ const getComponentFromChild = (
     return componentMap[child.type](
       child,
       child.content.map((childContext: any, childIndex: number) =>
-        getComponentFromChild(
-          childContext,
-          componentMap,
-          ...indexes,
-          childIndex
-        )
+        getComponentFromChild(childContext, componentMap, ...indexes, childIndex)
       ),
       key
     );
@@ -34,7 +26,6 @@ const getComponentFromChild = (
 
   if (!componentMap[child.type]) {
     unsupportedTypeWarning();
-    return;
   } else {
     return componentMap[child.type](child, null, key);
   }

@@ -1,11 +1,12 @@
-import { useCallback } from "react";
 import {
   MediaTypeOptions,
   launchImageLibraryAsync,
   useMediaLibraryPermissions,
-} from "expo-image-picker";
-import { DeviceMedia } from "../../interfaces/media";
-import { MEDIA_SOURCES } from "../../constants/media";
+} from 'expo-image-picker';
+import { useCallback } from 'react';
+
+import { MEDIA_SOURCES } from '../../constants/media';
+import { DeviceMedia } from '../../interfaces/media';
 
 export const useDeviceLibrary = () => {
   const [status, requestPermissions] = useMediaLibraryPermissions();
@@ -14,7 +15,7 @@ export const useDeviceLibrary = () => {
     async (callback: (image: DeviceMedia) => void) => {
       await requestPermissions();
 
-      let result = await launchImageLibraryAsync({
+      const result = await launchImageLibraryAsync({
         mediaTypes: MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
@@ -24,11 +25,10 @@ export const useDeviceLibrary = () => {
       if (result.canceled) {
         return null;
       } else {
-        callback &&
-          callback({ ...result.assets[0], source: MEDIA_SOURCES.LIBRARY });
+        callback && callback({ ...result.assets[0], source: MEDIA_SOURCES.LIBRARY });
       }
     },
-    []
+    [requestPermissions]
   );
 
   return { launch: handleLaunchLibrary, status };

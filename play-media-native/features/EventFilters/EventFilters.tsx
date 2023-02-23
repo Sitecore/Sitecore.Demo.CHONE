@@ -1,11 +1,13 @@
-import { useCallback } from "react";
-import { FacetFilters } from "../../components/FacetFilters/FacetFilters";
-import { DropdownItem } from "../../components/DropdownPicker/DropdownPicker";
-import { Platform, View } from "react-native";
-import { theme } from "../../theme/theme";
-import { useFilters } from "../../hooks/useFilters/useFilters";
-import { IIndexable } from "../../interfaces/indexable";
-import { EVENT_FACETS } from "../../constants/filters";
+import { useCallback } from 'react';
+import { Platform, View } from 'react-native';
+
+import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
+import { FacetFilters } from '../../components/FacetFilters/FacetFilters';
+import { CONTENT_TYPES } from '../../constants/contentTypes';
+import { EVENT_FACETS } from '../../constants/filters';
+import { useFilters } from '../../hooks/useFilters/useFilters';
+import { IIndexable } from '../../interfaces/indexable';
+import { theme } from '../../theme/theme';
 
 export const EventFilters = ({
   filters,
@@ -18,19 +20,19 @@ export const EventFilters = ({
   onChange: (key: string, value: string) => void;
   sportOptions: DropdownItem[];
 }) => {
-  const { setEventFiltersActive, visible } = useFilters();
+  const { visible, setEventFiltersActive, setEventFilterValues } = useFilters();
 
   const handleFacetsChange = useCallback(
     (id: string, item: DropdownItem) => {
       const newFilters = { ...filters, [id]: item.value };
-      const activeFilters = Object.values(newFilters).filter(
-        (val) => !!val
-      ).length;
+      setEventFilterValues(newFilters);
 
+      const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
       setEventFiltersActive(activeFilters);
+
       onChange(id, item.value);
     },
-    [filters, onChange, setEventFiltersActive]
+    [filters, onChange, setEventFiltersActive, setEventFilterValues]
   );
 
   if (!visible) {
@@ -40,10 +42,10 @@ export const EventFilters = ({
   return (
     <View
       style={{
-        display: "flex",
+        display: 'flex',
         paddingHorizontal: theme.spacing.sm,
         paddingBottom: theme.spacing.sm,
-        ...(Platform.OS !== "android" && {
+        ...(Platform.OS !== 'android' && {
           zIndex: 10,
         }),
       }}
@@ -52,16 +54,17 @@ export const EventFilters = ({
         facetFilters={[
           {
             id: EVENT_FACETS.location,
-            label: "Location",
+            label: 'Location',
             facets: locationOptions,
           },
           {
             id: EVENT_FACETS.sport,
-            label: "Sport",
+            label: 'Sport',
             facets: sportOptions,
           },
         ]}
         onChange={handleFacetsChange}
+        type={CONTENT_TYPES.EVENT}
       />
     </View>
   );

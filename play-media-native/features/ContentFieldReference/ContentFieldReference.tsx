@@ -1,12 +1,15 @@
-import { useCallback } from "react";
-import { StyleProp, View } from "react-native";
-import { Button, Text } from "react-native-paper";
-import { useEventFields } from "../../hooks/useEventFields/useEventFields";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "../../interfaces/navigators";
-import { styles } from "../../theme/styles";
-import { DraggableList } from "../../components/DraggableList/DraggableList";
-import { theme } from "../../theme/theme";
+import { useNavigation } from '@react-navigation/native';
+import { useCallback, useMemo } from 'react';
+import { StyleProp, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+
+import { DraggableList } from '../../components/DraggableList/DraggableList';
+import { CONTENT_TYPES } from '../../constants/contentTypes';
+import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
+import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { StackNavigationProp } from '../../interfaces/navigators';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
 
 export const ContentFieldReference = ({
   addRoute,
@@ -29,16 +32,29 @@ export const ContentFieldReference = ({
   single?: boolean;
   style?: StyleProp<any>;
 }) => {
-  const { eventFields } = useEventFields();
+  const { edit: editEventFields, eventFields } = useEventFields();
+  const { edit: editAthleteFields, athleteFields } = useAthleteFields();
+
   const navigation = useNavigation<StackNavigationProp>();
 
-  const handleCreateNew = useCallback(() => {
-    navigation.navigate(createRoute, {
-      key: fieldKey,
-      contentType,
-      initialRoute,
-    });
-  }, [contentType, createRoute, fieldKey, initialRoute, navigation]);
+  const reorderItems = useCallback(
+    (items: any) => {
+      if (contentType === CONTENT_TYPES.EVENT) {
+        editEventFields({ key: fieldKey, value: items });
+      } else {
+        editAthleteFields({ key: fieldKey, value: items });
+      }
+    },
+    [contentType, editAthleteFields, editEventFields, fieldKey]
+  );
+
+  // const handleCreateNew = useCallback(() => {
+  //   navigation.navigate(createRoute, {
+  //     key: fieldKey,
+  //     contentType,
+  //     initialRoute,
+  //   });
+  // }, [contentType, createRoute, fieldKey, initialRoute, navigation]);
 
   const handleAddExisting = useCallback(() => {
     navigation.navigate(addRoute, {
@@ -49,6 +65,14 @@ export const ContentFieldReference = ({
     });
   }, [addRoute, contentType, fieldKey, initialRoute, navigation, single]);
 
+  const items = useMemo(() => {
+    if (contentType === CONTENT_TYPES.EVENT) {
+      return eventFields[fieldKey];
+    }
+
+    return athleteFields[fieldKey];
+  }, [athleteFields, contentType, eventFields, fieldKey]);
+
   return (
     <View style={style}>
       <Text variant="labelSmall" style={{ marginBottom: theme.spacing.xs }}>
@@ -56,9 +80,9 @@ export const ContentFieldReference = ({
       </Text>
       <View
         style={{
-          width: "100%",
-          flexDirection: "row",
-          justifyContent: "flex-end",
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
           marginBottom: theme.spacing.xs,
         }}
       >
@@ -82,7 +106,7 @@ export const ContentFieldReference = ({
           Add
         </Button>
       </View>
-      <DraggableList items={eventFields[fieldKey]} renderItem={renderItem} />
+      <DraggableList items={items} onDragEnd={reorderItems} renderItem={renderItem} />
     </View>
   );
 };

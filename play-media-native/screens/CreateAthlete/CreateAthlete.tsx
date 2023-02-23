@@ -1,26 +1,25 @@
-import { useEffect } from "react";
-import { Screen } from "../../features/Screen/Screen";
-import { Stepper } from "../../components/Stepper/Stepper";
-import { useCallback, useMemo, useState } from "react";
-import { General } from "./General";
-import { BottomActions } from "../../components/BottomActions/BottomActions";
-import { Button } from "react-native-paper";
-import { styles } from "../../theme/styles";
-import { Content } from "./Content";
-import { useQuery } from "react-query";
-import { getAllSports } from "../../api/queries/getSports";
-import { LoadingScreen } from "../../features/LoadingScreen/LoadingScreen";
-import { References } from "./References";
-import { theme } from "../../theme/theme";
-import { useFocusEffect } from "@react-navigation/native";
-import { useAthleteFields } from "../../hooks/useAthleteFields/useAthleteFields";
+import { useFocusEffect } from '@react-navigation/native';
+import { useEffect, useCallback, useMemo, useState } from 'react';
+import { Button } from 'react-native-paper';
+
+import { BottomActions } from '../../components/BottomActions/BottomActions';
+import { Stepper } from '../../components/Stepper/Stepper';
+import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
+import { Screen } from '../../features/Screen/Screen';
+import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
+import { useSportsQuery } from '../../hooks/useSportsQuery/useSportsQuery';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
+import { Content } from './Content';
+import { General } from './General';
+import { References } from './References';
 
 export const CreateAthleteScreen = ({ navigation, route }) => {
   const { athleteFields, edit, reset } = useAthleteFields();
   const [step, setStep] = useState(0);
   const [sports, setSports] = useState([]);
 
-  const steps = ["General", "Content", "References"];
+  const steps = ['General', 'Content', 'References'];
 
   const onStepPress = useCallback((index: number) => {
     setStep(index);
@@ -28,17 +27,17 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
 
   const handleDiscardBtn = useCallback(() => {
     navigation.goBack();
-  }, []);
+  }, [navigation]);
   const handleNextBtn = useCallback(() => {
     setStep(step + 1);
   }, [step]);
   const handleSubmitBtn = useCallback(() => {
-    navigation.navigate("AthleteReview", {
-      title: "Review new athlete",
+    navigation.navigate('AthleteReview', {
+      title: 'Review new athlete',
       isReview: true,
       isNewAthlete: true,
     });
-  }, []);
+  }, [navigation]);
 
   const displayedScreen = useMemo(() => {
     if (step === 0) {
@@ -52,10 +51,9 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
     return <References />;
   }, [step, sports]);
 
-  const { data, isFetching } = useQuery("sports", () => getAllSports(), {
-    onSuccess: (data) => setSports(data),
-  });
+  const { data: sportsData, isFetching } = useSportsQuery();
 
+  useEffect(() => setSports(sportsData), [sportsData]);
   // reset global state on unmount
   //
   useEffect(() => {
@@ -80,7 +78,7 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
       } else {
         edit({ key: route.params.key, value: route.params.image });
       }
-    }, [edit, route?.params])
+    }, [athleteFields, edit, route.params])
   );
 
   if (isFetching) {
@@ -89,12 +87,7 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <Stepper
-        labels={steps}
-        onPress={onStepPress}
-        stepIndex={step}
-        steps={steps}
-      />
+      <Stepper labels={steps} onPress={onStepPress} stepIndex={step} steps={steps} />
       {displayedScreen}
       <BottomActions
         style={{
@@ -116,7 +109,7 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
           labelStyle={styles.buttonLabel}
           onPress={step === steps.length - 1 ? handleSubmitBtn : handleNextBtn}
         >
-          {step === steps.length - 1 ? "Submit" : "Next"}
+          {step === steps.length - 1 ? 'Submit' : 'Next'}
         </Button>
       </BottomActions>
     </Screen>

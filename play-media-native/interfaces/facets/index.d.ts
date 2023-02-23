@@ -1,4 +1,4 @@
-import { DropdownItem } from "../../components/DropdownPicker/DropdownPicker";
+import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
 
 export interface FacetFilter {
   id: string;

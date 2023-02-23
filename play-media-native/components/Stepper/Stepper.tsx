@@ -1,5 +1,6 @@
-import StepIndicator from "react-native-step-indicator";
-import { theme } from "../../theme/theme";
+import StepIndicator from 'react-native-step-indicator';
+
+import { theme } from '../../theme/theme';
 
 interface Props {
   labels?: string[];
@@ -18,9 +19,9 @@ export const Stepper = ({ labels, onPress, stepIndex, steps }: Props) => {
     stepStrokeCurrentColor: defaultColor,
     stepStrokeWidth: 3,
     stepStrokeFinishedColor: defaultColor,
-    stepStrokeUnFinishedColor: "#aaaaaa",
+    stepStrokeUnFinishedColor: '#aaaaaa',
     separatorFinishedColor: defaultColor,
-    separatorUnFinishedColor: "#aaaaaa",
+    separatorUnFinishedColor: '#aaaaaa',
     stepIndicatorFinishedColor: defaultColor,
     stepIndicatorUnFinishedColor: theme.colors.black.DEFAULT,
     stepIndicatorCurrentColor: defaultColor,
@@ -28,8 +29,8 @@ export const Stepper = ({ labels, onPress, stepIndex, steps }: Props) => {
     currentStepIndicatorLabelFontSize: 13,
     stepIndicatorLabelCurrentColor: theme.colors.black.DEFAULT,
     stepIndicatorLabelFinishedColor: theme.colors.black.DEFAULT,
-    stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-    labelColor: "#999999",
+    stepIndicatorLabelUnFinishedColor: '#aaaaaa',
+    labelColor: '#999999',
     labelSize: 13,
     currentStepLabelColor: defaultColor,
   };

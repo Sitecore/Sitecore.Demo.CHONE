@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { Media } from "../interfaces/media";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { Media } from '../interfaces/media';
 
 export interface MediaState {
   media: Media[];
@@ -11,14 +12,12 @@ const initialState: MediaState = {
 };
 
 export const mediaSlice = createSlice({
-  name: "media",
+  name: 'media',
   initialState,
   reducers: {
     add: (state: MediaState, action: PayloadAction<Media[]>) => {
       const existingNames = state.media.map((item) => item.name);
-      const nonDuplicates = action.payload.filter(
-        (item) => !existingNames.includes(item.name)
-      );
+      const nonDuplicates = action.payload.filter((item) => !existingNames.includes(item.name));
 
       state.media = [...state.media, ...nonDuplicates];
     },
@@ -37,9 +36,7 @@ export const mediaSlice = createSlice({
     remove: (state: MediaState, action: PayloadAction<Media[]>) => {
       const IDsToBeRemoved = action.payload.map((item) => item.id);
 
-      state.media = state.media.filter(
-        (item) => !IDsToBeRemoved.includes(item.id)
-      );
+      state.media = state.media.filter((item) => !IDsToBeRemoved.includes(item.id));
     },
   },
 });

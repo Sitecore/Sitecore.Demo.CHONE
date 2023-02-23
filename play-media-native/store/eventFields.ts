@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { Event } from "../interfaces/event";
-import { MEDIA_SOURCES } from "../constants/media";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { MEDIA_SOURCES } from '../constants/media';
+import { Event } from '../interfaces/event';
+import { IIndexable } from '../interfaces/indexable';
 
 const initializeEventFields = (event: Event) => {
-  console.log("event initializeEventFields", event);
-
   return {
     ...event,
     athletes: event?.athletes?.length ? event?.athletes : [],
@@ -40,11 +40,14 @@ const initialState: EventFieldsState = {
 };
 
 export const eventFieldsSlice = createSlice({
-  name: "eventFields",
+  name: 'eventFields',
   initialState,
   reducers: {
     edit: (state: EventFieldsState, action: PayloadAction<EventField>) => {
       return { ...state, [action.payload.key]: action.payload.value };
+    },
+    editMultiple: (state: EventFieldsState, action: PayloadAction<IIndexable>) => {
+      return { ...state, ...action.payload };
     },
     init: (state: EventFieldsState, action: PayloadAction<Event>) => {
       if (!action.payload) {
@@ -62,9 +65,7 @@ export const eventFieldsSlice = createSlice({
       }
 
       const previousItems = [...state[action.payload.key]];
-      const indexOfDeleted = previousItems
-        .map((item) => item.id)
-        .indexOf(action.payload.value.id);
+      const indexOfDeleted = previousItems.map((item) => item.id).indexOf(action.payload.value.id);
       previousItems.splice(indexOfDeleted, 1);
 
       return indexOfDeleted > -1
@@ -83,9 +84,7 @@ export const eventFieldsSlice = createSlice({
       }
 
       const previousItems = [...state[action.payload.key]];
-      const indexOfReplaced = previousItems
-        .map((item) => item.id)
-        .indexOf(action.payload.value.id);
+      const indexOfReplaced = previousItems.map((item) => item.id).indexOf(action.payload.value.id);
 
       if (indexOfReplaced > -1) {
         previousItems[indexOfReplaced] = action.payload.value;
@@ -110,6 +109,6 @@ export const eventFieldsSlice = createSlice({
   },
 });
 
-export const { edit, init, remove, replace, reset } = eventFieldsSlice.actions;
+export const { edit, editMultiple, init, remove, replace, reset } = eventFieldsSlice.actions;
 
 export default eventFieldsSlice.reducer;

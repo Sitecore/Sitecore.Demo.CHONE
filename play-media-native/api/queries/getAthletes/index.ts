@@ -1,10 +1,6 @@
-import { fetchGraphQL } from "../..";
-import { FetchOptions } from "../../../interfaces/fetchOptions";
-import {
-  AllAthletesResponse,
-  Athlete,
-  AthleteResponse,
-} from "../../../interfaces/athlete";
+import { fetchGraphQL } from '../..';
+import { AllAthletesResponse, Athlete, AthleteResponse } from '../../../interfaces/athlete';
+import { FetchOptions } from '../../../interfaces/fetchOptions';
 
 const athletesQuery = `
 query {
@@ -56,9 +52,7 @@ query {
 }
 `;
 
-export const getAllAthletes = async (
-  options?: FetchOptions
-): Promise<Athlete[]> => {
+export const getAllAthletes = async (options?: FetchOptions): Promise<Athlete[]> => {
   const results: AllAthletesResponse = (await fetchGraphQL(
     athletesQuery,
     options
@@ -134,9 +128,7 @@ const getAthleteByIdQuery = (id: string) => {
     }`;
 };
 
-export const getAthleteById = async (
-  id: string
-): Promise<{ athlete: Partial<Athlete> }> => {
+export const getAthleteById = async (id: string): Promise<{ athlete: Partial<Athlete> }> => {
   const athleteResponse: AthleteResponse = (await fetchGraphQL(
     getAthleteByIdQuery(id)
   )) as AthleteResponse;
