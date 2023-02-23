@@ -16,20 +16,24 @@ import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
 
+const steps = ['Fields', 'Rich Text', 'References'];
+
 export const CreateEventScreen = ({ navigation }) => {
   const [stateKey] = useState<string>(generateID());
   const { editMultiple, init, reset } = useContentItems();
-
   const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
+  const [step, setStep] = useState(0);
+
+  // fields
+  //
   const [title, setTitle] = useState();
   const [body, setBody] = useState<string>();
   const [sport, setSport] = useState<Sport>();
   const [teaser, setTeaser] = useState();
   const [date, setDate] = useState(new Date());
   const [location, setLocation] = useState();
+
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [step, setStep] = useState(0);
-  const steps = ['Fields', 'Rich Text', 'References'];
 
   const onStepPress = useCallback((index: number) => {
     setStep(index);

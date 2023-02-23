@@ -1,118 +1,162 @@
-import { useFocusEffect } from '@react-navigation/native';
-import { useEffect, useCallback, useMemo, useState } from 'react';
+import { useEffect, useCallback, useState } from 'react';
+import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
-import { Content } from './Content';
-import { General } from './General';
-import { References } from './References';
 import { getAllSports } from '../../api/queries/getSports';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
-import { Stepper } from '../../components/Stepper/Stepper';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../../features/Screen/Screen';
-import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
+import { generateID } from '../../helpers/uuid';
+import { useContentItems } from '../../hooks/useContentItems/useContentItems';
+import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
 export const CreateAthleteScreen = ({ navigation, route }) => {
-  const { athleteFields, edit, reset } = useAthleteFields();
-  const [step, setStep] = useState(0);
-  const [sports, setSports] = useState([]);
+  const [stateKey] = useState<string>(generateID());
+  const { editMultiple, init, reset } = useContentItems();
+  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
 
-  const steps = ['General', 'Content', 'References'];
-
-  const onStepPress = useCallback((index: number) => {
-    setStep(index);
-  }, []);
-
-  const handleDiscardBtn = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
-  const handleNextBtn = useCallback(() => {
-    setStep(step + 1);
-  }, [step]);
-  const handleSubmitBtn = useCallback(() => {
-    navigation.navigate('AthleteReview', {
-      title: 'Review new athlete',
-      isReview: true,
-      isNewAthlete: true,
-    });
-  }, [navigation]);
-
-  const displayedScreen = useMemo(() => {
-    if (step === 0) {
-      return <General sports={sports} />;
-    }
-
-    if (step === 1) {
-      return <Content />;
-    }
-
-    return <References />;
-  }, [step, sports]);
-
-  const { isFetching } = useQuery('sports', () => getAllSports(), {
-    onSuccess: (data) => setSports(data),
-  });
-
-  // reset global state on unmount
+  // fields
   //
-  useEffect(() => {
-    return () => {
-      reset();
-    };
-  }, [reset]);
+  const [athleteName, setAthleteName] = useState();
+  const [athleteQuote, setAthleteQuote] = useState();
+  const [careerStartDate, setCareerStartDate] = useState(new Date());
+  const [dateOfBirth, setDateOfBirth] = useState(new Date());
+  const [hobby, setHobby] = useState<string>();
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [nationality, setNationality] = useState<string>();
+  const [sport, setSport] = useState<Sport>();
 
-  // Check route params for images added from route EditMedia (camera, library)
-  //
-  useFocusEffect(
-    useCallback(() => {
-      if (!route?.params?.isEditMedia || !route?.params?.key) {
-        return;
-      }
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-      if (Array.isArray(athleteFields[route.params.key])) {
-        edit({
-          key: route.params.key,
-          value: [...athleteFields[route.params.key], route.params.image],
-        });
-      } else {
-        edit({ key: route.params.key, value: route.params.image });
-      }
-    }, [athleteFields, edit, route.params])
+  const handleSportChange = useCallback(
+    (sportName: string) => {
+      setSport(sports.find((sport) => sport.title === sportName));
+    },
+    [sports]
   );
 
-  if (isFetching) {
+  const onDiscard = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
+  const onSaveLocal = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
+  const onAddDetails = useCallback(() => {
+    editMultiple({
+      id: stateKey,
+      fields: {
+        athleteName,
+        athleteQuote,
+        careerStartDate,
+        dateOfBirth,
+        hobby,
+        isFeatured,
+        nationality,
+        sport: sport || sports[0],
+      },
+    });
+
+    navigation.navigate('ReviewEvent', {
+      stateKey,
+      title: `Review ${athleteName || ''}`,
+    });
+  }, [
+    athleteName,
+    athleteQuote,
+    careerStartDate,
+    dateOfBirth,
+    editMultiple,
+    hobby,
+    isFeatured,
+    nationality,
+    navigation,
+    sport,
+    sports,
+    stateKey,
+  ]);
+
+  useEffect(() => {
+    // init global state on mount
+    //
+    if (stateKey) {
+      init({
+        id: stateKey,
+        fields: {
+          sport: null,
+          featuredImage: null,
+          relatedMedia: [],
+          athletes: [],
+          similarEvents: [],
+        },
+      });
+    }
+
+    // reset global state on unmount
+    //
+    return () => {
+      reset({ id: stateKey });
+    };
+  }, [init, reset, stateKey]);
+
+  if (isFetchingSports) {
     return <LoadingScreen />;
   }
 
   return (
     <Screen>
-      <Stepper labels={steps} onPress={onStepPress} stepIndex={step} steps={steps} />
-      {displayedScreen}
       <BottomActions
         style={{
           paddingBottom: 0,
           paddingRight: theme.spacing.xs,
         }}
       >
-        <Button
-          mode="outlined"
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-          onPress={handleDiscardBtn}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}
         >
-          Discard
-        </Button>
-        <Button
-          mode="contained"
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-          onPress={step === steps.length - 1 ? handleSubmitBtn : handleNextBtn}
-        >
-          {step === steps.length - 1 ? 'Submit' : 'Next'}
-        </Button>
+          <View>
+            <Button
+              mode="outlined"
+              labelStyle={styles.buttonLabel}
+              style={styles.button}
+              onPress={onDiscard}
+            >
+              Discard
+            </Button>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              flex: 1,
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Button
+              mode="outlined"
+              labelStyle={styles.buttonLabel}
+              style={styles.button}
+              onPress={onSaveLocal}
+            >
+              Save Local
+            </Button>
+            <Button
+              mode="contained"
+              labelStyle={styles.buttonLabel}
+              style={styles.button}
+              onPress={onAddDetails}
+            >
+              Add Details
+            </Button>
+          </View>
+        </View>
       </BottomActions>
     </Screen>
   );
