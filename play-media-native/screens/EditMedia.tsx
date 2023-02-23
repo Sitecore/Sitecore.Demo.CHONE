@@ -3,7 +3,6 @@ import { useCallback, useState } from 'react';
 import { Image, StatusBar, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-import { inputContainerStyle } from './CreateEvent/styles';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { InputText } from '../components/InputText/InputText';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
@@ -97,14 +96,14 @@ export const EditMediaScreen = ({ navigation, route }) => {
         <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />
       </View>
       <InputText
-        containerStyle={inputContainerStyle}
+        containerStyle={styles.inputContainer}
         label="Name"
         multiline
         onChange={onNameChange}
         value={editedImage?.name || ''}
       />
       <InputText
-        containerStyle={inputContainerStyle}
+        containerStyle={styles.inputContainer}
         label="Description"
         multiline
         onChange={onDescriptionChange}

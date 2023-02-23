@@ -38,14 +38,6 @@ export const ContentFieldReference = ({
     [edit, fieldKey, stateKey]
   );
 
-  // const handleCreateNew = useCallback(() => {
-  //   navigation.navigate(createRoute, {
-  //     key: fieldKey,
-  //     contentType,
-  //     initialRoute,
-  //   });
-  // }, [contentType, createRoute, fieldKey, initialRoute, navigation]);
-
   const handleAddExisting = useCallback(() => {
     navigation.navigate(addRoute, {
       key: fieldKey,
@@ -58,6 +50,16 @@ export const ContentFieldReference = ({
   const items = useMemo(() => {
     return contentItems[stateKey][fieldKey];
   }, [contentItems, fieldKey, stateKey]);
+
+  const content = useMemo(
+    () =>
+      Array.isArray(items) ? (
+        <DraggableList items={items} onDragEnd={reorderItems} renderItem={renderItem} />
+      ) : (
+        items && renderItem(items)
+      ),
+    [items, reorderItems, renderItem]
+  );
 
   return (
     <View style={style}>
@@ -72,15 +74,6 @@ export const ContentFieldReference = ({
           marginBottom: theme.spacing.xs,
         }}
       >
-        {/* <Button
-          compact
-          mode="outlined"
-          onPress={handleCreateNew}
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-        >
-          Create New
-        </Button> */}
         <Button
           compact
           icon="plus"
@@ -92,7 +85,7 @@ export const ContentFieldReference = ({
           Add
         </Button>
       </View>
-      <DraggableList items={items} onDragEnd={reorderItems} renderItem={renderItem} />
+      {content}
     </View>
   );
 };

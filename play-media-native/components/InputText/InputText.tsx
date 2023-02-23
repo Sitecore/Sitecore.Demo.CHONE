@@ -25,6 +25,7 @@ interface Props {
   onTouchStart?: (e: unknown) => void;
   onSelectionChange?: (e: unknown) => void;
   onPressIn?: (e: unknown) => void;
+  required?: boolean;
 }
 
 const defaultContainerStyle = {
@@ -59,6 +60,7 @@ export const InputText = ({
   onTouchStart,
   onSelectionChange,
   onPressIn,
+  required,
 }: Props) => {
   const containerStyleFinal = useMemo(
     () => ({
@@ -84,9 +86,31 @@ export const InputText = ({
     [contentStyle]
   );
 
+  const titleFinal = useMemo(() => {
+    const label = title && <Text style={{ marginBottom: theme.spacing.xxs }}>{title}</Text>;
+    const requiredSymbol = required && (
+      <Text
+        style={{
+          marginBottom: theme.spacing.xxs,
+          marginLeft: theme.spacing.xxs,
+          color: theme.colors.yellow.DEFAULT,
+        }}
+      >
+        *
+      </Text>
+    );
+
+    return (
+      <View style={{ flexDirection: 'row' }}>
+        {label}
+        {requiredSymbol}
+      </View>
+    );
+  }, [required, title]);
+
   return (
     <View style={containerStyleFinal}>
-      {title && <Text style={{ marginBottom: theme.spacing.xxs }}>{title}</Text>}
+      {titleFinal}
       <TextInput
         contentStyle={contentStyleFinal}
         disabled={disabled}

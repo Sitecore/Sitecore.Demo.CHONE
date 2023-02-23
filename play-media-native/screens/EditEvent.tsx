@@ -14,6 +14,7 @@ import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { ContentFieldMedia } from '../features/ContentFieldMedia/ContentFieldMedia';
 import { ContentFieldReference } from '../features/ContentFieldReference/ContentFieldReference';
+import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { SportPicker } from '../features/SportPicker/SportPicker';
@@ -21,108 +22,46 @@ import { getDate } from '../helpers/dateHelper';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Athlete } from '../interfaces/athlete';
 import { Event } from '../interfaces/event';
+import { IIndexable } from '../interfaces/indexable';
 import { Sport } from '../interfaces/sport';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
-const inputContainerStyle = {
-  marginBottom: theme.spacing.sm,
-};
-
-const athleteMenuStyle = {
-  position: 'absolute',
-  bottom: 15,
-  right: 0,
-  zIndex: 12,
-};
-
-const eventMenuStyle = {
-  position: 'absolute',
-  bottom: 20,
-  right: 18,
-  zIndex: 10,
-};
-
-const initialRoute = 'EditEvent';
-
 export const EditEventScreen = ({ navigation, route }) => {
   const [stateKey] = useState(route?.params?.stateKey);
-  const { contentItems, editMultiple, remove, reset } = useContentItems();
+  const { contentItems, editMultiple, reset } = useContentItems();
 
   const event = useMemo(
     () => contentItems[stateKey] ?? null,
     [contentItems, stateKey]
   ) as unknown as Event;
 
-  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
-  const defaultSport = useMemo(() => {
-    const hasSport = !!event?.sport;
-    const sportsFetched = !!sports?.length;
+  const [fields, setFields] = useState<IIndexable>({
+    title: event?.title || '',
+    body: event?.body,
+    teaser: event?.teaser || '',
+    timeAndDate: event?.timeAndDate || new Date(),
+    location: event?.location || '',
+  });
 
-    if (hasSport) {
-      return event.sport;
-    }
-
-    if (!hasSport && sportsFetched) {
-      return sports[0];
-    }
-
-    return null;
-  }, [event, sports]);
-
-  const [title, setTitle] = useState(event?.title);
-  const [sport, setSport] = useState<Sport>(defaultSport);
-  const [teaser, setTeaser] = useState(event?.teaser);
-  const [date, setDate] = useState(event?.timeAndDate || new Date());
-  const [location, setLocation] = useState(event?.location);
-  const [body, setBody] = useState<any>(event?.body);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const handleBodyChange = useCallback((json: string) => setBody(json), []);
-
-  const deleteItem = useCallback(
-    (key: string, item: any) => {
-      remove({ id: stateKey, key, value: item });
-    },
-    [remove, stateKey]
-  );
-
-  const getMenuItems = useCallback(
-    (key: string, item: any) => [
-      {
-        icon: 'delete-outline',
-        handler: () => deleteItem(key, item),
-        title: 'Delete',
-      },
-    ],
-    [deleteItem]
-  );
-
-  const handleSportChange = useCallback(
-    (sportName: string) => {
-      setSport(sports.find((sport) => sport.title === sportName));
-    },
-    [sports]
-  );
+  const handleFieldChange = useCallback((key: string, value: any) => {
+    setFields((prevFields) => ({
+      ...prevFields,
+      [key]: value,
+    }));
+  }, []);
 
   const handleReview = useCallback(() => {
     editMultiple({
       id: stateKey,
-      fields: {
-        body,
-        location,
-        sport: sport || sports[0],
-        teaser,
-        timeAndDate: date,
-        title,
-      },
+      fields,
     });
 
     navigation.navigate('ReviewEvent', {
       stateKey,
-      title: `Review ${title || 'Event'}`,
+      title: `Review ${fields.title || 'Event'}`,
     });
-  }, [body, date, editMultiple, location, navigation, sport, sports, stateKey, teaser, title]);
+  }, [editMultiple, fields, navigation, stateKey]);
 
   const handleDiscard = useCallback(() => {
     navigation.goBack();
@@ -142,124 +81,19 @@ export const EditEventScreen = ({ navigation, route }) => {
     };
   }, [reset, stateKey]);
 
-  if (isFetchingSports) {
-    return <LoadingScreen />;
-  }
-
-  if (!event && !isFetchingSports) {
+  if (!event) {
     return <Text>Event not available!</Text>;
   }
 
   return (
     <Screen>
-      <NestableScrollContainer>
-        <View>
-          <SportPicker
-            onChange={handleSportChange}
-            sports={sports}
-            initialValue={defaultSport?.title}
-          />
-          <InputText
-            containerStyle={inputContainerStyle}
-            multiline
-            onChange={setTitle}
-            value={title}
-            title="Title"
-          />
-          <InputText
-            containerStyle={inputContainerStyle}
-            multiline
-            onChange={setTeaser}
-            value={teaser}
-            title="Teaser"
-          />
-          <Pressable onPress={() => setShowDatePicker(true)}>
-            <View pointerEvents="none">
-              <InputText
-                containerStyle={inputContainerStyle}
-                value={getDate(date)}
-                title="Event Date"
-                showSoftInputOnFocus={false}
-                caretHidden
-              />
-            </View>
-          </Pressable>
-          {showDatePicker && (
-            <DatePicker
-              value={date}
-              visible={showDatePicker}
-              onChange={setDate}
-              onClose={setShowDatePicker}
-            />
-          )}
-          <InputText
-            containerStyle={inputContainerStyle}
-            multiline
-            onChange={setLocation}
-            value={location}
-            title="Location"
-          />
-          <View style={inputContainerStyle}>
-            <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
-            <RichTextEditor initialValue={event?.body?.content} onChange={handleBodyChange} />
-          </View>
-          <ContentFieldMedia
-            fieldKey="featuredImage"
-            fieldTitle="Featured Image"
-            initialRoute={initialRoute}
-            items={event.featuredImage}
-            stateKey={stateKey}
-            style={{ marginTop: theme.spacing.md }}
-          />
-          <ContentFieldMedia
-            fieldKey="relatedMedia"
-            fieldTitle="Related Media"
-            initialRoute={initialRoute}
-            items={event.relatedMedia}
-            stateKey={stateKey}
-            style={{ marginTop: theme.spacing.lg }}
-          />
-          <ContentFieldReference
-            addRoute="AddAthletes"
-            fieldKey="athletes"
-            fieldTitle="Related Athletes"
-            initialRoute={initialRoute}
-            renderItem={(item: Athlete) => (
-              <View style={{ position: 'relative' }}>
-                <CardAvatar item={item} />
-                <ActionMenu
-                  iconColor={theme.colors.black.DEFAULT}
-                  iconSize={25}
-                  menuItems={getMenuItems('athletes', item)}
-                  style={athleteMenuStyle}
-                />
-              </View>
-            )}
-            stateKey={stateKey}
-            style={{ marginTop: theme.spacing.lg }}
-          />
-          <ContentFieldReference
-            addRoute="AddEvents"
-            fieldKey="similarEvents"
-            fieldTitle="Similar Events"
-            initialRoute={initialRoute}
-            renderItem={(item: Event) => (
-              <View style={{ position: 'relative' }}>
-                <CardEvent item={item} />
-                <ActionMenu
-                  iconColor={theme.colors.black.DEFAULT}
-                  iconSize={25}
-                  menuItems={getMenuItems('similarEvents', item)}
-                  style={eventMenuStyle}
-                />
-              </View>
-            )}
-            stateKey={stateKey}
-            style={{ marginTop: theme.spacing.lg }}
-          />
-          <View style={{ paddingBottom: 75 }} />
-        </View>
-      </NestableScrollContainer>
+      <FieldsEvent
+        event={event}
+        fields={fields}
+        initialRoute="EditEvent"
+        handleFieldChange={handleFieldChange}
+        stateKey={stateKey}
+      />
       <BottomActions
         style={{
           paddingBottom: 0,

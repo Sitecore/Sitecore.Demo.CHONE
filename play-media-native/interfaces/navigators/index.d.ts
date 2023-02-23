@@ -6,11 +6,12 @@ export type RootStackParamList = {
   AddAthlete: undefined;
   AddAthletes: undefined;
   AddConnection: undefined;
-  AddEvent: undefined;
   AddEvents: undefined;
   AddCH1Media: undefined;
   AthleteDetail: { id: string };
   AthleteReview: { id: string };
+  CreateEventOverview: undefined;
+  CreateEventDetailed: undefined;
   EditAthleteDetails: { id: string };
   EditEvent: undefined;
   EditMedia: undefined;

@@ -26,6 +26,9 @@ export const styles = StyleSheet.create({
     right: theme.spacing.xs,
     bottom: theme.spacing.xs,
   },
+  inputContainer: {
+    marginTop: theme.spacing.md,
+  },
   screen: {
     flex: 1,
     height: '100%',

@@ -9,7 +9,8 @@ import { AddConnectionScreen } from '../screens/AddConnection';
 import { AddEventsScreen } from '../screens/AddEvents';
 import { AthleteDetailScreen } from '../screens/AthleteDetail';
 import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
-import { CreateEventScreen } from '../screens/CreateEvent/CreateEvent';
+import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
+import { CreateEventOverviewScreen } from '../screens/CreateEventOverview';
 import { EditAthleteDetailsScreen } from '../screens/EditAthleteDetails';
 import { EditEventScreen } from '../screens/EditEvent';
 import { EditMediaScreen } from '../screens/EditMedia';
@@ -76,9 +77,14 @@ export const Stacks = () => {
         options={{ title: 'Edit Athlete Details' }}
       />
       <Stack.Screen
-        name="AddEvent"
-        component={CreateEventScreen}
-        options={{ title: 'Add Event' }}
+        name="CreateEventOverview"
+        component={CreateEventOverviewScreen}
+        options={{ title: 'New Event' }}
+      />
+      <Stack.Screen
+        name="CreateEventDetailed"
+        component={CreateEventDetailedScreen}
+        options={{ title: 'New Event Details' }}
       />
       <Stack.Screen
         name="EditMedia"
