@@ -90,6 +90,12 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     </View>
   );
 
+  const validationgMsg = isQRScanned && !isQRError && (
+    <Screen centered>
+      <Text>Validating the connection...</Text>
+    </Screen>
+  );
+
   const scanAgain = isQRScanned && isQRError && (
     <Screen centered>
       <Text style={pageStyles.failureTextMsg}>Adding a connection failed</Text>
@@ -115,6 +121,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
   return (
     <>
       {qrCodeScanner}
+      {validationgMsg}
       {scanAgain}
     </>
   );
