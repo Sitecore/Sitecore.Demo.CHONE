@@ -29,7 +29,13 @@ if (__DEV__) {
 }
 
 // Create a client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
+});
 
 function onAppStateChange(status: AppStateStatus) {
   focusManager.setFocused(status === 'active');

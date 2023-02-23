@@ -1,19 +1,18 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useEffect, useCallback, useMemo, useState } from 'react';
 import { Button } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { Content } from './Content';
-import { General } from './General';
-import { References } from './References';
-import { getAllSports } from '../../api/queries/getSports';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { Stepper } from '../../components/Stepper/Stepper';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../../features/Screen/Screen';
 import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
+import { useSportsQuery } from '../../hooks/useSportsQuery/useSportsQuery';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
+import { Content } from './Content';
+import { General } from './General';
+import { References } from './References';
 
 export const CreateAthleteScreen = ({ navigation, route }) => {
   const { athleteFields, edit, reset } = useAthleteFields();
@@ -52,10 +51,9 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
     return <References />;
   }, [step, sports]);
 
-  const { isFetching } = useQuery('sports', () => getAllSports(), {
-    onSuccess: (data) => setSports(data),
-  });
+  const { data: sportsData, isFetching } = useSportsQuery();
 
+  useEffect(() => setSports(sportsData), [sportsData]);
   // reset global state on unmount
   //
   useEffect(() => {

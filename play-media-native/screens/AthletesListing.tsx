@@ -1,10 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { getAllAthletes } from '../api/queries/getAthletes';
-import { getAllSports } from '../api/queries/getSports';
 import { Listing } from '../components/Listing/Listing';
 import { ATHLETE_FACETS } from '../constants/filters';
 import { AthleteFilters } from '../features/AthleteFilters/AthleteFilters';
@@ -13,8 +10,10 @@ import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes } from '../helpers/athletes';
 import { getNationalityOptions, getSportOptions } from '../helpers/facets';
+import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
@@ -25,15 +24,13 @@ export const AthletesListingScreen = ({ navigation }) => {
     isLoading: isFetchingInitialAthletes,
     refetch: refetchAthletes,
     isRefetching: isRefetchingAthletes,
-  } = useQuery('athletes', () => getAllAthletes(), {
-    onSuccess: (athletes) => athletes.sort((a, b) => a.athleteName!.localeCompare(b.athleteName!)),
-  });
+  } = useAthletesQuery();
   const {
     data: sports,
     isLoading: isFetchingInitialSports,
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
-  } = useQuery('sports', () => getAllSports());
+  } = useSportsQuery();
   const [facets, setFacets] = useState<Record<string, any>>({
     [ATHLETE_FACETS.sport]: '',
     [ATHLETE_FACETS.nationality]: '',

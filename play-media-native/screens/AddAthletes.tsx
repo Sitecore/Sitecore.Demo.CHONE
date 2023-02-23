@@ -1,9 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Button } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { getAllAthletes } from '../api/queries/getAthletes';
-import { getAllSports } from '../api/queries/getSports';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
 import { Listing } from '../components/Listing/Listing';
@@ -16,9 +13,11 @@ import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes, removeAlreadySelected } from '../helpers/athletes';
 import { getNationalityOptions, getSportOptions } from '../helpers/facets';
 import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
+import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useEventFields } from '../hooks/useEventFields/useEventFields';
 import { useFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
@@ -36,13 +35,13 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     isLoading: isFetchingInitialAthletes,
     refetch: refetchAthletes,
     isRefetching: isRefetchingAthletes,
-  } = useQuery('athletes', () => getAllAthletes());
+  } = useAthletesQuery();
   const {
     data: sports,
     isLoading: isFetchingInitialSports,
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
-  } = useQuery('sports', () => getAllSports());
+  } = useSportsQuery();
   const [facets, setFacets] = useState<Record<string, any>>({
     [ATHLETE_FACETS.sport]: '',
     [ATHLETE_FACETS.nationality]: '',
