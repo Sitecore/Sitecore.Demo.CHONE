@@ -25,6 +25,7 @@ const pageStyles = StyleSheet.create({
 export const QRCodeConnectionScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [isQRScanned, setIsQRScanned] = useState(false);
+  const [isQRError, setIsQRError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -40,7 +41,18 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
 
   const handleQRCodeScan = useCallback(
     async ({ data }) => {
-      const qrConnectionObject: Connection = JSON.parse(data);
+      setIsQRScanned(true);
+
+      let qrConnectionObject: Connection;
+
+      try {
+        qrConnectionObject = JSON.parse(data);
+      } catch (e: unknown) {
+        setIsQRError(true);
+        console.error(e);
+        return;
+      }
+
       const { name, apiKey, previewUrl, clientID, clientSecret } = qrConnectionObject;
 
       if (name && apiKey && previewUrl && clientID && clientSecret) {
@@ -53,11 +65,12 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
             });
           })
           .catch((e) => {
+            setIsQRError(true);
             console.error(e);
           });
+      } else {
+        setIsQRError(true);
       }
-
-      setIsQRScanned(true);
     },
     [navigation]
   );
@@ -72,7 +85,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     </View>
   );
 
-  const scanAgain = isQRScanned && (
+  const scanAgain = isQRScanned && isQRError && (
     <Screen centered>
       <Text style={pageStyles.failureTextMsg}>Adding a connection failed</Text>
       <Button
