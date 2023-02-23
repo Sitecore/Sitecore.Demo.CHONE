@@ -23,6 +23,7 @@ type ListingProps = {
   numColumns?: number;
   isLoading?: boolean;
   isRefreshing?: boolean;
+  flatListKey?: number | string;
   renderItem: ListRenderItem<any>;
   onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   onRefresh?: () => void;
@@ -34,6 +35,7 @@ export const Listing = ({
   numColumns,
   isLoading,
   isRefreshing = false,
+  flatListKey,
   renderItem,
   onScroll,
   onRefresh,
@@ -96,6 +98,7 @@ export const Listing = ({
         <ActivityIndicator animating={isRefreshing} size="small" />
       </View>
       <FlatList
+        key={flatListKey}
         data={items}
         numColumns={numColumns ? numColumns : 1}
         keyExtractor={(item) => item.id}

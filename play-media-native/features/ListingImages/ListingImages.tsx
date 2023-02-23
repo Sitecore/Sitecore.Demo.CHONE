@@ -87,7 +87,7 @@ export const ListingImages = ({
   const imagesList = useMemo(() => {
     return (
       <Listing
-        key={displayType}
+        flatListKey={displayType}
         data={displayedItems}
         numColumns={displayType === ListingImageDisplayType.GRID ? 2 : 1}
         renderItem={renderItems[displayType]}

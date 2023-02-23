@@ -1,15 +1,14 @@
 import { useCallback, useMemo } from 'react';
 import { Image, View } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { getAllMedia } from '../api/queries/getMedia';
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaItemCardDisplay } from '../features/MediaItemCardDisplay/MediaItemCardDisplay';
 import { MediaItemListDisplay } from '../features/MediaItemListDisplay/MediaItemListDisplay';
 import { Screen } from '../features/Screen/Screen';
 import { ListingImageDisplayType } from '../features/SelectDisplayButtons/SelectDisplayButtons';
+import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
@@ -26,7 +25,7 @@ export const MediaListingScreen = ({ navigation }) => {
     isLoading: isFetchingInitialMedia,
     refetch: refetchMedia,
     isRefetching: isRefetchingMedia,
-  } = useQuery('media', () => getAllMedia());
+  } = useMediaQuery();
 
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
