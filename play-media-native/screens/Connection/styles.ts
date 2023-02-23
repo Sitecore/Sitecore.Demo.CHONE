@@ -1,16 +1,17 @@
-import { StyleSheet } from "react-native";
-import { theme } from "../../theme/theme";
+import { StyleSheet } from 'react-native';
+
+import { theme } from '../../theme/theme';
 
 const connectionScreenStyles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: theme.spacing.lg,
   },
   title: {
-    maxWidth: "80%",
-    textAlign: "center",
+    maxWidth: '80%',
+    textAlign: 'center',
   },
   chOneText: {
     fontFamily: theme.fontFamily.bold,

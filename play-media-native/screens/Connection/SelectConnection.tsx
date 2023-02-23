@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { StatusBar, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { StatusBar, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 
-import { BottomFAB } from "../../components/BottomFAB/BottomFAB";
-import { Icon } from "../../components/Icon/Icon";
-import { Logo } from "../../components/Logo/Logo";
-import { Select } from "../../components/Select/Select";
-import { Screen } from "../../features/Screen/Screen";
-import { useConnections } from "../../hooks/useConnections/useConnections";
-import { styles } from "../../theme/styles";
-import { theme } from "../../theme/theme";
+import { BottomFAB } from '../../components/BottomFAB/BottomFAB';
+import { Icon } from '../../components/Icon/Icon';
+import { Logo } from '../../components/Logo/Logo';
+import { Select } from '../../components/Select/Select';
+import { Screen } from '../../features/Screen/Screen';
+import { useConnections } from '../../hooks/useConnections/useConnections';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
 
 const fabAddStyle = {
   bottom: 75,

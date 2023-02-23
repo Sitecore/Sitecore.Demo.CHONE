@@ -1,20 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
-import { View, StyleSheet } from "react-native";
-import { Button, Text } from "react-native-paper";
-import { BarCodeScanner } from "expo-barcode-scanner";
-import { Screen } from "../../features/Screen/Screen";
-import { Connection } from "../../interfaces/connections";
-import { validateConnection } from "../../api/queries/validateConnection";
-import { storeConnection } from "../../helpers/connections";
-import { add } from "../../store/connections";
-import { styles } from "../../theme/styles";
-import { theme } from "../../theme/theme";
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useState, useEffect, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+
+import { validateConnection } from '../../api/queries/validateConnection';
+import { Screen } from '../../features/Screen/Screen';
+import { storeConnection } from '../../helpers/connections';
+import { Connection } from '../../interfaces/connections';
+import { add } from '../../store/connections';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
 
 const pageStyles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   failureTextMsg: {
     marginBottom: theme.spacing.sm,
@@ -29,7 +30,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
 
-      if (status === "granted") {
+      if (status === 'granted') {
         setHasPermission(true);
       } else {
         setHasPermission(false);
@@ -37,27 +38,29 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     })();
   }, []);
 
-  const handleQRCodeScan = useCallback(async ({ data }) => {
-    const qrConnectionObject: Connection = JSON.parse(data);
-    const { name, apiKey, previewUrl, clientID, clientSecret } =
-      qrConnectionObject;
+  const handleQRCodeScan = useCallback(
+    async ({ data }) => {
+      const qrConnectionObject: Connection = JSON.parse(data);
+      const { name, apiKey, previewUrl, clientID, clientSecret } = qrConnectionObject;
 
-    if (name && apiKey && previewUrl && clientID && clientSecret) {
-      await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
-        .then(async () => {
-          await storeConnection(qrConnectionObject).then(() => {
-            add(qrConnectionObject);
+      if (name && apiKey && previewUrl && clientID && clientSecret) {
+        await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
+          .then(async () => {
+            await storeConnection(qrConnectionObject).then(() => {
+              add(qrConnectionObject);
 
-            navigation.navigate("MainTabs");
+              navigation.navigate('MainTabs');
+            });
+          })
+          .catch((e) => {
+            console.error(e);
           });
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    }
+      }
 
-    setIsQRScanned(true);
-  }, []);
+      setIsQRScanned(true);
+    },
+    [navigation]
+  );
 
   const qrCodeScanner = !isQRScanned && (
     <View style={pageStyles.container}>

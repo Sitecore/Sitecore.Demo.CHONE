@@ -1,20 +1,20 @@
-import { useNavigation } from "@react-navigation/native";
-import debounce from "lodash.debounce";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { View } from "react-native";
-import { ActivityIndicator, Button } from "react-native-paper";
+import { useNavigation } from '@react-navigation/native';
+import debounce from 'lodash.debounce';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { View } from 'react-native';
+import { ActivityIndicator, Button } from 'react-native-paper';
 
-import { validateConnection } from "../../api/queries/validateConnection";
-import { InputText } from "../../components/InputText/InputText";
-import { Toast } from "../../components/Toast/Toast";
-import { storeConnection } from "../../helpers/connections";
-import { useConnections } from "../../hooks/useConnections/useConnections";
-import { Connection } from "../../interfaces/connections";
-import { StackNavigationProp } from "../../interfaces/navigators";
-import { styles } from "../../theme/styles";
-import { theme } from "../../theme/theme";
-import { BottomActions } from "../../components/BottomActions/BottomActions";
-import connectionStyles from "../../screens/Connection/styles";
+import { validateConnection } from '../../api/queries/validateConnection';
+import { BottomActions } from '../../components/BottomActions/BottomActions';
+import { InputText } from '../../components/InputText/InputText';
+import { Toast } from '../../components/Toast/Toast';
+import { storeConnection } from '../../helpers/connections';
+import { useConnections } from '../../hooks/useConnections/useConnections';
+import { Connection } from '../../interfaces/connections';
+import { StackNavigationProp } from '../../interfaces/navigators';
+import connectionStyles from '../../screens/Connection/styles';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
 
 const defaultTextInputStyle = {
   width: '90%',
@@ -60,11 +60,7 @@ export const FormAddConnection = () => {
   const clientIDInvalid = !clientID || clientIDError;
   const clientSecretInvalid = !clientSecret || clientSecretError;
   const isButtonDisabled =
-    nameInvalid ||
-    apiKeyInvalid ||
-    previewUrlInvalid ||
-    clientIDInvalid ||
-    clientSecretInvalid;
+    nameInvalid || apiKeyInvalid || previewUrlInvalid || clientIDInvalid || clientSecretInvalid;
 
   const navigation = useNavigation<StackNavigationProp>();
 
@@ -127,16 +123,16 @@ export const FormAddConnection = () => {
 
   const onSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
-    navigation.navigate("MainTabs");
-  }, []);
+    navigation.navigate('MainTabs');
+  }, [navigation]);
 
   const onErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
   }, []);
 
   const handleDiscardBtn = useCallback(() => {
-    navigation.navigate("MainTabs");
-  }, []);
+    navigation.navigate('MainTabs');
+  }, [navigation]);
   const handleConnectBtn = useCallback(async () => {
     setIsValidating(true);
 
@@ -160,7 +156,7 @@ export const FormAddConnection = () => {
       .finally(() => {
         setIsValidating(false);
       });
-  }, [name, apiKey, previewUrl, clientID, clientSecret]);
+  }, [add, name, apiKey, previewUrl, clientID, clientSecret]);
 
   const bottomActions = useMemo(
     () => (
