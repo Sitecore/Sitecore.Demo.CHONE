@@ -75,6 +75,11 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     [navigation]
   );
 
+  const handleScanAgainPress = useCallback(() => {
+    setIsQRScanned(false);
+    setIsQRError(false);
+  }, []);
+
   const qrCodeScanner = !isQRScanned && (
     <View style={pageStyles.container}>
       <BarCodeScanner
@@ -92,7 +97,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
         mode="contained"
         style={styles.button}
         labelStyle={styles.buttonLabel}
-        onPress={() => setIsQRScanned(false)}
+        onPress={handleScanAgainPress}
       >
         Tap to Scan Again
       </Button>
