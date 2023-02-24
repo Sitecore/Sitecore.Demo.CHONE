@@ -1,9 +1,16 @@
 import Fuse from 'fuse.js';
 import debounce from 'lodash.debounce';
 import { useCallback, useMemo, useState } from 'react';
-import { FlatList, ListRenderItem, StyleProp, View } from 'react-native';
+import {
+  ListRenderItem,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  StyleProp,
+  View,
+} from 'react-native';
 import { Searchbar } from 'react-native-paper';
 
+import { Listing } from '../../components/Listing/Listing';
 import { Media } from '../../interfaces/media';
 import { theme } from '../../theme/theme';
 import {
@@ -14,8 +21,12 @@ import {
 interface Props {
   images: Media[];
   onDisplayTypeChange?: (value: string) => void;
+  onRefresh?: () => void;
+  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  isRefreshing?: boolean;
   renderItems: Record<ListingImageDisplayType, ListRenderItem<Media>>;
   style?: StyleProp<any>;
+  showSearch?: boolean;
 }
 
 const listingStyle = {
@@ -26,7 +37,16 @@ const fuseOptions = {
   keys: ['name'],
 };
 
-export const ListingImages = ({ images, onDisplayTypeChange, renderItems, style }: Props) => {
+export const ListingImages = ({
+  images,
+  onDisplayTypeChange,
+  onRefresh,
+  onScroll,
+  isRefreshing,
+  renderItems,
+  style,
+  showSearch = true,
+}: Props) => {
   const [displayType, setDisplayType] = useState<string>(ListingImageDisplayType.LIST);
   const [searchQuery, setSearchQuery] = useState('');
   const [displayedItems, setDisplayedItems] = useState(images);
@@ -64,45 +84,50 @@ export const ListingImages = ({ images, onDisplayTypeChange, renderItems, style 
     [onDisplayTypeChange]
   );
 
-  const renderList = useCallback(
-    (items: Media[], displayValue: string) => {
-      if (displayValue === ListingImageDisplayType.GRID) {
-        return (
-          <FlatList
-            key={ListingImageDisplayType.GRID}
-            numColumns={2}
-            style={listStyle}
-            data={items}
-            keyExtractor={(item) => item.id}
-            renderItem={renderItems[ListingImageDisplayType.GRID]}
-          />
-        );
-      }
+  const imagesList = useMemo(() => {
+    return (
+      <Listing
+        flatListKey={displayType}
+        data={displayedItems}
+        numColumns={displayType === ListingImageDisplayType.GRID ? 2 : 1}
+        renderItem={renderItems[displayType]}
+        onRefresh={onRefresh}
+        isRefreshing={isRefreshing}
+        onScroll={onScroll}
+        style={listStyle}
+      />
+    );
+  }, [displayType, displayedItems, isRefreshing, listStyle, onRefresh, onScroll, renderItems]);
 
-      if (displayValue === ListingImageDisplayType.LIST) {
-        return (
-          <FlatList
-            key={ListingImageDisplayType.LIST}
-            style={listStyle}
-            data={items}
-            keyExtractor={(item) => item.id}
-            renderItem={renderItems[ListingImageDisplayType.LIST]}
-          />
-        );
-      }
-
-      return (
-        <FlatList
-          key={ListingImageDisplayType.CARDS}
-          style={listStyle}
-          data={items}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItems[ListingImageDisplayType.CARDS]}
+  const searchBar = useMemo(() => {
+    return showSearch ? (
+      <View
+        style={{
+          flexBasis: '50%',
+          marginLeft: theme.spacing.sm,
+        }}
+      >
+        <Searchbar
+          iconColor={theme.colors.black.DEFAULT}
+          inputStyle={{
+            width: '100%',
+            color: theme.colors.black.DEFAULT,
+          }}
+          placeholder="Search"
+          placeholderTextColor={theme.colors.black.DEFAULT}
+          onChangeText={onSearch}
+          value={searchQuery}
+          style={{
+            backgroundColor: theme.colors.white.DEFAULT,
+            color: theme.colors.black.DEFAULT,
+            width: '100%',
+          }}
         />
-      );
-    },
-    [listStyle, renderItems]
-  );
+      </View>
+    ) : (
+      <></>
+    );
+  }, [onSearch, searchQuery, showSearch]);
 
   return (
     <>
@@ -113,32 +138,10 @@ export const ListingImages = ({ images, onDisplayTypeChange, renderItems, style 
           marginBottom: theme.spacing.sm,
         }}
       >
-        <View
-          style={{
-            flexBasis: '50%',
-            marginLeft: theme.spacing.sm,
-          }}
-        >
-          <Searchbar
-            iconColor={theme.colors.black.DEFAULT}
-            inputStyle={{
-              width: '100%',
-              color: theme.colors.black.DEFAULT,
-            }}
-            placeholder="Search"
-            placeholderTextColor={theme.colors.black.DEFAULT}
-            onChangeText={onSearch}
-            value={searchQuery}
-            style={{
-              backgroundColor: theme.colors.white.DEFAULT,
-              color: theme.colors.black.DEFAULT,
-              width: '100%',
-            }}
-          />
-        </View>
+        {searchBar}
         <SelectDisplayButtons displayType={displayType} onDisplayTypeChange={handleDisplayChange} />
       </View>
-      {renderList(displayedItems, displayType)}
+      {imagesList}
     </>
   );
 };

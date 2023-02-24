@@ -13,6 +13,7 @@ import { TabScreenHeader } from '../features/TabScreenHeader/TabScreenHeader';
 import { RootTabParamList } from '../interfaces/navigators';
 import { AthletesListingScreen } from '../screens/AthletesListing';
 import { EventsListingScreen } from '../screens/EventsListing';
+import { MediaListingScreen } from '../screens/MediaListing';
 import { theme } from '../theme/theme';
 
 const Tab = createMaterialTopTabNavigator<RootTabParamList>();
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
 });
 
 export const Tabs = () => {
-  const [activeTab, setActiveTab] = useState<'Event' | 'Athlete'>('Event');
+  const [activeTab, setActiveTab] = useState<'Event' | 'Athlete' | 'Media'>('Event');
 
   const tabScreenOptions: MaterialTopTabNavigationOptions = {
     tabBarActiveTintColor: theme.colors.yellow.DEFAULT,
@@ -52,7 +53,13 @@ export const Tabs = () => {
         screenOptions={tabScreenOptions}
         screenListeners={() => ({
           state: (e: any) => {
-            setActiveTab(e.data?.state?.index === 0 ? 'Event' : 'Athlete');
+            setActiveTab(
+              e.data?.state?.index === 0
+                ? 'Event'
+                : e.data?.state?.index === 1
+                ? 'Athlete'
+                : 'Media'
+            );
           },
         })}
       >
@@ -89,6 +96,25 @@ export const Tabs = () => {
                     style={styles.icon}
                   />
                   <Text style={[styles.label, { color }]}>Athletes</Text>
+                </View>
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Media"
+          component={MediaListingScreen}
+          options={{
+            tabBarLabel: ({ color }) => {
+              return (
+                <View style={styles.labelContainer}>
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    color={color}
+                    size={theme.fontSize.sm}
+                    style={styles.icon}
+                  />
+                  <Text style={[styles.label, { color }]}>Media</Text>
                 </View>
               );
             },
