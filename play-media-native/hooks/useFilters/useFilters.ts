@@ -11,6 +11,9 @@ import {
   setAthleteFilterValues,
   setEventFilterValues,
   setMediaFilterValues,
+  setAthleteSearchQuery,
+  setEventSearchQuery,
+  setMediaSearchQuery,
 } from '../../store/filters';
 
 export const useFilters = () => {
@@ -22,6 +25,9 @@ export const useFilters = () => {
     athleteFilterValues,
     eventFilterValues,
     mediaFilterValues,
+    athleteSearchQuery,
+    eventSearchQuery,
+    mediaSearchQuery,
   } = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
 
@@ -33,6 +39,9 @@ export const useFilters = () => {
     athleteFilterValues,
     eventFilterValues,
     mediaFilterValues,
+    athleteSearchQuery,
+    eventSearchQuery,
+    mediaSearchQuery,
     toggleVisible: useCallback(() => dispatch(toggleVisible()), [dispatch]),
     setAthleteFiltersActive: useCallback(
       (activeFilters: number) => {
@@ -67,6 +76,24 @@ export const useFilters = () => {
     setMediaFilterValues: useCallback(
       (eventFilterValues: IIndexable) => {
         dispatch(setMediaFilterValues(eventFilterValues));
+      },
+      [dispatch]
+    ),
+    setAthleteSearchQuery: useCallback(
+      (query: string) => {
+        dispatch(setAthleteSearchQuery(query));
+      },
+      [dispatch]
+    ),
+    setEventSearchQuery: useCallback(
+      (query: string) => {
+        dispatch(setEventSearchQuery(query));
+      },
+      [dispatch]
+    ),
+    setMediaSearchQuery: useCallback(
+      (query: string) => {
+        dispatch(setMediaSearchQuery(query));
       },
       [dispatch]
     ),

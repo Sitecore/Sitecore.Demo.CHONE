@@ -1,8 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Image, View } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 
-import { MEDIA_FACETS } from '../constants/filters';
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaFilters } from '../features/MediaFilters/MediaFilters';
@@ -11,7 +10,8 @@ import { MediaItemListDisplay } from '../features/MediaItemListDisplay/MediaItem
 import { Screen } from '../features/Screen/Screen';
 import { ListingImageDisplayType } from '../features/SelectDisplayButtons/SelectDisplayButtons';
 import { getFileTypeOptions } from '../helpers/facets';
-import { useFacets } from '../hooks/useFacets/useFacets';
+import { useSearchFacets } from '../hooks/useFacets/useFacets';
+import { useFilters } from '../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Media } from '../interfaces/media';
@@ -31,24 +31,18 @@ export const MediaListingScreen = ({ navigation }) => {
     isRefetching: isRefetchingMedia,
   } = useMediaQuery();
 
-  const [facets, setFacets] = useState<Record<string, any>>({
-    [MEDIA_FACETS.fileType]: '',
-    [MEDIA_FACETS.state]: '',
-  });
+  const { mediaFilterValues, mediaSearchQuery } = useFilters();
 
-  const filteredImages = useFacets({
+  const filteredImages = useSearchFacets({
     initialItems: images?.length ? images : [],
-    facets,
+    facets: mediaFilterValues,
+    query: mediaSearchQuery,
   });
 
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
   const fileTypeOptions = useMemo(() => {
     return getFileTypeOptions(images);
   }, [images]);
-
-  const handleChange = useCallback((key: string, value: any) => {
-    setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
-  }, []);
 
   const handleRefresh = useCallback(() => {
     refetchMedia();
@@ -71,12 +65,7 @@ export const MediaListingScreen = ({ navigation }) => {
 
   return (
     <Screen>
-      <MediaFilters
-        filters={facets}
-        onChange={handleChange}
-        fileTypeOptions={fileTypeOptions}
-        stateOptions={[]}
-      />
+      <MediaFilters fileTypeOptions={fileTypeOptions} stateOptions={[]} />
       <View style={{ marginBottom: 120 }}>
         <ListingImages
           images={filteredImages as Media[]}

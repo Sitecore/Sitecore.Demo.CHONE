@@ -1,5 +1,6 @@
 import { Athlete } from '../interfaces/athlete';
 import { Event } from '../interfaces/event';
+import { IIndexable } from '../interfaces/indexable';
 import { Media } from '../interfaces/media';
 import { Sport } from '../interfaces/sport';
 
@@ -73,4 +74,11 @@ export const getFileTypeOptions = (media: Media[]) => {
         })),
       ]
     : [];
+};
+
+export const getActiveSearchFacets = (activeFilters: IIndexable, activeQuery: string) => {
+  const facetsActive = Object.values(activeFilters).filter((val) => !!val).length;
+  const queryActive = activeQuery !== '' ? 1 : 0;
+
+  return facetsActive + queryActive;
 };

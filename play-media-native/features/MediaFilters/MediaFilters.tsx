@@ -2,34 +2,38 @@ import { useCallback, useMemo } from 'react';
 
 import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
 import { SimpleFilters } from '../../components/FacetFilters/SimpleFilters';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { MEDIA_FACETS } from '../../constants/filters';
 import { useFilters } from '../../hooks/useFilters/useFilters';
-import { IIndexable } from '../../interfaces/indexable';
 
 export const MediaFilters = ({
-  filters,
   fileTypeOptions,
-  onChange,
   stateOptions,
 }: {
-  filters: IIndexable;
   fileTypeOptions: DropdownItem[];
-  onChange: (key: string, value: string) => void;
   stateOptions: DropdownItem[];
 }) => {
-  const { visible, setMediaFiltersActive, setMediaFilterValues } = useFilters();
+  const {
+    visible,
+    mediaFilterValues,
+    setMediaFilterValues,
+    mediaSearchQuery,
+    setMediaSearchQuery,
+  } = useFilters();
 
   const handleFacetsChange = useCallback(
     (id: string, item: DropdownItem) => {
-      const newFilters = { ...filters, [id]: item.value };
+      const newFilters = { ...mediaFilterValues, [id]: item.value };
       setMediaFilterValues(newFilters);
-
-      const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
-      setMediaFiltersActive(activeFilters);
-
-      onChange(id, item.value);
     },
-    [filters, onChange, setMediaFilterValues, setMediaFiltersActive]
+    [mediaFilterValues, setMediaFilterValues]
+  );
+
+  const handleSearch = useCallback(
+    (query: string) => {
+      setMediaSearchQuery(query);
+    },
+    [setMediaSearchQuery]
   );
 
   const facetFilters = useMemo(
@@ -54,5 +58,10 @@ export const MediaFilters = ({
     return null;
   }
 
-  return <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />;
+  return (
+    <>
+      <SearchBar onSearch={handleSearch} searchQuery={mediaSearchQuery} />
+      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+    </>
+  );
 };

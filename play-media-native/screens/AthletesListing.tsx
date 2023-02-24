@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { StatusBar } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 
 import { Listing } from '../components/Listing/Listing';
-import { ATHLETE_FACETS } from '../constants/filters';
 import { AthleteFilters } from '../features/AthleteFilters/AthleteFilters';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
@@ -11,7 +10,8 @@ import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes } from '../helpers/athletes';
 import { getNationalityOptions, getSportOptions } from '../helpers/facets';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
-import { useFacets } from '../hooks/useFacets/useFacets';
+import { useSearchFacets } from '../hooks/useFacets/useFacets';
+import { useFilters } from '../hooks/useFilters/useFilters';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Athlete } from '../interfaces/athlete';
@@ -31,21 +31,19 @@ export const AthletesListingScreen = ({ navigation }) => {
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
   } = useSportsQuery();
-  const [facets, setFacets] = useState<Record<string, any>>({
-    [ATHLETE_FACETS.sport]: '',
-    [ATHLETE_FACETS.nationality]: '',
-  });
-  const filteredAthletes = useFacets({
+
+  const { athleteFilterValues, athleteSearchQuery } = useFilters();
+
+  const filteredAthletes = useSearchFacets({
     initialItems: athletes?.length ? initializeAthletes(athletes, sports) : [],
-    facets,
+    facets: athleteFilterValues,
+    query: athleteSearchQuery,
   });
+
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+
   const nationalityOptions = useMemo(() => getNationalityOptions(athletes), [athletes]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
-
-  const handleChange = useCallback((key: string, value: any) => {
-    setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
-  }, []);
 
   const handleRefresh = useCallback(() => {
     refetchAthletes();
@@ -69,12 +67,7 @@ export const AthletesListingScreen = ({ navigation }) => {
   return (
     <Screen>
       <StatusBar barStyle="light-content" />
-      <AthleteFilters
-        filters={facets}
-        nationalityOptions={nationalityOptions}
-        onChange={handleChange}
-        sportOptions={sportOptions}
-      />
+      <AthleteFilters nationalityOptions={nationalityOptions} sportOptions={sportOptions} />
       <Listing
         data={filteredAthletes}
         renderItem={({ item }) => <CardAvatar item={item} onCardPress={() => onCardPress(item)} />}

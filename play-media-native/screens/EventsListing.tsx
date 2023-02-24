@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { StatusBar } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 
 import { Listing } from '../components/Listing/Listing';
-import { EVENT_FACETS } from '../constants/filters';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { EventFilters } from '../features/EventFilters/EventFilters';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
@@ -11,7 +10,8 @@ import { Screen } from '../features/Screen/Screen';
 import { initializeEvents } from '../helpers/events';
 import { getLocationOptions, getSportOptions } from '../helpers/facets';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
-import { useFacets } from '../hooks/useFacets/useFacets';
+import { useSearchFacets } from '../hooks/useFacets/useFacets';
+import { useFilters } from '../hooks/useFilters/useFilters';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Event } from '../interfaces/event';
@@ -30,21 +30,19 @@ export const EventsListingScreen = ({ navigation }) => {
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
   } = useSportsQuery();
-  const [facets, setFacets] = useState<Record<string, any>>({
-    [EVENT_FACETS.sport]: '',
-    [EVENT_FACETS.location]: '',
-  });
-  const filteredEvents = useFacets({
+
+  const { eventFilterValues, eventSearchQuery } = useFilters();
+
+  const filteredEvents = useSearchFacets({
     initialItems: events?.length ? initializeEvents(events, sports) : [],
-    facets,
+    facets: eventFilterValues,
+    query: eventSearchQuery,
   });
+
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+
   const locationOptions = useMemo(() => getLocationOptions(events), [events]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
-
-  const handleChange = useCallback((key: string, value: any) => {
-    setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
-  }, []);
 
   const handleRefresh = useCallback(() => {
     refetchEvents();
@@ -65,12 +63,7 @@ export const EventsListingScreen = ({ navigation }) => {
   return (
     <Screen>
       <StatusBar barStyle="light-content" />
-      <EventFilters
-        filters={facets}
-        locationOptions={locationOptions}
-        onChange={handleChange}
-        sportOptions={sportOptions}
-      />
+      <EventFilters locationOptions={locationOptions} sportOptions={sportOptions} />
       <Listing
         data={filteredEvents}
         renderItem={({ item }) => <CardEvent item={item} onCardPress={() => onCardPress(item)} />}

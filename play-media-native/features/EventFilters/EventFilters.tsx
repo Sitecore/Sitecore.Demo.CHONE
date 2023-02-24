@@ -2,34 +2,38 @@ import { useCallback, useMemo } from 'react';
 
 import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
 import { SimpleFilters } from '../../components/FacetFilters/SimpleFilters';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { EVENT_FACETS } from '../../constants/filters';
 import { useFilters } from '../../hooks/useFilters/useFilters';
-import { IIndexable } from '../../interfaces/indexable';
 
 export const EventFilters = ({
-  filters,
   locationOptions,
-  onChange,
   sportOptions,
 }: {
-  filters: IIndexable;
   locationOptions: DropdownItem[];
-  onChange: (key: string, value: string) => void;
   sportOptions: DropdownItem[];
 }) => {
-  const { visible, eventFilterValues, setEventFiltersActive, setEventFilterValues } = useFilters();
+  const {
+    visible,
+    eventFilterValues,
+    setEventFilterValues,
+    eventSearchQuery,
+    setEventSearchQuery,
+  } = useFilters();
 
   const handleFacetsChange = useCallback(
     (id: string, item: DropdownItem) => {
-      const newFilters = { ...filters, [id]: item.value };
+      const newFilters = { ...eventFilterValues, [id]: item.value };
       setEventFilterValues(newFilters);
-
-      const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
-      setEventFiltersActive(activeFilters);
-
-      onChange(id, item.value);
     },
-    [filters, onChange, setEventFiltersActive, setEventFilterValues]
+    [setEventFilterValues, eventFilterValues]
+  );
+
+  const handleSearch = useCallback(
+    (query: string) => {
+      setEventSearchQuery(query);
+    },
+    [setEventSearchQuery]
   );
 
   const facetFilters = useMemo(
@@ -54,5 +58,10 @@ export const EventFilters = ({
     return null;
   }
 
-  return <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />;
+  return (
+    <>
+      <SearchBar onSearch={handleSearch} searchQuery={eventSearchQuery} />
+      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+    </>
+  );
 };
