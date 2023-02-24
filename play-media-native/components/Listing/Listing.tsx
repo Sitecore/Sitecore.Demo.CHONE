@@ -115,6 +115,7 @@ export const Listing = ({
           />
         }
         onScroll={onScroll}
+        removeClippedSubviews
       />
     </SafeAreaView>
   );
