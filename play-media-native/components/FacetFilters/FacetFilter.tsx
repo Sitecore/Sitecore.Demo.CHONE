@@ -1,6 +1,7 @@
 import { StyleProp, View, ViewStyle } from 'react-native';
 import { Text } from 'react-native-paper';
 
+import { FacetFilter as IFacetFilter } from '../../interfaces/facets';
 import { theme } from '../../theme/theme';
 import { DropdownItem, DropdownPicker } from '../DropdownPicker/DropdownPicker';
 
@@ -9,12 +10,6 @@ type FacetFilterProps = IFacetFilter & {
   style?: StyleProp<ViewStyle>;
   selectedValue?: string;
 };
-
-export interface IFacetFilter {
-  id: string;
-  label: string;
-  facets: DropdownItem[];
-}
 
 export const FacetFilter = ({
   id,

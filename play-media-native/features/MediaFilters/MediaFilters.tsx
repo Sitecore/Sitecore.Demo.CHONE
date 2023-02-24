@@ -2,52 +2,52 @@ import { useCallback, useMemo } from 'react';
 
 import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
 import { SimpleFilters } from '../../components/FacetFilters/SimpleFilters';
-import { EVENT_FACETS } from '../../constants/filters';
+import { MEDIA_FACETS } from '../../constants/filters';
 import { useFilters } from '../../hooks/useFilters/useFilters';
 import { IIndexable } from '../../interfaces/indexable';
 
-export const EventFilters = ({
+export const MediaFilters = ({
   filters,
-  locationOptions,
+  fileTypeOptions,
   onChange,
-  sportOptions,
+  stateOptions,
 }: {
   filters: IIndexable;
-  locationOptions: DropdownItem[];
+  fileTypeOptions: DropdownItem[];
   onChange: (key: string, value: string) => void;
-  sportOptions: DropdownItem[];
+  stateOptions: DropdownItem[];
 }) => {
-  const { visible, eventFilterValues, setEventFiltersActive, setEventFilterValues } = useFilters();
+  const { visible, setMediaFiltersActive, setMediaFilterValues } = useFilters();
 
   const handleFacetsChange = useCallback(
     (id: string, item: DropdownItem) => {
       const newFilters = { ...filters, [id]: item.value };
-      setEventFilterValues(newFilters);
+      setMediaFilterValues(newFilters);
 
       const activeFilters = Object.values(newFilters).filter((val) => !!val).length;
-      setEventFiltersActive(activeFilters);
+      setMediaFiltersActive(activeFilters);
 
       onChange(id, item.value);
     },
-    [filters, onChange, setEventFiltersActive, setEventFilterValues]
+    [filters, onChange, setMediaFilterValues, setMediaFiltersActive]
   );
 
   const facetFilters = useMemo(
     () => [
       {
-        id: EVENT_FACETS.location,
-        label: 'Location',
-        facets: locationOptions,
-        selectedValue: eventFilterValues?.[EVENT_FACETS.location],
+        id: MEDIA_FACETS.fileType,
+        label: 'File type',
+        facets: fileTypeOptions,
+        selectedValue: '',
       },
       {
-        id: EVENT_FACETS.sport,
-        label: 'Sport',
-        facets: sportOptions,
-        selectedValue: eventFilterValues?.[EVENT_FACETS.sport],
+        id: MEDIA_FACETS.state,
+        label: 'State',
+        facets: stateOptions,
+        selectedValue: '',
       },
     ],
-    [eventFilterValues, locationOptions, sportOptions]
+    [fileTypeOptions, stateOptions]
   );
 
   if (!visible) {

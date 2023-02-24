@@ -7,8 +7,10 @@ import {
   toggleVisible,
   setAthleteFiltersActive,
   setEventFiltersActive,
+  setMediaFiltersActive,
   setAthleteFilterValues,
   setEventFilterValues,
+  setMediaFilterValues,
 } from '../../store/filters';
 
 export const useFilters = () => {
@@ -16,8 +18,10 @@ export const useFilters = () => {
     visible,
     athleteFiltersActive,
     eventFiltersActive,
+    mediaFiltersActive,
     athleteFilterValues,
     eventFilterValues,
+    mediaFilterValues,
   } = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
 
@@ -25,8 +29,10 @@ export const useFilters = () => {
     visible,
     athleteFiltersActive,
     eventFiltersActive,
+    mediaFiltersActive,
     athleteFilterValues,
     eventFilterValues,
+    mediaFilterValues,
     toggleVisible: useCallback(() => dispatch(toggleVisible()), [dispatch]),
     setAthleteFiltersActive: useCallback(
       (activeFilters: number) => {
@@ -40,6 +46,12 @@ export const useFilters = () => {
       },
       [dispatch]
     ),
+    setMediaFiltersActive: useCallback(
+      (activeFilters: number) => {
+        dispatch(setMediaFiltersActive(activeFilters));
+      },
+      [dispatch]
+    ),
     setAthleteFilterValues: useCallback(
       (athleteFilterValues: IIndexable) => {
         dispatch(setAthleteFilterValues(athleteFilterValues));
@@ -49,6 +61,12 @@ export const useFilters = () => {
     setEventFilterValues: useCallback(
       (eventFilterValues: IIndexable) => {
         dispatch(setEventFilterValues(eventFilterValues));
+      },
+      [dispatch]
+    ),
+    setMediaFilterValues: useCallback(
+      (eventFilterValues: IIndexable) => {
+        dispatch(setMediaFilterValues(eventFilterValues));
       },
       [dispatch]
     ),

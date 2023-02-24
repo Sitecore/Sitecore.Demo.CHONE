@@ -1,13 +1,17 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Image, View } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 
+import { MEDIA_FACETS } from '../constants/filters';
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
+import { MediaFilters } from '../features/MediaFilters/MediaFilters';
 import { MediaItemCardDisplay } from '../features/MediaItemCardDisplay/MediaItemCardDisplay';
 import { MediaItemListDisplay } from '../features/MediaItemListDisplay/MediaItemListDisplay';
 import { Screen } from '../features/Screen/Screen';
 import { ListingImageDisplayType } from '../features/SelectDisplayButtons/SelectDisplayButtons';
+import { getFileTypeOptions } from '../helpers/facets';
+import { useFacets } from '../hooks/useFacets/useFacets';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Media } from '../interfaces/media';
@@ -27,7 +31,24 @@ export const MediaListingScreen = ({ navigation }) => {
     isRefetching: isRefetchingMedia,
   } = useMediaQuery();
 
+  const [facets, setFacets] = useState<Record<string, any>>({
+    [MEDIA_FACETS.fileType]: '',
+    [MEDIA_FACETS.state]: '',
+  });
+
+  const filteredImages = useFacets({
+    initialItems: images?.length ? images : [],
+    facets,
+  });
+
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+  const fileTypeOptions = useMemo(() => {
+    return getFileTypeOptions(images);
+  }, [images]);
+
+  const handleChange = useCallback((key: string, value: any) => {
+    setFacets((prevFacets) => ({ ...prevFacets, [key]: value }));
+  }, []);
 
   const handleRefresh = useCallback(() => {
     refetchMedia();
@@ -50,9 +71,15 @@ export const MediaListingScreen = ({ navigation }) => {
 
   return (
     <Screen>
+      <MediaFilters
+        filters={facets}
+        onChange={handleChange}
+        fileTypeOptions={fileTypeOptions}
+        stateOptions={[]}
+      />
       <View style={{ marginBottom: 120 }}>
         <ListingImages
-          images={images as Media[]}
+          images={filteredImages as Media[]}
           renderItems={renderItems}
           showSearch={false}
           onRefresh={handleRefresh}

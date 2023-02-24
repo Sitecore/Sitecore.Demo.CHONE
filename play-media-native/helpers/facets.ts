@@ -1,5 +1,6 @@
 import { Athlete } from '../interfaces/athlete';
 import { Event } from '../interfaces/event';
+import { Media } from '../interfaces/media';
 import { Sport } from '../interfaces/sport';
 
 export const getSportOptions = (sports: Sport[]) => {
@@ -51,6 +52,24 @@ export const getLocationOptions = (events: Event[]) => {
         ...locations.map((location) => ({
           label: location,
           value: location,
+        })),
+      ]
+    : [];
+};
+
+export const getFileTypeOptions = (media: Media[]) => {
+  if (!media || !media?.length) {
+    return [];
+  }
+
+  const fileTypes = Array.from(new Set(media?.map((item) => item.fileType).filter((n) => n)));
+
+  return fileTypes?.length
+    ? [
+        { label: 'All', value: '' },
+        ...fileTypes.map((fileType) => ({
+          label: fileType,
+          value: fileType,
         })),
       ]
     : [];

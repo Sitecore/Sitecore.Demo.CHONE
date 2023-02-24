@@ -1,21 +1,17 @@
 import { useCallback } from 'react';
 import { View } from 'react-native';
 
-import { FacetFilter, IFacetFilter } from './FacetFilter';
-import { CONTENT_TYPES } from '../../constants/contentTypes';
-import { useFilters } from '../../hooks/useFilters/useFilters';
+import { FacetFilter as IFacetFilter } from '../../interfaces/facets';
 import { theme } from '../../theme/theme';
 import { DropdownItem } from '../DropdownPicker/DropdownPicker';
+import { FacetFilter } from './FacetFilter';
 
 type FacetFiltersProps = {
   facetFilters: IFacetFilter[];
   onChange: (id: string, item: DropdownItem) => void;
-  type: string;
 };
 
-export const FacetFilters = ({ facetFilters, onChange, type }: FacetFiltersProps) => {
-  const { athleteFilterValues, eventFilterValues } = useFilters();
-
+export const FacetFilters = ({ facetFilters, onChange }: FacetFiltersProps) => {
   const handleChange = useCallback(
     (id: string, item: DropdownItem) => {
       onChange(id, item);
@@ -42,11 +38,7 @@ export const FacetFilters = ({ facetFilters, onChange, type }: FacetFiltersProps
             paddingHorizontal: theme.spacing.xxs,
             flexShrink: 1,
           }}
-          selectedValue={
-            type === CONTENT_TYPES.EVENT
-              ? eventFilterValues?.[facet.id]
-              : athleteFilterValues?.[facet.id]
-          }
+          selectedValue={facet.selectedValue}
         />
       ))}
     </View>
