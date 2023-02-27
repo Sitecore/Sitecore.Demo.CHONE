@@ -65,7 +65,7 @@ export const MediaListingScreen = ({ navigation }) => {
 
   return (
     <Screen>
-      <MediaFilters fileTypeOptions={fileTypeOptions} stateOptions={[]} />
+      <MediaFilters fileTypeOptions={fileTypeOptions} statusOptions={[]} />
       <View style={{ marginBottom: 120 }}>
         <ListingImages
           images={filteredImages as Media[]}
