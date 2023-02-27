@@ -12,14 +12,20 @@ export type RootStackParamList = {
   AthleteDetail: { id: string };
   AthleteReview: { id: string };
   CreateEventOverview: undefined;
-  CreateEventDetailed: undefined;
+  CreateEventDetailed: {
+    stateKey: string;
+    title: string;
+  };
   EditAthleteDetails: { id: string };
   EditEvent: undefined;
   EditMedia: undefined;
   EventDetail: { id: string };
   MainTabs: undefined;
   RemoveConnection: undefined;
-  ReviewEvent: undefined;
+  ReviewEvent: {
+    stateKey: string;
+    title: string;
+  };
   SelectConnection: undefined;
 };
 

@@ -1,23 +1,28 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
+import { CreateConfirmationModal } from '../features/CreateConfirmationModal/CreateConfirmationModal';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { canSubmitEvent } from '../helpers/events';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
 import { IIndexable } from '../interfaces/indexable';
+import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
 
-export const CreateEventDetailedScreen = ({ navigation, route }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'CreateEventDetailed'>;
+
+export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
   // store stateKey in a ref so it's stable and does not require passing as route param during nav flows
   //
   const stateKeyRef = useRef({ stateKey: route?.params?.stateKey });
   const stateKey = stateKeyRef?.current?.stateKey;
 
-  const { contentItems, editMultiple } = useContentItems();
+  const { contentItems, editMultiple, reset } = useContentItems();
   const event = useMemo(
     () => contentItems[stateKey] ?? null,
     [contentItems, stateKey]
@@ -30,6 +35,7 @@ export const CreateEventDetailedScreen = ({ navigation, route }) => {
     timeAndDate: event?.timeAndDate || null,
     location: event?.location || '',
   });
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const isDisabled = !canSubmitEvent(fields, contentItems[stateKey]);
 
@@ -40,11 +46,26 @@ export const CreateEventDetailedScreen = ({ navigation, route }) => {
     }));
   }, []);
 
-  const onDiscard = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
+  const clearGlobalState = useCallback(() => {
+    reset({ id: stateKey });
+    stateKeyRef.current.stateKey = null;
+  }, [reset, stateKey]);
 
-  const onAddDetails = useCallback(() => {
+  const closeModal = useCallback(() => {
+    setShowConfirmationModal(false);
+  }, []);
+
+  const onModalDiscard = useCallback(() => {
+    closeModal();
+    clearGlobalState();
+    navigation.navigate('MainTabs');
+  }, [clearGlobalState, closeModal, navigation]);
+
+  const onDiscard = useCallback(() => {
+    setShowConfirmationModal(true);
+  }, []);
+
+  const onReview = useCallback(() => {
     editMultiple({
       id: stateKey,
       fields,
@@ -56,9 +77,19 @@ export const CreateEventDetailedScreen = ({ navigation, route }) => {
     });
   }, [editMultiple, fields, navigation, stateKey]);
 
-  if (!contentItems[stateKey]) {
-    return null;
-  }
+  // on unmount, save changed fields in global state
+  // if state has been reset due to discarding whole flow, do nothing
+  //
+  useEffect(() => {
+    return () => {
+      if (!stateKey) {
+        editMultiple({
+          id: stateKey,
+          fields,
+        });
+      }
+    };
+  }, [editMultiple, fields, stateKey]);
 
   return (
     <KeyboardAwareScreen>
@@ -99,13 +130,19 @@ export const CreateEventDetailedScreen = ({ navigation, route }) => {
               mode="contained"
               labelStyle={styles.buttonLabel}
               style={isDisabled ? { ...styles.button, ...styles.buttonDisabled } : styles.button}
-              onPress={onAddDetails}
+              onPress={onReview}
             >
               Review
             </Button>
           </View>
         </View>
       </BottomActions>
+      <CreateConfirmationModal
+        onContinue={closeModal}
+        onDiscard={onModalDiscard}
+        onDismiss={closeModal}
+        visible={showConfirmationModal}
+      />
     </KeyboardAwareScreen>
   );
 };

@@ -26,8 +26,8 @@ export const useContentItems = () => {
       [dispatch]
     ),
     editMultiple: useCallback(
-      (field: IIndexable) => {
-        dispatch(editMultiple(field));
+      ({ id, fields }: { id: string; fields: IIndexable }) => {
+        dispatch(editMultiple({ id, fields }));
       },
       [dispatch]
     ),
