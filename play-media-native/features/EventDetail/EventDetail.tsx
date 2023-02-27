@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { getAccentColor } from '../../helpers/colorHelper';
@@ -16,6 +16,10 @@ import { ImageGrid } from '../ImageGrid/ImageGrid';
 import { RichText } from '../RichText/RichText';
 
 const pageStyles = StyleSheet.create({
+  featuredImage: {
+    height: 300,
+    width: '100%',
+  },
   title: {
     fontFamily: theme.fontFamily.bold,
     color: theme.colors.gray.dark,
@@ -63,6 +67,11 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
 
   return (
     <View>
+      {event?.featuredImage?.fileUrl && (
+        <View style={{ marginBottom: theme.spacing.sm }}>
+          <Image source={{ uri: event?.featuredImage?.fileUrl }} style={pageStyles.featuredImage} />
+        </View>
+      )}
       {event?.sport?.title && (
         <View>
           <Text variant="labelSmall" style={pageStyles.title}>

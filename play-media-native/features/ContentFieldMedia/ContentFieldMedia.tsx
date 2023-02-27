@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Divider, Text } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
 import { MEDIA_SOURCES } from '../../constants/media';
@@ -132,9 +132,9 @@ export const ContentFieldMedia = ({
     [editMedia, fieldKey, deleteMedia]
   );
 
-  const content = useMemo(
-    () =>
-      Array.isArray(items) ? (
+  const content = useMemo(() => {
+    if (Array.isArray(items)) {
+      return (
         <DraggableList
           items={items}
           onDragEnd={reorderItems}
@@ -142,14 +142,17 @@ export const ContentFieldMedia = ({
             <ListItem item={item} menuItems={resolveActionsForItem(item)} />
           )}
         />
-      ) : (
-        items && <ListItem item={items} menuItems={resolveActionsForItem(items)} />
-      ),
-    [items, reorderItems, resolveActionsForItem]
-  );
+      );
+    }
+
+    return items ? <ListItem item={items} menuItems={resolveActionsForItem(items)} /> : null;
+  }, [items, reorderItems, resolveActionsForItem]);
 
   return (
     <View style={style}>
+      <Divider
+        style={{ backgroundColor: theme.colors.gray.light, marginBottom: theme.spacing.lg }}
+      />
       <View
         style={{
           flexDirection: 'row',

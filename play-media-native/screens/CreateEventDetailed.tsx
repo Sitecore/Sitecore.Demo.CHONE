@@ -1,17 +1,22 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
+import { canSubmitEvent } from '../helpers/events';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
 import { IIndexable } from '../interfaces/indexable';
 import { styles } from '../theme/styles';
 
 export const CreateEventDetailedScreen = ({ navigation, route }) => {
-  const stateKey = route?.params?.stateKey;
+  // store stateKey in a ref so it's stable and does not require passing as route param during nav flows
+  //
+  const stateKeyRef = useRef({ stateKey: route?.params?.stateKey });
+  const stateKey = stateKeyRef?.current?.stateKey;
+
   const { contentItems, editMultiple } = useContentItems();
   const event = useMemo(
     () => contentItems[stateKey] ?? null,
@@ -22,9 +27,11 @@ export const CreateEventDetailedScreen = ({ navigation, route }) => {
     title: event?.title || '',
     body: event?.body || null,
     teaser: event?.teaser || '',
-    date: event?.timeAndDate || new Date(),
+    timeAndDate: event?.timeAndDate || null,
     location: event?.location || '',
   });
+
+  const isDisabled = !canSubmitEvent(fields, contentItems[stateKey]);
 
   const handleFieldChange = useCallback((key: string, value: any) => {
     setFields((prevFields) => ({
@@ -48,6 +55,10 @@ export const CreateEventDetailedScreen = ({ navigation, route }) => {
       title: `Review ${fields.title || 'Event'}`,
     });
   }, [editMultiple, fields, navigation, stateKey]);
+
+  if (!contentItems[stateKey]) {
+    return null;
+  }
 
   return (
     <KeyboardAwareScreen>
@@ -84,12 +95,13 @@ export const CreateEventDetailedScreen = ({ navigation, route }) => {
             }}
           >
             <Button
+              disabled={isDisabled}
               mode="contained"
               labelStyle={styles.buttonLabel}
-              style={styles.button}
+              style={isDisabled ? { ...styles.button, ...styles.buttonDisabled } : styles.button}
               onPress={onAddDetails}
             >
-              Add Details
+              Review
             </Button>
           </View>
         </View>

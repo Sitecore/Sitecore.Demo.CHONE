@@ -7,6 +7,7 @@ import { AddAthletesScreen } from '../screens/AddAthletes';
 import { AddCH1MediaScreen } from '../screens/AddCH1Media/AddCH1Media';
 import { AddConnectionScreen } from '../screens/AddConnection';
 import { AddEventsScreen } from '../screens/AddEvents';
+import { AddSportsScreen } from '../screens/AddSport';
 import { AthleteDetailScreen } from '../screens/AthleteDetail';
 import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
 import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
@@ -56,6 +57,7 @@ export const Stacks = () => {
           title: 'Add Connection',
         }}
       />
+      <Stack.Screen name="AddSport" component={AddSportsScreen} options={{ title: 'Add Sports' }} />
       <Stack.Screen
         name="AthleteDetail"
         component={AthleteDetailScreen}

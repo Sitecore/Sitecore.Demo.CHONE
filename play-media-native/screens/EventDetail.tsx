@@ -1,6 +1,6 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 import { useQuery } from 'react-query';
@@ -9,11 +9,11 @@ import { getEventById } from '../api/queries/getEvents';
 import { EventDetail } from '../features/EventDetail/EventDetail';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
+import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
-import { generateID } from '../helpers/uuid';
 
 const pageStyles = StyleSheet.create({
   bottomFAB: {
@@ -36,13 +36,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
   const id = route?.params?.id;
   const isEditForbidden = route?.params?.isEditForbidden;
 
-  const [error, setError] = useState<unknown>();
-
-  const { data: event, isFetching } = useQuery('event', () => getEventById(id), {
-    onError: (error) => {
-      setError(error);
-    },
-  });
+  const { data: event, error, isFetching } = useQuery(`event-id-${id}`, () => getEventById(id), {});
 
   const { init } = useContentItems();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
@@ -77,6 +71,10 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   if (isFetching) {
     return <LoadingScreen />;
+  }
+
+  if (error) {
+    return <Screen centered>Event could not be loaded!</Screen>;
   }
 
   return (

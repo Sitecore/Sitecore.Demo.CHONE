@@ -20,7 +20,7 @@ export const DatePicker = ({ value, visible, onChange, onClose }) => {
           display="inline"
           themeVariant="dark"
           accentColor={theme.colors.yellow.DEFAULT}
-          value={new Date(value)}
+          value={value ? new Date(value) : new Date()}
           mode="date"
           onChange={(_, selectedDate) => {
             onChange(selectedDate);
@@ -32,7 +32,7 @@ export const DatePicker = ({ value, visible, onChange, onClose }) => {
 
   const androidDatePicker = (
     <DateTimePicker
-      value={new Date(value)}
+      value={value ? new Date(value) : new Date()}
       mode="date"
       onChange={(_, selectedDate) => {
         onClose();

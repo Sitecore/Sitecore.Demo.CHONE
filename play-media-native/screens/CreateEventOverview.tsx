@@ -5,6 +5,7 @@ import { Button } from 'react-native-paper';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
+import { canSubmitEvent } from '../helpers/events';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { IIndexable } from '../interfaces/indexable';
@@ -12,14 +13,10 @@ import { styles } from '../theme/styles';
 
 export const CreateEventOverviewScreen = ({ navigation }) => {
   const [stateKey] = useState<string>(generateID());
-  const { editMultiple, init, reset } = useContentItems();
+  const { contentItems, editMultiple, init, reset } = useContentItems();
 
   const [fields, setFields] = useState<IIndexable>({
     title: '',
-    body: null,
-    teaser: '',
-    timeAndDate: new Date(),
-    location: '',
   });
 
   const handleFieldChange = useCallback((key: string, value: any) => {
@@ -44,6 +41,8 @@ export const CreateEventOverviewScreen = ({ navigation }) => {
       title: `Review ${fields.title || 'Event'}`,
     });
   }, [editMultiple, fields, navigation, stateKey]);
+
+  const isDisabled = !canSubmitEvent(fields, contentItems[stateKey]);
 
   useEffect(() => {
     // init global state on mount
@@ -103,9 +102,10 @@ export const CreateEventOverviewScreen = ({ navigation }) => {
             }}
           >
             <Button
+              disabled={isDisabled}
               mode="contained"
               labelStyle={styles.buttonLabel}
-              style={styles.button}
+              style={isDisabled ? { ...styles.button, ...styles.buttonDisabled } : styles.button}
               onPress={onAddDetails}
             >
               Add Details

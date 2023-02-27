@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, Divider, Text } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
@@ -15,6 +15,7 @@ export const ContentFieldReference = ({
   fieldTitle,
   initialRoute,
   renderItem,
+  required,
   single = false,
   stateKey,
   style,
@@ -24,6 +25,7 @@ export const ContentFieldReference = ({
   fieldTitle: string;
   initialRoute: string;
   renderItem: (item: any) => JSX.Element;
+  required?: boolean;
   single?: boolean;
   stateKey: string;
   style?: StyleProp<any>;
@@ -61,26 +63,43 @@ export const ContentFieldReference = ({
     [items, reorderItems, renderItem]
   );
 
+  const header = useMemo(() => {
+    return (
+      <View style={{ flexDirection: 'row' }}>
+        <Text variant="labelSmall">{fieldTitle}</Text>
+        {required && (
+          <>
+            <Text style={{ color: theme.colors.yellow.DEFAULT, marginLeft: theme.spacing.xs }}>
+              *
+            </Text>
+          </>
+        )}
+      </View>
+    );
+  }, [fieldTitle, required]);
+
   return (
     <View style={style}>
-      <Text variant="labelSmall" style={{ marginBottom: theme.spacing.xs }}>
-        {fieldTitle}
-      </Text>
+      <Divider
+        style={{ backgroundColor: theme.colors.gray.light, marginBottom: theme.spacing.lg }}
+      />
       <View
         style={{
           width: '100%',
           flexDirection: 'row',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           marginBottom: theme.spacing.xs,
         }}
       >
+        {header}
         <Button
           compact
           icon="plus"
           mode="contained"
           onPress={handleAddExisting}
-          style={{ ...styles.button, marginRight: 0 }}
-          labelStyle={styles.buttonLabel}
+          style={{ ...styles.buttonSmall, marginRight: 0 }}
+          labelStyle={styles.buttonLabelSmall}
         >
           Add
         </Button>

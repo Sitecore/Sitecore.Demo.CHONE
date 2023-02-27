@@ -1,27 +1,29 @@
-import { useCallback, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { useCallback } from 'react';
+import { View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 import { Text } from 'react-native-paper';
 
-import { DatePicker } from '../../components/DatePicker/DatePicker';
+import { InputDate } from '../../components/InputDate/InputDate';
 import { InputText } from '../../components/InputText/InputText';
 import { RichTextEditor } from '../../components/RichTextEditor/RichTextEditor';
-import { getDate } from '../../helpers/dateHelper';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Athlete } from '../../interfaces/athlete';
 import { Event } from '../../interfaces/event';
 import { IIndexable } from '../../interfaces/indexable';
+import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { ActionMenu } from '../ActionMenu/ActionMenu';
 import { CardAvatar } from '../CardAvatar/CardAvatar';
 import { CardEvent } from '../CardEvent/CardEvent';
+import { CardSport } from '../CardSport/CardSport';
 import { ContentFieldMedia } from '../ContentFieldMedia/ContentFieldMedia';
 import { ContentFieldReference } from '../ContentFieldReference/ContentFieldReference';
+import { RequiredFieldsBanner } from '../RequiredFieldsBanner/RequiredFieldsBanner';
 
 const athleteMenuStyle = {
   position: 'absolute',
-  bottom: 15,
+  bottom: 10,
   right: 0,
   zIndex: 12,
 };
@@ -75,6 +77,7 @@ export const FieldsEvent = ({
   return (
     <NestableScrollContainer>
       <View>
+        <RequiredFieldsBanner />
         <InputText
           containerStyle={styles.inputContainer}
           multiline
@@ -83,51 +86,19 @@ export const FieldsEvent = ({
           value={fields.title}
           title="Title"
         />
-        <InputText
-          containerStyle={styles.inputContainer}
-          multiline
-          onChange={(text: string) => handleFieldChange('teaser', text)}
-          value={fields.teaser}
-          title="Teaser"
-        />
-        {/* <Pressable onPress={() => setShowDatePicker(true)}>
-              <View pointerEvents="none">
-                <InputText
-                  containerStyle={styles.inputContainer}
-                  value={getDate(fields.date)}
-                  title="Event Date"
-                  showSoftInputOnFocus={false}
-                  caretHidden
-                />
-              </View>
-            </Pressable>
-            {showDatePicker && (
-              <DatePicker
-                value={fields.timeAndDate}
-                visible={showDatePicker}
-                onChange={setDate}
-                onClose={setShowDatePicker}
-              />
-            )} */}
-        <InputText
-          containerStyle={styles.inputContainer}
-          multiline
-          onChange={(text: string) => handleFieldChange('location', text)}
-          value={fields.location}
-          title="Location"
-        />
         <ContentFieldReference
           addRoute="AddSport"
           fieldKey="sport"
           fieldTitle="Sport"
           initialRoute={initialRoute}
-          renderItem={(item: Athlete) => (
+          required
+          renderItem={(item: Sport) => (
             <View style={{ position: 'relative' }}>
-              <CardAvatar item={item} />
+              <CardSport item={item} />
               <ActionMenu
                 iconColor={theme.colors.black.DEFAULT}
                 iconSize={25}
-                menuItems={getMenuItems('athletes', item)}
+                menuItems={getMenuItems('sport', item)}
                 style={athleteMenuStyle}
               />
             </View>
@@ -138,6 +109,25 @@ export const FieldsEvent = ({
         />
         {!showLimitedFields && (
           <>
+            <InputText
+              containerStyle={styles.inputContainer}
+              multiline
+              onChange={(text: string) => handleFieldChange('teaser', text)}
+              value={fields.teaser}
+              title="Teaser"
+            />
+            <InputDate
+              onChange={(date: Date) => handleFieldChange('timeAndDate', date)}
+              title="Time and Date"
+              value={fields.timeAndDate}
+            />
+            <InputText
+              containerStyle={styles.inputContainer}
+              multiline
+              onChange={(text: string) => handleFieldChange('location', text)}
+              value={fields.location}
+              title="Location"
+            />
             <View style={styles.inputContainer}>
               <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
               <RichTextEditor
@@ -149,7 +139,7 @@ export const FieldsEvent = ({
               fieldKey="featuredImage"
               fieldTitle="Featured Image"
               initialRoute={initialRoute}
-              items={event.featuredImage}
+              items={event?.featuredImage}
               stateKey={stateKey}
               style={{ marginTop: theme.spacing.md }}
             />

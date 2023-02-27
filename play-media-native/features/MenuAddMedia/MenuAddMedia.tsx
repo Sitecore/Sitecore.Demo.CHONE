@@ -6,6 +6,7 @@ import { useCamera } from '../../hooks/useCamera/useCamera';
 import { useDeviceLibrary } from '../../hooks/useDeviceLibrary/useDeviceLibrary';
 import { DeviceMedia } from '../../interfaces/media';
 import { StackNavigationProp } from '../../interfaces/navigators';
+import { styles } from '../../theme/styles';
 
 export const MenuAddMedia = ({
   empty,
@@ -69,7 +70,7 @@ export const MenuAddMedia = ({
 
   const buttonLabel = useMemo(() => {
     const add = 'Add';
-    const replace = 'Replace';
+    const replace = 'Change';
 
     if (empty) {
       return add;
@@ -83,7 +84,14 @@ export const MenuAddMedia = ({
       visible={visible}
       onDismiss={close}
       anchor={
-        <Button icon="plus" mode="contained" onPress={open}>
+        <Button
+          compact
+          icon="plus"
+          mode="contained"
+          onPress={open}
+          labelStyle={{ ...styles.buttonLabelSmall }}
+          style={{ ...styles.buttonSmall, marginHorizontal: 0 }}
+        >
           {buttonLabel}
         </Button>
       }

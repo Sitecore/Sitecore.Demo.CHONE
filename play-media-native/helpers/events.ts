@@ -1,5 +1,7 @@
+import { fieldOverrides } from '../constants/event';
 import { EVENT_FACETS } from '../constants/filters';
 import { Event, EventResponse } from '../interfaces/event';
+import { IIndexable } from '../interfaces/indexable';
 import { Sport } from '../interfaces/sport';
 
 export const initializeEvents = (events: Event[], sports: Sport[]) => {
@@ -56,4 +58,18 @@ export const prepareRequestFields = (event: Event) => {
     athletes: { results: event.athletes },
     similarEvents: { results: event.similarEvents },
   };
+};
+
+export const canSubmitEvent = (fields: IIndexable, globalFields: IIndexable) => {
+  const allFields = { ...globalFields, ...fields };
+
+  let canSubmit = true;
+
+  for (const field in fieldOverrides) {
+    if (fieldOverrides[field].required && !allFields[field]) {
+      canSubmit = false;
+    }
+  }
+
+  return canSubmit;
 };
