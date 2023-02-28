@@ -151,7 +151,7 @@ export const ContentFieldMedia = ({
   return (
     <View style={style}>
       <Divider
-        style={{ backgroundColor: theme.colors.gray.light, marginBottom: theme.spacing.lg }}
+        style={{ backgroundColor: theme.colors.gray.light, marginBottom: theme.spacing.xs }}
       />
       <View
         style={{

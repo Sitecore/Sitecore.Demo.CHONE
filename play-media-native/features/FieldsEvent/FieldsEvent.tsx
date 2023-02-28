@@ -35,6 +35,8 @@ const eventMenuStyle = {
   zIndex: 10,
 };
 
+const sectionMarginBottom = theme.spacing.xs;
+
 export const FieldsEvent = ({
   event,
   fields,
@@ -105,7 +107,7 @@ export const FieldsEvent = ({
           )}
           single
           stateKey={stateKey}
-          style={{ marginTop: theme.spacing.lg }}
+          style={sectionMarginBottom}
         />
         {!showLimitedFields && (
           <>
@@ -141,7 +143,7 @@ export const FieldsEvent = ({
               initialRoute={initialRoute}
               items={event?.featuredImage}
               stateKey={stateKey}
-              style={{ marginTop: theme.spacing.md }}
+              style={sectionMarginBottom}
             />
             <ContentFieldMedia
               fieldKey="relatedMedia"
@@ -149,7 +151,7 @@ export const FieldsEvent = ({
               initialRoute={initialRoute}
               items={event.relatedMedia}
               stateKey={stateKey}
-              style={{ marginTop: theme.spacing.lg }}
+              style={sectionMarginBottom}
             />
             <ContentFieldReference
               addRoute="AddAthletes"
@@ -168,7 +170,7 @@ export const FieldsEvent = ({
                 </View>
               )}
               stateKey={stateKey}
-              style={{ marginTop: theme.spacing.lg }}
+              style={sectionMarginBottom}
             />
             <ContentFieldReference
               addRoute="AddEvents"
@@ -187,7 +189,7 @@ export const FieldsEvent = ({
                 </View>
               )}
               stateKey={stateKey}
-              style={{ marginTop: theme.spacing.lg }}
+              style={sectionMarginBottom}
             />
           </>
         )}

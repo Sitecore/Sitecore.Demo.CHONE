@@ -79,6 +79,8 @@ export const MenuAddMedia = ({
     return single ? replace : add;
   }, [empty, single]);
 
+  const icon = empty ? 'plus' : 'pencil';
+
   return (
     <Menu
       visible={visible}
@@ -86,7 +88,7 @@ export const MenuAddMedia = ({
       anchor={
         <Button
           compact
-          icon="plus"
+          icon={icon}
           mode="contained"
           onPress={open}
           labelStyle={{ ...styles.buttonLabelSmall }}
