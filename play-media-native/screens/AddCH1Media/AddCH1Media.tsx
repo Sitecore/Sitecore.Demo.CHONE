@@ -1,21 +1,20 @@
 import { useCallback, useMemo, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { Button } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
 import { ListingCH1Media } from './ListingCH1Media';
-import { getAllMedia } from '../../api/queries/getMedia';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { MEDIA_SOURCES } from '../../constants/media';
 import { Screen } from '../../features/Screen/Screen';
 import { removeAlreadySelected } from '../../helpers/media';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
+import { useMediaQuery } from '../../hooks/useMediaQuery/useMediaQuery';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
 
 export const AddCH1MediaScreen = ({ navigation, route }) => {
   const { contentItems, edit } = useContentItems();
-  const { data: images, isFetching } = useQuery('media', () => getAllMedia());
+  const { data: images, isFetching } = useMediaQuery();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
   const selectedMediaIDs = selectedMedia.map((item) => item.id);
 

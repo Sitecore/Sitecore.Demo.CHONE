@@ -1,14 +1,13 @@
 import { useEffect, useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { getAllSports } from '../../api/queries/getSports';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../../features/Screen/Screen';
 import { generateID } from '../../helpers/uuid';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
+import { useSportsQuery } from '../../hooks/useSportsQuery/useSportsQuery';
 import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
@@ -16,7 +15,7 @@ import { theme } from '../../theme/theme';
 export const CreateAthleteScreen = ({ navigation, route }) => {
   const [stateKey] = useState<string>(generateID());
   const { editMultiple, init, reset } = useContentItems();
-  const { data: sports, isFetching: isFetchingSports } = useQuery('sports', () => getAllSports());
+  const { data: sports, isFetching } = useSportsQuery();
 
   // fields
   //
@@ -103,7 +102,7 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
     };
   }, [init, reset, stateKey]);
 
-  if (isFetchingSports) {
+  if (isFetching) {
     return <LoadingScreen />;
   }
 

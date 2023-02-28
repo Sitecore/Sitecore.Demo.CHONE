@@ -32,6 +32,7 @@ export type RootStackParamList = {
 export type RootTabParamList = {
   Events: undefined;
   Athletes: undefined;
+  Media: undefined;
 };
 
 // Navigation prop Stack navigator

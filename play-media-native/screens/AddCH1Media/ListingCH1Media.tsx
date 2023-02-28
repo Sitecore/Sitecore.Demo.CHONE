@@ -1,21 +1,13 @@
 import { useMemo } from 'react';
 import { Image, View } from 'react-native';
-import { Card } from 'react-native-paper';
 
 import { SelectableView } from '../../components/SelectableView/SelectableView';
-import { Field } from '../../features/Field/Field';
 import { ListingImages } from '../../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
+import { MediaItemCardDisplay } from '../../features/MediaItemCardDisplay/MediaItemCardDisplay';
 import { MediaItemListDisplay } from '../../features/MediaItemListDisplay/MediaItemListDisplay';
 import { ListingImageDisplayType } from '../../features/SelectDisplayButtons/SelectDisplayButtons';
-import { getFileType, removeFileExtension } from '../../helpers/media';
 import { Media } from '../../interfaces/media';
-import { theme } from '../../theme/theme';
-
-const listingImagesStyle = {
-  paddingHorizontal: theme.spacing.sm,
-  marginBottom: 75,
-};
 
 const fullWidthStyle = {
   height: 120,
@@ -61,34 +53,7 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
           selected={selectedMediaIDs.includes(item.id)}
           top={200}
         >
-          <Card
-            key={item.fileUrl}
-            style={{
-              marginBottom: theme.spacing.xs,
-            }}
-          >
-            <Card.Cover
-              style={{
-                backgroundColor: theme.colors.black.lightest,
-              }}
-              source={{ uri: item.fileUrl }}
-            />
-            <Card.Content
-              style={{
-                backgroundColor: theme.colors.black.lightest,
-                paddingBottom: 0,
-                paddingRight: 0,
-                paddingTop: 0,
-              }}
-            >
-              <View style={{ position: 'relative', width: '100%' }}>
-                <Field title="Name" value={removeFileExtension(item.name)} />
-                <Field title="Description" value={item.description} />
-                <Field title="File type" value={getFileType(item)} />
-                <Field title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
-              </View>
-            </Card.Content>
-          </Card>
+          <MediaItemCardDisplay item={item} />
         </SelectableView>
       ),
     }),
@@ -100,10 +65,8 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
   }
 
   return (
-    <ListingImages
-      images={images as Media[]}
-      renderItems={renderItems}
-      style={listingImagesStyle}
-    />
+    <View style={{ marginBottom: 150 }}>
+      <ListingImages images={images as Media[]} renderItems={renderItems} />
+    </View>
   );
 };

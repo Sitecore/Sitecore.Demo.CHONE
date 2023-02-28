@@ -11,7 +11,7 @@ import { StackNavigationProp } from '../../interfaces/navigators';
 import { theme } from '../../theme/theme';
 
 type TabScreenHeaderProps = {
-  type: 'Event' | 'Athlete';
+  type: 'Event' | 'Athlete' | 'Media';
 };
 
 export const TabScreenHeader = ({ type }: TabScreenHeaderProps) => {
