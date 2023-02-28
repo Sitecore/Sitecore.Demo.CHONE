@@ -62,6 +62,14 @@ export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?:
           >
             {item.nationality}
           </Text>
+          <Text
+            style={{
+              marginLeft: theme.spacing.xxs,
+              color: theme.colors.gray.DEFAULT,
+            }}
+          >
+            {item.status}
+          </Text>
         </View>
       </Card.Content>
     </CardShadowBox>

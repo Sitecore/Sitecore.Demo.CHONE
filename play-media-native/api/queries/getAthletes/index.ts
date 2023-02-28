@@ -1,6 +1,7 @@
 import { fetchGraphQL } from '../..';
 import { AllAthletesResponse, Athlete, AthleteResponse } from '../../../interfaces/athlete';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
+import { getItemsStatus } from '../getItemsStatus/getItemsStatus';
 
 const athletesQuery = `
 query {
@@ -57,11 +58,13 @@ export const getAllAthletes = async (options?: FetchOptions): Promise<Athlete[]>
     athletesQuery,
     options
   )) as AllAthletesResponse;
+  const statusResults = await getItemsStatus();
   const athletes: Partial<Athlete>[] = [];
 
   results.data.allAthlete.results.forEach((athlete: Partial<Athlete>) => {
     athletes.push({
       id: athlete.id,
+      status: statusResults.find((item) => item.id === athlete.id)?.status,
       athleteName: athlete.athleteName,
       profilePhoto: athlete.profilePhoto,
       featuredImage: athlete.featuredImage,
@@ -132,8 +135,13 @@ export const getAthleteById = async (id: string): Promise<{ athlete: Partial<Ath
   const athleteResponse: AthleteResponse = (await fetchGraphQL(
     getAthleteByIdQuery(id)
   )) as AthleteResponse;
+  const statusResults = await getItemsStatus();
+  const athlete = athleteResponse.data.athlete;
 
   return {
-    athlete: athleteResponse.data.athlete,
+    athlete: {
+      ...athlete,
+      status: statusResults.find((item) => item.id === athlete.id)?.status,
+    },
   };
 };
