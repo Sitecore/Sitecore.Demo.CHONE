@@ -2,6 +2,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useEffect, useCallback, useMemo, useState } from 'react';
 import { Button } from 'react-native-paper';
 
+import { Content } from './Content';
+import { General } from './General';
+import { References } from './References';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { Stepper } from '../../components/Stepper/Stepper';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
@@ -10,9 +13,6 @@ import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields'
 import { useSportsQuery } from '../../hooks/useSportsQuery/useSportsQuery';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
-import { Content } from './Content';
-import { General } from './General';
-import { References } from './References';
 
 export const CreateAthleteScreen = ({ navigation, route }) => {
   const { athleteFields, edit, reset } = useAthleteFields();

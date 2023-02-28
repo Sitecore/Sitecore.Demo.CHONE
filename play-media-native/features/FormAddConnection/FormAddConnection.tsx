@@ -1,16 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import debounce from 'lodash.debounce';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { ActivityIndicator, Button } from 'react-native-paper';
 
 import { validateConnection } from '../../api/queries/validateConnection';
+import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { InputText } from '../../components/InputText/InputText';
 import { Toast } from '../../components/Toast/Toast';
 import { storeConnection } from '../../helpers/connections';
 import { useConnections } from '../../hooks/useConnections/useConnections';
 import { Connection } from '../../interfaces/connections';
 import { StackNavigationProp } from '../../interfaces/navigators';
+import connectionStyles from '../../screens/Connection/styles';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
@@ -36,7 +38,7 @@ const isPreviewUrlValid = (text: string) => {
 
 export const FormAddConnection = () => {
   const { connections, add } = useConnections();
-  const [validating, setValidating] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [name, setName] = useState('');
@@ -50,41 +52,24 @@ export const FormAddConnection = () => {
   const [clientIDError, setClientIDError] = useState(false);
   const [clientSecret, setClientSecret] = useState('');
   const [clientSecretError, setClientSecretError] = useState(false);
+  const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
   const nameInvalid = !name || nameError || nameExistsError;
   const apiKeyInvalid = !apiKey || apiKeyError;
   const previewUrlInvalid = !previewUrl || previewUrlError;
   const clientIDInvalid = !clientID || clientIDError;
   const clientSecretInvalid = !clientSecret || clientSecretError;
-  const buttonDisabled =
+  const isButtonDisabled =
     nameInvalid || apiKeyInvalid || previewUrlInvalid || clientIDInvalid || clientSecretInvalid;
 
   const navigation = useNavigation<StackNavigationProp>();
 
-  const onAddConnection = useCallback(async () => {
-    setValidating(true);
-
-    await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
-      .then(async () => {
-        await storeConnection({
-          name,
-          apiKey,
-          previewUrl,
-          clientID,
-          clientSecret,
-        }).then(() => {
-          setShowSuccessToast(true);
-          add({ name, apiKey, previewUrl, clientID, clientSecret });
-        });
-      })
-      .catch((e) => {
-        console.error(e);
-        setShowErrorToast(true);
-      })
-      .finally(() => {
-        setValidating(false);
-      });
-  }, [apiKey, previewUrl, clientID, clientSecret, name, add]);
+  // Hide bottom action buttons if a loading indicator or a toaster is shown
+  useEffect(() => {
+    if (isValidating || showSuccessToast || showErrorToast) {
+      setShouldShowBottomActions(false);
+    }
+  }, [isValidating, showSuccessToast, showErrorToast]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const checkNameExists = useCallback(
@@ -138,12 +123,65 @@ export const FormAddConnection = () => {
 
   const onSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
-    navigation.goBack();
+    navigation.navigate('MainTabs');
   }, [navigation]);
 
   const onErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
   }, []);
+
+  const handleDiscardBtn = useCallback(() => {
+    navigation.navigate('MainTabs');
+  }, [navigation]);
+  const handleConnectBtn = useCallback(async () => {
+    setIsValidating(true);
+
+    await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
+      .then(async () => {
+        await storeConnection({
+          name,
+          apiKey,
+          previewUrl,
+          clientID,
+          clientSecret,
+        }).then(() => {
+          setShowSuccessToast(true);
+          add({ name, apiKey, previewUrl, clientID, clientSecret });
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+        setShowErrorToast(true);
+      })
+      .finally(() => {
+        setIsValidating(false);
+      });
+  }, [add, name, apiKey, previewUrl, clientID, clientSecret]);
+
+  const bottomActions = useMemo(
+    () => (
+      <BottomActions style={connectionStyles.actionBtns}>
+        <Button
+          mode="outlined"
+          style={styles.button}
+          labelStyle={styles.buttonLabel}
+          onPress={handleDiscardBtn}
+        >
+          Discard
+        </Button>
+        <Button
+          mode="contained"
+          style={styles.button}
+          labelStyle={styles.buttonLabel}
+          onPress={handleConnectBtn}
+          disabled={isButtonDisabled}
+        >
+          Connect
+        </Button>
+      </BottomActions>
+    ),
+    [handleDiscardBtn, handleConnectBtn, isButtonDisabled]
+  );
 
   const nameErrorText = nameExistsError
     ? 'Name already taken!'
@@ -191,33 +229,26 @@ export const FormAddConnection = () => {
         onChange={handleClientSecret}
         value={clientSecret}
       />
-      {validating && (
+      {isValidating && (
         <View>
           <ActivityIndicator size="small" animating />
         </View>
       )}
-      <Button
-        disabled={buttonDisabled}
-        icon="plus-circle-outline"
-        mode="contained"
-        onPress={onAddConnection}
-        labelStyle={styles.buttonLabel}
-        style={{ marginTop: theme.spacing.xs, ...styles.button }}
-      >
-        Add Connection
-      </Button>
       <Toast
+        duration={2000}
         message="Connection is valid!"
         onDismiss={onSuccessToastDismiss}
         visible={showSuccessToast}
         type="success"
       />
       <Toast
+        duration={2000}
         message="Could not validate connection!"
         onDismiss={onErrorToastDismiss}
         visible={showErrorToast}
         type="warning"
       />
+      {shouldShowBottomActions && bottomActions}
     </>
   );
 };

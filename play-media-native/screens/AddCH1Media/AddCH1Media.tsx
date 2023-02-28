@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { Button } from 'react-native-paper';
 
+import { ListingCH1Media } from './ListingCH1Media';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { CONTENT_TYPES } from '../../constants/contentTypes';
 import { MEDIA_SOURCES } from '../../constants/media';
@@ -12,7 +13,6 @@ import { useEventFields } from '../../hooks/useEventFields/useEventFields';
 import { useMediaQuery } from '../../hooks/useMediaQuery/useMediaQuery';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
-import { ListingCH1Media } from './ListingCH1Media';
 
 export const AddCH1MediaScreen = ({ navigation, route }) => {
   const { eventFields, edit: editEventFields } = useEventFields();
