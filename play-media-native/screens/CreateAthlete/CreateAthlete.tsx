@@ -139,14 +139,6 @@ export const CreateAthleteScreen = ({ navigation, route }) => {
             }}
           >
             <Button
-              mode="outlined"
-              labelStyle={styles.buttonLabel}
-              style={styles.button}
-              onPress={onSaveLocal}
-            >
-              Save Local
-            </Button>
-            <Button
               mode="contained"
               labelStyle={styles.buttonLabel}
               style={styles.button}
