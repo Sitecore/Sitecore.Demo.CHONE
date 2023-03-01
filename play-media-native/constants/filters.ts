@@ -10,5 +10,5 @@ export const EVENT_FACETS = {
 
 export const MEDIA_FACETS = {
   fileType: 'fileType',
-  state: 'state',
+  status: 'status',
 };

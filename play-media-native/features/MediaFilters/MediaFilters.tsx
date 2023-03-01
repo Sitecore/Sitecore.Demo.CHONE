@@ -8,10 +8,10 @@ import { useFilters } from '../../hooks/useFilters/useFilters';
 
 export const MediaFilters = ({
   fileTypeOptions,
-  stateOptions,
+  statusOptions,
 }: {
   fileTypeOptions: DropdownItem[];
-  stateOptions: DropdownItem[];
+  statusOptions: DropdownItem[];
 }) => {
   const {
     visible,
@@ -45,13 +45,13 @@ export const MediaFilters = ({
         selectedValue: '',
       },
       {
-        id: MEDIA_FACETS.state,
+        id: MEDIA_FACETS.status,
         label: 'State',
-        facets: stateOptions,
+        facets: statusOptions,
         selectedValue: '',
       },
     ],
-    [fileTypeOptions, stateOptions]
+    [fileTypeOptions, statusOptions]
   );
 
   if (!visible) {
