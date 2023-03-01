@@ -3,9 +3,11 @@ import { View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 import { Text } from 'react-native-paper';
 
+import { InputBoolean } from '../../components/InputBoolean/InputBoolean';
 import { InputDate } from '../../components/InputDate/InputDate';
 import { InputText } from '../../components/InputText/InputText';
 import { RichTextEditor } from '../../components/RichTextEditor/RichTextEditor';
+import { EVENT_FIELD_OVERRIDES } from '../../constants/event';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Athlete } from '../../interfaces/athlete';
 import { Event } from '../../interfaces/event';
@@ -84,7 +86,7 @@ export const FieldsEvent = ({
           containerStyle={styles.inputContainer}
           multiline
           onChange={(text: string) => handleFieldChange('title', text)}
-          required
+          required={EVENT_FIELD_OVERRIDES?.title?.required}
           value={fields.title}
           title="Title"
         />
@@ -93,7 +95,6 @@ export const FieldsEvent = ({
           fieldKey="sport"
           fieldTitle="Sport"
           initialRoute={initialRoute}
-          required
           renderItem={(item: Sport) => (
             <View style={{ position: 'relative' }}>
               <CardSport item={item} />
@@ -105,21 +106,30 @@ export const FieldsEvent = ({
               />
             </View>
           )}
-          single
+          required={EVENT_FIELD_OVERRIDES?.sport?.required}
+          single={EVENT_FIELD_OVERRIDES?.sport?.single}
           stateKey={stateKey}
           style={sectionMarginBottom}
         />
         {!showLimitedFields && (
           <>
+            <InputBoolean
+              onChange={(bool: boolean) => handleFieldChange('isFeatured', bool)}
+              required={EVENT_FIELD_OVERRIDES?.isFeatured?.required}
+              title="Is Featured?"
+              value={fields.isFeatured}
+            />
             <InputText
               containerStyle={styles.inputContainer}
               multiline
               onChange={(text: string) => handleFieldChange('teaser', text)}
-              value={fields.teaser}
+              required={EVENT_FIELD_OVERRIDES?.teaser?.required}
               title="Teaser"
+              value={event.teaser}
             />
             <InputDate
               onChange={(date: Date) => handleFieldChange('timeAndDate', date)}
+              required={EVENT_FIELD_OVERRIDES?.timeAndDate?.required}
               title="Time and Date"
               value={fields.timeAndDate}
             />
@@ -127,8 +137,9 @@ export const FieldsEvent = ({
               containerStyle={styles.inputContainer}
               multiline
               onChange={(text: string) => handleFieldChange('location', text)}
-              value={fields.location}
+              required={EVENT_FIELD_OVERRIDES?.location?.required}
               title="Location"
+              value={fields.location}
             />
             <View style={styles.inputContainer}>
               <Text style={{ marginBottom: theme.spacing.xs }}>Body</Text>
@@ -142,6 +153,8 @@ export const FieldsEvent = ({
               fieldTitle="Featured Image"
               initialRoute={initialRoute}
               items={event?.featuredImage}
+              required={EVENT_FIELD_OVERRIDES?.featuredImage?.required}
+              single={EVENT_FIELD_OVERRIDES?.featuredImage?.single}
               stateKey={stateKey}
               style={sectionMarginBottom}
             />
@@ -150,6 +163,8 @@ export const FieldsEvent = ({
               fieldTitle="Related Media"
               initialRoute={initialRoute}
               items={event.relatedMedia}
+              required={EVENT_FIELD_OVERRIDES?.relatedMedia?.required}
+              single={EVENT_FIELD_OVERRIDES?.relatedMedia?.single}
               stateKey={stateKey}
               style={sectionMarginBottom}
             />
@@ -169,13 +184,15 @@ export const FieldsEvent = ({
                   />
                 </View>
               )}
+              required={EVENT_FIELD_OVERRIDES?.athletes?.required}
+              single={EVENT_FIELD_OVERRIDES?.athletes?.single}
               stateKey={stateKey}
               style={sectionMarginBottom}
             />
             <ContentFieldReference
               addRoute="AddEvents"
               fieldKey="similarEvents"
-              fieldTitle="Similar Events"
+              fieldTitle="Related Events"
               initialRoute={initialRoute}
               renderItem={(item: Event) => (
                 <View style={{ position: 'relative' }}>
@@ -188,6 +205,8 @@ export const FieldsEvent = ({
                   />
                 </View>
               )}
+              required={EVENT_FIELD_OVERRIDES?.similarEvents?.required}
+              single={EVENT_FIELD_OVERRIDES?.similarEvents?.single}
               stateKey={stateKey}
               style={sectionMarginBottom}
             />

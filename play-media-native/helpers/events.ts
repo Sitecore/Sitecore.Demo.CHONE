@@ -1,4 +1,4 @@
-import { fieldOverrides } from '../constants/event';
+import { EVENT_FIELD_OVERRIDES } from '../constants/event';
 import { EVENT_FACETS } from '../constants/filters';
 import { Event, EventResponse } from '../interfaces/event';
 import { IIndexable } from '../interfaces/indexable';
@@ -65,8 +65,8 @@ export const canSubmitEvent = (fields: IIndexable, globalFields: IIndexable) => 
 
   let canSubmit = true;
 
-  for (const field in fieldOverrides) {
-    if (fieldOverrides[field].required && !allFields[field]) {
+  for (const field in EVENT_FIELD_OVERRIDES) {
+    if (EVENT_FIELD_OVERRIDES[field].required && !allFields[field]) {
       canSubmit = false;
     }
   }

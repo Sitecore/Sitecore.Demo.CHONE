@@ -140,7 +140,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           labelStyle={styles.buttonLabel}
           onPress={handleSubmitBtn}
         >
-          Submit
+          Publish
         </Button>
       </BottomActions>
     ),

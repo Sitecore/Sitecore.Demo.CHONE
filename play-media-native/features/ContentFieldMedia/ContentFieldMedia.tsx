@@ -1,9 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
-import { Divider, Text } from 'react-native-paper';
+import { Divider } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
+import { FieldLabel } from '../../components/FieldLabel/FieldLabel';
 import { MEDIA_SOURCES } from '../../constants/media';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Media } from '../../interfaces/media';
@@ -55,6 +56,8 @@ export const ContentFieldMedia = ({
   fieldTitle,
   initialRoute,
   items,
+  required,
+  single,
   stateKey,
   style,
 }: {
@@ -62,15 +65,15 @@ export const ContentFieldMedia = ({
   fieldTitle: string;
   initialRoute: string;
   items: Media[] | Media;
+  required: boolean;
+  single: boolean;
   stateKey: string;
   style?: StyleProp<any>;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
   const { edit, remove } = useContentItems();
 
-  const single = !Array.isArray(items);
   const empty = Array.isArray(items) ? items?.length === 0 : !items;
-  const headerText = `${fieldTitle} ${single ? ' (single)' : ''}`;
 
   const editMedia = useCallback(
     (image: Media) => {
@@ -161,9 +164,7 @@ export const ContentFieldMedia = ({
           marginBottom: theme.spacing.xs,
         }}
       >
-        <Text variant="labelSmall" style={{ marginBottom: theme.spacing.xs }}>
-          {headerText}
-        </Text>
+        <FieldLabel required={required} single={single} title={fieldTitle} />
         <MenuAddMedia
           empty={empty}
           fieldKey={fieldKey}

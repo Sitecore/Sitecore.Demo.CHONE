@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
-import { HelperText, Text, TextInput } from 'react-native-paper';
+import { HelperText, TextInput } from 'react-native-paper';
 
 import { theme } from '../../theme/theme';
+import { FieldLabel } from '../FieldLabel/FieldLabel';
 import { Icon } from '../Icon/Icon';
 
 interface Props {
@@ -86,31 +87,9 @@ export const InputText = ({
     [contentStyle]
   );
 
-  const titleFinal = useMemo(() => {
-    const label = title && <Text style={{ marginBottom: theme.spacing.xxs }}>{title}</Text>;
-    const requiredSymbol = required && (
-      <Text
-        style={{
-          marginBottom: theme.spacing.xxs,
-          marginLeft: theme.spacing.xxs,
-          color: theme.colors.yellow.DEFAULT,
-        }}
-      >
-        *
-      </Text>
-    );
-
-    return (
-      <View style={{ flexDirection: 'row' }}>
-        {label}
-        {requiredSymbol}
-      </View>
-    );
-  }, [required, title]);
-
   return (
     <View style={containerStyleFinal}>
-      {titleFinal}
+      <FieldLabel required={required} title={title} />
       <TextInput
         contentStyle={contentStyleFinal}
         disabled={disabled}

@@ -11,7 +11,7 @@ import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { canSubmitEvent } from '../helpers/events';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
-import { IIndexable } from '../interfaces/indexable';
+import { Event } from '../interfaces/event';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
 
@@ -21,7 +21,7 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
   const [stateKey] = useState<string>(generateID());
   const { contentItems, editMultiple, init, reset } = useContentItems();
 
-  const [fields, setFields] = useState<IIndexable>({
+  const [fields, setFields] = useState<Partial<Event>>({
     title: '',
   });
 

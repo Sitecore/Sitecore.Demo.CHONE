@@ -1,9 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
-import { Button, Divider, Text } from 'react-native-paper';
+import { Button, Divider } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
+import { FieldLabel } from '../../components/FieldLabel/FieldLabel';
 import {
   getReferenceFieldButtonLabel,
   getReferenceFieldIcon,
@@ -70,23 +71,6 @@ export const ContentFieldReference = ({
     [items, reorderItems, renderItem]
   );
 
-  const header = useMemo(() => {
-    const headerText = `${fieldTitle} ${single ? '(single)' : ''}`;
-
-    return (
-      <View style={{ flexDirection: 'row' }}>
-        <Text variant="labelSmall">{headerText}</Text>
-        {required && (
-          <>
-            <Text style={{ color: theme.colors.yellow.DEFAULT, marginLeft: theme.spacing.xs }}>
-              *
-            </Text>
-          </>
-        )}
-      </View>
-    );
-  }, [fieldTitle, required, single]);
-
   const buttonLabel = getReferenceFieldButtonLabel(empty, single);
   const icon = getReferenceFieldIcon(empty, single);
 
@@ -104,7 +88,7 @@ export const ContentFieldReference = ({
           marginBottom: theme.spacing.xs,
         }}
       >
-        {header}
+        <FieldLabel required={required} single={single} title={fieldTitle} />
         <Button
           compact
           icon={icon}

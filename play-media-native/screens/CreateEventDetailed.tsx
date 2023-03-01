@@ -10,7 +10,6 @@ import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { canSubmitEvent } from '../helpers/events';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
-import { IIndexable } from '../interfaces/indexable';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
 
@@ -28,9 +27,10 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
     [contentItems, stateKey]
   ) as unknown as Event;
 
-  const [fields, setFields] = useState<IIndexable>({
+  const [fields, setFields] = useState<Partial<Event>>({
     title: event?.title || '',
     body: event?.body || null,
+    isFeatured: event?.isFeatured || false,
     teaser: event?.teaser || '',
     timeAndDate: event?.timeAndDate || null,
     location: event?.location || '',

@@ -8,11 +8,13 @@ import { styles } from '../../theme/styles';
 
 export const InputDate = ({
   onChange,
+  required,
   style,
   title,
   value,
 }: {
   onChange: (date: Date) => void;
+  required: boolean;
   style?: ViewStyle;
   title?: string;
   value: Date;
@@ -32,11 +34,12 @@ export const InputDate = ({
       <Pressable onPress={open}>
         <View pointerEvents="none">
           <InputText
-            containerStyle={styles.inputContainer}
-            value={value ? getDate(value) : ''}
-            title={title}
-            showSoftInputOnFocus={false}
             caretHidden
+            containerStyle={styles.inputContainer}
+            required={required}
+            showSoftInputOnFocus={false}
+            title={title}
+            value={value ? getDate(value) : ''}
           />
         </View>
       </Pressable>
