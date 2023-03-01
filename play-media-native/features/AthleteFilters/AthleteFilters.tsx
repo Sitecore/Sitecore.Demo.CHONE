@@ -7,10 +7,10 @@ import { ATHLETE_FACETS } from '../../constants/filters';
 import { useFilters } from '../../hooks/useFilters/useFilters';
 
 export const AthleteFilters = ({
-  nationalityOptions,
+  statusOptions,
   sportOptions,
 }: {
-  nationalityOptions: DropdownItem[];
+  statusOptions: DropdownItem[];
   sportOptions: DropdownItem[];
 }) => {
   const {
@@ -39,19 +39,19 @@ export const AthleteFilters = ({
   const facetFilters = useMemo(
     () => [
       {
-        id: ATHLETE_FACETS.nationality,
-        label: 'Nationality',
-        facets: nationalityOptions,
-        selectedValue: athleteFilterValues?.[ATHLETE_FACETS.nationality],
-      },
-      {
         id: ATHLETE_FACETS.sport,
         label: 'Sport',
         facets: sportOptions,
         selectedValue: athleteFilterValues?.[ATHLETE_FACETS.sport],
       },
+      {
+        id: ATHLETE_FACETS.status,
+        label: 'Status',
+        facets: statusOptions,
+        selectedValue: athleteFilterValues?.[ATHLETE_FACETS.status],
+      },
     ],
-    [athleteFilterValues, nationalityOptions, sportOptions]
+    [athleteFilterValues, statusOptions, sportOptions]
   );
 
   if (!visible) {

@@ -39,7 +39,6 @@ export const getItemsStatus = async (): Promise<StatusResult[]> => {
 
 export const getMediaStatus = async (): Promise<StatusResult[]> => {
   const accessToken: string = (await generateToken()).access_token;
-  console.log(accessToken);
 
   try {
     return await fetch(mediaItemsApiURL, {

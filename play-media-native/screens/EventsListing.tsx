@@ -8,7 +8,7 @@ import { EventFilters } from '../features/EventFilters/EventFilters';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeEvents } from '../helpers/events';
-import { getLocationOptions, getSportOptions } from '../helpers/facets';
+import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
@@ -41,7 +41,7 @@ export const EventsListingScreen = ({ navigation }) => {
 
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
-  const locationOptions = useMemo(() => getLocationOptions(events), [events]);
+  const statusOptions = useMemo(() => getStatusOptions(events), [events]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
 
   const handleRefresh = useCallback(() => {
@@ -63,7 +63,7 @@ export const EventsListingScreen = ({ navigation }) => {
   return (
     <Screen>
       <StatusBar barStyle="light-content" />
-      <EventFilters locationOptions={locationOptions} sportOptions={sportOptions} />
+      <EventFilters statusOptions={statusOptions} sportOptions={sportOptions} />
       <Listing
         data={filteredEvents}
         renderItem={({ item }) => <CardEvent item={item} onCardPress={() => onCardPress(item)} />}

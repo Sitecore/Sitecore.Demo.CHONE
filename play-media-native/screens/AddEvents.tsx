@@ -12,7 +12,7 @@ import { EVENT_FACETS } from '../constants/filters';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { Screen } from '../features/Screen/Screen';
 import { initializeEvents, removeAlreadySelected } from '../helpers/events';
-import { getLocationOptions, getSportOptions } from '../helpers/facets';
+import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
 import { useEventFields } from '../hooks/useEventFields/useEventFields';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
@@ -66,7 +66,7 @@ export const AddEventsScreen = ({ navigation, route }) => {
   const [selectedEventIDs, setSelectedEventIDs] = useState<string[]>([]);
   const noneSelected = !selectedEventIDs?.length;
 
-  const locationOptions = useMemo(() => getLocationOptions(events), [events]);
+  const statusOptions = useMemo(() => getStatusOptions(events), [events]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
 
   const facetFilters = useMemo(
@@ -78,13 +78,13 @@ export const AddEventsScreen = ({ navigation, route }) => {
         selectedValue: facets?.[EVENT_FACETS.sport],
       },
       {
-        id: EVENT_FACETS.location,
-        label: 'Location',
-        facets: locationOptions,
-        selectedValue: facets?.[EVENT_FACETS.location],
+        id: EVENT_FACETS.status,
+        label: 'Status',
+        facets: statusOptions,
+        selectedValue: facets?.[EVENT_FACETS.status],
       },
     ],
-    [facets, locationOptions, sportOptions]
+    [facets, sportOptions, statusOptions]
   );
 
   const edit = useCallback(

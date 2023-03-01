@@ -58,6 +58,26 @@ export const getLocationOptions = (events: Event[]) => {
     : [];
 };
 
+export const getStatusOptions = (items: Event[] | Athlete[] | Media[]) => {
+  if (!items || !items?.length) {
+    return [];
+  }
+
+  const statuses = Array.from(
+    new Set(items?.map((item: Event | Athlete | Media) => item.status).filter((n) => n))
+  );
+
+  return statuses?.length
+    ? [
+        { label: 'All', value: '' },
+        ...statuses.map((status) => ({
+          label: status,
+          value: status,
+        })),
+      ]
+    : [];
+};
+
 export const getFileTypeOptions = (media: Media[]) => {
   if (!media || !media?.length) {
     return [];
