@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
-import { CreateConfirmationModal } from '../features/CreateConfirmationModal/CreateConfirmationModal';
+import { CREATE_EVENT_DISCARD_MESSAGE } from '../constants/event';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { canSubmitEvent } from '../helpers/events';
@@ -24,24 +24,12 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
   const [fields, setFields] = useState<IIndexable>({
     title: '',
   });
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [confirmationActions, setConfirmationActions] = useState<{
-    continue: () => void;
-    discard: () => void;
-  }>({
-    continue: null,
-    discard: null,
-  });
 
   const handleFieldChange = useCallback((key: string, value: any) => {
     setFields((prevFields) => ({
       ...prevFields,
       [key]: value,
     }));
-  }, []);
-
-  const closeModal = useCallback(() => {
-    setShowConfirmationModal(false);
   }, []);
 
   const onDiscard = useCallback(() => {
@@ -86,25 +74,20 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
         //
         event.preventDefault();
 
-        setConfirmationActions({
-          discard: () => {
-            navigation.dispatch(event.data.action);
-            reset({ id: stateKey });
-          },
-          continue: () => {
-            closeModal();
-          },
+        navigation.push('DiscardChanges', {
+          message: CREATE_EVENT_DISCARD_MESSAGE,
+          stateKey,
+          redirectRoute: 'MainTabs',
         });
-        setShowConfirmationModal(true);
       });
 
       // Make sure to remove the listener
-      // Otherwise, it BLOCKS GOING BACK to MainTabs from the next screen
+      // Otherwise, it BLOCKS GOING BACK to MainTabs from a nested screen discard action
       //
       return () => {
         unsubscribe();
       };
-    }, [closeModal, navigation, reset, stateKey])
+    }, [navigation, stateKey])
   );
 
   return (
@@ -153,12 +136,6 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
           </View>
         </View>
       </BottomActions>
-      <CreateConfirmationModal
-        onContinue={confirmationActions.continue}
-        onDiscard={confirmationActions.discard}
-        onDismiss={closeModal}
-        visible={showConfirmationModal}
-      />
     </KeyboardAwareScreen>
   );
 };

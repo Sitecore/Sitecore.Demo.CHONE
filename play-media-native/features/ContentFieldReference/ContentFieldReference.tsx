@@ -4,6 +4,10 @@ import { StyleProp, View } from 'react-native';
 import { Button, Divider, Text } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
+import {
+  getReferenceFieldButtonLabel,
+  getReferenceFieldIcon,
+} from '../../helpers/contentItemHelper';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
@@ -32,6 +36,9 @@ export const ContentFieldReference = ({
 }) => {
   const { contentItems, edit } = useContentItems();
   const navigation = useNavigation<StackNavigationProp>();
+  const empty = Array.isArray(contentItems[stateKey][fieldKey])
+    ? contentItems[stateKey][fieldKey]?.length === 0
+    : !contentItems[stateKey][fieldKey];
 
   const reorderItems = useCallback(
     (items: any) => {
@@ -64,9 +71,11 @@ export const ContentFieldReference = ({
   );
 
   const header = useMemo(() => {
+    const headerText = `${fieldTitle} ${single ? '(single)' : ''}`;
+
     return (
       <View style={{ flexDirection: 'row' }}>
-        <Text variant="labelSmall">{fieldTitle}</Text>
+        <Text variant="labelSmall">{headerText}</Text>
         {required && (
           <>
             <Text style={{ color: theme.colors.yellow.DEFAULT, marginLeft: theme.spacing.xs }}>
@@ -76,7 +85,10 @@ export const ContentFieldReference = ({
         )}
       </View>
     );
-  }, [fieldTitle, required]);
+  }, [fieldTitle, required, single]);
+
+  const buttonLabel = getReferenceFieldButtonLabel(empty, single);
+  const icon = getReferenceFieldIcon(empty, single);
 
   return (
     <View style={style}>
@@ -95,13 +107,13 @@ export const ContentFieldReference = ({
         {header}
         <Button
           compact
-          icon="plus"
+          icon={icon}
           mode="contained"
           onPress={handleAddExisting}
           style={{ ...styles.buttonSmall, marginRight: 0 }}
           labelStyle={styles.buttonLabelSmall}
         >
-          Add
+          {buttonLabel}
         </Button>
       </View>
       {content}

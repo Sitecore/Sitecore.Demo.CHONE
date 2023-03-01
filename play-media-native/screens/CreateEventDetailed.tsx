@@ -1,10 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
-import { CreateConfirmationModal } from '../features/CreateConfirmationModal/CreateConfirmationModal';
+import { CREATE_EVENT_DISCARD_MESSAGE } from '../constants/event';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { canSubmitEvent } from '../helpers/events';
@@ -22,7 +22,7 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
   const stateKeyRef = useRef({ stateKey: route?.params?.stateKey });
   const stateKey = stateKeyRef?.current?.stateKey;
 
-  const { contentItems, editMultiple, reset } = useContentItems();
+  const { contentItems, edit, editMultiple } = useContentItems();
   const event = useMemo(
     () => contentItems[stateKey] ?? null,
     [contentItems, stateKey]
@@ -35,35 +35,31 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
     timeAndDate: event?.timeAndDate || null,
     location: event?.location || '',
   });
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const isDisabled = !canSubmitEvent(fields, contentItems[stateKey]);
 
-  const handleFieldChange = useCallback((key: string, value: any) => {
-    setFields((prevFields) => ({
-      ...prevFields,
-      [key]: value,
-    }));
-  }, []);
-
-  const clearGlobalState = useCallback(() => {
-    reset({ id: stateKey });
-    stateKeyRef.current.stateKey = null;
-  }, [reset, stateKey]);
-
-  const closeModal = useCallback(() => {
-    setShowConfirmationModal(false);
-  }, []);
-
-  const onModalDiscard = useCallback(() => {
-    closeModal();
-    clearGlobalState();
-    navigation.navigate('MainTabs');
-  }, [clearGlobalState, closeModal, navigation]);
+  const handleFieldChange = useCallback(
+    (key: string, value: any) => {
+      setFields((prevFields) => ({
+        ...prevFields,
+        [key]: value,
+      }));
+      edit({
+        id: stateKey,
+        key,
+        value,
+      });
+    },
+    [edit, stateKey]
+  );
 
   const onDiscard = useCallback(() => {
-    setShowConfirmationModal(true);
-  }, []);
+    navigation.push('DiscardChanges', {
+      message: CREATE_EVENT_DISCARD_MESSAGE,
+      stateKey,
+      redirectRoute: 'MainTabs',
+    });
+  }, [navigation, stateKey]);
 
   const onReview = useCallback(() => {
     editMultiple({
@@ -76,20 +72,6 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
       title: `Review ${fields.title || 'Event'}`,
     });
   }, [editMultiple, fields, navigation, stateKey]);
-
-  // on unmount, save changed fields in global state
-  // if state has been reset due to discarding whole flow, do nothing
-  //
-  useEffect(() => {
-    return () => {
-      if (!stateKey) {
-        editMultiple({
-          id: stateKey,
-          fields,
-        });
-      }
-    };
-  }, [editMultiple, fields, stateKey]);
 
   return (
     <KeyboardAwareScreen>
@@ -137,12 +119,6 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
           </View>
         </View>
       </BottomActions>
-      <CreateConfirmationModal
-        onContinue={closeModal}
-        onDiscard={onModalDiscard}
-        onDismiss={closeModal}
-        visible={showConfirmationModal}
-      />
     </KeyboardAwareScreen>
   );
 };

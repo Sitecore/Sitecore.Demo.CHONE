@@ -16,6 +16,11 @@ export type RootStackParamList = {
     stateKey: string;
     title: string;
   };
+  DiscardChanges: {
+    message: string;
+    redirectRoute: string;
+    stateKey: string;
+  };
   EditAthleteDetails: { id: string };
   EditEvent: undefined;
   EditMedia: undefined;

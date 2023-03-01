@@ -1,7 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Button, Menu } from 'react-native-paper';
 
+import {
+  getReferenceFieldButtonLabel,
+  getReferenceFieldIcon,
+} from '../../helpers/contentItemHelper';
 import { useCamera } from '../../hooks/useCamera/useCamera';
 import { useDeviceLibrary } from '../../hooks/useDeviceLibrary/useDeviceLibrary';
 import { DeviceMedia } from '../../interfaces/media';
@@ -68,18 +72,8 @@ export const MenuAddMedia = ({
     close();
   }, [close, stateKey, fieldKey, initialRoute, navigation, single]);
 
-  const buttonLabel = useMemo(() => {
-    const add = 'Add';
-    const replace = 'Change';
-
-    if (empty) {
-      return add;
-    }
-
-    return single ? replace : add;
-  }, [empty, single]);
-
-  const icon = empty ? 'plus' : 'pencil';
+  const buttonLabel = getReferenceFieldButtonLabel(empty, single);
+  const icon = getReferenceFieldIcon(empty, single);
 
   return (
     <Menu

@@ -12,6 +12,7 @@ import { AthleteDetailScreen } from '../screens/AthleteDetail';
 import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
 import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
 import { CreateEventOverviewScreen } from '../screens/CreateEventOverview';
+import { DiscardChangesScreen } from '../screens/DiscardChanges';
 import { EditAthleteDetailsScreen } from '../screens/EditAthleteDetails';
 import { EditEventScreen } from '../screens/EditEvent';
 import { EditMediaScreen } from '../screens/EditMedia';
@@ -86,6 +87,11 @@ export const Stacks = () => {
       <Stack.Screen
         name="CreateEventDetailed"
         component={CreateEventDetailedScreen}
+        options={{ title: 'New Event Details' }}
+      />
+      <Stack.Screen
+        name="DiscardChanges"
+        component={DiscardChangesScreen}
         options={{ title: 'New Event Details' }}
       />
       <Stack.Screen
