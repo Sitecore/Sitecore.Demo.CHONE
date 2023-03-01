@@ -96,7 +96,7 @@ export const getFileTypeOptions = (media: Media[]) => {
     : [];
 };
 
-export const getActiveSearchFacets = (activeFilters: IIndexable, activeQuery: string) => {
+export const getActiveSearchFacetsNumber = (activeFilters: IIndexable, activeQuery: string) => {
   const facetsActive = Object.values(activeFilters).filter((val) => !!val).length;
   const queryActive = activeQuery !== '' ? 1 : 0;
 
