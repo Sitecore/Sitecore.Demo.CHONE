@@ -58,6 +58,11 @@ export const EventsListingScreen = ({ navigation }) => {
     [navigation]
   );
 
+  const renderItem = useCallback(
+    ({ item }) => <CardEvent item={item} onCardPress={() => onCardPress(item)} />,
+    [onCardPress]
+  );
+
   if (isFetchingInitialEvents || isFetchingInitialSports) {
     return <LoadingScreen />;
   }
@@ -73,7 +78,7 @@ export const EventsListingScreen = ({ navigation }) => {
       />
       <Listing
         data={filteredEvents}
-        renderItem={({ item }) => <CardEvent item={item} onCardPress={() => onCardPress(item)} />}
+        renderItem={renderItem}
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingEvents || isRefetchingSports}

@@ -115,6 +115,8 @@ export const Listing = ({
           />
         }
         onScroll={onScroll}
+        maxToRenderPerBatch={PAGE_SIZE / 2}
+        updateCellsBatchingPeriod={100}
       />
     </SafeAreaView>
   );
