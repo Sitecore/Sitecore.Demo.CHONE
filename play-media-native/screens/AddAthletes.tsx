@@ -3,11 +3,11 @@ import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
+import { SimpleFilters } from '../components/FacetFilters/SimpleFilters';
 import { Listing } from '../components/Listing/Listing';
 import { SelectableView } from '../components/SelectableView/SelectableView';
 import { CONTENT_TYPES } from '../constants/contentTypes';
 import { ATHLETE_FACETS } from '../constants/filters';
-import { AthleteFiltersView } from '../features/AthleteFilters/AthleteFiltersView';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes, removeAlreadySelected } from '../helpers/athletes';
@@ -68,14 +68,16 @@ export const AddAthletesScreen = ({ navigation, route }) => {
         id: ATHLETE_FACETS.nationality,
         label: 'Nationality',
         facets: nationalityOptions,
+        selectedValue: facets?.[ATHLETE_FACETS.nationality],
       },
       {
         id: ATHLETE_FACETS.sport,
         label: 'Sport',
         facets: sportOptions,
+        selectedValue: facets?.[ATHLETE_FACETS.sport],
       },
     ],
-    [nationalityOptions, sportOptions]
+    [facets, nationalityOptions, sportOptions]
   );
 
   const edit = useCallback(
@@ -127,7 +129,7 @@ export const AddAthletesScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
       <Listing
         data={filteredAthletes}
         isLoading={isFetchingInitialAthletes || isFetchingInitialSports}

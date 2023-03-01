@@ -1,5 +1,7 @@
 import { Athlete } from '../interfaces/athlete';
 import { Event } from '../interfaces/event';
+import { IIndexable } from '../interfaces/indexable';
+import { Media } from '../interfaces/media';
 import { Sport } from '../interfaces/sport';
 
 export const getSportOptions = (sports: Sport[]) => {
@@ -54,4 +56,29 @@ export const getLocationOptions = (events: Event[]) => {
         })),
       ]
     : [];
+};
+
+export const getFileTypeOptions = (media: Media[]) => {
+  if (!media || !media?.length) {
+    return [];
+  }
+
+  const fileTypes = Array.from(new Set(media?.map((item) => item.fileType).filter((n) => n)));
+
+  return fileTypes?.length
+    ? [
+        { label: 'All', value: '' },
+        ...fileTypes.map((fileType) => ({
+          label: fileType,
+          value: fileType,
+        })),
+      ]
+    : [];
+};
+
+export const getActiveSearchFacetsNumber = (activeFilters: IIndexable, activeQuery: string) => {
+  const facetsActive = Object.values(activeFilters).filter((val) => !!val).length;
+  const queryActive = activeQuery !== '' ? 1 : 0;
+
+  return facetsActive + queryActive;
 };

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 import { theme } from './theme';
 
@@ -33,5 +33,13 @@ export const styles = StyleSheet.create({
   },
   screenPadding: {
     paddingHorizontal: theme.spacing.sm,
+  },
+  facetFilters: {
+    display: 'flex',
+    paddingHorizontal: theme.spacing.sm,
+    paddingBottom: theme.spacing.sm,
+    ...(Platform.OS === 'ios' && {
+      zIndex: 10,
+    }),
   },
 });

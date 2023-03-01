@@ -4,10 +4,14 @@ import { AnimatedFAB } from 'react-native-paper';
 
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
+import { MediaFilters } from '../features/MediaFilters/MediaFilters';
 import { MediaItemCardDisplay } from '../features/MediaItemCardDisplay/MediaItemCardDisplay';
 import { MediaItemListDisplay } from '../features/MediaItemListDisplay/MediaItemListDisplay';
 import { Screen } from '../features/Screen/Screen';
 import { ListingImageDisplayType } from '../features/SelectDisplayButtons/SelectDisplayButtons';
+import { getFileTypeOptions } from '../helpers/facets';
+import { useSearchFacets } from '../hooks/useFacets/useFacets';
+import { useFilters } from '../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Media } from '../interfaces/media';
@@ -27,7 +31,18 @@ export const MediaListingScreen = ({ navigation }) => {
     isRefetching: isRefetchingMedia,
   } = useMediaQuery();
 
+  const { mediaFilterValues, mediaSearchQuery } = useFilters();
+
+  const filteredImages = useSearchFacets({
+    initialItems: images?.length ? images : [],
+    facets: mediaFilterValues,
+    query: mediaSearchQuery,
+  });
+
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+  const fileTypeOptions = useMemo(() => {
+    return getFileTypeOptions(images);
+  }, [images]);
 
   const handleRefresh = useCallback(() => {
     refetchMedia();
@@ -50,9 +65,10 @@ export const MediaListingScreen = ({ navigation }) => {
 
   return (
     <Screen>
+      <MediaFilters fileTypeOptions={fileTypeOptions} stateOptions={[]} />
       <View style={{ marginBottom: 120 }}>
         <ListingImages
-          images={images as Media[]}
+          images={filteredImages as Media[]}
           renderItems={renderItems}
           showSearch={false}
           onRefresh={handleRefresh}
