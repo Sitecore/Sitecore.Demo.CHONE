@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Button } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -12,6 +12,7 @@ import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Sport } from '../interfaces/sport';
 import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 export const AddSportsScreen = ({ navigation, route }) => {
   const fieldKey = route?.params?.key;
@@ -28,7 +29,14 @@ export const AddSportsScreen = ({ navigation, route }) => {
     isRefetching: isRefetchingSports,
   } = useQuery('sports', () => getAllSports());
   const { calcScrollOffset } = useScrollOffset(true);
-  const [selectedSportIDs, setSelectedSportIDs] = useState<string[]>([]);
+  const initialSelectedIDs = useMemo(() => {
+    if (Array.isArray(contentItems[stateKey][fieldKey])) {
+      return contentItems[stateKey][fieldKey].map((item: Sport) => item.id);
+    }
+
+    return contentItems[stateKey][fieldKey]?.id || [];
+  }, [contentItems, fieldKey, stateKey]);
+  const [selectedSportIDs, setSelectedSportIDs] = useState<string[]>([initialSelectedIDs]);
   const noneSelected = !selectedSportIDs?.length;
 
   const edit = useCallback(
@@ -82,17 +90,42 @@ export const AddSportsScreen = ({ navigation, route }) => {
     navigation.navigate(initialRoute);
   }, [edit, fieldKey, initialRoute, navigation, selectedSportIDs, sports]);
 
+  if (single) {
+    return (
+      <Screen>
+        <Listing
+          data={sports}
+          isLoading={isFetchingInitialSports}
+          numColumns={2}
+          renderItem={({ item }) => (
+            <CardSport
+              item={item as Sport}
+              onPress={() => onSelectSingle(item)}
+              selected={selectedSportIDs.includes(item.id)}
+              style={{ flex: 1, margin: theme.spacing.xxs }}
+            />
+          )}
+          onScroll={calcScrollOffset}
+          onRefresh={handleRefresh}
+          isRefreshing={isRefetchingSports}
+          style={{ marginBottom: 70 }}
+        />
+      </Screen>
+    );
+  }
+
   return (
     <Screen>
       <Listing
         data={sports}
         isLoading={isFetchingInitialSports}
+        numColumns={2}
         renderItem={({ item }) => (
           <SelectableView
             onSelect={() => (single ? onSelectSingle(item) : onSelect(item))}
             selected={selectedSportIDs.includes(item.id)}
           >
-            <CardSport item={item as Sport} />
+            <CardSport item={item as Sport} style={{ width: '50%' }} />
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
