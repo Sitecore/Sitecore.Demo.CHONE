@@ -3,6 +3,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
+import { FieldsView } from './FieldsView';
+import { ReferencesView } from './ReferencesView';
+import { RichTextView } from './RichTextView';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { Stepper } from '../../components/Stepper/Stepper';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
@@ -11,9 +14,6 @@ import { useEventFields } from '../../hooks/useEventFields/useEventFields';
 import { useSportsQuery } from '../../hooks/useSportsQuery/useSportsQuery';
 import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
-import { FieldsView } from './FieldsView';
-import { ReferencesView } from './ReferencesView';
-import { RichTextView } from './RichTextView';
 
 export const CreateEventScreen = ({ navigation, route }) => {
   const { eventFields, edit, editMultiple, reset } = useEventFields();

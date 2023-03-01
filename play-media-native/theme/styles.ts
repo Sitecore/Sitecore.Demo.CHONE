@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     display: 'flex',
     paddingHorizontal: theme.spacing.sm,
     paddingBottom: theme.spacing.sm,
-    ...(Platform.OS !== 'android' && {
+    ...(Platform.OS === 'ios' && {
       zIndex: 10,
     }),
   },

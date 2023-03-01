@@ -2,11 +2,11 @@ import { useCallback, useState } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-import { MultiSelectChips } from '../components/MultiSelectChips/MultiSelectChips';
-import { Screen } from '../features/Screen/Screen';
-import { removeConnections } from '../helpers/connections';
-import { useConnections } from '../hooks/useConnections/useConnections';
-import { theme } from '../theme/theme';
+import { MultiSelectChips } from '../../components/MultiSelectChips/MultiSelectChips';
+import { Screen } from '../../features/Screen/Screen';
+import { removeConnections } from '../../helpers/connections';
+import { useConnections } from '../../hooks/useConnections/useConnections';
+import { theme } from '../../theme/theme';
 
 export const RemoveConnectionScreen = () => {
   const { connections, remove } = useConnections();
