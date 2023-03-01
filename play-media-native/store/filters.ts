@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { getActiveSearchFacets } from '../helpers/facets';
+import { getActiveSearchFacetsNumber } from '../helpers/facets';
 import { IIndexable } from '../interfaces/indexable';
 
 export interface FiltersState {
@@ -50,21 +50,21 @@ export const filtersSlice = createSlice({
 
     setAthleteFilterValues: (state: FiltersState, action: PayloadAction<IIndexable>) => {
       state.athleteFilterValues = action.payload;
-      state.athleteFiltersActive = getActiveSearchFacets(
+      state.athleteFiltersActive = getActiveSearchFacetsNumber(
         state.athleteFilterValues,
         state.athleteSearchQuery
       );
     },
     setEventFilterValues: (state: FiltersState, action: PayloadAction<IIndexable>) => {
       state.eventFilterValues = action.payload;
-      state.eventFiltersActive = getActiveSearchFacets(
+      state.eventFiltersActive = getActiveSearchFacetsNumber(
         state.eventFilterValues,
         state.eventSearchQuery
       );
     },
     setMediaFilterValues: (state: FiltersState, action: PayloadAction<IIndexable>) => {
       state.mediaFilterValues = action.payload;
-      state.mediaFiltersActive = getActiveSearchFacets(
+      state.mediaFiltersActive = getActiveSearchFacetsNumber(
         state.mediaFilterValues,
         state.mediaSearchQuery
       );
@@ -72,21 +72,21 @@ export const filtersSlice = createSlice({
 
     setAthleteSearchQuery: (state: FiltersState, action: PayloadAction<string>) => {
       state.athleteSearchQuery = action.payload;
-      state.athleteFiltersActive = getActiveSearchFacets(
+      state.athleteFiltersActive = getActiveSearchFacetsNumber(
         state.athleteFilterValues,
         state.athleteSearchQuery
       );
     },
     setEventSearchQuery: (state: FiltersState, action: PayloadAction<string>) => {
       state.eventSearchQuery = action.payload;
-      state.eventFiltersActive = getActiveSearchFacets(
+      state.eventFiltersActive = getActiveSearchFacetsNumber(
         state.eventFilterValues,
         state.eventSearchQuery
       );
     },
     setMediaSearchQuery: (state: FiltersState, action: PayloadAction<string>) => {
       state.mediaSearchQuery = action.payload;
-      state.mediaFiltersActive = getActiveSearchFacets(
+      state.mediaFiltersActive = getActiveSearchFacetsNumber(
         state.mediaFilterValues,
         state.mediaSearchQuery
       );

@@ -60,6 +60,11 @@ export const AthletesListingScreen = ({ navigation }) => {
     [navigation]
   );
 
+  const renderItem = useCallback(
+    ({ item }) => <CardAvatar item={item} onCardPress={() => onCardPress(item)} />,
+    [onCardPress]
+  );
+
   if (isFetchingInitialAthletes || isFetchingInitialSports) {
     return <LoadingScreen />;
   }
@@ -70,7 +75,7 @@ export const AthletesListingScreen = ({ navigation }) => {
       <AthleteFilters nationalityOptions={nationalityOptions} sportOptions={sportOptions} />
       <Listing
         data={filteredAthletes}
-        renderItem={({ item }) => <CardAvatar item={item} onCardPress={() => onCardPress(item)} />}
+        renderItem={renderItem}
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingAthletes || isRefetchingSports}

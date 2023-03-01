@@ -74,8 +74,8 @@ export const useFilters = () => {
       [dispatch]
     ),
     setMediaFilterValues: useCallback(
-      (eventFilterValues: IIndexable) => {
-        dispatch(setMediaFilterValues(eventFilterValues));
+      (mediaFilterValues: IIndexable) => {
+        dispatch(setMediaFilterValues(mediaFilterValues));
       },
       [dispatch]
     ),

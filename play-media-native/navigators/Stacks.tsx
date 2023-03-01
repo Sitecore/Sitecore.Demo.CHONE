@@ -5,18 +5,20 @@ import { StackScreenHeader } from '../features/StackScreenHeader/StackScreenHead
 import { RootStackParamList } from '../interfaces/navigators';
 import { AddAthletesScreen } from '../screens/AddAthletes';
 import { AddCH1MediaScreen } from '../screens/AddCH1Media/AddCH1Media';
-import { AddConnectionScreen } from '../screens/AddConnection';
 import { AddEventsScreen } from '../screens/AddEvents';
 import { AthleteDetailScreen } from '../screens/AthleteDetail';
+import { AddConnectionScreen } from '../screens/Connection/AddConnection';
+import { ManualConnectionScreen } from '../screens/Connection/ManualConnection';
+import { QRCodeConnectionScreen } from '../screens/Connection/QRCodeConnection';
+import { RemoveConnectionScreen } from '../screens/Connection/RemoveConnection';
+import { SelectConnectionScreen } from '../screens/Connection/SelectConnection';
 import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
 import { CreateEventScreen } from '../screens/CreateEvent/CreateEvent';
 import { EditAthleteDetailsScreen } from '../screens/EditAthleteDetails';
 import { EditEventScreen } from '../screens/EditEvent';
 import { EditMediaScreen } from '../screens/EditMedia';
 import { EventDetailScreen } from '../screens/EventDetail';
-import { RemoveConnectionScreen } from '../screens/RemoveConnection';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
-import { SelectConnectionScreen } from '../screens/SelectConnection';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -52,7 +54,7 @@ export const Stacks = () => {
         name="AddConnection"
         component={AddConnectionScreen}
         options={{
-          title: 'Add Connection',
+          title: 'Create a connection',
         }}
       />
       <Stack.Screen
@@ -91,6 +93,20 @@ export const Stacks = () => {
         options={{ title: 'Event Detail' }}
       />
       <Stack.Screen name="MainTabs" component={Tabs} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="ManualConnection"
+        component={ManualConnectionScreen}
+        options={{
+          title: 'Create a connection',
+        }}
+      />
+      <Stack.Screen
+        name="QRCodeConnection"
+        component={QRCodeConnectionScreen}
+        options={{
+          title: '',
+        }}
+      />
       <Stack.Screen
         name="RemoveConnection"
         component={RemoveConnectionScreen}

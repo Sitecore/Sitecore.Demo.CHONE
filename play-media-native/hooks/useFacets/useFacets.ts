@@ -48,6 +48,7 @@ export const useSearchFacets = ({
 
     const fuse = new Fuse(filteredItems, {
       keys: ['name', 'athleteName'],
+      threshold: 0.2,
     });
 
     const filteredQueryItems = !query ? filteredItems : fuse.search(query).map((item) => item.item);
