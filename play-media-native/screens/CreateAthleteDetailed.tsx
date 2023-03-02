@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { CREATE_ATHLETE_DISCARD_MESSAGE, FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
-import { FieldsAthlete } from '../features/FieldsAthlete/FieldsAthlete';
+import { ContentItemFields } from '../features/ContentItemFields/ContentItemFields';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { canSubmitContentItem } from '../helpers/contentItemHelper';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
@@ -43,7 +43,12 @@ export const CreateAthleteDetailedScreen = ({ navigation, route }: Props) => {
 
   return (
     <KeyboardAwareScreen>
-      <FieldsAthlete initialRoute="CreateAthleteDetailed" showLimited stateKey={stateKey} />
+      <ContentItemFields
+        initialRoute="CreateAthleteDetailed"
+        overrides={FIELD_OVERRIDES_ATHLETE}
+        showLimited
+        stateKey={stateKey}
+      />
       <BottomActions>
         <View
           style={{

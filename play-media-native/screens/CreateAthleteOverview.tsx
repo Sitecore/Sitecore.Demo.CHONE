@@ -6,9 +6,9 @@ import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { CREATE_ATHLETE_DISCARD_MESSAGE, FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
-import { FieldsAthlete } from '../features/FieldsAthlete/FieldsAthlete';
+import { ContentItemFields } from '../features/ContentItemFields/ContentItemFields';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
-import { canSubmitContentItem } from '../helpers/contentItemHelper';
+import { canSubmitContentItem, getInitialStateFromOverrides } from '../helpers/contentItemHelper';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { RootStackParamList } from '../interfaces/navigators';
@@ -39,7 +39,7 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
     if (stateKey) {
       init({
         id: stateKey,
-        fields: EVENT_INITIAL_STATE,
+        fields: getInitialStateFromOverrides(FIELD_OVERRIDES_ATHLETE),
       });
     }
   }, [init, reset, stateKey]);
@@ -69,8 +69,9 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
 
   return (
     <KeyboardAwareScreen>
-      <FieldsAthlete
+      <ContentItemFields
         initialRoute="CreateAthleteOverview"
+        overrides={FIELD_OVERRIDES_ATHLETE}
         requiredOnly
         showLimited
         stateKey={stateKey}

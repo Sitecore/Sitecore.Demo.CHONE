@@ -5,7 +5,7 @@ export const FIELD_OVERRIDES_ATHLETE = {
     defaultValue: '',
     required: true,
     single: false,
-    type: FIELD_TYPES.Reference,
+    type: FIELD_TYPES.ShortText,
     title: 'Name',
   },
   athleteQuote: {
@@ -26,7 +26,7 @@ export const FIELD_OVERRIDES_ATHLETE = {
     defaultValue: null,
     required: false,
     single: false,
-    type: FIELD_TYPES.Media,
+    type: FIELD_TYPES.Date,
     title: 'Date of birth',
   },
   featuredImage: {
@@ -47,7 +47,7 @@ export const FIELD_OVERRIDES_ATHLETE = {
     defaultValue: false,
     required: false,
     single: true,
-    type: FIELD_TYPES.Media,
+    type: FIELD_TYPES.Boolean,
     title: 'Is featured?',
   },
   nationality: {
@@ -66,7 +66,7 @@ export const FIELD_OVERRIDES_ATHLETE = {
   },
   relatedMedia: {
     defaultValue: null,
-    required: true,
+    required: false,
     single: false,
     type: FIELD_TYPES.Media,
     title: 'Related Media',
