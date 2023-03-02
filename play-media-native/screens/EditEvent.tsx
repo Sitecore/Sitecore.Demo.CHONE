@@ -3,8 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { Button, Text } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
-import { EDIT_EVENT_DISCARD_MESSAGE } from '../constants/event';
-import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
+import { EDIT_EVENT_DISCARD_MESSAGE, FIELD_OVERRIDES_EVENT } from '../constants/event';
+import { ContentItemFields } from '../features/ContentItemFields/ContentItemFields';
 import { Screen } from '../features/Screen/Screen';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
@@ -67,7 +67,11 @@ export const EditEventScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <FieldsEvent initialRoute="EditEvent" stateKey={stateKey} />
+      <ContentItemFields
+        initialRoute="EditEvent"
+        overrides={FIELD_OVERRIDES_EVENT}
+        stateKey={stateKey}
+      />
       <BottomActions
         style={{
           paddingBottom: 0,

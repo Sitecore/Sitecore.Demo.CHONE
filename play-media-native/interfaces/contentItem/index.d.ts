@@ -20,7 +20,7 @@ export interface ContentItemUpdate {
 }
 
 export interface IFieldOverride {
-  defaultValue: any;
+  defaultValue?: any;
   referenceType?: string;
   required: boolean;
   single: boolean;

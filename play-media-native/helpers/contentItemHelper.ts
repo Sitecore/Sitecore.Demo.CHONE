@@ -1,3 +1,4 @@
+import { FIELD_TYPES, SIMPLE_FIELDS_INITIAL_VALUES } from '../constants/contentTypes';
 import { Athlete } from '../interfaces/athlete';
 import { IFieldOverride } from '../interfaces/contentItem';
 import { EventResponse } from '../interfaces/event';
@@ -81,4 +82,34 @@ export const canSubmitContentItem = (
   }
 
   return canSubmit;
+};
+
+// Provides initial values for global state create flow based on a field's definition
+//
+const getFieldInitialValue = (definition: IFieldOverride) => {
+  if (definition?.defaultValue) {
+    return definition.defaultValue;
+  }
+
+  if (definition?.type === FIELD_TYPES.Reference || definition?.type === FIELD_TYPES.Media) {
+    return definition?.single ? null : [];
+  }
+
+  return SIMPLE_FIELDS_INITIAL_VALUES[definition?.type];
+};
+
+// Get initialState of content item based on its field overrides
+//
+export const getInitialStateFromOverrides = (overrides: Record<string, IFieldOverride>) => {
+  if (!overrides) {
+    return {};
+  }
+
+  const initialState = {};
+
+  Object.entries(overrides).forEach(([overrideKey, override]) => {
+    initialState[overrideKey] = getFieldInitialValue(override);
+  });
+
+  return initialState;
 };

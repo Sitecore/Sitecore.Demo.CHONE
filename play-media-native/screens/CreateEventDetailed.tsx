@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { CREATE_EVENT_DISCARD_MESSAGE, FIELD_OVERRIDES_EVENT } from '../constants/event';
-import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
+import { ContentItemFields } from '../features/ContentItemFields/ContentItemFields';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { canSubmitContentItem } from '../helpers/contentItemHelper';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
@@ -43,7 +43,12 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
 
   return (
     <KeyboardAwareScreen>
-      <FieldsEvent initialRoute="CreateEventDetailed" showLimited stateKey={stateKey} />
+      <ContentItemFields
+        initialRoute="CreateEventDetailed"
+        overrides={FIELD_OVERRIDES_EVENT}
+        showLimited
+        stateKey={stateKey}
+      />
       <BottomActions>
         <View
           style={{
