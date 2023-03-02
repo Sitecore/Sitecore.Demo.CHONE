@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 
@@ -13,12 +13,18 @@ export const FieldLabel = ({
   single?: boolean;
   title: string;
 }) => {
-  const label = useMemo(() => {
-    const headerText = `${title} ${single ? '(single)' : ''}`;
+  const getHeaderText = useCallback(() => {
+    if (title) {
+      return `${title} ${single ? '(single)' : ''}`;
+    }
 
+    return `${single ? '(single)' : ''}`;
+  }, [single, title]);
+
+  const label = useMemo(() => {
     return (
       <View style={{ flexDirection: 'row' }}>
-        <Text variant="labelSmall">{headerText}</Text>
+        <Text variant="labelSmall">{getHeaderText()}</Text>
         {required && (
           <>
             <Text style={{ color: theme.colors.yellow.DEFAULT, marginLeft: theme.spacing.xs }}>
@@ -28,7 +34,7 @@ export const FieldLabel = ({
         )}
       </View>
     );
-  }, [title, required, single]);
+  }, [getHeaderText, required]);
 
   return <>{label}</>;
 };

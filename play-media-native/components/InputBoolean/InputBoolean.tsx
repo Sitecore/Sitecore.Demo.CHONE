@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { View, ViewStyle } from 'react-native';
 import { Switch } from 'react-native-paper';
 
@@ -22,21 +21,6 @@ export const InputBoolean = ({
 }) => {
   const inputValue = value || initialValue;
 
-  const switchRenderer = useMemo(() => {
-    return (
-      <Switch
-        onValueChange={onChange}
-        thumbColor={theme.colors.white.DEFAULT}
-        trackColor={{ false: theme.colors.gray.DEFAULT, true: theme.colors.green.DEFAULT }}
-        value={inputValue}
-      />
-    );
-  }, [inputValue, onChange]);
-
-  if (!title) {
-    return <>{switchRenderer}</>;
-  }
-
   return (
     <View
       style={{
@@ -47,7 +31,12 @@ export const InputBoolean = ({
       }}
     >
       <FieldLabel required={required} title={title} />
-      {switchRenderer}
+      <Switch
+        onValueChange={onChange}
+        thumbColor={theme.colors.white.DEFAULT}
+        trackColor={{ false: theme.colors.gray.DEFAULT, true: theme.colors.green.DEFAULT }}
+        value={inputValue}
+      />
     </View>
   );
 };
