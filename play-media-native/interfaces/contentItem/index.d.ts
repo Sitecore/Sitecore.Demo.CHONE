@@ -20,10 +20,9 @@ export interface ContentItemUpdate {
 }
 
 export interface IFieldOverride {
-  defaultValue: any;
+  defaultValue?: any;
   referenceType?: string;
   required: boolean;
-  renderItem: ReactNode;
   single: boolean;
   title: string;
   type: string;

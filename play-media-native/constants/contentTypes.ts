@@ -21,3 +21,12 @@ export const FIELD_TYPES = {
   RichText: 'rich-text',
   ShortText: 'short-text',
 };
+
+export const SIMPLE_FIELDS_INITIAL_VALUES = {
+  [FIELD_TYPES.Boolean]: false,
+  [FIELD_TYPES.Date]: null,
+  [FIELD_TYPES.LongText]: '',
+  [FIELD_TYPES.Number]: null,
+  [FIELD_TYPES.RichText]: null,
+  [FIELD_TYPES.ShortText]: '',
+};

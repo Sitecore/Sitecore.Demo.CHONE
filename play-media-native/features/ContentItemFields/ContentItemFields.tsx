@@ -44,14 +44,14 @@ const sectionMarginBottom = theme.spacing.xs;
 export const ContentItemFields = ({
   initialRoute,
   overrides,
-  requiredOnly,
-  showLimited,
+  requiredOnly = false,
+  showLimited = false,
   stateKey,
 }: {
   initialRoute: string;
   overrides: Record<string, IFieldOverride>;
-  requiredOnly: boolean;
-  showLimited: boolean;
+  requiredOnly?: boolean;
+  showLimited?: boolean;
   stateKey: string;
 }) => {
   const { contentItems, edit, remove } = useContentItems();
