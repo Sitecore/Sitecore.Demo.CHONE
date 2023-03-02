@@ -6,12 +6,12 @@ import { createContentItem, updateContentItem } from '../api/queries/contentItem
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { CONTENT_TYPES } from '../constants/contentTypes';
-import { EventDetail } from '../features/EventDetail/EventDetail';
+import { AthleteDetail } from '../features/AthleteDetail/AthleteDetail';
 import { Screen } from '../features/Screen/Screen';
 import { mapContentItem } from '../helpers/contentItemHelper';
 import { prepareRequestFields } from '../helpers/events';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
-import { Event } from '../interfaces/event';
+import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
@@ -44,9 +44,9 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
 
   const { contentItems } = useContentItems();
-  const event = contentItems[stateKey] as Event;
+  const athlete = contentItems[stateKey] as Athlete;
 
-  const [newEventID, setNewEventID] = useState(undefined);
+  const [newAthleteID, setNewAthleteID] = useState(undefined);
 
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -57,9 +57,9 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: `Review ${event?.title}`,
+      title: `Review ${athlete?.athleteName}`,
     });
-  }, [event, navigation]);
+  }, [athlete, navigation]);
 
   // Hide bottom action buttons if a loading indicator or a toaster is shown
   useEffect(() => {
@@ -71,16 +71,16 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   }, [isValidating, showSuccessToast, showErrorToast]);
 
   const processResponse = useCallback((res: { id: string; name: string }) => {
-    setNewEventID(res.id);
+    setNewAthleteID(res.id);
     setShowSuccessToast(true);
   }, []);
 
   const handleSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
     navigation.navigate('MainTabs', {
-      id: newEventID,
+      id: newAthleteID,
     });
-  }, [navigation, newEventID]);
+  }, [navigation, newAthleteID]);
 
   const handleErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
@@ -93,8 +93,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
 
-    //  Map eventToReview object to a form suitable for the API request
-    const requestFields = mapContentItem(prepareRequestFields(event), (k, v) => ({
+    //  Map athleteToReview object to a form suitable for the API request
+    const requestFields = mapContentItem(prepareRequestFields(athlete), (k, v) => ({
       value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
     }));
 
@@ -105,7 +105,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     if (isNew) {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
-        name: event.name,
+        name: athlete.athleteName,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
@@ -113,15 +113,15 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         .finally(() => setIsValidating(false));
     } else {
       await updateContentItem({
-        id: event.id,
-        name: event.name,
+        id: athlete.id,
+        name: athlete.athleteName,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))
         .catch(() => setShowErrorToast(true))
         .finally(() => setIsValidating(false));
     }
-  }, [event, isNew, processResponse]);
+  }, [athlete, isNew, processResponse]);
 
   const bottomActions = useMemo(
     () => (
@@ -147,10 +147,10 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     [handleDraft, handleSubmitBtn]
   );
 
-  if (!event) {
+  if (!athlete) {
     return (
       <Screen centered>
-        <Text>Event not available!</Text>
+        <Text>Athlete not available!</Text>
       </Screen>
     );
   }
@@ -158,7 +158,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   return (
     <Screen>
       <ScrollView scrollEventThrottle={0} style={styles.screenPadding}>
-        <EventDetail event={event} isReview />
+        <AthleteDetail athlete={athlete} isReview />
         <View style={{ paddingBottom: 50 }} />
       </ScrollView>
       {isValidating && (
