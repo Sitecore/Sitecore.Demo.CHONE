@@ -5,10 +5,14 @@ import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
-import { CREATE_EVENT_DISCARD_MESSAGE, EVENT_INITIAL_STATE } from '../constants/event';
+import {
+  CREATE_EVENT_DISCARD_MESSAGE,
+  EVENT_INITIAL_STATE,
+  FIELD_OVERRIDES_EVENT,
+} from '../constants/event';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
-import { canSubmitEvent } from '../helpers/events';
+import { canSubmitContentItem } from '../helpers/contentItemHelper';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { RootStackParamList } from '../interfaces/navigators';
@@ -31,7 +35,7 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
     });
   }, [navigation, stateKey]);
 
-  const isDisabled = !canSubmitEvent(contentItems[stateKey]);
+  const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_EVENT);
 
   useEffect(() => {
     // init global state on mount

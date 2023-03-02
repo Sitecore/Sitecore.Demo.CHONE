@@ -4,10 +4,10 @@ import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
-import { CREATE_EVENT_DISCARD_MESSAGE } from '../constants/event';
+import { CREATE_EVENT_DISCARD_MESSAGE, FIELD_OVERRIDES_EVENT } from '../constants/event';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
-import { canSubmitEvent } from '../helpers/events';
+import { canSubmitContentItem } from '../helpers/contentItemHelper';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
 import { RootStackParamList } from '../interfaces/navigators';
@@ -24,7 +24,7 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
   const { contentItems } = useContentItems();
   const event = (contentItems[stateKey] ?? null) as unknown as Event;
 
-  const isDisabled = !canSubmitEvent(event);
+  const isDisabled = !canSubmitContentItem(event, FIELD_OVERRIDES_EVENT);
 
   const onDiscard = useCallback(() => {
     navigation.push('DiscardChanges', {

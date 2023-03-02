@@ -71,7 +71,7 @@ export const CardSport = ({
           backgroundColor: theme.colors.black.DEFAULT,
           height: 140,
         }}
-        source={{ uri: null }}
+        source={{ uri: item?.featuredImage?.fileUrl }}
       />
       {content}
     </Card>

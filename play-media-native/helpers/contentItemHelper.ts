@@ -1,6 +1,7 @@
 import { Athlete } from '../interfaces/athlete';
+import { IFieldOverride } from '../interfaces/contentItem';
 import { EventResponse } from '../interfaces/event';
-import { IFieldOverride } from '../interfaces/indexable';
+import { IIndexable } from '../interfaces/indexable';
 import { Sport } from '../interfaces/sport';
 
 const ADD_BUTTON_LABEL = 'Add';
@@ -61,4 +62,23 @@ export const getNonRequiredOverrides = (
   });
 
   return filtered;
+};
+
+export const canSubmitContentItem = (
+  fields: IIndexable,
+  overrides: Record<string, IFieldOverride>
+) => {
+  if (!fields) {
+    return false;
+  }
+
+  let canSubmit = true;
+
+  for (const field in overrides) {
+    if (overrides[field].required && !fields[field]) {
+      canSubmit = false;
+    }
+  }
+
+  return canSubmit;
 };

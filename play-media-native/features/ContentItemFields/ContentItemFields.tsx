@@ -11,8 +11,9 @@ import { CONTENT_TYPES, CONTENT_TYPE_ROUTES, FIELD_TYPES } from '../../constants
 import { getNonRequiredOverrides, getRequiredOverrides } from '../../helpers/contentItemHelper';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Athlete } from '../../interfaces/athlete';
+import { IFieldOverride } from '../../interfaces/contentItem';
 import { Event } from '../../interfaces/event';
-import { IFieldOverride, IIndexable } from '../../interfaces/indexable';
+import { IIndexable } from '../../interfaces/indexable';
 import { Sport } from '../../interfaces/sport';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
@@ -124,9 +125,10 @@ export const ContentItemFields = ({
   );
 
   const fieldRenderers = useCallback(
-    (state: IIndexable) => ({
+    (state: IIndexable, componentKey: string) => ({
       [FIELD_TYPES.Boolean]: (fieldKey: string) => (
         <InputBoolean
+          key={componentKey}
           onChange={(bool: boolean) => handleFieldChange(fieldKey, bool)}
           required={overrides[fieldKey].required}
           title={overrides[fieldKey].title}
@@ -135,6 +137,7 @@ export const ContentItemFields = ({
       ),
       [FIELD_TYPES.Date]: (fieldKey: string) => (
         <InputDate
+          key={componentKey}
           onChange={(date: Date) => handleFieldChange(fieldKey, date)}
           required={overrides[fieldKey].required}
           title={overrides[fieldKey].title}
@@ -143,6 +146,7 @@ export const ContentItemFields = ({
       ),
       [FIELD_TYPES.LongText]: (fieldKey: string) => (
         <InputText
+          key={componentKey}
           containerStyle={styles.inputContainer}
           multiline
           onChange={(text: string) => handleFieldChange(fieldKey, text)}
@@ -153,6 +157,7 @@ export const ContentItemFields = ({
       ),
       [FIELD_TYPES.Media]: (fieldKey: string) => (
         <ContentFieldMedia
+          key={componentKey}
           fieldKey={fieldKey}
           fieldTitle={overrides[fieldKey].title}
           initialRoute={initialRoute}
@@ -166,6 +171,7 @@ export const ContentItemFields = ({
       [FIELD_TYPES.Number]: null,
       [FIELD_TYPES.Reference]: (fieldKey: string) => (
         <ContentFieldReference
+          key={componentKey}
           addRoute={CONTENT_TYPE_ROUTES[overrides[fieldKey].referenceType]}
           fieldKey={fieldKey}
           fieldTitle={overrides[fieldKey].title}
@@ -178,7 +184,7 @@ export const ContentItemFields = ({
         />
       ),
       [FIELD_TYPES.RichText]: (fieldKey: string) => (
-        <View style={styles.inputContainer}>
+        <View key={componentKey} style={styles.inputContainer}>
           <Text style={{ marginBottom: theme.spacing.xs }}>{overrides[fieldKey].title}</Text>
           <RichTextEditor
             initialValue={state[stateKey][fieldKey]}
@@ -188,6 +194,7 @@ export const ContentItemFields = ({
       ),
       [FIELD_TYPES.ShortText]: (fieldKey: string) => (
         <InputText
+          key={componentKey}
           containerStyle={styles.inputContainer}
           multiline
           onChange={(text: string) => handleFieldChange(fieldKey, text)}
@@ -216,8 +223,8 @@ export const ContentItemFields = ({
     <NestableScrollContainer>
       <View>
         {showLimited && requiredOnly && <RequiredFieldsBanner />}
-        {Object.entries(filteredOverrides).map(([overrideKey, override]) => {
-          const renderer = fieldRenderers(contentItems)[override.type];
+        {Object.entries(filteredOverrides).map(([overrideKey, override], index) => {
+          const renderer = fieldRenderers(contentItems, `${overrideKey}-${index}`)[override.type];
 
           if (!renderer) {
             return null;
