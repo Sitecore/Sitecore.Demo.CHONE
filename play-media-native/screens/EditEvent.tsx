@@ -1,54 +1,36 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useEffect, useState } from 'react';
 import { Button, Text } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
+import { EDIT_EVENT_DISCARD_MESSAGE } from '../constants/event';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { Screen } from '../features/Screen/Screen';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
-import { IIndexable } from '../interfaces/indexable';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 export const EditEventScreen = ({ navigation, route }) => {
   const [stateKey] = useState(route?.params?.stateKey);
-  const { contentItems, editMultiple, reset } = useContentItems();
+  const { contentItems, reset } = useContentItems();
 
-  const event = useMemo(
-    () => contentItems[stateKey] ?? null,
-    [contentItems, stateKey]
-  ) as unknown as Event;
-
-  const [fields, setFields] = useState<IIndexable>({
-    title: event?.title || '',
-    body: event?.body,
-    teaser: event?.teaser || '',
-    timeAndDate: event?.timeAndDate || new Date(),
-    location: event?.location || '',
-  });
-
-  const handleFieldChange = useCallback((key: string, value: any) => {
-    setFields((prevFields) => ({
-      ...prevFields,
-      [key]: value,
-    }));
-  }, []);
+  const event = (contentItems[stateKey] ?? null) as unknown as Event;
 
   const handleReview = useCallback(() => {
-    editMultiple({
-      id: stateKey,
-      fields,
-    });
-
     navigation.navigate('ReviewEvent', {
       stateKey,
-      title: `Review ${fields.title || 'Event'}`,
+      title: `Review ${event?.title || 'Event'}`,
     });
-  }, [editMultiple, fields, navigation, stateKey]);
+  }, [event, navigation, stateKey]);
 
   const handleDiscard = useCallback(() => {
-    navigation.goBack();
-  }, [navigation]);
+    navigation.push('DiscardChanges', {
+      message: EDIT_EVENT_DISCARD_MESSAGE,
+      stateKey,
+      redirectRoute: 'MainTabs',
+    });
+  }, [navigation, stateKey]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -64,19 +46,36 @@ export const EditEventScreen = ({ navigation, route }) => {
     };
   }, [reset, stateKey]);
 
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener('beforeRemove', (event) => {
+        // Prevent default behavior of leaving the screen
+        //
+        event.preventDefault();
+
+        navigation.push('DiscardChanges', {
+          message: EDIT_EVENT_DISCARD_MESSAGE,
+          stateKey,
+          redirectRoute: 'MainTabs',
+        });
+      });
+
+      // Make sure to remove the listener
+      // Otherwise, it BLOCKS GOING BACK to MainTabs from a nested screen discard action
+      //
+      return () => {
+        unsubscribe();
+      };
+    }, [navigation, stateKey])
+  );
+
   if (!event) {
     return <Text>Event not available!</Text>;
   }
 
   return (
     <Screen>
-      <FieldsEvent
-        event={event}
-        fields={fields}
-        initialRoute="EditEvent"
-        handleFieldChange={handleFieldChange}
-        stateKey={stateKey}
-      />
+      <FieldsEvent initialRoute="EditEvent" stateKey={stateKey} />
       <BottomActions
         style={{
           paddingBottom: 0,

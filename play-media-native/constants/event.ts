@@ -110,3 +110,6 @@ export const FIELD_OVERRIDES_EVENT = {
 
 export const CREATE_EVENT_DISCARD_MESSAGE =
   'Are you sure you want to discard the new event or continue editing?';
+
+export const EDIT_EVENT_DISCARD_MESSAGE =
+  'Are you sure you want to discard the changes or continue editing?';
