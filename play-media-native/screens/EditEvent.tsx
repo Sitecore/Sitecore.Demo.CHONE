@@ -13,7 +13,7 @@ import { theme } from '../theme/theme';
 
 export const EditEventScreen = ({ navigation, route }) => {
   const [stateKey] = useState(route?.params?.stateKey);
-  const { contentItems, reset } = useContentItems();
+  const { contentItems } = useContentItems();
 
   const event = (contentItems[stateKey] ?? null) as unknown as Event;
 
@@ -37,14 +37,6 @@ export const EditEventScreen = ({ navigation, route }) => {
       title: event?.title || 'Edit Event',
     });
   }, [event?.title, navigation]);
-
-  // reset global state on unmount
-  //
-  useEffect(() => {
-    return () => {
-      reset({ id: stateKey });
-    };
-  }, [reset, stateKey]);
 
   useFocusEffect(
     useCallback(() => {

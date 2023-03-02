@@ -18,40 +18,33 @@ export const CardSport = ({
   style?: ViewStyle;
 }) => {
   const content = useMemo(() => {
-    if (selected) {
-      return (
-        <Card.Content
-          style={{
-            backgroundColor: theme.colors.yellow.DEFAULT,
-            paddingTop: theme.spacing.sm,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              position: 'relative',
-              width: '100%',
-            }}
-          >
-            <Icon name="checkmark-sharp" size={20} />
-            <Text style={{ color: theme.colors.black.DEFAULT, marginLeft: theme.spacing.xxs }}>
-              {item?.title || ''}
-            </Text>
-          </View>
-        </Card.Content>
-      );
-    }
-
     return (
       <Card.Content
         style={{
-          backgroundColor: theme.colors.black.lightest,
+          backgroundColor: selected ? theme.colors.yellow.DEFAULT : theme.colors.black.lightest,
           paddingTop: theme.spacing.sm,
         }}
       >
-        <View style={{ position: 'relative', width: '100%' }}>
-          <Text>{item?.title || ''}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            position: 'relative',
+            width: '100%',
+          }}
+        >
+          {selected ? (
+            <>
+              <Icon name="checkmark-sharp" size={20} />
+              <Text style={{ color: theme.colors.black.DEFAULT, marginLeft: theme.spacing.xxs }}>
+                {item?.title || ''}
+              </Text>
+            </>
+          ) : (
+            <View style={{ position: 'relative', width: '100%' }}>
+              <Text>{item?.title || ''}</Text>
+            </View>
+          )}
         </View>
       </Card.Content>
     );

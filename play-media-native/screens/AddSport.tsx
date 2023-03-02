@@ -1,8 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Button } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
-import { getAllSports } from '../api/queries/getSports';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Listing } from '../components/Listing/Listing';
 import { SelectableView } from '../components/SelectableView/SelectableView';
@@ -10,6 +8,7 @@ import { CardSport } from '../features/CardSport/CardSport';
 import { Screen } from '../features/Screen/Screen';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Sport } from '../interfaces/sport';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
@@ -27,7 +26,7 @@ export const AddSportsScreen = ({ navigation, route }) => {
     isLoading: isFetchingInitialSports,
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
-  } = useQuery('sports', () => getAllSports());
+  } = useSportsQuery();
   const { calcScrollOffset } = useScrollOffset(true);
   const initialSelectedIDs = useMemo(() => {
     if (Array.isArray(contentItems[stateKey][fieldKey])) {

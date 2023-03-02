@@ -215,6 +215,18 @@ export const ContentItemFields = ({
     return requiredOnly ? getRequiredOverrides(overrides) : getNonRequiredOverrides(overrides);
   }, [overrides, requiredOnly, showLimited]);
 
+  const showRequiredBanner = useMemo(() => {
+    if (!showLimited) {
+      return true;
+    }
+
+    if (requiredOnly) {
+      return true;
+    }
+
+    return false;
+  }, [requiredOnly, showLimited]);
+
   if (!stateKey || !contentItems[stateKey]) {
     return null;
   }
@@ -222,7 +234,7 @@ export const ContentItemFields = ({
   return (
     <NestableScrollContainer>
       <View>
-        {showLimited && requiredOnly && <RequiredFieldsBanner />}
+        {showRequiredBanner && <RequiredFieldsBanner />}
         {Object.entries(filteredOverrides).map(([overrideKey, override], index) => {
           const renderer = fieldRenderers(contentItems, `${overrideKey}-${index}`)[override.type];
 
