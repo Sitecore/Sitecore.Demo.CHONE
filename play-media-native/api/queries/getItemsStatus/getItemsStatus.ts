@@ -5,11 +5,12 @@ const contentItemsApiURL =
   'https://content-api.sitecorecloud.io/api/content/v1/items?view=excludeCustomFields&pageSize=100';
 const mediaItemsApiURL = 'https://content-api.sitecorecloud.io/api/content/v1/media?pageSize=100';
 
-export const getItemsStatus = async (): Promise<StatusResult[]> => {
+export const getItemsStatus = async (type: 'media' | 'content'): Promise<StatusResult[]> => {
   const accessToken: string = (await generateToken()).access_token;
+  const fetchURL = type === 'media' ? mediaItemsApiURL : contentItemsApiURL;
 
   try {
-    return await fetch(contentItemsApiURL, {
+    return await fetch(fetchURL, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -37,15 +38,16 @@ export const getItemsStatus = async (): Promise<StatusResult[]> => {
   }
 };
 
-export const getMediaStatus = async (): Promise<StatusResult[]> => {
+export const getItemStatusById = async (id: string): Promise<StatusResult> => {
   const accessToken: string = (await generateToken()).access_token;
+  const fetchURL = `https://content-api.sitecorecloud.io/api/content/v1/items/${id}`;
 
   try {
-    return await fetch(mediaItemsApiURL, {
+    return await fetch(fetchURL, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        Accept: 'text/plain',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     }).then(async (response: Response) => {
@@ -57,11 +59,11 @@ export const getMediaStatus = async (): Promise<StatusResult[]> => {
         throw data?.status;
       }
 
-      const itemsStatus = data.data.map((item: any) => ({
-        id: item.id,
-        status: item.system.status,
-      }));
-      return itemsStatus;
+      const itemStatus = {
+        id: data.id,
+        status: data.system.status,
+      };
+      return itemStatus;
     });
   } catch (error) {
     console.error(error);
