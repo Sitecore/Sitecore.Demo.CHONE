@@ -2,6 +2,7 @@ export const CONTENT_TYPES = {
   ATHLETE: 'athlete',
   EVENT: 'event',
   SPORT: 'sport',
+  MEDIA: 'media',
 };
 
 export const CONTENT_TYPE_ROUTES = {

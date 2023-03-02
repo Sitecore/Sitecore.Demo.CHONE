@@ -1,5 +1,3 @@
-import Fuse from 'fuse.js';
-import debounce from 'lodash.debounce';
 import { useCallback, useMemo, useState } from 'react';
 import {
   ListRenderItem,
@@ -8,7 +6,6 @@ import {
   StyleProp,
   View,
 } from 'react-native';
-import { Searchbar } from 'react-native-paper';
 
 import { Listing } from '../../components/Listing/Listing';
 import { Media } from '../../interfaces/media';
@@ -33,10 +30,6 @@ const listingStyle = {
   paddingHorizontal: theme.spacing.sm,
 };
 
-const fuseOptions = {
-  keys: ['name'],
-};
-
 export const ListingImages = ({
   images,
   onDisplayTypeChange,
@@ -45,33 +38,10 @@ export const ListingImages = ({
   isRefreshing,
   renderItems,
   style,
-  showSearch = true,
 }: Props) => {
   const [displayType, setDisplayType] = useState<string>(ListingImageDisplayType.LIST);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [displayedItems, setDisplayedItems] = useState(images);
-  const fuse = useMemo(() => {
-    return new Fuse(images, fuseOptions);
-  }, [images]);
 
   const listStyle = useMemo(() => ({ ...listingStyle, ...style }), [style]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const search = useCallback(
-    debounce((query: string) => {
-      const results = !query ? images : fuse.search(query).map((item) => item.item);
-      setDisplayedItems(results);
-    }, 500),
-    [fuse]
-  );
-
-  const onSearch = useCallback(
-    (query: string) => {
-      setSearchQuery(query);
-      search(query);
-    },
-    [search]
-  );
 
   const handleDisplayChange = useCallback(
     (value: string) => {
@@ -88,7 +58,7 @@ export const ListingImages = ({
     return (
       <Listing
         flatListKey={displayType}
-        data={displayedItems}
+        data={images}
         numColumns={displayType === ListingImageDisplayType.GRID ? 2 : 1}
         renderItem={renderItems[displayType]}
         onRefresh={onRefresh}
@@ -97,37 +67,7 @@ export const ListingImages = ({
         style={listStyle}
       />
     );
-  }, [displayType, displayedItems, isRefreshing, listStyle, onRefresh, onScroll, renderItems]);
-
-  const searchBar = useMemo(() => {
-    return showSearch ? (
-      <View
-        style={{
-          flexBasis: '50%',
-          marginLeft: theme.spacing.sm,
-        }}
-      >
-        <Searchbar
-          iconColor={theme.colors.black.DEFAULT}
-          inputStyle={{
-            width: '100%',
-            color: theme.colors.black.DEFAULT,
-          }}
-          placeholder="Search"
-          placeholderTextColor={theme.colors.black.DEFAULT}
-          onChangeText={onSearch}
-          value={searchQuery}
-          style={{
-            backgroundColor: theme.colors.white.DEFAULT,
-            color: theme.colors.black.DEFAULT,
-            width: '100%',
-          }}
-        />
-      </View>
-    ) : (
-      <></>
-    );
-  }, [onSearch, searchQuery, showSearch]);
+  }, [displayType, images, isRefreshing, listStyle, onRefresh, onScroll, renderItems]);
 
   return (
     <>
@@ -138,7 +78,6 @@ export const ListingImages = ({
           marginBottom: theme.spacing.sm,
         }}
       >
-        {searchBar}
         <SelectDisplayButtons displayType={displayType} onDisplayTypeChange={handleDisplayChange} />
       </View>
       {imagesList}

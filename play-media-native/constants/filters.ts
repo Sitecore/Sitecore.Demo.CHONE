@@ -7,3 +7,8 @@ export const EVENT_FACETS = {
   location: 'location',
   sport: 'sportId',
 };
+
+export const MEDIA_FACETS = {
+  fileType: 'fileType',
+  status: 'status',
+};

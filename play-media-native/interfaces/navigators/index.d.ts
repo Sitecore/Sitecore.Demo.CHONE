@@ -26,6 +26,8 @@ export type RootStackParamList = {
   EditMedia: undefined;
   EventDetail: { id: string };
   MainTabs: undefined;
+  ManualConnection: undefined;
+  QRCodeConnection: undefined;
   RemoveConnection: undefined;
   ReviewEvent: {
     stateKey: string;

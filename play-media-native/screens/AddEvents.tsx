@@ -3,17 +3,18 @@ import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { DropdownItem } from '../components/DropdownPicker/DropdownPicker';
+import { SimpleFilters } from '../components/FacetFilters/SimpleFilters';
 import { Listing } from '../components/Listing/Listing';
+import { SearchBar } from '../components/SearchBar/SearchBar';
 import { SelectableView } from '../components/SelectableView/SelectableView';
 import { EVENT_FACETS } from '../constants/filters';
-import { AthleteFiltersView } from '../features/AthleteFilters/AthleteFiltersView';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { Screen } from '../features/Screen/Screen';
 import { initializeEvents, removeAlreadySelected } from '../helpers/events';
 import { getLocationOptions, getSportOptions } from '../helpers/facets';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
-import { useFacets } from '../hooks/useFacets/useFacets';
+import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Event } from '../interfaces/event';
@@ -38,18 +39,24 @@ export const AddEventsScreen = ({ navigation, route }) => {
     refetch: refetchSports,
     isRefetching: isRefetchingSports,
   } = useSportsQuery();
+
   const [facets, setFacets] = useState<Record<string, any>>({
     [EVENT_FACETS.sport]: '',
     [EVENT_FACETS.location]: '',
   });
+  const [searchQuery, setSearchQuery] = useState('');
+
   const initialEvents = useMemo(() => {
     const initialized = initializeEvents(events, sports);
     return removeAlreadySelected(initialized, contentItems[stateKey][fieldKey]);
   }, [contentItems, events, fieldKey, sports, stateKey]);
-  const filteredEvents = useFacets({
+
+  const filteredEvents = useSearchFacets({
     initialItems: initialEvents?.length ? initialEvents : [],
     facets,
+    query: searchQuery,
   });
+
   const { calcScrollOffset } = useScrollOffset(true);
   const [selectedEventIDs, setSelectedEventIDs] = useState<string[]>([]);
   const noneSelected = !selectedEventIDs?.length;
@@ -63,14 +70,16 @@ export const AddEventsScreen = ({ navigation, route }) => {
         id: EVENT_FACETS.sport,
         label: 'Sport',
         facets: sportOptions,
+        selectedValue: facets?.[EVENT_FACETS.sport],
       },
       {
         id: EVENT_FACETS.location,
         label: 'Location',
         facets: locationOptions,
+        selectedValue: facets?.[EVENT_FACETS.location],
       },
     ],
-    [locationOptions, sportOptions]
+    [facets, locationOptions, sportOptions]
   );
 
   const edit = useCallback(
@@ -82,6 +91,10 @@ export const AddEventsScreen = ({ navigation, route }) => {
 
   const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {
     setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
+  }, []);
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
   }, []);
 
   const handleRefresh = useCallback(() => {
@@ -118,7 +131,8 @@ export const AddEventsScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <AthleteFiltersView facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
       <Listing
         data={filteredEvents}
         isLoading={isFetchingInitialEvents || isFetchingInitialSports}

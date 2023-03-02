@@ -4,10 +4,16 @@ import { Button } from 'react-native-paper';
 
 import { ListingCH1Media } from './ListingCH1Media';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
+import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
+import { SimpleFilters } from '../../components/FacetFilters/SimpleFilters';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
+import { MEDIA_FACETS } from '../../constants/filters';
 import { MEDIA_SOURCES } from '../../constants/media';
 import { Screen } from '../../features/Screen/Screen';
+import { getFileTypeOptions } from '../../helpers/facets';
 import { removeAlreadySelected } from '../../helpers/media';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
+import { useSearchFacets } from '../../hooks/useFacets/useFacets';
 import { useMediaQuery } from '../../hooks/useMediaQuery/useMediaQuery';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
@@ -24,6 +30,54 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
   const initialRoute = route?.params?.initialRoute;
   const single = route?.params?.single;
   const stateKey = route?.params?.stateKey;
+
+  const availableImages = useMemo(() => {
+    if (!images?.length) {
+      return [];
+    }
+
+    return removeAlreadySelected(images, contentItems[stateKey][fieldKey]);
+  }, [contentItems, fieldKey, images, stateKey]);
+
+  const [facets, setFacets] = useState<Record<string, any>>({
+    [MEDIA_FACETS.fileType]: '',
+    [MEDIA_FACETS.status]: '',
+  });
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredImages = useSearchFacets({
+    initialItems: availableImages?.length ? availableImages : [],
+    facets,
+    query: searchQuery,
+  });
+
+  const fileTypeOptions = getFileTypeOptions(images);
+
+  const facetFilters = useMemo(
+    () => [
+      {
+        id: MEDIA_FACETS.fileType,
+        label: 'File type',
+        facets: fileTypeOptions,
+        selectedValue: '',
+      },
+      {
+        id: MEDIA_FACETS.status,
+        label: 'State',
+        facets: [],
+        selectedValue: '',
+      },
+    ],
+    [fileTypeOptions]
+  );
+
+  const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {
+    setFacets((prevFacets) => ({ ...prevFacets, [key]: item.value }));
+  }, []);
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
 
   const onSelect = useCallback((image: Media) => {
     setSelectedMedia((prevSelectedMedia) => {
@@ -115,19 +169,13 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
     [onAdd, onDiscard, selectedMedia.length]
   );
 
-  const availableImages = useMemo(() => {
-    if (!images?.length) {
-      return [];
-    }
-
-    return removeAlreadySelected(images, contentItems[stateKey][fieldKey]);
-  }, [contentItems, fieldKey, images, stateKey]);
-
   return (
     <Screen>
       <StatusBar barStyle="light-content" />
+      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
       <ListingCH1Media
-        images={availableImages}
+        images={filteredImages as Media[]}
         isFetching={isFetching}
         onSelect={single ? onSelectSingle : onSelect}
         selectedMediaIDs={selectedMediaIDs}

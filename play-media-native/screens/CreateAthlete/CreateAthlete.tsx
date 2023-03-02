@@ -2,6 +2,9 @@ import { useEffect, useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
+import { Content } from './Content';
+import { General } from './General';
+import { References } from './References';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../../features/Screen/Screen';
