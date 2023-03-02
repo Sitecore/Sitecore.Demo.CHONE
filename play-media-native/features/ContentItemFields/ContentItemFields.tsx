@@ -187,7 +187,7 @@ export const ContentItemFields = ({
         <View key={componentKey} style={styles.inputContainer}>
           <Text style={{ marginBottom: theme.spacing.xs }}>{overrides[fieldKey].title}</Text>
           <RichTextEditor
-            initialValue={state[stateKey][fieldKey]}
+            initialValue={state[stateKey][fieldKey]?.content}
             onChange={(text: string) => handleFieldChange(fieldKey, text)}
           />
         </View>
