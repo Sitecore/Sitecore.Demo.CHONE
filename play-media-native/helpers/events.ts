@@ -60,13 +60,15 @@ export const prepareRequestFields = (event: Event) => {
   };
 };
 
-export const canSubmitEvent = (fields: IIndexable, globalFields: IIndexable) => {
-  const allFields = { ...globalFields, ...fields };
+export const canSubmitEvent = (fields: IIndexable) => {
+  if (!fields) {
+    return false;
+  }
 
   let canSubmit = true;
 
   for (const field in EVENT_FIELD_OVERRIDES) {
-    if (EVENT_FIELD_OVERRIDES[field].required && !allFields[field]) {
+    if (EVENT_FIELD_OVERRIDES[field].required && !fields[field]) {
       canSubmit = false;
     }
   }

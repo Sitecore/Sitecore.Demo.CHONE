@@ -1,5 +1,6 @@
 import { Athlete } from '../interfaces/athlete';
 import { EventResponse } from '../interfaces/event';
+import { IFieldOverride } from '../interfaces/indexable';
 import { Sport } from '../interfaces/sport';
 
 const ADD_BUTTON_LABEL = 'Add';
@@ -32,4 +33,32 @@ export const getReferenceFieldIcon = (empty: boolean, single: boolean) => {
   }
 
   return empty ? 'plus' : 'pencil';
+};
+
+export const getRequiredOverrides = (
+  overrides: Record<string, IFieldOverride>
+): Record<string, IFieldOverride> => {
+  const filtered = {};
+
+  Object.entries(overrides).forEach(([overrideKey, override]) => {
+    if (override.required) {
+      filtered[overrideKey] = override;
+    }
+  });
+
+  return filtered;
+};
+
+export const getNonRequiredOverrides = (
+  overrides: Record<string, IFieldOverride>
+): Record<string, IFieldOverride> => {
+  const filtered = {};
+
+  Object.entries(overrides).forEach(([overrideKey, override]) => {
+    if (!override.required) {
+      filtered[overrideKey] = override;
+    }
+  });
+
+  return filtered;
 };

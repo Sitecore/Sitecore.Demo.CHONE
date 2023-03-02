@@ -5,13 +5,12 @@ import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
-import { CREATE_EVENT_DISCARD_MESSAGE } from '../constants/event';
+import { CREATE_EVENT_DISCARD_MESSAGE, EVENT_INITIAL_STATE } from '../constants/event';
 import { FieldsEvent } from '../features/FieldsEvent/FieldsEvent';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { canSubmitEvent } from '../helpers/events';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
-import { Event } from '../interfaces/event';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
 
@@ -19,36 +18,20 @@ type Props = NativeStackScreenProps<RootStackParamList, 'CreateEventOverview'>;
 
 export const CreateEventOverviewScreen = ({ navigation }: Props) => {
   const [stateKey] = useState<string>(generateID());
-  const { contentItems, editMultiple, init, reset } = useContentItems();
-
-  const [fields, setFields] = useState<Partial<Event>>({
-    title: '',
-  });
-
-  const handleFieldChange = useCallback((key: string, value: any) => {
-    setFields((prevFields) => ({
-      ...prevFields,
-      [key]: value,
-    }));
-  }, []);
+  const { contentItems, init, reset } = useContentItems();
 
   const onDiscard = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const onAddDetails = useCallback(() => {
-    editMultiple({
-      id: stateKey,
-      fields,
-    });
-
     navigation.navigate('CreateEventDetailed', {
       stateKey,
-      title: `Review ${fields.title || 'Event'}`,
+      title: 'Review Event',
     });
-  }, [editMultiple, fields, navigation, stateKey]);
+  }, [navigation, stateKey]);
 
-  const isDisabled = !canSubmitEvent(fields, contentItems[stateKey]);
+  const isDisabled = !canSubmitEvent(contentItems[stateKey]);
 
   useEffect(() => {
     // init global state on mount
@@ -56,13 +39,7 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
     if (stateKey) {
       init({
         id: stateKey,
-        fields: {
-          sport: null,
-          featuredImage: null,
-          relatedMedia: [],
-          athletes: [],
-          similarEvents: [],
-        },
+        fields: EVENT_INITIAL_STATE,
       });
     }
   }, [init, reset, stateKey]);
@@ -93,10 +70,9 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
   return (
     <KeyboardAwareScreen>
       <FieldsEvent
-        fields={fields}
         initialRoute="CreateEventOverview"
-        handleFieldChange={handleFieldChange}
-        showLimitedFields
+        requiredOnly
+        showLimited
         stateKey={stateKey}
       />
       <BottomActions>
