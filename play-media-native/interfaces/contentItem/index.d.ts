@@ -23,7 +23,6 @@ export interface IFieldOverride {
   defaultValue: any;
   referenceType?: string;
   required: boolean;
-  renderItem: ReactNode;
   single: boolean;
   title: string;
   type: string;

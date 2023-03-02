@@ -11,6 +11,11 @@ export type RootStackParamList = {
   AddSport: undefined;
   AthleteDetail: { id: string };
   AthleteReview: { id: string };
+  CreateAthleteOverview: undefined;
+  CreateAthleteDetailed: {
+    stateKey: string;
+    title: string;
+  };
   CreateEventOverview: undefined;
   CreateEventDetailed: {
     stateKey: string;
@@ -29,6 +34,10 @@ export type RootStackParamList = {
   ManualConnection: undefined;
   QRCodeConnection: undefined;
   RemoveConnection: undefined;
+  ReviewAthlete: {
+    stateKey: string;
+    title: string;
+  };
   ReviewEvent: {
     stateKey: string;
     title: string;

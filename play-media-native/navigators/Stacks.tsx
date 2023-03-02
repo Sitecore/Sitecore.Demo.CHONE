@@ -14,6 +14,8 @@ import { QRCodeConnectionScreen } from '../screens/Connection/QRCodeConnection';
 import { RemoveConnectionScreen } from '../screens/Connection/RemoveConnection';
 import { SelectConnectionScreen } from '../screens/Connection/SelectConnection';
 import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
+import { CreateAthleteDetailedScreen } from '../screens/CreateAthleteDetailed';
+import { CreateAthleteOverviewScreen } from '../screens/CreateAthleteOverview';
 import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
 import { CreateEventOverviewScreen } from '../screens/CreateEventOverview';
 import { DiscardChangesScreen } from '../screens/DiscardChanges';
@@ -80,6 +82,16 @@ export const Stacks = () => {
         name="EditEvent"
         component={EditEventScreen}
         options={{ title: 'Edit Athlete Details' }}
+      />
+      <Stack.Screen
+        name="CreateAthleteOverview"
+        component={CreateAthleteOverviewScreen}
+        options={{ title: 'New Athlete' }}
+      />
+      <Stack.Screen
+        name="CreateAthleteDetailed"
+        component={CreateAthleteDetailedScreen}
+        options={{ title: 'New Athlete Details' }}
       />
       <Stack.Screen
         name="CreateEventOverview"

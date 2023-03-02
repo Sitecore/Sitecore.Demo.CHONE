@@ -18,7 +18,6 @@ export const FIELD_OVERRIDES_EVENT = {
   body: {
     defaultValue: null,
     required: false,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.RichText,
     title: 'Body',
@@ -26,7 +25,6 @@ export const FIELD_OVERRIDES_EVENT = {
   isFeatured: {
     defaultValue: false,
     required: false,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.Boolean,
     title: 'Is featured?',
@@ -34,7 +32,6 @@ export const FIELD_OVERRIDES_EVENT = {
   location: {
     defaultValue: '',
     required: false,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.ShortText,
     title: 'Location',
@@ -42,7 +39,6 @@ export const FIELD_OVERRIDES_EVENT = {
   title: {
     defaultValue: '',
     required: true,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.ShortText,
     title: 'Title',
@@ -50,7 +46,6 @@ export const FIELD_OVERRIDES_EVENT = {
   teaser: {
     defaultValue: '',
     required: false,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.ShortText,
     title: 'Teaser',
@@ -58,7 +53,6 @@ export const FIELD_OVERRIDES_EVENT = {
   timeAndDate: {
     defaultValue: null,
     required: false,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.Date,
     title: 'Time & Date',
@@ -67,7 +61,6 @@ export const FIELD_OVERRIDES_EVENT = {
     defaultValue: null,
     referenceType: CONTENT_TYPES.SPORT,
     required: true,
-    renderItem: null,
     single: true,
     type: FIELD_TYPES.Reference,
     title: 'Sport',
@@ -75,7 +68,6 @@ export const FIELD_OVERRIDES_EVENT = {
   featuredImage: {
     defaultValue: null,
     required: false,
-    renderItem: null,
     single: true,
     type: FIELD_TYPES.Media,
     title: 'Featured Image',
@@ -83,7 +75,6 @@ export const FIELD_OVERRIDES_EVENT = {
   relatedMedia: {
     defaultValue: [],
     required: false,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.Media,
     title: 'Related Media',
@@ -92,7 +83,6 @@ export const FIELD_OVERRIDES_EVENT = {
     defaultValue: [],
     referenceType: CONTENT_TYPES.ATHLETE,
     required: false,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.Reference,
     title: 'Athletes',
@@ -101,7 +91,6 @@ export const FIELD_OVERRIDES_EVENT = {
     defaultValue: [],
     referenceType: CONTENT_TYPES.EVENT,
     required: false,
-    renderItem: null,
     single: false,
     type: FIELD_TYPES.Reference,
     title: 'Related Events',
