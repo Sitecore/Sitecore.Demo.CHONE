@@ -56,7 +56,7 @@ export const EditAthleteDetailsScreen = ({ route, navigation }) => {
   const { data, isFetching: isFetchingAthletes } = useQuery(
     'editathlete',
     () => getAthleteById(route.params.id),
-    { onSuccess: (data) => setAthleteData(data.athlete) }
+    { staleTime: 0, onSuccess: (data) => setAthleteData(data.athlete) }
   );
   const athlete = data?.athlete;
 
