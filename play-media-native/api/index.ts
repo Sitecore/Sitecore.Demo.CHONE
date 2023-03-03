@@ -1,5 +1,5 @@
+import { getSelectedConnection } from '../helpers/connections';
 import { FetchOptions } from '../interfaces/fetchOptions';
-import { store } from '../store';
 
 type GraphQLResponseWithErrors = {
   errors: unknown[];
@@ -10,9 +10,10 @@ type GraphQLResponseWithErrors = {
 // Preview URL and API key are passed in as parameters, to validate the fields provided.
 //
 export async function fetchGraphQL(query: string, options?: FetchOptions): Promise<unknown> {
-  const apiKey = options?.apiKey || store.getState().connections.selectedConnection?.apiKey;
-  const previewUrl =
-    options?.previewUrl || store.getState().connections.selectedConnection?.previewUrl;
+  const selectedConnection = await getSelectedConnection();
+
+  const apiKey = options?.apiKey || selectedConnection?.apiKey;
+  const previewUrl = options?.previewUrl || selectedConnection?.previewUrl;
 
   try {
     return await fetch(previewUrl, {
