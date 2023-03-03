@@ -103,31 +103,29 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       mapContentItemToId
     );
 
-    console.log('\n\nrequestFields', requestFields);
-
     // Delete the id, name from the request fields to avoid errors
-    // delete requestFields.id;
-    // delete requestFields.name;
+    delete requestFields.id;
+    delete requestFields.name;
 
-    // if (isNew) {
-    //   await createContentItem({
-    //     contentTypeId: CONTENT_TYPES.EVENT,
-    //     name: event.name,
-    //     fields: requestFields,
-    //   })
-    //     .then((res: { id: string; name: string }) => processResponse(res))
-    //     .catch(() => setShowErrorToast(true))
-    //     .finally(() => setIsValidating(false));
-    // } else {
-    //   await updateContentItem({
-    //     id: event.id,
-    //     name: event.name,
-    //     fields: requestFields,
-    //   })
-    //     .then((res: { id: string; name: string }) => processResponse(res))
-    //     .catch(() => setShowErrorToast(true))
-    //     .finally(() => setIsValidating(false));
-    // }
+    if (isNew) {
+      await createContentItem({
+        contentTypeId: CONTENT_TYPES.EVENT,
+        name: event.name,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
+    } else {
+      await updateContentItem({
+        id: event.id,
+        name: event.name,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
+    }
   }, [event, isNew, processResponse]);
 
   const bottomActions = useMemo(

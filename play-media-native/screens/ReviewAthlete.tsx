@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { ActivityIndicator, Button, Text } from 'react-native-paper';
+import { ActivityIndicator, Button } from 'react-native-paper';
 
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
 import { BottomActions } from '../components/BottomActions/BottomActions';
@@ -103,31 +103,29 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       mapContentItemToId
     );
 
-    console.log('\n\nrequestFields', requestFields);
-
     // Delete the id, name from the request fields to avoid errors
-    // delete requestFields.id;
-    // delete requestFields.name;
+    delete requestFields.id;
+    delete requestFields.name;
 
-    // if (isNew) {
-    //   await createContentItem({
-    //     contentTypeId: CONTENT_TYPES.EVENT,
-    //     name: athlete.athleteName,
-    //     fields: requestFields,
-    //   })
-    //     .then((res: { id: string; name: string }) => processResponse(res))
-    //     .catch(() => setShowErrorToast(true))
-    //     .finally(() => setIsValidating(false));
-    // } else {
-    //   await updateContentItem({
-    //     id: athlete.id,
-    //     name: athlete.athleteName,
-    //     fields: requestFields,
-    //   })
-    //     .then((res: { id: string; name: string }) => processResponse(res))
-    //     .catch(() => setShowErrorToast(true))
-    //     .finally(() => setIsValidating(false));
-    // }
+    if (isNew) {
+      await createContentItem({
+        contentTypeId: CONTENT_TYPES.EVENT,
+        name: athlete.athleteName,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
+    } else {
+      await updateContentItem({
+        id: athlete.id,
+        name: athlete.athleteName,
+        fields: requestFields,
+      })
+        .then((res: { id: string; name: string }) => processResponse(res))
+        .catch(() => setShowErrorToast(true))
+        .finally(() => setIsValidating(false));
+    }
   }, [athlete, isNew, processResponse]);
 
   const bottomActions = useMemo(
