@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
@@ -7,7 +7,7 @@ import { Athlete } from '../../interfaces/athlete';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { CardShadowBox } from '../CardShadowBox/CardShadowBox';
-import { AthleteImages } from '../Screens/AthleteImages';
+import { ImageGrid } from '../ImageGrid/ImageGrid';
 
 const pageStyles = StyleSheet.create({
   sportAndNameContainer: {
@@ -62,6 +62,29 @@ const pageStyles = StyleSheet.create({
     marginBottom: theme.spacing.md,
     fontFamily: theme.fontFamily.bold,
   },
+  imageContainer: {
+    paddingTop: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+  },
+  imageLabel: {
+    color: theme.colors.gray.DEFAULT,
+    marginBottom: theme.spacing.xs,
+  },
+  imageItem: {
+    height: 300,
+    width: '100%',
+    marginTop: theme.spacing.xs,
+  },
+  imageGrid: {
+    marginTop: theme.spacing.xs,
+    marginBottom: theme.spacing.xl,
+  },
+  imageBtns: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    marginBottom: theme.spacing.sm,
+  },
 });
 
 const ShadowBoxField = ({ title, value }: { title: string; value: string }) => {
@@ -77,22 +100,21 @@ const ShadowBoxField = ({ title, value }: { title: string; value: string }) => {
   );
 };
 
-export const AthleteDetail = ({ athlete, isReview }: { athlete: Athlete; isReview?: boolean }) => {
-  const accentColor =
-    getAccentColor(athlete?.sport?.results[0]?.title) || theme.colors.gray.DEFAULT;
+export const AthleteDetail = ({ athlete }: { athlete: Athlete; isReview?: boolean }) => {
+  const accentColor = getAccentColor(athlete?.sport?.title) || theme.colors.gray.DEFAULT;
   const textColor = getTextColor(accentColor) || theme.colors.white.DEFAULT;
 
   const showShadowBox =
     athlete?.nationality || athlete?.hobby || athlete?.dateOfBirth || athlete?.careerStartDate;
 
   if (!athlete) {
-    return <Text>Event not available!</Text>;
+    return <Text>Athlete not available!</Text>;
   }
 
   return (
     <View>
       <View style={pageStyles.sportAndNameContainer}>
-        {athlete?.sport?.results[0]?.title && (
+        {athlete?.sport?.title && (
           <View style={{ marginRight: theme.spacing.xl }}>
             <Text style={[pageStyles.label, { paddingHorizontal: theme.spacing.sm }]}>Sport</Text>
             <Text
@@ -105,7 +127,7 @@ export const AthleteDetail = ({ athlete, isReview }: { athlete: Athlete; isRevie
                 },
               ]}
             >
-              {athlete.sport.results[0].title}
+              {athlete.sport.title}
             </Text>
           </View>
         )}
@@ -157,7 +179,38 @@ export const AthleteDetail = ({ athlete, isReview }: { athlete: Athlete; isRevie
             </CardShadowBox>
           </View>
         )}
-        {athlete?.relatedMedia?.results?.length && <AthleteImages athlete={athlete} />}
+        {athlete?.profilePhoto?.fileUrl && (
+          <View style={pageStyles.imageContainer}>
+            <Text style={pageStyles.imageLabel}>Profile photo</Text>
+            <Image
+              source={{
+                uri: athlete.profilePhoto.fileUrl,
+              }}
+              style={pageStyles.imageItem}
+            />
+          </View>
+        )}
+
+        {athlete?.featuredImage?.fileUrl && (
+          <View style={pageStyles.imageContainer}>
+            <Text style={pageStyles.imageLabel}>Featured image</Text>
+            <Image
+              source={{
+                uri: athlete.featuredImage.fileUrl,
+              }}
+              style={pageStyles.imageItem}
+            />
+          </View>
+        )}
+        {athlete?.relatedMedia?.length > 0 && (
+          <View style={pageStyles.imageContainer}>
+            <Text style={pageStyles.imageLabel}>Related media</Text>
+            <ImageGrid
+              style={pageStyles.imageGrid}
+              images={athlete.relatedMedia.map((img) => img.fileUrl)}
+            />
+          </View>
+        )}
       </View>
     </View>
   );

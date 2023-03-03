@@ -6,10 +6,14 @@ import { createContentItem, updateContentItem } from '../api/queries/contentItem
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { CONTENT_TYPES } from '../constants/contentTypes';
+import { FIELD_OVERRIDES_EVENT } from '../constants/event';
 import { EventDetail } from '../features/EventDetail/EventDetail';
 import { Screen } from '../features/Screen/Screen';
-import { mapContentItem } from '../helpers/contentItemHelper';
-import { prepareRequestFields } from '../helpers/events';
+import {
+  mapContentItem,
+  mapContentItemToId,
+  prepareRequestFields,
+} from '../helpers/contentItemHelper';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
@@ -91,36 +95,39 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   }, []);
 
   const handleSubmitBtn = useCallback(async () => {
-    setIsValidating(true);
+    // setIsValidating(true);
 
-    //  Map eventToReview object to a form suitable for the API request
-    const requestFields = mapContentItem(prepareRequestFields(event), (k, v) => ({
-      value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
-    }));
+    // Map eventToReview object to a form suitable for the API request
+    const requestFields = mapContentItem(
+      prepareRequestFields(event, FIELD_OVERRIDES_EVENT),
+      mapContentItemToId
+    );
+
+    console.log('\n\nrequestFields', requestFields);
 
     // Delete the id, name from the request fields to avoid errors
-    delete requestFields.id;
-    delete requestFields.name;
+    // delete requestFields.id;
+    // delete requestFields.name;
 
-    if (isNew) {
-      await createContentItem({
-        contentTypeId: CONTENT_TYPES.EVENT,
-        name: event.name,
-        fields: requestFields,
-      })
-        .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
-        .finally(() => setIsValidating(false));
-    } else {
-      await updateContentItem({
-        id: event.id,
-        name: event.name,
-        fields: requestFields,
-      })
-        .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
-        .finally(() => setIsValidating(false));
-    }
+    // if (isNew) {
+    //   await createContentItem({
+    //     contentTypeId: CONTENT_TYPES.EVENT,
+    //     name: event.name,
+    //     fields: requestFields,
+    //   })
+    //     .then((res: { id: string; name: string }) => processResponse(res))
+    //     .catch(() => setShowErrorToast(true))
+    //     .finally(() => setIsValidating(false));
+    // } else {
+    //   await updateContentItem({
+    //     id: event.id,
+    //     name: event.name,
+    //     fields: requestFields,
+    //   })
+    //     .then((res: { id: string; name: string }) => processResponse(res))
+    //     .catch(() => setShowErrorToast(true))
+    //     .finally(() => setIsValidating(false));
+    // }
   }, [event, isNew, processResponse]);
 
   const bottomActions = useMemo(

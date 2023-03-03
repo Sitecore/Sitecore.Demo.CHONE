@@ -5,11 +5,15 @@ import { ActivityIndicator, Button, Text } from 'react-native-paper';
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
+import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
 import { CONTENT_TYPES } from '../constants/contentTypes';
 import { AthleteDetail } from '../features/AthleteDetail/AthleteDetail';
 import { Screen } from '../features/Screen/Screen';
-import { mapContentItem } from '../helpers/contentItemHelper';
-import { prepareRequestFields } from '../helpers/events';
+import {
+  mapContentItem,
+  mapContentItemToId,
+  prepareRequestFields,
+} from '../helpers/contentItemHelper';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
@@ -91,36 +95,39 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   }, []);
 
   const handleSubmitBtn = useCallback(async () => {
-    setIsValidating(true);
+    // setIsValidating(true);
 
-    //  Map athleteToReview object to a form suitable for the API request
-    const requestFields = mapContentItem(prepareRequestFields(athlete), (k, v) => ({
-      value: v?.['results'] ? [...v['results'].map((obj: { id: string }) => ({ id: obj.id }))] : v,
-    }));
+    // Map athleteToReview object to a form suitable for the API request
+    const requestFields = mapContentItem(
+      prepareRequestFields(athlete, FIELD_OVERRIDES_ATHLETE),
+      mapContentItemToId
+    );
+
+    console.log('\n\nrequestFields', requestFields);
 
     // Delete the id, name from the request fields to avoid errors
-    delete requestFields.id;
-    delete requestFields.name;
+    // delete requestFields.id;
+    // delete requestFields.name;
 
-    if (isNew) {
-      await createContentItem({
-        contentTypeId: CONTENT_TYPES.EVENT,
-        name: athlete.athleteName,
-        fields: requestFields,
-      })
-        .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
-        .finally(() => setIsValidating(false));
-    } else {
-      await updateContentItem({
-        id: athlete.id,
-        name: athlete.athleteName,
-        fields: requestFields,
-      })
-        .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
-        .finally(() => setIsValidating(false));
-    }
+    // if (isNew) {
+    //   await createContentItem({
+    //     contentTypeId: CONTENT_TYPES.EVENT,
+    //     name: athlete.athleteName,
+    //     fields: requestFields,
+    //   })
+    //     .then((res: { id: string; name: string }) => processResponse(res))
+    //     .catch(() => setShowErrorToast(true))
+    //     .finally(() => setIsValidating(false));
+    // } else {
+    //   await updateContentItem({
+    //     id: athlete.id,
+    //     name: athlete.athleteName,
+    //     fields: requestFields,
+    //   })
+    //     .then((res: { id: string; name: string }) => processResponse(res))
+    //     .catch(() => setShowErrorToast(true))
+    //     .finally(() => setIsValidating(false));
+    // }
   }, [athlete, isNew, processResponse]);
 
   const bottomActions = useMemo(
@@ -147,18 +154,10 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     [handleDraft, handleSubmitBtn]
   );
 
-  if (!athlete) {
-    return (
-      <Screen centered>
-        <Text>Athlete not available!</Text>
-      </Screen>
-    );
-  }
-
   return (
     <Screen>
-      <ScrollView scrollEventThrottle={0} style={styles.screenPadding}>
-        <AthleteDetail athlete={athlete} isReview />
+      <ScrollView scrollEventThrottle={0}>
+        <AthleteDetail athlete={athlete} />
         <View style={{ paddingBottom: 50 }} />
       </ScrollView>
       {isValidating && (
