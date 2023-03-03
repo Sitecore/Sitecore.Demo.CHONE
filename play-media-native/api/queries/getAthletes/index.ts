@@ -76,6 +76,10 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
         featuredImage {
@@ -84,6 +88,10 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
         isFeatured
@@ -107,6 +115,10 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
       }
