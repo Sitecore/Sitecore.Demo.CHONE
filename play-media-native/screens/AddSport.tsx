@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
@@ -90,12 +91,13 @@ export const AddSportsScreen = ({ navigation, route }) => {
 
   const renderItem = useCallback(
     ({ item }) => (
-      <CardSport
-        item={item as Sport}
-        onPress={() => (single ? onSelectSingle(item) : onSelect(item))}
-        selected={selectedSportIDs.includes(item.id)}
-        style={{ flex: 0.5, margin: theme.spacing.xxs }}
-      />
+      <View style={{ flex: 0.5, margin: theme.spacing.xxs }}>
+        <CardSport
+          item={item as Sport}
+          onPress={() => (single ? onSelectSingle(item) : onSelect(item))}
+          selected={selectedSportIDs.includes(item.id)}
+        />
+      </View>
     ),
     [onSelect, onSelectSingle, selectedSportIDs, single]
   );
@@ -129,8 +131,6 @@ export const AddSportsScreen = ({ navigation, route }) => {
     [noneSelected, onCancel, onSubmit, selectedSportIDs.length, single]
   );
 
-  console.log('initialSelectedIDs', initialSelectedIDs);
-
   return (
     <Screen>
       <Listing
@@ -141,7 +141,7 @@ export const AddSportsScreen = ({ navigation, route }) => {
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingSports}
-        style={{ marginBottom: 70 }}
+        style={{ flex: 1, marginBottom: 70 }}
       />
       {bottomActions}
     </Screen>
