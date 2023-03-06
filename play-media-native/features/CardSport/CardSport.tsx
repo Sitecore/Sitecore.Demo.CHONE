@@ -41,9 +41,7 @@ export const CardSport = ({
               </Text>
             </>
           ) : (
-            <View style={{ position: 'relative', width: '100%' }}>
-              <Text>{item?.title || ''}</Text>
-            </View>
+            <Text>{item?.title || ''}</Text>
           )}
         </View>
       </Card.Content>
