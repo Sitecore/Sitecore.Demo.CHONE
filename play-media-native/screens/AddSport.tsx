@@ -3,7 +3,6 @@ import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Listing } from '../components/Listing/Listing';
-import { SelectableView } from '../components/SelectableView/SelectableView';
 import { CardSport } from '../features/CardSport/CardSport';
 import { Screen } from '../features/Screen/Screen';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
@@ -35,7 +34,7 @@ export const AddSportsScreen = ({ navigation, route }) => {
 
     return contentItems[stateKey][fieldKey]?.id || [];
   }, [contentItems, fieldKey, stateKey]);
-  const [selectedSportIDs, setSelectedSportIDs] = useState<string[]>([initialSelectedIDs]);
+  const [selectedSportIDs, setSelectedSportIDs] = useState<string[]>(initialSelectedIDs);
   const noneSelected = !selectedSportIDs?.length;
 
   const edit = useCallback(
@@ -63,13 +62,13 @@ export const AddSportsScreen = ({ navigation, route }) => {
     (sport: Sport) => {
       editFields({
         id: stateKey,
-        key: route.params.key,
+        key: fieldKey,
         value: sport,
       });
 
       navigation.navigate(initialRoute);
     },
-    [editFields, initialRoute, navigation, route.params.key, stateKey]
+    [editFields, initialRoute, navigation, fieldKey, stateKey]
   );
 
   const onCancel = useCallback(() => {
@@ -89,29 +88,48 @@ export const AddSportsScreen = ({ navigation, route }) => {
     navigation.navigate(initialRoute);
   }, [edit, fieldKey, initialRoute, navigation, selectedSportIDs, sports]);
 
-  if (single) {
-    return (
-      <Screen>
-        <Listing
-          data={sports}
-          isLoading={isFetchingInitialSports}
-          numColumns={2}
-          renderItem={({ item }) => (
-            <CardSport
-              item={item as Sport}
-              onPress={() => onSelectSingle(item)}
-              selected={selectedSportIDs.includes(item.id)}
-              style={{ flex: 0.5, margin: theme.spacing.xxs }}
-            />
-          )}
-          onScroll={calcScrollOffset}
-          onRefresh={handleRefresh}
-          isRefreshing={isRefetchingSports}
-          style={{ marginBottom: 70 }}
-        />
-      </Screen>
-    );
-  }
+  const renderItem = useCallback(
+    ({ item }) => (
+      <CardSport
+        item={item as Sport}
+        onPress={() => (single ? onSelectSingle(item) : onSelect(item))}
+        selected={selectedSportIDs.includes(item.id)}
+        style={{ flex: 0.5, margin: theme.spacing.xxs }}
+      />
+    ),
+    [onSelect, onSelectSingle, selectedSportIDs, single]
+  );
+
+  const bottomActions = useMemo(
+    () => (
+      <>
+        {!single && (
+          <BottomActions>
+            <Button
+              mode="outlined"
+              labelStyle={styles.buttonLabel}
+              style={styles.button}
+              onPress={onCancel}
+            >
+              Discard
+            </Button>
+            <Button
+              disabled={noneSelected}
+              mode="contained"
+              labelStyle={styles.buttonLabel}
+              style={styles.button}
+              onPress={onSubmit}
+            >
+              {noneSelected ? 'Add' : `Add ${selectedSportIDs.length}`}
+            </Button>
+          </BottomActions>
+        )}
+      </>
+    ),
+    [noneSelected, onCancel, onSubmit, selectedSportIDs.length, single]
+  );
+
+  console.log('initialSelectedIDs', initialSelectedIDs);
 
   return (
     <Screen>
@@ -119,38 +137,13 @@ export const AddSportsScreen = ({ navigation, route }) => {
         data={sports}
         isLoading={isFetchingInitialSports}
         numColumns={2}
-        renderItem={({ item }) => (
-          <SelectableView
-            onSelect={() => (single ? onSelectSingle(item) : onSelect(item))}
-            selected={selectedSportIDs.includes(item.id)}
-          >
-            <CardSport item={item as Sport} style={{ width: '50%' }} />
-          </SelectableView>
-        )}
+        renderItem={renderItem}
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingSports}
         style={{ marginBottom: 70 }}
       />
-      <BottomActions>
-        <Button
-          mode="outlined"
-          labelStyle={styles.buttonLabel}
-          style={styles.button}
-          onPress={onCancel}
-        >
-          Discard
-        </Button>
-        <Button
-          disabled={noneSelected}
-          mode="contained"
-          labelStyle={styles.buttonLabel}
-          style={styles.button}
-          onPress={onSubmit}
-        >
-          {noneSelected ? 'Add' : `Add ${selectedSportIDs.length}`}
-        </Button>
-      </BottomActions>
+      {bottomActions}
     </Screen>
   );
 };
