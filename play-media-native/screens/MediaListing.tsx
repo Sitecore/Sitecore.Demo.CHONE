@@ -9,7 +9,7 @@ import { MediaItemCardDisplay } from '../features/MediaItemCardDisplay/MediaItem
 import { MediaItemListDisplay } from '../features/MediaItemListDisplay/MediaItemListDisplay';
 import { Screen } from '../features/Screen/Screen';
 import { ListingImageDisplayType } from '../features/SelectDisplayButtons/SelectDisplayButtons';
-import { getFileTypeOptions } from '../helpers/facets';
+import { getFileTypeOptions, getStatusOptions } from '../helpers/facets';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
@@ -40,9 +40,8 @@ export const MediaListingScreen = ({ navigation }) => {
   });
 
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
-  const fileTypeOptions = useMemo(() => {
-    return getFileTypeOptions(images);
-  }, [images]);
+  const fileTypeOptions = useMemo(() => getFileTypeOptions(images), [images]);
+  const statusOptions = useMemo(() => getStatusOptions(images), [images]);
 
   const handleRefresh = useCallback(() => {
     refetchMedia();
@@ -65,7 +64,7 @@ export const MediaListingScreen = ({ navigation }) => {
 
   return (
     <Screen>
-      <MediaFilters fileTypeOptions={fileTypeOptions} statusOptions={[]} />
+      <MediaFilters fileTypeOptions={fileTypeOptions} statusOptions={statusOptions} />
       <View style={{ marginBottom: 120 }}>
         <ListingImages
           images={filteredImages as Media[]}

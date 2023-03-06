@@ -1,6 +1,7 @@
 import { EVENT_FACETS } from '../constants/filters';
 import { Event, EventResponse } from '../interfaces/event';
 import { Sport } from '../interfaces/sport';
+import { StatusResult } from '../interfaces/statusResults';
 
 export const initializeEvents = (events: Event[], sports: Sport[]) => {
   if (!events || !sports) {
@@ -20,10 +21,13 @@ export const removeAlreadySelected = (events: Event[], existingEvents: Event[]) 
   return events.filter((event) => !existingEventIDs.includes(event.id));
 };
 
-export const normalizeEvent = (event: EventResponse) => {
+export const normalizeEvent = (event: EventResponse, statusResults: StatusResult[]) => {
+  const eventStatus = statusResults.find((item) => item.id === event.id)?.status;
+
   return {
     id: event.id,
     name: event.name,
+    status: eventStatus,
     title: event.title,
     sport: event.sport?.results[0] || null,
     isFeatured: event.isFeatured,
@@ -35,7 +39,9 @@ export const normalizeEvent = (event: EventResponse) => {
     body: event.body,
     athletes: event.athletes?.results || [],
     similarEvents: event.similarEvents?.results?.length
-      ? event.similarEvents.results.map((item) => normalizeEvent(item as EventResponse))
+      ? event.similarEvents.results.map((item) =>
+          normalizeEvent(item as EventResponse, statusResults)
+        )
       : [],
   };
 };

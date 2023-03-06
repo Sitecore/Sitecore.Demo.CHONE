@@ -49,6 +49,7 @@ export const CardEvent = ({ item, onCardPress }: { item: Event; onCardPress?: ()
               </Text>
               <Text style={{ color: theme.colors.gray.DEFAULT }}>{rightLabel}</Text>
             </View>
+            <Text style={{ color: theme.colors.gray.DEFAULT }}>{item.status}</Text>
             <View>
               <Text variant="titleMedium">{item.title}</Text>
             </View>
