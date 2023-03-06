@@ -30,6 +30,7 @@ export type RootStackParamList = {
   QRCodeConnection: undefined;
   RemoveConnection: undefined;
   ReviewEvent: {
+    isNew: boolean;
     stateKey: string;
     title: string;
   };

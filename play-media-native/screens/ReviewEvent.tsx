@@ -42,6 +42,7 @@ const pageStyles = StyleSheet.create({
 
 export const ReviewEventScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
+  const isNew = route?.params?.isNew;
 
   const { contentItems } = useContentItems();
   const event = contentItems[stateKey] as Event;
@@ -52,8 +53,6 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
-
-  const isNew = route?.params?.isNew;
 
   useEffect(() => {
     navigation.setOptions({
@@ -105,7 +104,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     if (isNew) {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
-        name: event.name,
+        name: event.title,
         fields: requestFields,
       })
         .then((res: { id: string; name: string }) => processResponse(res))

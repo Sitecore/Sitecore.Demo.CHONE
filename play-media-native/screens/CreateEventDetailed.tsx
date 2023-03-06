@@ -36,6 +36,7 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
 
   const onReview = useCallback(() => {
     navigation.navigate('ReviewEvent', {
+      isNew: true,
       stateKey,
       title: `Review ${event?.title || 'Event'}`,
     });
