@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
@@ -97,17 +98,18 @@ export const AddSportsScreen = ({ navigation, route }) => {
           isLoading={isFetchingInitialSports}
           numColumns={2}
           renderItem={({ item }) => (
-            <CardSport
-              item={item as Sport}
-              onPress={() => onSelectSingle(item)}
-              selected={selectedSportIDs.includes(item.id)}
-              style={{ flex: 0.5, margin: theme.spacing.xxs }}
-            />
+            <View style={{ flex: 0.5, margin: theme.spacing.xxs }}>
+              <CardSport
+                item={item as Sport}
+                onPress={() => onSelectSingle(item)}
+                selected={selectedSportIDs.includes(item.id)}
+              />
+            </View>
           )}
           onScroll={calcScrollOffset}
           onRefresh={handleRefresh}
           isRefreshing={isRefetchingSports}
-          style={{ marginBottom: 70 }}
+          style={{ flex: 1, marginBottom: 70 }}
         />
       </Screen>
     );
@@ -123,14 +125,15 @@ export const AddSportsScreen = ({ navigation, route }) => {
           <SelectableView
             onSelect={() => (single ? onSelectSingle(item) : onSelect(item))}
             selected={selectedSportIDs.includes(item.id)}
+            style={{ flex: 0.5, margin: theme.spacing.xxs }}
           >
-            <CardSport item={item as Sport} style={{ width: '50%' }} />
+            <CardSport item={item as Sport} />
           </SelectableView>
         )}
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingSports}
-        style={{ marginBottom: 70 }}
+        style={{ flex: 1, marginBottom: 70 }}
       />
       <BottomActions>
         <Button
