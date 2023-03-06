@@ -33,6 +33,7 @@ export const MediaItemCardDisplay = ({ item }: { item: Media }) => {
           <Field title="Description" value={item.description} />
           <Field title="File type" value={getFileType(item)} />
           <Field title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
+          <Field title="Status" value={item.status} />
         </View>
       </Card.Content>
     </Card>

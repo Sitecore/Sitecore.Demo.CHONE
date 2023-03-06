@@ -39,6 +39,7 @@ export interface AllEventsResponse {
 export interface Event {
   id: string;
   name: string;
+  status: string;
   title: string;
   sport: Sport;
   isFeatured: boolean;

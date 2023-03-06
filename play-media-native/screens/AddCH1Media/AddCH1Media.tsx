@@ -10,7 +10,7 @@ import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { MEDIA_FACETS } from '../../constants/filters';
 import { MEDIA_SOURCES } from '../../constants/media';
 import { Screen } from '../../features/Screen/Screen';
-import { getFileTypeOptions } from '../../helpers/facets';
+import { getFileTypeOptions, getStatusOptions } from '../../helpers/facets';
 import { removeAlreadySelected } from '../../helpers/media';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { useSearchFacets } from '../../hooks/useFacets/useFacets';
@@ -51,7 +51,8 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
     query: searchQuery,
   });
 
-  const fileTypeOptions = getFileTypeOptions(images);
+  const fileTypeOptions = useMemo(() => getFileTypeOptions(images), [images]);
+  const statusOptions = useMemo(() => getStatusOptions(images), [images]);
 
   const facetFilters = useMemo(
     () => [
@@ -64,11 +65,11 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
       {
         id: MEDIA_FACETS.status,
         label: 'State',
-        facets: [],
+        facets: statusOptions,
         selectedValue: '',
       },
     ],
-    [fileTypeOptions]
+    [fileTypeOptions, statusOptions]
   );
 
   const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {

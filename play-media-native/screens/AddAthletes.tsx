@@ -11,7 +11,7 @@ import { ATHLETE_FACETS } from '../constants/filters';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes, removeAlreadySelected } from '../helpers/athletes';
-import { getNationalityOptions, getSportOptions } from '../helpers/facets';
+import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
@@ -62,25 +62,25 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   const [selectedAthleteIDs, setSelectedAthleteIDs] = useState<string[]>([]);
   const noneSelected = !selectedAthleteIDs?.length;
 
-  const nationalityOptions = useMemo(() => getNationalityOptions(athletes), [athletes]);
+  const statusOptions = useMemo(() => getStatusOptions(athletes), [athletes]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
 
   const facetFilters = useMemo(
     () => [
-      {
-        id: ATHLETE_FACETS.nationality,
-        label: 'Nationality',
-        facets: nationalityOptions,
-        selectedValue: facets?.[ATHLETE_FACETS.nationality],
-      },
       {
         id: ATHLETE_FACETS.sport,
         label: 'Sport',
         facets: sportOptions,
         selectedValue: facets?.[ATHLETE_FACETS.sport],
       },
+      {
+        id: ATHLETE_FACETS.status,
+        label: 'Status',
+        facets: statusOptions,
+        selectedValue: facets?.[ATHLETE_FACETS.status],
+      },
     ],
-    [facets, nationalityOptions, sportOptions]
+    [facets, sportOptions, statusOptions]
   );
 
   const edit = useCallback(

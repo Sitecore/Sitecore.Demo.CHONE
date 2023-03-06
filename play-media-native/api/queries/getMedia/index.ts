@@ -1,6 +1,7 @@
 import { fetchGraphQL } from '../..';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
 import { AllMediaResponse, Media } from '../../../interfaces/media';
+import { getItemsStatus } from '../getItemsStatus/getItemsStatus';
 
 const mediaQuery = `
 query {
@@ -22,11 +23,13 @@ query {
 
 export const getAllMedia = async (options?: FetchOptions): Promise<Media[]> => {
   const results: AllMediaResponse = (await fetchGraphQL(mediaQuery, options)) as AllMediaResponse;
+  const statusResults = await getItemsStatus('media');
   const media: Partial<Media>[] = [];
 
   results.data.allMedia.results.forEach((item: Partial<Media>) => {
     media.push({
       id: item.id,
+      status: statusResults.find((statusItem) => statusItem.id === item.id)?.status,
       description: item.description,
       fileHeight: item.fileHeight,
       fileSize: item.fileSize,

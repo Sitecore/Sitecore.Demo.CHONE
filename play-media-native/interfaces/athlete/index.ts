@@ -3,6 +3,7 @@ import { Sport } from '../sport';
 
 export interface Athlete {
   id: string;
+  status: string;
   athleteName: string;
   profilePhoto: {
     results: Media[];

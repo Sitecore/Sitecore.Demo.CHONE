@@ -8,7 +8,7 @@ import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes } from '../helpers/athletes';
-import { getNationalityOptions, getSportOptions } from '../helpers/facets';
+import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
@@ -42,7 +42,7 @@ export const AthletesListingScreen = ({ navigation }) => {
 
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
-  const nationalityOptions = useMemo(() => getNationalityOptions(athletes), [athletes]);
+  const statusOptions = useMemo(() => getStatusOptions(athletes), [athletes]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
 
   const handleRefresh = useCallback(() => {
@@ -72,7 +72,7 @@ export const AthletesListingScreen = ({ navigation }) => {
   return (
     <Screen>
       <StatusBar barStyle="light-content" />
-      <AthleteFilters nationalityOptions={nationalityOptions} sportOptions={sportOptions} />
+      <AthleteFilters statusOptions={statusOptions} sportOptions={sportOptions} />
       <Listing
         data={filteredAthletes}
         renderItem={renderItem}
