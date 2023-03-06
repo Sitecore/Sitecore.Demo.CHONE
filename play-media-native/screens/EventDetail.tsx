@@ -36,7 +36,11 @@ export const EventDetailScreen = ({ route, navigation }) => {
   const id = route?.params?.id;
   const isEditForbidden = route?.params?.isEditForbidden;
 
-  const { data: event, error, isFetching } = useQuery(`event-id-${id}`, () => getEventById(id), {});
+  const {
+    data: event,
+    error,
+    isFetching,
+  } = useQuery(`event-id-${id}`, () => getEventById(id), { staleTime: 0 });
 
   const { init } = useContentItems();
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);

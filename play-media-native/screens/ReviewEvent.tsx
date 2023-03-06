@@ -11,6 +11,7 @@ import { Screen } from '../features/Screen/Screen';
 import { mapContentItem } from '../helpers/contentItemHelper';
 import { prepareRequestFields } from '../helpers/events';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
+import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
@@ -47,7 +48,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const { contentItems } = useContentItems();
   const event = contentItems[stateKey] as Event;
 
-  const [newEventID, setNewEventID] = useState(undefined);
+  const { refetch: refetchListing } = useEventsQuery();
 
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -61,6 +62,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   }, [event, navigation]);
 
   // Hide bottom action buttons if a loading indicator or a toaster is shown
+  //
   useEffect(() => {
     if (isValidating || showSuccessToast || showErrorToast) {
       setShouldShowBottomActions(false);
@@ -69,17 +71,9 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     }
   }, [isValidating, showSuccessToast, showErrorToast]);
 
-  const processResponse = useCallback((res: { id: string; name: string }) => {
-    setNewEventID(res.id);
-    setShowSuccessToast(true);
-  }, []);
-
   const handleSuccessToastDismiss = useCallback(() => {
     setShowSuccessToast(false);
-    navigation.navigate('MainTabs', {
-      id: newEventID,
-    });
-  }, [navigation, newEventID]);
+  }, []);
 
   const handleErrorToastDismiss = useCallback(() => {
     setShowErrorToast(false);
@@ -107,20 +101,34 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         name: event.title,
         fields: requestFields,
       })
-        .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
-        .finally(() => setIsValidating(false));
+        .then(() => {
+          refetchListing();
+          setShowSuccessToast(true);
+          setIsValidating(false);
+          navigation.navigate('MainTabs');
+        })
+        .catch(() => {
+          setShowErrorToast(true);
+          setIsValidating(false);
+        });
     } else {
       await updateContentItem({
         id: event.id,
         name: event.name,
         fields: requestFields,
       })
-        .then((res: { id: string; name: string }) => processResponse(res))
-        .catch(() => setShowErrorToast(true))
-        .finally(() => setIsValidating(false));
+        .then(() => {
+          refetchListing();
+          setShowSuccessToast(true);
+          setIsValidating(false);
+          navigation.navigate('MainTabs');
+        })
+        .catch(() => {
+          setShowErrorToast(true);
+          setIsValidating(false);
+        });
     }
-  }, [event, isNew, processResponse]);
+  }, [event, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (
