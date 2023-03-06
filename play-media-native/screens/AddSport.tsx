@@ -101,7 +101,7 @@ export const AddSportsScreen = ({ navigation, route }) => {
               item={item as Sport}
               onPress={() => onSelectSingle(item)}
               selected={selectedSportIDs.includes(item.id)}
-              style={{ flex: 1, margin: theme.spacing.xxs }}
+              style={{ flex: 0.5, margin: theme.spacing.xxs }}
             />
           )}
           onScroll={calcScrollOffset}
