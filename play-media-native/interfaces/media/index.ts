@@ -8,13 +8,12 @@ export interface AllMediaResponse {
 
 export interface Media {
   id: string;
-  status: string;
   name: string;
   description: string;
   fileId: string;
   fileHeight: number;
   fileWidth: number;
-  fileSize: number;
+  fileSize: string;
   fileType: string;
   fileUrl: string;
   source?: string;
@@ -27,4 +26,5 @@ export interface DeviceMedia {
   uri: string;
   width: number;
   source: string;
+  fileSize: string;
 }
