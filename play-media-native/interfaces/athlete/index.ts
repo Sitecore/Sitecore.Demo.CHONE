@@ -1,7 +1,7 @@
 import { Media } from '../media';
 import { Sport } from '../sport';
 
-export interface Athlete {
+export interface AthleteResponse {
   id: string;
   status: string;
   athleteName: string;
@@ -28,13 +28,23 @@ export interface Athlete {
 export interface AllAthletesResponse {
   data: {
     allAthlete: {
-      results: Athlete[];
+      results: AthleteResponse[];
     };
   };
 }
 
-export interface AthleteResponse {
-  data: {
-    athlete: Athlete;
-  };
+export interface Athlete {
+  id: string;
+  athleteName: string;
+  profilePhoto: Media;
+  featuredImage: Media;
+  isFeatured: boolean;
+  sport: Sport;
+  athleteQuote: string;
+  nationality: string;
+  dateOfBirth: Date;
+  careerStartDate: Date;
+  hobby: string;
+  relatedMedia: Media[];
+  status: string;
 }

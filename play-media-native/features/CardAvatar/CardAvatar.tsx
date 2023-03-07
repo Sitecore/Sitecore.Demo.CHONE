@@ -7,7 +7,7 @@ import { theme } from '../../theme/theme';
 import { CardShadowBox } from '../CardShadowBox/CardShadowBox';
 
 export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?: () => void }) => {
-  const sport = item.sport?.results[0];
+  const sport = item?.sport;
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
 
   return (
@@ -29,7 +29,7 @@ export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?:
                 left: theme.spacing.xxs,
               }}
               source={{
-                uri: item?.profilePhoto?.results[0]?.fileUrl,
+                uri: item?.profilePhoto?.fileUrl,
               }}
             />
           </View>
@@ -60,7 +60,7 @@ export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?:
               color: theme.colors.gray.DEFAULT,
             }}
           >
-            {item.nationality}
+            {item?.nationality}
           </Text>
           <Text
             style={{

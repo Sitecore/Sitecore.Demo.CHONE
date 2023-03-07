@@ -14,13 +14,16 @@ import { QRCodeConnectionScreen } from '../screens/Connection/QRCodeConnection';
 import { RemoveConnectionScreen } from '../screens/Connection/RemoveConnection';
 import { SelectConnectionScreen } from '../screens/Connection/SelectConnection';
 import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
+import { CreateAthleteDetailedScreen } from '../screens/CreateAthleteDetailed';
+import { CreateAthleteOverviewScreen } from '../screens/CreateAthleteOverview';
 import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
 import { CreateEventOverviewScreen } from '../screens/CreateEventOverview';
 import { DiscardChangesScreen } from '../screens/DiscardChanges';
-import { EditAthleteDetailsScreen } from '../screens/EditAthleteDetails';
+import { EditAthleteScreen } from '../screens/EditAthlete';
 import { EditEventScreen } from '../screens/EditEvent';
 import { EditMediaScreen } from '../screens/EditMedia';
 import { EventDetailScreen } from '../screens/EventDetail';
+import { ReviewAthleteScreen } from '../screens/ReviewAthlete';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -72,14 +75,24 @@ export const Stacks = () => {
         options={{ title: 'Athlete Review' }}
       />
       <Stack.Screen
-        name="EditAthleteDetails"
-        component={EditAthleteDetailsScreen}
+        name="EditAthlete"
+        component={EditAthleteScreen}
         options={{ title: 'Edit Athlete Details' }}
       />
       <Stack.Screen
         name="EditEvent"
         component={EditEventScreen}
         options={{ title: 'Edit Athlete Details' }}
+      />
+      <Stack.Screen
+        name="CreateAthleteOverview"
+        component={CreateAthleteOverviewScreen}
+        options={{ title: 'New Athlete' }}
+      />
+      <Stack.Screen
+        name="CreateAthleteDetailed"
+        component={CreateAthleteDetailedScreen}
+        options={{ title: 'New Athlete Details' }}
       />
       <Stack.Screen
         name="CreateEventOverview"
@@ -129,10 +142,17 @@ export const Stacks = () => {
         }}
       />
       <Stack.Screen
+        name="ReviewAthlete"
+        component={ReviewAthleteScreen}
+        options={{
+          title: 'Review Athlete',
+        }}
+      />
+      <Stack.Screen
         name="ReviewEvent"
         component={ReviewEventScreen}
         options={{
-          title: 'Review Events',
+          title: 'Review Event',
         }}
       />
       <Stack.Screen

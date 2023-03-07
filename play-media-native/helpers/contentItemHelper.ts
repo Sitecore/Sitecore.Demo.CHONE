@@ -17,6 +17,14 @@ export const mapContentItem = (
     Object.entries(obj).map(([key, value], index) => [key, fn(key, value, index)])
   );
 
+// Extract only ID from reference values in fields
+//
+export const mapContentItemToId = (key: string, value: unknown) => ({
+  value: value?.['results']
+    ? [...value['results'].map((obj: { id: string }) => ({ id: obj.id }))]
+    : value,
+});
+
 // Get the label of reference field form button based on whether it accepts a single value and has a value already
 //
 export const getReferenceFieldButtonLabel = (empty: boolean, single: boolean) => {
@@ -112,4 +120,68 @@ export const getInitialStateFromOverrides = (overrides: Record<string, IFieldOve
   });
 
   return initialState;
+};
+
+// Get value of reference depending on if it's single or not
+// For single fields, get the first item of an array or null
+// For non-single items get the array itself
+//
+export const resolveReferenceValue = (value: IIndexable[], single: boolean) => {
+  if (single) {
+    return value[0] || null;
+  }
+
+  return value || [];
+};
+
+// Simplify content item object by removing nested objects with 'results' prop
+//
+export const normalizeContentItem = (
+  contentItemResponse: IIndexable,
+  overrides: Record<string, IFieldOverride>
+) => {
+  const contentItem = {};
+
+  Object.entries(contentItemResponse).forEach(([fieldKey, fieldValue]) => {
+    if (fieldValue?.results) {
+      contentItem[fieldKey] = resolveReferenceValue(
+        fieldValue?.results,
+        overrides[fieldKey]?.single
+      );
+    } else {
+      contentItem[fieldKey] = contentItemResponse[fieldKey];
+    }
+  });
+
+  return contentItem;
+};
+
+// Prepare reference field request object depending on if it has mulitple or a single value
+//
+const prepareReferenceRequest = (
+  referenceState: IIndexable | IIndexable[],
+  override: IFieldOverride
+) => {
+  return Array.isArray(referenceState)
+    ? { results: [...referenceState] }
+    : { results: referenceState ? [referenceState] : [] };
+};
+
+// Map content item to a form suitable for API request (wrap references and media in object with 'results' prop)
+//
+export const prepareRequestFields = (
+  contentItem: IIndexable,
+  overrides: Record<string, IFieldOverride>
+) => {
+  const requestObject = {};
+
+  Object.entries(overrides).forEach(([overrideKey, override]) => {
+    if (override?.type === FIELD_TYPES.Reference || override?.type === FIELD_TYPES.Media) {
+      requestObject[overrideKey] = prepareReferenceRequest(contentItem[overrideKey], override);
+    } else {
+      requestObject[overrideKey] = contentItem[overrideKey] ?? null;
+    }
+  });
+
+  return requestObject;
 };
