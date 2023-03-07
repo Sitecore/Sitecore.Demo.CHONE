@@ -11,7 +11,7 @@ fields:
     value: 2018-01-29T22:00:00.000Z
     type: DateTime
   careerStartDate:
-    value: null
+    value: 
     type: DateTime
   athleteQuote:
     value: A trophy carries dust. Memories last forever.

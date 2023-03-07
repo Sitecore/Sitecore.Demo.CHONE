@@ -46,6 +46,9 @@ contentItemPaths.forEach((path) => {
     // Convert LF line endings back to CRLF
     edited = edited.replace(/\n(?<!\r\n)/g, '\r\n');
 
+    // Workaround to fix issue with null values for objects
+    edited = edited.replaceAll("null", "");
+
     // Rewrite the file with a UTF8 byte order mark (BOM) prefix
     fs.writeFileSync(path, `\ufeff${edited}`, { encoding: 'utf8' });
   } catch (e) {
