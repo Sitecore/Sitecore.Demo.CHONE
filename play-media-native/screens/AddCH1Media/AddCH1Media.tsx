@@ -7,39 +7,37 @@ import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
 import { SimpleFilters } from '../../components/FacetFilters/SimpleFilters';
 import { SearchBar } from '../../components/SearchBar/SearchBar';
-import { CONTENT_TYPES } from '../../constants/contentTypes';
 import { MEDIA_FACETS } from '../../constants/filters';
 import { MEDIA_SOURCES } from '../../constants/media';
 import { Screen } from '../../features/Screen/Screen';
 import { getFileTypeOptions, getStatusOptions } from '../../helpers/facets';
 import { removeAlreadySelected } from '../../helpers/media';
-import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
-import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { useSearchFacets } from '../../hooks/useFacets/useFacets';
 import { useMediaQuery } from '../../hooks/useMediaQuery/useMediaQuery';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
 
 export const AddCH1MediaScreen = ({ navigation, route }) => {
-  const { eventFields, edit: editEventFields } = useEventFields();
-  const { athleteFields, edit: editAthleteFields } = useAthleteFields();
+  const { contentItems, edit } = useContentItems();
   const { data: images, isFetching } = useMediaQuery();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
   const selectedMediaIDs = selectedMedia.map((item) => item.id);
-  const contentType = route?.params?.contentType;
-  const single = route?.params?.single;
+
+  // route params
+  //
   const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
+  const single = route?.params?.single;
+  const stateKey = route?.params?.stateKey;
 
   const availableImages = useMemo(() => {
     if (!images?.length) {
       return [];
     }
 
-    return contentType === CONTENT_TYPES.EVENT
-      ? removeAlreadySelected(images, eventFields[fieldKey])
-      : removeAlreadySelected(images, athleteFields[fieldKey]);
-  }, [athleteFields, contentType, eventFields, fieldKey, images]);
+    return removeAlreadySelected(images, contentItems[stateKey][fieldKey]);
+  }, [contentItems, fieldKey, images, stateKey]);
 
   const [facets, setFacets] = useState<Record<string, any>>({
     [MEDIA_FACETS.fileType]: '',
@@ -83,9 +81,6 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
   }, []);
 
   const onSelect = useCallback((image: Media) => {
-    // Cannot change selected status if media already selected
-    //
-
     setSelectedMedia((prevSelectedMedia) => {
       if (prevSelectedMedia.includes(image)) {
         return prevSelectedMedia.filter((item) => item.id !== image.id);
@@ -97,77 +92,53 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
 
   const onSelectSingle = useCallback(
     (image: Media) => {
-      if (contentType === CONTENT_TYPES.EVENT) {
-        editEventFields({
-          key: route.params.key,
-          value: { ...image, source: MEDIA_SOURCES.CH_ONE },
-        });
-      } else {
-        editAthleteFields({
-          key: route.params.key,
-          value: { ...image, source: MEDIA_SOURCES.CH_ONE },
-        });
-      }
+      edit({
+        id: stateKey,
+        key: route.params.key,
+        value: { ...image, source: MEDIA_SOURCES.CH_ONE },
+      });
 
       navigation.navigate(initialRoute, {
         isEditMedia: false,
       });
     },
-    [contentType, editAthleteFields, editEventFields, initialRoute, navigation, route.params.key]
+    [edit, initialRoute, navigation, route.params.key, stateKey]
   );
 
   const onAdd = useCallback(() => {
-    if (!route?.params?.key) {
+    if (!fieldKey) {
       return;
     }
 
-    if (contentType === CONTENT_TYPES.EVENT) {
-      editEventFields({
-        key: route.params.key,
-        value: Array.isArray(eventFields[route.params.key])
-          ? [
-              ...eventFields[route.params.key],
-              ...selectedMedia.map((item) => ({
-                ...item,
-                source: MEDIA_SOURCES.CH_ONE,
-              })),
-            ]
-          : selectedMedia.map((item) => ({
+    edit({
+      id: stateKey,
+      key: route.params.key,
+      value: Array.isArray(contentItems[stateKey][fieldKey])
+        ? [
+            ...contentItems[stateKey][fieldKey],
+            ...selectedMedia.map((item) => ({
               ...item,
               source: MEDIA_SOURCES.CH_ONE,
-            }))[0],
-      });
-    } else {
-      editAthleteFields({
-        key: route.params.key,
-        value: Array.isArray(eventFields[route.params.key])
-          ? [
-              ...athleteFields[route.params.key],
-              ...selectedMedia.map((item) => ({
-                ...item,
-                source: MEDIA_SOURCES.CH_ONE,
-              })),
-            ]
-          : selectedMedia.map((item) => ({
-              ...item,
-              source: MEDIA_SOURCES.CH_ONE,
-            }))[0],
-      });
-    }
+            })),
+          ]
+        : selectedMedia.map((item) => ({
+            ...item,
+            source: MEDIA_SOURCES.CH_ONE,
+          }))[0],
+    });
 
     navigation.navigate(initialRoute, {
       isEditMedia: false,
     });
   }, [
-    athleteFields,
-    contentType,
-    editAthleteFields,
-    editEventFields,
-    eventFields,
+    contentItems,
+    edit,
+    fieldKey,
     initialRoute,
     navigation,
     route.params.key,
     selectedMedia,
+    stateKey,
   ]);
 
   const onDiscard = useCallback(() => {

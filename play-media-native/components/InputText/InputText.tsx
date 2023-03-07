@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
-import { HelperText, Text, TextInput } from 'react-native-paper';
+import { HelperText, TextInput } from 'react-native-paper';
 
 import { theme } from '../../theme/theme';
+import { FieldLabel } from '../FieldLabel/FieldLabel';
 import { Icon } from '../Icon/Icon';
 
 interface Props {
@@ -25,6 +26,7 @@ interface Props {
   onTouchStart?: (e: unknown) => void;
   onSelectionChange?: (e: unknown) => void;
   onPressIn?: (e: unknown) => void;
+  required?: boolean;
 }
 
 const defaultContainerStyle = {
@@ -59,6 +61,7 @@ export const InputText = ({
   onTouchStart,
   onSelectionChange,
   onPressIn,
+  required,
 }: Props) => {
   const containerStyleFinal = useMemo(
     () => ({
@@ -86,7 +89,7 @@ export const InputText = ({
 
   return (
     <View style={containerStyleFinal}>
-      {title && <Text style={{ marginBottom: theme.spacing.xxs }}>{title}</Text>}
+      <FieldLabel required={required} title={title} />
       <TextInput
         contentStyle={contentStyleFinal}
         disabled={disabled}

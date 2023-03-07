@@ -22,6 +22,9 @@ export const theme = {
       lighter: '#d5d5d5',
       dark: '#b3b3b3',
     },
+    green: {
+      DEFAULT: '#08f26e',
+    },
     blue: {
       DEFAULT: '#006ef9',
       light: '#3e93ff',

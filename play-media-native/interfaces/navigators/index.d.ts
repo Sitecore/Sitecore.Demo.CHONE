@@ -6,11 +6,21 @@ export type RootStackParamList = {
   AddAthlete: undefined;
   AddAthletes: undefined;
   AddConnection: undefined;
-  AddEvent: undefined;
   AddEvents: undefined;
   AddCH1Media: undefined;
+  AddSport: undefined;
   AthleteDetail: { id: string };
   AthleteReview: { id: string };
+  CreateEventOverview: undefined;
+  CreateEventDetailed: {
+    stateKey: string;
+    title: string;
+  };
+  DiscardChanges: {
+    message: string;
+    redirectRoute: string;
+    stateKey: string;
+  };
   EditAthleteDetails: { id: string };
   EditEvent: undefined;
   EditMedia: undefined;
@@ -19,7 +29,11 @@ export type RootStackParamList = {
   ManualConnection: undefined;
   QRCodeConnection: undefined;
   RemoveConnection: undefined;
-  ReviewEvent: undefined;
+  ReviewEvent: {
+    isNew: boolean;
+    stateKey: string;
+    title: string;
+  };
   SelectConnection: undefined;
 };
 

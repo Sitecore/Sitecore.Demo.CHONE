@@ -83,7 +83,7 @@ export const EventsListingScreen = ({ navigation }) => {
         icon="plus"
         label="Add new event"
         extended={isTopEdge}
-        onPress={() => navigation.navigate('AddEvent')}
+        onPress={() => navigation.navigate('CreateEventOverview')}
         animateFrom="right"
         iconMode="dynamic"
         style={styles.fab}

@@ -1,6 +1,6 @@
 import { fetchGraphQL } from '../..';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
-import { AllSportsResponse, Sport } from '../../../interfaces/sport';
+import { AllSportsResponse, Sport, SportResponse } from '../../../interfaces/sport';
 
 const sportsQuery = `
 query {
@@ -9,6 +9,18 @@ query {
       id
       title
       description
+      featuredImage {
+        results {
+          id
+          name
+          fileUrl
+          description
+          fileHeight
+          fileSize
+          fileType
+          fileWidth
+        }
+      }
     }
   }
 }
@@ -21,11 +33,12 @@ export const getAllSports = async (options?: FetchOptions): Promise<Sport[]> => 
   )) as AllSportsResponse;
   const sports: Sport[] = [];
 
-  results.data.allSport.results.forEach((sport: Sport) => {
+  results.data.allSport.results.forEach((sport: SportResponse) => {
     sports.push({
       id: sport.id,
       title: sport.title,
       description: sport.description,
+      featuredImage: sport.featuredImage?.results[0] || null,
     });
   });
 
