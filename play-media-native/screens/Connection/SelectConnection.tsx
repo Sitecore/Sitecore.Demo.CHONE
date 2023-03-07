@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
@@ -7,7 +8,11 @@ import { Icon } from '../../components/Icon/Icon';
 import { Logo } from '../../components/Logo/Logo';
 import { Select } from '../../components/Select/Select';
 import { Screen } from '../../features/Screen/Screen';
-import { useConnections } from '../../hooks/useConnections/useConnections';
+import {
+  getConnections,
+  setSelectedConnection as setExpoSelectedConnection,
+} from '../../helpers/connections';
+import { Connection } from '../../interfaces/connections';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
@@ -16,9 +21,32 @@ const fabAddStyle = {
 };
 
 export const SelectConnectionScreen = ({ navigation }) => {
-  const { connections, connect } = useConnections();
-  const [selectedConnection, setSelectedConnection] = useState<string>();
-  const noConnectionsAvailable = !connections?.length;
+  const [connections, setConnections] = useState<Connection[]>([]);
+  const [selectedConnectionName, setSelectedConnectionName] = useState<string>();
+  const [isNoConnectionAvailable, setIsNoConnectionAvailable] = useState(true);
+  const isScreenVisible = useIsFocused();
+
+  // Retrieve the saved connections from Expo Secure Store
+  useEffect(() => {
+    if (isScreenVisible) {
+      (async () => {
+        const savedConnections = await getConnections();
+        setConnections(savedConnections);
+      })();
+    }
+  }, [isScreenVisible]);
+
+  // If there is at least one connection, set it as the default and update the flag
+  useEffect(() => {
+    if (connections.length > 0) {
+      setSelectedConnectionName(connections[0]?.name);
+      setExpoSelectedConnection(connections[0]);
+
+      setIsNoConnectionAvailable(false);
+    } else {
+      setIsNoConnectionAvailable(true);
+    }
+  }, [connections]);
 
   const onFabAddClick = useCallback(() => {
     navigation.navigate('AddConnection');
@@ -28,14 +56,17 @@ export const SelectConnectionScreen = ({ navigation }) => {
     navigation.navigate('RemoveConnection');
   }, [navigation]);
 
-  const onSelect = useCallback((value) => {
-    setSelectedConnection(value);
-  }, []);
+  const onSelect = useCallback(
+    (value: string) => {
+      setSelectedConnectionName(value);
+      setExpoSelectedConnection(connections.find((connection) => connection.name === value));
+    },
+    [connections]
+  );
 
   const onConnect = useCallback(() => {
-    connect(connections.find((item) => item.name === selectedConnection));
     navigation.navigate('MainTabs');
-  }, [connect, connections, navigation, selectedConnection]);
+  }, [navigation]);
 
   const connectionOptions = useMemo(
     () =>
@@ -48,12 +79,6 @@ export const SelectConnectionScreen = ({ navigation }) => {
         : [],
     [connections]
   );
-
-  // When connections are ready, set selected connection to first connection, as default value
-  //
-  useEffect(() => {
-    setSelectedConnection(connections[0]?.name);
-  }, [connections]);
 
   return (
     <Screen centered>
@@ -73,7 +98,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
           Connect to a saved Content Hub One instance.
         </Text>
       </View>
-      {noConnectionsAvailable ? (
+      {isNoConnectionAvailable ? (
         <View
           style={{
             justifyContent: 'center',
@@ -98,7 +123,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
           <Select
             items={connectionOptions}
             onChange={onSelect}
-            selectedValue={selectedConnection}
+            selectedValue={selectedConnectionName}
             style={{ width: '90%', marginBottom: theme.spacing.xxs }}
           />
           <Button
@@ -113,7 +138,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
         </>
       )}
       <BottomFAB icon="plus" onPress={onFabAddClick} style={fabAddStyle} />
-      <BottomFAB disabled={noConnectionsAvailable} icon="delete" onPress={onFabRemoveClick} />
+      <BottomFAB disabled={isNoConnectionAvailable} icon="delete" onPress={onFabRemoveClick} />
     </Screen>
   );
 };

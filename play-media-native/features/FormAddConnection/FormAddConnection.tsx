@@ -8,8 +8,7 @@ import { validateConnection } from '../../api/queries/validateConnection';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { InputText } from '../../components/InputText/InputText';
 import { Toast } from '../../components/Toast/Toast';
-import { storeConnection } from '../../helpers/connections';
-import { useConnections } from '../../hooks/useConnections/useConnections';
+import { getConnections, storeConnection } from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import connectionStyles from '../../screens/Connection/styles';
@@ -37,7 +36,7 @@ const isPreviewUrlValid = (text: string) => {
 };
 
 export const FormAddConnection = () => {
-  const { connections, add } = useConnections();
+  const [connections, setConnections] = useState<Connection[]>([]);
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
@@ -63,6 +62,14 @@ export const FormAddConnection = () => {
     nameInvalid || apiKeyInvalid || previewUrlInvalid || clientIDInvalid || clientSecretInvalid;
 
   const navigation = useNavigation<StackNavigationProp>();
+
+  // Retrieve the saved connections from Expo Secure Store
+  useEffect(() => {
+    (async () => {
+      const savedConnections = await getConnections();
+      setConnections(savedConnections);
+    })();
+  }, []);
 
   // Hide bottom action buttons if a loading indicator or a toaster is shown
   useEffect(() => {
@@ -146,7 +153,6 @@ export const FormAddConnection = () => {
           clientSecret,
         }).then(() => {
           setShowSuccessToast(true);
-          add({ name, apiKey, previewUrl, clientID, clientSecret });
         });
       })
       .catch((e) => {
@@ -156,7 +162,7 @@ export const FormAddConnection = () => {
       .finally(() => {
         setIsValidating(false);
       });
-  }, [add, name, apiKey, previewUrl, clientID, clientSecret]);
+  }, [name, apiKey, previewUrl, clientID, clientSecret]);
 
   const bottomActions = useMemo(
     () => (

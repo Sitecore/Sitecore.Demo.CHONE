@@ -1,23 +1,36 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { MultiSelectChips } from '../../components/MultiSelectChips/MultiSelectChips';
 import { Screen } from '../../features/Screen/Screen';
-import { removeConnections } from '../../helpers/connections';
-import { useConnections } from '../../hooks/useConnections/useConnections';
+import { getConnections, removeConnections } from '../../helpers/connections';
+import { Connection } from '../../interfaces/connections';
 import { theme } from '../../theme/theme';
 
+type ConnectionOption = Connection & {
+  label: string;
+  value: string;
+  selected: boolean;
+};
+
 export const RemoveConnectionScreen = () => {
-  const { connections, remove } = useConnections();
-  const [connectionOptions, setConnectionOptions] = useState(
-    connections.map((item) => ({
-      ...item,
-      label: item.name,
-      value: item.name,
-      selected: false,
-    }))
-  );
+  const [connectionOptions, setConnectionOptions] = useState<ConnectionOption[]>([]);
+
+  // Retrieve saved connections from Expo Secure Store and map them to connection options
+  useEffect(() => {
+    (async () => {
+      const savedConnections = await getConnections();
+      setConnectionOptions(
+        savedConnections.map((item) => ({
+          ...item,
+          label: item.name,
+          value: item.name,
+          selected: false,
+        }))
+      );
+    })();
+  }, []);
 
   const selectedCount = connectionOptions.filter((item) => item.selected)?.length;
 
@@ -33,12 +46,11 @@ export const RemoveConnectionScreen = () => {
     const selectedConnections = connectionOptions.filter((connection) => connection.selected);
 
     await removeConnections(selectedConnections).then(() => {
-      remove(selectedConnections);
       setConnectionOptions((prevOptions) =>
         prevOptions.filter((option) => !selectedConnections.includes(option))
       );
     });
-  }, [connectionOptions, remove]);
+  }, [connectionOptions]);
 
   return (
     <Screen centered>
