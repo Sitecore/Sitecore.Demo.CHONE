@@ -11,6 +11,11 @@ export type RootStackParamList = {
   AddSport: undefined;
   AthleteDetail: { id: string };
   AthleteReview: { id: string };
+  CreateAthleteOverview: undefined;
+  CreateAthleteDetailed: {
+    stateKey: string;
+    title: string;
+  };
   CreateEventOverview: undefined;
   CreateEventDetailed: {
     stateKey: string;
@@ -21,7 +26,7 @@ export type RootStackParamList = {
     redirectRoute: string;
     stateKey: string;
   };
-  EditAthleteDetails: { id: string };
+  EditAthlete: { id: string };
   EditEvent: undefined;
   EditMedia: undefined;
   EventDetail: { id: string };
@@ -29,6 +34,11 @@ export type RootStackParamList = {
   ManualConnection: undefined;
   QRCodeConnection: undefined;
   RemoveConnection: undefined;
+  ReviewAthlete: {
+    isNew: boolean;
+    stateKey: string;
+    title: string;
+  };
   ReviewEvent: {
     isNew: boolean;
     stateKey: string;

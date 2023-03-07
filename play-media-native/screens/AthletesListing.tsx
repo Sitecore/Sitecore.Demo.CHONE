@@ -88,7 +88,7 @@ export const AthletesListingScreen = ({ navigation }) => {
         icon="plus"
         label="Add new athlete"
         extended={isTopEdge}
-        onPress={() => navigation.navigate('AddAthlete')}
+        onPress={() => navigation.navigate('CreateAthleteOverview')}
         animateFrom="right"
         iconMode="dynamic"
         style={styles.fab}
