@@ -1,3 +1,5 @@
+import { normalizeContentItem } from './contentItemHelper';
+import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
 import { EVENT_FACETS } from '../constants/filters';
 import { Event, EventResponse } from '../interfaces/event';
 import { Sport } from '../interfaces/sport';
@@ -37,7 +39,9 @@ export const normalizeEvent = (event: EventResponse, statusResults: StatusResult
     relatedMedia: event.relatedMedia?.results || [],
     teaser: event.teaser,
     body: event.body,
-    athletes: event.athletes?.results || [],
+    athletes: event.athletes?.results?.length
+      ? event.athletes.results.map((item) => normalizeContentItem(item, FIELD_OVERRIDES_ATHLETE))
+      : [],
     similarEvents: event.similarEvents?.results?.length
       ? event.similarEvents.results.map((item) =>
           normalizeEvent(item as EventResponse, statusResults)
