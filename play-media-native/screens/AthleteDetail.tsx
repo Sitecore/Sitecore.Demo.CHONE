@@ -235,6 +235,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
   );
 
   const { isFetching } = useQuery('athlete', () => getAthleteById(route.params.id), {
+    staleTime: 0,
     enabled: !route.params.isReview,
     onSuccess: (data) => {
       setAthlete(data.athlete);

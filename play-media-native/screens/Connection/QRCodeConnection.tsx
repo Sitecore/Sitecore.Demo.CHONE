@@ -7,7 +7,6 @@ import { validateConnection } from '../../api/queries/validateConnection';
 import { Screen } from '../../features/Screen/Screen';
 import { storeConnection } from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
-import { add } from '../../store/connections';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
@@ -59,8 +58,6 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
         await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
           .then(async () => {
             await storeConnection(qrConnectionObject).then(() => {
-              add(qrConnectionObject);
-
               navigation.navigate('MainTabs');
             });
           })
