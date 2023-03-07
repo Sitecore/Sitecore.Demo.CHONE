@@ -26,6 +26,8 @@ export const storeConnection = async (connection: Connection): Promise<void> => 
   } else {
     await save(CONNECTIONS_KEY, JSON.stringify([...existingConnections, connection]));
   }
+
+  setSelectedConnection(connection);
 };
 
 // Save connection object in secure storage
@@ -49,4 +51,9 @@ export const removeConnections = async (connections: Connection[]): Promise<void
 export const getSelectedConnection = async (): Promise<Connection | null> => {
   const selectedConnection = await getValueFor(SELECTED_CONNECTION_KEY);
   return selectedConnection ? JSON.parse(selectedConnection) : null;
+};
+
+// Set selected connection in Expo Secure Store
+export const setSelectedConnection = async (connection: Connection): Promise<void> => {
+  return await save(SELECTED_CONNECTION_KEY, JSON.stringify(connection));
 };
