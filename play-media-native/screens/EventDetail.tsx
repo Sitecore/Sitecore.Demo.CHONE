@@ -51,6 +51,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
   const [error, setError] = useState<unknown>();
 
   const { data: event, isFetching } = useQuery('event', () => getEventById(id), {
+    staleTime: 0,
     onError: (error) => {
       setError(error);
     },
