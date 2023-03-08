@@ -14,15 +14,12 @@ export const publishMediaItem = async (id: string): Promise<unknown> => {
         'Content-Type': 'application/json-patch+json',
       },
     }).then(async (response: Response) => {
-      const jsonResponsePromise = response.json();
-      const data = await jsonResponsePromise;
-
-      if (data?.status) {
-        console.error(`${data.status} error: ${data?.detail}`);
-        throw data?.status;
+      if (!response?.ok) {
+        console.error(`${response?.status} error: ${response?.statusText}`);
+        throw response?.status;
       }
 
-      return data;
+      return response;
     });
   } catch (error) {
     console.error(error);
