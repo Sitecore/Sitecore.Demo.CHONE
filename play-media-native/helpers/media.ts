@@ -49,7 +49,7 @@ export const removeAlreadySelected = (media: Media[], existingMedia: Media[] | M
 //
 const getMediaFields = (contentItem: IIndexable, overrides: Record<string, IFieldOverride>) => {
   return Object.keys(contentItem).filter(
-    (fieldKey) => overrides[fieldKey].type === FIELD_TYPES.Media
+    (fieldKey) => overrides[fieldKey]?.type === FIELD_TYPES.Media
   );
 };
 
@@ -70,7 +70,10 @@ export const getDeviceImages = (
         ].filter((item) => item); // remove falsy values
 
     deviceMedia.push(
-      ...fieldMediaArray.filter((item: Media) => item?.source !== MEDIA_SOURCES.CH_ONE)
+      ...fieldMediaArray.filter(
+        (item: Media) =>
+          item?.source === MEDIA_SOURCES.LIBRARY || item?.source === MEDIA_SOURCES.CAMERA
+      )
     );
   });
 

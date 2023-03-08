@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { ActivityIndicator, Button } from 'react-native-paper';
+import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
+import { uploadMultipleImages } from '../api/queries/uploadMedia';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
@@ -14,6 +15,7 @@ import {
   mapContentItemToId,
   prepareRequestFields,
 } from '../helpers/contentItemHelper';
+import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Athlete } from '../interfaces/athlete';
@@ -49,15 +51,50 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
   const isNew = route?.params?.isNew;
 
-  const { contentItems } = useContentItems();
+  const { contentItems, editMultiple } = useContentItems();
   const athlete = contentItems[stateKey] as Athlete;
+
+  const { refetch: refetchListing } = useAthletesQuery();
 
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
-  const { refetch: refetchListing } = useAthletesQuery();
+  const deviceMedia = useMemo(() => getDeviceImages(athlete, FIELD_OVERRIDES_ATHLETE), [athlete]);
+
+  const uploadDeviceMedia = useCallback(
+    async (athleteFields: Athlete) => {
+      return await uploadMultipleImages(deviceMedia)
+        .then((uploadedMedia) => {
+          editMultiple({
+            id: stateKey,
+            fields: insertCreatedMedia(athleteFields, uploadedMedia),
+          });
+
+          return {
+            ...athleteFields,
+            ...insertCreatedMedia(athleteFields, uploadedMedia),
+          };
+        })
+        .catch((e) => {
+          console.error(e);
+          return athleteFields;
+        });
+    },
+    [deviceMedia, editMultiple, stateKey]
+  );
+
+  const getRequestFields = useCallback(
+    async (athleteFields: Athlete) => {
+      if (!deviceMedia?.length) {
+        return athleteFields;
+      }
+
+      return await uploadDeviceMedia(athleteFields);
+    },
+    [deviceMedia?.length, uploadDeviceMedia]
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -89,9 +126,11 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
 
+    const stateFields = await getRequestFields(athlete);
+
     // Map athleteToReview object to a form suitable for the API request
     const requestFields = mapContentItem(
-      prepareRequestFields(athlete, FIELD_OVERRIDES_ATHLETE),
+      prepareRequestFields(stateFields, FIELD_OVERRIDES_ATHLETE),
       mapContentItemToId
     );
 
@@ -132,7 +171,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, isNew, navigation, refetchListing]);
+  }, [athlete, getRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (
@@ -157,6 +196,14 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     ),
     [handleDraft, handleSubmitBtn]
   );
+
+  if (!athlete) {
+    return (
+      <Screen centered>
+        <Text>Athlete not available!</Text>
+      </Screen>
+    );
+  }
 
   return (
     <Screen>

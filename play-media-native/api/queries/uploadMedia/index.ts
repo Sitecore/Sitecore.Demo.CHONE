@@ -111,19 +111,7 @@ const createMediaItem = async (imageData: {
     });
 };
 
-export const uploadSingleImage = async (
-  image: Media,
-  options?: {
-    onGenerateLinkSuccess?: (id: string) => void;
-    onGenerateLinkError?: (id: string, error: Error) => void;
-    onUploadBinarySuccess?: (id: string) => void;
-    onUploadBinaryError?: (id: string, error: Error) => void;
-    onCompleteUploadSuccess?: (id: string) => void;
-    onCompleteUploadError?: (id: string, error: Error) => void;
-    onCreateMediaSuccess?: (id: string) => void;
-    onCreateMediaError?: (id: string, error: Error) => void;
-  }
-) => {
+export const uploadSingleImage = async (image: Media) => {
   const fileExtension = image.fileType.substring(image.fileType.indexOf('/') + 1);
   const name = `${image.name}.${fileExtension}`;
 
@@ -131,58 +119,26 @@ export const uploadSingleImage = async (
     fileName: name,
     fileType: image.fileType,
     fileSize: image.fileSize,
-  })
-    .then((response) => {
-      options?.onGenerateLinkSuccess && options.onGenerateLinkSuccess(image.id);
-      return response;
-    })
-    .catch((error) => {
-      options?.onGenerateLinkError && options.onGenerateLinkError(image.id, error);
-      throw error;
-    });
+  });
 
-  await uploadBinary(uploadLinkData?.link, image.fileUrl)
-    .then(() => {
-      options?.onUploadBinarySuccess && options.onUploadBinarySuccess(image.id);
-    })
-    .catch((error) => {
-      options?.onUploadBinaryError && options.onUploadBinaryError(image.id, error);
-      throw error;
-    });
+  await uploadBinary(uploadLinkData?.link, image.fileUrl);
 
   await completeUpload(uploadLinkData?.fileId, {
     fileType: image.fileType,
     fileSize: image.fileSize,
-  })
-    .then(() => {
-      options?.onCompleteUploadSuccess && options.onCompleteUploadSuccess(image.id);
-    })
-    .catch((error) => {
-      options?.onCompleteUploadError && options.onCompleteUploadError(image.id, error);
-      throw error;
-    });
+  });
 
-  const uploadedMedia = await createMediaItem({
+  return await createMediaItem({
     name,
     description: image.description,
     fileId: uploadLinkData?.fileId,
-  })
-    .then((response) => {
-      options?.onCreateMediaSuccess && options.onCreateMediaSuccess(image.id);
-      return response;
-    })
-    .catch((error) => {
-      options?.onCreateMediaError && options.onCreateMediaError(image.id, error);
-      throw error;
-    });
-
-  return uploadedMedia;
+  });
 };
 
 export const uploadMultipleImages = async (images: Media[]) => {
   const uploadedImages = await Promise.all(images.map((image) => uploadSingleImage(image)))
     .then((mediaItems) => {
-      return images.map((image, index) => ({ ...image, ...mediaItems[index], stateId: image.id }));
+      return images.map((image, index) => ({ ...image, ...mediaItems[index] }));
     })
     .catch(() => {
       throw Error('Error on media batch upload');
