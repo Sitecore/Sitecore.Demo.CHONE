@@ -67,14 +67,16 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     async (athleteFields: Athlete) => {
       return await uploadMultipleImages(deviceMedia)
         .then((uploadedMedia) => {
+          const updatedFields = insertCreatedMedia(athleteFields, uploadedMedia);
+
           editMultiple({
             id: stateKey,
-            fields: insertCreatedMedia(athleteFields, uploadedMedia),
+            fields: updatedFields,
           });
 
           return {
             ...athleteFields,
-            ...insertCreatedMedia(athleteFields, uploadedMedia),
+            ...updatedFields,
           };
         })
         .catch((e) => {

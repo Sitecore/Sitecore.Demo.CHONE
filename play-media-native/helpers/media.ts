@@ -2,7 +2,7 @@ import { FIELD_TYPES } from '../constants/contentTypes';
 import { MEDIA_SOURCES } from '../constants/media';
 import { IFieldOverride } from '../interfaces/contentItem';
 import { IIndexable } from '../interfaces/indexable';
-import { Media } from '../interfaces/media';
+import { Media, MediaToUpload } from '../interfaces/media';
 
 const afterExtensionRegex = /\.[0-9a-z]+$/i;
 
@@ -58,21 +58,28 @@ const getMediaFields = (contentItem: IIndexable, overrides: Record<string, IFiel
 export const getDeviceImages = (
   contentItem: IIndexable,
   overrides: Record<string, IFieldOverride>
-) => {
+): MediaToUpload[] => {
   const mediaFieldKeys = getMediaFields(contentItem, overrides);
   const deviceMedia = [];
 
   mediaFieldKeys.forEach((fieldKey) => {
     const fieldMediaArray = Array.isArray(contentItem[fieldKey])
-      ? contentItem[fieldKey].map((item) => ({ ...item, stateField: fieldKey, stateId: item.id }))
+      ? contentItem[fieldKey].map((item: Media) => ({
+          ...item,
+          stateField: fieldKey,
+          stateId: item?.id,
+        }))
       : [
-          { ...contentItem[fieldKey], stateField: fieldKey, stateId: contentItem[fieldKey].id },
+          {
+            ...contentItem[fieldKey],
+            stateField: fieldKey,
+            stateId: contentItem[fieldKey]?.id,
+          },
         ].filter((item) => item); // remove falsy values
 
     deviceMedia.push(
       ...fieldMediaArray.filter(
-        (item: Media) =>
-          item?.source === MEDIA_SOURCES.LIBRARY || item?.source === MEDIA_SOURCES.CAMERA
+        (item) => item?.source === MEDIA_SOURCES.LIBRARY || item?.source === MEDIA_SOURCES.CAMERA
       )
     );
   });
@@ -82,7 +89,10 @@ export const getDeviceImages = (
 
 // After media items are created in CH ONE, replace their previous values in global state
 //
-export const insertCreatedMedia = (contentItem: IIndexable, createdMedia: Media[]): IIndexable => {
+export const insertCreatedMedia = (
+  contentItem: IIndexable,
+  createdMedia: MediaToUpload[]
+): IIndexable => {
   const updatedState = {};
 
   createdMedia.forEach((media) => {

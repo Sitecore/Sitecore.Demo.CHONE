@@ -1,96 +1,98 @@
 import { uploadAsync } from 'expo-file-system';
 
-import { Media } from '../../../interfaces/media';
+import { MediaToUpload } from '../../../interfaces/media';
 import { generateToken } from '../generateToken';
 
 const API_URL = 'https://content-api.sitecorecloud.io';
 const GENERATE_LINK_URL = 'https://mms-upload.sitecorecloud.io';
 
-const generateUploadLink = async ({
-  fileName,
-  fileType,
-  fileSize,
-}: {
-  fileName: string;
-  fileType: string;
-  fileSize: string;
-}): Promise<{ link: string; fileId: string }> => {
+const STATUS_ERROR = 'error';
+const STATUS_SUCCESS = 'success';
+
+const shouldContinueUpload = (image: MediaToUpload) => {
+  if (image?.uploadStatus === STATUS_ERROR) {
+    return false;
+  }
+
+  return true;
+};
+
+const updateErrorStatus = (image: MediaToUpload) => {
+  return {
+    ...image,
+    uploadStatus: STATUS_ERROR,
+  };
+};
+
+const generateUploadLink = async (image: MediaToUpload): Promise<MediaToUpload> => {
   const accessToken: string = (await generateToken()).access_token;
 
   return await fetch(`${GENERATE_LINK_URL}/api/media/v1/upload/link/generate`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'x-mms-content-type': fileType,
-      'x-mms-content-length': fileSize,
+      'x-mms-content-type': image.fileType,
+      'x-mms-content-length': image.fileSize,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ fileName }),
+    body: JSON.stringify({ fileName: image.name }),
   })
     .then(async (response: Response) => {
-      return await response.json();
+      const uploadLinkData = await response.json();
+      return {
+        ...image,
+        link: uploadLinkData?.link,
+        fileId: uploadLinkData?.fileId,
+      };
     })
     .catch((e) => {
       console.error('\nError in generateUploadLink', e);
-      throw e;
+      return updateErrorStatus(image);
     });
 };
 
-const uploadBinary = async (uploadLink: string, fileUrl: string) => {
-  return await uploadAsync(uploadLink, fileUrl, {
+const uploadBinary = async (image: MediaToUpload): Promise<MediaToUpload> => {
+  return await uploadAsync(image.link, image.fileUrl, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     httpMethod: 'PUT',
   })
-    .then((response) => {
-      return response;
+    .then(() => {
+      return image;
     })
     .catch((e) => {
       console.error('\nError in uploadBinary', e);
-      throw e;
+      return updateErrorStatus(image);
     });
 };
 
-const completeUpload = async (
-  fileId: string,
-  {
-    fileType,
-    fileSize,
-  }: {
-    fileType: string;
-    fileSize: string;
-  }
-): Promise<{ link: string; fileId: string }> => {
+const completeUpload = async (image: MediaToUpload): Promise<MediaToUpload> => {
   const accessToken: string = (await generateToken()).access_token;
 
   return await fetch(`${GENERATE_LINK_URL}/api/media/v1/upload/link/complete`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'x-mms-content-type': fileType,
-      'x-mms-content-length': fileSize,
+      'x-mms-content-type': image.fileType,
+      'x-mms-content-length': image.fileSize,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ fileId }),
+    body: JSON.stringify({ fileId: image.fileId }),
   })
-    .then(async (response: Response) => {
-      return await response.json();
+    .then(() => {
+      return image;
     })
     .catch((e) => {
       console.error('\nError in completeUpload', e);
-      throw e;
+      return updateErrorStatus(image);
     });
 };
 
-const createMediaItem = async (imageData: {
-  name: string;
-  description: string;
-  fileId: string;
-}): Promise<{ link: string; fileId: string }> => {
+const createMediaItem = async (image: MediaToUpload): Promise<MediaToUpload> => {
   const accessToken: string = (await generateToken()).access_token;
 
   return await fetch(`${API_URL}/api/content/v1/media`, {
@@ -100,49 +102,48 @@ const createMediaItem = async (imageData: {
       Accept: 'text/plain',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(imageData),
+    body: JSON.stringify({
+      name: image.name,
+      description: image.description,
+      fileId: image.fileId,
+    }),
   })
     .then(async (response: Response) => {
-      return await response.json();
+      const mediaItem = await response.json();
+      return {
+        ...image,
+        ...mediaItem,
+      };
     })
     .catch((e) => {
       console.error('\nError in generateUploadLink', e);
-      throw e;
+      return updateErrorStatus(image);
     });
 };
 
-export const uploadSingleImage = async (image: Media) => {
+export const uploadSingleImage = async (image: MediaToUpload) => {
   const fileExtension = image.fileType.substring(image.fileType.indexOf('/') + 1);
   const name = `${image.name}.${fileExtension}`;
 
-  const uploadLinkData = await generateUploadLink({
-    fileName: name,
-    fileType: image.fileType,
-    fileSize: image.fileSize,
-  });
+  // uploadStatus initally set to STATUS_SUCCESS
+  // on any error, it will be changed to STATUS_ERROR
+  //
+  let output = { ...image, name, uploadStatus: STATUS_SUCCESS };
 
-  await uploadBinary(uploadLinkData?.link, image.fileUrl);
+  output = shouldContinueUpload(output) ? await generateUploadLink(output) : output;
+  output = shouldContinueUpload(output) ? await uploadBinary(output) : output;
+  output = shouldContinueUpload(output) ? await completeUpload(output) : output;
+  output = shouldContinueUpload(output) ? await createMediaItem(output) : output;
 
-  await completeUpload(uploadLinkData?.fileId, {
-    fileType: image.fileType,
-    fileSize: image.fileSize,
-  });
-
-  return await createMediaItem({
-    name,
-    description: image.description,
-    fileId: uploadLinkData?.fileId,
-  });
+  return output;
 };
 
-export const uploadMultipleImages = async (images: Media[]) => {
-  const uploadedImages = await Promise.all(images.map((image) => uploadSingleImage(image)))
+export const uploadMultipleImages = async (images: MediaToUpload[]) => {
+  return await Promise.all(images.map((image) => uploadSingleImage(image)))
     .then((mediaItems) => {
       return images.map((image, index) => ({ ...image, ...mediaItems[index] }));
     })
     .catch(() => {
       throw Error('Error on media batch upload');
     });
-
-  return uploadedImages;
 };

@@ -16,9 +16,8 @@ export interface Media {
   fileSize: string;
   fileType: string;
   fileUrl: string;
+  link?: string;
   source?: string;
-  stateField?: string;
-  stateId?: string;
 }
 
 // For images taken from Media Library or Camera (less props than CH1 Media)
@@ -29,4 +28,10 @@ export interface DeviceMedia {
   width: number;
   source: string;
   fileSize: string;
+}
+
+export interface MediaToUpload extends Media {
+  stateField: string;
+  stateId: string;
+  uploadStatus: string;
 }

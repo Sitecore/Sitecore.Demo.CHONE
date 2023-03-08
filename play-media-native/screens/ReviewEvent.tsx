@@ -67,14 +67,16 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     async (eventFields: Event) => {
       return await uploadMultipleImages(deviceMedia)
         .then((uploadedMedia) => {
+          const updatedFields = insertCreatedMedia(eventFields, uploadedMedia);
+
           editMultiple({
             id: stateKey,
-            fields: insertCreatedMedia(eventFields, uploadedMedia),
+            fields: updatedFields,
           });
 
           return {
             ...eventFields,
-            ...insertCreatedMedia(eventFields, uploadedMedia),
+            ...updatedFields,
           };
         })
         .catch((e) => {
