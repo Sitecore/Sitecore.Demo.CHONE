@@ -30,7 +30,7 @@ export const removeFileExtension = (text: string) => {
   return text;
 };
 
-// return only atheltes not already selected in global state
+// return only media not already selected in global state
 //
 export const removeAlreadySelected = (media: Media[], existingMedia: Media[] | Media) => {
   if (!existingMedia) {
@@ -45,7 +45,7 @@ export const removeAlreadySelected = (media: Media[], existingMedia: Media[] | M
   return media.filter((item) => !existingMediaIDs.includes(item.id));
 };
 
-// Get only the media fileds from a content item
+// Get only the media fields from a content item
 //
 const getMediaFields = (contentItem: IIndexable, overrides: Record<string, IFieldOverride>) => {
   return Object.keys(contentItem).filter(
@@ -79,7 +79,8 @@ export const getDeviceImages = (
 
     deviceMedia.push(
       ...fieldMediaArray.filter(
-        (item) => item?.source === MEDIA_SOURCES.LIBRARY || item?.source === MEDIA_SOURCES.CAMERA
+        (item: MediaToUpload) =>
+          item?.source === MEDIA_SOURCES.LIBRARY || item?.source === MEDIA_SOURCES.CAMERA
       )
     );
   });
