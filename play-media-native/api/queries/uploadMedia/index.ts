@@ -16,8 +16,6 @@ const generateUploadLink = async ({
   fileSize: string;
 }): Promise<{ link: string; fileId: string }> => {
   const accessToken: string = (await generateToken()).access_token;
-  const fileExtension = fileType.substring(fileType.indexOf('/') + 1);
-  const name = `${fileName}.${fileExtension}`;
 
   return await fetch(`${GENERATE_LINK_URL}/api/media/v1/upload/link/generate`, {
     method: 'POST',
@@ -28,7 +26,7 @@ const generateUploadLink = async ({
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ fileName: name }),
+    body: JSON.stringify({ fileName }),
   })
     .then(async (response: Response) => {
       return await response.json();
@@ -89,7 +87,6 @@ const completeUpload = async (
 };
 
 const createMediaItem = async (imageData: {
-  id: string;
   name: string;
   description: string;
   fileId: string;
@@ -114,7 +111,7 @@ const createMediaItem = async (imageData: {
     });
 };
 
-export const uploadImage = async (
+export const uploadSingleImage = async (
   image: Media,
   options?: {
     onGenerateLinkSuccess?: (id: string) => void;
@@ -127,8 +124,11 @@ export const uploadImage = async (
     onCreateMediaError?: (id: string, error: Error) => void;
   }
 ) => {
+  const fileExtension = image.fileType.substring(image.fileType.indexOf('/') + 1);
+  const name = `${image.name}.${fileExtension}`;
+
   const uploadLinkData = await generateUploadLink({
-    fileName: image.name,
+    fileName: name,
     fileType: image.fileType,
     fileSize: image.fileSize,
   })
@@ -163,8 +163,7 @@ export const uploadImage = async (
     });
 
   const uploadedMedia = await createMediaItem({
-    id: image.name.toLocaleLowerCase(),
-    name: image.name,
+    name,
     description: image.description,
     fileId: uploadLinkData?.fileId,
   })
@@ -178,4 +177,16 @@ export const uploadImage = async (
     });
 
   return uploadedMedia;
+};
+
+export const uploadMultipleImages = async (images: Media[]) => {
+  const uploadedImages = await Promise.all(images.map((image) => uploadSingleImage(image)))
+    .then((mediaItems) => {
+      return images.map((image, index) => ({ ...image, ...mediaItems[index], stateId: image.id }));
+    })
+    .catch(() => {
+      throw Error('Error on media batch upload');
+    });
+
+  return uploadedImages;
 };

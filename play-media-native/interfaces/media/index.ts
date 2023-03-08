@@ -17,6 +17,8 @@ export interface Media {
   fileType: string;
   fileUrl: string;
   source?: string;
+  stateField?: string;
+  stateId?: string;
 }
 
 // For images taken from Media Library or Camera (less props than CH1 Media)

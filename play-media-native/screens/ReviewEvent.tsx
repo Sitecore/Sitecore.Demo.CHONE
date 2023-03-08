@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
+import { uploadMultipleImages } from '../api/queries/uploadMedia';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { CONTENT_TYPES } from '../constants/contentTypes';
@@ -14,6 +15,7 @@ import {
   mapContentItemToId,
   prepareRequestFields,
 } from '../helpers/contentItemHelper';
+import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { Event } from '../interfaces/event';
@@ -49,7 +51,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
   const isNew = route?.params?.isNew;
 
-  const { contentItems } = useContentItems();
+  const { contentItems, editMultiple } = useContentItems();
   const event = contentItems[stateKey] as Event;
 
   const { refetch: refetchListing } = useEventsQuery();
@@ -58,6 +60,41 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+
+  const deviceMedia = useMemo(() => getDeviceImages(event, FIELD_OVERRIDES_EVENT), [event]);
+
+  const uploadDeviceMedia = useCallback(
+    async (eventFields: Event) => {
+      return await uploadMultipleImages(deviceMedia)
+        .then((uploadedMedia) => {
+          editMultiple({
+            id: stateKey,
+            fields: insertCreatedMedia(eventFields, uploadedMedia),
+          });
+
+          return {
+            ...eventFields,
+            ...insertCreatedMedia(eventFields, uploadedMedia),
+          };
+        })
+        .catch((e) => {
+          console.error(e);
+          return eventFields;
+        });
+    },
+    [deviceMedia, editMultiple, stateKey]
+  );
+
+  const getRequestFields = useCallback(
+    async (eventFields: Event) => {
+      if (!deviceMedia?.length) {
+        return eventFields;
+      }
+
+      return await uploadDeviceMedia(eventFields);
+    },
+    [deviceMedia?.length, uploadDeviceMedia]
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -90,9 +127,11 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const handleSubmitBtn = useCallback(async () => {
     setIsValidating(true);
 
+    const stateFields = await getRequestFields(event);
+
     // Map eventToReview object to a form suitable for the API request
     const requestFields = mapContentItem(
-      prepareRequestFields(event, FIELD_OVERRIDES_EVENT),
+      prepareRequestFields(stateFields, FIELD_OVERRIDES_EVENT),
       mapContentItemToId
     );
 
@@ -133,7 +172,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, isNew, navigation, refetchListing]);
+  }, [event, getRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (
