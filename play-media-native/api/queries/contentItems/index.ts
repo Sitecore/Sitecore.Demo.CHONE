@@ -60,3 +60,31 @@ export const updateContentItem = async (contentItem: ContentItemUpdate): Promise
     throw error;
   }
 };
+
+export const publishContentItem = async (id: string): Promise<unknown> => {
+  const accessToken: string = (await generateToken()).access_token;
+
+  try {
+    return await fetch(`${apiURL}/${id}/publish`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'text/plain',
+        'Content-Type': 'application/json-patch+json',
+      },
+    }).then(async (response: Response) => {
+      const jsonResponsePromise = response.json();
+      const data = await jsonResponsePromise;
+
+      if (data?.status) {
+        console.error(`${data.status} error: ${data?.detail}`);
+        throw data?.status;
+      }
+
+      return data;
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
