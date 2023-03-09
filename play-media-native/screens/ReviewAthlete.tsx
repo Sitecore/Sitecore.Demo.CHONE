@@ -84,7 +84,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   }, []);
 
   const initRequestFields = useCallback(() => {
-    // Map athleteToReview object to a form suitable for the API request
+    // Map athlete object to a form suitable for the API request
     const requestFields = mapContentItem(
       prepareRequestFields(athlete, FIELD_OVERRIDES_ATHLETE),
       mapContentItemToId

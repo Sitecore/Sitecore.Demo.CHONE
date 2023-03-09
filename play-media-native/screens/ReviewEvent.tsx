@@ -85,7 +85,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   }, []);
 
   const initRequestFields = useCallback(() => {
-    // Map eventToReview object to a form suitable for the API request
+    // Map event object to a form suitable for the API request
     const requestFields = mapContentItem(
       prepareRequestFields(event, FIELD_OVERRIDES_EVENT),
       mapContentItemToId
