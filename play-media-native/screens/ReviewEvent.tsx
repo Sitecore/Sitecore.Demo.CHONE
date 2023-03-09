@@ -84,13 +84,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     setShowErrorToast(false);
   }, []);
 
-  const handleDraft = useCallback(() => {
-    // TODO draft case
-  }, []);
-
-  const handlePublishBtn = useCallback(async () => {
-    setIsValidating(true);
-
+  const initRequestFields = useCallback(() => {
     // Map eventToReview object to a form suitable for the API request
     const requestFields = mapContentItem(
       prepareRequestFields(event, FIELD_OVERRIDES_EVENT),
@@ -100,6 +94,54 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     // Delete the id, name from the request fields to avoid errors
     delete requestFields.id;
     delete requestFields.name;
+
+    return requestFields;
+  }, [event]);
+
+  const handleSaveDraft = useCallback(async () => {
+    setIsValidating(true);
+
+    const requestFields = initRequestFields();
+
+    if (isNew) {
+      await createContentItem({
+        contentTypeId: CONTENT_TYPES.EVENT,
+        name: event.title,
+        fields: requestFields,
+      })
+        .then(async () => {
+          setShowSuccessToast(true);
+          await refetchListing();
+          setIsValidating(false);
+          navigation.navigate('MainTabs');
+        })
+        .catch(() => {
+          setShowErrorToast(true);
+          setIsValidating(false);
+        });
+    } else {
+      await updateContentItem({
+        id: event.id,
+        name: event.name,
+        fields: requestFields,
+      })
+        .then(async () => {
+          setShowSuccessToast(true);
+          await refetchListing();
+          setIsValidating(false);
+          navigation.navigate('MainTabs');
+        })
+        .catch(() => {
+          setShowErrorToast(true);
+          setIsValidating(false);
+        });
+    }
+  }, [event, initRequestFields, isNew, navigation, refetchListing]);
+
+  const handlePublishBtn = useCallback(async () => {
+    setIsValidating(true);
+
+    const requestFields = initRequestFields();
 
     if (isNew) {
       await createContentItem({
@@ -138,7 +180,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, isNew, navigation, refetchListing]);
+  }, [event, initRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (
@@ -147,7 +189,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           mode="outlined"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handleDraft}
+          onPress={handleSaveDraft}
         >
           Save as Draft
         </Button>
@@ -161,7 +203,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         </Button>
       </BottomActions>
     ),
-    [handleDraft, handlePublishBtn]
+    [handleSaveDraft, handlePublishBtn]
   );
 
   if (!event) {
