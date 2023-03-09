@@ -69,6 +69,8 @@ const uploadBinary = async (image: MediaToUpload): Promise<MediaToUpload> => {
     return updateErrorStatus(image);
   }
 
+  console.log('image.link', image.link);
+
   return await fetch(image.link, {
     method: 'PUT',
     headers: {
@@ -81,7 +83,7 @@ const uploadBinary = async (image: MediaToUpload): Promise<MediaToUpload> => {
       return image;
     })
     .catch((e) => {
-      console.error('\nError in completeUpload', e);
+      console.error('\nError in uploadBinary', e);
       return updateErrorStatus(image);
     });
 };
