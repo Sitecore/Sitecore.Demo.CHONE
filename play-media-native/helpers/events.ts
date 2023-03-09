@@ -1,3 +1,5 @@
+import { normalizeContentItem } from './contentItemHelper';
+import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
 import { EVENT_FACETS } from '../constants/filters';
 import { Event, EventResponse } from '../interfaces/event';
 import { Sport } from '../interfaces/sport';
@@ -37,7 +39,9 @@ export const normalizeEvent = (event: EventResponse, statusResults: StatusResult
     relatedMedia: event.relatedMedia?.results || [],
     teaser: event.teaser,
     body: event.body,
-    athletes: event.athletes?.results || [],
+    athletes: event.athletes?.results?.length
+      ? event.athletes.results.map((item) => normalizeContentItem(item, FIELD_OVERRIDES_ATHLETE))
+      : [],
     similarEvents: event.similarEvents?.results?.length
       ? event.similarEvents.results.map((item) =>
           normalizeEvent(item as EventResponse, statusResults)
@@ -51,15 +55,15 @@ export const prepareRequestFields = (event: Event) => {
     id: event.id,
     name: event.name,
     title: event.title,
-    sport: { results: [event.sport] },
+    sport: { results: event?.sport ? [event.sport] : [] },
     isFeatured: event.isFeatured,
     timeAndDate: event.timeAndDate,
     location: event.location,
-    featuredImage: { results: [event.featuredImage] },
-    relatedMedia: { results: event.relatedMedia },
+    featuredImage: { results: event?.featuredImage ? [event.featuredImage] : [] },
+    relatedMedia: { results: event?.relatedMedia ? [...event.relatedMedia] : [] },
     teaser: event.teaser,
     body: event.body,
-    athletes: { results: event.athletes },
-    similarEvents: { results: event.similarEvents },
+    athletes: { results: event?.athletes ? [...event.athletes] : [] },
+    similarEvents: { results: event?.similarEvents ? [...event.similarEvents] : [] },
   };
 };

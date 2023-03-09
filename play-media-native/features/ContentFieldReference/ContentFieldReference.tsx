@@ -1,112 +1,106 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, Divider } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
-import { CONTENT_TYPES } from '../../constants/contentTypes';
-import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
-import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { FieldLabel } from '../../components/FieldLabel/FieldLabel';
+import {
+  getReferenceFieldButtonLabel,
+  getReferenceFieldIcon,
+} from '../../helpers/contentItemHelper';
+import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
 export const ContentFieldReference = ({
   addRoute,
-  contentType,
-  createRoute,
   fieldKey,
   fieldTitle,
   initialRoute,
   renderItem,
+  required,
   single = false,
+  stateKey,
   style,
 }: {
   addRoute: string;
-  contentType: string;
-  createRoute: string;
   fieldKey: string;
   fieldTitle: string;
   initialRoute: string;
   renderItem: (item: any) => JSX.Element;
+  required?: boolean;
   single?: boolean;
+  stateKey: string;
   style?: StyleProp<any>;
 }) => {
-  const { edit: editEventFields, eventFields } = useEventFields();
-  const { edit: editAthleteFields, athleteFields } = useAthleteFields();
-
+  const { contentItems, edit } = useContentItems();
   const navigation = useNavigation<StackNavigationProp>();
+  const empty = Array.isArray(contentItems[stateKey][fieldKey])
+    ? contentItems[stateKey][fieldKey]?.length === 0
+    : !contentItems[stateKey][fieldKey];
 
   const reorderItems = useCallback(
     (items: any) => {
-      if (contentType === CONTENT_TYPES.EVENT) {
-        editEventFields({ key: fieldKey, value: items });
-      } else {
-        editAthleteFields({ key: fieldKey, value: items });
-      }
+      edit({ id: stateKey, key: fieldKey, value: items });
     },
-    [contentType, editAthleteFields, editEventFields, fieldKey]
+    [edit, fieldKey, stateKey]
   );
-
-  // const handleCreateNew = useCallback(() => {
-  //   navigation.navigate(createRoute, {
-  //     key: fieldKey,
-  //     contentType,
-  //     initialRoute,
-  //   });
-  // }, [contentType, createRoute, fieldKey, initialRoute, navigation]);
 
   const handleAddExisting = useCallback(() => {
     navigation.navigate(addRoute, {
       key: fieldKey,
-      contentType,
       initialRoute,
       single,
+      stateKey,
     });
-  }, [addRoute, contentType, fieldKey, initialRoute, navigation, single]);
+  }, [addRoute, fieldKey, initialRoute, navigation, single, stateKey]);
 
   const items = useMemo(() => {
-    if (contentType === CONTENT_TYPES.EVENT) {
-      return eventFields[fieldKey];
-    }
+    return contentItems[stateKey][fieldKey];
+  }, [contentItems, fieldKey, stateKey]);
 
-    return athleteFields[fieldKey];
-  }, [athleteFields, contentType, eventFields, fieldKey]);
+  const content = useMemo(
+    () =>
+      Array.isArray(items) ? (
+        <DraggableList items={items} onDragEnd={reorderItems} renderItem={renderItem} />
+      ) : (
+        items && renderItem(items)
+      ),
+    [items, reorderItems, renderItem]
+  );
+
+  const buttonLabel = getReferenceFieldButtonLabel(empty, single);
+  const icon = getReferenceFieldIcon(empty, single);
 
   return (
     <View style={style}>
-      <Text variant="labelSmall" style={{ marginBottom: theme.spacing.xs }}>
-        {fieldTitle}
-      </Text>
+      <Divider
+        style={{ backgroundColor: theme.colors.gray.light, marginBottom: theme.spacing.xs }}
+      />
       <View
         style={{
           width: '100%',
           flexDirection: 'row',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           marginBottom: theme.spacing.xs,
         }}
       >
-        {/* <Button
-          compact
-          mode="outlined"
-          onPress={handleCreateNew}
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-        >
-          Create New
-        </Button> */}
+        <FieldLabel required={required} single={single} title={fieldTitle} />
         <Button
           compact
-          icon="plus"
+          icon={icon}
           mode="contained"
           onPress={handleAddExisting}
-          style={{ ...styles.button, marginRight: 0 }}
-          labelStyle={styles.buttonLabel}
+          style={{ ...styles.buttonSmall, marginRight: 0 }}
+          labelStyle={styles.buttonLabelSmall}
         >
-          Add
+          {buttonLabel}
         </Button>
       </View>
-      <DraggableList items={items} onDragEnd={reorderItems} renderItem={renderItem} />
+      {content}
     </View>
   );
 };

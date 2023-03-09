@@ -1,4 +1,6 @@
 import { fetchGraphQL } from '../..';
+import { FIELD_OVERRIDES_ATHLETE } from '../../../constants/athlete';
+import { normalizeContentItem } from '../../../helpers/contentItemHelper';
 import { AllAthletesResponse, Athlete, AthleteResponse } from '../../../interfaces/athlete';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
 import { getItemsStatus, getItemStatusById } from '../getItemsStatus/getItemsStatus';
@@ -59,27 +61,11 @@ export const getAllAthletes = async (options?: FetchOptions): Promise<Athlete[]>
     options
   )) as AllAthletesResponse;
   const statusResults = await getItemsStatus('content');
-  const athletes: Partial<Athlete>[] = [];
 
-  results.data.allAthlete.results.forEach((athlete: Partial<Athlete>) => {
-    athletes.push({
-      id: athlete.id,
-      status: statusResults.find((item) => item.id === athlete.id)?.status,
-      athleteName: athlete.athleteName,
-      profilePhoto: athlete.profilePhoto,
-      featuredImage: athlete.featuredImage,
-      isFeatured: athlete.isFeatured,
-      sport: athlete.sport,
-      athleteQuote: athlete.athleteQuote,
-      nationality: athlete.nationality,
-      dateOfBirth: athlete.dateOfBirth,
-      careerStartDate: athlete.careerStartDate,
-      hobby: athlete.hobby,
-      relatedMedia: athlete.relatedMedia,
-    });
-  });
-
-  return athletes as Athlete[];
+  return results.data.allAthlete.results.map((athlete) => ({
+    ...normalizeContentItem(athlete, FIELD_OVERRIDES_ATHLETE),
+    status: statusResults.find((item) => item.id === athlete.id)?.status,
+  })) as Athlete[];
 };
 
 const getAthleteByIdQuery = (id: string) => {
@@ -94,6 +80,10 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
         featuredImage {
@@ -102,6 +92,10 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
         isFeatured
@@ -125,23 +119,24 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
       }
     }`;
 };
 
-export const getAthleteById = async (id: string): Promise<{ athlete: Partial<Athlete> }> => {
-  const athleteResponse: AthleteResponse = (await fetchGraphQL(
-    getAthleteByIdQuery(id)
-  )) as AthleteResponse;
+export const getAthleteById = async (id: string): Promise<Athlete> => {
+  const athleteResponse = (await fetchGraphQL(getAthleteByIdQuery(id))) as {
+    data: { athlete: AthleteResponse };
+  };
   const statusResult = await getItemStatusById(id, 'content');
-  const athlete = athleteResponse.data.athlete;
 
   return {
-    athlete: {
-      ...athlete,
-      status: statusResult.status,
-    },
-  };
+    ...normalizeContentItem(athleteResponse.data.athlete, FIELD_OVERRIDES_ATHLETE),
+    status: statusResult.status,
+  } as Athlete;
 };

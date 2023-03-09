@@ -5,6 +5,7 @@ import { RootStackParamList } from '../interfaces/navigators';
 import { AddAthletesScreen } from '../screens/AddAthletes';
 import { AddCH1MediaScreen } from '../screens/AddCH1Media/AddCH1Media';
 import { AddEventsScreen } from '../screens/AddEvents';
+import { AddSportsScreen } from '../screens/AddSport';
 import { AthleteDetailScreen } from '../screens/AthleteDetail';
 import { AddConnectionScreen } from '../screens/Connection/AddConnection';
 import { ManualConnectionScreen } from '../screens/Connection/ManualConnection';
@@ -12,12 +13,17 @@ import { QRCodeConnectionScreen } from '../screens/Connection/QRCodeConnection';
 import { RemoveConnectionScreen } from '../screens/Connection/RemoveConnection';
 import { SelectConnectionScreen } from '../screens/Connection/SelectConnection';
 import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
-import { CreateEventScreen } from '../screens/CreateEvent/CreateEvent';
-import { EditAthleteDetailsScreen } from '../screens/EditAthleteDetails';
+import { CreateAthleteDetailedScreen } from '../screens/CreateAthleteDetailed';
+import { CreateAthleteOverviewScreen } from '../screens/CreateAthleteOverview';
+import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
+import { CreateEventOverviewScreen } from '../screens/CreateEventOverview';
+import { DiscardChangesScreen } from '../screens/DiscardChanges';
+import { EditAthleteScreen } from '../screens/EditAthlete';
 import { EditEventScreen } from '../screens/EditEvent';
 import { EditMediaScreen } from '../screens/EditMedia';
 import { EventDetailScreen } from '../screens/EventDetail';
 import { MediaDetailScreen } from '../screens/MediaDetail';
+import { ReviewAthleteScreen } from '../screens/ReviewAthlete';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
 import { Tabs } from './Tabs';
 
@@ -58,6 +64,7 @@ export const Stacks = () => {
           title: 'Create a connection',
         }}
       />
+      <Stack.Screen name="AddSport" component={AddSportsScreen} options={{ title: 'Add Sports' }} />
       <Stack.Screen
         name="AthleteDetail"
         component={AthleteDetailScreen}
@@ -69,8 +76,8 @@ export const Stacks = () => {
         options={{ title: 'Athlete Review' }}
       />
       <Stack.Screen
-        name="EditAthleteDetails"
-        component={EditAthleteDetailsScreen}
+        name="EditAthlete"
+        component={EditAthleteScreen}
         options={{ title: 'Edit Athlete Details' }}
       />
       <Stack.Screen
@@ -79,9 +86,29 @@ export const Stacks = () => {
         options={{ title: 'Edit Athlete Details' }}
       />
       <Stack.Screen
-        name="AddEvent"
-        component={CreateEventScreen}
-        options={{ title: 'Add Event' }}
+        name="CreateAthleteOverview"
+        component={CreateAthleteOverviewScreen}
+        options={{ title: 'New Athlete' }}
+      />
+      <Stack.Screen
+        name="CreateAthleteDetailed"
+        component={CreateAthleteDetailedScreen}
+        options={{ title: 'New Athlete Details' }}
+      />
+      <Stack.Screen
+        name="CreateEventOverview"
+        component={CreateEventOverviewScreen}
+        options={{ title: 'New Event' }}
+      />
+      <Stack.Screen
+        name="CreateEventDetailed"
+        component={CreateEventDetailedScreen}
+        options={{ title: 'New Event Details' }}
+      />
+      <Stack.Screen
+        name="DiscardChanges"
+        component={DiscardChangesScreen}
+        options={{ title: 'New Event Details' }}
       />
       <Stack.Screen
         name="EditMedia"
@@ -121,10 +148,17 @@ export const Stacks = () => {
         }}
       />
       <Stack.Screen
+        name="ReviewAthlete"
+        component={ReviewAthleteScreen}
+        options={{
+          title: 'Review Athlete',
+        }}
+      />
+      <Stack.Screen
         name="ReviewEvent"
         component={ReviewEventScreen}
         options={{
-          title: 'Review Events',
+          title: 'Review Event',
         }}
       />
       <Stack.Screen

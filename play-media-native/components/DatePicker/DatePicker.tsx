@@ -5,6 +5,8 @@ import { Portal, Modal } from 'react-native-paper';
 import { theme } from '../../theme/theme';
 
 export const DatePicker = ({ value, visible, onChange, onClose }) => {
+  const dateValue = value ? new Date(value) : new Date();
+
   const iosDatePicker = (
     <Portal>
       <Modal
@@ -20,7 +22,7 @@ export const DatePicker = ({ value, visible, onChange, onClose }) => {
           display="inline"
           themeVariant="dark"
           accentColor={theme.colors.yellow.DEFAULT}
-          value={new Date(value)}
+          value={dateValue}
           mode="date"
           onChange={(_, selectedDate) => {
             onChange(selectedDate);
@@ -32,7 +34,7 @@ export const DatePicker = ({ value, visible, onChange, onClose }) => {
 
   const androidDatePicker = (
     <DateTimePicker
-      value={new Date(value)}
+      value={dateValue}
       mode="date"
       onChange={(_, selectedDate) => {
         onClose();

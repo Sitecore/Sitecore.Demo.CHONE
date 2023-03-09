@@ -3,15 +3,12 @@ import { useCallback, useState } from 'react';
 import { Image, StatusBar, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-import { inputContainerStyle } from './CreateEvent/styles';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { InputText } from '../components/InputText/InputText';
-import { CONTENT_TYPES } from '../constants/contentTypes';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { getFileType } from '../helpers/media';
 import { generateID } from '../helpers/uuid';
-import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
-import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
 
@@ -22,31 +19,35 @@ const imageStyle = {
 
 export const EditMediaScreen = ({ navigation, route }) => {
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
-  const { replace: replaceEventFields } = useEventFields();
-  const { replace: replaceAthleteFields } = useAthleteFields();
-  const contentType = route?.params?.contentType;
+  const { contentItems, edit, replace } = useContentItems();
+
+  // route params
+  //
+  const fieldKey = route?.params?.key;
   const isEdit: boolean = route?.params?.isEditMode;
   const initialRoute = route?.params?.initialRoute;
-  const tempMediaKey = route.params.key;
+  const single = route?.params?.single;
+  const stateKey = route?.params?.stateKey;
 
   const onEdit = useCallback(() => {
-    if (contentType === CONTENT_TYPES.EVENT) {
-      replaceEventFields({ key: tempMediaKey, value: editedImage });
-    } else if (contentType === CONTENT_TYPES.ATHLETE) {
-      replaceAthleteFields({ key: tempMediaKey, value: editedImage });
-    }
-    navigation.navigate(initialRoute, {
-      isEditMedia: false,
-    });
-  }, [
-    contentType,
-    editedImage,
-    initialRoute,
-    navigation,
-    replaceAthleteFields,
-    replaceEventFields,
-    tempMediaKey,
-  ]);
+    replace({ id: stateKey, key: fieldKey, value: editedImage });
+
+    navigation.navigate(initialRoute);
+  }, [editedImage, fieldKey, initialRoute, navigation, replace, stateKey]);
+
+  const onAdd = useCallback(() => {
+    edit(
+      single
+        ? { id: stateKey, key: fieldKey, value: { ...editedImage, id: generateID() } }
+        : {
+            id: stateKey,
+            key: fieldKey,
+            value: [...contentItems[stateKey][fieldKey], { ...editedImage, id: generateID() }],
+          }
+    );
+
+    navigation.navigate(initialRoute);
+  }, [contentItems, edit, editedImage, fieldKey, initialRoute, navigation, single, stateKey]);
 
   const onNameChange = useCallback((text: string) => {
     setEditedImage((prev) => ({
@@ -65,14 +66,6 @@ export const EditMediaScreen = ({ navigation, route }) => {
   const onCancel = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
-
-  const onAdd = useCallback(() => {
-    navigation.navigate(initialRoute, {
-      key: tempMediaKey,
-      image: { ...editedImage, id: generateID() },
-      isEditMedia: true,
-    });
-  }, [editedImage, initialRoute, navigation, tempMediaKey]);
 
   useFocusEffect(
     useCallback(() => {
@@ -103,14 +96,14 @@ export const EditMediaScreen = ({ navigation, route }) => {
         <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />
       </View>
       <InputText
-        containerStyle={inputContainerStyle}
+        containerStyle={styles.inputContainer}
         label="Name"
         multiline
         onChange={onNameChange}
         value={editedImage?.name || ''}
       />
       <InputText
-        containerStyle={inputContainerStyle}
+        containerStyle={styles.inputContainer}
         label="Description"
         multiline
         onChange={onDescriptionChange}

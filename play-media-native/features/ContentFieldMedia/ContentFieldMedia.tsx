@@ -1,13 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Divider } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
-import { CONTENT_TYPES } from '../../constants/contentTypes';
+import { FieldLabel } from '../../components/FieldLabel/FieldLabel';
 import { MEDIA_SOURCES } from '../../constants/media';
-import { useAthleteFields } from '../../hooks/useAthleteFields/useAthleteFields';
-import { useEventFields } from '../../hooks/useEventFields/useEventFields';
+import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { Media } from '../../interfaces/media';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import { theme } from '../../theme/theme';
@@ -53,62 +52,55 @@ export const ListItem = ({ item, menuItems }: { item: Media; menuItems: MenuItem
 };
 
 export const ContentFieldMedia = ({
-  contentType,
   fieldKey,
   fieldTitle,
   initialRoute,
   items,
+  required,
+  single,
+  stateKey,
   style,
 }: {
-  contentType: string;
   fieldKey: string;
   fieldTitle: string;
   initialRoute: string;
   items: Media[] | Media;
+  required: boolean;
+  single: boolean;
+  stateKey: string;
   style?: StyleProp<any>;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
-  const { edit: editAthleteFields, remove: removeAthleteFields } = useAthleteFields();
-  const { edit: editEventFields, remove: removeEventFields } = useEventFields();
+  const { edit, remove } = useContentItems();
 
-  const single = !Array.isArray(items);
   const empty = Array.isArray(items) ? items?.length === 0 : !items;
-  const headerText = `${fieldTitle} ${single ? ' (single)' : ''}`;
 
   const editMedia = useCallback(
     (image: Media) => {
       navigation.navigate('EditMedia', {
-        contentType,
         isEditMode: true,
         initialRoute,
         image,
         key: fieldKey,
         single,
+        stateKey,
       });
     },
-    [contentType, fieldKey, initialRoute, navigation, single]
+    [fieldKey, initialRoute, navigation, single, stateKey]
   );
 
   const deleteMedia = useCallback(
     ({ key, value }: { key: string; value: Media }) => {
-      if (contentType === CONTENT_TYPES.EVENT) {
-        removeEventFields({ key, value });
-      } else {
-        removeAthleteFields({ key, value });
-      }
+      remove({ id: stateKey, key, value });
     },
-    [contentType, removeAthleteFields, removeEventFields]
+    [remove, stateKey]
   );
 
   const reorderItems = useCallback(
     (items: Media) => {
-      if (contentType === CONTENT_TYPES.EVENT) {
-        editEventFields({ key: fieldKey, value: items });
-      } else {
-        editAthleteFields({ key: fieldKey, value: items });
-      }
+      edit({ id: stateKey, key: fieldKey, value: items });
     },
-    [contentType, editAthleteFields, editEventFields, fieldKey]
+    [edit, fieldKey, stateKey]
   );
 
   const resolveActionsForItem = useCallback(
@@ -143,9 +135,9 @@ export const ContentFieldMedia = ({
     [editMedia, fieldKey, deleteMedia]
   );
 
-  const content = useMemo(
-    () =>
-      Array.isArray(items) ? (
+  const content = useMemo(() => {
+    if (Array.isArray(items)) {
+      return (
         <DraggableList
           items={items}
           onDragEnd={reorderItems}
@@ -153,14 +145,17 @@ export const ContentFieldMedia = ({
             <ListItem item={item} menuItems={resolveActionsForItem(item)} />
           )}
         />
-      ) : (
-        items && <ListItem item={items} menuItems={resolveActionsForItem(items)} />
-      ),
-    [items, reorderItems, resolveActionsForItem]
-  );
+      );
+    }
+
+    return items ? <ListItem item={items} menuItems={resolveActionsForItem(items)} /> : null;
+  }, [items, reorderItems, resolveActionsForItem]);
 
   return (
     <View style={style}>
+      <Divider
+        style={{ backgroundColor: theme.colors.gray.light, marginBottom: theme.spacing.xs }}
+      />
       <View
         style={{
           flexDirection: 'row',
@@ -169,15 +164,13 @@ export const ContentFieldMedia = ({
           marginBottom: theme.spacing.xs,
         }}
       >
-        <Text variant="labelSmall" style={{ marginBottom: theme.spacing.xs }}>
-          {headerText}
-        </Text>
+        <FieldLabel required={required} single={single} title={fieldTitle} />
         <MenuAddMedia
-          contentType={contentType}
           empty={empty}
           fieldKey={fieldKey}
           initialRoute={initialRoute}
           single={single}
+          stateKey={stateKey}
         />
       </View>
       {content}

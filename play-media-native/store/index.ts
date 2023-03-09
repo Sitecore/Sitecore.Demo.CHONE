@@ -1,22 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import athleteFieldsReducer from './athleteFields';
-import athletesReducer from './athletes';
-import eventFieldsReducer from './eventFields';
-import eventsReducer from './events';
+import contentItemsReducer from './contentItems';
 import filtersReducer from './filters';
-import mediaReducer from './media';
-import tempMediaReducer from './tempMedia';
 
 export const store = configureStore({
   reducer: {
-    athleteFields: athleteFieldsReducer,
-    athletes: athletesReducer,
-    eventFields: eventFieldsReducer,
-    events: eventsReducer,
-    media: mediaReducer,
+    contentItems: contentItemsReducer,
     filters: filtersReducer,
-    tempMedia: tempMediaReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

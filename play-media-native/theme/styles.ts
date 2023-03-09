@@ -8,10 +8,26 @@ export const styles = StyleSheet.create({
     borderColor: theme.colors.yellow.DEFAULT,
     marginHorizontal: theme.spacing.xs,
   },
+  buttonDisabled: {
+    borderColor: theme.colors.gray.dark,
+    backgroundColor: theme.colors.gray.dark,
+  },
+  buttonSmall: {
+    borderWidth: 1,
+    borderColor: theme.colors.yellow.DEFAULT,
+    marginHorizontal: theme.spacing.xs,
+    height: 45,
+    lineHeight: 40,
+  },
   buttonLabel: {
     fontFamily: theme.fontFamily.medium,
     fontSize: theme.fontSize.base,
     lineHeight: 30,
+  },
+  buttonLabelSmall: {
+    fontFamily: theme.fontFamily.medium,
+    fontSize: theme.fontSize.sm,
+    lineHeight: 25,
   },
   centered: {
     justifyContent: 'center',
@@ -25,6 +41,9 @@ export const styles = StyleSheet.create({
     margin: theme.spacing.xs,
     right: theme.spacing.xs,
     bottom: theme.spacing.xs,
+  },
+  inputContainer: {
+    marginTop: theme.spacing.md,
   },
   screen: {
     flex: 1,

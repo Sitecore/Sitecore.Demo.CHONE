@@ -7,15 +7,13 @@ import { SimpleFilters } from '../components/FacetFilters/SimpleFilters';
 import { Listing } from '../components/Listing/Listing';
 import { SearchBar } from '../components/SearchBar/SearchBar';
 import { SelectableView } from '../components/SelectableView/SelectableView';
-import { CONTENT_TYPES } from '../constants/contentTypes';
 import { ATHLETE_FACETS } from '../constants/filters';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
 import { Screen } from '../features/Screen/Screen';
 import { initializeAthletes, removeAlreadySelected } from '../helpers/athletes';
 import { getSportOptions, getStatusOptions } from '../helpers/facets';
-import { useAthleteFields } from '../hooks/useAthleteFields/useAthleteFields';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
-import { useEventFields } from '../hooks/useEventFields/useEventFields';
+import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
@@ -24,12 +22,11 @@ import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 export const AddAthletesScreen = ({ navigation, route }) => {
-  const contentType = route?.params?.contentType;
   const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
+  const stateKey = route?.params?.stateKey;
 
-  const { eventFields, edit: editEventFields } = useEventFields();
-  const { athleteFields, edit: editAthleteFields } = useAthleteFields();
+  const { contentItems, edit: editField } = useContentItems();
 
   const {
     data: athletes,
@@ -52,10 +49,8 @@ export const AddAthletesScreen = ({ navigation, route }) => {
 
   const initialAthletes = useMemo(() => {
     const initialized = initializeAthletes(athletes, sports);
-    return contentType === CONTENT_TYPES.EVENT
-      ? removeAlreadySelected(initialized, eventFields[fieldKey])
-      : removeAlreadySelected(initialized, athleteFields[fieldKey]);
-  }, [athleteFields, athletes, contentType, eventFields, fieldKey, sports]);
+    return removeAlreadySelected(initialized, contentItems[stateKey][fieldKey]);
+  }, [athletes, contentItems, fieldKey, sports, stateKey]);
 
   const filteredAthletes = useSearchFacets({
     initialItems: initialAthletes?.length ? initialAthletes : [],
@@ -90,13 +85,9 @@ export const AddAthletesScreen = ({ navigation, route }) => {
 
   const edit = useCallback(
     ({ key, value }: { key: string; value: Athlete[] }) => {
-      if (contentType === CONTENT_TYPES.EVENT) {
-        editEventFields({ key, value: [...eventFields[key], ...value] });
-      } else if (contentType === CONTENT_TYPES.ATHLETE) {
-        editAthleteFields({ key, value: [...athleteFields[key], ...value] });
-      }
+      editField({ id: stateKey, key, value: [...contentItems[stateKey][key], ...value] });
     },
-    [athleteFields, contentType, editAthleteFields, editEventFields, eventFields]
+    [contentItems, editField, stateKey]
   );
 
   const handleFacetsChange = useCallback((key: string, item: DropdownItem) => {

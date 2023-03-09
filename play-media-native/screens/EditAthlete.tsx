@@ -1,32 +1,33 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
-import { Button, Text } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
-import { EDIT_EVENT_DISCARD_MESSAGE, FIELD_OVERRIDES_EVENT } from '../constants/event';
+import { EDIT_ATHLETE_DISCARD_MESSAGE, FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
 import { ContentItemFields } from '../features/ContentItemFields/ContentItemFields';
 import { Screen } from '../features/Screen/Screen';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
-import { Event } from '../interfaces/event';
+import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
-export const EditEventScreen = ({ navigation, route }) => {
+export const EditAthleteScreen = ({ navigation, route }) => {
   const [stateKey] = useState(route?.params?.stateKey);
   const { contentItems } = useContentItems();
 
-  const event = (contentItems[stateKey] ?? null) as unknown as Event;
+  const athlete = (contentItems[stateKey] ?? null) as unknown as Athlete;
 
   const handleReview = useCallback(() => {
-    navigation.navigate('ReviewEvent', {
+    navigation.navigate('ReviewAthlete', {
+      isNew: false,
       stateKey,
-      title: `Review ${event?.title || 'Event'}`,
+      title: `Review ${athlete?.athleteName || 'Athlete'}`,
     });
-  }, [event, navigation, stateKey]);
+  }, [athlete?.athleteName, navigation, stateKey]);
 
   const handleDiscard = useCallback(() => {
     navigation.push('DiscardChanges', {
-      message: EDIT_EVENT_DISCARD_MESSAGE,
+      message: EDIT_ATHLETE_DISCARD_MESSAGE,
       stateKey,
       redirectRoute: 'MainTabs',
     });
@@ -34,9 +35,9 @@ export const EditEventScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: event?.title || 'Edit Event',
+      title: athlete?.athleteName || 'Edit Athlete',
     });
-  }, [event?.title, navigation]);
+  }, [athlete?.athleteName, navigation]);
 
   useFocusEffect(
     useCallback(() => {
@@ -46,7 +47,7 @@ export const EditEventScreen = ({ navigation, route }) => {
         event.preventDefault();
 
         navigation.push('DiscardChanges', {
-          message: EDIT_EVENT_DISCARD_MESSAGE,
+          message: EDIT_ATHLETE_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
         });
@@ -61,15 +62,11 @@ export const EditEventScreen = ({ navigation, route }) => {
     }, [navigation, stateKey])
   );
 
-  if (!event) {
-    return <Text>Event not available!</Text>;
-  }
-
   return (
     <Screen>
       <ContentItemFields
-        initialRoute="EditEvent"
-        overrides={FIELD_OVERRIDES_EVENT}
+        initialRoute="EditAthlete"
+        overrides={FIELD_OVERRIDES_ATHLETE}
         stateKey={stateKey}
       />
       <BottomActions

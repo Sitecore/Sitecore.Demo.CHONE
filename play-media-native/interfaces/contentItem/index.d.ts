@@ -18,3 +18,12 @@ export interface ContentItemUpdate {
     };
   };
 }
+
+export interface IFieldOverride {
+  defaultValue?: any;
+  referenceType?: string;
+  required: boolean;
+  single: boolean;
+  title: string;
+  type: string;
+}
