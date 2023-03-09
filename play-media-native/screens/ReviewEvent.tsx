@@ -14,6 +14,7 @@ import {
   mapContentItemToId,
   prepareRequestFields,
 } from '../helpers/contentItemHelper';
+import { publishEvent } from '../helpers/events';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { Event } from '../interfaces/event';
@@ -87,7 +88,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     // TODO draft case
   }, []);
 
-  const handleSubmitBtn = useCallback(async () => {
+  const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
 
     // Map eventToReview object to a form suitable for the API request
@@ -107,10 +108,12 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         fields: requestFields,
       })
         .then(async () => {
-          setShowSuccessToast(true);
-          await refetchListing();
-          setIsValidating(false);
-          navigation.navigate('MainTabs');
+          await publishEvent(event).then(async () => {
+            setShowSuccessToast(true);
+            await refetchListing();
+            setIsValidating(false);
+            navigation.navigate('MainTabs');
+          });
         })
         .catch(() => {
           setShowErrorToast(true);
@@ -123,10 +126,12 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         fields: requestFields,
       })
         .then(async () => {
-          setShowSuccessToast(true);
-          await refetchListing();
-          setIsValidating(false);
-          navigation.navigate('MainTabs');
+          await publishEvent(event).then(async () => {
+            setShowSuccessToast(true);
+            await refetchListing();
+            setIsValidating(false);
+            navigation.navigate('MainTabs');
+          });
         })
         .catch(() => {
           setShowErrorToast(true);
@@ -150,13 +155,13 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handleSubmitBtn}
+          onPress={handlePublishBtn}
         >
           Publish
         </Button>
       </BottomActions>
     ),
-    [handleDraft, handleSubmitBtn]
+    [handleDraft, handlePublishBtn]
   );
 
   if (!event) {
