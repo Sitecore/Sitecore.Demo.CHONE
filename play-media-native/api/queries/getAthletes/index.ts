@@ -1,5 +1,6 @@
 import { fetchGraphQL } from '../..';
 import { FIELD_OVERRIDES_ATHLETE } from '../../../constants/athlete';
+import { STATUS_TYPES } from '../../../constants/status';
 import { normalizeContentItem } from '../../../helpers/contentItemHelper';
 import { AllAthletesResponse, Athlete, AthleteResponse } from '../../../interfaces/athlete';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
@@ -60,7 +61,7 @@ export const getAllAthletes = async (options?: FetchOptions): Promise<Athlete[]>
     athletesQuery,
     options
   )) as AllAthletesResponse;
-  const statusResults = await getItemsStatus('content');
+  const statusResults = await getItemsStatus(STATUS_TYPES.content);
 
   return results.data.allAthlete.results.map((athlete) => ({
     ...normalizeContentItem(athlete, FIELD_OVERRIDES_ATHLETE),
@@ -133,7 +134,7 @@ export const getAthleteById = async (id: string): Promise<Athlete> => {
   const athleteResponse = (await fetchGraphQL(getAthleteByIdQuery(id))) as {
     data: { athlete: AthleteResponse };
   };
-  const statusResult = await getItemStatusById(id, 'content');
+  const statusResult = await getItemStatusById(id, STATUS_TYPES.content);
 
   return {
     ...normalizeContentItem(athleteResponse.data.athlete, FIELD_OVERRIDES_ATHLETE),

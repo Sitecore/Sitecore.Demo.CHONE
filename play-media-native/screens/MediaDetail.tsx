@@ -1,6 +1,7 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import { AnimatedFAB, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
@@ -9,6 +10,7 @@ import { getMediaById } from '../api/queries/getMedia';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
@@ -36,15 +38,17 @@ const pageStyles = StyleSheet.create({
   },
 });
 
-export const MediaDetailScreen = ({ route, navigation }) => {
-  const id = route?.params?.id;
-  const [error, setError] = useState<unknown>();
+type Props = NativeStackScreenProps<RootStackParamList, 'MediaDetail'>;
 
-  const { data: media, isFetching } = useQuery('mediaItem', () => getMediaById(id), {
+export const MediaDetailScreen = ({ route, navigation }: Props) => {
+  const id = route?.params?.id;
+
+  const {
+    data: media,
+    error,
+    isFetching,
+  } = useQuery('mediaItem', () => getMediaById(id), {
     staleTime: 0,
-    onError: (error) => {
-      setError(error);
-    },
   });
 
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
