@@ -1,4 +1,4 @@
-import { uploadAsync } from 'expo-file-system';
+import { FileSystemSessionType, FileSystemUploadType, uploadAsync } from 'expo-file-system';
 
 import { MediaToUpload } from '../../../interfaces/media';
 import { generateToken } from '../generateToken';
@@ -59,6 +59,8 @@ const uploadBinary = async (image: MediaToUpload): Promise<MediaToUpload> => {
       'Content-Type': 'application/json',
     },
     httpMethod: 'PUT',
+    sessionType: FileSystemSessionType.BACKGROUND,
+    uploadType: FileSystemUploadType.BINARY_CONTENT,
   })
     .then(() => {
       return image;
