@@ -105,13 +105,14 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         contentTypeId: CONTENT_TYPES.ATHLETE,
         name: athlete.athleteName,
         fields: requestFields,
-      });
-      await publishAthlete(athlete)
+      })
         .then(async () => {
-          setShowSuccessToast(true);
-          await refetchListing();
-          setIsValidating(false);
-          navigation.navigate('MainTabs');
+          await publishAthlete(athlete).then(async () => {
+            setShowSuccessToast(true);
+            await refetchListing();
+            setIsValidating(false);
+            navigation.navigate('MainTabs');
+          });
         })
         .catch(() => {
           setShowErrorToast(true);
@@ -122,13 +123,14 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         id: athlete.id,
         name: athlete.athleteName,
         fields: requestFields,
-      });
-      await publishAthlete(athlete)
+      })
         .then(async () => {
-          setShowSuccessToast(true);
-          await refetchListing();
-          setIsValidating(false);
-          navigation.navigate('MainTabs');
+          await publishAthlete(athlete).then(async () => {
+            setShowSuccessToast(true);
+            await refetchListing();
+            setIsValidating(false);
+            navigation.navigate('MainTabs');
+          });
         })
         .catch(() => {
           setShowErrorToast(true);
