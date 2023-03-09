@@ -9,6 +9,7 @@ import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
 import { CONTENT_TYPES } from '../constants/contentTypes';
 import { AthleteDetail } from '../features/AthleteDetail/AthleteDetail';
 import { Screen } from '../features/Screen/Screen';
+import { publishAthlete } from '../helpers/athletes';
 import {
   mapContentItem,
   mapContentItemToId,
@@ -86,7 +87,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     // TODO draft case
   }, []);
 
-  const handleSubmitBtn = useCallback(async () => {
+  const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
 
     // Map athleteToReview object to a form suitable for the API request
@@ -104,7 +105,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         contentTypeId: CONTENT_TYPES.ATHLETE,
         name: athlete.athleteName,
         fields: requestFields,
-      })
+      });
+      await publishAthlete(athlete)
         .then(async () => {
           setShowSuccessToast(true);
           await refetchListing();
@@ -120,7 +122,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         id: athlete.id,
         name: athlete.athleteName,
         fields: requestFields,
-      })
+      });
+      await publishAthlete(athlete)
         .then(async () => {
           setShowSuccessToast(true);
           await refetchListing();
@@ -149,13 +152,13 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handleSubmitBtn}
+          onPress={handlePublishBtn}
         >
           Publish
         </Button>
       </BottomActions>
     ),
-    [handleDraft, handleSubmitBtn]
+    [handleDraft, handlePublishBtn]
   );
 
   return (
