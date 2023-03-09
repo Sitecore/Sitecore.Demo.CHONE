@@ -234,7 +234,7 @@ export const getEventById = async (id: string): Promise<Event | null> => {
     )) as {
       data: { event: EventResponse };
     };
-    const statusResult = await getItemStatusById(id);
+    const statusResult = await getItemStatusById(id, 'content');
 
     return normalizeEvent(eventResponse.data.event, [statusResult]);
   } catch {

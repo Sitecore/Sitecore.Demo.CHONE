@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { Tabs } from './Tabs';
 import { StackScreenHeader } from '../features/StackScreenHeader/StackScreenHeader';
 import { RootStackParamList } from '../interfaces/navigators';
 import { AddAthletesScreen } from '../screens/AddAthletes';
@@ -18,7 +17,9 @@ import { EditAthleteDetailsScreen } from '../screens/EditAthleteDetails';
 import { EditEventScreen } from '../screens/EditEvent';
 import { EditMediaScreen } from '../screens/EditMedia';
 import { EventDetailScreen } from '../screens/EventDetail';
+import { MediaDetailScreen } from '../screens/MediaDetail';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
+import { Tabs } from './Tabs';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -86,6 +87,11 @@ export const Stacks = () => {
         name="EditMedia"
         component={EditMediaScreen}
         options={{ title: 'Edit Media' }}
+      />
+      <Stack.Screen
+        name="MediaDetail"
+        component={MediaDetailScreen}
+        options={{ title: 'Media Detail' }}
       />
       <Stack.Screen
         name="EventDetail"

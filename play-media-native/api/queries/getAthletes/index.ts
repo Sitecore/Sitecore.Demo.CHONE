@@ -135,7 +135,7 @@ export const getAthleteById = async (id: string): Promise<{ athlete: Partial<Ath
   const athleteResponse: AthleteResponse = (await fetchGraphQL(
     getAthleteByIdQuery(id)
   )) as AthleteResponse;
-  const statusResult = await getItemStatusById(id);
+  const statusResult = await getItemStatusById(id, 'content');
   const athlete = athleteResponse.data.athlete;
 
   return {

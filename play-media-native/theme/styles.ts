@@ -42,4 +42,10 @@ export const styles = StyleSheet.create({
       zIndex: 10,
     }),
   },
+  responsiveImage: {
+    width: '100%',
+    height: undefined,
+    // add this inline to the Image component
+    // aspectRatio: imageWidth / imageHeight,
+  },
 });

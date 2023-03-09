@@ -38,9 +38,15 @@ export const getItemsStatus = async (type: 'media' | 'content'): Promise<StatusR
   }
 };
 
-export const getItemStatusById = async (id: string): Promise<StatusResult> => {
+export const getItemStatusById = async (
+  id: string,
+  type: 'media' | 'content'
+): Promise<StatusResult> => {
   const accessToken: string = (await generateToken()).access_token;
-  const fetchURL = `https://content-api.sitecorecloud.io/api/content/v1/items/${id}`;
+  const fetchURL =
+    type === 'media'
+      ? `https://content-api.sitecorecloud.io/api/content/v1/media/${id}`
+      : `https://content-api.sitecorecloud.io/api/content/v1/items/${id}`;
 
   try {
     return await fetch(fetchURL, {

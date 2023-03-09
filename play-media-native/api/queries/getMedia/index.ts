@@ -1,7 +1,7 @@
 import { fetchGraphQL } from '../..';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
 import { AllMediaResponse, Media } from '../../../interfaces/media';
-import { getItemsStatus } from '../getItemsStatus/getItemsStatus';
+import { getItemsStatus, getItemStatusById } from '../getItemsStatus/getItemsStatus';
 
 const mediaQuery = `
 query {
@@ -41,4 +41,36 @@ export const getAllMedia = async (options?: FetchOptions): Promise<Media[]> => {
   });
 
   return media as Media[];
+};
+
+const getMediaByIdQuery = (id: string) => {
+  return `
+  query {
+    media (id: "${id}") {
+      id,
+      description,
+      fileHeight,
+      fileSize,
+      fileType,
+      fileUrl,
+      fileWidth,
+      name,
+    }
+  }
+`;
+};
+
+export const getMediaById = async (id: string): Promise<Media | null> => {
+  try {
+    const mediaResponse: { data: { media: Media } } = (await fetchGraphQL(
+      getMediaByIdQuery(id)
+    )) as {
+      data: { media: Media };
+    };
+    const statusResult = await getItemStatusById(id, 'media');
+
+    return { ...mediaResponse.data.media, status: statusResult.status };
+  } catch {
+    return null;
+  }
 };
