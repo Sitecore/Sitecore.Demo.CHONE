@@ -1,5 +1,3 @@
-import { FileSystemSessionType, FileSystemUploadType, uploadAsync } from 'expo-file-system';
-
 import { MediaToUpload } from '../../../interfaces/media';
 import { generateToken } from '../generateToken';
 
@@ -22,6 +20,19 @@ const updateErrorStatus = (image: MediaToUpload) => {
     ...image,
     uploadStatus: STATUS_ERROR,
   };
+};
+
+// Get image binary as string
+//
+const getImageBinary = async (image: MediaToUpload) => {
+  return await fetch(image.fileUrl)
+    .then((binary) => {
+      return binary.blob();
+    })
+    .catch((e) => {
+      console.error('\nError in getImageBinary', e);
+      return null;
+    });
 };
 
 const generateUploadLink = async (image: MediaToUpload): Promise<MediaToUpload> => {
@@ -53,20 +64,24 @@ const generateUploadLink = async (image: MediaToUpload): Promise<MediaToUpload> 
 };
 
 const uploadBinary = async (image: MediaToUpload): Promise<MediaToUpload> => {
-  return await uploadAsync(image.link, image.fileUrl, {
+  const binary = await getImageBinary(image);
+  if (!binary) {
+    return updateErrorStatus(image);
+  }
+
+  return await fetch(image.link, {
+    method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    httpMethod: 'PUT',
-    sessionType: FileSystemSessionType.BACKGROUND,
-    uploadType: FileSystemUploadType.BINARY_CONTENT,
+    body: binary,
   })
     .then(() => {
       return image;
     })
     .catch((e) => {
-      console.error('\nError in uploadBinary', e);
+      console.error('\nError in completeUpload', e);
       return updateErrorStatus(image);
     });
 };
