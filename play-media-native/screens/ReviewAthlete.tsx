@@ -83,13 +83,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     setShowErrorToast(false);
   }, []);
 
-  const handleDraft = useCallback(() => {
-    // TODO draft case
-  }, []);
-
-  const handlePublishBtn = useCallback(async () => {
-    setIsValidating(true);
-
+  const initRequestFields = useCallback(() => {
     // Map athleteToReview object to a form suitable for the API request
     const requestFields = mapContentItem(
       prepareRequestFields(athlete, FIELD_OVERRIDES_ATHLETE),
@@ -99,6 +93,54 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     // Delete the id, name from the request fields to avoid errors
     delete requestFields.id;
     delete requestFields.name;
+
+    return requestFields;
+  }, [athlete]);
+
+  const handleSaveDraft = useCallback(async () => {
+    setIsValidating(true);
+
+    const requestFields = initRequestFields();
+
+    if (isNew) {
+      await createContentItem({
+        contentTypeId: CONTENT_TYPES.ATHLETE,
+        name: athlete.athleteName,
+        fields: requestFields,
+      })
+        .then(async () => {
+          setShowSuccessToast(true);
+          await refetchListing();
+          setIsValidating(false);
+          navigation.navigate('MainTabs');
+        })
+        .catch(() => {
+          setShowErrorToast(true);
+          setIsValidating(false);
+        });
+    } else {
+      await updateContentItem({
+        id: athlete.id,
+        name: athlete.athleteName,
+        fields: requestFields,
+      })
+        .then(async () => {
+          setShowSuccessToast(true);
+          await refetchListing();
+          setIsValidating(false);
+          navigation.navigate('MainTabs');
+        })
+        .catch(() => {
+          setShowErrorToast(true);
+          setIsValidating(false);
+        });
+    }
+  }, [athlete, initRequestFields, isNew, navigation, refetchListing]);
+
+  const handlePublishBtn = useCallback(async () => {
+    setIsValidating(true);
+
+    const requestFields = initRequestFields();
 
     if (isNew) {
       await createContentItem({
@@ -137,7 +179,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, isNew, navigation, refetchListing]);
+  }, [athlete, initRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (
@@ -146,7 +188,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           mode="outlined"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handleDraft}
+          onPress={handleSaveDraft}
         >
           Save as Draft
         </Button>
@@ -160,7 +202,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         </Button>
       </BottomActions>
     ),
-    [handleDraft, handlePublishBtn]
+    [handleSaveDraft, handlePublishBtn]
   );
 
   return (
