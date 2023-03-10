@@ -1,11 +1,12 @@
 import { useCallback, useMemo } from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaFilters } from '../features/MediaFilters/MediaFilters';
 import { MediaItemCardDisplay } from '../features/MediaItemCardDisplay/MediaItemCardDisplay';
+import { MediaItemGridDisplay } from '../features/MediaItemGridDisplay/MediaItemGridDisplay';
 import { MediaItemListDisplay } from '../features/MediaItemListDisplay/MediaItemListDisplay';
 import { Screen } from '../features/Screen/Screen';
 import { ListingImageDisplayType } from '../features/SelectDisplayButtons/SelectDisplayButtons';
@@ -16,12 +17,6 @@ import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
-
-const gridItemStyle = {
-  height: 120,
-  flex: 0.5,
-  margin: 2,
-};
 
 export const MediaListingScreen = ({ navigation }) => {
   const {
@@ -47,15 +42,26 @@ export const MediaListingScreen = ({ navigation }) => {
     refetchMedia();
   }, [refetchMedia]);
 
+  const onCardPress = useCallback(
+    (media: Media) => {
+      navigation.navigate('MediaDetail', { id: media.id, title: media.name });
+    },
+    [navigation]
+  );
+
   const renderItems = useMemo(
     () => ({
       [ListingImageDisplayType.GRID]: ({ item }) => (
-        <Image source={{ uri: item.fileUrl }} style={gridItemStyle} />
+        <MediaItemGridDisplay item={item} onPress={onCardPress} />
       ),
-      [ListingImageDisplayType.LIST]: ({ item }) => <MediaItemListDisplay item={item} />,
-      [ListingImageDisplayType.CARDS]: ({ item }) => <MediaItemCardDisplay item={item} />,
+      [ListingImageDisplayType.LIST]: ({ item }) => (
+        <MediaItemListDisplay item={item} onPress={onCardPress} />
+      ),
+      [ListingImageDisplayType.CARDS]: ({ item }) => (
+        <MediaItemCardDisplay item={item} onPress={onCardPress} />
+      ),
     }),
-    []
+    [onCardPress]
   );
 
   if (isFetchingInitialMedia) {

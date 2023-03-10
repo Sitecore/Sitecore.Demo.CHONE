@@ -1,13 +1,15 @@
+import { STATUS_TYPES } from '../../../constants/status';
 import { StatusResult } from '../../../interfaces/statusResults';
 import { generateToken } from '../generateToken';
 
-const contentItemsApiURL =
-  'https://content-api.sitecorecloud.io/api/content/v1/items?view=excludeCustomFields&pageSize=100';
-const mediaItemsApiURL = 'https://content-api.sitecorecloud.io/api/content/v1/media?pageSize=100';
+type StatusTypes = (typeof STATUS_TYPES)[keyof typeof STATUS_TYPES];
 
-export const getItemsStatus = async (type: 'media' | 'content'): Promise<StatusResult[]> => {
+export const getItemsStatus = async (type: StatusTypes): Promise<StatusResult[]> => {
   const accessToken: string = (await generateToken()).access_token;
-  const fetchURL = type === 'media' ? mediaItemsApiURL : contentItemsApiURL;
+
+  const fetchURL = `https://content-api.sitecorecloud.io/api/content/v1/${type}?${
+    type === STATUS_TYPES.content ? 'view=excludeCustomFields&' : ''
+  }pageSize=100`;
 
   try {
     return await fetch(fetchURL, {
@@ -38,9 +40,9 @@ export const getItemsStatus = async (type: 'media' | 'content'): Promise<StatusR
   }
 };
 
-export const getItemStatusById = async (id: string): Promise<StatusResult> => {
+export const getItemStatusById = async (id: string, type: StatusTypes): Promise<StatusResult> => {
   const accessToken: string = (await generateToken()).access_token;
-  const fetchURL = `https://content-api.sitecorecloud.io/api/content/v1/items/${id}`;
+  const fetchURL = `https://content-api.sitecorecloud.io/api/content/v1/${type}/${id}`;
 
   try {
     return await fetch(fetchURL, {
