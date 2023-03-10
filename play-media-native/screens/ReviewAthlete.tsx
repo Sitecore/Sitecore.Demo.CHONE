@@ -7,6 +7,7 @@ import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
 import { CONTENT_TYPES } from '../constants/contentTypes';
+import { ITEM_STATUS } from '../constants/itemStatus';
 import { AthleteDetail } from '../features/AthleteDetail/AthleteDetail';
 import { Screen } from '../features/Screen/Screen';
 import { publishAthlete } from '../helpers/athletes';
@@ -53,12 +54,16 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   const { contentItems } = useContentItems();
   const athlete = contentItems[stateKey] as Athlete;
 
+  const [athleteID, setAthleteID] = useState(null);
+  const [athleteStatus, setAthleteStatus] = useState(null);
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
-  const { refetch: refetchListing } = useAthletesQuery();
+  // In case of publishing we have to manually update the athlete's status
+  // because the server takes too long to reflect the change
+  const { refetch: refetchListing } = useAthletesQuery(athleteID, athleteStatus);
 
   useEffect(() => {
     navigation.setOptions({
@@ -153,6 +158,9 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
 
           await publishAthlete(newAthlete).then(async () => {
             setShowSuccessToast(true);
+            setAthleteID(newAthlete.id);
+            setAthleteStatus(ITEM_STATUS.PUBLISHED);
+
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -171,6 +179,9 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         .then(async () => {
           await publishAthlete(athlete).then(async () => {
             setShowSuccessToast(true);
+            setAthleteID(athlete.id);
+            setAthleteStatus(ITEM_STATUS.PUBLISHED);
+
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');

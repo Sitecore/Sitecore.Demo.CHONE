@@ -7,6 +7,7 @@ import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { CONTENT_TYPES } from '../constants/contentTypes';
 import { FIELD_OVERRIDES_EVENT } from '../constants/event';
+import { ITEM_STATUS } from '../constants/itemStatus';
 import { EventDetail } from '../features/EventDetail/EventDetail';
 import { Screen } from '../features/Screen/Screen';
 import {
@@ -53,12 +54,16 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const { contentItems } = useContentItems();
   const event = contentItems[stateKey] as Event;
 
-  const { refetch: refetchListing } = useEventsQuery();
-
+  const [eventID, setEventID] = useState(null);
+  const [eventStatus, setEventStatus] = useState(null);
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+
+  // In case of publishing we have to manually update the event's status
+  // because the server takes too long to reflect the change
+  const { refetch: refetchListing } = useEventsQuery(eventID, eventStatus);
 
   useEffect(() => {
     navigation.setOptions({
@@ -153,7 +158,10 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           const newEvent = { ...event, id: res.id };
 
           await publishEvent(newEvent).then(async () => {
+            setEventID(newEvent.id);
+            setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
+
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -171,7 +179,10 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       })
         .then(async () => {
           await publishEvent(event).then(async () => {
+            setEventID(event.id);
+            setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
+
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
