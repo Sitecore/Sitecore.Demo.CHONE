@@ -69,13 +69,11 @@ const uploadBinary = async (image: MediaToUpload): Promise<MediaToUpload> => {
     return updateErrorStatus(image);
   }
 
-  console.log('image.link', image.link);
-
   return await fetch(image.link, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': image.fileType,
     },
     body: binary,
   })

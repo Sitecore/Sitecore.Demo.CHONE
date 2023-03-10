@@ -6,9 +6,10 @@ import { Media, MediaToUpload } from '../interfaces/media';
 
 const afterExtensionRegex = /\.[0-9a-z]+$/i;
 
-export const getFileTypeFromURL = (url: string) => {
+const getFileTypeFromURL = (url: string) => {
   try {
-    return `image/${url.match(afterExtensionRegex)[0].replace('.', '')}`;
+    const fileExtension = url.match(afterExtensionRegex)[0].replace('.', '');
+    return `image/${fileExtension === 'jpg' ? 'jpeg' : fileExtension}`;
   } catch {
     return '---';
   }
