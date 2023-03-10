@@ -148,8 +148,10 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         name: athlete.athleteName,
         fields: requestFields,
       })
-        .then(async () => {
-          await publishAthlete(athlete).then(async () => {
+        .then(async (res: { id: string }) => {
+          const newAthlete = { ...athlete, id: res.id };
+
+          await publishAthlete(newAthlete).then(async () => {
             setShowSuccessToast(true);
             await refetchListing();
             setIsValidating(false);

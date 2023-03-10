@@ -149,8 +149,10 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         name: event.title,
         fields: requestFields,
       })
-        .then(async () => {
-          await publishEvent(event).then(async () => {
+        .then(async (res: { id: string }) => {
+          const newEvent = { ...event, id: res.id };
+
+          await publishEvent(newEvent).then(async () => {
             setShowSuccessToast(true);
             await refetchListing();
             setIsValidating(false);
