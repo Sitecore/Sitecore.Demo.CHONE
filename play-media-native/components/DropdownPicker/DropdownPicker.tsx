@@ -44,8 +44,8 @@ export const DropdownPicker = ({
       labelProps={{ numberOfLines: 1 }}
       style={{
         borderRadius: 0,
-        minHeight: 40,
-        maxHeight: 40,
+        minHeight: theme.sizing.inputHeight,
+        maxHeight: theme.sizing.inputHeight,
       }}
       dropDownContainerStyle={{
         borderRadius: 0,
@@ -55,7 +55,7 @@ export const DropdownPicker = ({
         fontSize: theme.fontSize.xs,
       }}
       listItemContainerStyle={{
-        minHeight: 40,
+        minHeight: theme.sizing.inputHeight,
         height: 'auto',
       }}
     />

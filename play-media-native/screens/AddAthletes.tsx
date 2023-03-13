@@ -132,8 +132,8 @@ export const AddAthletesScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
       <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
       <Listing
         data={filteredAthletes}
         isLoading={isFetchingInitialAthletes || isFetchingInitialSports}

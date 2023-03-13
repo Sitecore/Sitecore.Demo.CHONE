@@ -18,6 +18,8 @@ export const SearchBar = ({ onSearch, searchQuery }) => {
         backgroundColor: theme.colors.white.DEFAULT,
         color: theme.colors.black.DEFAULT,
         marginHorizontal: theme.spacing.sm,
+        marginBottom: theme.spacing.xs,
+        height: theme.sizing.inputHeight,
       }}
     />
   );
