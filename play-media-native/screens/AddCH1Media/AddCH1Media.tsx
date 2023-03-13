@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { Button } from 'react-native-paper';
 
-import { ListingCH1Media } from './ListingCH1Media';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
 import { SimpleFilters } from '../../components/FacetFilters/SimpleFilters';
@@ -17,6 +16,7 @@ import { useSearchFacets } from '../../hooks/useFacets/useFacets';
 import { useMediaQuery } from '../../hooks/useMediaQuery/useMediaQuery';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
+import { ListingCH1Media } from './ListingCH1Media';
 
 export const AddCH1MediaScreen = ({ navigation, route }) => {
   const { contentItems, edit } = useContentItems();
@@ -173,8 +173,8 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
   return (
     <Screen>
       <StatusBar barStyle="light-content" />
-      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
       <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
       <ListingCH1Media
         images={filteredImages as Media[]}
         isFetching={isFetching}

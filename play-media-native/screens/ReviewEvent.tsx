@@ -7,6 +7,7 @@ import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { CONTENT_TYPES } from '../constants/contentTypes';
 import { FIELD_OVERRIDES_EVENT } from '../constants/event';
+import { ITEM_STATUS } from '../constants/itemStatus';
 import { EventDetail } from '../features/EventDetail/EventDetail';
 import { Screen } from '../features/Screen/Screen';
 import {
@@ -14,6 +15,7 @@ import {
   mapContentItemToId,
   prepareRequestFields,
 } from '../helpers/contentItemHelper';
+import { publishEvent } from '../helpers/events';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { Event } from '../interfaces/event';
@@ -52,12 +54,16 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const { contentItems } = useContentItems();
   const event = contentItems[stateKey] as Event;
 
-  const { refetch: refetchListing } = useEventsQuery();
-
+  const [eventID, setEventID] = useState(null);
+  const [eventStatus, setEventStatus] = useState(null);
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+
+  // In case of publishing we have to manually update the event's status
+  // because the server takes too long to reflect the change
+  const { refetch: refetchListing } = useEventsQuery(eventID, eventStatus);
 
   useEffect(() => {
     navigation.setOptions({
@@ -83,14 +89,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     setShowErrorToast(false);
   }, []);
 
-  const handleDraft = useCallback(() => {
-    // TODO draft case
-  }, []);
-
-  const handleSubmitBtn = useCallback(async () => {
-    setIsValidating(true);
-
-    // Map eventToReview object to a form suitable for the API request
+  const initRequestFields = useCallback(() => {
+    // Map event object to a form suitable for the API request
     const requestFields = mapContentItem(
       prepareRequestFields(event, FIELD_OVERRIDES_EVENT),
       mapContentItemToId
@@ -99,6 +99,14 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     // Delete the id, name from the request fields to avoid errors
     delete requestFields.id;
     delete requestFields.name;
+
+    return requestFields;
+  }, [event]);
+
+  const handleSaveDraft = useCallback(async () => {
+    setIsValidating(true);
+
+    const requestFields = initRequestFields();
 
     if (isNew) {
       await createContentItem({
@@ -133,7 +141,59 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, isNew, navigation, refetchListing]);
+  }, [event, initRequestFields, isNew, navigation, refetchListing]);
+
+  const handlePublishBtn = useCallback(async () => {
+    setIsValidating(true);
+
+    const requestFields = initRequestFields();
+
+    if (isNew) {
+      await createContentItem({
+        contentTypeId: CONTENT_TYPES.EVENT,
+        name: event.title,
+        fields: requestFields,
+      })
+        .then(async (res: { id: string }) => {
+          const newEvent = { ...event, id: res.id };
+
+          await publishEvent(newEvent).then(async () => {
+            setEventID(newEvent.id);
+            setEventStatus(ITEM_STATUS.PUBLISHED);
+            setShowSuccessToast(true);
+
+            await refetchListing();
+            setIsValidating(false);
+            navigation.navigate('MainTabs');
+          });
+        })
+        .catch(() => {
+          setShowErrorToast(true);
+          setIsValidating(false);
+        });
+    } else {
+      await updateContentItem({
+        id: event.id,
+        name: event.name,
+        fields: requestFields,
+      })
+        .then(async () => {
+          await publishEvent(event).then(async () => {
+            setEventID(event.id);
+            setEventStatus(ITEM_STATUS.PUBLISHED);
+            setShowSuccessToast(true);
+
+            await refetchListing();
+            setIsValidating(false);
+            navigation.navigate('MainTabs');
+          });
+        })
+        .catch(() => {
+          setShowErrorToast(true);
+          setIsValidating(false);
+        });
+    }
+  }, [event, initRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (
@@ -142,7 +202,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           mode="outlined"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handleDraft}
+          onPress={handleSaveDraft}
         >
           Save as Draft
         </Button>
@@ -150,13 +210,13 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           mode="contained"
           style={styles.button}
           labelStyle={styles.buttonLabel}
-          onPress={handleSubmitBtn}
+          onPress={handlePublishBtn}
         >
           Publish
         </Button>
       </BottomActions>
     ),
-    [handleDraft, handleSubmitBtn]
+    [handleSaveDraft, handlePublishBtn]
   );
 
   if (!event) {

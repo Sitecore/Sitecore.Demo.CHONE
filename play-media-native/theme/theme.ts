@@ -79,6 +79,7 @@ export const theme = {
     xxl: 64,
   },
   sizing: {
+    inputHeight: 36,
     tabBarHeight: 42,
   },
 };
