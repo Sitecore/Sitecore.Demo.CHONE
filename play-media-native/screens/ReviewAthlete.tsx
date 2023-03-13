@@ -89,7 +89,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     [deviceMedia, editMultiple, stateKey]
   );
 
-  const getRequestFields = useCallback(
+  const getStateAfterMediaUpload = useCallback(
     async (athleteFields: Athlete) => {
       if (!deviceMedia?.length) {
         return athleteFields;
@@ -127,26 +127,26 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     setShowErrorToast(false);
   }, []);
 
-  // Map athleteToReview object to a form suitable for the API request
-  const initRequestFields = useCallback(
-    async (athleteFields: Athlete) => {
-      const stateFields = await getRequestFields(athleteFields);
+  // Map athlete object to a form suitable for the API request
+  //
+  const initRequestFields = useCallback(async (athleteFields: Athlete) => {
+    const requestFields = mapContentItem(
+      prepareRequestFields(athleteFields, FIELD_OVERRIDES_ATHLETE),
+      mapContentItemToId
+    );
 
-      // Map athlete object to a form suitable for the API request
-      const requestFields = mapContentItem(
-        prepareRequestFields(stateFields, FIELD_OVERRIDES_ATHLETE),
-        mapContentItemToId
-      );
+    // Delete the id, name from the request fields to avoid errors
+    delete requestFields.id;
+    delete requestFields.name;
 
-      return requestFields as unknown as Athlete;
-    },
-    [getRequestFields]
-  );
+    return requestFields as unknown as Athlete;
+  }, []);
 
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = await initRequestFields(athlete);
+    const stateFields = await getStateAfterMediaUpload(athlete);
+    const requestFields = await initRequestFields(stateFields);
 
     if (isNew) {
       await createContentItem({
@@ -181,12 +181,13 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, initRequestFields, isNew, navigation, refetchListing]);
+  }, [athlete, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = await initRequestFields(athlete);
+    const stateFields = await getStateAfterMediaUpload(athlete);
+    const requestFields = await initRequestFields(stateFields);
 
     if (isNew) {
       await createContentItem({
@@ -195,13 +196,11 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async (res: { id: string }) => {
-          const newAthlete = { ...requestFields, id: res.id };
-
+          const newAthlete = { ...stateFields, id: res.id };
           await publishAthlete(newAthlete).then(async () => {
             setShowSuccessToast(true);
             setAthleteID(newAthlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);
-
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -218,11 +217,10 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async () => {
-          await publishAthlete(requestFields).then(async () => {
+          await publishAthlete(stateFields).then(async () => {
             setShowSuccessToast(true);
             setAthleteID(athlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);
-
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -233,7 +231,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, initRequestFields, isNew, navigation, refetchListing]);
+  }, [athlete, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (

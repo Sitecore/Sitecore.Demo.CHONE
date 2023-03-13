@@ -89,7 +89,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     [deviceMedia, editMultiple, stateKey]
   );
 
-  const getRequestFields = useCallback(
+  const getStateAfterMediaUpload = useCallback(
     async (eventFields: Event) => {
       if (!deviceMedia?.length) {
         return eventFields;
@@ -129,29 +129,25 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   }, []);
 
   // Map eventToReview object to a form suitable for the API request
-  const initRequestFields = useCallback(
-    async (eventFields: Event) => {
-      const stateFields = await getRequestFields(eventFields);
+  const initRequestFields = useCallback(async (eventFields: Event) => {
+    // Map event object to a form suitable for the API request
+    const requestFields = mapContentItem(
+      prepareRequestFields(eventFields, FIELD_OVERRIDES_EVENT),
+      mapContentItemToId
+    );
 
-      // Map event object to a form suitable for the API request
-      const requestFields = mapContentItem(
-        prepareRequestFields(stateFields, FIELD_OVERRIDES_EVENT),
-        mapContentItemToId
-      );
+    // Delete the id, name from the request fields to avoid errors
+    delete requestFields.id;
+    delete requestFields.name;
 
-      // Delete the id, name from the request fields to avoid errors
-      delete requestFields.id;
-      delete requestFields.name;
-
-      return requestFields as unknown as Event;
-    },
-    [getRequestFields]
-  );
+    return requestFields as unknown as Event;
+  }, []);
 
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = await initRequestFields(event);
+    const stateFields = await getStateAfterMediaUpload(event);
+    const requestFields = await initRequestFields(stateFields);
 
     if (isNew) {
       await createContentItem({
@@ -186,12 +182,13 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, initRequestFields, isNew, navigation, refetchListing]);
+  }, [event, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = await initRequestFields(event);
+    const stateFields = await getStateAfterMediaUpload(event);
+    const requestFields = await initRequestFields(stateFields);
 
     if (isNew) {
       await createContentItem({
@@ -200,7 +197,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async (res: { id: string }) => {
-          const newEvent = { ...requestFields, id: res.id };
+          const newEvent = { ...stateFields, id: res.id };
 
           await publishEvent(newEvent).then(async () => {
             setEventID(newEvent.id);
@@ -223,7 +220,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async () => {
-          await publishEvent(requestFields).then(async () => {
+          await publishEvent(stateFields).then(async () => {
             setEventID(event.id);
             setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
@@ -238,7 +235,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, initRequestFields, isNew, navigation, refetchListing]);
+  }, [event, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (
