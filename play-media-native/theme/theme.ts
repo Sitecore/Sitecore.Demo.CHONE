@@ -77,6 +77,9 @@ export const theme = {
     xl: 48,
     xxl: 64,
   },
+  sizing: {
+    inputHeight: 36,
+  },
 };
 
 export const paperFontConfig = {

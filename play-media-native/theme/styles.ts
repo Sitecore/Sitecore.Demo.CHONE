@@ -56,9 +56,15 @@ export const styles = StyleSheet.create({
   facetFilters: {
     display: 'flex',
     paddingHorizontal: theme.spacing.sm,
-    paddingBottom: theme.spacing.sm,
+    paddingBottom: theme.spacing.xs,
     ...(Platform.OS === 'ios' && {
       zIndex: 10,
     }),
+  },
+  responsiveImage: {
+    width: '100%',
+    height: undefined,
+    // add this inline to the Image component
+    // aspectRatio: imageWidth / imageHeight,
   },
 });

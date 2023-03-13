@@ -1,4 +1,5 @@
 import { fetchGraphQL } from '../..';
+import { STATUS_TYPES } from '../../../constants/status';
 import { normalizeEvent } from '../../../helpers/events';
 import { Event, AllEventsResponse, EventResponse } from '../../../interfaces/event';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
@@ -116,7 +117,7 @@ export const getAllEvents = async (options?: FetchOptions): Promise<Event[]> => 
     eventsQuery,
     options
   )) as AllEventsResponse;
-  const statusResults = await getItemsStatus('content');
+  const statusResults = await getItemsStatus(STATUS_TYPES.content);
   return results.data.allEvent.results.map((event: Partial<EventResponse>) =>
     normalizeEvent(event as EventResponse, statusResults)
   );
@@ -234,7 +235,7 @@ export const getEventById = async (id: string): Promise<Event | null> => {
     )) as {
       data: { event: EventResponse };
     };
-    const statusResult = await getItemStatusById(id);
+    const statusResult = await getItemStatusById(id, STATUS_TYPES.content);
 
     return normalizeEvent(eventResponse.data.event, [statusResult]);
   } catch {

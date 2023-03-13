@@ -60,8 +60,8 @@ export const AthleteFilters = ({
 
   return (
     <>
-      <SearchBar onSearch={handleSearch} searchQuery={athleteSearchQuery} />
       <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+      <SearchBar onSearch={handleSearch} searchQuery={athleteSearchQuery} />
     </>
   );
 };

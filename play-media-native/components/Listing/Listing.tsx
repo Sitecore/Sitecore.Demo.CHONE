@@ -7,6 +7,7 @@ import {
   RefreshControl,
   SafeAreaView,
   StyleProp,
+  StyleSheet,
   View,
   ViewStyle,
 } from 'react-native';
@@ -17,6 +18,20 @@ import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../../features/Screen/Screen';
 import { mockFetchData } from '../../helpers/mockPagination';
 import { theme } from '../../theme/theme';
+
+const pageStyles = StyleSheet.create({
+  footerContainer: {
+    height: theme.spacing.xl,
+    marginTop: theme.spacing.sm,
+    marginLeft: theme.spacing.sm,
+    paddingRight: theme.spacing.xxl,
+  },
+  footerText: {
+    textAlign: 'left',
+    color: theme.colors.gray.DEFAULT,
+    fontFamily: theme.fontFamily.italic,
+  },
+});
 
 type ListingProps = {
   data: any;
@@ -58,18 +73,9 @@ export const Listing = ({
   }, [data, items, isListEnd]);
 
   const ListFooter = (
-    <View style={{ height: theme.spacing.xl }}>
+    <View style={pageStyles.footerContainer}>
       {loading && <ActivityIndicator animating={loading} />}
-      {isListEnd && (
-        <Text
-          style={{
-            textAlign: 'center',
-            color: theme.colors.gray.DEFAULT,
-          }}
-        >
-          No more items to show at the moment
-        </Text>
-      )}
+      {isListEnd && <Text style={pageStyles.footerText}>No more items</Text>}
     </View>
   );
 

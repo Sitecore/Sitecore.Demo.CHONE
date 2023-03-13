@@ -6,13 +6,20 @@ import { Media } from '../../interfaces/media';
 import { theme } from '../../theme/theme';
 import { Field } from '../Field/Field';
 
-export const MediaItemCardDisplay = ({ item }: { item: Media }) => {
+export const MediaItemCardDisplay = ({
+  item,
+  onPress,
+}: {
+  item: Media;
+  onPress?: (item: Media) => void;
+}) => {
   return (
     <Card
       key={item.fileUrl}
       style={{
         marginBottom: theme.spacing.xs,
       }}
+      onPress={() => onPress(item)}
     >
       <Card.Cover
         style={{

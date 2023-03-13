@@ -60,8 +60,8 @@ export const MediaFilters = ({
 
   return (
     <>
-      <SearchBar onSearch={handleSearch} searchQuery={mediaSearchQuery} />
       <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+      <SearchBar onSearch={handleSearch} searchQuery={mediaSearchQuery} />
     </>
   );
 };

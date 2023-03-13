@@ -131,8 +131,8 @@ export const AddEventsScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
       <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
       <Listing
         data={filteredEvents}
         isLoading={isFetchingInitialEvents || isFetchingInitialSports}
