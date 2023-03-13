@@ -138,11 +138,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         mapContentItemToId
       );
 
-      // Delete the id, name from the request fields to avoid errors
-      delete requestFields.id;
-      delete requestFields.name;
-
-      return requestFields;
+      return requestFields as unknown as Athlete;
     },
     [getRequestFields]
   );
@@ -156,7 +152,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.ATHLETE,
         name: athlete.athleteName,
-        fields: requestFields,
+        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async () => {
           setShowSuccessToast(true);
@@ -172,7 +168,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       await updateContentItem({
         id: athlete.id,
         name: athlete.athleteName,
-        fields: requestFields,
+        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async () => {
           setShowSuccessToast(true);
@@ -196,10 +192,10 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.ATHLETE,
         name: athlete.athleteName,
-        fields: requestFields,
+        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async (res: { id: string }) => {
-          const newAthlete = { ...athlete, id: res.id };
+          const newAthlete = { ...requestFields, id: res.id };
 
           await publishAthlete(newAthlete).then(async () => {
             setShowSuccessToast(true);
@@ -219,10 +215,10 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       await updateContentItem({
         id: athlete.id,
         name: athlete.athleteName,
-        fields: requestFields,
+        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async () => {
-          await publishAthlete(athlete).then(async () => {
+          await publishAthlete(requestFields).then(async () => {
             setShowSuccessToast(true);
             setAthleteID(athlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);

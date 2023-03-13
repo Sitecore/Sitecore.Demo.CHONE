@@ -143,7 +143,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       delete requestFields.id;
       delete requestFields.name;
 
-      return requestFields;
+      return requestFields as unknown as Event;
     },
     [getRequestFields]
   );
@@ -157,7 +157,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
         name: event.title,
-        fields: requestFields,
+        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async () => {
           setShowSuccessToast(true);
@@ -173,7 +173,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       await updateContentItem({
         id: event.id,
         name: event.name,
-        fields: requestFields,
+        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async () => {
           setShowSuccessToast(true);
@@ -197,10 +197,10 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
         name: event.title,
-        fields: requestFields,
+        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async (res: { id: string }) => {
-          const newEvent = { ...event, id: res.id };
+          const newEvent = { ...requestFields, id: res.id };
 
           await publishEvent(newEvent).then(async () => {
             setEventID(newEvent.id);
@@ -220,10 +220,10 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       await updateContentItem({
         id: event.id,
         name: event.name,
-        fields: requestFields,
+        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
       })
         .then(async () => {
-          await publishEvent(event).then(async () => {
+          await publishEvent(requestFields).then(async () => {
             setEventID(event.id);
             setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
