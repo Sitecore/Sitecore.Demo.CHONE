@@ -1,4 +1,7 @@
+import { publishAthlete } from './athletes';
 import { normalizeContentItem } from './contentItemHelper';
+import { publishContentItem } from '../api/queries/contentItems';
+import { publishMediaItem } from '../api/queries/mediaItems';
 import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
 import { EVENT_FACETS } from '../constants/filters';
 import { Event, EventResponse } from '../interfaces/event';
@@ -66,4 +69,49 @@ export const prepareRequestFields = (event: Event) => {
     athletes: { results: event?.athletes ? [...event.athletes] : [] },
     similarEvents: { results: event?.similarEvents ? [...event.similarEvents] : [] },
   };
+};
+
+// Helper function to iterate over an event and publish all related media
+// (featuredImage, relatedMedia), event athletes, similar events and the event itself
+export const publishEvent = async (event: Event): Promise<unknown> => {
+  // If the event has a featured image and/ or related media create a promise for each one of them
+  const mediaPromises = [];
+  if (event?.featuredImage?.id) {
+    mediaPromises.push(() => publishMediaItem(event.featuredImage.id));
+  }
+  if (event?.relatedMedia?.length > 0) {
+    for (const mediaItem of event.relatedMedia) {
+      if (mediaItem?.id) {
+        mediaPromises.push(() => publishMediaItem(mediaItem.id));
+      }
+    }
+  }
+
+  // If the event has related athletes create a promise for each one of them
+  const athletePromises = [];
+  if (event?.athletes?.length > 0) {
+    for (const athlete of event.athletes) {
+      if (athlete?.id) {
+        athletePromises.push(() => publishAthlete(athlete));
+      }
+    }
+  }
+
+  // If the event has similar events create a promise for each one of them
+  const eventPromises = [];
+  if (event?.similarEvents?.length > 0) {
+    for (const similarEvent of event.similarEvents) {
+      if (similarEvent?.id) {
+        eventPromises.push(() => publishEvent(similarEvent));
+      }
+    }
+  }
+
+  // Run all of the above promises in parallel along with the one for publishing the event
+  return await Promise.all([
+    ...mediaPromises.map((mediaPromise) => mediaPromise()),
+    ...athletePromises.map((athletePromise) => athletePromise()),
+    ...eventPromises.map((eventPromise) => eventPromise()),
+    publishContentItem(event.id),
+  ]);
 };
