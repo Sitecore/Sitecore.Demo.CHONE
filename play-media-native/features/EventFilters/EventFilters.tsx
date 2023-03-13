@@ -60,8 +60,8 @@ export const EventFilters = ({
 
   return (
     <>
-      <SearchBar onSearch={handleSearch} searchQuery={eventSearchQuery} />
       <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+      <SearchBar onSearch={handleSearch} searchQuery={eventSearchQuery} />
     </>
   );
 };

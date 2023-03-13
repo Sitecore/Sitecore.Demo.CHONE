@@ -1,4 +1,4 @@
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useNavigation } from '@react-navigation/native';
 import { useMemo } from 'react';
@@ -67,7 +67,7 @@ export const TabScreenHeader = ({ type }: TabScreenHeaderProps) => {
             <IconButton
               mode="contained"
               icon={({ size, color }) => (
-                <FontAwesomeIcon icon={faFilter} color={color} size={size} />
+                <FontAwesomeIcon icon={faSearch} color={color} size={size} />
               )}
               iconColor={visible ? theme.colors.black.darkest : theme.colors.yellow.DEFAULT}
               containerColor={visible ? theme.colors.yellow.DEFAULT : theme.colors.transparent}

@@ -25,7 +25,15 @@ export const FacetFilter = ({
 
   return (
     <View style={style}>
-      <Text style={{ marginBottom: theme.spacing.xxs }}>{label}</Text>
+      <Text
+        variant="labelSmall"
+        style={{
+          marginBottom: theme.spacing.xxs,
+          color: theme.colors.gray.DEFAULT,
+        }}
+      >
+        {label}
+      </Text>
       <DropdownPicker
         selectItems={facets}
         onSelectItem={handleChange}
