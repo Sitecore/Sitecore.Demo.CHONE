@@ -51,7 +51,6 @@ const pageStyles = StyleSheet.create({
 
 export const ReviewAthleteScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
-  const isNew = route?.params?.isNew;
 
   const { contentItems, editMultiple } = useContentItems();
   const athlete = contentItems[stateKey] as Athlete;
@@ -62,6 +61,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+  const [isNew] = useState(route?.params?.isNew);
 
   const deviceMedia = useMemo(() => getDeviceImages(athlete, FIELD_OVERRIDES_ATHLETE), [athlete]);
 

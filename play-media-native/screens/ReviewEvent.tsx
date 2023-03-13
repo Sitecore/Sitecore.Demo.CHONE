@@ -51,7 +51,6 @@ const pageStyles = StyleSheet.create({
 
 export const ReviewEventScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
-  const isNew = route?.params?.isNew;
 
   const { contentItems, editMultiple } = useContentItems();
   const event = contentItems[stateKey] as Event;
@@ -62,6 +61,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+  const [isNew] = useState(route?.params?.isNew);
 
   const deviceMedia = useMemo(() => getDeviceImages(event, FIELD_OVERRIDES_EVENT), [event]);
 
