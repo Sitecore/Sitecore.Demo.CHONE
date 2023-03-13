@@ -1,6 +1,3 @@
-import { faCalendarDays } from '@fortawesome/free-regular-svg-icons';
-import { faUsers } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabNavigationOptions,
@@ -9,6 +6,7 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
+import { MaterialIcon } from '../components/Icon/MaterialIcon';
 import { TabScreenHeader } from '../features/TabScreenHeader/TabScreenHeader';
 import { RootTabParamList } from '../interfaces/navigators';
 import { AthletesListingScreen } from '../screens/AthletesListing';
@@ -22,10 +20,10 @@ const styles = StyleSheet.create({
   labelContainer: {
     display: 'flex',
     flexDirection: 'row',
-  },
-  label: {
-    fontSize: theme.fontSize.base,
-    fontFamily: theme.fontFamily.DEFAULT,
+    alignItems: 'center',
+    height: theme.sizing.tabBarHeight,
+    position: 'relative',
+    top: -10,
   },
   icon: {
     marginRight: theme.spacing.xxs,
@@ -41,6 +39,7 @@ export const Tabs = () => {
     tabBarStyle: {
       backgroundColor: theme.colors.black.darkest,
       borderTopWidth: 0,
+      height: theme.sizing.tabBarHeight,
     },
     tabBarIndicator: () => false,
   };
@@ -70,13 +69,10 @@ export const Tabs = () => {
             tabBarLabel: ({ color }) => {
               return (
                 <View style={styles.labelContainer}>
-                  <FontAwesomeIcon
-                    icon={faCalendarDays}
-                    color={color}
-                    size={theme.fontSize.sm}
-                    style={styles.icon}
-                  />
-                  <Text style={[styles.label, { color }]}>Events</Text>
+                  <MaterialIcon name="calendar" color={color} size={24} style={styles.icon} />
+                  <Text variant="labelLarge" style={{ color }}>
+                    Events
+                  </Text>
                 </View>
               );
             },
@@ -89,13 +85,15 @@ export const Tabs = () => {
             tabBarLabel: ({ color }) => {
               return (
                 <View style={styles.labelContainer}>
-                  <FontAwesomeIcon
-                    icon={faUsers}
+                  <MaterialIcon
+                    name="account-multiple-outline"
                     color={color}
-                    size={theme.fontSize.sm}
+                    size={theme.fontSize.xl}
                     style={styles.icon}
                   />
-                  <Text style={[styles.label, { color }]}>Athletes</Text>
+                  <Text variant="labelLarge" style={{ color }}>
+                    Athletes
+                  </Text>
                 </View>
               );
             },
@@ -108,13 +106,15 @@ export const Tabs = () => {
             tabBarLabel: ({ color }) => {
               return (
                 <View style={styles.labelContainer}>
-                  <FontAwesomeIcon
-                    icon={faCalendarDays}
+                  <MaterialIcon
+                    name="folder-multiple-image"
                     color={color}
-                    size={theme.fontSize.sm}
+                    size={theme.fontSize.lg}
                     style={styles.icon}
                   />
-                  <Text style={[styles.label, { color }]}>Media</Text>
+                  <Text variant="labelLarge" style={{ color }}>
+                    Media
+                  </Text>
                 </View>
               );
             },
