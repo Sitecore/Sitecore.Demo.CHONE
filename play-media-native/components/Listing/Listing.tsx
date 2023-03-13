@@ -24,6 +24,7 @@ const pageStyles = StyleSheet.create({
     height: theme.spacing.xl,
     marginTop: theme.spacing.sm,
     marginLeft: theme.spacing.sm,
+    paddingRight: theme.spacing.xxl,
   },
   footerText: {
     textAlign: 'left',
