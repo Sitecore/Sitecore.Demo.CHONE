@@ -139,7 +139,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     delete requestFields.id;
     delete requestFields.name;
 
-    return requestFields as unknown as Athlete;
+    return requestFields;
   }, []);
 
   const handleSaveDraft = useCallback(async () => {
@@ -152,7 +152,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.ATHLETE,
         name: athlete.athleteName,
-        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
+        fields: requestFields,
       })
         .then(async () => {
           setShowSuccessToast(true);
@@ -168,7 +168,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       await updateContentItem({
         id: athlete.id,
         name: athlete.athleteName,
-        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
+        fields: requestFields,
       })
         .then(async () => {
           setShowSuccessToast(true);
@@ -193,10 +193,11 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.ATHLETE,
         name: athlete.athleteName,
-        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
+        fields: requestFields,
       })
         .then(async (res: { id: string }) => {
           const newAthlete = { ...stateFields, id: res.id };
+
           await publishAthlete(newAthlete).then(async () => {
             setShowSuccessToast(true);
             setAthleteID(newAthlete.id);
@@ -214,7 +215,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       await updateContentItem({
         id: athlete.id,
         name: athlete.athleteName,
-        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
+        fields: requestFields,
       })
         .then(async () => {
           await publishAthlete(stateFields).then(async () => {

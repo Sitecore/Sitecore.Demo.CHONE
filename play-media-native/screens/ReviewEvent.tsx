@@ -129,6 +129,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   }, []);
 
   // Map eventToReview object to a form suitable for the API request
+  //
   const initRequestFields = useCallback(async (eventFields: Event) => {
     // Map event object to a form suitable for the API request
     const requestFields = mapContentItem(
@@ -140,7 +141,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     delete requestFields.id;
     delete requestFields.name;
 
-    return requestFields as unknown as Event;
+    return requestFields;
   }, []);
 
   const handleSaveDraft = useCallback(async () => {
@@ -153,7 +154,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
         name: event.title,
-        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
+        fields: requestFields,
       })
         .then(async () => {
           setShowSuccessToast(true);
@@ -168,8 +169,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     } else {
       await updateContentItem({
         id: event.id,
-        name: event.name,
-        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
+        name: event.title,
+        fields: requestFields,
       })
         .then(async () => {
           setShowSuccessToast(true);
@@ -194,7 +195,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       await createContentItem({
         contentTypeId: CONTENT_TYPES.EVENT,
         name: event.title,
-        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
+        fields: requestFields,
       })
         .then(async (res: { id: string }) => {
           const newEvent = { ...stateFields, id: res.id };
@@ -203,7 +204,6 @@ export const ReviewEventScreen = ({ navigation, route }) => {
             setEventID(newEvent.id);
             setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
-
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -216,15 +216,14 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     } else {
       await updateContentItem({
         id: event.id,
-        name: event.name,
-        fields: requestFields as unknown as { [prop: string]: { value?: unknown } },
+        name: event.title,
+        fields: requestFields,
       })
         .then(async () => {
           await publishEvent(stateFields).then(async () => {
             setEventID(event.id);
             setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
-
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
