@@ -24,6 +24,11 @@ export const getItemsStatus = async (type: StatusTypes): Promise<StatusResult[]>
       const data = await jsonResponsePromise;
 
       if (data?.status) {
+        // If the API response status is '429 Too Many Requests', retry the request
+        if (data.status === 429) {
+          return getItemsStatus(type);
+        }
+
         console.error(`${data.status} error: ${data?.detail}`);
         throw data?.status;
       }
@@ -57,6 +62,11 @@ export const getItemStatusById = async (id: string, type: StatusTypes): Promise<
       const data = await jsonResponsePromise;
 
       if (data?.status) {
+        // If the API response status is '429 Too Many Requests', retry the request
+        if (data.status === 429) {
+          return getItemStatusById(id, type);
+        }
+
         console.error(`${data.status} error: ${data?.detail}`);
         throw data?.status;
       }
