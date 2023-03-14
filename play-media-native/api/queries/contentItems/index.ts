@@ -20,6 +20,11 @@ export const createContentItem = async (contentItem: ContentItemCreate): Promise
       const data = await jsonResponsePromise;
 
       if (data?.status) {
+        // If the API response status is '429 Too Many Requests', retry the request
+        if (data.status === 429) {
+          return createContentItem(contentItem);
+        }
+
         console.error(`${data.status} error: ${data?.detail}`);
         throw data?.status;
       }
@@ -49,6 +54,11 @@ export const updateContentItem = async (contentItem: ContentItemUpdate): Promise
       const data = await jsonResponsePromise;
 
       if (data?.status) {
+        // If the API response status is '429 Too Many Requests', retry the request
+        if (data.status === 429) {
+          return updateContentItem(contentItem);
+        }
+
         console.error(`${data.status} error: ${data?.detail}`);
         throw data?.status;
       }
