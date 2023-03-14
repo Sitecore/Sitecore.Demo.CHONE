@@ -1,29 +1,31 @@
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useCallback, useMemo } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Card, Text } from 'react-native-paper';
 
-import { getAccentColor } from '../../helpers/colorHelper';
-import { getDate, getTime } from '../../helpers/dateHelper';
+import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
+import { getDate } from '../../helpers/dateHelper';
 import { Athlete } from '../../interfaces/athlete';
 import { Event } from '../../interfaces/event';
 import { Media } from '../../interfaces/media';
 import { StackNavigationProp } from '../../interfaces/navigators';
+import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { CardAvatar } from '../CardAvatar/CardAvatar';
 import { CardEvent } from '../CardEvent/CardEvent';
+import { CardShadowBox } from '../CardShadowBox/CardShadowBox';
 import { ImageGrid } from '../ImageGrid/ImageGrid';
 import { RichText } from '../RichText/RichText';
 
 const pageStyles = StyleSheet.create({
   featuredImage: {
-    height: 300,
     width: '100%',
+    height: 500,
   },
   title: {
-    fontFamily: theme.fontFamily.bold,
     color: theme.colors.gray.dark,
-    marginBottom: theme.spacing.xxs,
+    marginBottom: theme.spacing.xs,
   },
   body: {
     marginBottom: theme.spacing.sm,
@@ -68,74 +70,82 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
   return (
     <View>
       {event?.featuredImage?.fileUrl && (
-        <View style={{ marginBottom: theme.spacing.sm }}>
-          <Image source={{ uri: event?.featuredImage?.fileUrl }} style={pageStyles.featuredImage} />
-        </View>
-      )}
-      {event?.sport?.title && (
         <View>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Sport
-          </Text>
-          <Text
-            style={[
-              pageStyles.body,
-              {
-                color: accentColor,
-              },
-            ]}
-          >
-            {event.sport.title || ''}
-          </Text>
+          <Image source={{ uri: event?.featuredImage?.fileUrl }} style={pageStyles.featuredImage} />
+          <LinearGradient
+            colors={[theme.colors.transparent, theme.colors.black.darkest]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={styles.overlay}
+          />
         </View>
       )}
-      <View>
-        {event?.title && (
-          <>
-            <Text variant="labelSmall" style={pageStyles.title}>
-              Title
-            </Text>
-            <Text style={pageStyles.body}>{event.title}</Text>
-          </>
-        )}
-        {event?.timeAndDate && (
-          <>
-            <Text variant="labelSmall" style={pageStyles.title}>
-              Time and date
-            </Text>
-            <Text style={pageStyles.body}>
-              {getDate(event.timeAndDate)} {getTime(event.timeAndDate)}
-            </Text>
-          </>
-        )}
+
+      <View style={[styles.screenPadding, { marginTop: -100 }]}>
+        <CardShadowBox color={accentColor}>
+          <Card.Content>
+            <View style={{ flexDirection: 'row' }}>
+              {event?.sport?.title && (
+                <Text
+                  style={{
+                    backgroundColor: accentColor,
+                    color: getTextColor(accentColor),
+                    paddingLeft: theme.spacing.lg,
+                    paddingRight: theme.spacing.xxs,
+                    marginLeft: -theme.spacing.lg,
+                    marginRight: theme.spacing.sm,
+                  }}
+                >
+                  {event.sport.title}
+                </Text>
+              )}
+              {!isReview && (
+                <Text style={{ color: theme.colors.gray.DEFAULT }}>{event.status}</Text>
+              )}
+            </View>
+            {(event?.timeAndDate || event?.location) && (
+              <Text style={{ color: theme.colors.gray.DEFAULT }}>
+                {`${getDate(event?.timeAndDate)} | ${event?.location}`}
+              </Text>
+            )}
+            {event?.title && <Text variant="displaySmall">{event.title}</Text>}
+          </Card.Content>
+        </CardShadowBox>
+      </View>
+
+      <View style={styles.screenPadding}>
         {event?.teaser && (
           <>
             <Text variant="labelSmall" style={pageStyles.title}>
-              Teaser
+              Summary
             </Text>
             <Text style={pageStyles.body}>{event.teaser}</Text>
-          </>
-        )}
-        {event?.location && (
-          <>
-            <Text variant="labelSmall" style={pageStyles.title}>
-              Location
-            </Text>
-            <Text style={pageStyles.body}>{event.location}</Text>
           </>
         )}
         {event?.body?.content && (
           <>
             <Text variant="labelSmall" style={pageStyles.title}>
-              Body
+              Description
             </Text>
             <RichText body={event.body.content} accentColor={accentColor} />
           </>
         )}
       </View>
-      <ImageGrid images={imageUriArray} style={{ marginTop: theme.spacing.lg }} />
-      {event?.athletes?.length > 0 && (
+
+      {event?.relatedMedia?.length > 0 && (
         <View style={{ marginTop: theme.spacing.lg }}>
+          <Text variant="titleMedium" style={[pageStyles.title, { textAlign: 'center' }]}>
+            Media
+          </Text>
+          <ImageGrid images={imageUriArray} />
+        </View>
+      )}
+
+      {event?.athletes?.length > 0 && (
+        <View style={[styles.screenPadding, { marginTop: theme.spacing.lg }]}>
+          <Text variant="titleMedium" style={[pageStyles.title, { textAlign: 'center' }]}>
+            Athletes
+          </Text>
           {event.athletes.map((athlete: Athlete) => (
             <CardAvatar
               key={athlete.id}
@@ -145,8 +155,12 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
           ))}
         </View>
       )}
+
       {event?.similarEvents?.length > 0 && (
-        <View style={{ marginTop: theme.spacing.lg }}>
+        <View style={{ marginTop: theme.spacing.sm }}>
+          <Text variant="titleMedium" style={[pageStyles.title, { textAlign: 'center' }]}>
+            Related events
+          </Text>
           {event.similarEvents.map((event: Event) => (
             <CardEvent key={event.id} item={event} onCardPress={() => onEventPress(event)} />
           ))}

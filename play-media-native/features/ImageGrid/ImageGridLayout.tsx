@@ -1,8 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { Dimensions, Image, View, StyleSheet, Pressable } from 'react-native';
 
-import { theme } from '../../theme/theme';
-
 export const ImageGridLayout = ({
   images,
   onImagePress,
@@ -11,7 +9,7 @@ export const ImageGridLayout = ({
   onImagePress: (i: number) => void;
 }) => {
   const width = Dimensions.get('window').width;
-  const oneThird = (width - 2 * theme.spacing.sm) / 3;
+  const oneThird = width / 3;
   const twoThirds = 2 * oneThird;
   const imagesPerRow = 4;
 
