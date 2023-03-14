@@ -1,3 +1,4 @@
+import { getInfoAsync } from 'expo-file-system';
 import {
   MediaTypeOptions,
   launchImageLibraryAsync,
@@ -24,9 +25,13 @@ export const useDeviceLibrary = () => {
 
       if (result.canceled) {
         return null;
-      } else {
-        callback && callback({ ...result.assets[0], source: MEDIA_SOURCES.LIBRARY });
       }
+
+      const image = result.assets[0];
+      const fileInfo = await getInfoAsync(image.uri);
+
+      callback &&
+        callback({ ...image, fileSize: fileInfo.size.toString(), source: MEDIA_SOURCES.LIBRARY });
     },
     [requestPermissions]
   );

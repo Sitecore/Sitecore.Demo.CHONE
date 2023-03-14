@@ -105,7 +105,7 @@ export const ContentFieldMedia = ({
 
   const resolveActionsForItem = useCallback(
     (item: Media) => {
-      return item.source !== MEDIA_SOURCES.CH_ONE
+      return item?.source === MEDIA_SOURCES.LIBRARY || item?.source === MEDIA_SOURCES.CAMERA
         ? [
             {
               icon: 'circle-edit-outline',

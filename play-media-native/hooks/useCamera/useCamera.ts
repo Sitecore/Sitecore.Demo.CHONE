@@ -1,3 +1,4 @@
+import { getInfoAsync } from 'expo-file-system';
 import { MediaTypeOptions, launchCameraAsync, useCameraPermissions } from 'expo-image-picker';
 import { useCallback } from 'react';
 
@@ -20,9 +21,13 @@ export const useCamera = () => {
 
       if (result.canceled) {
         return null;
-      } else {
-        callback && callback({ ...result.assets[0], source: MEDIA_SOURCES.CAMERA });
       }
+
+      const image = result.assets[0];
+      const fileInfo = await getInfoAsync(image.uri);
+
+      callback &&
+        callback({ ...image, fileSize: fileInfo.size.toString(), source: MEDIA_SOURCES.CAMERA });
     },
     [requestPermissions]
   );

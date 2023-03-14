@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { ActivityIndicator, Button } from 'react-native-paper';
+import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
+import { uploadMultipleImages } from '../api/queries/uploadMedia';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
@@ -16,6 +17,7 @@ import {
   mapContentItemToId,
   prepareRequestFields,
 } from '../helpers/contentItemHelper';
+import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Athlete } from '../interfaces/athlete';
@@ -49,9 +51,8 @@ const pageStyles = StyleSheet.create({
 
 export const ReviewAthleteScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
-  const isNew = route?.params?.isNew;
 
-  const { contentItems } = useContentItems();
+  const { contentItems, editMultiple } = useContentItems();
   const athlete = contentItems[stateKey] as Athlete;
 
   const [athleteID, setAthleteID] = useState(null);
@@ -60,6 +61,44 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+  const [isNew] = useState(route?.params?.isNew);
+
+  const deviceMedia = useMemo(() => getDeviceImages(athlete, FIELD_OVERRIDES_ATHLETE), [athlete]);
+
+  const uploadDeviceMedia = useCallback(
+    async (athleteFields: Athlete) => {
+      return await uploadMultipleImages(deviceMedia)
+        .then((uploadedMedia) => {
+          const updatedFields = insertCreatedMedia(athleteFields, uploadedMedia);
+
+          editMultiple({
+            id: stateKey,
+            fields: updatedFields,
+          });
+
+          return {
+            ...athleteFields,
+            ...updatedFields,
+          };
+        })
+        .catch((e) => {
+          console.error(e);
+          return athleteFields;
+        });
+    },
+    [deviceMedia, editMultiple, stateKey]
+  );
+
+  const getStateAfterMediaUpload = useCallback(
+    async (athleteFields: Athlete) => {
+      if (!deviceMedia?.length) {
+        return athleteFields;
+      }
+
+      return await uploadDeviceMedia(athleteFields);
+    },
+    [deviceMedia?.length, uploadDeviceMedia]
+  );
 
   // In case of publishing we have to manually update the athlete's status
   // because the server takes too long to reflect the change
@@ -88,10 +127,11 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     setShowErrorToast(false);
   }, []);
 
-  const initRequestFields = useCallback(() => {
-    // Map athlete object to a form suitable for the API request
+  // Map athlete object to a form suitable for the API request
+  //
+  const initRequestFields = useCallback(async (athleteFields: Athlete) => {
     const requestFields = mapContentItem(
-      prepareRequestFields(athlete, FIELD_OVERRIDES_ATHLETE),
+      prepareRequestFields(athleteFields, FIELD_OVERRIDES_ATHLETE),
       mapContentItemToId
     );
 
@@ -100,12 +140,13 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     delete requestFields.name;
 
     return requestFields;
-  }, [athlete]);
+  }, []);
 
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = initRequestFields();
+    const stateFields = await getStateAfterMediaUpload(athlete);
+    const requestFields = await initRequestFields(stateFields);
 
     if (isNew) {
       await createContentItem({
@@ -140,12 +181,13 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, initRequestFields, isNew, navigation, refetchListing]);
+  }, [athlete, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = initRequestFields();
+    const stateFields = await getStateAfterMediaUpload(athlete);
+    const requestFields = await initRequestFields(stateFields);
 
     if (isNew) {
       await createContentItem({
@@ -154,13 +196,12 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         fields: requestFields,
       })
         .then(async (res: { id: string }) => {
-          const newAthlete = { ...athlete, id: res.id };
+          const newAthlete = { ...stateFields, id: res.id };
 
           await publishAthlete(newAthlete).then(async () => {
             setShowSuccessToast(true);
             setAthleteID(newAthlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);
-
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -177,11 +218,10 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
         fields: requestFields,
       })
         .then(async () => {
-          await publishAthlete(athlete).then(async () => {
+          await publishAthlete(stateFields).then(async () => {
             setShowSuccessToast(true);
             setAthleteID(athlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);
-
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -192,7 +232,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, initRequestFields, isNew, navigation, refetchListing]);
+  }, [athlete, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (
@@ -217,6 +257,14 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
     ),
     [handleSaveDraft, handlePublishBtn]
   );
+
+  if (!athlete) {
+    return (
+      <Screen centered>
+        <Text>Athlete not available!</Text>
+      </Screen>
+    );
+  }
 
   return (
     <Screen>
