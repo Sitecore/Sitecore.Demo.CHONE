@@ -11,9 +11,9 @@ export const nameAlreadyExists = async (connection: Connection): Promise<boolean
 
 // Get all connections already stored in secure storage
 //
-export const getConnections = async (): Promise<Connection[] | null> => {
+export const getConnections = async (): Promise<Connection[]> => {
   const existingConnections = await getValueFor(CONNECTIONS_KEY);
-  return existingConnections ? JSON.parse(existingConnections) : null;
+  return existingConnections ? JSON.parse(existingConnections) : [];
 };
 
 // Save connection object in secure storage
@@ -35,7 +35,7 @@ export const storeConnection = async (connection: Connection): Promise<void> => 
 export const removeConnections = async (connections: Connection[]): Promise<void> => {
   const existingConnections = await getConnections();
 
-  if (!existingConnections) {
+  if (!existingConnections?.length) {
     return;
   }
 
