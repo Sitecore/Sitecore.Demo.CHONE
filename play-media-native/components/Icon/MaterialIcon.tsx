@@ -1,18 +1,18 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleProp } from 'react-native';
 
 import { theme } from '../../theme/theme';
 
 interface Props {
-  name: keyof typeof Ionicons.glyphMap;
+  name: keyof typeof MaterialCommunityIcons.glyphMap;
   size?: number;
   color?: string;
   style?: StyleProp<any>;
 }
 
-export const Icon = ({ name, size, color, style }: Props) => {
+export const MaterialIcon = ({ name, size, color, style }: Props) => {
   return (
-    <Ionicons
+    <MaterialCommunityIcons
       name={name}
       size={size || 32}
       color={color || theme.colors.black.DEFAULT}

@@ -67,6 +67,7 @@ export const theme = {
     sm: 18,
     base: 20,
     lg: 22,
+    xl: 26,
   },
   spacing: {
     xxs: 4,
@@ -79,6 +80,7 @@ export const theme = {
   },
   sizing: {
     inputHeight: 36,
+    tabBarHeight: 42,
   },
 };
 
@@ -117,6 +119,11 @@ export const paperFontConfig = {
     fontFamily: theme.fontFamily.bold,
     fontSize: theme.fontSize.xs,
     lineHeight: theme.spacing.md,
+  },
+  labelMedium: {
+    fontFamily: theme.fontFamily.DEFAULT,
+    fontSize: theme.fontSize.base,
+    lineHeight: theme.spacing.lg,
   },
 };
 
