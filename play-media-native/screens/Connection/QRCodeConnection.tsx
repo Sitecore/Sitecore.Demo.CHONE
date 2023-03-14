@@ -63,7 +63,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
           })
           .catch((e) => {
             setIsQRError(true);
-            console.error(e);
+            console.error('Validating the connection failed with error', e);
           });
       } else {
         setIsQRError(true);
