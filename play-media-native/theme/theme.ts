@@ -120,7 +120,7 @@ export const paperFontConfig = {
     fontSize: theme.fontSize.xs,
     lineHeight: theme.spacing.md,
   },
-  labelLarge: {
+  labelMedium: {
     fontFamily: theme.fontFamily.DEFAULT,
     fontSize: theme.fontSize.base,
     lineHeight: theme.spacing.lg,

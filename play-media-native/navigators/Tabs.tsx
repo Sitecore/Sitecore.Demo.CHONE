@@ -70,7 +70,7 @@ export const Tabs = () => {
               return (
                 <View style={styles.labelContainer}>
                   <MaterialIcon name="calendar" color={color} size={24} style={styles.icon} />
-                  <Text variant="labelLarge" style={{ color }}>
+                  <Text variant="labelMedium" style={{ color }}>
                     Events
                   </Text>
                 </View>
@@ -91,7 +91,7 @@ export const Tabs = () => {
                     size={theme.fontSize.xl}
                     style={styles.icon}
                   />
-                  <Text variant="labelLarge" style={{ color }}>
+                  <Text variant="labelMedium" style={{ color }}>
                     Athletes
                   </Text>
                 </View>
@@ -112,7 +112,7 @@ export const Tabs = () => {
                     size={theme.fontSize.lg}
                     style={styles.icon}
                   />
-                  <Text variant="labelLarge" style={{ color }}>
+                  <Text variant="labelMedium" style={{ color }}>
                     Media
                   </Text>
                 </View>
