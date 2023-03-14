@@ -6,6 +6,8 @@ import { Event } from '../../interfaces/event';
 import { AthleteGrid } from '../../components/AthleteGrid/AthleteGrid';
 
 const EventDetailsPage = ({ event }: { event: Event }) => {
+  const body = event?.body?.content && <RichText body={event.body.content} />;
+
   return (
     <main>
       <HeroBannerEventDetails event={event} />
@@ -13,7 +15,7 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
         {!!event?.relatedMedia?.results?.length && (
           <ImageGrid images={event?.relatedMedia?.results || []} />
         )}
-        <RichText body={event?.body?.content} />
+        {body}
       </div>
       {!!event?.athletes?.results && (
         <section>
