@@ -18,13 +18,13 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
       {!!event?.athletes?.results && (
         <section>
           <h2 className="text-center -mb-10">Athletes who joined</h2>
-          <AthleteGrid athletes={event?.athletes?.results} />
+          <AthleteGrid athletes={event.athletes.results} />
         </section>
       )}
       {!!event?.similarEvents?.results?.length && (
         <section>
           <h2 className="text-center mb-10">Similar events</h2>
-          <EventGridSimple events={event?.similarEvents?.results as Event[]} />
+          <EventGridSimple events={event.similarEvents.results as Event[]} />
         </section>
       )}
     </main>
