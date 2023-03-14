@@ -23,24 +23,6 @@ import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 const pageStyles = StyleSheet.create({
-  title: {
-    fontFamily: theme.fontFamily.bold,
-    color: theme.colors.gray.dark,
-    marginBottom: theme.spacing.xxs,
-  },
-  body: {
-    marginBottom: theme.spacing.sm,
-  },
-  bottomFAB: {
-    position: 'absolute',
-    right: theme.spacing.sm,
-    bottom: theme.spacing.xs,
-  },
-  button: {
-    position: 'absolute',
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
-  },
   actionBtns: {
     paddingBottom: 0,
     paddingRight: theme.spacing.xs,
@@ -229,7 +211,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <ScrollView scrollEventThrottle={0} style={styles.screenPadding}>
+      <ScrollView>
         <EventDetail event={event} isReview />
         <View style={{ paddingBottom: 50 }} />
       </ScrollView>
