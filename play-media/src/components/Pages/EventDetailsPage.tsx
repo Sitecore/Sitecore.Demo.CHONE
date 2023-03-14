@@ -13,7 +13,7 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
         {!!event?.relatedMedia?.results?.length && (
           <ImageGrid images={event?.relatedMedia?.results || []} />
         )}
-        <RichText body={event.body.content} />
+        <RichText body={event?.body?.content} />
       </div>
       {!!event?.athletes?.results && (
         <section>
