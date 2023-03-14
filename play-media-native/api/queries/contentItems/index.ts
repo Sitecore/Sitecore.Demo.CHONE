@@ -74,6 +74,11 @@ export const publishContentItem = async (id: string): Promise<unknown> => {
       },
     }).then(async (response: Response) => {
       if (!response?.ok) {
+        // If the API response status is '429 Too Many Requests', retry the request
+        if (response.status === 429) {
+          return publishContentItem(id);
+        }
+
         console.error(`${response?.status} error: ${response?.statusText}`);
         throw response?.status;
       }
