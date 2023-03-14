@@ -5,8 +5,8 @@ type GraphQLResponseWithErrors = {
   errors: unknown[];
 };
 
-// API key and Preview URL are by default provided by the Redux store.
-// Optionally, fetchGrpahQL accepts an option argument, which is useful when validating CH1 connections.
+// API key and Preview URL are by default provided by Expo Secure Store.
+// Optionally, fetchGrpahQL accepts an options argument, which is useful when validating CH1 connections.
 // Preview URL and API key are passed in as parameters, to validate the fields provided.
 //
 export async function fetchGraphQL(query: string, options?: FetchOptions): Promise<unknown> {
@@ -24,6 +24,13 @@ export async function fetchGraphQL(query: string, options?: FetchOptions): Promi
       },
       body: JSON.stringify({ query }),
     }).then((response: Response) => {
+      if (!response.ok) {
+        console.error(
+          `GraphQL query failed with error ${response?.status} ${response?.statusText}`
+        );
+        throw response?.status;
+      }
+
       const jsonResponsePromise = response.json();
       jsonResponsePromise.then((jsonResponse: unknown) => {
         const responseWithErrors = jsonResponse as GraphQLResponseWithErrors;
@@ -37,6 +44,6 @@ export async function fetchGraphQL(query: string, options?: FetchOptions): Promi
       return jsonResponsePromise;
     });
   } catch (error) {
-    return console.log(error);
+    throw error;
   }
 }
