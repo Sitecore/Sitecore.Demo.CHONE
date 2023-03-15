@@ -34,8 +34,8 @@ const athleteMenuStyle = {
 
 const eventMenuStyle = {
   position: 'absolute',
-  bottom: 20,
-  right: 18,
+  top: 0,
+  right: theme.spacing.sm,
   zIndex: 10,
 };
 
@@ -66,7 +66,7 @@ export const ContentItemFields = ({
   const getMenuItems = useCallback(
     (key: string, item: any) => [
       {
-        icon: 'delete-outline',
+        icon: 'close',
         handler: () => deleteItem(key, item),
         title: 'Delete',
       },
@@ -100,10 +100,10 @@ export const ContentItemFields = ({
       ),
       [CONTENT_TYPES.EVENT]: (item: Event) => (
         <View style={{ position: 'relative' }}>
-          <CardEvent item={item} />
+          <CardEvent item={item} isDraggable />
           <ActionMenu
             iconColor={theme.colors.black.DEFAULT}
-            iconSize={25}
+            iconSize={theme.sizing.menuIconSize}
             menuItems={getMenuItems(fieldKey, item)}
             style={eventMenuStyle}
           />
