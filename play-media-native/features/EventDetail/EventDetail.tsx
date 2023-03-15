@@ -4,6 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
+import { EVENT_MOCK_IMG } from '../../constants/mockImages';
 import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
 import { getDate } from '../../helpers/dateHelper';
 import { Athlete } from '../../interfaces/athlete';
@@ -69,17 +70,18 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
 
   return (
     <View>
-      {event?.featuredImage?.fileUrl && (
-        <View>
-          <Image source={{ uri: event?.featuredImage?.fileUrl }} style={pageStyles.featuredImage} />
-          <LinearGradient
-            colors={[theme.colors.transparent, theme.colors.black.darkest]}
-            start={{ x: 0.5, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
-            style={styles.overlay}
-          />
-        </View>
-      )}
+      <View>
+        <Image
+          source={{ uri: event?.featuredImage?.fileUrl || EVENT_MOCK_IMG }}
+          style={pageStyles.featuredImage}
+        />
+        <LinearGradient
+          colors={[theme.colors.transparent, theme.colors.black.darkest]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 1 }}
+          style={styles.overlay}
+        />
+      </View>
 
       <View style={[styles.screenPadding, { marginTop: -100 }]}>
         <CardShadowBox color={accentColor}>

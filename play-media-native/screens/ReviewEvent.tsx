@@ -211,7 +211,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView scrollEventThrottle={0}>
         <EventDetail event={event} isReview />
         <View style={{ paddingBottom: 50 }} />
       </ScrollView>

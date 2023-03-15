@@ -66,7 +66,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView onScroll={calcScrollOffset}>
+      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
         <EventDetail event={event} />
       </ScrollView>
       {!isEditForbidden && bottomActions}
