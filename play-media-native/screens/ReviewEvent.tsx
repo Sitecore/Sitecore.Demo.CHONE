@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
+import { uploadMultipleImages } from '../api/queries/uploadMedia';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { CONTENT_TYPES } from '../constants/contentTypes';
@@ -16,6 +17,7 @@ import {
   prepareRequestFields,
 } from '../helpers/contentItemHelper';
 import { publishEvent } from '../helpers/events';
+import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { Event } from '../interfaces/event';
@@ -31,9 +33,8 @@ const pageStyles = StyleSheet.create({
 
 export const ReviewEventScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
-  const isNew = route?.params?.isNew;
 
-  const { contentItems } = useContentItems();
+  const { contentItems, editMultiple } = useContentItems();
   const event = contentItems[stateKey] as Event;
 
   const [eventID, setEventID] = useState(null);
@@ -42,6 +43,44 @@ export const ReviewEventScreen = ({ navigation, route }) => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+  const [isNew] = useState(route?.params?.isNew);
+
+  const deviceMedia = useMemo(() => getDeviceImages(event, FIELD_OVERRIDES_EVENT), [event]);
+
+  const uploadDeviceMedia = useCallback(
+    async (eventFields: Event) => {
+      return await uploadMultipleImages(deviceMedia)
+        .then((uploadedMedia) => {
+          const updatedFields = insertCreatedMedia(eventFields, uploadedMedia);
+
+          editMultiple({
+            id: stateKey,
+            fields: updatedFields,
+          });
+
+          return {
+            ...eventFields,
+            ...updatedFields,
+          };
+        })
+        .catch((e) => {
+          console.error(e);
+          return eventFields;
+        });
+    },
+    [deviceMedia, editMultiple, stateKey]
+  );
+
+  const getStateAfterMediaUpload = useCallback(
+    async (eventFields: Event) => {
+      if (!deviceMedia?.length) {
+        return eventFields;
+      }
+
+      return await uploadDeviceMedia(eventFields);
+    },
+    [deviceMedia?.length, uploadDeviceMedia]
+  );
 
   // In case of publishing we have to manually update the event's status
   // because the server takes too long to reflect the change
@@ -71,10 +110,12 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     setShowErrorToast(false);
   }, []);
 
-  const initRequestFields = useCallback(() => {
+  // Map eventToReview object to a form suitable for the API request
+  //
+  const initRequestFields = useCallback(async (eventFields: Event) => {
     // Map event object to a form suitable for the API request
     const requestFields = mapContentItem(
-      prepareRequestFields(event, FIELD_OVERRIDES_EVENT),
+      prepareRequestFields(eventFields, FIELD_OVERRIDES_EVENT),
       mapContentItemToId
     );
 
@@ -83,12 +124,13 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     delete requestFields.name;
 
     return requestFields;
-  }, [event]);
+  }, []);
 
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = initRequestFields();
+    const stateFields = await getStateAfterMediaUpload(event);
+    const requestFields = await initRequestFields(stateFields);
 
     if (isNew) {
       await createContentItem({
@@ -109,7 +151,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     } else {
       await updateContentItem({
         id: event.id,
-        name: event.name,
+        name: event.title,
         fields: requestFields,
       })
         .then(async () => {
@@ -123,12 +165,13 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, initRequestFields, isNew, navigation, refetchListing]);
+  }, [event, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = initRequestFields();
+    const stateFields = await getStateAfterMediaUpload(event);
+    const requestFields = await initRequestFields(stateFields);
 
     if (isNew) {
       await createContentItem({
@@ -137,13 +180,12 @@ export const ReviewEventScreen = ({ navigation, route }) => {
         fields: requestFields,
       })
         .then(async (res: { id: string }) => {
-          const newEvent = { ...event, id: res.id };
+          const newEvent = { ...stateFields, id: res.id };
 
           await publishEvent(newEvent).then(async () => {
             setEventID(newEvent.id);
             setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
-
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -156,15 +198,14 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     } else {
       await updateContentItem({
         id: event.id,
-        name: event.name,
+        name: event.title,
         fields: requestFields,
       })
         .then(async () => {
-          await publishEvent(event).then(async () => {
+          await publishEvent(stateFields).then(async () => {
             setEventID(event.id);
             setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
-
             await refetchListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
@@ -175,7 +216,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, initRequestFields, isNew, navigation, refetchListing]);
+  }, [event, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
 
   const bottomActions = useMemo(
     () => (

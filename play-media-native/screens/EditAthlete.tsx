@@ -1,4 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from 'react-native-paper';
 
@@ -8,10 +9,13 @@ import { ContentItemFields } from '../features/ContentItemFields/ContentItemFiel
 import { Screen } from '../features/Screen/Screen';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Athlete } from '../interfaces/athlete';
+import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
-export const EditAthleteScreen = ({ navigation, route }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'EditAthlete'>;
+
+export const EditAthleteScreen = ({ navigation, route }: Props) => {
   const [stateKey] = useState(route?.params?.stateKey);
   const { contentItems } = useContentItems();
 

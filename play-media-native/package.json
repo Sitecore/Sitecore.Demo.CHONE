@@ -26,6 +26,7 @@
     "color-hash": "^2.0.2",
     "expo": "~47.0.9",
     "expo-barcode-scanner": "~12.1.0",
+    "expo-file-system": "~15.1.1",
     "expo-font": "~11.0.1",
     "expo-image-picker": "~14.0.2",
     "expo-linear-gradient": "~12.0.1",
