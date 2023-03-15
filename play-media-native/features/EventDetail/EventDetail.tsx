@@ -69,7 +69,7 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
   }
 
   return (
-    <View>
+    <View style={{ paddingBottom: isReview ? 50 : 0 }}>
       <View>
         <Image
           source={{ uri: event?.featuredImage?.fileUrl || EVENT_MOCK_IMG }}

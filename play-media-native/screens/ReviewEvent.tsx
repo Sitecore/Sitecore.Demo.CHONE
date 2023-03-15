@@ -213,7 +213,6 @@ export const ReviewEventScreen = ({ navigation, route }) => {
     <Screen>
       <ScrollView scrollEventThrottle={0}>
         <EventDetail event={event} isReview />
-        <View style={{ paddingBottom: 50 }} />
       </ScrollView>
       {isValidating && (
         <View>

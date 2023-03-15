@@ -221,8 +221,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
   return (
     <Screen>
       <ScrollView scrollEventThrottle={0}>
-        <AthleteDetail athlete={athlete} />
-        <View style={{ paddingBottom: 50 }} />
+        <AthleteDetail athlete={athlete} isReview />
       </ScrollView>
       {isValidating && (
         <View>

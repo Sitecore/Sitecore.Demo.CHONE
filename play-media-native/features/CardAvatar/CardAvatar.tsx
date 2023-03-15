@@ -1,6 +1,8 @@
 import { View } from 'react-native';
-import { Avatar, Card, Text } from 'react-native-paper';
+import { Card, Text } from 'react-native-paper';
 
+import { AvatarImage } from '../../components/AvatarImage/AvatarImage';
+import { ATHLETE_MOCK_IMG } from '../../constants/mockImages';
 import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
 import { Athlete } from '../../interfaces/athlete';
 import { theme } from '../../theme/theme';
@@ -14,25 +16,11 @@ export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?:
     <CardShadowBox color={color} onCardPress={onCardPress}>
       <Card.Content style={{ flexDirection: 'row' }}>
         <View>
-          <View
-            style={{
-              backgroundColor: color,
-              height: 116,
-              width: 116,
-              borderRadius: 58,
-            }}
-          >
-            <Avatar.Image
-              size={108}
-              style={{
-                top: theme.spacing.xxs,
-                left: theme.spacing.xxs,
-              }}
-              source={{
-                uri: item?.profilePhoto?.fileUrl,
-              }}
-            />
-          </View>
+          <AvatarImage
+            size={116}
+            uri={item?.profilePhoto?.fileUrl || ATHLETE_MOCK_IMG}
+            color={color}
+          />
         </View>
         <View
           style={{
