@@ -80,6 +80,7 @@ export const theme = {
     xxl: 64,
   },
   sizing: {
+    menuIconSize: 20,
     inputHeight: 36,
     tabBarHeight: 42,
   },

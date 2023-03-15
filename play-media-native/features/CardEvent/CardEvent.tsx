@@ -1,6 +1,7 @@
 import { View, Image, Pressable } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
+import { DraggableHandle } from '../../components/DraggableHandle/DraggableHandle';
 import { EVENT_MOCK_IMG } from '../../constants/mockImages';
 import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
 import { getDate } from '../../helpers/dateHelper';
@@ -13,10 +14,12 @@ export const CardEvent = ({
   item,
   onCardPress,
   isSimple,
+  isDraggable,
 }: {
   item: Event;
   onCardPress?: () => void;
   isSimple?: boolean;
+  isDraggable?: boolean;
 }) => {
   const sport = item.sport;
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
@@ -24,7 +27,7 @@ export const CardEvent = ({
 
   return (
     <>
-      {!isSimple && (
+      {!isSimple && !isDraggable && (
         <Pressable onPress={onCardPress}>
           <Image
             source={{ uri: item?.featuredImage?.fileUrl || EVENT_MOCK_IMG }}
@@ -40,16 +43,23 @@ export const CardEvent = ({
       )}
       <View style={{ paddingHorizontal: theme.spacing.sm }}>
         <CardShadowBox color={color} onCardPress={onCardPress}>
+          {isDraggable && <DraggableHandle />}
           <Card.Content
             style={{
               paddingHorizontal: theme.spacing.sm,
               paddingVertical: theme.spacing.sm,
+              marginLeft: isDraggable ? theme.spacing.md : 0,
             }}
           >
             <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
               <Text
                 style={[
-                  styles.sportLabel,
+                  isDraggable
+                    ? {
+                        paddingHorizontal: theme.spacing.sm,
+                        paddingVertical: theme.spacing.xxs,
+                      }
+                    : styles.sportLabel,
                   {
                     backgroundColor: color,
                     color: getTextColor(color),
