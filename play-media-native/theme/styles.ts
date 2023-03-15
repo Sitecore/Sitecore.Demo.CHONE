@@ -74,4 +74,10 @@ export const styles = StyleSheet.create({
     right: 0,
     left: 0,
   },
+  sportLabel: {
+    paddingLeft: theme.spacing.lg,
+    paddingRight: theme.spacing.xxs,
+    marginLeft: -theme.spacing.lg,
+    marginRight: theme.spacing.sm,
+  },
 });

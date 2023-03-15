@@ -152,14 +152,13 @@ export const AthleteDetail = ({ athlete, isReview }: { athlete: Athlete; isRevie
             <View style={{ flexDirection: 'row' }}>
               {athlete?.sport?.title && (
                 <Text
-                  style={{
-                    backgroundColor: accentColor,
-                    color: textColor,
-                    paddingLeft: theme.spacing.lg,
-                    paddingRight: theme.spacing.xxs,
-                    marginLeft: -theme.spacing.lg,
-                    marginRight: theme.spacing.sm,
-                  }}
+                  style={[
+                    styles.sportLabel,
+                    {
+                      backgroundColor: accentColor,
+                      color: textColor,
+                    },
+                  ]}
                 >
                   {athlete.sport.title}
                 </Text>
