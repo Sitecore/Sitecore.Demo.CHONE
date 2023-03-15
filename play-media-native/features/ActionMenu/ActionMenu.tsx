@@ -48,7 +48,7 @@ export const ActionMenu = ({ iconSize, menuItems, style }: Props) => {
         <IconButton
           icon={menuItems[0].icon}
           onPress={menuItems[0].handler}
-          size={iconSize || 20}
+          size={iconSize || theme.sizing.menuIconSize}
           iconColor={theme.colors.gray.DEFAULT}
         />
       </View>
@@ -58,7 +58,13 @@ export const ActionMenu = ({ iconSize, menuItems, style }: Props) => {
   return (
     <View style={style}>
       <Menu
-        anchor={<IconButton icon="dots-vertical" onPress={onOpen} size={iconSize || 20} />}
+        anchor={
+          <IconButton
+            icon="dots-vertical"
+            onPress={onOpen}
+            size={iconSize || theme.sizing.menuIconSize}
+          />
+        }
         onDismiss={onClose}
         visible={visible}
       >
