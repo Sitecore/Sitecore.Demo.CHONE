@@ -1,8 +1,8 @@
 import { PropsWithChildren, ReactNode } from 'react';
-import { Platform, StyleProp, StyleSheet, View } from 'react-native';
-import { Checkbox } from 'react-native-paper';
+import { Platform, StyleProp, StyleSheet, TouchableHighlight, View } from 'react-native';
 
 import { theme } from '../../theme/theme';
+import { MaterialIcon } from '../Icon/MaterialIcon';
 
 interface Props {
   children: PropsWithChildren<ReactNode | ReactNode[]>;
@@ -22,24 +22,28 @@ export const SelectableView = ({ children, onSelect, right, selected, style, top
       zIndex: 100,
       ...(Platform.OS === 'ios' && {
         backgroundColor: theme.colors.yellow.DEFAULT,
-        borderRadius: 100,
         borderWidth: 1,
         borderColor: theme.colors.black.DEFAULT,
       }),
     },
   });
 
-  const isSelected = selected ? 'checked' : 'unchecked';
+  const checkmark = selected ? <MaterialIcon name="check-bold" size={theme.spacing.sm} /> : <></>;
 
   return (
     <View style={style}>
       <View style={pageStyles.checkboxView}>
-        <Checkbox
-          color={theme.colors.white.DEFAULT}
+        <TouchableHighlight
+          activeOpacity={0.6}
           onPress={onSelect}
-          status={isSelected}
-          uncheckedColor={theme.colors.white.DEFAULT}
-        />
+          style={{
+            width: theme.spacing.sm,
+            height: theme.spacing.sm,
+            backgroundColor: theme.colors.white.DEFAULT,
+          }}
+        >
+          {checkmark}
+        </TouchableHighlight>
       </View>
       {children}
     </View>
