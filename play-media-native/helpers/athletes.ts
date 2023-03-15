@@ -11,7 +11,7 @@ export const initializeAthletes = (athletes: Athlete[], sports: Sport[]) => {
 
   return athletes.map((item) => ({
     ...item,
-    [ATHLETE_FACETS.sport]: item?.sport?.results?.length ? item.sport.results[0]?.id : null,
+    [ATHLETE_FACETS.sport]: item.sport?.id || null,
   }));
 };
 
