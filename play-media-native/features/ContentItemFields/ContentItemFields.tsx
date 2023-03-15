@@ -100,7 +100,7 @@ export const ContentItemFields = ({
       ),
       [CONTENT_TYPES.EVENT]: (item: Event) => (
         <View style={{ position: 'relative' }}>
-          <CardEvent item={item} />
+          <CardEvent item={item} isSimple />
           <ActionMenu
             iconColor={theme.colors.black.DEFAULT}
             iconSize={25}
