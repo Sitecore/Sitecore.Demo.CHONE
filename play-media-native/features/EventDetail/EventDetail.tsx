@@ -69,7 +69,7 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
   }
 
   return (
-    <View>
+    <View style={{ paddingBottom: isReview ? 50 : 0 }}>
       <View>
         <Image
           source={{ uri: event?.featuredImage?.fileUrl || EVENT_MOCK_IMG }}
@@ -89,14 +89,13 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
             <View style={{ flexDirection: 'row' }}>
               {event?.sport?.title && (
                 <Text
-                  style={{
-                    backgroundColor: accentColor,
-                    color: getTextColor(accentColor),
-                    paddingLeft: theme.spacing.lg,
-                    paddingRight: theme.spacing.xxs,
-                    marginLeft: -theme.spacing.lg,
-                    marginRight: theme.spacing.sm,
-                  }}
+                  style={[
+                    styles.sportLabel,
+                    {
+                      backgroundColor: accentColor,
+                      color: getTextColor(accentColor),
+                    },
+                  ]}
                 >
                   {event.sport.title}
                 </Text>
