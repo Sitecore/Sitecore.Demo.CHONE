@@ -1,7 +1,7 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useCallback, useEffect, useMemo } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -14,23 +14,6 @@ import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
-
-const pageStyles = StyleSheet.create({
-  bottomFAB: {
-    position: 'absolute',
-    right: theme.spacing.sm,
-    bottom: theme.spacing.xs,
-  },
-  button: {
-    position: 'absolute',
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
-  },
-  actionBtns: {
-    paddingBottom: 0,
-    paddingRight: theme.spacing.xs,
-  },
-});
 
 export const EventDetailScreen = ({ route, navigation }) => {
   const id = route?.params?.id;
@@ -67,7 +50,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
         label="Edit"
         extended={isTopEdge}
         onPress={handleEditInfo}
-        style={pageStyles.bottomFAB}
+        style={styles.fab}
       />
     ),
     [isTopEdge, handleEditInfo]
@@ -83,7 +66,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0} style={styles.screenPadding}>
+      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
         <EventDetail event={event} />
       </ScrollView>
       {!isEditForbidden && bottomActions}

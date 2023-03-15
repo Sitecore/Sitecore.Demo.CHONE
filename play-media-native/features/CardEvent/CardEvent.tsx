@@ -1,6 +1,7 @@
 import { View, Image, Pressable } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
+import { EVENT_MOCK_IMG } from '../../constants/mockImages';
 import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
 import { getDate } from '../../helpers/dateHelper';
 import { Event } from '../../interfaces/event';
@@ -16,7 +17,7 @@ export const CardEvent = ({ item, onCardPress }: { item: Event; onCardPress?: ()
     <>
       <Pressable onPress={onCardPress}>
         <Image
-          source={{ uri: item?.featuredImage?.fileUrl }}
+          source={{ uri: item?.featuredImage?.fileUrl || EVENT_MOCK_IMG }}
           style={{
             height: 200,
             resizeMode: 'cover',
