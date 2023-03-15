@@ -12,7 +12,6 @@ import { ManualConnectionScreen } from '../screens/Connection/ManualConnection';
 import { QRCodeConnectionScreen } from '../screens/Connection/QRCodeConnection';
 import { RemoveConnectionScreen } from '../screens/Connection/RemoveConnection';
 import { SelectConnectionScreen } from '../screens/Connection/SelectConnection';
-import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
 import { CreateAthleteDetailedScreen } from '../screens/CreateAthleteDetailed';
 import { CreateAthleteOverviewScreen } from '../screens/CreateAthleteOverview';
 import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
@@ -37,11 +36,6 @@ export const Stacks = () => {
         header: () => <StackScreenHeader />,
       }}
     >
-      <Stack.Screen
-        name="AddAthlete"
-        component={CreateAthleteScreen}
-        options={{ title: 'Add Athlete' }}
-      />
       <Stack.Screen
         name="AddAthletes"
         component={AddAthletesScreen}
