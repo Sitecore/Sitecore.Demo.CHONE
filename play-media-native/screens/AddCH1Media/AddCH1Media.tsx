@@ -13,6 +13,7 @@ import { getFileTypeOptions, getStatusOptions } from '../../helpers/facets';
 import { removeAlreadySelected } from '../../helpers/media';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { useSearchFacets } from '../../hooks/useFacets/useFacets';
+import { useFilters } from '../../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../../hooks/useMediaQuery/useMediaQuery';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
@@ -23,6 +24,8 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
   const { data: images, isFetching } = useMediaQuery();
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
   const selectedMediaIDs = selectedMedia.map((item) => item.id);
+
+  const { visible: isVisible } = useFilters();
 
   // route params
   //
@@ -170,11 +173,21 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
     [onAdd, onDiscard, selectedMedia.length]
   );
 
+  const filters = useMemo(
+    () =>
+      isVisible && (
+        <>
+          <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+          <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+        </>
+      ),
+    [isVisible, facetFilters, handleFacetsChange, handleSearch, searchQuery]
+  );
+
   return (
     <Screen>
       <StatusBar barStyle="light-content" />
-      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
-      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+      {filters}
       <ListingCH1Media
         images={filteredImages as Media[]}
         isFetching={isFetching}
