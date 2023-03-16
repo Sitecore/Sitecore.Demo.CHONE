@@ -20,7 +20,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
   const { contentItems } = useContentItems();
 
   const event = (contentItems[stateKey] ?? null) as unknown as Event;
-  const headerTitle = event?.name || 'Untitled event';
+  const headerTitle = event?.title || 'Untitled event';
 
   const handleReview = useCallback(() => {
     navigation.navigate('ReviewEvent', {
