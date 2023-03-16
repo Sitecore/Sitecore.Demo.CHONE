@@ -1,8 +1,8 @@
-import { PropsWithChildren, ReactNode } from 'react';
-import { Platform, StyleProp, StyleSheet, View } from 'react-native';
-import { Checkbox } from 'react-native-paper';
+import { PropsWithChildren, ReactNode, useMemo } from 'react';
+import { Pressable, StyleProp, StyleSheet, View } from 'react-native';
 
 import { theme } from '../../theme/theme';
+import { MaterialIcon } from '../Icon/MaterialIcon';
 
 interface Props {
   children: PropsWithChildren<ReactNode | ReactNode[]>;
@@ -15,33 +15,28 @@ interface Props {
 
 export const SelectableView = ({ children, onSelect, right, selected, style, top }: Props) => {
   const pageStyles = StyleSheet.create({
-    checkboxView: {
+    checkbox: {
       position: 'absolute',
-      top: top || 10,
-      right: right || 5,
+      top: top || theme.spacing.xs,
+      right: right || theme.spacing.xs,
+      width: theme.spacing.sm,
+      height: theme.spacing.sm,
+      backgroundColor: theme.colors.white.DEFAULT,
+      borderWidth: 1,
+      borderColor: theme.colors.gray.DEFAULT,
       zIndex: 100,
-      ...(Platform.OS === 'ios' && {
-        backgroundColor: theme.colors.yellow.DEFAULT,
-        borderRadius: 100,
-        borderWidth: 1,
-        borderColor: theme.colors.black.DEFAULT,
-      }),
     },
   });
 
-  const isSelected = selected ? 'checked' : 'unchecked';
+  const checkmark = useMemo(
+    () => (selected ? <MaterialIcon name="check-bold" size={theme.spacing.sm} /> : <></>),
+    [selected]
+  );
 
   return (
-    <View style={style}>
-      <View style={pageStyles.checkboxView}>
-        <Checkbox
-          color={theme.colors.white.DEFAULT}
-          onPress={onSelect}
-          status={isSelected}
-          uncheckedColor={theme.colors.white.DEFAULT}
-        />
-      </View>
+    <Pressable onPress={onSelect} style={style}>
+      <View style={pageStyles.checkbox}>{checkmark}</View>
       {children}
-    </View>
+    </Pressable>
   );
 };

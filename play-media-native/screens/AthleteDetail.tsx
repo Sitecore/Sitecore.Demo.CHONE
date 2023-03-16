@@ -1,7 +1,7 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useCallback, useMemo } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { AnimatedFAB, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -12,71 +12,8 @@ import { Screen } from '../features/Screen/Screen';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
-
-const pageStyles = StyleSheet.create({
-  sportAndNameContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  label: {
-    fontFamily: theme.fontFamily.bold,
-    color: theme.colors.gray.dark,
-    marginBottom: theme.spacing.xxs,
-  },
-  item: {
-    marginBottom: theme.spacing.sm,
-  },
-  cardContainer: {
-    marginVertical: theme.spacing.xs,
-  },
-  quoteContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingHorizontal: theme.spacing.xs,
-  },
-  quotationMark: {
-    fontSize: 80,
-    fontFamily: theme.fontFamily.italic,
-    textAlign: 'center',
-    lineHeight: 100,
-    flexBasis: '15%',
-  },
-  quote: {
-    fontSize: theme.fontSize.lg,
-    lineHeight: theme.spacing.lg,
-    fontFamily: theme.fontFamily.italic,
-    flexBasis: '70%',
-    paddingVertical: theme.spacing.lg,
-    textAlign: 'center',
-  },
-  infoContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: theme.colors.black.light,
-    paddingTop: theme.spacing.sm,
-  },
-  infoLabel: {
-    color: theme.colors.gray.DEFAULT,
-    marginLeft: theme.spacing.sm,
-    marginBottom: theme.spacing.xxs,
-  },
-  infoItem: {
-    color: theme.colors.white.DEFAULT,
-    marginLeft: theme.spacing.sm,
-    marginBottom: theme.spacing.md,
-    fontFamily: theme.fontFamily.bold,
-  },
-  bottomFAB: {
-    position: 'absolute',
-    right: theme.spacing.sm,
-    bottom: theme.spacing.xs,
-  },
-  actionBtns: {
-    paddingBottom: 0,
-    paddingRight: theme.spacing.xs,
-  },
-});
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
   const id = route?.params?.id;
@@ -108,7 +45,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
         label="Edit"
         extended={isTopEdge}
         onPress={handleEditInfo}
-        style={pageStyles.bottomFAB}
+        style={styles.fab}
       />
     ),
     [isTopEdge, handleEditInfo]

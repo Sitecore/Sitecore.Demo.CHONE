@@ -68,6 +68,7 @@ export const theme = {
     base: 20,
     lg: 22,
     xl: 26,
+    xxl: 38,
   },
   spacing: {
     xxs: 4,
@@ -79,6 +80,7 @@ export const theme = {
     xxl: 64,
   },
   sizing: {
+    menuIconSize: 20,
     inputHeight: 36,
     tabBarHeight: 42,
   },
@@ -124,6 +126,11 @@ export const paperFontConfig = {
     fontFamily: theme.fontFamily.DEFAULT,
     fontSize: theme.fontSize.base,
     lineHeight: theme.spacing.lg,
+  },
+  displaySmall: {
+    fontFamily: theme.fontFamily.bold,
+    fontSize: theme.fontSize.xxl,
+    lineHeight: theme.spacing.xxl,
   },
 };
 

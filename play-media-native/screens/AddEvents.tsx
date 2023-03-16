@@ -20,6 +20,7 @@ import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 export const AddEventsScreen = ({ navigation, route }) => {
   const fieldKey = route?.params?.key;
@@ -151,10 +152,12 @@ export const AddEventsScreen = ({ navigation, route }) => {
         isLoading={isFetchingInitialEvents || isFetchingInitialSports}
         renderItem={({ item }) => (
           <SelectableView
+            top={theme.spacing.xs}
+            right={theme.spacing.lg}
             onSelect={() => onSelect(item as Event)}
             selected={selectedEventIDs.includes(item.id)}
           >
-            <CardEvent item={item as Event} />
+            <CardEvent item={item as Event} isSimple />
           </SelectableView>
         )}
         onScroll={calcScrollOffset}

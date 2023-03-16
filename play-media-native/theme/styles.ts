@@ -67,4 +67,17 @@ export const styles = StyleSheet.create({
     // add this inline to the Image component
     // aspectRatio: imageWidth / imageHeight,
   },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
+  sportLabel: {
+    paddingLeft: theme.spacing.lg,
+    paddingRight: theme.spacing.xxs,
+    marginLeft: -theme.spacing.lg,
+    marginRight: theme.spacing.sm,
+  },
 });

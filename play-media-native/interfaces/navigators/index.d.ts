@@ -34,8 +34,12 @@ export type RootStackParamList = {
     redirectRoute: string;
     stateKey: string;
   };
-  EditAthlete: StandardScreen;
-  EditEvent: StandardScreen;
+  EditAthlete: StandardScreen & {
+    stateKey: string;
+  };
+  EditEvent: StandardScreen & {
+    stateKey: string;
+  };
   EditMedia: StandardScreen;
   EventDetail: StandardScreen;
   MainTabs: undefined;

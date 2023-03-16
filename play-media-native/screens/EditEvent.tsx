@@ -1,4 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Text } from 'react-native-paper';
 
@@ -8,10 +9,13 @@ import { ContentItemFields } from '../features/ContentItemFields/ContentItemFiel
 import { Screen } from '../features/Screen/Screen';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
+import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
-export const EditEventScreen = ({ navigation, route }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'EditEvent'>;
+
+export const EditEventScreen = ({ navigation, route }: Props) => {
   const [stateKey] = useState(route?.params?.stateKey);
   const { contentItems } = useContentItems();
 
@@ -19,6 +23,7 @@ export const EditEventScreen = ({ navigation, route }) => {
 
   const handleReview = useCallback(() => {
     navigation.navigate('ReviewEvent', {
+      isNew: false,
       stateKey,
       title: event?.title,
     });

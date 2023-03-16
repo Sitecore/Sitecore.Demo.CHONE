@@ -2,6 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 import { StyleProp, View } from 'react-native';
 import { IconButton, Menu } from 'react-native-paper';
 
+import { theme } from '../../theme/theme';
+
 export interface MenuItem {
   icon: string;
   handler: (item?: any) => void;
@@ -42,19 +44,27 @@ export const ActionMenu = ({ iconSize, menuItems, style }: Props) => {
 
   if (menuItems?.length === 1) {
     return (
-      <IconButton
-        icon={menuItems[0].icon}
-        onPress={menuItems[0].handler}
-        size={iconSize || 20}
-        style={style}
-      />
+      <View style={style}>
+        <IconButton
+          icon={menuItems[0].icon}
+          onPress={menuItems[0].handler}
+          size={iconSize || theme.sizing.menuIconSize}
+          iconColor={theme.colors.gray.DEFAULT}
+        />
+      </View>
     );
   }
 
   return (
     <View style={style}>
       <Menu
-        anchor={<IconButton icon="dots-vertical" onPress={onOpen} size={iconSize || 20} />}
+        anchor={
+          <IconButton
+            icon="dots-vertical"
+            onPress={onOpen}
+            size={iconSize || theme.sizing.menuIconSize}
+          />
+        }
         onDismiss={onClose}
         visible={visible}
       >
