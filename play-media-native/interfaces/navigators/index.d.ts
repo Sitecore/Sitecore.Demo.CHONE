@@ -2,50 +2,58 @@
 
 import type { StackNavigationProp as RStackNavigationProp } from '@react-navigation/stack';
 
+type StandardScreen = {
+  id?: string;
+  title?: string;
+  subtitle?: string;
+};
+
 export type RootStackParamList = {
-  AddAthlete: undefined;
-  AddAthletes: undefined;
-  AddConnection: undefined;
-  AddEvents: undefined;
-  AddCH1Media: undefined;
+  AddAthletes: StandardScreen & {
+    shouldShowSearchIcon: boolean;
+  };
+  AddConnection: StandardScreen;
+  AddEvents: StandardScreen & {
+    shouldShowSearchIcon: boolean;
+  };
+  AddCH1Media: StandardScreen & {
+    shouldShowSearchIcon: boolean;
+  };
   AddSport: undefined;
-  AthleteDetail: { id: string };
-  AthleteReview: { id: string };
-  CreateAthleteOverview: undefined;
-  CreateAthleteDetailed: {
+  AthleteDetail: StandardScreen;
+  CreateAthleteOverview: StandardScreen;
+  CreateAthleteDetailed: StandardScreen & {
     stateKey: string;
-    title: string;
   };
-  CreateEventOverview: undefined;
-  CreateEventDetailed: {
+  CreateEventOverview: StandardScreen;
+  CreateEventDetailed: StandardScreen & {
     stateKey: string;
-    title: string;
   };
-  DiscardChanges: {
+  DiscardChanges: StandardScreen & {
     message: string;
     redirectRoute: string;
     stateKey: string;
   };
-  EditAthlete: { id: string };
-  EditEvent: undefined;
-  EditMedia: undefined;
-  MediaDetail: { id: string };
-  EventDetail: { id: string };
+  EditAthlete: StandardScreen;
+  EditEvent: StandardScreen;
+  EditMedia: StandardScreen;
+  EventDetail: StandardScreen;
   MainTabs: undefined;
-  ManualConnection: undefined;
+  ManualConnection: StandardScreen;
+  MediaDetail: StandardScreen;
   QRCodeConnection: undefined;
   RemoveConnection: undefined;
-  ReviewAthlete: {
+  ReviewAthlete: StandardScreen & {
     isNew: boolean;
     stateKey: string;
-    title: string;
   };
-  ReviewEvent: {
+  ReviewEvent: StandardScreen & {
     isNew: boolean;
     stateKey: string;
-    title: string;
   };
-  SelectConnection: undefined;
+  SelectConnection: StandardScreen & {
+    shouldShowBackBtn?: boolean;
+  };
 };
 
 export type RootTabParamList = {
