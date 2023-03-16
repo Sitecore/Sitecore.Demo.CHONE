@@ -21,7 +21,7 @@ export const EditAthleteScreen = ({ navigation, route }) => {
     navigation.navigate('ReviewAthlete', {
       isNew: false,
       stateKey,
-      title: `Review ${athlete?.athleteName || 'Athlete'}`,
+      title: athlete?.athleteName,
     });
   }, [athlete?.athleteName, navigation, stateKey]);
 
@@ -30,8 +30,10 @@ export const EditAthleteScreen = ({ navigation, route }) => {
       message: EDIT_ATHLETE_DISCARD_MESSAGE,
       stateKey,
       redirectRoute: 'MainTabs',
+      title: athlete?.athleteName,
+      subtitle: 'Discard athlete changes?',
     });
-  }, [navigation, stateKey]);
+  }, [athlete?.athleteName, navigation, stateKey]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -50,6 +52,8 @@ export const EditAthleteScreen = ({ navigation, route }) => {
           message: EDIT_ATHLETE_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
+          title: athlete?.athleteName,
+          subtitle: 'Discard athlete changes?',
         });
       });
 
@@ -59,7 +63,7 @@ export const EditAthleteScreen = ({ navigation, route }) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation, stateKey])
+    }, [athlete?.athleteName, navigation, stateKey])
   );
 
   return (

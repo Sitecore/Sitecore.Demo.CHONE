@@ -25,11 +25,11 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
   }, [navigation]);
 
   const onAddDetails = useCallback(() => {
-    navigation.navigate('CreateAthleteDetailed', {
+    navigation.push('CreateAthleteDetailed', {
       stateKey,
-      title: 'Athlete Details',
+      title: contentItems[stateKey]?.athleteName,
     });
-  }, [navigation, stateKey]);
+  }, [contentItems, navigation, stateKey]);
 
   const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_ATHLETE);
 
@@ -55,6 +55,8 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
           message: CREATE_ATHLETE_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
+          title: contentItems[stateKey]?.athleteName || 'Untitled athlete',
+          subtitle: 'Discard new athlete?',
         });
       });
 
@@ -64,7 +66,7 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation, stateKey])
+    }, [contentItems, navigation, stateKey])
   );
 
   return (
