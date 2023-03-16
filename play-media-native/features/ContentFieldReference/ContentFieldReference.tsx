@@ -24,6 +24,7 @@ export const ContentFieldReference = ({
   single = false,
   stateKey,
   style,
+  headerTitle,
 }: {
   addRoute: string;
   fieldKey: string;
@@ -34,6 +35,7 @@ export const ContentFieldReference = ({
   single?: boolean;
   stateKey: string;
   style?: StyleProp<any>;
+  headerTitle?: string;
 }) => {
   const { contentItems, edit } = useContentItems();
   const navigation = useNavigation<StackNavigationProp>();
@@ -50,12 +52,13 @@ export const ContentFieldReference = ({
 
   const handleAddExisting = useCallback(() => {
     navigation.navigate(addRoute, {
+      title: headerTitle,
       key: fieldKey,
       initialRoute,
       single,
       stateKey,
     });
-  }, [addRoute, fieldKey, initialRoute, navigation, single, stateKey]);
+  }, [addRoute, fieldKey, initialRoute, navigation, single, stateKey, headerTitle]);
 
   const items = useMemo(() => {
     return contentItems[stateKey][fieldKey];
