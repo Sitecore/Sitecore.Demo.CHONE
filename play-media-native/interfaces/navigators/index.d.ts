@@ -19,7 +19,7 @@ export type RootStackParamList = {
   AddCH1Media: StandardScreen & {
     shouldShowSearchIcon: boolean;
   };
-  AddSport: undefined;
+  AddSport: StandardScreen;
   AthleteDetail: StandardScreen;
   CreateAthleteOverview: StandardScreen;
   CreateAthleteDetailed: StandardScreen & {
