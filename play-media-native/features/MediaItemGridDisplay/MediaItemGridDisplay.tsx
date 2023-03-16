@@ -1,6 +1,7 @@
 import { Image, Pressable } from 'react-native';
 
 import { Media } from '../../interfaces/media';
+import { theme } from '../../theme/theme';
 
 export const MediaItemGridDisplay = ({
   item,
@@ -13,9 +14,10 @@ export const MediaItemGridDisplay = ({
     <Pressable
       onPress={() => onPress(item)}
       style={{
-        height: 120,
-        flex: 0.5,
-        margin: 2,
+        flex: 1,
+        aspectRatio: 1,
+        marginHorizontal: theme.spacing.xxs,
+        marginBottom: theme.spacing.xs,
       }}
     >
       <Image

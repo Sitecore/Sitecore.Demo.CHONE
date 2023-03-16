@@ -1,4 +1,3 @@
-import { View } from 'react-native';
 import { Card } from 'react-native-paper';
 
 import { getFileType, removeFileExtension } from '../../helpers/media';
@@ -17,31 +16,25 @@ export const MediaItemCardDisplay = ({
     <Card
       key={item.fileUrl}
       style={{
-        marginBottom: theme.spacing.xs,
+        borderRadius: 0,
+        marginBottom: theme.spacing.sm,
       }}
       onPress={() => onPress(item)}
     >
-      <Card.Cover
-        style={{
-          backgroundColor: theme.colors.black.lightest,
-        }}
-        source={{ uri: item.fileUrl }}
-      />
+      <Card.Cover theme={{ roundness: 0 }} source={{ uri: item.fileUrl }} />
       <Card.Content
         style={{
-          backgroundColor: theme.colors.black.lightest,
-          paddingBottom: 0,
-          paddingRight: 0,
-          paddingTop: 0,
+          backgroundColor: theme.colors.black.light,
+          paddingTop: theme.spacing.xs,
+          paddingBottom: theme.spacing.xs,
+          paddingHorizontal: theme.spacing.xs,
         }}
       >
-        <View style={{ position: 'relative', width: '100%' }}>
-          <Field title="Name" value={removeFileExtension(item.name)} />
-          <Field title="Description" value={item.description} />
-          <Field title="File type" value={getFileType(item)} />
-          <Field title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
-          <Field title="Status" value={item.status} />
-        </View>
+        {item.name && <Field title="Name" value={removeFileExtension(item.name)} />}
+        {item.description && <Field title="Description" value={item.description} />}
+        <Field title="File type" value={getFileType(item)} />
+        <Field title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
+        <Field title="Status" value={item.status} />
       </Card.Content>
     </Card>
   );

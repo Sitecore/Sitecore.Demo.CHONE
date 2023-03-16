@@ -63,6 +63,7 @@ export const theme = {
     mono: 'Roboto-Mono',
   },
   fontSize: {
+    xxs: 14,
     xs: 16,
     sm: 18,
     base: 20,

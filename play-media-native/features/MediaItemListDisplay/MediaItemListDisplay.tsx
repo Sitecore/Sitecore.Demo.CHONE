@@ -19,14 +19,14 @@ export const MediaItemListDisplay = ({
         style={{
           width: '100%',
           flexDirection: 'row',
-          marginBottom: theme.spacing.xs,
-          backgroundColor: theme.colors.black.lightest,
+          marginBottom: theme.spacing.sm,
+          backgroundColor: theme.colors.black.light,
         }}
       >
         <Image
           style={{
-            height: 110,
             width: 'auto',
+            aspectRatio: 1,
             flex: 1,
           }}
           source={{ uri: item.fileUrl }}
@@ -35,10 +35,10 @@ export const MediaItemListDisplay = ({
           style={{
             flex: 2,
             justifyContent: 'center',
-            marginLeft: theme.spacing.xs,
+            paddingLeft: theme.spacing.sm,
           }}
         >
-          <Field title="Name" value={removeFileExtension(item.name)} />
+          {item.name && <Field title="Name" value={removeFileExtension(item.name)} />}
           <Field title="File type" value={getFileType(item)} />
           <Field title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
           <Field title="Status" value={item.status} />

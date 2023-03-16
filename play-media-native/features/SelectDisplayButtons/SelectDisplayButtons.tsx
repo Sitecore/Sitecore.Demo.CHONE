@@ -10,12 +10,21 @@ export enum ListingImageDisplayType {
   CARDS = 'cards',
 }
 
-const buttonStyle = {
-  borderRadius: 3,
-  marginLeft: theme.spacing.xs,
-  height: 40,
-  width: 40,
-};
+const DisplayIconButton = ({ icon, selected, onPress }) => (
+  <IconButton
+    mode="contained"
+    icon={icon}
+    iconColor={selected ? theme.colors.yellow.DEFAULT : theme.colors.gray.light}
+    containerColor="transparent"
+    size={35}
+    style={{
+      width: 40,
+      height: 40,
+      borderRadius: 3,
+    }}
+    onPress={onPress}
+  />
+);
 
 export const SelectDisplayButtons = ({
   displayType,
@@ -36,56 +45,31 @@ export const SelectDisplayButtons = ({
   return (
     <View
       style={{
+        width: '100%',
         flexDirection: 'row',
-        marginRight: theme.spacing.xs,
+        justifyContent: 'space-around',
+        marginBottom: theme.spacing.xs,
       }}
     >
-      <IconButton
-        mode="contained"
-        icon="view-list"
-        iconColor={
-          displayType === ListingImageDisplayType.LIST
-            ? theme.colors.yellow.DEFAULT
-            : theme.colors.gray.light
-        }
-        containerColor="transparent"
-        size={35}
-        style={buttonStyle}
-        theme={{ roundness: 1 }}
-        onPress={() => {
-          onSelect(ListingImageDisplayType.LIST);
-        }}
-      />
-      <IconButton
-        mode="contained"
+      <DisplayIconButton
         icon="view-grid"
-        iconColor={
-          displayType === ListingImageDisplayType.GRID
-            ? theme.colors.yellow.DEFAULT
-            : theme.colors.gray.light
-        }
-        containerColor="transparent"
-        size={35}
-        style={buttonStyle}
-        theme={{ roundness: 1 }}
+        selected={displayType === ListingImageDisplayType.GRID}
         onPress={() => {
           onSelect(ListingImageDisplayType.GRID);
         }}
       />
-      <IconButton
-        mode="contained"
+      <DisplayIconButton
         icon="cards"
-        iconColor={
-          displayType === ListingImageDisplayType.CARDS
-            ? theme.colors.yellow.DEFAULT
-            : theme.colors.gray.light
-        }
-        containerColor="transparent"
-        size={35}
-        style={buttonStyle}
-        theme={{ roundness: 1 }}
+        selected={displayType === ListingImageDisplayType.CARDS}
         onPress={() => {
           onSelect(ListingImageDisplayType.CARDS);
+        }}
+      />
+      <DisplayIconButton
+        icon="view-list"
+        selected={displayType === ListingImageDisplayType.LIST}
+        onPress={() => {
+          onSelect(ListingImageDisplayType.LIST);
         }}
       />
     </View>
