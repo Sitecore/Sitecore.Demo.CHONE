@@ -20,30 +20,31 @@ export const EditAthleteScreen = ({ navigation, route }: Props) => {
   const { contentItems } = useContentItems();
 
   const athlete = (contentItems[stateKey] ?? null) as unknown as Athlete;
+  const headerTitle = athlete?.athleteName || 'Untitled athlete';
 
   const handleReview = useCallback(() => {
     navigation.navigate('ReviewAthlete', {
       isNew: false,
       stateKey,
-      title: athlete?.athleteName,
+      title: headerTitle,
     });
-  }, [athlete?.athleteName, navigation, stateKey]);
+  }, [headerTitle, navigation, stateKey]);
 
   const handleDiscard = useCallback(() => {
     navigation.push('DiscardChanges', {
       message: EDIT_ATHLETE_DISCARD_MESSAGE,
       stateKey,
       redirectRoute: 'MainTabs',
-      title: athlete?.athleteName,
+      title: headerTitle,
       subtitle: 'Discard athlete changes?',
     });
-  }, [athlete?.athleteName, navigation, stateKey]);
+  }, [headerTitle, navigation, stateKey]);
 
   useEffect(() => {
-    navigation.setOptions({
-      title: athlete?.athleteName || 'Edit Athlete',
+    navigation.setParams({
+      title: headerTitle,
     });
-  }, [athlete?.athleteName, navigation]);
+  }, [headerTitle, navigation]);
 
   useFocusEffect(
     useCallback(() => {
@@ -56,7 +57,7 @@ export const EditAthleteScreen = ({ navigation, route }: Props) => {
           message: EDIT_ATHLETE_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
-          title: athlete?.athleteName,
+          title: headerTitle,
           subtitle: 'Discard athlete changes?',
         });
       });
@@ -67,7 +68,7 @@ export const EditAthleteScreen = ({ navigation, route }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [athlete?.athleteName, navigation, stateKey])
+    }, [headerTitle, navigation, stateKey])
   );
 
   return (
@@ -76,6 +77,7 @@ export const EditAthleteScreen = ({ navigation, route }: Props) => {
         initialRoute="EditAthlete"
         overrides={FIELD_OVERRIDES_ATHLETE}
         stateKey={stateKey}
+        headerTitle={headerTitle}
       />
       <BottomActions
         style={{

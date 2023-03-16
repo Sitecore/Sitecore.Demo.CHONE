@@ -51,6 +51,7 @@ export const CreateAthleteDetailedScreen = ({ navigation, route }: Props) => {
         overrides={FIELD_OVERRIDES_ATHLETE}
         showLimited
         stateKey={stateKey}
+        title={athlete?.athleteName}
       />
       <BottomActions>
         <View

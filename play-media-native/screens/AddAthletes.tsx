@@ -26,6 +26,7 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
   const stateKey = route?.params?.stateKey;
+  const headerTitle = route?.params?.title;
 
   const { visible: isVisible } = useFilters();
 
@@ -130,8 +131,8 @@ export const AddAthletesScreen = ({ navigation, route }) => {
       value: athletes.filter((item) => selectedAthleteIDs.includes(item.id)),
     });
 
-    navigation.navigate(initialRoute);
-  }, [athletes, edit, fieldKey, initialRoute, navigation, selectedAthleteIDs]);
+    navigation.navigate(initialRoute, { title: headerTitle });
+  }, [athletes, edit, fieldKey, headerTitle, initialRoute, navigation, selectedAthleteIDs]);
 
   const filters = useMemo(
     () =>
