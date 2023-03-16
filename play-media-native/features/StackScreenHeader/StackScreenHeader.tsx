@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingTop: theme.spacing.xs,
+    paddingHorizontal: theme.spacing.lg,
     fontSize: theme.fontSize.xl,
   },
   subtitle: {
