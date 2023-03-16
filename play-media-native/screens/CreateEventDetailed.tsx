@@ -51,6 +51,7 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
         overrides={FIELD_OVERRIDES_EVENT}
         showLimited
         stateKey={stateKey}
+        headerTitle={event?.title}
       />
       <BottomActions>
         <View

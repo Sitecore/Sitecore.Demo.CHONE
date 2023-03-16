@@ -20,30 +20,31 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
   const { contentItems } = useContentItems();
 
   const event = (contentItems[stateKey] ?? null) as unknown as Event;
+  const headerTitle = event?.name || 'Untitled event';
 
   const handleReview = useCallback(() => {
     navigation.navigate('ReviewEvent', {
       isNew: false,
       stateKey,
-      title: event?.title,
+      title: headerTitle,
     });
-  }, [event, navigation, stateKey]);
+  }, [headerTitle, navigation, stateKey]);
 
   const handleDiscard = useCallback(() => {
     navigation.push('DiscardChanges', {
       message: EDIT_EVENT_DISCARD_MESSAGE,
       stateKey,
       redirectRoute: 'MainTabs',
-      title: event?.title,
+      title: headerTitle,
       subtitle: 'Discard event changes?',
     });
-  }, [event?.title, navigation, stateKey]);
+  }, [headerTitle, navigation, stateKey]);
 
   useEffect(() => {
-    navigation.setOptions({
-      title: event?.title || 'Edit Event',
+    navigation.setParams({
+      title: headerTitle,
     });
-  }, [event?.title, navigation]);
+  }, [headerTitle, navigation]);
 
   useFocusEffect(
     useCallback(() => {
@@ -56,7 +57,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
           message: EDIT_EVENT_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
-          title: event?.title,
+          title: headerTitle,
           subtitle: 'Discard event changes?',
         });
       });
@@ -67,7 +68,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [event?.title, navigation, stateKey])
+    }, [headerTitle, navigation, stateKey])
   );
 
   if (!event) {
@@ -80,6 +81,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
         initialRoute="EditEvent"
         overrides={FIELD_OVERRIDES_EVENT}
         stateKey={stateKey}
+        headerTitle={headerTitle}
       />
       <BottomActions
         style={{

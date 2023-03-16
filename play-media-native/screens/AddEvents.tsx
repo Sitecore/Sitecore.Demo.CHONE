@@ -26,6 +26,7 @@ export const AddEventsScreen = ({ navigation, route }) => {
   const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
   const stateKey = route?.params?.stateKey;
+  const headerTitle = route?.params?.title;
 
   const { visible: isVisible } = useFilters();
 
@@ -130,8 +131,8 @@ export const AddEventsScreen = ({ navigation, route }) => {
       value: events.filter((item) => selectedEventIDs.includes(item.id)),
     });
 
-    navigation.navigate(initialRoute);
-  }, [edit, events, fieldKey, initialRoute, navigation, selectedEventIDs]);
+    navigation.navigate(initialRoute, { title: headerTitle });
+  }, [edit, events, fieldKey, initialRoute, navigation, selectedEventIDs, headerTitle]);
 
   const filters = useMemo(
     () =>
