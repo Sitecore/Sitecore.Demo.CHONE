@@ -34,7 +34,7 @@ export type RootStackParamList = {
   MainTabs: undefined;
   ManualConnection: undefined;
   QRCodeConnection: undefined;
-  RemoveConnection: undefined;
+  RemoveConnection: { connectionName: string };
   ReviewAthlete: {
     isNew: boolean;
     stateKey: string;

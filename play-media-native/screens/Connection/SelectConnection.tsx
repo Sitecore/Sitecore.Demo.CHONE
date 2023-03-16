@@ -1,9 +1,8 @@
 import { useIsFocused } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { StatusBar, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Pressable, StatusBar, View } from 'react-native';
+import { Button, IconButton, Text } from 'react-native-paper';
 
-import { BottomFAB } from '../../components/BottomFAB/BottomFAB';
 import { Icon } from '../../components/Icon/Icon';
 import { Logo } from '../../components/Logo/Logo';
 import { Select } from '../../components/Select/Select';
@@ -15,10 +14,6 @@ import {
 import { Connection } from '../../interfaces/connections';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
-
-const fabAddStyle = {
-  bottom: 75,
-};
 
 export const SelectConnectionScreen = ({ navigation }) => {
   const [connections, setConnections] = useState<Connection[]>([]);
@@ -48,25 +43,25 @@ export const SelectConnectionScreen = ({ navigation }) => {
     }
   }, [connections]);
 
-  const onFabAddClick = useCallback(() => {
+  const onAdd = useCallback(() => {
     navigation.navigate('AddConnection');
   }, [navigation]);
 
-  const onFabRemoveClick = useCallback(() => {
-    navigation.navigate('RemoveConnection');
-  }, [navigation]);
+  const onRemove = useCallback(
+    (connectionName: string) => {
+      navigation.navigate('RemoveConnection', connectionName);
+    },
+    [navigation]
+  );
 
   const onSelect = useCallback(
     (value: string) => {
       setSelectedConnectionName(value);
       setExpoSelectedConnection(connections.find((connection) => connection.name === value));
+      navigation.navigate('MainTabs');
     },
-    [connections]
+    [connections, navigation]
   );
-
-  const onConnect = useCallback(() => {
-    navigation.navigate('MainTabs');
-  }, [navigation]);
 
   const connectionOptions = useMemo(
     () =>
@@ -88,14 +83,18 @@ export const SelectConnectionScreen = ({ navigation }) => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: theme.spacing.lg,
+          marginBottom: theme.spacing.md,
         }}
       >
-        <View>
+        <View style={{ paddingBottom: theme.spacing.md }}>
           <Logo />
         </View>
-        <Text style={{ maxWidth: '80%', textAlign: 'center' }}>
-          Connect to a saved Content Hub One instance.
+        <Text>
+          <Text variant="bodyLarge">Select a </Text>
+          <Text variant="bodyLarge" style={{ fontWeight: 'bold' }}>
+            Content Hub ONE
+          </Text>
+          <Text variant="bodyLarge"> connection.</Text>
         </Text>
       </View>
       {isNoConnectionAvailable ? (
@@ -120,25 +119,64 @@ export const SelectConnectionScreen = ({ navigation }) => {
         </View>
       ) : (
         <>
-          <Select
-            items={connectionOptions}
-            onChange={onSelect}
-            selectedValue={selectedConnectionName}
-            style={{ width: '90%', marginBottom: theme.spacing.xxs }}
-          />
+          <View style={{ paddingHorizontal: theme.spacing.xs, width: '100%' }}>
+            {connectionOptions.map((item) => (
+              <Pressable
+                onPress={() => onSelect(item.name)}
+                key={item.name}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  backgroundColor:
+                    item.name === selectedConnectionName
+                      ? theme.colors.yellow.DEFAULT
+                      : theme.colors.white.DEFAULT,
+
+                  height: 45,
+                  width: '100%',
+                  paddingLeft: theme.spacing.sm,
+                }}
+              >
+                <View>
+                  <Text variant="labelMedium" style={{ color: theme.colors.black.DEFAULT }}>
+                    {item.name}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}
+                >
+                  <IconButton
+                    icon="delete"
+                    onPress={() => onRemove(item.name)}
+                    iconColor={theme.colors.black.DEFAULT}
+                    size={28}
+                    style={{ marginHorizontal: 0 }}
+                  />
+                  <IconButton
+                    icon="square-edit-outline"
+                    onPress={() => {}}
+                    iconColor={theme.colors.black.DEFAULT}
+                    size={28}
+                    style={{ marginHorizontal: 0 }}
+                  />
+                </View>
+              </Pressable>
+            ))}
+          </View>
           <Button
-            icon="connection"
+            icon="plus"
             mode="contained"
-            onPress={onConnect}
-            style={{ ...styles.button, marginTop: theme.spacing.xs }}
+            onPress={onAdd}
+            style={{ ...styles.button, marginTop: theme.spacing.sm, marginLeft: 'auto' }}
             labelStyle={styles.buttonLabel}
           >
-            Connect
+            Add
           </Button>
         </>
       )}
-      <BottomFAB icon="plus" onPress={onFabAddClick} style={fabAddStyle} />
-      <BottomFAB disabled={isNoConnectionAvailable} icon="delete" onPress={onFabRemoveClick} />
     </Screen>
   );
 };
