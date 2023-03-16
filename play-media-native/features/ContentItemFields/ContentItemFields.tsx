@@ -58,8 +58,6 @@ export const ContentItemFields = ({
 }) => {
   const { contentItems, edit, remove } = useContentItems();
 
-  console.log({ headerTitle });
-
   const deleteItem = useCallback(
     (key: string, item: any) => {
       remove({ id: stateKey, key, value: item });
