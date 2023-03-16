@@ -2,6 +2,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
 import { CardShadowBox } from '../../features/CardShadowBox/CardShadowBox';
+import { removeFileExtension } from '../../helpers/media';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
@@ -39,7 +40,7 @@ export const MediaDetail = ({ media }: { media: Media }) => {
         <Text variant="labelSmall" style={pageStyles.title}>
           Title
         </Text>
-        <Text style={pageStyles.body}>{media.name}</Text>
+        <Text style={pageStyles.body}>{removeFileExtension(media.name)}</Text>
         <Text variant="labelSmall" style={pageStyles.title}>
           Description
         </Text>
