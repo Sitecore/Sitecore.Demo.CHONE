@@ -27,7 +27,7 @@ import { RequiredFieldsBanner } from '../RequiredFieldsBanner/RequiredFieldsBann
 
 const athleteMenuStyle = {
   position: 'absolute',
-  bottom: 10,
+  top: 0,
   right: 0,
   zIndex: 12,
 };
@@ -89,10 +89,10 @@ export const ContentItemFields = ({
     (fieldKey: string) => ({
       [CONTENT_TYPES.ATHLETE]: (item: Athlete) => (
         <View style={{ position: 'relative' }}>
-          <CardAvatar item={item} />
+          <CardAvatar item={item} isDraggable />
           <ActionMenu
             iconColor={theme.colors.black.DEFAULT}
-            iconSize={25}
+            iconSize={theme.sizing.menuIconSize}
             menuItems={getMenuItems(fieldKey, item)}
             style={athleteMenuStyle}
           />

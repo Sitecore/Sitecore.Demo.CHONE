@@ -139,6 +139,8 @@ export const AddAthletesScreen = ({ navigation, route }) => {
         isLoading={isFetchingInitialAthletes || isFetchingInitialSports}
         renderItem={({ item }) => (
           <SelectableView
+            top={theme.spacing.xs}
+            right={theme.spacing.sm}
             onSelect={() => onSelect(item as Athlete)}
             selected={selectedAthleteIDs.includes(item.id)}
           >
