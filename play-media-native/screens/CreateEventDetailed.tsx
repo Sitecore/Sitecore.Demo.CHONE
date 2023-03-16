@@ -31,14 +31,16 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
       message: CREATE_EVENT_DISCARD_MESSAGE,
       stateKey,
       redirectRoute: 'MainTabs',
+      title: event?.title,
+      subtitle: 'Discard new event?',
     });
-  }, [navigation, stateKey]);
+  }, [event?.title, navigation, stateKey]);
 
   const onReview = useCallback(() => {
     navigation.navigate('ReviewEvent', {
       isNew: true,
       stateKey,
-      title: `Review ${event?.title || 'Event'}`,
+      title: event?.title,
     });
   }, [event, navigation, stateKey]);
 

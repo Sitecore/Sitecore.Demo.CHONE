@@ -55,7 +55,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
     const stateKey = generateID();
 
     init({ id: stateKey, fields: event });
-    navigation.navigate('EditEvent', { stateKey });
+    navigation.navigate('EditEvent', { stateKey, title: event.title });
   }, [event, init, navigation]);
 
   const bottomActions = useMemo(

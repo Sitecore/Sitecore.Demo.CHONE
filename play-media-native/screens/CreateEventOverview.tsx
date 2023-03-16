@@ -25,11 +25,11 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
   }, [navigation]);
 
   const onAddDetails = useCallback(() => {
-    navigation.navigate('CreateEventDetailed', {
+    navigation.push('CreateEventDetailed', {
       stateKey,
-      title: 'Review Event',
+      title: contentItems[stateKey]?.title,
     });
-  }, [navigation, stateKey]);
+  }, [contentItems, navigation, stateKey]);
 
   const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_EVENT);
 
@@ -55,6 +55,8 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
           message: CREATE_EVENT_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
+          title: contentItems[stateKey]?.title || 'Untitled event',
+          subtitle: 'Discard new event?',
         });
       });
 
@@ -64,7 +66,7 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation, stateKey])
+    }, [contentItems, navigation, stateKey])
   );
 
   return (

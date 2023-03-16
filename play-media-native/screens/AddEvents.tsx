@@ -15,6 +15,7 @@ import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
+import { useFilters } from '../hooks/useFilters/useFilters';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Event } from '../interfaces/event';
@@ -24,6 +25,8 @@ export const AddEventsScreen = ({ navigation, route }) => {
   const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
   const stateKey = route?.params?.stateKey;
+
+  const { visible: isVisible } = useFilters();
 
   const { contentItems, edit: editFields } = useContentItems();
 
@@ -129,10 +132,20 @@ export const AddEventsScreen = ({ navigation, route }) => {
     navigation.navigate(initialRoute);
   }, [edit, events, fieldKey, initialRoute, navigation, selectedEventIDs]);
 
+  const filters = useMemo(
+    () =>
+      isVisible && (
+        <>
+          <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+          <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+        </>
+      ),
+    [isVisible, facetFilters, handleFacetsChange, handleSearch, searchQuery]
+  );
+
   return (
     <Screen>
-      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
-      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+      {filters}
       <Listing
         data={filteredEvents}
         isLoading={isFetchingInitialEvents || isFetchingInitialSports}

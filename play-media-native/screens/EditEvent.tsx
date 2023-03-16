@@ -20,7 +20,7 @@ export const EditEventScreen = ({ navigation, route }) => {
   const handleReview = useCallback(() => {
     navigation.navigate('ReviewEvent', {
       stateKey,
-      title: `Review ${event?.title || 'Event'}`,
+      title: event?.title,
     });
   }, [event, navigation, stateKey]);
 
@@ -29,8 +29,10 @@ export const EditEventScreen = ({ navigation, route }) => {
       message: EDIT_EVENT_DISCARD_MESSAGE,
       stateKey,
       redirectRoute: 'MainTabs',
+      title: event?.title,
+      subtitle: 'Discard event changes?',
     });
-  }, [navigation, stateKey]);
+  }, [event?.title, navigation, stateKey]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -40,15 +42,17 @@ export const EditEventScreen = ({ navigation, route }) => {
 
   useFocusEffect(
     useCallback(() => {
-      const unsubscribe = navigation.addListener('beforeRemove', (event) => {
+      const unsubscribe = navigation.addListener('beforeRemove', (e) => {
         // Prevent default behavior of leaving the screen
         //
-        event.preventDefault();
+        e.preventDefault();
 
         navigation.push('DiscardChanges', {
           message: EDIT_EVENT_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
+          title: event?.title,
+          subtitle: 'Discard event changes?',
         });
       });
 
@@ -58,7 +62,7 @@ export const EditEventScreen = ({ navigation, route }) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation, stateKey])
+    }, [event?.title, navigation, stateKey])
   );
 
   if (!event) {
