@@ -22,8 +22,6 @@ export const SelectableView = ({ children, onSelect, right, selected, style, top
       width: theme.spacing.sm,
       height: theme.spacing.sm,
       backgroundColor: theme.colors.white.DEFAULT,
-      borderWidth: 1,
-      borderColor: theme.colors.gray.DEFAULT,
       zIndex: 100,
     },
   });
