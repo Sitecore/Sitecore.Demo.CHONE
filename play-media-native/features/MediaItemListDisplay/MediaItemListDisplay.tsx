@@ -1,32 +1,12 @@
-import { ReactNode } from 'react';
-import { Image, Pressable, StyleProp, View, ViewStyle } from 'react-native';
+import { Image, View } from 'react-native';
 
+import { ConditionalPressable } from '../../components/ConditionalPressable/ConditionalPressable';
 import { DraggableHandle } from '../../components/DraggableHandle/DraggableHandle';
 import { getFileType, removeFileExtension } from '../../helpers/media';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { Field } from '../Field/Field';
-
-const MediaItemListDisplayWrapper = ({
-  children,
-  isDraggable,
-  onPress,
-  style,
-}: {
-  children: ReactNode[];
-  isDraggable?: boolean;
-  onPress?: () => void;
-  style?: StyleProp<ViewStyle>;
-}) => {
-  return isDraggable ? (
-    <View style={style}>{children}</View>
-  ) : (
-    <Pressable onPress={onPress} style={style}>
-      {children}
-    </Pressable>
-  );
-};
 
 export const MediaItemListDisplay = ({
   item,
@@ -38,9 +18,8 @@ export const MediaItemListDisplay = ({
   isDraggable?: boolean;
 }) => {
   return (
-    <MediaItemListDisplayWrapper
-      isDraggable={isDraggable}
-      onPress={() => onPress(item)}
+    <ConditionalPressable
+      onPress={onPress ? () => onPress(item) : null}
       style={{
         marginBottom: theme.spacing.sm,
         backgroundColor: theme.colors.black.light,
@@ -77,6 +56,6 @@ export const MediaItemListDisplay = ({
           {item.status && <Field title="Status" value={item.status} />}
         </View>
       </View>
-    </MediaItemListDisplayWrapper>
+    </ConditionalPressable>
   );
 };

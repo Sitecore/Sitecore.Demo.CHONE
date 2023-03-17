@@ -19,7 +19,7 @@ export const MediaItemCardDisplay = ({
         borderRadius: 0,
         marginBottom: theme.spacing.sm,
       }}
-      onPress={() => onPress(item)}
+      onPress={onPress ? () => onPress(item) : null}
     >
       <Card.Cover theme={{ roundness: 0 }} source={{ uri: item.fileUrl }} />
       <Card.Content
