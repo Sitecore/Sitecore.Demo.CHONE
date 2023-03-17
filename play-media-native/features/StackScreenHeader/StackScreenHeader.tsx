@@ -99,11 +99,11 @@ export const StackScreenHeader = ({ route }) => {
 
   return (
     <View style={styles.headerContainer}>
-      {backBtn}
       <View style={styles.headerInfo}>
         {headerTitle}
         {headerSubtitle}
       </View>
+      {backBtn}
       {searchIcon}
     </View>
   );
