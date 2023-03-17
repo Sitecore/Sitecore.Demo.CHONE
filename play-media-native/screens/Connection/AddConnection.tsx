@@ -4,10 +4,10 @@ import { useCallback } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-import connectionStyles from './styles';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
+import connectionStyles from './styles';
 
 const pageStyles = StyleSheet.create({
   btnContainer: {
@@ -25,7 +25,7 @@ const pageStyles = StyleSheet.create({
 
 export const AddConnectionScreen = ({ navigation }) => {
   const handleManualBtnPress = useCallback(() => {
-    navigation.navigate('ManualConnection');
+    navigation.push('ManualConnection');
   }, [navigation]);
   const handleQRCodeBtnPress = useCallback(() => {
     navigation.navigate('QRCodeConnection');

@@ -138,7 +138,7 @@ export const FormAddConnection = () => {
   }, []);
 
   const handleDiscardBtn = useCallback(() => {
-    navigation.navigate('MainTabs');
+    navigation.push('SelectConnection', { shouldShowBackBtn: true });
   }, [navigation]);
   const handleConnectBtn = useCallback(async () => {
     setIsValidating(true);

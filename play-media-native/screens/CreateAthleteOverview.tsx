@@ -20,16 +20,18 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
   const [stateKey] = useState<string>(generateID());
   const { contentItems, init, reset } = useContentItems();
 
+  const headerTitle = contentItems[stateKey]?.athleteName || 'Untitled athlete';
+
   const onDiscard = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const onAddDetails = useCallback(() => {
-    navigation.navigate('CreateAthleteDetailed', {
+    navigation.push('CreateAthleteDetailed', {
       stateKey,
-      title: 'Athlete Details',
+      title: contentItems[stateKey]?.athleteName,
     });
-  }, [navigation, stateKey]);
+  }, [contentItems, navigation, stateKey]);
 
   const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_ATHLETE);
 
@@ -44,6 +46,12 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
     }
   }, [init, reset, stateKey]);
 
+  useEffect(() => {
+    navigation.setParams({
+      title: headerTitle,
+    });
+  }, [headerTitle, navigation]);
+
   useFocusEffect(
     useCallback(() => {
       const unsubscribe = navigation.addListener('beforeRemove', (event) => {
@@ -55,6 +63,8 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
           message: CREATE_ATHLETE_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
+          title: headerTitle,
+          subtitle: 'Discard new athlete?',
         });
       });
 
@@ -64,7 +74,7 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation, stateKey])
+    }, [headerTitle, navigation, stateKey])
   );
 
   return (
@@ -75,6 +85,7 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
         requiredOnly
         showLimited
         stateKey={stateKey}
+        headerTitle={headerTitle}
       />
       <BottomActions>
         <View

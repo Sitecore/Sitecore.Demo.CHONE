@@ -20,18 +20,26 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
   const [stateKey] = useState<string>(generateID());
   const { contentItems, init, reset } = useContentItems();
 
+  const headerTitle = contentItems[stateKey]?.title || 'Untitled event';
+
   const onDiscard = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const onAddDetails = useCallback(() => {
-    navigation.navigate('CreateEventDetailed', {
+    navigation.push('CreateEventDetailed', {
       stateKey,
-      title: 'Review Event',
+      title: contentItems[stateKey]?.title,
     });
-  }, [navigation, stateKey]);
+  }, [contentItems, navigation, stateKey]);
 
   const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_EVENT);
+
+  useEffect(() => {
+    navigation.setParams({
+      title: headerTitle,
+    });
+  }, [headerTitle, navigation]);
 
   useEffect(() => {
     // init global state on mount
@@ -55,6 +63,8 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
           message: CREATE_EVENT_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
+          title: headerTitle,
+          subtitle: 'Discard new event?',
         });
       });
 
@@ -64,7 +74,7 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation, stateKey])
+    }, [headerTitle, navigation, stateKey])
   );
 
   return (
@@ -75,6 +85,7 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
         requiredOnly
         showLimited
         stateKey={stateKey}
+        headerTitle={headerTitle}
       />
       <BottomActions>
         <View

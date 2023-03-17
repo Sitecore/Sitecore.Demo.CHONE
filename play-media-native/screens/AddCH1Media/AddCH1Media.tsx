@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { Button } from 'react-native-paper';
 
+import { ListingCH1Media } from './ListingCH1Media';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { DropdownItem } from '../../components/DropdownPicker/DropdownPicker';
 import { SimpleFilters } from '../../components/FacetFilters/SimpleFilters';
@@ -13,10 +14,10 @@ import { getFileTypeOptions, getStatusOptions } from '../../helpers/facets';
 import { removeAlreadySelected } from '../../helpers/media';
 import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { useSearchFacets } from '../../hooks/useFacets/useFacets';
+import { useFilters } from '../../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../../hooks/useMediaQuery/useMediaQuery';
 import { Media } from '../../interfaces/media';
 import { styles } from '../../theme/styles';
-import { ListingCH1Media } from './ListingCH1Media';
 
 export const AddCH1MediaScreen = ({ navigation, route }) => {
   const { contentItems, edit } = useContentItems();
@@ -24,12 +25,15 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
   const [selectedMedia, setSelectedMedia] = useState<Media[]>([]);
   const selectedMediaIDs = selectedMedia.map((item) => item.id);
 
+  const { visible: isVisible } = useFilters();
+
   // route params
   //
   const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
   const single = route?.params?.single;
   const stateKey = route?.params?.stateKey;
+  const headerTitle = route?.params?.title;
 
   const availableImages = useMemo(() => {
     if (!images?.length) {
@@ -100,9 +104,10 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
 
       navigation.navigate(initialRoute, {
         isEditMedia: false,
+        title: headerTitle,
       });
     },
-    [edit, initialRoute, navigation, route.params.key, stateKey]
+    [edit, headerTitle, initialRoute, navigation, route.params.key, stateKey]
   );
 
   const onAdd = useCallback(() => {
@@ -170,11 +175,21 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
     [onAdd, onDiscard, selectedMedia.length]
   );
 
+  const filters = useMemo(
+    () =>
+      isVisible && (
+        <>
+          <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+          <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+        </>
+      ),
+    [isVisible, facetFilters, handleFacetsChange, handleSearch, searchQuery]
+  );
+
   return (
     <Screen>
       <StatusBar barStyle="light-content" />
-      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
-      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+      {filters}
       <ListingCH1Media
         images={filteredImages as Media[]}
         isFetching={isFetching}

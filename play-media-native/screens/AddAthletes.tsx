@@ -15,6 +15,7 @@ import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
+import { useFilters } from '../hooks/useFilters/useFilters';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Athlete } from '../interfaces/athlete';
@@ -25,6 +26,9 @@ export const AddAthletesScreen = ({ navigation, route }) => {
   const fieldKey = route?.params?.key;
   const initialRoute = route?.params?.initialRoute;
   const stateKey = route?.params?.stateKey;
+  const headerTitle = route?.params?.title;
+
+  const { visible: isVisible } = useFilters();
 
   const { contentItems, edit: editField } = useContentItems();
 
@@ -127,18 +131,30 @@ export const AddAthletesScreen = ({ navigation, route }) => {
       value: athletes.filter((item) => selectedAthleteIDs.includes(item.id)),
     });
 
-    navigation.navigate(initialRoute);
-  }, [athletes, edit, fieldKey, initialRoute, navigation, selectedAthleteIDs]);
+    navigation.navigate(initialRoute, { title: headerTitle });
+  }, [athletes, edit, fieldKey, headerTitle, initialRoute, navigation, selectedAthleteIDs]);
+
+  const filters = useMemo(
+    () =>
+      isVisible && (
+        <>
+          <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
+          <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+        </>
+      ),
+    [isVisible, facetFilters, handleFacetsChange, handleSearch, searchQuery]
+  );
 
   return (
     <Screen>
-      <SimpleFilters facets={facetFilters} handleFacetsChange={handleFacetsChange} />
-      <SearchBar onSearch={handleSearch} searchQuery={searchQuery} />
+      {filters}
       <Listing
         data={filteredAthletes}
         isLoading={isFetchingInitialAthletes || isFetchingInitialSports}
         renderItem={({ item }) => (
           <SelectableView
+            top={theme.spacing.xs}
+            right={theme.spacing.sm}
             onSelect={() => onSelect(item as Athlete)}
             selected={selectedAthleteIDs.includes(item.id)}
           >

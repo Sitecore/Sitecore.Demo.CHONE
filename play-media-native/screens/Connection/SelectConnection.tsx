@@ -49,7 +49,10 @@ export const SelectConnectionScreen = ({ navigation }) => {
   }, [connections]);
 
   const onFabAddClick = useCallback(() => {
-    navigation.navigate('AddConnection');
+    navigation.push('AddConnection', {
+      title: 'Connections',
+      subtitle: 'Add a connection',
+    });
   }, [navigation]);
 
   const onFabRemoveClick = useCallback(() => {

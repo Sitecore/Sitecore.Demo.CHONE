@@ -51,6 +51,7 @@ export const ContentFieldMedia = ({
   single,
   stateKey,
   style,
+  headerTitle,
 }: {
   fieldKey: string;
   fieldTitle: string;
@@ -60,6 +61,7 @@ export const ContentFieldMedia = ({
   single: boolean;
   stateKey: string;
   style?: StyleProp<any>;
+  headerTitle?: string;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
   const { edit, remove } = useContentItems();
@@ -69,6 +71,7 @@ export const ContentFieldMedia = ({
   const editMedia = useCallback(
     (image: Media) => {
       navigation.navigate('EditMedia', {
+        title: headerTitle,
         isEditMode: true,
         initialRoute,
         image,
@@ -77,7 +80,7 @@ export const ContentFieldMedia = ({
         stateKey,
       });
     },
-    [fieldKey, initialRoute, navigation, single, stateKey]
+    [fieldKey, initialRoute, navigation, single, stateKey, headerTitle]
   );
 
   const deleteMedia = useCallback(
@@ -162,6 +165,7 @@ export const ContentFieldMedia = ({
           initialRoute={initialRoute}
           single={single}
           stateKey={stateKey}
+          headerTitle={headerTitle}
         />
       </View>
       {content}
