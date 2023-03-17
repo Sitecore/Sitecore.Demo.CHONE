@@ -84,6 +84,7 @@ export const theme = {
     menuIconSize: 20,
     inputHeight: 36,
     tabBarHeight: 42,
+    draggableHandleWidth: 34,
   },
 };
 
