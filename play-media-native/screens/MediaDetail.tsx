@@ -2,41 +2,18 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useMemo } from 'react';
-import { Image, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { AnimatedFAB, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
 import { getMediaById } from '../api/queries/getMedia';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
+import { MediaDetail } from '../features/MediaDetail/MediaDetail';
 import { Screen } from '../features/Screen/Screen';
 import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
-
-const pageStyles = StyleSheet.create({
-  title: {
-    fontFamily: theme.fontFamily.bold,
-    marginBottom: theme.spacing.xxs,
-  },
-  body: {
-    marginBottom: theme.spacing.sm,
-  },
-  bottomFAB: {
-    position: 'absolute',
-    right: theme.spacing.sm,
-    bottom: theme.spacing.xs,
-  },
-  button: {
-    position: 'absolute',
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
-  },
-  actionBtns: {
-    paddingBottom: 0,
-    paddingRight: theme.spacing.xs,
-  },
-});
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MediaDetail'>;
 
@@ -72,7 +49,7 @@ export const MediaDetailScreen = ({ route, navigation }: Props) => {
         label="Edit"
         extended={isTopEdge}
         onPress={handleEditInfo}
-        style={pageStyles.bottomFAB}
+        style={styles.fab}
       />
     ),
     [isTopEdge, handleEditInfo]
@@ -92,35 +69,8 @@ export const MediaDetailScreen = ({ route, navigation }: Props) => {
 
   return (
     <Screen>
-      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0} style={styles.screenPadding}>
-        <Image
-          source={{ uri: media.fileUrl }}
-          style={[styles.responsiveImage, { aspectRatio: media.fileWidth / media.fileHeight }]}
-        />
-        <View>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Title
-          </Text>
-          <Text style={pageStyles.body}>{media.name}</Text>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Description
-          </Text>
-          <Text style={pageStyles.body}>{media.description}</Text>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Type
-          </Text>
-          <Text style={pageStyles.body}>{media.fileType}</Text>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            State
-          </Text>
-          <Text style={pageStyles.body}>{media.status}</Text>
-          <Text variant="labelSmall" style={pageStyles.title}>
-            Size
-          </Text>
-          <Text style={pageStyles.body}>
-            {media.fileWidth}x{media.fileHeight}
-          </Text>
-        </View>
+      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
+        <MediaDetail media={media} />
       </ScrollView>
       {bottomActions}
     </Screen>
