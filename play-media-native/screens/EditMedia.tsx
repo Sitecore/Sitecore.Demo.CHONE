@@ -28,12 +28,13 @@ export const EditMediaScreen = ({ navigation, route }) => {
   const initialRoute = route?.params?.initialRoute;
   const single = route?.params?.single;
   const stateKey = route?.params?.stateKey;
+  const headerTitle = route?.params?.title;
 
   const onEdit = useCallback(() => {
     replace({ id: stateKey, key: fieldKey, value: editedImage });
 
-    navigation.navigate(initialRoute);
-  }, [editedImage, fieldKey, initialRoute, navigation, replace, stateKey]);
+    navigation.navigate(initialRoute, { title: headerTitle });
+  }, [editedImage, fieldKey, initialRoute, navigation, replace, stateKey, headerTitle]);
 
   const onAdd = useCallback(() => {
     edit(
@@ -46,8 +47,18 @@ export const EditMediaScreen = ({ navigation, route }) => {
           }
     );
 
-    navigation.navigate(initialRoute);
-  }, [contentItems, edit, editedImage, fieldKey, initialRoute, navigation, single, stateKey]);
+    navigation.navigate(initialRoute, { title: headerTitle });
+  }, [
+    contentItems,
+    edit,
+    editedImage,
+    fieldKey,
+    initialRoute,
+    navigation,
+    single,
+    stateKey,
+    headerTitle,
+  ]);
 
   const onNameChange = useCallback((text: string) => {
     setEditedImage((prev) => ({

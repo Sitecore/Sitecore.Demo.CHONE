@@ -18,12 +18,14 @@ export const MenuAddMedia = ({
   initialRoute,
   single = false,
   stateKey,
+  headerTitle = '',
 }: {
   empty: boolean;
   fieldKey: string;
   initialRoute: string;
   single: boolean;
   stateKey: string;
+  headerTitle: string;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
   const [visible, setVisible] = useState(false);
@@ -36,6 +38,7 @@ export const MenuAddMedia = ({
   const handleCameraPress = useCallback(() => {
     launchCamera((image: DeviceMedia) => {
       navigation.navigate('EditMedia', {
+        title: headerTitle,
         initialRoute,
         image,
         key: fieldKey,
@@ -45,11 +48,12 @@ export const MenuAddMedia = ({
     });
 
     close();
-  }, [close, fieldKey, initialRoute, launchCamera, navigation, single, stateKey]);
+  }, [close, fieldKey, initialRoute, launchCamera, navigation, single, stateKey, headerTitle]);
 
   const handleMediaLibraryPress = useCallback(() => {
     launchLibrary((image: DeviceMedia) => {
       navigation.navigate('EditMedia', {
+        title: headerTitle,
         initialRoute,
         image,
         key: fieldKey,
@@ -59,10 +63,11 @@ export const MenuAddMedia = ({
     });
 
     close();
-  }, [close, fieldKey, initialRoute, launchLibrary, navigation, single, stateKey]);
+  }, [close, fieldKey, initialRoute, launchLibrary, navigation, single, stateKey, headerTitle]);
 
   const handleCHonePress = useCallback(() => {
     navigation.navigate('AddCH1Media', {
+      title: headerTitle,
       key: fieldKey,
       initialRoute,
       single,
@@ -70,7 +75,7 @@ export const MenuAddMedia = ({
     });
 
     close();
-  }, [close, stateKey, fieldKey, initialRoute, navigation, single]);
+  }, [navigation, fieldKey, initialRoute, single, stateKey, headerTitle, close]);
 
   const buttonLabel = getReferenceFieldButtonLabel(empty, single);
   const icon = getReferenceFieldIcon(empty, single);

@@ -44,15 +44,17 @@ const sectionMarginBottom = theme.spacing.xs;
 export const ContentItemFields = ({
   initialRoute,
   overrides,
+  stateKey,
   requiredOnly = false,
   showLimited = false,
-  stateKey,
+  headerTitle = '',
 }: {
   initialRoute: string;
   overrides: Record<string, IFieldOverride>;
+  stateKey: string;
   requiredOnly?: boolean;
   showLimited?: boolean;
-  stateKey: string;
+  headerTitle?: string;
 }) => {
   const { contentItems, edit, remove } = useContentItems();
 
@@ -166,6 +168,7 @@ export const ContentItemFields = ({
           single={overrides[fieldKey].single}
           stateKey={stateKey}
           style={sectionMarginBottom}
+          headerTitle={headerTitle}
         />
       ),
       [FIELD_TYPES.Number]: null,
@@ -181,6 +184,7 @@ export const ContentItemFields = ({
           single={overrides[fieldKey].single}
           stateKey={stateKey}
           style={sectionMarginBottom}
+          headerTitle={headerTitle}
         />
       ),
       [FIELD_TYPES.RichText]: (fieldKey: string) => (
@@ -204,7 +208,7 @@ export const ContentItemFields = ({
         />
       ),
     }),
-    [handleFieldChange, initialRoute, overrides, referenceRenderers, stateKey]
+    [handleFieldChange, initialRoute, overrides, referenceRenderers, stateKey, headerTitle]
   );
 
   const filteredOverrides = useMemo(() => {

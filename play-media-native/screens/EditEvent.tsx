@@ -20,40 +20,45 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
   const { contentItems } = useContentItems();
 
   const event = (contentItems[stateKey] ?? null) as unknown as Event;
+  const headerTitle = event?.title || 'Untitled event';
 
   const handleReview = useCallback(() => {
     navigation.navigate('ReviewEvent', {
       isNew: false,
       stateKey,
-      title: `Review ${event?.title || 'Event'}`,
+      title: headerTitle,
     });
-  }, [event, navigation, stateKey]);
+  }, [headerTitle, navigation, stateKey]);
 
   const handleDiscard = useCallback(() => {
     navigation.push('DiscardChanges', {
       message: EDIT_EVENT_DISCARD_MESSAGE,
       stateKey,
       redirectRoute: 'MainTabs',
+      title: headerTitle,
+      subtitle: 'Discard event changes?',
     });
-  }, [navigation, stateKey]);
+  }, [headerTitle, navigation, stateKey]);
 
   useEffect(() => {
-    navigation.setOptions({
-      title: event?.title || 'Edit Event',
+    navigation.setParams({
+      title: headerTitle,
     });
-  }, [event?.title, navigation]);
+  }, [headerTitle, navigation]);
 
   useFocusEffect(
     useCallback(() => {
-      const unsubscribe = navigation.addListener('beforeRemove', (event) => {
+      const unsubscribe = navigation.addListener('beforeRemove', (e) => {
         // Prevent default behavior of leaving the screen
         //
-        event.preventDefault();
+        e.preventDefault();
 
         navigation.push('DiscardChanges', {
           message: EDIT_EVENT_DISCARD_MESSAGE,
           stateKey,
           redirectRoute: 'MainTabs',
+          title: headerTitle,
+          subtitle: 'Discard event changes?',
         });
       });
 
@@ -63,7 +68,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation, stateKey])
+    }, [headerTitle, navigation, stateKey])
   );
 
   if (!event) {
@@ -76,6 +81,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
         initialRoute="EditEvent"
         overrides={FIELD_OVERRIDES_EVENT}
         stateKey={stateKey}
+        headerTitle={headerTitle}
       />
       <BottomActions
         style={{

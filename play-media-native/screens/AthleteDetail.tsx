@@ -1,6 +1,6 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { AnimatedFAB, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
@@ -29,17 +29,11 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
-  useEffect(() => {
-    navigation.setOptions({
-      title: route.params.title,
-    });
-  }, [navigation, route.params]);
-
   const handleEditInfo = useCallback(() => {
     const stateKey = generateID();
 
     init({ id: stateKey, fields: athlete });
-    navigation.navigate('EditAthlete', { stateKey });
+    navigation.navigate('EditAthlete', { stateKey, title: athlete.athleteName });
   }, [athlete, init, navigation]);
 
   const bottomActions = useMemo(
