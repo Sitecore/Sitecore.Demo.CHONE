@@ -69,6 +69,12 @@ After making changes to content types or content items in Content Hub ONE, you s
    npm run pull:items
    ```
 
+1. Pull all media items:
+
+   ```bash
+   npm run pull:media
+   ```
+
 1. Pull all additional content types:
 
    ```bash
