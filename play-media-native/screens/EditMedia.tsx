@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
-import { Image, StatusBar, View } from 'react-native';
+import { Image, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
@@ -11,11 +11,7 @@ import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
-
-const imageStyle = {
-  height: 200,
-  width: 300,
-};
+import { theme } from '../theme/theme';
 
 export const EditMediaScreen = ({ navigation, route }) => {
   const [editedImage, setEditedImage] = useState<Partial<Media>>();
@@ -101,25 +97,30 @@ export const EditMediaScreen = ({ navigation, route }) => {
   }
 
   return (
-    <KeyboardAwareScreen centered>
-      <StatusBar barStyle="light-content" />
-      <View>
-        <Image source={{ uri: editedImage.fileUrl }} style={imageStyle} />
+    <KeyboardAwareScreen>
+      <Image
+        source={{ uri: editedImage.fileUrl }}
+        style={[
+          styles.responsiveImage,
+          { aspectRatio: editedImage.fileWidth / editedImage.fileHeight },
+        ]}
+      />
+      <View style={[styles.screenPadding, { paddingVertical: theme.spacing.sm }]}>
+        <InputText
+          containerStyle={styles.inputContainer}
+          title="Name"
+          multiline
+          onChange={onNameChange}
+          value={editedImage?.name || ''}
+        />
+        <InputText
+          containerStyle={styles.inputContainer}
+          title="Description"
+          multiline
+          onChange={onDescriptionChange}
+          value={editedImage?.description || ''}
+        />
       </View>
-      <InputText
-        containerStyle={styles.inputContainer}
-        label="Name"
-        multiline
-        onChange={onNameChange}
-        value={editedImage?.name || ''}
-      />
-      <InputText
-        containerStyle={styles.inputContainer}
-        label="Description"
-        multiline
-        onChange={onDescriptionChange}
-        value={editedImage?.description || ''}
-      />
       <BottomActions>
         <Button
           mode="outlined"

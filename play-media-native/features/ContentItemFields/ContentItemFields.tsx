@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { View } from 'react-native';
 import { NestableScrollContainer } from 'react-native-draggable-flatlist';
-import { Text } from 'react-native-paper';
 
+import { FieldLabel } from '../../components/FieldLabel/FieldLabel';
 import { InputBoolean } from '../../components/InputBoolean/InputBoolean';
 import { InputDate } from '../../components/InputDate/InputDate';
 import { InputText } from '../../components/InputText/InputText';
@@ -112,7 +112,7 @@ export const ContentItemFields = ({
         </View>
       ),
       [CONTENT_TYPES.SPORT]: (item: Sport) => (
-        <View style={{ position: 'relative' }}>
+        <View style={{ position: 'relative', paddingBottom: theme.spacing.xs }}>
           <CardSport item={item} />
           <ActionMenu
             iconColor={theme.colors.black.DEFAULT}
@@ -135,6 +135,7 @@ export const ContentItemFields = ({
           required={overrides[fieldKey].required}
           title={overrides[fieldKey].title}
           value={state[stateKey][fieldKey]}
+          containerStyle={styles.inputContainer}
         />
       ),
       [FIELD_TYPES.Date]: (fieldKey: string) => (
@@ -189,7 +190,10 @@ export const ContentItemFields = ({
       ),
       [FIELD_TYPES.RichText]: (fieldKey: string) => (
         <View key={componentKey} style={styles.inputContainer}>
-          <Text style={{ marginBottom: theme.spacing.xs }}>{overrides[fieldKey].title}</Text>
+          <FieldLabel
+            title={overrides[fieldKey].title}
+            style={{ marginBottom: theme.spacing.xs }}
+          />
           <RichTextEditor
             initialValue={state[stateKey][fieldKey]?.content}
             onChange={(text: string) => handleFieldChange(fieldKey, text)}
@@ -236,9 +240,8 @@ export const ContentItemFields = ({
   }
 
   return (
-    <NestableScrollContainer>
+    <NestableScrollContainer style={styles.screenPadding}>
       <View>
-        {showRequiredBanner && <RequiredFieldsBanner />}
         {Object.entries(filteredOverrides).map(([overrideKey, override], index) => {
           const renderer = fieldRenderers(contentItems, `${overrideKey}-${index}`)[override.type];
 
@@ -248,6 +251,7 @@ export const ContentItemFields = ({
 
           return renderer(overrideKey);
         })}
+        {showRequiredBanner && <RequiredFieldsBanner />}
         <View style={{ paddingBottom: 75 }} />
       </View>
     </NestableScrollContainer>

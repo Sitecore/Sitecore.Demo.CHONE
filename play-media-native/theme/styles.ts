@@ -16,8 +16,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.yellow.DEFAULT,
     marginHorizontal: theme.spacing.xs,
-    height: 45,
-    lineHeight: 40,
+    height: theme.sizing.buttonSmallHeight,
   },
   buttonLabel: {
     fontFamily: theme.fontFamily.medium,
@@ -25,9 +24,10 @@ export const styles = StyleSheet.create({
     lineHeight: 30,
   },
   buttonLabelSmall: {
-    fontFamily: theme.fontFamily.medium,
+    fontFamily: theme.fontFamily.DEFAULT,
     fontSize: theme.fontSize.sm,
-    lineHeight: 25,
+    lineHeight: theme.fontSize.base,
+    top: 2,
   },
   centered: {
     justifyContent: 'center',
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     bottom: theme.spacing.xs,
   },
   inputContainer: {
-    marginTop: theme.spacing.md,
+    marginBottom: theme.spacing.sm,
   },
   screen: {
     flex: 1,
@@ -79,5 +79,17 @@ export const styles = StyleSheet.create({
     paddingRight: theme.spacing.xxs,
     marginLeft: -theme.spacing.lg,
     marginRight: theme.spacing.sm,
+  },
+  textInput: {
+    backgroundColor: theme.colors.white.DEFAULT,
+  },
+  textInputOutline: {
+    borderWidth: 0,
+    borderRadius: 0,
+  },
+  textInputContent: {
+    fontFamily: theme.fontFamily.DEFAULT,
+    fontSize: theme.fontSize.sm,
+    color: theme.colors.black.DEFAULT,
   },
 });

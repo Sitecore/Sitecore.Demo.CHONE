@@ -157,7 +157,10 @@ export const ContentFieldMedia = ({
   return (
     <View style={style}>
       <Divider
-        style={{ backgroundColor: theme.colors.gray.light, marginBottom: theme.spacing.xs }}
+        style={{
+          backgroundColor: theme.colors.black.light,
+          marginBottom: theme.spacing.xs,
+        }}
       />
       <View
         style={{
@@ -167,7 +170,7 @@ export const ContentFieldMedia = ({
           marginBottom: theme.spacing.xs,
         }}
       >
-        <FieldLabel required={required} single={single} title={fieldTitle} />
+        <FieldLabel required={required} title={fieldTitle} />
         <MenuAddMedia
           empty={empty}
           fieldKey={fieldKey}
