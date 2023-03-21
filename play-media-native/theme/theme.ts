@@ -63,6 +63,7 @@ export const theme = {
     mono: 'Roboto-Mono',
   },
   fontSize: {
+    xxs: 14,
     xs: 16,
     sm: 18,
     base: 20,
@@ -84,6 +85,7 @@ export const theme = {
     inputHeight: 36,
     tabBarHeight: 42,
     buttonSmallHeight: 38,
+    draggableHandleWidth: 34,
   },
 };
 

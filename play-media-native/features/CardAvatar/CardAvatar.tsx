@@ -6,6 +6,7 @@ import { DraggableHandle } from '../../components/DraggableHandle/DraggableHandl
 import { ATHLETE_MOCK_IMG } from '../../constants/mockImages';
 import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
 import { Athlete } from '../../interfaces/athlete';
+import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { CardShadowBox } from '../CardShadowBox/CardShadowBox';
 
@@ -25,12 +26,14 @@ export const CardAvatar = ({
     <CardShadowBox color={color} onCardPress={onCardPress}>
       {isDraggable && <DraggableHandle />}
       <Card.Content
-        style={{
-          flexDirection: 'row',
-          paddingHorizontal: theme.spacing.sm,
-          paddingVertical: theme.spacing.sm,
-          marginLeft: isDraggable ? theme.spacing.md : 0,
-        }}
+        style={[
+          {
+            flexDirection: 'row',
+            paddingHorizontal: theme.spacing.sm,
+            paddingVertical: theme.spacing.sm,
+          },
+          isDraggable && styles.draggableContent,
+        ]}
       >
         <View>
           <AvatarImage

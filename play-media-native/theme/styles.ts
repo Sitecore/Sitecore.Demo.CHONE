@@ -92,4 +92,8 @@ export const styles = StyleSheet.create({
     fontSize: theme.fontSize.sm,
     color: theme.colors.black.DEFAULT,
   },
+  draggableContent: {
+    marginLeft: theme.sizing.draggableHandleWidth,
+    paddingLeft: 0,
+  },
 });

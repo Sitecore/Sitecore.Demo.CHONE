@@ -45,19 +45,29 @@ export const CardEvent = ({
         <CardShadowBox color={color} onCardPress={onCardPress}>
           {isDraggable && <DraggableHandle />}
           <Card.Content
-            style={{
-              paddingHorizontal: theme.spacing.sm,
-              paddingVertical: theme.spacing.sm,
-              marginLeft: isDraggable ? theme.spacing.md : 0,
-            }}
+            style={[
+              {
+                paddingHorizontal: theme.spacing.sm,
+                paddingVertical: theme.spacing.sm,
+                marginLeft: isDraggable ? theme.sizing.draggableHandleWidth : 0,
+              },
+              isDraggable && styles.draggableContent,
+            ]}
           >
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+              }}
+            >
               <Text
                 style={[
                   isDraggable
                     ? {
                         paddingHorizontal: theme.spacing.sm,
                         paddingVertical: theme.spacing.xxs,
+                        marginRight: theme.spacing.sm,
                       }
                     : styles.sportLabel,
                   {

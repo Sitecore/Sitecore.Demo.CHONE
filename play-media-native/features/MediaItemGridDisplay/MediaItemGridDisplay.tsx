@@ -1,6 +1,8 @@
-import { Image, Pressable } from 'react-native';
+import { Image } from 'react-native';
 
+import { ConditionalPressable } from '../../components/ConditionalPressable/ConditionalPressable';
 import { Media } from '../../interfaces/media';
+import { theme } from '../../theme/theme';
 
 export const MediaItemGridDisplay = ({
   item,
@@ -10,12 +12,13 @@ export const MediaItemGridDisplay = ({
   onPress?: (item: Media) => void;
 }) => {
   return (
-    <Pressable
-      onPress={() => onPress(item)}
+    <ConditionalPressable
+      onPress={onPress ? () => onPress(item) : null}
       style={{
-        height: 120,
-        flex: 0.5,
-        margin: 2,
+        flex: 1,
+        aspectRatio: 1,
+        marginHorizontal: theme.spacing.xxs,
+        marginBottom: theme.spacing.xs,
       }}
     >
       <Image
@@ -25,6 +28,6 @@ export const MediaItemGridDisplay = ({
           width: '100%',
         }}
       />
-    </Pressable>
+    </ConditionalPressable>
   );
 };
