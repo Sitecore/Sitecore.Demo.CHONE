@@ -11,8 +11,9 @@ export const ManualConnectionScreen = () => {
       <StatusBar barStyle="light-content" />
       <View style={connectionStyles.container}>
         <Text style={connectionStyles.title}>
-          Add a connection to a<Text style={connectionStyles.chOneText}> Content Hub ONE </Text>
-          instance
+          <Text>Add connection details to a</Text>
+          <Text style={connectionStyles.chOneText}> Content Hub ONE</Text>
+          <Text> instance.</Text>
         </Text>
       </View>
       <FormAddConnection />

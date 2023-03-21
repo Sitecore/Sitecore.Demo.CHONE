@@ -7,7 +7,7 @@ const connectionScreenStyles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: theme.spacing.lg,
+    marginBottom: theme.spacing.sm,
   },
   title: {
     maxWidth: '80%',

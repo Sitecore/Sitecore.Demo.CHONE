@@ -17,7 +17,6 @@ import { theme } from '../../theme/theme';
 
 const defaultTextInputStyle = {
   width: '90%',
-  marginVertical: theme.spacing.xxs,
 };
 
 // Connection name: allow only letters, numbers and hyphens.
@@ -202,22 +201,7 @@ export const FormAddConnection = () => {
         label="Connection name"
         onChange={handleName}
         value={name}
-      />
-      <InputText
-        containerStyle={defaultTextInputStyle}
-        error={apiKeyError}
-        errorText="API key should not be empty!"
-        label="API Key"
-        onChange={handleApiKey}
-        value={apiKey}
-      />
-      <InputText
-        containerStyle={defaultTextInputStyle}
-        error={previewUrlError}
-        errorText="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !"
-        label="Preview endpoint URL"
-        onChange={handlePreviewUrl}
-        value={previewUrl}
+        inputStyle={{ marginBottom: theme.spacing.sm }}
       />
       <InputText
         containerStyle={defaultTextInputStyle}
@@ -234,6 +218,23 @@ export const FormAddConnection = () => {
         label="Client secret"
         onChange={handleClientSecret}
         value={clientSecret}
+        inputStyle={{ marginBottom: theme.spacing.sm }}
+      />
+      <InputText
+        containerStyle={defaultTextInputStyle}
+        error={apiKeyError}
+        errorText="API key should not be empty!"
+        label="API Key"
+        onChange={handleApiKey}
+        value={apiKey}
+      />
+      <InputText
+        containerStyle={defaultTextInputStyle}
+        error={previewUrlError}
+        errorText="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !"
+        label="Preview endpoint URL"
+        onChange={handlePreviewUrl}
+        value={previewUrl}
       />
       {isValidating && (
         <View>

@@ -32,17 +32,16 @@ export const storeConnection = async (connection: Connection): Promise<void> => 
 
 // Save connection object in secure storage
 //
-export const removeConnections = async (connections: Connection[]): Promise<void> => {
+export const removeConnection = async (connectionName: string): Promise<void> => {
   const existingConnections = await getConnections();
 
   if (!existingConnections?.length) {
     return;
   }
 
-  const namesToRemove = connections.map((item) => item.name);
   await save(
     CONNECTIONS_KEY,
-    JSON.stringify(existingConnections.filter((item) => !namesToRemove.includes(item.name)))
+    JSON.stringify(existingConnections.filter((item) => item.name !== connectionName))
   );
 };
 

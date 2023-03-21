@@ -1,3 +1,4 @@
+import { ERROR_CONNECTIONS_CLIENT_CREDENTIALS } from '../../../constants/connections';
 import { getSelectedConnection } from '../../../helpers/connections';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
 import { Token } from '../../../interfaces/token';
@@ -29,15 +30,14 @@ export const generateToken = async (options?: FetchOptions): Promise<Token> => {
 
       // If there is an error it means client ID and/ or client secret are invalid
       if (data?.error) {
-        console.error(
-          `${data?.error_description}: Your client ID and/ or client secret are invalid`
-        );
-        throw data.error;
+        console.error(`${data?.error_description}: ${ERROR_CONNECTIONS_CLIENT_CREDENTIALS}`);
+        throw new Error(ERROR_CONNECTIONS_CLIENT_CREDENTIALS);
       }
 
       return data;
     });
   } catch (error) {
-    throw error;
+    console.error(error);
+    throw new Error(ERROR_CONNECTIONS_CLIENT_CREDENTIALS);
   }
 };

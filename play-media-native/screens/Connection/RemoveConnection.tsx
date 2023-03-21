@@ -1,56 +1,22 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-import { MultiSelectChips } from '../../components/MultiSelectChips/MultiSelectChips';
 import { Screen } from '../../features/Screen/Screen';
-import { getConnections, removeConnections } from '../../helpers/connections';
-import { Connection } from '../../interfaces/connections';
+import { removeConnection } from '../../helpers/connections';
+import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
-type ConnectionOption = Connection & {
-  label: string;
-  value: string;
-  selected: boolean;
-};
-
-export const RemoveConnectionScreen = () => {
-  const [connectionOptions, setConnectionOptions] = useState<ConnectionOption[]>([]);
-
-  // Retrieve saved connections from Expo Secure Store and map them to connection options
-  useEffect(() => {
-    (async () => {
-      const savedConnections = await getConnections();
-      setConnectionOptions(
-        savedConnections.map((item) => ({
-          ...item,
-          label: item.name,
-          value: item.name,
-          selected: false,
-        }))
-      );
-    })();
-  }, []);
-
-  const selectedCount = connectionOptions.filter((item) => item.selected)?.length;
-
-  const onSelect = useCallback((connection) => {
-    setConnectionOptions((prevConnections) =>
-      prevConnections.map((item) =>
-        connection.name === item.name ? { ...item, selected: !item.selected } : item
-      )
-    );
-  }, []);
+export const RemoveConnectionScreen = ({ navigation, route }) => {
+  const onCancel = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
 
   const onRemove = useCallback(async () => {
-    const selectedConnections = connectionOptions.filter((connection) => connection.selected);
-
-    await removeConnections(selectedConnections).then(() => {
-      setConnectionOptions((prevOptions) =>
-        prevOptions.filter((option) => !selectedConnections.includes(option))
-      );
+    await removeConnection(route?.params?.connectionName).then(() => {
+      navigation.goBack();
     });
-  }, [connectionOptions]);
+  }, [navigation, route?.params?.connectionName]);
 
   return (
     <Screen centered>
@@ -69,18 +35,28 @@ export const RemoveConnectionScreen = () => {
             marginBottom: theme.spacing.lg,
           }}
         >
-          Select connection(s) to be removed.
+          <Text>Are you sure you want to remove </Text>
+          <Text style={{ fontWeight: 'bold' }}>{route?.params?.connectionName}</Text>
+          <Text> from your list of connections?</Text>
         </Text>
-        <MultiSelectChips items={connectionOptions} onSelect={onSelect} />
-        <Button
-          disabled={selectedCount === 0}
-          icon="delete"
-          mode="contained"
-          onPress={onRemove}
-          style={{ marginTop: theme.spacing.xl }}
-        >
-          {`Remove ${selectedCount || ''}`}
-        </Button>
+        <View style={{ flexDirection: 'row' }}>
+          <Button
+            mode="outlined"
+            style={styles.button}
+            labelStyle={styles.buttonLabel}
+            onPress={onCancel}
+          >
+            Cancel
+          </Button>
+          <Button
+            mode="contained"
+            style={styles.button}
+            labelStyle={styles.buttonLabel}
+            onPress={onRemove}
+          >
+            Remove
+          </Button>
+        </View>
       </View>
     </Screen>
   );
