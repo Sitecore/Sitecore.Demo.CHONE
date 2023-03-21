@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
@@ -5,7 +6,9 @@ import connectionStyles from './styles';
 import { FormAddConnection } from '../../features/FormAddConnection/FormAddConnection';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
 
-export const ManualConnectionScreen = () => {
+export const ManualConnectionScreen = ({ route }) => {
+  const [connection] = useState(route?.params?.connection);
+
   return (
     <KeyboardAwareScreen centered>
       <StatusBar barStyle="light-content" />
@@ -16,7 +19,7 @@ export const ManualConnectionScreen = () => {
           <Text> instance.</Text>
         </Text>
       </View>
-      <FormAddConnection />
+      <FormAddConnection initialValue={connection} />
     </KeyboardAwareScreen>
   );
 };

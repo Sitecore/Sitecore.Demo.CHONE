@@ -89,7 +89,7 @@ export const InputText = ({
 
   return (
     <View style={containerStyleFinal}>
-      <FieldLabel required={required} title={title} />
+      {title && <FieldLabel required={required} title={title} />}
       <TextInput
         contentStyle={contentStyleFinal}
         disabled={disabled}

@@ -17,6 +17,7 @@ import { theme } from '../../theme/theme';
 
 const defaultTextInputStyle = {
   width: '90%',
+  marginBottom: theme.spacing.xs,
 };
 
 // Connection name: allow only letters, numbers and hyphens.
@@ -34,21 +35,21 @@ const isPreviewUrlValid = (text: string) => {
   return startsCorrectly && endsCorrectly;
 };
 
-export const FormAddConnection = () => {
+export const FormAddConnection = ({ initialValue }: { initialValue?: Connection }) => {
   const [connections, setConnections] = useState<Connection[]>([]);
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
-  const [name, setName] = useState('');
+  const [name, setName] = useState(initialValue?.name || '');
   const [nameError, setNameError] = useState(false);
   const [nameExistsError, setNameExistsError] = useState(false);
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState(initialValue?.apiKey || '');
   const [apiKeyError, setApiKeyError] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewUrl, setPreviewUrl] = useState(initialValue?.previewUrl || '');
   const [previewUrlError, setPreviewUrlError] = useState(false);
-  const [clientID, setClientID] = useState('');
+  const [clientID, setClientID] = useState(initialValue?.clientID || '');
   const [clientIDError, setClientIDError] = useState(false);
-  const [clientSecret, setClientSecret] = useState('');
+  const [clientSecret, setClientSecret] = useState(initialValue?.clientSecret || '');
   const [clientSecretError, setClientSecretError] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
 
@@ -139,6 +140,7 @@ export const FormAddConnection = () => {
   const handleDiscardBtn = useCallback(() => {
     navigation.navigate('MainTabs');
   }, [navigation]);
+
   const handleConnectBtn = useCallback(async () => {
     setIsValidating(true);
 
@@ -181,11 +183,11 @@ export const FormAddConnection = () => {
           onPress={handleConnectBtn}
           disabled={isButtonDisabled}
         >
-          Connect
+          {initialValue ? 'Validate' : 'Connect'}
         </Button>
       </BottomActions>
     ),
-    [handleDiscardBtn, handleConnectBtn, isButtonDisabled]
+    [handleDiscardBtn, handleConnectBtn, isButtonDisabled, initialValue]
   );
 
   const nameErrorText = nameExistsError

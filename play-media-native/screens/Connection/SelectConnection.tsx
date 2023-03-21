@@ -47,6 +47,15 @@ export const SelectConnectionScreen = ({ navigation }) => {
     navigation.navigate('AddConnection');
   }, [navigation]);
 
+  const onEdit = useCallback(
+    (connection: Connection) => {
+      navigation.navigate('ManualConnection', {
+        connection,
+      });
+    },
+    [navigation]
+  );
+
   const onRemove = useCallback(
     (connectionName: string) => {
       navigation.navigate('RemoveConnection', { connectionName });
@@ -141,7 +150,7 @@ export const SelectConnectionScreen = ({ navigation }) => {
                   />
                   <IconButton
                     icon="square-edit-outline"
-                    onPress={() => {}}
+                    onPress={() => onEdit(item)}
                     iconColor={theme.colors.black.DEFAULT}
                     size={28}
                     style={{ marginHorizontal: 0 }}
