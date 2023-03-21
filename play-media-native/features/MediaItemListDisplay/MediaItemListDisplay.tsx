@@ -1,32 +1,44 @@
-import { Image, Pressable, View } from 'react-native';
+import { Image, View } from 'react-native';
 
+import { ConditionalPressable } from '../../components/ConditionalPressable/ConditionalPressable';
+import { DraggableHandle } from '../../components/DraggableHandle/DraggableHandle';
 import { getFileType, removeFileExtension } from '../../helpers/media';
 import { Media } from '../../interfaces/media';
+import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { Field } from '../Field/Field';
 
 export const MediaItemListDisplay = ({
   item,
   onPress,
+  isDraggable,
 }: {
   item: Media;
   onPress?: (item: Media) => void;
+  isDraggable?: boolean;
 }) => {
   return (
-    <Pressable onPress={() => onPress(item)}>
+    <ConditionalPressable
+      onPress={onPress ? () => onPress(item) : null}
+      style={{
+        marginBottom: theme.spacing.sm,
+        backgroundColor: theme.colors.black.light,
+      }}
+    >
+      {isDraggable && <DraggableHandle />}
       <View
         key={item.fileUrl}
-        style={{
-          width: '100%',
-          flexDirection: 'row',
-          marginBottom: theme.spacing.xs,
-          backgroundColor: theme.colors.black.lightest,
-        }}
+        style={[
+          {
+            flexDirection: 'row',
+          },
+          isDraggable && styles.draggableContent,
+        ]}
       >
         <Image
           style={{
-            height: 110,
             width: 'auto',
+            aspectRatio: 1,
             flex: 1,
           }}
           source={{ uri: item.fileUrl }}
@@ -35,15 +47,15 @@ export const MediaItemListDisplay = ({
           style={{
             flex: 2,
             justifyContent: 'center',
-            marginLeft: theme.spacing.xs,
+            paddingLeft: theme.spacing.sm,
           }}
         >
-          <Field title="Name" value={removeFileExtension(item.name)} />
+          {item.name && <Field title="Name" value={removeFileExtension(item.name)} />}
           <Field title="File type" value={getFileType(item)} />
+          {item.status && <Field title="State" value={item.status} />}
           <Field title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
-          <Field title="Status" value={item.status} />
         </View>
       </View>
-    </Pressable>
+    </ConditionalPressable>
   );
 };

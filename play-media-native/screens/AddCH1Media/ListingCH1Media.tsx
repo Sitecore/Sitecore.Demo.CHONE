@@ -1,19 +1,14 @@
 import { useMemo } from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 
 import { SelectableView } from '../../components/SelectableView/SelectableView';
 import { ListingImages } from '../../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../../features/LoadingScreen/LoadingScreen';
 import { MediaItemCardDisplay } from '../../features/MediaItemCardDisplay/MediaItemCardDisplay';
+import { MediaItemGridDisplay } from '../../features/MediaItemGridDisplay/MediaItemGridDisplay';
 import { MediaItemListDisplay } from '../../features/MediaItemListDisplay/MediaItemListDisplay';
 import { ListingImageDisplayType } from '../../features/SelectDisplayButtons/SelectDisplayButtons';
 import { Media } from '../../interfaces/media';
-
-const fullWidthStyle = {
-  height: 120,
-  width: '100%',
-  margin: 2,
-};
 
 interface Props {
   images: Media[];
@@ -31,18 +26,17 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
           onSelect={() => onSelect(item)}
           selected={selectedMediaIDs.includes(item.id)}
           style={{
-            flex: 0.5,
-            marginHorizontal: 2,
+            flex: 1,
+            aspectRatio: 1,
           }}
         >
-          <Image source={{ uri: item.fileUrl }} style={fullWidthStyle} />
+          <MediaItemGridDisplay item={item} />
         </SelectableView>
       ),
       [ListingImageDisplayType.LIST]: ({ item }) => (
         <SelectableView
           onSelect={() => onSelect(item)}
           selected={selectedMediaIDs.includes(item.id)}
-          top={-2}
         >
           <MediaItemListDisplay item={item} />
         </SelectableView>
@@ -51,7 +45,6 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
         <SelectableView
           onSelect={() => onSelect(item)}
           selected={selectedMediaIDs.includes(item.id)}
-          top={200}
         >
           <MediaItemCardDisplay item={item} />
         </SelectableView>

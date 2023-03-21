@@ -1,11 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import {
-  ListRenderItem,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  StyleProp,
-  View,
-} from 'react-native';
+import { ListRenderItem, NativeScrollEvent, NativeSyntheticEvent, StyleProp } from 'react-native';
 
 import { Listing } from '../../components/Listing/Listing';
 import { Media } from '../../interfaces/media';
@@ -26,10 +20,6 @@ interface Props {
   showSearch?: boolean;
 }
 
-const listingStyle = {
-  paddingHorizontal: theme.spacing.sm,
-};
-
 export const ListingImages = ({
   images,
   onDisplayTypeChange,
@@ -39,9 +29,18 @@ export const ListingImages = ({
   renderItems,
   style,
 }: Props) => {
-  const [displayType, setDisplayType] = useState<string>(ListingImageDisplayType.LIST);
+  const [displayType, setDisplayType] = useState<string>(ListingImageDisplayType.GRID);
 
-  const listStyle = useMemo(() => ({ ...listingStyle, ...style }), [style]);
+  const listStyle = useMemo(
+    () => [
+      {
+        paddingHorizontal: theme.spacing.sm,
+        marginHorizontal: displayType === ListingImageDisplayType.GRID ? -theme.spacing.xxs : 0,
+      },
+      style,
+    ],
+    [displayType, style]
+  );
 
   const handleDisplayChange = useCallback(
     (value: string) => {
@@ -71,15 +70,7 @@ export const ListingImages = ({
 
   return (
     <>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginBottom: theme.spacing.sm,
-        }}
-      >
-        <SelectDisplayButtons displayType={displayType} onDisplayTypeChange={handleDisplayChange} />
-      </View>
+      <SelectDisplayButtons displayType={displayType} onDisplayTypeChange={handleDisplayChange} />
       {imagesList}
     </>
   );
