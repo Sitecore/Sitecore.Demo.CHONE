@@ -12,7 +12,6 @@ import { ManualConnectionScreen } from '../screens/Connection/ManualConnection';
 import { QRCodeConnectionScreen } from '../screens/Connection/QRCodeConnection';
 import { RemoveConnectionScreen } from '../screens/Connection/RemoveConnection';
 import { SelectConnectionScreen } from '../screens/Connection/SelectConnection';
-import { CreateAthleteScreen } from '../screens/CreateAthlete/CreateAthlete';
 import { CreateAthleteDetailedScreen } from '../screens/CreateAthleteDetailed';
 import { CreateAthleteOverviewScreen } from '../screens/CreateAthleteOverview';
 import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
@@ -34,28 +33,33 @@ export const Stacks = () => {
     <Stack.Navigator
       initialRouteName="SelectConnection"
       screenOptions={{
-        header: () => <StackScreenHeader />,
+        header: ({ route }) => <StackScreenHeader route={route} />,
+        gestureEnabled: false,
       }}
     >
       <Stack.Screen
-        name="AddAthlete"
-        component={CreateAthleteScreen}
-        options={{ title: 'Add Athlete' }}
-      />
-      <Stack.Screen
         name="AddAthletes"
         component={AddAthletesScreen}
-        options={{ title: 'Add Athletes' }}
+        initialParams={{
+          subtitle: 'Add athletes',
+          shouldShowSearchIcon: true,
+        }}
       />
       <Stack.Screen
         name="AddEvents"
         component={AddEventsScreen}
-        options={{ title: 'Add Events' }}
+        initialParams={{
+          subtitle: 'Add related events',
+          shouldShowSearchIcon: true,
+        }}
       />
       <Stack.Screen
         name="AddCH1Media"
         component={AddCH1MediaScreen}
-        options={{ title: 'Add CH One Media' }}
+        initialParams={{
+          subtitle: 'Add existing media',
+          shouldShowSearchIcon: true,
+        }}
       />
       <Stack.Screen
         name="AddConnection"
@@ -64,82 +68,104 @@ export const Stacks = () => {
           title: 'Create a connection',
         }}
       />
-      <Stack.Screen name="AddSport" component={AddSportsScreen} options={{ title: 'Add Sports' }} />
+      <Stack.Screen
+        name="AddSport"
+        component={AddSportsScreen}
+        initialParams={{
+          subtitle: 'Select a sport',
+        }}
+      />
       <Stack.Screen
         name="AthleteDetail"
         component={AthleteDetailScreen}
-        options={{ title: 'Athlete Detail' }}
-      />
-      <Stack.Screen
-        name="AthleteReview"
-        component={AthleteDetailScreen}
-        options={{ title: 'Athlete Review' }}
+        initialParams={{
+          subtitle: 'Athlete details',
+        }}
       />
       <Stack.Screen
         name="EditAthlete"
         component={EditAthleteScreen}
-        options={{ title: 'Edit Athlete Details' }}
+        initialParams={{
+          title: 'Edit Athlete Details',
+          subtitle: 'Edit athlete details',
+        }}
       />
       <Stack.Screen
         name="EditEvent"
         component={EditEventScreen}
-        options={{ title: 'Edit Athlete Details' }}
+        initialParams={{
+          title: 'Edit Event Details',
+          subtitle: 'Edit event details',
+        }}
       />
       <Stack.Screen
         name="CreateAthleteOverview"
         component={CreateAthleteOverviewScreen}
-        options={{ title: 'New Athlete' }}
+        initialParams={{
+          title: 'Untitled athlete',
+          subtitle: 'Add new athlete',
+        }}
       />
       <Stack.Screen
         name="CreateAthleteDetailed"
         component={CreateAthleteDetailedScreen}
-        options={{ title: 'New Athlete Details' }}
+        initialParams={{
+          subtitle: 'Athlete details',
+        }}
       />
       <Stack.Screen
         name="CreateEventOverview"
         component={CreateEventOverviewScreen}
-        options={{ title: 'New Event' }}
+        initialParams={{
+          title: 'Untitled event',
+          subtitle: 'Add new event',
+        }}
       />
       <Stack.Screen
         name="CreateEventDetailed"
         component={CreateEventDetailedScreen}
-        options={{ title: 'New Event Details' }}
+        initialParams={{
+          subtitle: 'Event details',
+        }}
       />
       <Stack.Screen
         name="DiscardChanges"
         component={DiscardChangesScreen}
-        options={{ title: 'New Event Details' }}
+        initialParams={{
+          subtitle: 'Discard changes?',
+        }}
       />
       <Stack.Screen
         name="EditMedia"
         component={EditMediaScreen}
-        options={{ title: 'Edit Media' }}
+        initialParams={{
+          subtitle: 'Edit media file details',
+        }}
       />
       <Stack.Screen
         name="MediaDetail"
         component={MediaDetailScreen}
-        options={{ title: 'Media Detail' }}
+        initialParams={{
+          subtitle: 'Media file details',
+        }}
       />
       <Stack.Screen
         name="EventDetail"
         component={EventDetailScreen}
-        options={{ title: 'Event Detail' }}
+        initialParams={{
+          subtitle: 'Event details',
+        }}
       />
       <Stack.Screen name="MainTabs" component={Tabs} options={{ headerShown: false }} />
       <Stack.Screen
         name="ManualConnection"
         component={ManualConnectionScreen}
-        options={{
-          title: 'Create a connection',
+        initialParams={{
+          title: 'Untitled connection',
+          subtitle: 'Add connection details',
         }}
       />
-      <Stack.Screen
-        name="QRCodeConnection"
-        component={QRCodeConnectionScreen}
-        options={{
-          title: '',
-        }}
-      />
+      <Stack.Screen name="QRCodeConnection" component={QRCodeConnectionScreen} />
       <Stack.Screen
         name="RemoveConnection"
         component={RemoveConnectionScreen}
@@ -150,21 +176,25 @@ export const Stacks = () => {
       <Stack.Screen
         name="ReviewAthlete"
         component={ReviewAthleteScreen}
-        options={{
-          title: 'Review Athlete',
+        initialParams={{
+          subtitle: 'Athlete review',
         }}
       />
       <Stack.Screen
         name="ReviewEvent"
         component={ReviewEventScreen}
-        options={{
-          title: 'Review Event',
+        initialParams={{
+          subtitle: 'Event review',
         }}
       />
       <Stack.Screen
         name="SelectConnection"
         component={SelectConnectionScreen}
-        options={{ headerShown: false }}
+        initialParams={{
+          title: 'Connections',
+          subtitle: 'All connections',
+          shouldShowBackBtn: false,
+        }}
       />
     </Stack.Navigator>
   );

@@ -12,38 +12,29 @@ import { StackNavigationProp } from '../../interfaces/navigators';
 import { theme } from '../../theme/theme';
 import { ActionMenu, MenuItem } from '../ActionMenu/ActionMenu';
 import { MediaItemListDisplay } from '../MediaItemListDisplay/MediaItemListDisplay';
-import { MediaSourceIcon } from '../MediaSourceIcon/MediaSourceIcon';
 import { MenuAddMedia } from '../MenuAddMedia/MenuAddMedia';
 
 const menuStyle = {
   position: 'absolute',
-  bottom: 0,
-  right: -5,
+  top: 0,
+  right: 0,
 };
 
-const mediaSourceIconStyle = {
-  position: 'absolute',
-  color: theme.colors.white.DEFAULT,
-};
-
-export const ListItem = ({ item, menuItems }: { item: Media; menuItems: MenuItem[] }) => {
+export const ListItem = ({
+  item,
+  menuItems,
+  isDraggable,
+}: {
+  item: Media;
+  menuItems: MenuItem[];
+  isDraggable?: boolean;
+}) => {
   return (
     <View style={{ position: 'relative' }}>
-      <MediaItemListDisplay item={item} />
-      <MediaSourceIcon
-        size={15}
-        source={item.source}
-        style={{
-          ...mediaSourceIconStyle,
-          top: 0,
-          right: 5,
-          borderRadius: 50,
-          padding: 8,
-        }}
-      />
+      <MediaItemListDisplay item={item} isDraggable={isDraggable} />
       <ActionMenu
         iconColor={theme.colors.black.DEFAULT}
-        iconSize={25}
+        iconSize={theme.sizing.menuIconSize}
         menuItems={menuItems}
         style={menuStyle}
       />
@@ -60,6 +51,7 @@ export const ContentFieldMedia = ({
   single,
   stateKey,
   style,
+  headerTitle,
 }: {
   fieldKey: string;
   fieldTitle: string;
@@ -69,6 +61,7 @@ export const ContentFieldMedia = ({
   single: boolean;
   stateKey: string;
   style?: StyleProp<any>;
+  headerTitle?: string;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
   const { edit, remove } = useContentItems();
@@ -78,6 +71,7 @@ export const ContentFieldMedia = ({
   const editMedia = useCallback(
     (image: Media) => {
       navigation.navigate('EditMedia', {
+        title: headerTitle,
         isEditMode: true,
         initialRoute,
         image,
@@ -86,7 +80,7 @@ export const ContentFieldMedia = ({
         stateKey,
       });
     },
-    [fieldKey, initialRoute, navigation, single, stateKey]
+    [fieldKey, initialRoute, navigation, single, stateKey, headerTitle]
   );
 
   const deleteMedia = useCallback(
@@ -115,7 +109,7 @@ export const ContentFieldMedia = ({
               title: 'Edit',
             },
             {
-              icon: 'delete-outline',
+              icon: 'close',
               handler: () => {
                 deleteMedia({ key: fieldKey, value: item });
               },
@@ -124,7 +118,7 @@ export const ContentFieldMedia = ({
           ]
         : [
             {
-              icon: 'delete-outline',
+              icon: 'close',
               handler: () => {
                 deleteMedia({ key: fieldKey, value: item });
               },
@@ -142,7 +136,7 @@ export const ContentFieldMedia = ({
           items={items}
           onDragEnd={reorderItems}
           renderItem={(item: Media) => (
-            <ListItem item={item} menuItems={resolveActionsForItem(item)} />
+            <ListItem item={item} menuItems={resolveActionsForItem(item)} isDraggable />
           )}
         />
       );
@@ -171,6 +165,7 @@ export const ContentFieldMedia = ({
           initialRoute={initialRoute}
           single={single}
           stateKey={stateKey}
+          headerTitle={headerTitle}
         />
       </View>
       {content}

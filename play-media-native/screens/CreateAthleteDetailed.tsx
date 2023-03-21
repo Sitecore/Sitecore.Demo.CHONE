@@ -31,14 +31,16 @@ export const CreateAthleteDetailedScreen = ({ navigation, route }: Props) => {
       message: CREATE_ATHLETE_DISCARD_MESSAGE,
       stateKey,
       redirectRoute: 'MainTabs',
+      title: athlete?.athleteName,
+      subtitle: 'Discard new athlete?',
     });
-  }, [navigation, stateKey]);
+  }, [athlete?.athleteName, navigation, stateKey]);
 
   const onReview = useCallback(() => {
     navigation.navigate('ReviewAthlete', {
       isNew: true,
       stateKey,
-      title: `Review ${athlete?.athleteName || 'Athlete'}`,
+      title: athlete?.athleteName,
     });
   }, [athlete, navigation, stateKey]);
 
@@ -49,6 +51,7 @@ export const CreateAthleteDetailedScreen = ({ navigation, route }: Props) => {
         overrides={FIELD_OVERRIDES_ATHLETE}
         showLimited
         stateKey={stateKey}
+        title={athlete?.athleteName}
       />
       <BottomActions>
         <View

@@ -9,6 +9,7 @@ export interface AllMediaResponse {
 export interface Media {
   id: string;
   name: string;
+  status: string;
   description: string;
   fileId: string;
   fileHeight: number;

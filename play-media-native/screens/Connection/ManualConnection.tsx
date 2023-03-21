@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import connectionStyles from './styles';
 import { FormAddConnection } from '../../features/FormAddConnection/FormAddConnection';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
+import connectionStyles from './styles';
 
 export const ManualConnectionScreen = ({ route }) => {
   const [connection] = useState(route?.params?.connection);

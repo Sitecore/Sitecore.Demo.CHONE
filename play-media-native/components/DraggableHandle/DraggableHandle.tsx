@@ -12,7 +12,8 @@ export const DraggableHandle = () => {
         top: 0,
         bottom: 0,
         justifyContent: 'center',
-        padding: theme.spacing.xs,
+        alignItems: 'center',
+        width: theme.sizing.draggableHandleWidth,
       }}
     >
       <MaterialIcon

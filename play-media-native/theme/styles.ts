@@ -80,4 +80,8 @@ export const styles = StyleSheet.create({
     marginLeft: -theme.spacing.lg,
     marginRight: theme.spacing.sm,
   },
+  draggableContent: {
+    marginLeft: theme.sizing.draggableHandleWidth,
+    paddingLeft: 0,
+  },
 });

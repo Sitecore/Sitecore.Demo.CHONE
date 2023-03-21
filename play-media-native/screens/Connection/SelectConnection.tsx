@@ -44,7 +44,10 @@ export const SelectConnectionScreen = ({ navigation }) => {
   );
 
   const onAdd = useCallback(() => {
-    navigation.navigate('AddConnection');
+    navigation.push('AddConnection', {
+      title: 'Connections',
+      subtitle: 'Add a connection',
+    });
   }, [navigation]);
 
   const onEdit = useCallback(

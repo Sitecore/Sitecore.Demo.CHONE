@@ -18,6 +18,7 @@ export const AddSportsScreen = ({ navigation, route }) => {
   const initialRoute = route?.params?.initialRoute;
   const stateKey = route?.params?.stateKey;
   const single = route?.params?.single;
+  const headerTitle = route?.params?.title;
 
   const { contentItems, edit: editFields } = useContentItems();
 
@@ -67,9 +68,9 @@ export const AddSportsScreen = ({ navigation, route }) => {
         value: sport,
       });
 
-      navigation.navigate(initialRoute);
+      navigation.navigate(initialRoute, { title: headerTitle });
     },
-    [editFields, initialRoute, navigation, fieldKey, stateKey]
+    [editFields, stateKey, fieldKey, navigation, initialRoute, headerTitle]
   );
 
   const onCancel = useCallback(() => {
@@ -86,8 +87,8 @@ export const AddSportsScreen = ({ navigation, route }) => {
       value: sports.filter((item) => selectedSportIDs.includes(item.id)),
     });
 
-    navigation.navigate(initialRoute);
-  }, [edit, fieldKey, initialRoute, navigation, selectedSportIDs, sports]);
+    navigation.navigate(initialRoute, { title: headerTitle });
+  }, [edit, fieldKey, headerTitle, initialRoute, navigation, selectedSportIDs, sports]);
 
   const renderItem = useCallback(
     ({ item }) => (

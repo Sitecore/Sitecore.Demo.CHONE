@@ -2,19 +2,39 @@ import { View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
 import { AvatarImage } from '../../components/AvatarImage/AvatarImage';
+import { DraggableHandle } from '../../components/DraggableHandle/DraggableHandle';
 import { ATHLETE_MOCK_IMG } from '../../constants/mockImages';
 import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
 import { Athlete } from '../../interfaces/athlete';
+import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { CardShadowBox } from '../CardShadowBox/CardShadowBox';
 
-export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?: () => void }) => {
+export const CardAvatar = ({
+  item,
+  onCardPress,
+  isDraggable,
+}: {
+  item: Athlete;
+  onCardPress?: () => void;
+  isDraggable?: boolean;
+}) => {
   const sport = item?.sport;
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
 
   return (
     <CardShadowBox color={color} onCardPress={onCardPress}>
-      <Card.Content style={{ flexDirection: 'row' }}>
+      {isDraggable && <DraggableHandle />}
+      <Card.Content
+        style={[
+          {
+            flexDirection: 'row',
+            paddingHorizontal: theme.spacing.sm,
+            paddingVertical: theme.spacing.sm,
+          },
+          isDraggable && styles.draggableContent,
+        ]}
+      >
         <View>
           <AvatarImage
             size={116}
@@ -22,11 +42,7 @@ export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?:
             color={color}
           />
         </View>
-        <View
-          style={{
-            justifyContent: 'center',
-          }}
-        >
+        <View style={{ justifyContent: 'center' }}>
           <Text style={{ marginLeft: theme.spacing.xxs }} variant="titleMedium">
             {item.athleteName}
           </Text>
@@ -41,14 +57,6 @@ export const CardAvatar = ({ item, onCardPress }: { item: Athlete; onCardPress?:
             }}
           >
             {sport?.title}
-          </Text>
-          <Text
-            style={{
-              marginLeft: theme.spacing.xxs,
-              color: theme.colors.gray.DEFAULT,
-            }}
-          >
-            {item?.nationality}
           </Text>
           <Text
             style={{

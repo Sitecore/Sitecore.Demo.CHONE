@@ -27,7 +27,7 @@ import { RequiredFieldsBanner } from '../RequiredFieldsBanner/RequiredFieldsBann
 
 const athleteMenuStyle = {
   position: 'absolute',
-  bottom: 10,
+  top: 0,
   right: 0,
   zIndex: 12,
 };
@@ -44,15 +44,17 @@ const sectionMarginBottom = theme.spacing.xs;
 export const ContentItemFields = ({
   initialRoute,
   overrides,
+  stateKey,
   requiredOnly = false,
   showLimited = false,
-  stateKey,
+  headerTitle = '',
 }: {
   initialRoute: string;
   overrides: Record<string, IFieldOverride>;
+  stateKey: string;
   requiredOnly?: boolean;
   showLimited?: boolean;
-  stateKey: string;
+  headerTitle?: string;
 }) => {
   const { contentItems, edit, remove } = useContentItems();
 
@@ -89,10 +91,10 @@ export const ContentItemFields = ({
     (fieldKey: string) => ({
       [CONTENT_TYPES.ATHLETE]: (item: Athlete) => (
         <View style={{ position: 'relative' }}>
-          <CardAvatar item={item} />
+          <CardAvatar item={item} isDraggable />
           <ActionMenu
             iconColor={theme.colors.black.DEFAULT}
-            iconSize={25}
+            iconSize={theme.sizing.menuIconSize}
             menuItems={getMenuItems(fieldKey, item)}
             style={athleteMenuStyle}
           />
@@ -166,6 +168,7 @@ export const ContentItemFields = ({
           single={overrides[fieldKey].single}
           stateKey={stateKey}
           style={sectionMarginBottom}
+          headerTitle={headerTitle}
         />
       ),
       [FIELD_TYPES.Number]: null,
@@ -181,6 +184,7 @@ export const ContentItemFields = ({
           single={overrides[fieldKey].single}
           stateKey={stateKey}
           style={sectionMarginBottom}
+          headerTitle={headerTitle}
         />
       ),
       [FIELD_TYPES.RichText]: (fieldKey: string) => (
@@ -204,7 +208,7 @@ export const ContentItemFields = ({
         />
       ),
     }),
-    [handleFieldChange, initialRoute, overrides, referenceRenderers, stateKey]
+    [handleFieldChange, initialRoute, overrides, referenceRenderers, stateKey, headerTitle]
   );
 
   const filteredOverrides = useMemo(() => {
