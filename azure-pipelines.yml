@@ -3,8 +3,9 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
-- feature/8565-azure-devops-pipeline
+pr:
+- main
+- develop
 
 pool:
   vmImage: ubuntu-latest
