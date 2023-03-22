@@ -15,41 +15,11 @@ export const EVENT_INITIAL_STATE = {
 };
 
 export const FIELD_OVERRIDES_EVENT = {
-  body: {
-    required: false,
-    single: false,
-    type: FIELD_TYPES.RichText,
-    title: 'Body',
-  },
-  isFeatured: {
-    required: false,
-    single: false,
-    type: FIELD_TYPES.Boolean,
-    title: 'Is featured?',
-  },
-  location: {
-    required: false,
-    single: false,
-    type: FIELD_TYPES.ShortText,
-    title: 'Location',
-  },
   title: {
     required: true,
     single: false,
     type: FIELD_TYPES.ShortText,
     title: 'Title',
-  },
-  teaser: {
-    required: false,
-    single: false,
-    type: FIELD_TYPES.ShortText,
-    title: 'Teaser',
-  },
-  timeAndDate: {
-    required: false,
-    single: false,
-    type: FIELD_TYPES.Date,
-    title: 'Time & Date',
   },
   sport: {
     referenceType: CONTENT_TYPES.SPORT,
@@ -57,6 +27,36 @@ export const FIELD_OVERRIDES_EVENT = {
     single: true,
     type: FIELD_TYPES.Reference,
     title: 'Sport',
+  },
+  timeAndDate: {
+    required: false,
+    single: false,
+    type: FIELD_TYPES.Date,
+    title: 'Date',
+  },
+  location: {
+    required: false,
+    single: false,
+    type: FIELD_TYPES.ShortText,
+    title: 'Location',
+  },
+  isFeatured: {
+    required: false,
+    single: false,
+    type: FIELD_TYPES.Boolean,
+    title: 'Is featured?',
+  },
+  teaser: {
+    required: false,
+    single: false,
+    type: FIELD_TYPES.ShortText,
+    title: 'Summary',
+  },
+  body: {
+    required: false,
+    single: false,
+    type: FIELD_TYPES.RichText,
+    title: 'Description',
   },
   featuredImage: {
     required: false,
@@ -68,7 +68,7 @@ export const FIELD_OVERRIDES_EVENT = {
     required: false,
     single: false,
     type: FIELD_TYPES.Media,
-    title: 'Related Media',
+    title: 'Media',
   },
   athletes: {
     referenceType: CONTENT_TYPES.ATHLETE,

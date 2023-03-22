@@ -7,17 +7,17 @@ export const RequiredFieldsBanner = () => {
   return (
     <View
       style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: theme.spacing.xs,
+        paddingVertical: theme.spacing.xs,
       }}
     >
-      <Text style={{ marginLeft: theme.spacing.xs, fontStyle: 'italic' }}>
-        Fields with a star (
+      <Text
+        style={{
+          fontFamily: theme.fontFamily.italic,
+          color: theme.colors.gray.DEFAULT,
+        }}
+      >
+        Star fields are all required.
       </Text>
-      <Text style={{ color: theme.colors.yellow.DEFAULT }}>*</Text>
-      <Text style={{ fontStyle: 'italic' }}>) are all required.</Text>
     </View>
   );
 };

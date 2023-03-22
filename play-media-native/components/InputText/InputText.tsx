@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { StyleProp, View } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
 
+import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { FieldLabel } from '../FieldLabel/FieldLabel';
 import { Icon } from '../Icon/Icon';
@@ -33,14 +34,6 @@ const defaultContainerStyle = {
   width: '100%',
 };
 
-const defaultInputStyle = {
-  borderRadius: 0,
-};
-
-const defaultContentStyle = {
-  fontFamily: theme.fontFamily.DEFAULT,
-};
-
 export const InputText = ({
   containerStyle,
   contentStyle,
@@ -64,40 +57,21 @@ export const InputText = ({
   required,
 }: Props) => {
   const containerStyleFinal = useMemo(
-    () => ({
-      ...defaultContainerStyle,
-      ...containerStyle,
-    }),
+    () => [defaultContainerStyle, containerStyle],
     [containerStyle]
-  );
-
-  const inputStyleFinal = useMemo(
-    () => ({
-      ...defaultInputStyle,
-      ...inputStyle,
-    }),
-    [inputStyle]
-  );
-
-  const contentStyleFinal = useMemo(
-    () => ({
-      ...defaultContentStyle,
-      ...contentStyle,
-    }),
-    [contentStyle]
   );
 
   return (
     <View style={containerStyleFinal}>
       <FieldLabel required={required} title={title} />
       <TextInput
-        contentStyle={contentStyleFinal}
+        contentStyle={[styles.textInputContent, contentStyle]}
         disabled={disabled}
         label={label}
         multiline={multiline}
         onChangeText={onChange}
-        outlineStyle={outlineStyle}
-        style={inputStyleFinal}
+        outlineStyle={[styles.textInputOutline, outlineStyle]}
+        style={[styles.textInput, inputStyle]}
         underlineStyle={underlineStyle}
         value={value}
         showSoftInputOnFocus={showSoftInputOnFocus}
@@ -107,6 +81,7 @@ export const InputText = ({
         selection={selection}
         onSelectionChange={onSelectionChange}
         onPressIn={onPressIn}
+        mode="outlined"
       />
       {error && (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>

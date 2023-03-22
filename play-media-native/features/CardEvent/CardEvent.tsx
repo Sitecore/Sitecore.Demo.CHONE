@@ -41,7 +41,7 @@ export const CardEvent = ({
           />
         </Pressable>
       )}
-      <View style={{ paddingHorizontal: theme.spacing.sm }}>
+      <View style={!isDraggable && { paddingHorizontal: theme.spacing.sm }}>
         <CardShadowBox color={color} onCardPress={onCardPress}>
           {isDraggable && <DraggableHandle />}
           <Card.Content
