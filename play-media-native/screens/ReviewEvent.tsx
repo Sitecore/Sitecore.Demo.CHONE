@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
@@ -22,14 +22,6 @@ import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
-import { theme } from '../theme/theme';
-
-const pageStyles = StyleSheet.create({
-  actionBtns: {
-    paddingBottom: 0,
-    paddingRight: theme.spacing.xs,
-  },
-});
 
 export const ReviewEventScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
@@ -220,7 +212,7 @@ export const ReviewEventScreen = ({ navigation, route }) => {
 
   const bottomActions = useMemo(
     () => (
-      <BottomActions style={pageStyles.actionBtns}>
+      <BottomActions>
         <Button
           mode="outlined"
           style={styles.button}

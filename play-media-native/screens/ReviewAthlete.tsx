@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
@@ -22,32 +22,6 @@ import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
-import { theme } from '../theme/theme';
-
-const pageStyles = StyleSheet.create({
-  title: {
-    fontFamily: theme.fontFamily.bold,
-    color: theme.colors.gray.dark,
-    marginBottom: theme.spacing.xxs,
-  },
-  body: {
-    marginBottom: theme.spacing.sm,
-  },
-  bottomFAB: {
-    position: 'absolute',
-    right: theme.spacing.sm,
-    bottom: theme.spacing.xs,
-  },
-  button: {
-    position: 'absolute',
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
-  },
-  actionBtns: {
-    paddingBottom: 0,
-    paddingRight: theme.spacing.xs,
-  },
-});
 
 export const ReviewAthleteScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
@@ -236,7 +210,7 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
 
   const bottomActions = useMemo(
     () => (
-      <BottomActions style={pageStyles.actionBtns}>
+      <BottomActions>
         <Button
           mode="outlined"
           style={styles.button}
