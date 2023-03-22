@@ -242,6 +242,7 @@ export const ContentItemFields = ({
   return (
     <NestableScrollContainer style={styles.screenPadding}>
       <View>
+        {showRequiredBanner && <RequiredFieldsBanner />}
         {Object.entries(filteredOverrides).map(([overrideKey, override], index) => {
           const renderer = fieldRenderers(contentItems, `${overrideKey}-${index}`)[override.type];
 
@@ -251,7 +252,6 @@ export const ContentItemFields = ({
 
           return renderer(overrideKey);
         })}
-        {showRequiredBanner && <RequiredFieldsBanner />}
         <View style={{ paddingBottom: 75 }} />
       </View>
     </NestableScrollContainer>

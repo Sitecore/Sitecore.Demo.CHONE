@@ -32,7 +32,7 @@ export const FIELD_OVERRIDES_EVENT = {
     required: false,
     single: false,
     type: FIELD_TYPES.Date,
-    title: 'Time & Date',
+    title: 'Date',
   },
   location: {
     required: false,

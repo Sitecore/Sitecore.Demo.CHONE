@@ -78,7 +78,7 @@ export const FIELD_OVERRIDES_ATHLETE = {
     required: false,
     single: false,
     type: FIELD_TYPES.Media,
-    title: 'Related Media',
+    title: 'Media',
   },
 };
 

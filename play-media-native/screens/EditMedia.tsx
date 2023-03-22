@@ -108,7 +108,7 @@ export const EditMediaScreen = ({ navigation, route }) => {
       <View style={[styles.screenPadding, { paddingVertical: theme.spacing.sm }]}>
         <InputText
           containerStyle={styles.inputContainer}
-          title="Name"
+          title="Title"
           multiline
           onChange={onNameChange}
           value={editedImage?.name || ''}
