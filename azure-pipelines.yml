@@ -26,3 +26,9 @@ steps:
     npm run build
   displayName: 'Lint and build the website'
   workingDirectory: '$(playMediaDir)'
+
+- script: |
+    npm install
+    npm run lint
+  displayName: 'Lint the mobile app'
+  workingDirectory: '$(playMediaNativeDir)'
