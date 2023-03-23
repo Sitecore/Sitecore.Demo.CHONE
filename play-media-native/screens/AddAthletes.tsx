@@ -164,7 +164,11 @@ export const AddAthletesScreen = ({ navigation, route }) => {
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingAthletes || isRefetchingSports}
-        style={{ paddingHorizontal: theme.spacing.sm, marginBottom: 170 }}
+        style={{
+          flex: 1,
+          paddingHorizontal: theme.spacing.sm,
+          marginBottom: 75,
+        }}
       />
       <BottomActions>
         <Button

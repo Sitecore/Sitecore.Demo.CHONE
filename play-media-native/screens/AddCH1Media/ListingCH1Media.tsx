@@ -58,7 +58,7 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
   }
 
   return (
-    <View style={{ marginBottom: 150 }}>
+    <View style={{ flex: 1, marginBottom: 140 }}>
       <ListingImages images={images as Media[]} renderItems={renderItems} />
     </View>
   );

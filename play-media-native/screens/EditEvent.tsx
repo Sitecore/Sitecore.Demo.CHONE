@@ -11,7 +11,6 @@ import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Event } from '../interfaces/event';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
-import { theme } from '../theme/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditEvent'>;
 
@@ -83,12 +82,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
         stateKey={stateKey}
         headerTitle={headerTitle}
       />
-      <BottomActions
-        style={{
-          paddingBottom: 0,
-          paddingRight: theme.spacing.xs,
-        }}
-      >
+      <BottomActions>
         <Button
           mode="outlined"
           style={styles.button}

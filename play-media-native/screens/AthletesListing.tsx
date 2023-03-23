@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { StatusBar } from 'react-native';
-import { AnimatedFAB } from 'react-native-paper';
 
+import { BottomFAB } from '../components/BottomFAB/BottomFAB';
 import { Listing } from '../components/Listing/Listing';
 import { AthleteFilters } from '../features/AthleteFilters/AthleteFilters';
 import { CardAvatar } from '../features/CardAvatar/CardAvatar';
@@ -12,10 +12,8 @@ import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
-import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Athlete } from '../interfaces/athlete';
-import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 export const AthletesListingScreen = ({ navigation }) => {
@@ -39,8 +37,6 @@ export const AthletesListingScreen = ({ navigation }) => {
     facets: athleteFilterValues,
     query: athleteSearchQuery,
   });
-
-  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const statusOptions = useMemo(() => getStatusOptions(athletes), [athletes]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
@@ -76,7 +72,6 @@ export const AthletesListingScreen = ({ navigation }) => {
       <Listing
         data={filteredAthletes}
         renderItem={renderItem}
-        onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingAthletes || isRefetchingSports}
         style={{
@@ -84,14 +79,10 @@ export const AthletesListingScreen = ({ navigation }) => {
           paddingHorizontal: theme.spacing.sm,
         }}
       />
-      <AnimatedFAB
+      <BottomFAB
         icon="plus"
         label="Add new athlete"
-        extended={isTopEdge}
         onPress={() => navigation.navigate('CreateAthleteOverview')}
-        animateFrom="right"
-        iconMode="dynamic"
-        style={styles.fab}
       />
     </Screen>
   );

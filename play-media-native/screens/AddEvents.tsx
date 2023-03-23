@@ -164,7 +164,10 @@ export const AddEventsScreen = ({ navigation, route }) => {
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingEvents || isRefetchingSports}
-        style={{ marginBottom: 170 }}
+        style={{
+          flex: 1,
+          marginBottom: 75,
+        }}
       />
       <BottomActions>
         <Button

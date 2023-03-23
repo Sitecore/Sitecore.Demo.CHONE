@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { View } from 'react-native';
-import { AnimatedFAB } from 'react-native-paper';
 
+import { BottomFAB } from '../components/BottomFAB/BottomFAB';
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaFilters } from '../features/MediaFilters/MediaFilters';
@@ -14,9 +14,7 @@ import { getFileTypeOptions, getStatusOptions } from '../helpers/facets';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
-import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { Media } from '../interfaces/media';
-import { styles } from '../theme/styles';
 
 export const MediaListingScreen = ({ navigation }) => {
   const {
@@ -34,7 +32,6 @@ export const MediaListingScreen = ({ navigation }) => {
     query: mediaSearchQuery,
   });
 
-  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
   const fileTypeOptions = useMemo(() => getFileTypeOptions(images), [images]);
   const statusOptions = useMemo(() => getStatusOptions(images), [images]);
 
@@ -77,18 +74,13 @@ export const MediaListingScreen = ({ navigation }) => {
           renderItems={renderItems}
           showSearch={false}
           onRefresh={handleRefresh}
-          onScroll={calcScrollOffset}
           isRefreshing={isRefetchingMedia}
         />
       </View>
-      <AnimatedFAB
+      <BottomFAB
         icon="plus"
         label="Add new media"
-        extended={isTopEdge}
         onPress={() => navigation.navigate('AddEvent')}
-        animateFrom="right"
-        iconMode="dynamic"
-        style={styles.fab}
       />
     </Screen>
   );

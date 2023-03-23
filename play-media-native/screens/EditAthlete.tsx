@@ -11,7 +11,6 @@ import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { Athlete } from '../interfaces/athlete';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
-import { theme } from '../theme/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EditAthlete'>;
 
@@ -79,12 +78,7 @@ export const EditAthleteScreen = ({ navigation, route }: Props) => {
         stateKey={stateKey}
         headerTitle={headerTitle}
       />
-      <BottomActions
-        style={{
-          paddingBottom: 0,
-          paddingRight: theme.spacing.xs,
-        }}
-      >
+      <BottomActions>
         <Button
           mode="outlined"
           style={styles.button}

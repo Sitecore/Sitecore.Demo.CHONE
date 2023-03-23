@@ -8,7 +8,7 @@ fields:
     value: false
     type: Boolean
   timeAndDate:
-    value: 2023-05-17T22:00:00.000Z
+    value: 2023-05-18T01:00:00.0000000+03:00
     type: DateTime
   location:
     value: Torino, Italy
@@ -35,45 +35,55 @@ fields:
     type: RichText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "k0--_hvyvkyuiVNjww_3oQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
-      }
+    - type: Link
+      relatedType: Content
+      id: k0--_hvyvkyuiVNjww_3oQ
     type: Reference
   athletes:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "uOjQGioIUUmYPB5Kz-sZCQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5Kz-sZCQ"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "TacYstuhJU6-Fx-OSUoL-Q",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/TacYstuhJU6-Fx-OSUoL-Q"
-      }
+    - type: Link
+      relatedType: Content
+      id: uOjQGioIUUmYPB5Kz-sZCQ
+    - type: Link
+      relatedType: Content
+      id: TacYstuhJU6-Fx-OSUoL-Q
     type: Reference
   similarEvents:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "ywmaOWtjf0W7-33SV14dVQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/ywmaOWtjf0W7-33SV14dVQ"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "eibM5C0OVUexMb30n-l2Rg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/eibM5C0OVUexMb30n-l2Rg"
-      }
+    - type: Link
+      relatedType: Content
+      id: ywmaOWtjf0W7-33SV14dVQ
+    - type: Link
+      relatedType: Content
+      id: eibM5C0OVUexMb30n-l2Rg
     type: Reference
+  featuredImage:
+    value:
+    - type: Link
+      relatedType: Media
+      id: d2r_vJt7Jku9TAJW6qC6FA
+    type: Media
+  relatedMedia:
+    value:
+    - type: Link
+      relatedType: Media
+      id: wtHLxA5YN0mrrsR2kw9nHA
+    - type: Link
+      relatedType: Media
+      id: d2r_vJt7Jku9TAJW6qC6FA
+    - type: Link
+      relatedType: Media
+      id: CukKrhTMQEO0iaWwraPAvA
+    - type: Link
+      relatedType: Media
+      id: FBVQGhHxEESwvGAyd5IViw
+    - type: Link
+      relatedType: Media
+      id: szffj-IcjEiH80qk_vK7hA
+    - type: Link
+      relatedType: Media
+      id: AWNaAYaPJU-A6yuNe8XRRQ
+    - type: Link
+      relatedType: Media
+      id: uuKifc7ksEawPJhpRBrJEw
+    type: Media
