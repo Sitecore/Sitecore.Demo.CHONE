@@ -8,7 +8,7 @@ fields:
     value: false
     type: Boolean
   timeAndDate:
-    value: 2023-10-09T22:00:00.000Z
+    value: 2023-10-10T01:00:00.0000000+03:00
     type: DateTime
   location:
     value: California
@@ -35,38 +35,52 @@ fields:
     type: RichText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "3s8Fg2nxBk-roDm4OQq6xw",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/3s8Fg2nxBk-roDm4OQq6xw"
-      }
+    - type: Link
+      relatedType: Content
+      id: 3s8Fg2nxBk-roDm4OQq6xw
     type: Reference
   athletes:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "jHYl1rczfkKS47wXn2Ms-g",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/jHYl1rczfkKS47wXn2Ms-g"
-      }
+    - type: Link
+      relatedType: Content
+      id: jHYl1rczfkKS47wXn2Ms-g
     type: Reference
   similarEvents:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "gF8ESrWYOEqZen_1Sf2kUQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/gF8ESrWYOEqZen_1Sf2kUQ"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "m4KjdQZmekSMkbbz51_umQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/m4KjdQZmekSMkbbz51_umQ"
-      }
+    - type: Link
+      relatedType: Content
+      id: gF8ESrWYOEqZen_1Sf2kUQ
+    - type: Link
+      relatedType: Content
+      id: m4KjdQZmekSMkbbz51_umQ
     type: Reference
+  featuredImage:
+    value:
+    - type: Link
+      relatedType: Media
+      id: fvxx9tyJ9kOs-l2zwlFFiA
+    type: Media
+  relatedMedia:
+    value:
+    - type: Link
+      relatedType: Media
+      id: 2B4UIzJru0iCMPgKOa3lVQ
+    - type: Link
+      relatedType: Media
+      id: okt_XZWc40SxzQUJf8mq7g
+    - type: Link
+      relatedType: Media
+      id: fvxx9tyJ9kOs-l2zwlFFiA
+    - type: Link
+      relatedType: Media
+      id: Wbd59QRrNEC0A1DAR2ugRg
+    - type: Link
+      relatedType: Media
+      id: f1rQWOgVkEOXUWQyHizgHQ
+    - type: Link
+      relatedType: Media
+      id: A1z1wJ6dj0ylhDp5hKccvg
+    - type: Link
+      relatedType: Media
+      id: FvKnXjBXUUSZrpGvSGDDjQ
+    type: Media

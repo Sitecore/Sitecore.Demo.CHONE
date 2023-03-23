@@ -8,7 +8,7 @@ fields:
     value: false
     type: Boolean
   timeAndDate:
-    value: 2023-01-24T22:00:00.000Z
+    value: 2023-01-25T00:00:00.0000000+02:00
     type: DateTime
   location:
     value: French Alps
@@ -35,45 +35,46 @@ fields:
     type: RichText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "k0--_hvyvkyuiVNjww_3oQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/k0--_hvyvkyuiVNjww_3oQ"
-      }
+    - type: Link
+      relatedType: Content
+      id: k0--_hvyvkyuiVNjww_3oQ
     type: Reference
   athletes:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "uOjQGioIUUmYPB5Kz-sZCQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/uOjQGioIUUmYPB5Kz-sZCQ"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "TacYstuhJU6-Fx-OSUoL-Q",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/TacYstuhJU6-Fx-OSUoL-Q"
-      }
+    - type: Link
+      relatedType: Content
+      id: uOjQGioIUUmYPB5Kz-sZCQ
+    - type: Link
+      relatedType: Content
+      id: TacYstuhJU6-Fx-OSUoL-Q
     type: Reference
   similarEvents:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "eibM5C0OVUexMb30n-l2Rg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/eibM5C0OVUexMb30n-l2Rg"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "XrfWe3ezQUm59fsgQiyjYA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/XrfWe3ezQUm59fsgQiyjYA"
-      }
+    - type: Link
+      relatedType: Content
+      id: eibM5C0OVUexMb30n-l2Rg
+    - type: Link
+      relatedType: Content
+      id: XrfWe3ezQUm59fsgQiyjYA
     type: Reference
+  featuredImage:
+    value:
+    - type: Link
+      relatedType: Media
+      id: MWFM-JABBEyierR85C1Kxg
+    type: Media
+  relatedMedia:
+    value:
+    - type: Link
+      relatedType: Media
+      id: MWFM-JABBEyierR85C1Kxg
+    - type: Link
+      relatedType: Media
+      id: zQBotcCMZEasi1ENIz0l9w
+    - type: Link
+      relatedType: Media
+      id: C-iADCWbv0ChGxZ8Zt1bWQ
+    - type: Link
+      relatedType: Media
+      id: oHyWWD8Cs0ywTTGH5XgEPg
+    type: Media

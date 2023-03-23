@@ -8,10 +8,10 @@ fields:
     value: true
     type: Boolean
   dateOfBirth:
-    value: null
+    value: 1997-02-24T00:00:00.0000000+02:00
     type: DateTime
   careerStartDate:
-    value: null
+    value: 2021-03-29T01:00:00.0000000+03:00
     type: DateTime
   athleteQuote:
     value: You control your own wins and losses.
@@ -24,11 +24,31 @@ fields:
     type: ShortText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "bO5xDYy-2EikGiocmTsDng",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
-      }
+    - type: Link
+      relatedType: Content
+      id: bO5xDYy-2EikGiocmTsDng
     type: Reference
+  profilePhoto:
+    value:
+    - type: Link
+      relatedType: Media
+      id: Ea1dCkjli0yjP1F2cqnPJg
+    type: Media
+  featuredImage:
+    value:
+    - type: Link
+      relatedType: Media
+      id: uuiz7LbtV0666w1WEPX8Qg
+    type: Media
+  relatedMedia:
+    value:
+    - type: Link
+      relatedType: Media
+      id: ZhyBm_HwhE-mwf_9OWDL4w
+    - type: Link
+      relatedType: Media
+      id: uuiz7LbtV0666w1WEPX8Qg
+    - type: Link
+      relatedType: Media
+      id: z3_LFnVod0-JSNildFrk3A
+    type: Media

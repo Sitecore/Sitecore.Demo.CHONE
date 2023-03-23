@@ -8,27 +8,53 @@ fields:
     value: false
     type: Boolean
   dateOfBirth:
-    value: null
+    value: 2005-01-03T07:00:00.0000000+02:00
     type: DateTime
   careerStartDate:
-    value: null
+    value: 2021-07-01T08:00:00.0000000+03:00
     type: DateTime
   athleteQuote:
     value: It is action that creates motivation.
     type: ShortText
   nationality:
-    value: African
+    value: South African
     type: ShortText
   hobby:
     value: Volunteering
     type: ShortText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
-      }
+    - type: Link
+      relatedType: Content
+      id: yPoUc6FUZkO3RZlb3gT5RQ
     type: Reference
+  profilePhoto:
+    value:
+    - type: Link
+      relatedType: Media
+      id: EB2ambp1bUmMjPVUoQfkww
+    type: Media
+  featuredImage:
+    value:
+    - type: Link
+      relatedType: Media
+      id: 8vMmgfFlFE6pwJq6XhrMSg
+    type: Media
+  relatedMedia:
+    value:
+    - type: Link
+      relatedType: Media
+      id: KY2QLXrQU0qJ3n37Jq79IQ
+    - type: Link
+      relatedType: Media
+      id: 8vMmgfFlFE6pwJq6XhrMSg
+    - type: Link
+      relatedType: Media
+      id: ufOOdMlmJUO8K9oTIoUqvA
+    - type: Link
+      relatedType: Media
+      id: 4c9dzbqz-k2GomYrqPOP9w
+    - type: Link
+      relatedType: Media
+      id: jwmxFADtwEWq_-8UWAo3ZQ
+    type: Media
