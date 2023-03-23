@@ -7,6 +7,7 @@ import { Logo } from '../../components/Logo/Logo';
 import { Screen } from '../../features/Screen/Screen';
 import {
   getConnections,
+  getSelectedConnection,
   setSelectedConnection as setExpoSelectedConnection,
 } from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
@@ -33,14 +34,18 @@ export const SelectConnectionScreen = ({ navigation, route }) => {
   // If there is at least one connection, set it as the default and update the flag
   useFocusEffect(
     useCallback(() => {
-      if (connections.length > 0) {
-        setSelectedConnectionName(connections[0]?.name);
-        setExpoSelectedConnection(connections[0]);
+      (async () => {
+        if (connections.length > 0) {
+          const selectedConnection = await getSelectedConnection();
 
-        setIsNoConnectionAvailable(false);
-      } else {
-        setIsNoConnectionAvailable(true);
-      }
+          setSelectedConnectionName(selectedConnection?.name || connections[0]?.name);
+          setExpoSelectedConnection(selectedConnection || connections[0]);
+
+          setIsNoConnectionAvailable(false);
+        } else {
+          setIsNoConnectionAvailable(true);
+        }
+      })();
     }, [connections])
   );
 

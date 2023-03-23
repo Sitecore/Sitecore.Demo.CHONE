@@ -12,7 +12,13 @@ import {
   ERROR_CONNECTIONS_API_KEY,
   ERROR_CONNECTIONS_CLIENT_CREDENTIALS,
 } from '../../constants/connections';
-import { editConnection, getConnections, storeConnection } from '../../helpers/connections';
+import {
+  editConnection,
+  getConnections,
+  getSelectedConnection,
+  setSelectedConnection,
+  storeConnection,
+} from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import connectionStyles from '../../screens/Connection/styles';
@@ -211,7 +217,12 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
             previewUrl,
             clientID,
             clientSecret,
-          }).then(() => {
+          }).then(async () => {
+            const selectedConnection = await getSelectedConnection();
+            if (selectedConnection?.name === initialValue?.name) {
+              await setSelectedConnection({ name, apiKey, previewUrl, clientID, clientSecret });
+            }
+
             navigation.navigate('SelectConnection');
           });
         } else {
@@ -249,11 +260,11 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
           onPress={handleConnectBtn}
           disabled={isButtonDisabled}
         >
-          Connect
+          {initialValue ? 'Save' : 'Connect'}
         </Button>
       </BottomActions>
     ),
-    [handleDiscardBtn, handleConnectBtn, isButtonDisabled]
+    [handleDiscardBtn, handleConnectBtn, isButtonDisabled, initialValue]
   );
 
   const nameErrorText = nameExistsError
@@ -280,40 +291,40 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
           </View>
           <InputText
             containerStyle={defaultTextInputStyle}
-            label="Connection name"
-            onChange={handleName}
-            value={name}
             inputStyle={{ marginBottom: nameError || nameExistsError ? 0 : theme.spacing.sm }}
+            onChange={handleName}
+            title="Connection name"
+            value={name}
           />
           {(nameError || nameExistsError) && <ErrorMessage message={nameErrorText} />}
           <InputText
             containerStyle={defaultTextInputStyle}
             error={clientIDError}
             errorText="Client ID should not be empty!"
-            label="Client ID"
             onChange={handleClientID}
+            title="Client ID"
             value={clientID}
           />
           <InputText
             containerStyle={defaultTextInputStyle}
             error={clientSecretError}
             errorText="Client secret should not be empty!"
-            label="Client secret"
-            onChange={handleClientSecret}
-            value={clientSecret}
             inputStyle={{ marginBottom: clientCredentialsError ? 0 : theme.spacing.sm }}
+            onChange={handleClientSecret}
+            title="Client secret"
+            value={clientSecret}
           />
           {clientCredentialsError && <ErrorMessage message="Client credentials are not valid!" />}
           <InputText
             containerStyle={defaultTextInputStyle}
-            label="API Key"
             onChange={handleApiKey}
+            title="API Key"
             value={apiKey}
           />
           <InputText
             containerStyle={defaultTextInputStyle}
-            label="Preview endpoint URL"
             onChange={handlePreviewUrl}
+            title="Preview endpoint URL"
             value={previewUrl}
           />
           {previewUrlError && (
