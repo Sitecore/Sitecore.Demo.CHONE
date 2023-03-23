@@ -25,6 +25,8 @@ steps:
     npm run build
   displayName: 'Lint and build the website'
   workingDirectory: '$(playMediaDir)'
+  env:
+    CHONE_DELIVERY_API_KEY: $(CHONE_DELIVERY_API_KEY)
 
 - script: |
     npm install
