@@ -84,6 +84,7 @@ export const theme = {
     menuIconSize: 20,
     inputHeight: 36,
     tabBarHeight: 42,
+    buttonHeight: 42,
     buttonSmallHeight: 38,
     draggableHandleWidth: 34,
   },
@@ -127,6 +128,11 @@ export const paperFontConfig = {
   },
   labelMedium: {
     fontFamily: theme.fontFamily.DEFAULT,
+    fontSize: theme.fontSize.base,
+    lineHeight: theme.spacing.lg,
+  },
+  labelLarge: {
+    fontFamily: theme.fontFamily.medium,
     fontSize: theme.fontSize.base,
     lineHeight: theme.spacing.lg,
   },

@@ -1,7 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { BottomActions } from '../components/BottomActions/BottomActions';
@@ -88,41 +87,23 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
         headerTitle={headerTitle}
       />
       <BottomActions>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-          }}
+        <Button
+          mode="outlined"
+          labelStyle={styles.buttonLabel}
+          style={styles.button}
+          onPress={onDiscard}
         >
-          <View>
-            <Button
-              mode="outlined"
-              labelStyle={styles.buttonLabel}
-              style={styles.button}
-              onPress={onDiscard}
-            >
-              Discard
-            </Button>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 1,
-              justifyContent: 'flex-end',
-            }}
-          >
-            <Button
-              disabled={isDisabled}
-              mode="contained"
-              labelStyle={styles.buttonLabel}
-              style={isDisabled ? { ...styles.button, ...styles.buttonDisabled } : styles.button}
-              onPress={onAddDetails}
-            >
-              Add Details
-            </Button>
-          </View>
-        </View>
+          Discard
+        </Button>
+        <Button
+          disabled={isDisabled}
+          mode="contained"
+          labelStyle={styles.buttonLabel}
+          style={isDisabled ? { ...styles.button, ...styles.buttonDisabled } : styles.button}
+          onPress={onAddDetails}
+        >
+          Add Details
+        </Button>
       </BottomActions>
     </KeyboardAwareScreen>
   );
