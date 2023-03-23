@@ -2,17 +2,15 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useCallback, useEffect, useMemo } from 'react';
 import { ScrollView } from 'react-native';
-import { AnimatedFAB } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
 import { getEventById } from '../api/queries/getEvents';
+import { BottomFAB } from '../components/BottomFAB/BottomFAB';
 import { EventDetail } from '../features/EventDetail/EventDetail';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
-import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
-import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 export const EventDetailScreen = ({ route, navigation }) => {
@@ -26,7 +24,6 @@ export const EventDetailScreen = ({ route, navigation }) => {
   } = useQuery(`event-id-${id}`, () => getEventById(id), { staleTime: 0 });
 
   const { init } = useContentItems();
-  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   useEffect(() => {
     navigation.setOptions({
@@ -43,17 +40,15 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   const bottomActions = useMemo(
     () => (
-      <AnimatedFAB
+      <BottomFAB
         icon={({ size }) => (
           <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
         )}
         label="Edit"
-        extended={isTopEdge}
         onPress={handleEditInfo}
-        style={styles.fab}
       />
     ),
-    [isTopEdge, handleEditInfo]
+    [handleEditInfo]
   );
 
   if (isFetching) {
@@ -66,7 +61,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
+      <ScrollView>
         <EventDetail event={event} />
       </ScrollView>
       {!isEditForbidden && bottomActions}

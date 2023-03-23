@@ -131,6 +131,11 @@ export const paperFontConfig = {
     fontSize: theme.fontSize.base,
     lineHeight: theme.spacing.lg,
   },
+  labelLarge: {
+    fontFamily: theme.fontFamily.medium,
+    fontSize: theme.fontSize.base,
+    lineHeight: theme.spacing.lg,
+  },
   displaySmall: {
     fontFamily: theme.fontFamily.bold,
     fontSize: theme.fontSize.xxl,
