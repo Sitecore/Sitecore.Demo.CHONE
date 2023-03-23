@@ -80,7 +80,10 @@ export const ContentFieldReference = ({
   return (
     <View style={style}>
       <Divider
-        style={{ backgroundColor: theme.colors.gray.light, marginBottom: theme.spacing.xs }}
+        style={{
+          backgroundColor: theme.colors.black.light,
+          marginBottom: theme.spacing.xs,
+        }}
       />
       <View
         style={{
@@ -91,7 +94,7 @@ export const ContentFieldReference = ({
           marginBottom: theme.spacing.xs,
         }}
       >
-        <FieldLabel required={required} single={single} title={fieldTitle} />
+        <FieldLabel required={required} title={fieldTitle} />
         <Button
           compact
           icon={icon}
