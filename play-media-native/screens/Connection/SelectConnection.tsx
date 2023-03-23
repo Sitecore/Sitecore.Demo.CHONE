@@ -13,7 +13,8 @@ import { Connection } from '../../interfaces/connections';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
-export const SelectConnectionScreen = ({ navigation }) => {
+export const SelectConnectionScreen = ({ navigation, route }) => {
+  const [hideLogo] = useState(route?.params?.hideLogo);
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedConnectionName, setSelectedConnectionName] = useState<string>();
   const [isNoConnectionAvailable, setIsNoConnectionAvailable] = useState(true);
@@ -78,9 +79,11 @@ export const SelectConnectionScreen = ({ navigation }) => {
   return (
     <Screen centered>
       <StatusBar barStyle="light-content" />
-      <View style={{ paddingBottom: theme.spacing.md }}>
-        <Logo />
-      </View>
+      {!hideLogo && (
+        <View style={{ paddingBottom: theme.spacing.md }}>
+          <Logo />
+        </View>
+      )}
       {isNoConnectionAvailable ? (
         <View
           style={{

@@ -30,14 +30,12 @@ export const generateToken = async (options?: FetchOptions): Promise<Token> => {
 
       // If there is an error it means client ID and/ or client secret are invalid
       if (data?.error) {
-        console.error(`${data?.error_description}: ${ERROR_CONNECTIONS_CLIENT_CREDENTIALS}`);
-        throw new Error(ERROR_CONNECTIONS_CLIENT_CREDENTIALS);
+        throw ERROR_CONNECTIONS_CLIENT_CREDENTIALS;
       }
 
       return data;
     });
-  } catch (error) {
-    console.error(error);
-    throw new Error(ERROR_CONNECTIONS_CLIENT_CREDENTIALS);
+  } catch {
+    throw ERROR_CONNECTIONS_CLIENT_CREDENTIALS;
   }
 };

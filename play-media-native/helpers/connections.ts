@@ -30,7 +30,26 @@ export const storeConnection = async (connection: Connection): Promise<void> => 
   setSelectedConnection(connection);
 };
 
-// Save connection object in secure storage
+// Edit selected connection in secure storage
+//
+export const editConnection = async (previousConnectionName: string, newConnection: Connection) => {
+  const existingConnections = await getConnections();
+
+  await save(
+    CONNECTIONS_KEY,
+    JSON.stringify(
+      existingConnections.map((item) => {
+        if (item.name !== previousConnectionName) {
+          return item;
+        }
+
+        return newConnection;
+      })
+    )
+  );
+};
+
+// Remove connection object from secure storage
 //
 export const removeConnection = async (connectionName: string): Promise<void> => {
   const existingConnections = await getConnections();

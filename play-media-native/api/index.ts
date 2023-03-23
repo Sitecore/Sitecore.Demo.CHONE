@@ -1,4 +1,3 @@
-import { ERROR_CONNECTIONS_API_KEY } from '../constants/connections';
 import { getSelectedConnection } from '../helpers/connections';
 import { FetchOptions } from '../interfaces/fetchOptions';
 
@@ -29,7 +28,9 @@ export async function fetchGraphQL(query: string, options?: FetchOptions): Promi
         console.error(
           `GraphQL query failed with error ${response?.status} ${response?.statusText}`
         );
-        throw new Error(ERROR_CONNECTIONS_API_KEY);
+        throw new Error(
+          `GraphQL query failed with error ${response?.status} ${response?.statusText}`
+        );
       }
 
       const jsonResponsePromise = response.json();
@@ -40,13 +41,12 @@ export async function fetchGraphQL(query: string, options?: FetchOptions): Promi
             'An error was returned by a GraphQL query. See the associated logged object for details.',
             responseWithErrors
           );
-          throw new Error(ERROR_CONNECTIONS_API_KEY);
         }
       });
       return jsonResponsePromise;
     });
   } catch (error) {
     console.error(error);
-    throw new Error(ERROR_CONNECTIONS_API_KEY);
+    throw new Error(error);
   }
 }

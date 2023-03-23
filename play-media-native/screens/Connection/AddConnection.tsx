@@ -4,9 +4,9 @@ import { useCallback } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Text, TouchableRipple } from 'react-native-paper';
 
+import connectionStyles from './styles';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
 import { theme } from '../../theme/theme';
-import connectionStyles from './styles';
 
 const pageStyles = StyleSheet.create({
   btnContainer: {

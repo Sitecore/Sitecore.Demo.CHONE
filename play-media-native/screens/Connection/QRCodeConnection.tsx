@@ -5,7 +5,7 @@ import { Button, Text } from 'react-native-paper';
 
 import { validateConnection } from '../../api/queries/validateConnection';
 import { Screen } from '../../features/Screen/Screen';
-import { storeConnection } from '../../helpers/connections';
+import { getConnections, storeConnection } from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
@@ -25,6 +25,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [isQRScanned, setIsQRScanned] = useState(false);
   const [isQRError, setIsQRError] = useState(false);
+  const [nameExistsError, setNameExistsError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -53,6 +54,16 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
       }
 
       const { name, apiKey, previewUrl, clientID, clientSecret } = qrConnectionObject;
+      const existingConnections = await getConnections();
+      const nameAlreadyExists = !!existingConnections.find(
+        (connection) => connection.name === name
+      );
+
+      if (nameAlreadyExists) {
+        setIsQRError(true);
+        setNameExistsError(true);
+        return;
+      }
 
       if (name && apiKey && previewUrl && clientID && clientSecret) {
         await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
@@ -96,6 +107,9 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
   const scanAgain = isQRScanned && isQRError && (
     <Screen centered>
       <Text style={pageStyles.failureTextMsg}>Adding a connection failed</Text>
+      {nameExistsError && (
+        <Text style={pageStyles.failureTextMsg}>The scanned connection name already exists!</Text>
+      )}
       <Button
         mode="contained"
         style={styles.button}

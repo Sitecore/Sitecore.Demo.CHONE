@@ -91,6 +91,7 @@ export const TabScreenHeader = ({ type }: TabScreenHeaderProps) => {
             theme={{ roundness: 1 }}
             onPress={() =>
               navigation.push('SelectConnection', {
+                hideLogo: true,
                 shouldShowBackBtn: true,
               })
             }
