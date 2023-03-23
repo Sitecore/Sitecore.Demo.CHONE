@@ -86,13 +86,3 @@ After making changes to content types or content items in Content Hub ONE, you s
    ```bash
    npm run pull:additional-items
    ```
-
-## Removing media fields from serialized assets before pushing to Content Hub ONE
-
-Currently the Content Hub ONE CLI does not allow media serialization, therefore you should first remove these fields from the content items.
-
-You can do so using a single command:
-
-```bash
-npm run remove-media-fields
-```
