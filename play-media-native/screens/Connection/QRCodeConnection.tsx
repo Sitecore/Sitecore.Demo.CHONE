@@ -121,13 +121,13 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
 
   const scanAgain = isQRScanned && isQRError && (
     <Screen centered>
-      <Text style={pageStyles.failureTextMsg}>Adding a connection failed</Text>
+      <Text>Adding a connection failed!</Text>
       {nameExistsError && (
-        <Text style={pageStyles.failureTextMsg}>The scanned connection name already exists!</Text>
+        <Text style={pageStyles.failureTextMsg}>The scanned connection name already exists.</Text>
       )}
       <Button
         mode="contained"
-        style={styles.button}
+        style={[styles.button, { marginTop: theme.spacing.xs }]}
         labelStyle={styles.buttonLabel}
         onPress={handleScanAgainPress}
       >
