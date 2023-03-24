@@ -32,6 +32,7 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
   const { contentItems, init, reset } = useContentItems();
   const athlete = contentItems[stateKey] as Athlete;
 
+  const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_ATHLETE);
   const headerTitle = contentItems[stateKey]?.athleteName || 'Untitled athlete';
 
   const [isValidating, setIsValidating] = useState(false);
@@ -105,8 +106,6 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
       title: contentItems[stateKey]?.athleteName,
     });
   }, [contentItems, navigation, stateKey]);
-
-  const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_ATHLETE);
 
   useEffect(() => {
     // init global state on mount

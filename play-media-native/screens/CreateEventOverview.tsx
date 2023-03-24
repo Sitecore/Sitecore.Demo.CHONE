@@ -32,6 +32,7 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
   const { contentItems, init, reset } = useContentItems();
   const event = contentItems[stateKey] as Event;
 
+  const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_EVENT);
   const headerTitle = contentItems[stateKey]?.title || 'Untitled event';
 
   const [isValidating, setIsValidating] = useState(false);
@@ -105,8 +106,6 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
       title: contentItems[stateKey]?.title,
     });
   }, [contentItems, navigation, stateKey]);
-
-  const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_EVENT);
 
   useEffect(() => {
     navigation.setParams({

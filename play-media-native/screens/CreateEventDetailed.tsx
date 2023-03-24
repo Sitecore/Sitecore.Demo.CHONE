@@ -35,12 +35,12 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
   const { contentItems, editMultiple } = useContentItems();
   const event = (contentItems[stateKey] ?? null) as unknown as Event;
 
+  const isDisabled = !canSubmitContentItem(event, FIELD_OVERRIDES_EVENT);
+
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
-
-  const isDisabled = !canSubmitContentItem(event, FIELD_OVERRIDES_EVENT);
 
   const deviceMedia = useMemo(() => getDeviceImages(event, FIELD_OVERRIDES_EVENT), [event]);
 
