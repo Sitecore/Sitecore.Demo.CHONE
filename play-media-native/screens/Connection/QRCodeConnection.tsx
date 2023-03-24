@@ -1,8 +1,9 @@
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
+import connectionStyles from './styles';
 import { validateConnection } from '../../api/queries/validateConnection';
 import { Screen } from '../../features/Screen/Screen';
 import { getConnections, storeConnection } from '../../helpers/connections';
@@ -21,11 +22,16 @@ const pageStyles = StyleSheet.create({
   },
 });
 
+const LOADER_TIMEOUT = 2200;
+
 export const QRCodeConnectionScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [isQRScanned, setIsQRScanned] = useState(false);
   const [isQRError, setIsQRError] = useState(false);
   const [nameExistsError, setNameExistsError] = useState(false);
+  const [showSuccessView, setShowSuccessView] = useState(false);
+  const [connectionName, setConnectionName] = useState('');
+  const [isValidating, setIsValidating] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -54,6 +60,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
       }
 
       const { name, apiKey, previewUrl, clientID, clientSecret } = qrConnectionObject;
+      setConnectionName(name);
       const existingConnections = await getConnections();
       const nameAlreadyExists = !!existingConnections.find(
         (connection) => connection.name === name
@@ -66,13 +73,21 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
       }
 
       if (name && apiKey && previewUrl && clientID && clientSecret) {
+        setIsValidating(true);
+
         await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
           .then(async () => {
             await storeConnection(qrConnectionObject).then(() => {
-              navigation.navigate('MainTabs');
+              setIsValidating(false);
+              setShowSuccessView(true);
+
+              setTimeout(() => {
+                navigation.navigate('MainTabs');
+              }, LOADER_TIMEOUT);
             });
           })
           .catch((e) => {
+            setIsValidating(false);
             setIsQRError(true);
             console.error('Validating the connection failed with error', e);
           });
@@ -98,7 +113,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     </View>
   );
 
-  const validationgMsg = isQRScanned && !isQRError && (
+  const validationMsg = isValidating && (
     <Screen centered>
       <Text>Validating the connection...</Text>
     </Screen>
@@ -121,6 +136,20 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
     </Screen>
   );
 
+  const successView = useMemo(() => {
+    const successMessage = (
+      <>
+        <Text>
+          <Text>Connection</Text>
+          <Text style={connectionStyles.chOneText}> {connectionName}</Text>
+          <Text> was successfully added!</Text>
+        </Text>
+      </>
+    );
+
+    return showSuccessView && <Screen centered>{successMessage}</Screen>;
+  }, [connectionName, showSuccessView]);
+
   if (!hasPermission) {
     return (
       <Screen centered>
@@ -132,7 +161,8 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
   return (
     <>
       {qrCodeScanner}
-      {validationgMsg}
+      {validationMsg}
+      {successView}
       {scanAgain}
     </>
   );

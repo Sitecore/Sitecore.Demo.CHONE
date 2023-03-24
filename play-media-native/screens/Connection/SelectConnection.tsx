@@ -60,6 +60,8 @@ export const SelectConnectionScreen = ({ navigation, route }) => {
     (connection: Connection) => {
       navigation.navigate('ManualConnection', {
         connection,
+        subtitle: 'Edit Connection Details',
+        title: connection?.name,
       });
     },
     [navigation]
@@ -67,7 +69,11 @@ export const SelectConnectionScreen = ({ navigation, route }) => {
 
   const onRemove = useCallback(
     (connectionName: string) => {
-      navigation.navigate('RemoveConnection', { connectionName });
+      navigation.navigate('RemoveConnection', {
+        connectionName,
+        subtitle: 'Delete Connection?',
+        title: connectionName,
+      });
     },
     [navigation]
   );

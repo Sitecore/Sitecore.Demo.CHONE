@@ -40,10 +40,14 @@ const iconSize = 30;
 
 export const AddConnectionScreen = ({ navigation }) => {
   const handleManualBtnPress = useCallback(() => {
-    navigation.push('ManualConnection');
+    navigation.push('ManualConnection', {
+      subtitle: 'Add connection details',
+      title: 'Untitled connection',
+    });
   }, [navigation]);
+
   const handleQRCodeBtnPress = useCallback(() => {
-    navigation.navigate('QRCodeConnection');
+    navigation.push('QRCodeConnection');
   }, [navigation]);
 
   return (

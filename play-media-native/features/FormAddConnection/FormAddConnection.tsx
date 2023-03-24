@@ -45,6 +45,8 @@ const isPreviewUrlValid = (text: string) => {
   return startsCorrectly && endsCorrectly;
 };
 
+const LOADER_TIMEOUT = 2200;
+
 const ErrorMessage = ({ message }: { message: string }) => {
   return (
     <View
@@ -88,6 +90,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
   const [clientSecretError, setClientSecretError] = useState(false);
   const [clientCredentialsError, setClientCredentialsError] = useState(false);
   const [schemaError, setSchemaError] = useState(false);
+  const [showSuccessView, setShowSuccessView] = useState(false);
 
   const nameInvalid = !name || nameError || nameExistsError;
   const apiKeyInvalid = !apiKey || apiKeyError;
@@ -98,6 +101,26 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
     nameInvalid || apiKeyInvalid || previewUrlInvalid || clientIDInvalid || clientSecretInvalid;
 
   const navigation = useNavigation<StackNavigationProp>();
+
+  const title = useMemo(() => {
+    if (!initialValue) {
+      return (
+        <>
+          <Text>Add connection details to a</Text>
+          <Text style={connectionStyles.chOneText}> Content Hub ONE</Text>
+          <Text> instance.</Text>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Text>Edit a connection to a</Text>
+        <Text style={connectionStyles.chOneText}> Content Hub ONE</Text>
+        <Text> instance.</Text>
+      </>
+    );
+  }, [initialValue]);
 
   // Retrieve the saved connections from Expo Secure Store
   useEffect(() => {
@@ -199,8 +222,10 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
     setSchemaError(false);
     setIsValidating(true);
 
-    await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
-      .then(async ([credentialsResponse, schemaResponse]: any) => {
+    await validateConnection({ apiKey, previewUrl, clientID, clientSecret }).then(
+      async ([credentialsResponse, schemaResponse]: any) => {
+        setIsValidating(false);
+
         const hasErrorCredentials = credentialsResponse === ERROR_CONNECTIONS_CLIENT_CREDENTIALS;
         const hasErrorSchema = schemaResponse === ERROR_CONNECTIONS_API_KEY;
 
@@ -233,13 +258,16 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
             clientID,
             clientSecret,
           }).then(() => {
-            navigation.navigate('MainTabs');
+            setShowSuccessView(true);
+
+            setTimeout(() => {
+              setShowSuccessView(false);
+              navigation.navigate('MainTabs');
+            }, LOADER_TIMEOUT);
           });
         }
-      })
-      .finally(() => {
-        setIsValidating(false);
-      });
+      }
+    );
   }, [apiKey, previewUrl, clientID, clientSecret, name, initialValue, navigation]);
 
   const bottomActions = useMemo(
@@ -267,12 +295,25 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
     [handleDiscardBtn, handleConnectBtn, isButtonDisabled, initialValue]
   );
 
+  const successView = useMemo(() => {
+    const successMessage = (
+      <>
+        <Text>Connection</Text>
+        <Text style={connectionStyles.chOneText}> {name}</Text>
+        <Text> was successfully added!</Text>
+      </>
+    );
+
+    return showSuccessView && <Text>{successMessage}</Text>;
+  }, [name, showSuccessView]);
+
   const nameErrorText = nameExistsError
-    ? 'Name already taken!'
+    ? 'Connection name already exists!'
     : 'Name should contain only letters, numbers and hyphens!';
 
   return (
     <>
+      {successView}
       {isValidating ? (
         <>
           <Text style={{ marginBottom: theme.spacing.xs }}>Validating Connection...</Text>
@@ -284,9 +325,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
         <>
           <View style={connectionStyles.container}>
             <Text style={connectionStyles.title}>
-              <Text>Add connection details to a</Text>
-              <Text style={connectionStyles.chOneText}> Content Hub ONE</Text>
-              <Text> instance.</Text>
+              <>{title}</>
             </Text>
           </View>
           <InputText
@@ -314,7 +353,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
             title="Client secret"
             value={clientSecret}
           />
-          {clientCredentialsError && <ErrorMessage message="Client credentials are not valid!" />}
+          {clientCredentialsError && <ErrorMessage message="Invalid Client ID/secret!" />}
           <InputText
             containerStyle={defaultTextInputStyle}
             onChange={handleApiKey}
@@ -330,7 +369,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
           {previewUrlError && (
             <ErrorMessage message="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !" />
           )}
-          {schemaError && <ErrorMessage message="API key or Preview Url is not valid!" />}
+          {schemaError && <ErrorMessage message="Invalid API key or Preview endpoint URL!" />}
         </>
       )}
       {bottomActions}

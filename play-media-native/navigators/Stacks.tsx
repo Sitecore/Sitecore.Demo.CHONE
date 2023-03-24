@@ -157,14 +157,7 @@ export const Stacks = () => {
         }}
       />
       <Stack.Screen name="MainTabs" component={Tabs} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="ManualConnection"
-        component={ManualConnectionScreen}
-        initialParams={{
-          title: 'Untitled connection',
-          subtitle: 'Add connection details',
-        }}
-      />
+      <Stack.Screen name="ManualConnection" component={ManualConnectionScreen} />
       <Stack.Screen name="QRCodeConnection" component={QRCodeConnectionScreen} />
       <Stack.Screen
         name="RemoveConnection"
