@@ -1,11 +1,13 @@
 import { faEdit, faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Text, TouchableRipple } from 'react-native-paper';
 
 import connectionStyles from './styles';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
+import { RootStackParamList } from '../../interfaces/navigators';
 import { theme } from '../../theme/theme';
 
 const pageStyles = StyleSheet.create({
@@ -38,7 +40,9 @@ const pageStyles = StyleSheet.create({
 
 const iconSize = 30;
 
-export const AddConnectionScreen = ({ navigation }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'AddConnection'>;
+
+export const AddConnectionScreen = ({ navigation }: Props) => {
   const handleManualBtnPress = useCallback(() => {
     navigation.push('ManualConnection', {
       subtitle: 'Add connection details',

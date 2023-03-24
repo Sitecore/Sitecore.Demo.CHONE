@@ -28,9 +28,7 @@ export async function fetchGraphQL(query: string, options?: FetchOptions): Promi
         console.error(
           `GraphQL query failed with error ${response?.status} ${response?.statusText}`
         );
-        throw new Error(
-          `GraphQL query failed with error ${response?.status} ${response?.statusText}`
-        );
+        throw response?.status;
       }
 
       const jsonResponsePromise = response.json();
@@ -46,7 +44,6 @@ export async function fetchGraphQL(query: string, options?: FetchOptions): Promi
       return jsonResponsePromise;
     });
   } catch (error) {
-    console.error(error);
-    throw new Error(error);
+    throw error;
   }
 }

@@ -1,4 +1,5 @@
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useState } from 'react';
 import { Pressable, StatusBar, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
@@ -11,10 +12,13 @@ import {
   setSelectedConnection as setExpoSelectedConnection,
 } from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
+import { RootStackParamList } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
-export const SelectConnectionScreen = ({ navigation, route }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'SelectConnection'>;
+
+export const SelectConnectionScreen = ({ navigation, route }: Props) => {
   const [hideLogo] = useState(route?.params?.hideLogo);
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedConnectionName, setSelectedConnectionName] = useState<string>();

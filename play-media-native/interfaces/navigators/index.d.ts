@@ -1,6 +1,7 @@
 // https://reactnavigation.org/docs/typescript/
 
 import type { StackNavigationProp as RStackNavigationProp } from '@react-navigation/stack';
+import { Connection } from '../connections';
 
 type StandardScreen = {
   id?: string;
@@ -43,10 +44,12 @@ export type RootStackParamList = {
   EditMedia: StandardScreen;
   EventDetail: StandardScreen;
   MainTabs: undefined;
-  ManualConnection: StandardScreen;
+  ManualConnection: StandardScreen & {
+    connection?: Connection;
+  };
   MediaDetail: StandardScreen;
-  QRCodeConnection: undefined;
-  RemoveConnection: { connectionName: string };
+  QRCodeConnection: StandardScreen;
+  RemoveConnection: StandardScreen & { connectionName: string };
   ReviewAthlete: StandardScreen & {
     isNew: boolean;
     stateKey: string;
@@ -56,6 +59,7 @@ export type RootStackParamList = {
     stateKey: string;
   };
   SelectConnection: StandardScreen & {
+    hideLogo?: boolean;
     shouldShowBackBtn?: boolean;
   };
 };

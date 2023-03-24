@@ -1,13 +1,17 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { Screen } from '../../features/Screen/Screen';
 import { removeConnection } from '../../helpers/connections';
+import { RootStackParamList } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
-export const RemoveConnectionScreen = ({ navigation, route }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'RemoveConnection'>;
+
+export const RemoveConnectionScreen = ({ navigation, route }: Props) => {
   const onCancel = useCallback(() => {
     navigation.goBack();
   }, [navigation]);

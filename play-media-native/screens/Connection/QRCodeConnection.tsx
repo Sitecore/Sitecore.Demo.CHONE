@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
@@ -9,6 +10,7 @@ import { ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT } from '../../constants/connecti
 import { Screen } from '../../features/Screen/Screen';
 import { getConnections, storeConnection } from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
+import { RootStackParamList } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
@@ -23,7 +25,9 @@ const pageStyles = StyleSheet.create({
   },
 });
 
-export const QRCodeConnectionScreen = ({ navigation }) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'QRCodeConnection'>;
+
+export const QRCodeConnectionScreen = ({ navigation }: Props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [isQRScanned, setIsQRScanned] = useState(false);
   const [isQRError, setIsQRError] = useState(false);
