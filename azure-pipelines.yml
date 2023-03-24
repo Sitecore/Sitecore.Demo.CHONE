@@ -22,6 +22,7 @@ steps:
 
 - script: |
     npm install
+    npm run lint
     npm run build
   displayName: 'Lint and build the website'
   workingDirectory: '$(playMediaDir)'
