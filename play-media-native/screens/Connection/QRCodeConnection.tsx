@@ -5,6 +5,7 @@ import { Button, Text } from 'react-native-paper';
 
 import connectionStyles from './styles';
 import { validateConnection } from '../../api/queries/validateConnection';
+import { ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT } from '../../constants/connections';
 import { Screen } from '../../features/Screen/Screen';
 import { getConnections, storeConnection } from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
@@ -21,8 +22,6 @@ const pageStyles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
 });
-
-const LOADER_TIMEOUT = 2200;
 
 export const QRCodeConnectionScreen = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -83,7 +82,7 @@ export const QRCodeConnectionScreen = ({ navigation }) => {
 
               setTimeout(() => {
                 navigation.navigate('MainTabs');
-              }, LOADER_TIMEOUT);
+              }, ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT);
             });
           })
           .catch((e) => {

@@ -9,6 +9,7 @@ import { BottomActions } from '../../components/BottomActions/BottomActions';
 import { MaterialIcon } from '../../components/Icon/MaterialIcon';
 import { InputText } from '../../components/InputText/InputText';
 import {
+  ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT,
   ERROR_CONNECTIONS_API_KEY,
   ERROR_CONNECTIONS_CLIENT_CREDENTIALS,
 } from '../../constants/connections';
@@ -44,8 +45,6 @@ const isPreviewUrlValid = (text: string) => {
 
   return startsCorrectly && endsCorrectly;
 };
-
-const LOADER_TIMEOUT = 2200;
 
 const ErrorMessage = ({ message }: { message: string }) => {
   return (
@@ -263,7 +262,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
             setTimeout(() => {
               setShowSuccessView(false);
               navigation.navigate('MainTabs');
-            }, LOADER_TIMEOUT);
+            }, ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT);
           });
         }
       }
