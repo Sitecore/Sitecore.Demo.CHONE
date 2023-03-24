@@ -76,7 +76,7 @@ export const EventsListingScreen = ({ navigation }) => {
       />
       <BottomFAB
         icon="plus"
-        label="Add new event"
+        label="Add event"
         onPress={() => navigation.navigate('CreateEventOverview')}
       />
     </Screen>
