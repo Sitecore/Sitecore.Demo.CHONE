@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { Tabs } from './Tabs';
 import { StackScreenHeader } from '../features/StackScreenHeader/StackScreenHeader';
 import { RootStackParamList } from '../interfaces/navigators';
 import { AddAthletesScreen } from '../screens/AddAthletes';
@@ -24,7 +25,6 @@ import { EventDetailScreen } from '../screens/EventDetail';
 import { MediaDetailScreen } from '../screens/MediaDetail';
 import { ReviewAthleteScreen } from '../screens/ReviewAthlete';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
-import { Tabs } from './Tabs';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

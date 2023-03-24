@@ -3,11 +3,11 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 
+import { generateHtml } from './generateHtml';
+import generateJson from './generateJson';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { Icon } from '../Icon/Icon';
-import { generateHtml } from './generateHtml';
-import generateJson from './generateJson';
 
 export const RichTextEditor = ({
   initialValue,
