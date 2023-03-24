@@ -221,10 +221,8 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
     setSchemaError(false);
     setIsValidating(true);
 
-    await validateConnection({ apiKey, previewUrl, clientID, clientSecret }).then(
-      async ([credentialsResponse, schemaResponse]: any) => {
-        setIsValidating(false);
-
+    await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
+      .then(async ([credentialsResponse, schemaResponse]: any) => {
         const hasErrorCredentials = credentialsResponse === ERROR_CONNECTIONS_CLIENT_CREDENTIALS;
         const hasErrorSchema = schemaResponse === ERROR_CONNECTIONS_API_KEY;
 
@@ -260,13 +258,14 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
             setShowSuccessView(true);
 
             setTimeout(() => {
-              setShowSuccessView(false);
               navigation.navigate('MainTabs');
             }, ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT);
           });
         }
-      }
-    );
+      })
+      .finally(() => {
+        setIsValidating(false);
+      });
   }, [apiKey, previewUrl, clientID, clientSecret, name, initialValue, navigation]);
 
   const bottomActions = useMemo(
@@ -303,8 +302,8 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
       </>
     );
 
-    return showSuccessView && <Text>{successMessage}</Text>;
-  }, [name, showSuccessView]);
+    return <Text>{successMessage}</Text>;
+  }, [name]);
 
   const nameErrorText = nameExistsError
     ? 'Connection name already exists!'
@@ -312,8 +311,9 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
 
   return (
     <>
-      {successView}
-      {isValidating ? (
+      {showSuccessView ? (
+        successView
+      ) : isValidating ? (
         <>
           <Text style={{ marginBottom: theme.spacing.xs }}>Validating Connection...</Text>
           <View>
@@ -369,9 +369,9 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
             <ErrorMessage message="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !" />
           )}
           {schemaError && <ErrorMessage message="Invalid API key or Preview endpoint URL!" />}
+          {bottomActions}
         </>
       )}
-      {bottomActions}
     </>
   );
 };

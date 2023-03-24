@@ -62,7 +62,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
 
   const onEdit = useCallback(
     (connection: Connection) => {
-      navigation.navigate('ManualConnection', {
+      navigation.push('ManualConnection', {
         connection,
         subtitle: 'Edit Connection Details',
         title: connection?.name,
@@ -73,7 +73,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
 
   const onRemove = useCallback(
     (connectionName: string) => {
-      navigation.navigate('RemoveConnection', {
+      navigation.push('RemoveConnection', {
         connectionName,
         subtitle: 'Delete Connection?',
         title: connectionName,
