@@ -9,7 +9,7 @@ import { RootStackParamList } from '../../interfaces/navigators';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ManualConnection'>;
 
-export const ManualConnectionScreen = ({ navigation, route }: Props) => {
+export const ManualConnectionScreen = ({ route }: Props) => {
   const [connection] = useState<Connection>(route?.params?.connection);
 
   return (
