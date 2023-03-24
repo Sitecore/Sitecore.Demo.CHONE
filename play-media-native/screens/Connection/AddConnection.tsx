@@ -47,7 +47,7 @@ export const AddConnectionScreen = ({ navigation }) => {
   }, [navigation]);
 
   const handleQRCodeBtnPress = useCallback(() => {
-    navigation.push('QRCodeConnection');
+    navigation.push('QRCodeConnection', { subtitle: 'Add a connection', title: 'QR Code Scanner' });
   }, [navigation]);
 
   return (

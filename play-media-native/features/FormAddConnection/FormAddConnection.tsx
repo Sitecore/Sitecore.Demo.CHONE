@@ -283,7 +283,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
         </Button>
         <Button
           mode="contained"
-          style={[styles.button, { minWidth: 150 }]}
+          style={[styles.button, isButtonDisabled && styles.buttonDisabled]}
           labelStyle={styles.buttonLabel}
           onPress={handleConnectBtn}
           disabled={isButtonDisabled}
