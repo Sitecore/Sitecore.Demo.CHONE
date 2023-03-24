@@ -55,7 +55,8 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
         navigation.push('DiscardChanges', {
           message: EDIT_EVENT_DISCARD_MESSAGE,
           stateKey,
-          redirectRoute: 'MainTabs',
+          redirectRoute: 'EventDetail',
+          id: event?.id,
           title: headerTitle,
           subtitle: 'Discard event changes?',
         });
@@ -67,7 +68,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [headerTitle, navigation, stateKey])
+    }, [event?.id, headerTitle, navigation, stateKey])
   );
 
   if (!event) {
