@@ -213,7 +213,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
   );
 
   const handleDiscardBtn = useCallback(() => {
-    navigation.push('SelectConnection', { shouldShowBackBtn: true });
+    navigation.pop(2);
   }, [navigation]);
 
   const handleConnectBtn = useCallback(async () => {
