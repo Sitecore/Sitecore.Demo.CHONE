@@ -102,7 +102,7 @@ export const AthleteDetail = ({ athlete, isReview }: { athlete: Athlete; isRevie
 
   const onEventPress = useCallback(
     (event: Event) => {
-      navigation.navigate('EventDetail', {
+      navigation.push('EventDetail', {
         id: event?.id,
         isEditForbidden: isReview,
         title: event?.title,

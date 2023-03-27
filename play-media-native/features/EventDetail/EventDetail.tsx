@@ -44,7 +44,7 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
 
   const onAthletePress = useCallback(
     (athlete: Athlete) => {
-      navigation.navigate('AthleteDetail', {
+      navigation.push('AthleteDetail', {
         id: athlete?.id,
         isEditForbidden: isReview,
         title: athlete?.athleteName,
@@ -55,7 +55,7 @@ export const EventDetail = ({ event, isReview }: { event: Event; isReview?: bool
 
   const onEventPress = useCallback(
     (event: Event) => {
-      navigation.navigate('EventDetail', {
+      navigation.push('EventDetail', {
         id: event?.id,
         isEditForbidden: isReview,
         title: event?.title,
