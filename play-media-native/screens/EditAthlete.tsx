@@ -164,7 +164,8 @@ export const EditAthleteScreen = ({ navigation, route }: Props) => {
           navigation.push('DiscardChanges', {
             message: EDIT_ATHLETE_DISCARD_MESSAGE,
             stateKey,
-            redirectRoute: 'MainTabs',
+            redirectRoute: 'AthleteDetail',
+            id: athlete?.id,
             title: headerTitle,
             subtitle: 'Discard athlete changes?',
           });
@@ -177,7 +178,7 @@ export const EditAthleteScreen = ({ navigation, route }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [draftSaved, headerTitle, navigation, stateKey])
+    }, [athlete?.id, draftSaved, headerTitle, navigation, stateKey])
   );
 
   const bottomActions = useMemo(

@@ -164,7 +164,8 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
           navigation.push('DiscardChanges', {
             message: EDIT_EVENT_DISCARD_MESSAGE,
             stateKey,
-            redirectRoute: 'MainTabs',
+            redirectRoute: 'EventDetail',
+            id: event?.id,
             title: headerTitle,
             subtitle: 'Discard event changes?',
           });
@@ -177,7 +178,7 @@ export const EditEventScreen = ({ navigation, route }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [draftSaved, headerTitle, navigation, stateKey])
+    }, [draftSaved, event?.id, headerTitle, navigation, stateKey])
   );
 
   const bottomActions = useMemo(
