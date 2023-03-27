@@ -13,6 +13,10 @@ export const styles = StyleSheet.create({
     borderColor: theme.colors.black.lightest,
     backgroundColor: theme.colors.black.lightest,
   },
+  buttonDisabledSecondary: {
+    borderColor: theme.colors.black.lightest,
+    backgroundColor: theme.colors.transparent,
+  },
   buttonSmall: {
     borderWidth: 1,
     borderColor: theme.colors.yellow.DEFAULT,
@@ -29,6 +33,9 @@ export const styles = StyleSheet.create({
     fontSize: theme.fontSize.sm,
     lineHeight: theme.fontSize.base,
     top: 2,
+  },
+  buttonLabelDisabledSecondary: {
+    color: theme.colors.black.lightest,
   },
   centered: {
     justifyContent: 'center',
