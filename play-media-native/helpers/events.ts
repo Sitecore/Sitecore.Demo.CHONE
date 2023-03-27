@@ -1,12 +1,13 @@
-import { publishAthlete } from './athletes';
-import { normalizeContentItem } from './contentItemHelper';
 import { publishContentItem } from '../api/queries/contentItems';
 import { publishMediaItem } from '../api/queries/mediaItems';
-import { FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
 import { EVENT_FACETS } from '../constants/filters';
+import { FIELD_OVERRIDES_SPORT } from '../constants/sport';
+import { AthleteResponse } from '../interfaces/athlete';
 import { Event, EventResponse } from '../interfaces/event';
 import { Sport } from '../interfaces/sport';
 import { StatusResult } from '../interfaces/statusResults';
+import { normalizeAthlete, publishAthlete } from './athletes';
+import { normalizeContentItem } from './contentItemHelper';
 
 export const initializeEvents = (events: Event[], sports: Sport[]) => {
   if (!events || !sports) {
@@ -34,7 +35,9 @@ export const normalizeEvent = (event: EventResponse, statusResults: StatusResult
     name: event.name,
     status: eventStatus,
     title: event.title,
-    sport: event.sport?.results[0] || null,
+    sport: event.sport?.results.length
+      ? normalizeContentItem(event.sport?.results[0], FIELD_OVERRIDES_SPORT)
+      : null,
     isFeatured: event.isFeatured,
     timeAndDate: event.timeAndDate,
     location: event.location,
@@ -43,7 +46,9 @@ export const normalizeEvent = (event: EventResponse, statusResults: StatusResult
     teaser: event.teaser,
     body: event.body,
     athletes: event.athletes?.results?.length
-      ? event.athletes.results.map((item) => normalizeContentItem(item, FIELD_OVERRIDES_ATHLETE))
+      ? event.athletes.results.map((item) =>
+          normalizeAthlete(item as AthleteResponse, statusResults)
+        )
       : [],
     similarEvents: event.similarEvents?.results?.length
       ? event.similarEvents.results.map((item) =>

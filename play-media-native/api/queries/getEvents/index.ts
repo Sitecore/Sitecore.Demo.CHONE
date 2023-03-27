@@ -3,7 +3,7 @@ import { STATUS_TYPES } from '../../../constants/status';
 import { normalizeEvent } from '../../../helpers/events';
 import { Event, AllEventsResponse, EventResponse } from '../../../interfaces/event';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
-import { getItemsStatus, getItemStatusById } from '../getItemsStatus/getItemsStatus';
+import { getItemsStatus } from '../getItemsStatus/getItemsStatus';
 
 const eventsQuery = `
 query {
@@ -19,6 +19,12 @@ query {
            	id
             title
             description
+            featuredImage {
+              results {
+                id
+                fileUrl
+              }
+            }
           }
         }
       }
@@ -73,6 +79,12 @@ query {
                   id
                   title
                   description
+                  featuredImage {
+                    results {
+                      id
+                      fileUrl
+                    }
+                  }
                 }
               }
             }
@@ -92,6 +104,12 @@ query {
                   id
                   title
                   description
+                  featuredImage {
+                    results {
+                      id
+                      fileUrl
+                    }
+                  }
                 }
               }
             }
@@ -136,6 +154,12 @@ const getEventByIdQuery = (id: string) => {
               id
               title
               description
+              featuredImage {
+                results {
+                  id
+                  fileUrl
+                }
+              }
             }
           }
         }
@@ -190,6 +214,12 @@ const getEventByIdQuery = (id: string) => {
                     id
                     title
                     description
+                    featuredImage {
+                      results {
+                        id
+                        fileUrl
+                      }
+                    }
                   }
                 }
               }
@@ -207,6 +237,12 @@ const getEventByIdQuery = (id: string) => {
                     id
                     title
                     description
+                    featuredImage {
+                      results {
+                        id
+                        fileUrl
+                      }
+                    }
                   }
                 }
               }
@@ -235,9 +271,9 @@ export const getEventById = async (id: string): Promise<Event | null> => {
     )) as {
       data: { event: EventResponse };
     };
-    const statusResult = await getItemStatusById(id, STATUS_TYPES.content);
+    const statusResults = await getItemsStatus(STATUS_TYPES.content);
 
-    return normalizeEvent(eventResponse.data.event, [statusResult]);
+    return normalizeEvent(eventResponse.data.event, statusResults);
   } catch {
     return null;
   }
