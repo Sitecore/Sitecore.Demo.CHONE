@@ -64,7 +64,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
     (connection: Connection) => {
       navigation.push('ManualConnection', {
         connection,
-        subtitle: 'Edit Connection Details',
+        subtitle: 'Edit connection details',
         title: connection?.name,
       });
     },
@@ -75,7 +75,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
     (connectionName: string) => {
       navigation.push('RemoveConnection', {
         connectionName,
-        subtitle: 'Delete Connection?',
+        subtitle: 'Delete connection?',
         title: connectionName,
       });
     },
