@@ -73,7 +73,13 @@ const ErrorMessage = ({ message }: { message: string }) => {
   );
 };
 
-export const FormAddConnection = ({ initialValue }: { initialValue?: Connection }) => {
+export const FormAddConnection = ({
+  initialValue,
+  isEdit,
+}: {
+  initialValue?: Connection;
+  isEdit?: boolean;
+}) => {
   const [connections, setConnections] = useState<Connection[]>([]);
   const [isValidating, setIsValidating] = useState(false);
   const [name, setName] = useState(initialValue?.name || '');
@@ -213,8 +219,12 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
   );
 
   const handleDiscardBtn = useCallback(() => {
-    navigation.pop(2);
-  }, [navigation]);
+    if (isEdit) {
+      navigation.goBack();
+    } else {
+      navigation.pop(2);
+    }
+  }, [isEdit, navigation]);
 
   const handleConnectBtn = useCallback(async () => {
     setClientCredentialsError(false);

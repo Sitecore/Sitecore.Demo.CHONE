@@ -46,6 +46,7 @@ export type RootStackParamList = {
   MainTabs: undefined;
   ManualConnection: StandardScreen & {
     connection?: Connection;
+    isEdit?: boolean;
   };
   MediaDetail: StandardScreen;
   QRCodeConnection: StandardScreen;

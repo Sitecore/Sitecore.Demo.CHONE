@@ -64,6 +64,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
     (connection: Connection) => {
       navigation.push('ManualConnection', {
         connection,
+        isEdit: true,
         subtitle: 'Edit connection details',
         title: connection?.name,
       });
