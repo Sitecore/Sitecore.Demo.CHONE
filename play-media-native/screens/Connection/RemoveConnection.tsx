@@ -32,17 +32,21 @@ export const RemoveConnectionScreen = ({ navigation, route }: Props) => {
           alignItems: 'center',
         }}
       >
-        <Text
-          style={{
-            maxWidth: '80%',
-            textAlign: 'center',
-            marginBottom: theme.spacing.lg,
-          }}
-        >
-          <Text>Are you sure you want to remove </Text>
-          <Text style={{ fontWeight: 'bold' }}>{route?.params?.connectionName}</Text>
-          <Text> from your list of connections?</Text>
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text
+            style={{
+              maxWidth: '80%',
+              textAlign: 'center',
+              marginBottom: theme.spacing.lg,
+            }}
+          >
+            <Text variant="labelMedium">Are you sure you want to remove </Text>
+            <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
+              {route?.params?.connectionName}
+            </Text>
+            <Text variant="labelMedium"> from your list of connections?</Text>
+          </Text>
+        </View>
         <View style={{ flexDirection: 'row' }}>
           <Button
             mode="outlined"

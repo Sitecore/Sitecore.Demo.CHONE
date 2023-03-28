@@ -109,9 +109,11 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text>
-              <Text>No available </Text>
-              <Text style={{ fontWeight: 'bold' }}>Content Hub ONE </Text>
-              <Text>connections.</Text>
+              <Text variant="labelMedium">No available </Text>
+              <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
+                Content Hub ONE
+              </Text>
+              <Text variant="labelMedium">connections.</Text>
             </Text>
           </View>
         </View>
@@ -126,11 +128,11 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
             }}
           >
             <Text>
-              <Text variant="bodyLarge">Select a </Text>
-              <Text variant="bodyLarge" style={{ fontWeight: 'bold' }}>
+              <Text variant="labelMedium">Select a </Text>
+              <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
                 Content Hub ONE
               </Text>
-              <Text variant="bodyLarge"> connection.</Text>
+              <Text variant="labelMedium"> connection.</Text>
             </Text>
           </View>
           <View style={{ paddingHorizontal: theme.spacing.xs, width: '100%' }}>
