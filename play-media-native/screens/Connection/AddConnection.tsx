@@ -58,8 +58,11 @@ export const AddConnectionScreen = ({ navigation }: Props) => {
     <KeyboardAwareScreen centered>
       <StatusBar barStyle="light-content" />
       <View style={connectionStyles.container}>
-        <Text style={connectionStyles.title}>
-          Connect to a<Text style={connectionStyles.chOneText}> Content Hub ONE </Text>
+        <Text variant="labelMedium" style={connectionStyles.title}>
+          Connect to a{' '}
+          <Text variant="labelMedium" style={connectionStyles.chOneText}>
+            Content Hub ONE{' '}
+          </Text>
           instance via:
         </Text>
       </View>

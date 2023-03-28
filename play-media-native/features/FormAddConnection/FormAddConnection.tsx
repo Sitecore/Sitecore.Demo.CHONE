@@ -111,18 +111,22 @@ export const FormAddConnection = ({
     if (!initialValue) {
       return (
         <>
-          <Text>Add connection details to a</Text>
-          <Text style={connectionStyles.chOneText}> Content Hub ONE</Text>
-          <Text> instance.</Text>
+          <Text variant="labelMedium">Add connection details to a </Text>
+          <Text variant="labelMedium" style={connectionStyles.chOneText}>
+            Content Hub ONE
+          </Text>
+          <Text variant="labelMedium"> instance.</Text>
         </>
       );
     }
 
     return (
       <>
-        <Text>Edit a connection to a</Text>
-        <Text style={connectionStyles.chOneText}> Content Hub ONE</Text>
-        <Text> instance.</Text>
+        <Text variant="labelMedium">Edit a connection to a </Text>
+        <Text variant="labelMedium" style={connectionStyles.chOneText}>
+          Content Hub ONE
+        </Text>
+        <Text variant="labelMedium"> instance.</Text>
       </>
     );
   }, [initialValue]);
