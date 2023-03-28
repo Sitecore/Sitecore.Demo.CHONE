@@ -81,7 +81,7 @@ export const AthletesListingScreen = ({ navigation }) => {
       />
       <BottomFAB
         icon="plus"
-        label="Add new athlete"
+        label="Add athlete"
         onPress={() => navigation.navigate('CreateAthleteOverview')}
       />
     </Screen>
