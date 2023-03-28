@@ -5,6 +5,7 @@ import { Pressable, StatusBar, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 
 import { Logo } from '../../components/Logo/Logo';
+import { CONNECTIONS_MAX_LIMIT } from '../../constants/connections';
 import { Screen } from '../../features/Screen/Screen';
 import {
   getConnections,
@@ -23,6 +24,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedConnectionName, setSelectedConnectionName] = useState<string>();
   const [isNoConnectionAvailable, setIsNoConnectionAvailable] = useState(true);
+  const [isConnectionLimitReached, setIsConnectionLimitReached] = useState(false);
   const isScreenVisible = useIsFocused();
 
   // Retrieve the saved connections from Expo Secure Store
@@ -31,9 +33,10 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
       (async () => {
         const savedConnections = await getConnections();
         setConnections(savedConnections);
+        setIsConnectionLimitReached(savedConnections.length === CONNECTIONS_MAX_LIMIT);
       })();
     }
-  }, [isScreenVisible]);
+  }, [connections.length, isScreenVisible]);
 
   // If there is at least one connection, set it as the default and update the flag
   useFocusEffect(
@@ -187,12 +190,16 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
         icon="plus"
         mode="contained"
         onPress={onAdd}
-        style={{
-          ...styles.button,
-          marginTop: theme.spacing.sm,
-          marginLeft: isNoConnectionAvailable ? null : 'auto',
-        }}
+        style={[
+          {
+            ...styles.button,
+            marginTop: theme.spacing.sm,
+            marginLeft: isNoConnectionAvailable ? null : 'auto',
+          },
+          isConnectionLimitReached && styles.buttonDisabled,
+        ]}
         labelStyle={styles.buttonLabel}
+        disabled={isConnectionLimitReached}
       >
         Add
       </Button>
