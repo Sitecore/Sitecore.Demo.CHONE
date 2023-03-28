@@ -54,6 +54,9 @@ export const theme = {
       dark: '#d30065',
       darkest: '#8f0044',
     },
+    red: {
+      DEFAULT: '#DC143C',
+    },
   },
   fontFamily: {
     DEFAULT: 'Saira-Regular',

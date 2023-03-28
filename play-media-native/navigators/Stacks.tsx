@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { Tabs } from './Tabs';
 import { StackScreenHeader } from '../features/StackScreenHeader/StackScreenHeader';
 import { RootStackParamList } from '../interfaces/navigators';
 import { AddAthletesScreen } from '../screens/AddAthletes';
@@ -24,7 +25,6 @@ import { EventDetailScreen } from '../screens/EventDetail';
 import { MediaDetailScreen } from '../screens/MediaDetail';
 import { ReviewAthleteScreen } from '../screens/ReviewAthlete';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
-import { Tabs } from './Tabs';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -157,14 +157,7 @@ export const Stacks = () => {
         }}
       />
       <Stack.Screen name="MainTabs" component={Tabs} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="ManualConnection"
-        component={ManualConnectionScreen}
-        initialParams={{
-          title: 'Untitled connection',
-          subtitle: 'Add connection details',
-        }}
-      />
+      <Stack.Screen name="ManualConnection" component={ManualConnectionScreen} />
       <Stack.Screen name="QRCodeConnection" component={QRCodeConnectionScreen} />
       <Stack.Screen
         name="RemoveConnection"

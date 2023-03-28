@@ -1,26 +1,25 @@
-import { useIsFocused } from '@react-navigation/native';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { StatusBar, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useCallback, useEffect, useState } from 'react';
+import { Pressable, StatusBar, View } from 'react-native';
+import { Button, IconButton, Text } from 'react-native-paper';
 
-import { BottomFAB } from '../../components/BottomFAB/BottomFAB';
-import { Icon } from '../../components/Icon/Icon';
 import { Logo } from '../../components/Logo/Logo';
-import { Select } from '../../components/Select/Select';
 import { Screen } from '../../features/Screen/Screen';
 import {
   getConnections,
+  getSelectedConnection,
   setSelectedConnection as setExpoSelectedConnection,
 } from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
+import { RootStackParamList } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
-const fabAddStyle = {
-  bottom: 75,
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'SelectConnection'>;
 
-export const SelectConnectionScreen = ({ navigation }) => {
+export const SelectConnectionScreen = ({ navigation, route }: Props) => {
+  const [hideLogo] = useState(route?.params?.hideLogo);
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedConnectionName, setSelectedConnectionName] = useState<string>();
   const [isNoConnectionAvailable, setIsNoConnectionAvailable] = useState(true);
@@ -37,70 +36,70 @@ export const SelectConnectionScreen = ({ navigation }) => {
   }, [isScreenVisible]);
 
   // If there is at least one connection, set it as the default and update the flag
-  useEffect(() => {
-    if (connections.length > 0) {
-      setSelectedConnectionName(connections[0]?.name);
-      setExpoSelectedConnection(connections[0]);
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        if (connections.length > 0) {
+          const selectedConnection = await getSelectedConnection();
 
-      setIsNoConnectionAvailable(false);
-    } else {
-      setIsNoConnectionAvailable(true);
-    }
-  }, [connections]);
+          setSelectedConnectionName(selectedConnection?.name || connections[0]?.name);
+          setExpoSelectedConnection(selectedConnection || connections[0]);
 
-  const onFabAddClick = useCallback(() => {
+          setIsNoConnectionAvailable(false);
+        } else {
+          setIsNoConnectionAvailable(true);
+        }
+      })();
+    }, [connections])
+  );
+
+  const onAdd = useCallback(() => {
     navigation.push('AddConnection', {
       title: 'Connections',
       subtitle: 'Add a connection',
     });
   }, [navigation]);
 
-  const onFabRemoveClick = useCallback(() => {
-    navigation.navigate('RemoveConnection');
-  }, [navigation]);
+  const onEdit = useCallback(
+    (connection: Connection) => {
+      navigation.push('ManualConnection', {
+        connection,
+        isEdit: true,
+        subtitle: 'Edit connection details',
+        title: connection?.name,
+      });
+    },
+    [navigation]
+  );
+
+  const onRemove = useCallback(
+    (connectionName: string) => {
+      navigation.push('RemoveConnection', {
+        connectionName,
+        subtitle: 'Delete connection?',
+        title: connectionName,
+      });
+    },
+    [navigation]
+  );
 
   const onSelect = useCallback(
     (value: string) => {
       setSelectedConnectionName(value);
       setExpoSelectedConnection(connections.find((connection) => connection.name === value));
+      navigation.navigate('MainTabs');
     },
-    [connections]
-  );
-
-  const onConnect = useCallback(() => {
-    navigation.navigate('MainTabs');
-  }, [navigation]);
-
-  const connectionOptions = useMemo(
-    () =>
-      Array.isArray(connections)
-        ? connections.map((item) => ({
-            ...item,
-            label: item.name,
-            value: item.name,
-          }))
-        : [],
-    [connections]
+    [connections, navigation]
   );
 
   return (
     <Screen centered>
       <StatusBar barStyle="light-content" />
-      <View
-        style={{
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: theme.spacing.lg,
-        }}
-      >
-        <View>
+      {!hideLogo && (
+        <View style={{ paddingBottom: theme.spacing.md }}>
           <Logo />
         </View>
-        <Text style={{ maxWidth: '80%', textAlign: 'center' }}>
-          Connect to a saved Content Hub One instance.
-        </Text>
-      </View>
+      )}
       {isNoConnectionAvailable ? (
         <View
           style={{
@@ -109,39 +108,96 @@ export const SelectConnectionScreen = ({ navigation }) => {
           }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon
-              name="warning-outline"
-              color={theme.colors.yellow.DEFAULT}
-              size={25}
-              style={{ marginRight: theme.spacing.xxs }}
-            />
-            <Text style={{ textAlign: 'center' }}>No connections available yet!</Text>
+            <Text>
+              <Text variant="labelMedium">No available </Text>
+              <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
+                Content Hub ONE
+              </Text>
+              <Text variant="labelMedium">connections.</Text>
+            </Text>
           </View>
-          <Text style={{ textAlign: 'center' }} variant="labelMedium">
-            Add one by clicking on the + button below.
-          </Text>
         </View>
       ) : (
         <>
-          <Select
-            items={connectionOptions}
-            onChange={onSelect}
-            selectedValue={selectedConnectionName}
-            style={{ width: '90%', marginBottom: theme.spacing.xxs }}
-          />
-          <Button
-            icon="connection"
-            mode="contained"
-            onPress={onConnect}
-            style={{ ...styles.button, marginTop: theme.spacing.xs }}
-            labelStyle={styles.buttonLabel}
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: theme.spacing.md,
+            }}
           >
-            Connect
-          </Button>
+            <Text>
+              <Text variant="labelMedium">Select a </Text>
+              <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
+                Content Hub ONE
+              </Text>
+              <Text variant="labelMedium"> connection.</Text>
+            </Text>
+          </View>
+          <View style={{ paddingHorizontal: theme.spacing.xs, width: '100%' }}>
+            {connections.map((item) => (
+              <Pressable
+                onPress={() => onSelect(item.name)}
+                key={item.name}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  backgroundColor:
+                    item.name === selectedConnectionName
+                      ? theme.colors.yellow.DEFAULT
+                      : theme.colors.white.DEFAULT,
+
+                  height: 45,
+                  width: '100%',
+                  paddingLeft: theme.spacing.sm,
+                  marginVertical: theme.spacing.xxs,
+                }}
+              >
+                <View>
+                  <Text variant="labelMedium" style={{ color: theme.colors.black.DEFAULT }}>
+                    {item.name}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}
+                >
+                  <IconButton
+                    icon="delete"
+                    onPress={() => onRemove(item.name)}
+                    iconColor={theme.colors.black.DEFAULT}
+                    size={28}
+                    style={{ marginHorizontal: 0 }}
+                  />
+                  <IconButton
+                    icon="square-edit-outline"
+                    onPress={() => onEdit(item)}
+                    iconColor={theme.colors.black.DEFAULT}
+                    size={28}
+                    style={{ marginHorizontal: 0 }}
+                  />
+                </View>
+              </Pressable>
+            ))}
+          </View>
         </>
       )}
-      <BottomFAB icon="plus" onPress={onFabAddClick} style={fabAddStyle} />
-      <BottomFAB disabled={isNoConnectionAvailable} icon="delete" onPress={onFabRemoveClick} />
+      <Button
+        icon="plus"
+        mode="contained"
+        onPress={onAdd}
+        style={{
+          ...styles.button,
+          marginTop: theme.spacing.sm,
+          marginLeft: isNoConnectionAvailable ? null : 'auto',
+        }}
+        labelStyle={styles.buttonLabel}
+      >
+        Add
+      </Button>
     </Screen>
   );
 };

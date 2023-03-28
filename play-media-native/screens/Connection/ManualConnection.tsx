@@ -1,21 +1,21 @@
-import { StatusBar, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useState } from 'react';
+import { StatusBar } from 'react-native';
 
 import { FormAddConnection } from '../../features/FormAddConnection/FormAddConnection';
 import { KeyboardAwareScreen } from '../../features/Screen/KeyboardAwareScreen';
-import connectionStyles from './styles';
+import { Connection } from '../../interfaces/connections';
+import { RootStackParamList } from '../../interfaces/navigators';
 
-export const ManualConnectionScreen = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'ManualConnection'>;
+
+export const ManualConnectionScreen = ({ route }: Props) => {
+  const [connection] = useState<Connection>(route?.params?.connection);
+
   return (
     <KeyboardAwareScreen centered>
       <StatusBar barStyle="light-content" />
-      <View style={connectionStyles.container}>
-        <Text style={connectionStyles.title}>
-          Add a connection to a<Text style={connectionStyles.chOneText}> Content Hub ONE </Text>
-          instance
-        </Text>
-      </View>
-      <FormAddConnection />
+      <FormAddConnection initialValue={connection} isEdit={route?.params?.isEdit} />
     </KeyboardAwareScreen>
   );
 };

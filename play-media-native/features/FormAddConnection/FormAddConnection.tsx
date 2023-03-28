@@ -2,13 +2,24 @@ import { useNavigation } from '@react-navigation/native';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
-import { ActivityIndicator, Button } from 'react-native-paper';
+import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { validateConnection } from '../../api/queries/validateConnection';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
+import { MaterialIcon } from '../../components/Icon/MaterialIcon';
 import { InputText } from '../../components/InputText/InputText';
-import { Toast } from '../../components/Toast/Toast';
-import { getConnections, storeConnection } from '../../helpers/connections';
+import {
+  ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT,
+  ERROR_CONNECTIONS_API_KEY,
+  ERROR_CONNECTIONS_CLIENT_CREDENTIALS,
+} from '../../constants/connections';
+import {
+  editConnection,
+  getConnections,
+  getSelectedConnection,
+  setSelectedConnection,
+  storeConnection,
+} from '../../helpers/connections';
 import { Connection } from '../../interfaces/connections';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import connectionStyles from '../../screens/Connection/styles';
@@ -17,7 +28,7 @@ import { theme } from '../../theme/theme';
 
 const defaultTextInputStyle = {
   width: '90%',
-  marginVertical: theme.spacing.xxs,
+  marginBottom: theme.spacing.xs,
 };
 
 // Connection name: allow only letters, numbers and hyphens.
@@ -35,23 +46,56 @@ const isPreviewUrlValid = (text: string) => {
   return startsCorrectly && endsCorrectly;
 };
 
-export const FormAddConnection = () => {
+const ErrorMessage = ({ message }: { message: string }) => {
+  return (
+    <View
+      style={{
+        backgroundColor: theme.colors.red.DEFAULT,
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '90%',
+        padding: theme.spacing.xs,
+        marginBottom: theme.spacing.md,
+      }}
+    >
+      <MaterialIcon
+        name="exclamation"
+        color={theme.colors.red.DEFAULT}
+        size={20}
+        style={{
+          backgroundColor: theme.colors.white.DEFAULT,
+          borderRadius: 20,
+          marginRight: theme.spacing.xs,
+        }}
+      />
+      <Text style={{ flexShrink: 1 }}>{message}</Text>
+    </View>
+  );
+};
+
+export const FormAddConnection = ({
+  initialValue,
+  isEdit,
+}: {
+  initialValue?: Connection;
+  isEdit?: boolean;
+}) => {
   const [connections, setConnections] = useState<Connection[]>([]);
   const [isValidating, setIsValidating] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showErrorToast, setShowErrorToast] = useState(false);
-  const [name, setName] = useState('');
+  const [name, setName] = useState(initialValue?.name || '');
   const [nameError, setNameError] = useState(false);
   const [nameExistsError, setNameExistsError] = useState(false);
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState(initialValue?.apiKey || '');
   const [apiKeyError, setApiKeyError] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewUrl, setPreviewUrl] = useState(initialValue?.previewUrl || '');
   const [previewUrlError, setPreviewUrlError] = useState(false);
-  const [clientID, setClientID] = useState('');
+  const [clientID, setClientID] = useState(initialValue?.clientID || '');
   const [clientIDError, setClientIDError] = useState(false);
-  const [clientSecret, setClientSecret] = useState('');
+  const [clientSecret, setClientSecret] = useState(initialValue?.clientSecret || '');
   const [clientSecretError, setClientSecretError] = useState(false);
-  const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+  const [clientCredentialsError, setClientCredentialsError] = useState(false);
+  const [schemaError, setSchemaError] = useState(false);
+  const [showSuccessView, setShowSuccessView] = useState(false);
 
   const nameInvalid = !name || nameError || nameExistsError;
   const apiKeyInvalid = !apiKey || apiKeyError;
@@ -63,6 +107,30 @@ export const FormAddConnection = () => {
 
   const navigation = useNavigation<StackNavigationProp>();
 
+  const title = useMemo(() => {
+    if (!initialValue) {
+      return (
+        <>
+          <Text variant="labelMedium">Add connection details to a </Text>
+          <Text variant="labelMedium" style={connectionStyles.chOneText}>
+            Content Hub ONE
+          </Text>
+          <Text variant="labelMedium"> instance.</Text>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Text variant="labelMedium">Edit a connection to a </Text>
+        <Text variant="labelMedium" style={connectionStyles.chOneText}>
+          Content Hub ONE
+        </Text>
+        <Text variant="labelMedium"> instance.</Text>
+      </>
+    );
+  }, [initialValue]);
+
   // Retrieve the saved connections from Expo Secure Store
   useEffect(() => {
     (async () => {
@@ -71,19 +139,17 @@ export const FormAddConnection = () => {
     })();
   }, []);
 
-  // Hide bottom action buttons if a loading indicator or a toaster is shown
-  useEffect(() => {
-    if (isValidating || showSuccessToast || showErrorToast) {
-      setShouldShowBottomActions(false);
-    }
-  }, [isValidating, showSuccessToast, showErrorToast]);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const checkNameExists = useCallback(
     debounce((connectionName: string, existingConnections: Connection[]) => {
+      if (connectionName === initialValue?.name) {
+        return;
+      }
+
       const nameAlreadyExists = !!existingConnections.find(
         (connection) => connection.name === connectionName
       );
+
       setNameExistsError(nameAlreadyExists);
     }, 500),
     []
@@ -100,69 +166,121 @@ export const FormAddConnection = () => {
     [connections, checkNameExists]
   );
 
-  const handleApiKey = useCallback((text: string) => {
-    const trimmed = text.trim();
+  const handleApiKey = useCallback(
+    (text: string) => {
+      if (schemaError) {
+        setSchemaError(false);
+      }
 
-    setApiKeyError(!isApiKeyValid(trimmed));
-    setApiKey(trimmed);
-  }, []);
+      const trimmed = text.trim();
 
-  const handlePreviewUrl = useCallback((text: string) => {
-    const trimmed = text.trim();
+      setApiKeyError(!isApiKeyValid(trimmed));
+      setApiKey(trimmed);
+    },
+    [schemaError]
+  );
 
-    setPreviewUrlError(!isPreviewUrlValid(trimmed));
-    setPreviewUrl(trimmed);
-  }, []);
+  const handlePreviewUrl = useCallback(
+    (text: string) => {
+      if (schemaError) {
+        setSchemaError(false);
+      }
 
-  const handleClientID = useCallback((text: string) => {
-    const trimmed = text.trim();
+      const trimmed = text.trim();
 
-    setClientIDError(!trimmed);
-    setClientID(trimmed);
-  }, []);
+      setPreviewUrlError(!isPreviewUrlValid(trimmed));
+      setPreviewUrl(trimmed);
+    },
+    [schemaError]
+  );
 
-  const handleClientSecret = useCallback((text: string) => {
-    const trimmed = text.trim();
+  const handleClientID = useCallback(
+    (text: string) => {
+      if (clientCredentialsError) {
+        setClientCredentialsError(false);
+      }
 
-    setClientSecretError(!trimmed);
-    setClientSecret(trimmed);
-  }, []);
+      const trimmed = text.trim();
 
-  const onSuccessToastDismiss = useCallback(() => {
-    setShowSuccessToast(false);
-    navigation.navigate('MainTabs');
-  }, [navigation]);
+      setClientIDError(!trimmed);
+      setClientID(trimmed);
+    },
+    [clientCredentialsError]
+  );
 
-  const onErrorToastDismiss = useCallback(() => {
-    setShowErrorToast(false);
-  }, []);
+  const handleClientSecret = useCallback(
+    (text: string) => {
+      if (clientCredentialsError) {
+        setClientCredentialsError(false);
+      }
+
+      const trimmed = text.trim();
+
+      setClientSecretError(!trimmed);
+      setClientSecret(trimmed);
+    },
+    [clientCredentialsError]
+  );
 
   const handleDiscardBtn = useCallback(() => {
-    navigation.push('SelectConnection', { shouldShowBackBtn: true });
-  }, [navigation]);
+    if (isEdit) {
+      navigation.goBack();
+    } else {
+      navigation.pop(2);
+    }
+  }, [isEdit, navigation]);
+
   const handleConnectBtn = useCallback(async () => {
+    setClientCredentialsError(false);
+    setSchemaError(false);
     setIsValidating(true);
 
     await validateConnection({ apiKey, previewUrl, clientID, clientSecret })
-      .then(async () => {
-        await storeConnection({
-          name,
-          apiKey,
-          previewUrl,
-          clientID,
-          clientSecret,
-        }).then(() => {
-          setShowSuccessToast(true);
-        });
-      })
-      .catch((e) => {
-        console.error(e);
-        setShowErrorToast(true);
+      .then(async ([credentialsResponse, schemaResponse]: any) => {
+        const hasErrorCredentials = credentialsResponse === ERROR_CONNECTIONS_CLIENT_CREDENTIALS;
+        const hasErrorSchema = schemaResponse === ERROR_CONNECTIONS_API_KEY;
+
+        if (hasErrorCredentials || hasErrorSchema) {
+          setClientCredentialsError(hasErrorCredentials);
+          setSchemaError(hasErrorSchema);
+          return;
+        }
+
+        if (initialValue) {
+          await editConnection(initialValue.name, {
+            name,
+            apiKey,
+            previewUrl,
+            clientID,
+            clientSecret,
+          }).then(async () => {
+            const selectedConnection = await getSelectedConnection();
+            if (selectedConnection?.name === initialValue?.name) {
+              await setSelectedConnection({ name, apiKey, previewUrl, clientID, clientSecret });
+            }
+
+            navigation.navigate('SelectConnection');
+          });
+        } else {
+          await storeConnection({
+            name,
+            apiKey,
+            previewUrl,
+            clientID,
+            clientSecret,
+          }).then(() => {
+            setShowSuccessView(true);
+
+            setTimeout(() => {
+              navigation.navigate('MainTabs');
+            }, ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT);
+          });
+        }
       })
       .finally(() => {
         setIsValidating(false);
       });
-  }, [name, apiKey, previewUrl, clientID, clientSecret]);
+  }, [apiKey, previewUrl, clientID, clientSecret, name, initialValue, navigation]);
 
   const bottomActions = useMemo(
     () => (
@@ -177,84 +295,97 @@ export const FormAddConnection = () => {
         </Button>
         <Button
           mode="contained"
-          style={styles.button}
+          style={[styles.button, isButtonDisabled && styles.buttonDisabled]}
           labelStyle={styles.buttonLabel}
           onPress={handleConnectBtn}
           disabled={isButtonDisabled}
         >
-          Connect
+          {initialValue ? 'Save' : 'Connect'}
         </Button>
       </BottomActions>
     ),
-    [handleDiscardBtn, handleConnectBtn, isButtonDisabled]
+    [handleDiscardBtn, handleConnectBtn, isButtonDisabled, initialValue]
   );
 
+  const successView = useMemo(() => {
+    const successMessage = (
+      <>
+        <Text>Connection</Text>
+        <Text style={connectionStyles.chOneText}> {name}</Text>
+        <Text> was successfully added!</Text>
+      </>
+    );
+
+    return <Text>{successMessage}</Text>;
+  }, [name]);
+
   const nameErrorText = nameExistsError
-    ? 'Name already taken!'
+    ? 'Connection name already exists!'
     : 'Name should contain only letters, numbers and hyphens!';
 
   return (
     <>
-      <InputText
-        containerStyle={defaultTextInputStyle}
-        error={nameError || nameExistsError}
-        errorText={nameErrorText}
-        label="Connection name"
-        onChange={handleName}
-        value={name}
-      />
-      <InputText
-        containerStyle={defaultTextInputStyle}
-        error={apiKeyError}
-        errorText="API key should not be empty!"
-        label="API Key"
-        onChange={handleApiKey}
-        value={apiKey}
-      />
-      <InputText
-        containerStyle={defaultTextInputStyle}
-        error={previewUrlError}
-        errorText="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !"
-        label="Preview endpoint URL"
-        onChange={handlePreviewUrl}
-        value={previewUrl}
-      />
-      <InputText
-        containerStyle={defaultTextInputStyle}
-        error={clientIDError}
-        errorText="Client ID should not be empty!"
-        label="Client ID"
-        onChange={handleClientID}
-        value={clientID}
-      />
-      <InputText
-        containerStyle={defaultTextInputStyle}
-        error={clientSecretError}
-        errorText="Client secret should not be empty!"
-        label="Client secret"
-        onChange={handleClientSecret}
-        value={clientSecret}
-      />
-      {isValidating && (
-        <View>
-          <ActivityIndicator size="small" animating />
-        </View>
+      {showSuccessView ? (
+        successView
+      ) : isValidating ? (
+        <>
+          <Text style={{ marginBottom: theme.spacing.xs }}>Validating Connection...</Text>
+          <View>
+            <ActivityIndicator size="small" animating />
+          </View>
+        </>
+      ) : (
+        <>
+          <View style={connectionStyles.container}>
+            <Text style={connectionStyles.title}>
+              <>{title}</>
+            </Text>
+          </View>
+          <InputText
+            containerStyle={defaultTextInputStyle}
+            inputStyle={{ marginBottom: nameError || nameExistsError ? 0 : theme.spacing.sm }}
+            onChange={handleName}
+            title="Connection name"
+            value={name}
+          />
+          {(nameError || nameExistsError) && <ErrorMessage message={nameErrorText} />}
+          <InputText
+            containerStyle={defaultTextInputStyle}
+            error={clientIDError}
+            errorText="Client ID should not be empty!"
+            onChange={handleClientID}
+            title="Client ID"
+            value={clientID}
+          />
+          <InputText
+            containerStyle={defaultTextInputStyle}
+            error={clientSecretError}
+            errorText="Client secret should not be empty!"
+            inputStyle={{ marginBottom: clientCredentialsError ? 0 : theme.spacing.sm }}
+            onChange={handleClientSecret}
+            title="Client secret"
+            value={clientSecret}
+          />
+          {clientCredentialsError && <ErrorMessage message="Invalid Client ID/secret!" />}
+          <InputText
+            containerStyle={defaultTextInputStyle}
+            onChange={handleApiKey}
+            title="API Key"
+            value={apiKey}
+          />
+          <InputText
+            containerStyle={defaultTextInputStyle}
+            onChange={handlePreviewUrl}
+            title="Preview endpoint URL"
+            value={previewUrl}
+          />
+          {previewUrlError && (
+            <ErrorMessage message="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !" />
+          )}
+          {schemaError && <ErrorMessage message="Invalid API key or Preview endpoint URL!" />}
+          {bottomActions}
+        </>
       )}
-      <Toast
-        duration={2000}
-        message="Connection is valid!"
-        onDismiss={onSuccessToastDismiss}
-        visible={showSuccessToast}
-        type="success"
-      />
-      <Toast
-        duration={2000}
-        message="Could not validate connection!"
-        onDismiss={onErrorToastDismiss}
-        visible={showErrorToast}
-        type="warning"
-      />
-      {shouldShowBottomActions && bottomActions}
     </>
   );
 };
