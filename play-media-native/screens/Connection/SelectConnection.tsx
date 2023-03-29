@@ -15,6 +15,7 @@ import { Connection } from '../../interfaces/connections';
 import { RootStackParamList } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
+import connectionScreenStyles from './styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SelectConnection'>;
 
@@ -103,36 +104,30 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
       {isNoConnectionAvailable ? (
         <View
           style={{
-            justifyContent: 'center',
             marginBottom: theme.spacing.xs,
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text>
-              <Text variant="labelMedium">No available </Text>
-              <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
-                Content Hub ONE
-              </Text>
-              <Text variant="labelMedium">connections.</Text>
+          <Text variant="labelMedium" style={connectionScreenStyles.title}>
+            No available{' '}
+            <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
+              Content Hub ONE{' '}
             </Text>
-          </View>
+            connections.
+          </Text>
         </View>
       ) : (
         <>
           <View
             style={{
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
               marginBottom: theme.spacing.md,
             }}
           >
-            <Text>
-              <Text variant="labelMedium">Select a </Text>
+            <Text variant="labelMedium" style={connectionScreenStyles.title}>
+              Select a{' '}
               <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
-                Content Hub ONE
+                Content Hub ONE{' '}
               </Text>
-              <Text variant="labelMedium"> connection.</Text>
+              connection.
             </Text>
           </View>
           <View style={{ paddingHorizontal: theme.spacing.xs, width: '100%' }}>

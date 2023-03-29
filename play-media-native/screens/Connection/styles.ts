@@ -4,9 +4,6 @@ import { theme } from '../../theme/theme';
 
 const connectionScreenStyles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: theme.spacing.sm,
   },
   title: {

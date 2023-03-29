@@ -108,26 +108,14 @@ export const FormAddConnection = ({
   const navigation = useNavigation<StackNavigationProp>();
 
   const title = useMemo(() => {
-    if (!initialValue) {
-      return (
-        <>
-          <Text variant="labelMedium">Add connection details to a </Text>
-          <Text variant="labelMedium" style={connectionStyles.chOneText}>
-            Content Hub ONE
-          </Text>
-          <Text variant="labelMedium"> instance.</Text>
-        </>
-      );
-    }
-
     return (
-      <>
-        <Text variant="labelMedium">Edit a connection to a </Text>
+      <Text variant="labelMedium" style={connectionStyles.title}>
+        {initialValue ? `Edit a connection to a${' '}` : `Add connection details to a${' '}`}
         <Text variant="labelMedium" style={connectionStyles.chOneText}>
-          Content Hub ONE
+          Content Hub ONE{' '}
         </Text>
-        <Text variant="labelMedium"> instance.</Text>
-      </>
+        instance.
+      </Text>
     );
   }, [initialValue]);
 
@@ -336,11 +324,7 @@ export const FormAddConnection = ({
         </>
       ) : (
         <>
-          <View style={connectionStyles.container}>
-            <Text style={connectionStyles.title}>
-              <>{title}</>
-            </Text>
-          </View>
+          <View style={connectionStyles.container}>{title}</View>
           <InputText
             containerStyle={defaultTextInputStyle}
             inputStyle={{ marginBottom: nameError || nameExistsError ? 0 : theme.spacing.sm }}
