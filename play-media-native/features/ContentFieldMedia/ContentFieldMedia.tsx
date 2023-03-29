@@ -171,6 +171,7 @@ export const ContentFieldMedia = ({
           single={single}
           stateKey={stateKey}
           headerTitle={headerTitle}
+          fieldTitle={fieldTitle}
         />
       </View>
       {content}

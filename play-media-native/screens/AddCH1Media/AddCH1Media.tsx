@@ -33,7 +33,6 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
   const initialRoute = route?.params?.initialRoute;
   const single = route?.params?.single;
   const stateKey = route?.params?.stateKey;
-  const headerTitle = route?.params?.title;
 
   const availableImages = useMemo(() => {
     if (!images?.length) {
@@ -94,21 +93,9 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
     });
   }, []);
 
-  const onSelectSingle = useCallback(
-    (image: Media) => {
-      edit({
-        id: stateKey,
-        key: route.params.key,
-        value: { ...image, source: MEDIA_SOURCES.CH_ONE },
-      });
-
-      navigation.navigate(initialRoute, {
-        isEditMedia: false,
-        title: headerTitle,
-      });
-    },
-    [edit, headerTitle, initialRoute, navigation, route.params.key, stateKey]
-  );
+  const onSelectSingle = useCallback((image: Media) => {
+    setSelectedMedia([image]);
+  }, []);
 
   const onAdd = useCallback(() => {
     if (!fieldKey) {
@@ -168,11 +155,15 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
           labelStyle={styles.buttonLabel}
           onPress={onAdd}
         >
-          {selectedMedia?.length ? `Add ${selectedMedia.length}` : 'Add'}
+          {single && contentItems[stateKey][fieldKey]
+            ? 'Change'
+            : !single && selectedMedia?.length
+            ? `Add ${selectedMedia.length}`
+            : 'Add'}
         </Button>
       </BottomActions>
     ),
-    [onAdd, onDiscard, selectedMedia.length]
+    [contentItems, fieldKey, onAdd, onDiscard, selectedMedia.length, single, stateKey]
   );
 
   const filters = useMemo(
@@ -195,6 +186,7 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
         isFetching={isFetching}
         onSelect={single ? onSelectSingle : onSelect}
         selectedMediaIDs={selectedMediaIDs}
+        single={single}
       />
       {actions}
     </Screen>

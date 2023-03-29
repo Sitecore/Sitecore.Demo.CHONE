@@ -15,9 +15,16 @@ interface Props {
   isFetching: boolean;
   onSelect: (image: Media) => void;
   selectedMediaIDs: string[];
+  single?: boolean;
 }
 
-export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs }: Props) => {
+export const ListingCH1Media = ({
+  images,
+  isFetching,
+  onSelect,
+  selectedMediaIDs,
+  single,
+}: Props) => {
   const renderItems = useMemo(
     () => ({
       [ListingImageDisplayType.GRID]: ({ item }) => (
@@ -25,6 +32,7 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
           key={item.id}
           onSelect={() => onSelect(item)}
           selected={selectedMediaIDs.includes(item.id)}
+          single={single}
           style={{
             flex: 1,
             aspectRatio: 1,
@@ -37,6 +45,7 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
         <SelectableView
           onSelect={() => onSelect(item)}
           selected={selectedMediaIDs.includes(item.id)}
+          single={single}
         >
           <MediaItemListDisplay item={item} />
         </SelectableView>
@@ -45,12 +54,13 @@ export const ListingCH1Media = ({ images, isFetching, onSelect, selectedMediaIDs
         <SelectableView
           onSelect={() => onSelect(item)}
           selected={selectedMediaIDs.includes(item.id)}
+          single={single}
         >
           <MediaItemCardDisplay item={item} />
         </SelectableView>
       ),
     }),
-    [selectedMediaIDs, onSelect]
+    [selectedMediaIDs, single, onSelect]
   );
 
   if (isFetching) {
