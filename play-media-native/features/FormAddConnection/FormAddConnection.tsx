@@ -72,13 +72,7 @@ const ErrorMessage = ({ message }: { message: string }) => {
   );
 };
 
-export const FormAddConnection = ({
-  initialValue,
-  isEdit,
-}: {
-  initialValue?: Connection;
-  isEdit?: boolean;
-}) => {
+export const FormAddConnection = ({ initialValue }: { initialValue?: Connection }) => {
   const [connections, setConnections] = useState<Connection[]>([]);
   const [isValidating, setIsValidating] = useState(false);
   const [name, setName] = useState(initialValue?.name || '');
@@ -108,17 +102,13 @@ export const FormAddConnection = ({
 
   const title = useMemo(() => {
     return (
-      <View style={{ alignItems: 'center' }}>
-        <Text variant="labelMedium">
-          {initialValue ? `Edit a connection to a${' '}` : `Add connection details to a${' '}`}
+      <Text variant="labelMedium" style={connectionStyles.title}>
+        {initialValue ? `Edit a connection to a${' '}` : `Add connection details to a${' '}`}
+        <Text variant="labelMedium" style={connectionStyles.chOneText}>
+          Content Hub ONE{' '}
         </Text>
-        <Text>
-          <Text variant="labelMedium" style={connectionStyles.chOneText}>
-            Content Hub ONE{' '}
-          </Text>
-          <Text variant="labelMedium">instance.</Text>
-        </Text>
-      </View>
+        instance.
+      </Text>
     );
   }, [initialValue]);
 
@@ -323,12 +313,11 @@ export const FormAddConnection = ({
         </>
       ) : (
         <>
-          <ScrollView style={{ paddingHorizontal: theme.spacing.sm, width: '100%' }}>
+          <ScrollView
+            style={{ paddingHorizontal: theme.spacing.sm, width: '100%' }}
+            contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+          >
             <View style={connectionStyles.container}>{title}</View>
-            <View style={connectionStyles.container}>{title}</View>
-            <View style={connectionStyles.container}>{title}</View>
-            <View style={connectionStyles.container}>{title}</View>
-
             <InputText
               containerStyle={defaultTextInputStyle}
               inputStyle={{ marginBottom: nameError || nameExistsError ? 0 : theme.spacing.sm }}

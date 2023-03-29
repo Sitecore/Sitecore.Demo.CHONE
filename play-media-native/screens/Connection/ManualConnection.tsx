@@ -35,7 +35,7 @@ export const ManualConnectionScreen = ({ navigation, route }: Props) => {
   return (
     <KeyboardAwareScreen centered>
       <StatusBar barStyle="light-content" />
-      <FormAddConnection initialValue={connection} isEdit={isEdit} />
+      <FormAddConnection initialValue={connection} />
     </KeyboardAwareScreen>
   );
 };
