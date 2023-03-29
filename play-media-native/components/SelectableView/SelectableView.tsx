@@ -11,9 +11,18 @@ interface Props {
   selected: boolean;
   style?: StyleProp<any>;
   top?: number;
+  single?: boolean;
 }
 
-export const SelectableView = ({ children, onSelect, right, selected, style, top }: Props) => {
+export const SelectableView = ({
+  children,
+  onSelect,
+  right,
+  selected,
+  style,
+  top,
+  single,
+}: Props) => {
   const pageStyles = StyleSheet.create({
     checkbox: {
       position: 'absolute',
@@ -21,7 +30,7 @@ export const SelectableView = ({ children, onSelect, right, selected, style, top
       right: right || theme.spacing.xs,
       width: theme.spacing.sm,
       height: theme.spacing.sm,
-      backgroundColor: theme.colors.white.DEFAULT,
+      backgroundColor: single && !selected ? theme.colors.transparent : theme.colors.white.DEFAULT,
       zIndex: 100,
     },
   });

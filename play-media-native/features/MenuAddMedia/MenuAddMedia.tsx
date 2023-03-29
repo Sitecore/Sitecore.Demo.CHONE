@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Button, Menu } from 'react-native-paper';
 
 import {
@@ -7,6 +7,7 @@ import {
   getReferenceFieldIcon,
 } from '../../helpers/contentItemHelper';
 import { useCamera } from '../../hooks/useCamera/useCamera';
+import { useContentItems } from '../../hooks/useContentItems/useContentItems';
 import { useDeviceLibrary } from '../../hooks/useDeviceLibrary/useDeviceLibrary';
 import { DeviceMedia } from '../../interfaces/media';
 import { StackNavigationProp } from '../../interfaces/navigators';
@@ -19,6 +20,7 @@ export const MenuAddMedia = ({
   single = false,
   stateKey,
   headerTitle = '',
+  fieldTitle,
 }: {
   empty: boolean;
   fieldKey: string;
@@ -26,14 +28,22 @@ export const MenuAddMedia = ({
   single: boolean;
   stateKey: string;
   headerTitle: string;
+  fieldTitle?: string;
 }) => {
   const navigation = useNavigation<StackNavigationProp>();
   const [visible, setVisible] = useState(false);
   const { launch: launchCamera } = useCamera();
   const { launch: launchLibrary } = useDeviceLibrary();
+  const { contentItems } = useContentItems();
 
   const close = useCallback(() => setVisible(false), []);
   const open = useCallback(() => setVisible(true), []);
+
+  const headerSubtitle = useMemo(() => {
+    return `${single && contentItems[stateKey][fieldKey] ? 'Change' : 'Add'} ${
+      fieldTitle.toLowerCase() || 'media'
+    }`;
+  }, [contentItems, fieldKey, single, stateKey, fieldTitle]);
 
   const handleCameraPress = useCallback(() => {
     launchCamera((image: DeviceMedia) => {
@@ -68,6 +78,7 @@ export const MenuAddMedia = ({
   const handleCHonePress = useCallback(() => {
     navigation.navigate('AddCH1Media', {
       title: headerTitle,
+      subtitle: headerSubtitle,
       key: fieldKey,
       initialRoute,
       single,
@@ -75,7 +86,7 @@ export const MenuAddMedia = ({
     });
 
     close();
-  }, [navigation, fieldKey, initialRoute, single, stateKey, headerTitle, close]);
+  }, [navigation, headerTitle, headerSubtitle, fieldKey, initialRoute, single, stateKey, close]);
 
   const buttonLabel = getReferenceFieldButtonLabel(empty, single);
   const icon = getReferenceFieldIcon(empty, single);
