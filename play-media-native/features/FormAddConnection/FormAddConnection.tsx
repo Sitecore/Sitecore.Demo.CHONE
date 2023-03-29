@@ -25,7 +25,6 @@ import { StackNavigationProp } from '../../interfaces/navigators';
 import connectionStyles from '../../screens/Connection/styles';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
-import { KeyboardAwareScreen } from '../Screen/KeyboardAwareScreen';
 
 const defaultTextInputStyle = {
   marginBottom: theme.spacing.xs,
