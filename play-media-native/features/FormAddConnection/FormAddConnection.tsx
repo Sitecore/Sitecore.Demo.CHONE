@@ -55,6 +55,7 @@ const ErrorMessage = ({ message }: { message: string }) => {
         alignItems: 'center',
         padding: theme.spacing.xs,
         marginBottom: theme.spacing.md,
+        width: '100%',
       }}
     >
       <MaterialIcon
@@ -314,7 +315,11 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
       ) : (
         <>
           <ScrollView
-            style={{ paddingHorizontal: theme.spacing.sm, width: '100%' }}
+            style={{
+              marginTop: theme.spacing.md,
+              paddingHorizontal: theme.spacing.sm,
+              width: '100%',
+            }}
             contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
           >
             <View style={connectionStyles.container}>{title}</View>
