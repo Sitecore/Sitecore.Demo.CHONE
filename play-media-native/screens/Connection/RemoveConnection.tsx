@@ -8,6 +8,7 @@ import { removeConnection } from '../../helpers/connections';
 import { RootStackParamList } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
+import connectionScreenStyles from './styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'RemoveConnection'>;
 
@@ -40,11 +41,13 @@ export const RemoveConnectionScreen = ({ navigation, route }: Props) => {
               marginBottom: theme.spacing.lg,
             }}
           >
-            <Text variant="labelMedium">Are you sure you want to remove </Text>
-            <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
-              {route?.params?.connectionName}
+            <Text variant="labelMedium" style={connectionScreenStyles.title}>
+              Are you sure you want to remove{' '}
+              <Text variant="labelMedium" style={{ fontFamily: theme.fontFamily.bold }}>
+                {route?.params?.connectionName}{' '}
+              </Text>
+              from your list of connections?
             </Text>
-            <Text variant="labelMedium"> from your list of connections?</Text>
           </Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
