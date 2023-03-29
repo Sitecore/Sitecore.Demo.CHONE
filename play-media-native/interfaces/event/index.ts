@@ -1,4 +1,4 @@
-import { Athlete } from '../athlete';
+import { Athlete, AthleteResponse } from '../athlete';
 import { Media } from '../media';
 import { Sport } from '../sport';
 
@@ -21,7 +21,7 @@ export interface EventResponse {
   teaser: string;
   body: any;
   athletes: {
-    results: Athlete[];
+    results: AthleteResponse[];
   };
   similarEvents: {
     results: EventResponse[];
