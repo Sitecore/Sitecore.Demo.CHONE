@@ -28,6 +28,7 @@ import { theme } from '../../theme/theme';
 
 const defaultTextInputStyle = {
   marginBottom: theme.spacing.xs,
+  flexGrow: 1,
 };
 
 // Connection name: allow only letters, numbers and hyphens.
@@ -52,7 +53,6 @@ const ErrorMessage = ({ message }: { message: string }) => {
         backgroundColor: theme.colors.red.DEFAULT,
         flexDirection: 'row',
         alignItems: 'center',
-        width: '90%',
         padding: theme.spacing.xs,
         marginBottom: theme.spacing.md,
       }}
@@ -108,13 +108,17 @@ export const FormAddConnection = ({
 
   const title = useMemo(() => {
     return (
-      <Text variant="labelMedium" style={connectionStyles.title}>
-        {initialValue ? `Edit a connection to a${' '}` : `Add connection details to a${' '}`}
-        <Text variant="labelMedium" style={connectionStyles.chOneText}>
-          Content Hub ONE{' '}
+      <View style={{ alignItems: 'center' }}>
+        <Text variant="labelMedium">
+          {initialValue ? `Edit a connection to a${' '}` : `Add connection details to a${' '}`}
         </Text>
-        instance.
-      </Text>
+        <Text>
+          <Text variant="labelMedium" style={connectionStyles.chOneText}>
+            Content Hub ONE{' '}
+          </Text>
+          <Text variant="labelMedium">instance.</Text>
+        </Text>
+      </View>
     );
   }, [initialValue]);
 
@@ -210,12 +214,8 @@ export const FormAddConnection = ({
   );
 
   const handleDiscardBtn = useCallback(() => {
-    if (isEdit) {
-      navigation.goBack();
-    } else {
-      navigation.pop(2);
-    }
-  }, [isEdit, navigation]);
+    navigation.goBack();
+  }, [navigation]);
 
   const handleConnectBtn = useCallback(async () => {
     setClientCredentialsError(false);
@@ -323,10 +323,7 @@ export const FormAddConnection = ({
         </>
       ) : (
         <>
-          <ScrollView
-            style={{ paddingBottom: 70, paddingHorizontal: theme.spacing.sm }}
-            contentContainerStyle={{ alignItems: 'center' }}
-          >
+          <ScrollView style={{ paddingHorizontal: theme.spacing.sm, width: '100%' }}>
             <View style={connectionStyles.container}>{title}</View>
             <View style={connectionStyles.container}>{title}</View>
             <View style={connectionStyles.container}>{title}</View>
