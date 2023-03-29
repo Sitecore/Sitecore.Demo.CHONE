@@ -1,10 +1,12 @@
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, StatusBar, View } from 'react-native';
+import { Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 
+import { MaterialIcon } from '../../components/Icon/MaterialIcon';
 import { Logo } from '../../components/Logo/Logo';
+import { CONNECTIONS_MAX_LIMIT } from '../../constants/connections';
 import { Screen } from '../../features/Screen/Screen';
 import {
   getConnections,
@@ -16,6 +18,24 @@ import { RootStackParamList } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
+const pageStyles = StyleSheet.create({
+  warningContainer: {
+    backgroundColor: theme.colors.yellow.dark,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: theme.spacing.xs,
+    marginVertical: theme.spacing.sm,
+    marginHorizontal: theme.spacing.xs,
+  },
+  warningIcon: {
+    marginRight: theme.spacing.xs,
+  },
+  warningText: {
+    flexShrink: 1,
+    color: theme.colors.black.DEFAULT,
+  },
+});
+
 type Props = NativeStackScreenProps<RootStackParamList, 'SelectConnection'>;
 
 export const SelectConnectionScreen = ({ navigation, route }: Props) => {
@@ -23,6 +43,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedConnectionName, setSelectedConnectionName] = useState<string>();
   const [isNoConnectionAvailable, setIsNoConnectionAvailable] = useState(true);
+  const [isConnectionLimitReached, setIsConnectionLimitReached] = useState(false);
   const isScreenVisible = useIsFocused();
 
   // Retrieve the saved connections from Expo Secure Store
@@ -31,9 +52,10 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
       (async () => {
         const savedConnections = await getConnections();
         setConnections(savedConnections);
+        setIsConnectionLimitReached(savedConnections.length === CONNECTIONS_MAX_LIMIT);
       })();
     }
-  }, [isScreenVisible]);
+  }, [connections.length, isScreenVisible]);
 
   // If there is at least one connection, set it as the default and update the flag
   useFocusEffect(
@@ -90,6 +112,21 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
       navigation.navigate('MainTabs');
     },
     [connections, navigation]
+  );
+
+  const connectionLimitWarning = isConnectionLimitReached && (
+    <View style={pageStyles.warningContainer}>
+      <MaterialIcon
+        name="alert-outline"
+        color={theme.colors.black.DEFAULT}
+        size={20}
+        style={pageStyles.warningIcon}
+      />
+      <Text style={pageStyles.warningText}>
+        The connection limit has been reached. Please remove one of your older connections first in
+        case you want to add a new one.
+      </Text>
+    </View>
   );
 
   return (
@@ -189,15 +226,20 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
         icon="plus"
         mode="contained"
         onPress={onAdd}
-        style={{
-          ...styles.button,
-          marginTop: theme.spacing.sm,
-          marginLeft: isNoConnectionAvailable ? null : 'auto',
-        }}
+        style={[
+          {
+            ...styles.button,
+            marginTop: theme.spacing.sm,
+            marginLeft: isNoConnectionAvailable ? null : 'auto',
+          },
+          isConnectionLimitReached && styles.buttonDisabled,
+        ]}
         labelStyle={styles.buttonLabel}
+        disabled={isConnectionLimitReached}
       >
         Add
       </Button>
+      {connectionLimitWarning}
     </Screen>
   );
 };
