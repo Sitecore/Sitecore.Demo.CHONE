@@ -127,6 +127,13 @@ export const FormAddConnection = ({
     })();
   }, []);
 
+  // Update the header title on connection name edit
+  useEffect(() => {
+    navigation.setParams({
+      title: name || 'Untitled connection',
+    });
+  }, [name, navigation]);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const checkNameExists = useCallback(
     debounce((connectionName: string, existingConnections: Connection[]) => {
