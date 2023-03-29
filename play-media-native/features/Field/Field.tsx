@@ -22,6 +22,7 @@ export const Field = ({ title, value }: { title: string; value: string }) => (
         flex: 1,
         fontSize: theme.fontSize.xxs,
         color: theme.colors.gray.DEFAULT,
+        paddingRight: theme.spacing.lg,
       }}
     >
       {value}
