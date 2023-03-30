@@ -1,7 +1,8 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
@@ -11,6 +12,7 @@ import { BottomFAB } from '../components/BottomFAB/BottomFAB';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaDetail } from '../features/MediaDetail/MediaDetail';
 import { Screen } from '../features/Screen/Screen';
+import { removeFileExtension } from '../helpers/media';
 import { RootStackParamList } from '../interfaces/navigators';
 import { theme } from '../theme/theme';
 
@@ -23,15 +25,17 @@ export const MediaDetailScreen = ({ route, navigation }: Props) => {
     data: media,
     error,
     isFetching,
-  } = useQuery('mediaItem', () => getMediaById(id), {
+  } = useQuery(`media-${id}`, () => getMediaById(id), {
     staleTime: 0,
   });
 
-  useEffect(() => {
-    navigation.setOptions({
-      title: media?.name,
-    });
-  }, [media, navigation]);
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setParams({
+        title: media?.name ? removeFileExtension(media.name) : 'Untitled media',
+      });
+    }, [media?.name, navigation])
+  );
 
   const handleEditInfo = useCallback(() => {
     // TODO
