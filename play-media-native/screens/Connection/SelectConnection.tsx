@@ -1,6 +1,6 @@
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { BackHandler, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 
@@ -45,24 +45,23 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
   const [selectedConnectionName, setSelectedConnectionName] = useState<string>();
   const [isNoConnectionAvailable, setIsNoConnectionAvailable] = useState(true);
   const [isConnectionLimitReached, setIsConnectionLimitReached] = useState(false);
-  const isScreenVisible = useIsFocused();
-
-  // Retrieve the saved connections from Expo Secure Store
-  useEffect(() => {
-    if (isScreenVisible) {
-      (async () => {
-        const savedConnections = await getConnections();
-        setConnections(savedConnections);
-        setIsConnectionLimitReached(savedConnections.length === CONNECTIONS_MAX_LIMIT);
-      })();
-    }
-  }, [connections.length, isScreenVisible]);
 
   // Disable hardware back button
   useFocusEffect(
     useCallback(() => {
       const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
       return () => backHandler.remove();
+    }, [])
+  );
+
+  // Retrieve the saved connections from Expo Secure Store
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        const savedConnections = await getConnections();
+        setConnections(savedConnections);
+        setIsConnectionLimitReached(savedConnections.length === CONNECTIONS_MAX_LIMIT);
+      })();
     }, [])
   );
 
