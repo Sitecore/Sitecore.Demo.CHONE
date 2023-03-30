@@ -225,7 +225,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
           {
             ...styles.button,
             marginTop: theme.spacing.sm,
-            marginLeft: isNoConnectionAvailable ? null : 'auto',
+            alignSelf: isNoConnectionAvailable ? 'center' : 'flex-end',
           },
           isConnectionLimitReached && styles.buttonDisabled,
         ]}
