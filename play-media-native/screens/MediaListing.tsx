@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { View } from 'react-native';
 
-import { BottomFAB } from '../components/BottomFAB/BottomFAB';
+// import { BottomFAB } from '../components/BottomFAB/BottomFAB';
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaFilters } from '../features/MediaFilters/MediaFilters';
@@ -77,11 +77,11 @@ export const MediaListingScreen = ({ navigation }) => {
           isRefreshing={isRefetchingMedia}
         />
       </View>
-      <BottomFAB
+      {/* <BottomFAB
         icon="plus"
         label="Add new media"
-        onPress={() => navigation.navigate('AddEvent')}
-      />
+        onPress={() => navigation.navigate('AddMedia')}
+      /> */}
     </Screen>
   );
 };
