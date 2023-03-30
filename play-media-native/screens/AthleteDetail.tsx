@@ -1,5 +1,6 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
@@ -25,6 +26,14 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     error,
     isFetching,
   } = useQuery(`athlete - ${id}`, () => getAthleteById(id), { staleTime: 0 });
+
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setParams({
+        title: athlete?.athleteName || 'Untitled athlete',
+      });
+    }, [athlete?.athleteName, navigation])
+  );
 
   const handleEditInfo = useCallback(() => {
     const stateKey = generateID();
