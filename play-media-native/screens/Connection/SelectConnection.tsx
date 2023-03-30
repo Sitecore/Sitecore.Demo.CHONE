@@ -1,7 +1,7 @@
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, StatusBar, StyleSheet, View } from 'react-native';
+import { BackHandler, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
 
 import { MaterialIcon } from '../../components/Icon/MaterialIcon';
@@ -57,6 +57,14 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
       })();
     }
   }, [connections.length, isScreenVisible]);
+
+  // Disable hardware back button on select connection screen
+  useFocusEffect(
+    useCallback(() => {
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+      return () => backHandler.remove();
+    }, [])
+  );
 
   // If there is at least one connection, set it as the default and update the flag
   useFocusEffect(
