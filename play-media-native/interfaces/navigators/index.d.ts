@@ -48,6 +48,9 @@ export type RootStackParamList = {
     connection?: Connection;
     isEdit?: boolean;
   };
+  ManualConnectionDiscard: StandardScreen & {
+    isEdit: boolean;
+  };
   MediaDetail: StandardScreen;
   QRCodeConnection: StandardScreen;
   RemoveConnection: StandardScreen & { connectionName: string };

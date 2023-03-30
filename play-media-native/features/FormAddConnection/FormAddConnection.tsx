@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { validateConnection } from '../../api/queries/validateConnection';
@@ -27,8 +27,8 @@ import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 
 const defaultTextInputStyle = {
-  width: '90%',
   marginBottom: theme.spacing.xs,
+  flexGrow: 1,
 };
 
 // Connection name: allow only letters, numbers and hyphens.
@@ -53,9 +53,9 @@ const ErrorMessage = ({ message }: { message: string }) => {
         backgroundColor: theme.colors.red.DEFAULT,
         flexDirection: 'row',
         alignItems: 'center',
-        width: '90%',
         padding: theme.spacing.xs,
         marginBottom: theme.spacing.md,
+        width: '100%',
       }}
     >
       <MaterialIcon
@@ -73,13 +73,7 @@ const ErrorMessage = ({ message }: { message: string }) => {
   );
 };
 
-export const FormAddConnection = ({
-  initialValue,
-  isEdit,
-}: {
-  initialValue?: Connection;
-  isEdit?: boolean;
-}) => {
+export const FormAddConnection = ({ initialValue }: { initialValue?: Connection }) => {
   const [connections, setConnections] = useState<Connection[]>([]);
   const [isValidating, setIsValidating] = useState(false);
   const [name, setName] = useState(initialValue?.name || '');
@@ -218,12 +212,8 @@ export const FormAddConnection = ({
   );
 
   const handleDiscardBtn = useCallback(() => {
-    if (isEdit) {
-      navigation.goBack();
-    } else {
-      navigation.pop(2);
-    }
-  }, [isEdit, navigation]);
+    navigation.goBack();
+  }, [navigation]);
 
   const handleConnectBtn = useCallback(async () => {
     setClientCredentialsError(false);
@@ -331,49 +321,59 @@ export const FormAddConnection = ({
         </>
       ) : (
         <>
-          <View style={connectionStyles.container}>{title}</View>
-          <InputText
-            containerStyle={defaultTextInputStyle}
-            inputStyle={{ marginBottom: nameError || nameExistsError ? 0 : theme.spacing.sm }}
-            onChange={handleName}
-            title="Connection name"
-            value={name}
-          />
-          {(nameError || nameExistsError) && <ErrorMessage message={nameErrorText} />}
-          <InputText
-            containerStyle={defaultTextInputStyle}
-            error={clientIDError}
-            errorText="Client ID should not be empty!"
-            onChange={handleClientID}
-            title="Client ID"
-            value={clientID}
-          />
-          <InputText
-            containerStyle={defaultTextInputStyle}
-            error={clientSecretError}
-            errorText="Client secret should not be empty!"
-            inputStyle={{ marginBottom: clientCredentialsError ? 0 : theme.spacing.sm }}
-            onChange={handleClientSecret}
-            title="Client secret"
-            value={clientSecret}
-          />
-          {clientCredentialsError && <ErrorMessage message="Invalid Client ID/secret!" />}
-          <InputText
-            containerStyle={defaultTextInputStyle}
-            onChange={handleApiKey}
-            title="API Key"
-            value={apiKey}
-          />
-          <InputText
-            containerStyle={defaultTextInputStyle}
-            onChange={handlePreviewUrl}
-            title="Preview endpoint URL"
-            value={previewUrl}
-          />
-          {previewUrlError && (
-            <ErrorMessage message="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !" />
-          )}
-          {schemaError && <ErrorMessage message="Invalid API key or Preview endpoint URL!" />}
+          <ScrollView
+            style={{
+              marginTop: theme.spacing.md,
+              paddingHorizontal: theme.spacing.sm,
+              width: '100%',
+            }}
+            contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+          >
+            <View style={connectionStyles.container}>{title}</View>
+            <InputText
+              containerStyle={defaultTextInputStyle}
+              inputStyle={{ marginBottom: nameError || nameExistsError ? 0 : theme.spacing.sm }}
+              onChange={handleName}
+              title="Connection name"
+              value={name}
+            />
+            {(nameError || nameExistsError) && <ErrorMessage message={nameErrorText} />}
+            <InputText
+              containerStyle={defaultTextInputStyle}
+              error={clientIDError}
+              errorText="Client ID should not be empty!"
+              onChange={handleClientID}
+              title="Client ID"
+              value={clientID}
+            />
+            <InputText
+              containerStyle={defaultTextInputStyle}
+              error={clientSecretError}
+              errorText="Client secret should not be empty!"
+              inputStyle={{ marginBottom: clientCredentialsError ? 0 : theme.spacing.sm }}
+              onChange={handleClientSecret}
+              title="Client secret"
+              value={clientSecret}
+            />
+            {clientCredentialsError && <ErrorMessage message="Invalid Client ID/secret!" />}
+            <InputText
+              containerStyle={defaultTextInputStyle}
+              onChange={handleApiKey}
+              title="API Key"
+              value={apiKey}
+            />
+            <InputText
+              containerStyle={defaultTextInputStyle}
+              onChange={handlePreviewUrl}
+              title="Preview endpoint URL"
+              value={previewUrl}
+            />
+            {previewUrlError && (
+              <ErrorMessage message="Preview endpoint URL should start with 'https://' and end with '/api/content/v1/preview/graphql/' !" />
+            )}
+            {schemaError && <ErrorMessage message="Invalid API key or Preview endpoint URL!" />}
+            <View style={{ height: 60 }} />
+          </ScrollView>
           {bottomActions}
         </>
       )}
