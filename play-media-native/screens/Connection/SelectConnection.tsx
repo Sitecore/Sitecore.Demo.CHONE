@@ -58,7 +58,7 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
     }
   }, [connections.length, isScreenVisible]);
 
-  // Disable hardware back button on select connection screen
+  // Disable hardware back button
   useFocusEffect(
     useCallback(() => {
       const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
