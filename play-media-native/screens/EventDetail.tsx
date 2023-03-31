@@ -1,6 +1,7 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { useQuery } from 'react-query';
 
@@ -21,15 +22,17 @@ export const EventDetailScreen = ({ route, navigation }) => {
     data: event,
     error,
     isFetching,
-  } = useQuery(`event-id-${id}`, () => getEventById(id), { staleTime: 0 });
+  } = useQuery(`event-${id}`, () => getEventById(id), { staleTime: 0 });
 
   const { init } = useContentItems();
 
-  useEffect(() => {
-    navigation.setOptions({
-      title: event?.title,
-    });
-  }, [event, navigation]);
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setParams({
+        title: event?.title || 'Untitled event',
+      });
+    }, [event?.title, navigation])
+  );
 
   const handleEditInfo = useCallback(() => {
     const stateKey = generateID();
