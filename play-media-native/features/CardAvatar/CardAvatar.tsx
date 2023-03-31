@@ -1,48 +1,54 @@
-import { View } from "react-native";
-import { Avatar, Card, Text } from "react-native-paper";
-import { CardShadowBox } from "../CardShadowBox/CardShadowBox";
-import { theme } from "../../theme/theme";
-import { getAccentColor, getTextColor } from "../../helpers/colorHelper";
+import { View } from 'react-native';
+import { Card, Text } from 'react-native-paper';
 
-export const CardAvatar = ({ item, onCardPress }) => {
-  const sport = item.sport?.results[0];
+import { AvatarImage } from '../../components/AvatarImage/AvatarImage';
+import { DraggableHandle } from '../../components/DraggableHandle/DraggableHandle';
+import { ATHLETE_MOCK_IMG } from '../../constants/mockImages';
+import { getAccentColor, getTextColor } from '../../helpers/colorHelper';
+import { Athlete } from '../../interfaces/athlete';
+import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
+import { CardShadowBox } from '../CardShadowBox/CardShadowBox';
+
+export const CardAvatar = ({
+  item,
+  onCardPress,
+  isDraggable,
+}: {
+  item: Athlete;
+  onCardPress?: () => void;
+  isDraggable?: boolean;
+}) => {
+  const sport = item?.sport;
   const color = getAccentColor(sport?.title) || theme.colors.gray.DEFAULT;
 
   return (
     <CardShadowBox color={color} onCardPress={onCardPress}>
-      <Card.Content style={{ flexDirection: "row" }}>
+      {isDraggable && <DraggableHandle />}
+      <Card.Content
+        style={[
+          {
+            flexDirection: 'row',
+            paddingHorizontal: theme.spacing.sm,
+            paddingVertical: theme.spacing.sm,
+          },
+          isDraggable && styles.draggableContent,
+        ]}
+      >
         <View>
-          <View
-            style={{
-              backgroundColor: color,
-              height: 116,
-              width: 116,
-              borderRadius: 58,
-            }}
-          >
-            <Avatar.Image
-              size={108}
-              style={{
-                top: theme.spacing.xxs,
-                left: theme.spacing.xxs,
-              }}
-              source={{
-                uri: item?.profilePhoto?.results[0]?.fileUrl,
-              }}
-            />
-          </View>
+          <AvatarImage
+            size={116}
+            uri={item?.profilePhoto?.fileUrl || ATHLETE_MOCK_IMG}
+            color={color}
+          />
         </View>
-        <View
-          style={{
-            justifyContent: "center",
-          }}
-        >
+        <View style={{ justifyContent: 'center' }}>
           <Text style={{ marginLeft: theme.spacing.xxs }} variant="titleMedium">
             {item.athleteName}
           </Text>
           <Text
             style={{
-              alignSelf: "flex-start",
+              alignSelf: 'flex-start',
               backgroundColor: color,
               color: getTextColor(color),
               left: -theme.spacing.xxs,
@@ -50,7 +56,7 @@ export const CardAvatar = ({ item, onCardPress }) => {
               paddingVertical: theme.spacing.xxs,
             }}
           >
-            {sport.title}
+            {sport?.title}
           </Text>
           <Text
             style={{
@@ -58,7 +64,7 @@ export const CardAvatar = ({ item, onCardPress }) => {
               color: theme.colors.gray.DEFAULT,
             }}
           >
-            {item.nationality}
+            {item.status}
           </Text>
         </View>
       </Card.Content>

@@ -1,44 +1,47 @@
-import { useState } from "react";
-import StepIndicator from "react-native-step-indicator";
+import StepIndicator from 'react-native-step-indicator';
 
-export const Stepper = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const labels = [
-    "Cart",
-    "Delivery Address",
-    "Order Summary",
-    "Payment Method",
-    "Track",
-  ];
+import { theme } from '../../theme/theme';
+
+interface Props {
+  labels?: string[];
+  onPress: (step: number) => void;
+  stepIndex: number;
+  steps: string[];
+}
+
+export const Stepper = ({ labels, onPress, stepIndex, steps }: Props) => {
+  const defaultColor = theme.colors.yellow.DEFAULT;
   const customStyles = {
-    stepIndicatorSize: 25,
-    currentStepIndicatorSize: 30,
+    stepIndicatorSize: 30,
+    currentStepIndicatorSize: 35,
     separatorStrokeWidth: 2,
     currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: "#fe7013",
+    stepStrokeCurrentColor: defaultColor,
     stepStrokeWidth: 3,
-    stepStrokeFinishedColor: "#fe7013",
-    stepStrokeUnFinishedColor: "#aaaaaa",
-    separatorFinishedColor: "#fe7013",
-    separatorUnFinishedColor: "#aaaaaa",
-    stepIndicatorFinishedColor: "#fe7013",
-    stepIndicatorUnFinishedColor: "#ffffff",
-    stepIndicatorCurrentColor: "#ffffff",
+    stepStrokeFinishedColor: defaultColor,
+    stepStrokeUnFinishedColor: '#aaaaaa',
+    separatorFinishedColor: defaultColor,
+    separatorUnFinishedColor: '#aaaaaa',
+    stepIndicatorFinishedColor: defaultColor,
+    stepIndicatorUnFinishedColor: theme.colors.black.DEFAULT,
+    stepIndicatorCurrentColor: defaultColor,
     stepIndicatorLabelFontSize: 13,
     currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: "#fe7013",
-    stepIndicatorLabelFinishedColor: "#ffffff",
-    stepIndicatorLabelUnFinishedColor: "#aaaaaa",
-    labelColor: "#999999",
+    stepIndicatorLabelCurrentColor: theme.colors.black.DEFAULT,
+    stepIndicatorLabelFinishedColor: theme.colors.black.DEFAULT,
+    stepIndicatorLabelUnFinishedColor: '#aaaaaa',
+    labelColor: '#999999',
     labelSize: 13,
-    currentStepLabelColor: "#fe7013",
+    currentStepLabelColor: defaultColor,
   };
 
   return (
     <StepIndicator
       customStyles={customStyles}
-      currentPosition={currentStep}
+      currentPosition={stepIndex}
       labels={labels}
+      onPress={onPress}
+      stepCount={steps?.length || 0}
     />
   );
 };

@@ -1,0 +1,15 @@
+# .git-blame-ignore-revs
+# ESLint and Prettier
+8ddaebaec773b918cd20cbc2a6a1050bf0112a5a
+# Fix
+9989898acab4983eea1486ad44e99586f4dfde11
+# Fix
+572086251af538f65cfcd7dc68b0bcf0e35c206c
+# Fix
+32f96f9a9af2caf64132811a312cced48dffc81e
+# Merge develop
+4d49025ecf5d4723af5d879dfe7f2c4b01c1f4f5
+# Post merge fixes
+91be3846d8e4d49bd0c07b89a5024db3e07fda11
+#ESLint fixes
+252d0542702bb783dc8bf9577d5c73a7e1495366

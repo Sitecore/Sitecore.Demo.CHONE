@@ -1,5 +1,0 @@
-export const CONNECTION_ACTIONS = {
-  ADD: "ADD",
-  REMOVE: "REMOVE",
-  CONNECT: "CONNECT",
-};

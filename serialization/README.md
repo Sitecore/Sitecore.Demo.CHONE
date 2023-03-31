@@ -31,6 +31,20 @@ npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <oauth-client-id> 
    npm run push:items
    ```
 
+## Pushing additional assets to Content Hub ONE (currently ContentBlock and Location)
+
+1. Push all additional content types:
+
+   ```bash
+   npm run push:additional-types
+   ```
+
+2. Push all corresponding content items of the additional content types:
+
+   ```bash
+   npm run push:additional-items
+   ```
+
 ## Publishing Content Hub ONE assets
 
 You can publish all of your content items to the delivery endpoint using a single command:
@@ -41,7 +55,7 @@ npm run publish:items
 
 ## Pulling serialized assets from Content Hub ONE
 
-After making change to content types or content items in Content Hub ONE, you should pull the changes and commit them:
+After making changes to content types or content items in Content Hub ONE, you should pull the changes and commit them:
 
 1. Pull all content types:
 
@@ -55,12 +69,20 @@ After making change to content types or content items in Content Hub ONE, you sh
    npm run pull:items
    ```
 
-## Removing media fields from serialized assets before pushing to Content Hub ONE
+1. Pull all media items:
 
-Currently the Content Hub ONE CLI does not allow media serialization, therefore you should first remove these fields from the content items.
+   ```bash
+   npm run pull:media
+   ```
 
-You can do so using a single command:
+1. Pull all additional content types:
 
-```bash
-npm run remove-media-fields
-```
+   ```bash
+   npm run pull:additional-types
+   ```
+
+1. Pull all additional content items:
+
+   ```bash
+   npm run pull:additional-items
+   ```

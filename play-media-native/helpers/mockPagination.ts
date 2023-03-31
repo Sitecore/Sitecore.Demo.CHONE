@@ -1,14 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
-import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from "../constants/pagination";
+import { Dispatch, SetStateAction } from 'react';
+
+import { MOCK_FETCH_TIMEOUT, PAGE_SIZE } from '../constants/pagination';
 
 export const getInitialData = (initialData: any[]) => {
   if (!initialData) {
     return [];
   }
 
-  return initialData.length > PAGE_SIZE
-    ? initialData.slice(0, PAGE_SIZE)
-    : initialData;
+  return initialData.length > PAGE_SIZE ? initialData.slice(0, PAGE_SIZE) : initialData;
 };
 
 export const mockFetchData = (

@@ -1,6 +1,7 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { CSSProperties } from "react";
-import { StyleProp } from "react-native";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { StyleProp } from 'react-native';
+
+import { theme } from '../../theme/theme';
 
 interface Props {
   name: keyof typeof Ionicons.glyphMap;
@@ -14,7 +15,7 @@ export const Icon = ({ name, size, color, style }: Props) => {
     <Ionicons
       name={name}
       size={size || 32}
-      color={color || "black"}
+      color={color || theme.colors.black.DEFAULT}
       style={style}
     />
   );

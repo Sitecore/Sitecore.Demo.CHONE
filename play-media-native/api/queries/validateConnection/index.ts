@@ -1,25 +1,43 @@
-import { FetchOptions } from "../..";
-import { getAllAthletes } from "../getAthletes";
-import { getAllEvents } from "../getEvents";
-import { getAllSports } from "../getSports";
+import { fetchGraphQL } from '../..';
+import {
+  ERROR_CONNECTIONS_API_KEY,
+  ERROR_CONNECTIONS_CLIENT_CREDENTIALS,
+} from '../../../constants/connections';
+import { FetchOptions } from '../../../interfaces/fetchOptions';
+import { generateToken } from '../generateToken';
 
-// If athletes, events and sports reponses are valid, return true for valid connection
-// Else return false for invalid connection
-//
-export const validateConnection = async (
-  options: FetchOptions
-): Promise<boolean> => {
+const schemaQuery = `
+  query {
+    __schema {
+      types {
+        name
+      }
+    }
+  }
+`;
+
+const validateSchema = async (options: FetchOptions) => {
+  try {
+    await fetchGraphQL(schemaQuery, options).then((res: any) => {
+      if (!res.data.__schema) {
+        throw ERROR_CONNECTIONS_API_KEY;
+      }
+    });
+  } catch {
+    throw ERROR_CONNECTIONS_API_KEY;
+  }
+};
+
+// If token and/or schema responses are not valid, throw an error
+export const validateConnection = async (options: FetchOptions): Promise<boolean | unknown> => {
   const promises = [
-    getAllAthletes(options),
-    getAllEvents(options),
-    getAllSports(options),
+    generateToken(options).catch(() => {
+      return ERROR_CONNECTIONS_CLIENT_CREDENTIALS;
+    }),
+    validateSchema(options).catch(() => {
+      return ERROR_CONNECTIONS_API_KEY;
+    }),
   ];
 
-  return await Promise.all(promises).then(([athletes, events, sports]) => {
-    if (athletes?.length && events?.length && sports?.length) {
-      return true;
-    }
-
-    throw "Invalid connection";
-  });
+  return Promise.all(promises);
 };

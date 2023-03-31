@@ -8,10 +8,10 @@ fields:
     value: false
     type: Boolean
   dateOfBirth:
-    value: null
+    value: 
     type: DateTime
   careerStartDate:
-    value: null
+    value: 
     type: DateTime
   athleteQuote:
     value: Passion first and everything will fall into place.
@@ -24,11 +24,19 @@ fields:
     type: ShortText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "bO5xDYy-2EikGiocmTsDng",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
-      }
+    - type: Link
+      relatedType: Content
+      id: bO5xDYy-2EikGiocmTsDng
     type: Reference
+  profilePhoto:
+    value:
+    - type: Link
+      relatedType: Media
+      id: BItmqLyQeE-96gRCAJsLTQ
+    type: Media
+  featuredImage:
+    value: []
+    type: Media
+  relatedMedia:
+    value: []
+    type: Media

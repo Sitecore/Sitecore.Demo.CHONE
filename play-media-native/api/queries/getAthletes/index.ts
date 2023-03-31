@@ -1,9 +1,9 @@
-import { FetchOptions, fetchGraphQL } from "../..";
-import {
-  AllAthletesResponse,
-  Athlete,
-  AthleteResponse,
-} from "../../../interfaces/athlete";
+import { fetchGraphQL } from '../..';
+import { STATUS_TYPES } from '../../../constants/status';
+import { normalizeAthlete } from '../../../helpers/athletes';
+import { AllAthletesResponse, Athlete, AthleteResponse } from '../../../interfaces/athlete';
+import { FetchOptions } from '../../../interfaces/fetchOptions';
+import { getItemsStatus, getItemStatusById } from '../getItemsStatus/getItemsStatus';
 
 const athletesQuery = `
 query {
@@ -34,6 +34,12 @@ query {
             id
             title
             description
+            featuredImage {
+              results {
+                id
+                fileUrl
+              }
+            }
           }
         }
       }
@@ -55,33 +61,16 @@ query {
 }
 `;
 
-export const getAllAthletes = async (
-  options?: FetchOptions
-): Promise<Athlete[]> => {
+export const getAllAthletes = async (options?: FetchOptions): Promise<Athlete[]> => {
   const results: AllAthletesResponse = (await fetchGraphQL(
     athletesQuery,
     options
   )) as AllAthletesResponse;
-  const athletes: Partial<Athlete>[] = [];
+  const statusResults = await getItemsStatus(STATUS_TYPES.content);
 
-  results.data.allAthlete.results.forEach((athlete: Partial<Athlete>) => {
-    athletes.push({
-      id: athlete.id,
-      athleteName: athlete.athleteName,
-      profilePhoto: athlete.profilePhoto,
-      featuredImage: athlete.featuredImage,
-      isFeatured: athlete.isFeatured,
-      sport: athlete.sport,
-      athleteQuote: athlete.athleteQuote,
-      nationality: athlete.nationality,
-      dateOfBirth: athlete.dateOfBirth,
-      careerStartDate: athlete.careerStartDate,
-      hobby: athlete.hobby,
-      relatedMedia: athlete.relatedMedia,
-    });
-  });
-
-  return athletes as Athlete[];
+  return results.data.allAthlete.results.map((athlete) =>
+    normalizeAthlete(athlete, statusResults)
+  ) as Athlete[];
 };
 
 const getAthleteByIdQuery = (id: string) => {
@@ -96,6 +85,10 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
         featuredImage {
@@ -104,6 +97,10 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
         isFeatured
@@ -113,6 +110,12 @@ const getAthleteByIdQuery = (id: string) => {
               id
               title
               description
+              featuredImage {
+                results {
+                  id
+                  fileUrl
+                }
+              }
             }
           }
         }
@@ -127,20 +130,21 @@ const getAthleteByIdQuery = (id: string) => {
             name
             fileUrl
             description
+            fileHeight
+            fileSize
+            fileType
+            fileWidth
           }
         }
       }
     }`;
 };
 
-export const getAthleteById = async (
-  id: string
-): Promise<{ athlete: Partial<Athlete> }> => {
-  const athleteResponse: AthleteResponse = (await fetchGraphQL(
-    getAthleteByIdQuery(id)
-  )) as AthleteResponse;
-
-  return {
-    athlete: athleteResponse.data.athlete,
+export const getAthleteById = async (id: string): Promise<Athlete> => {
+  const athleteResponse = (await fetchGraphQL(getAthleteByIdQuery(id))) as {
+    data: { athlete: AthleteResponse };
   };
+  const statusResult = await getItemStatusById(id, STATUS_TYPES.content);
+
+  return normalizeAthlete(athleteResponse.data.athlete, [statusResult]) as Athlete;
 };

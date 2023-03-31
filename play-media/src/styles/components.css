@@ -5,6 +5,7 @@
 @import './components/AthleteGrid/AthleteGrid.css';
 @import './components/Common/ShadowBox.css';
 @import './components/Common/InfiniteScroll.css';
+@import './components/ContentBlock/ContentBlock.css';
 @import './components/ErrorNotFound404/ErrorNotFound404.css';
 @import './components/EventDetail/EventDetail.css';
 @import './components/EventGrid/EventCard.css';
@@ -18,8 +19,10 @@
 @import './components/HeroBanner/HeroBannerEventDetails.css';
 @import './components/HeroBanner/HeroBannerSection.css';
 @import './components/ImageGrid/ImageGrid.css';
+@import './components/LocationsGrid/LocationsGrid.css';
 @import './components/Common/Loader.css';
 @import './components/Modal/Modal.css';
 @import './components/RichText/RichText.css';
 @import './components/Slider/Slider.css';
+@import './components/Slider/SliderHeroPagination.css';
 @import './components/Slider/SliderModal.css';

@@ -1,0 +1,18 @@
+﻿id: 8evb7UF4cU6mWyHf8v7t-g
+name: Europe - HQ
+fields:
+  title:
+    value: Europe - HQ
+    type: ShortText
+  address:
+    value: Ha-Ha Road
+    type: ShortText
+  city:
+    value: London
+    type: ShortText
+  country:
+    value: United Kingdom
+    type: ShortText
+  phone:
+    value: 044 773663
+    type: ShortText

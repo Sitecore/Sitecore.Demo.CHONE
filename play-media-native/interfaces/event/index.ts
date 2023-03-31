@@ -1,36 +1,54 @@
-import { Athlete } from "../athlete";
-import { Sport } from "../sport";
-import { Media } from "../media";
+import { Athlete, AthleteResponse } from '../athlete';
+import { Media } from '../media';
+import { Sport } from '../sport';
 
-export interface Event {
+export interface EventResponse {
   id: string;
+  name: string;
   title: string;
   sport: {
-    results: Partial<Sport>[];
+    results: Sport[];
   };
   isFeatured: boolean;
   timeAndDate: Date;
   location: string;
   featuredImage: {
-    results: Partial<Media>[];
+    results: Media[];
   };
   relatedMedia: {
-    results: Partial<Media>[];
+    results: Media[];
   };
   teaser: string;
-  body: unknown;
+  body: any;
   athletes: {
-    results: Partial<Athlete>[];
+    results: AthleteResponse[];
   };
   similarEvents: {
-    results: Partial<Event>[];
+    results: EventResponse[];
   };
 }
 
 export interface AllEventsResponse {
   data: {
     allEvent: {
-      results: Partial<Event>[];
+      results: EventResponse[];
     };
   };
+}
+
+export interface Event {
+  id: string;
+  name: string;
+  status: string;
+  title: string;
+  sport: Sport;
+  isFeatured: boolean;
+  timeAndDate: Date;
+  location: string;
+  featuredImage: Media;
+  relatedMedia: Media[];
+  teaser: string;
+  body: any;
+  athletes: Athlete[];
+  similarEvents: Event[];
 }

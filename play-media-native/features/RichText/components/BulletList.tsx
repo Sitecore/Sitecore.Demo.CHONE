@@ -1,7 +1,8 @@
-import { FC, ReactNode } from "react";
-import { View } from "react-native";
-import { Text } from "react-native-paper";
-import { theme } from "../../../theme/theme";
+import { FC, ReactNode } from 'react';
+import { View } from 'react-native';
+import { Text } from 'react-native-paper';
+
+import { theme } from '../../../theme/theme';
 
 interface Props {
   children: ReactNode[];
@@ -14,10 +15,10 @@ export const BulletList: FC<Props> = ({ children }) => (
       marginVertical: theme.spacing.xxs,
     }}
   >
-    {children.map((child) => (
-      <Text>
-        {`\u2022`}
-        {"  "}
+    {children.map((child, i) => (
+      <Text key={i}>
+        {'\u2022'}
+        {'  '}
         {child}
       </Text>
     ))}

@@ -1,7 +1,8 @@
-import { FC, ReactNode } from "react";
-import { View } from "react-native";
-import { Text } from "react-native-paper";
-import { theme } from "../../../theme/theme";
+import { FC, ReactNode } from 'react';
+import { View } from 'react-native';
+import { Text } from 'react-native-paper';
+
+import { theme } from '../../../theme/theme';
 
 interface Props {
   children: ReactNode[];
@@ -15,9 +16,9 @@ export const OrderedList: FC<Props> = ({ children }) => (
     }}
   >
     {children.map((child, i) => (
-      <Text>
+      <Text key={i}>
         {++i}
-        {".  "}
+        {'.  '}
         {child}
       </Text>
     ))}

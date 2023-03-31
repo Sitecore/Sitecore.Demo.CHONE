@@ -1,16 +1,18 @@
-import { FC, useMemo } from "react";
-import { BlockQuote } from "./components/BlockQuote";
-import { CodeBlock } from "./components/CodeBlock";
-import { Heading } from "./components/Heading";
-import { BulletList } from "./components/BulletList";
-import { ListItem } from "./components/ListItem";
-import { Paragraph } from "./components/Paragraph";
-import { SimpleText } from "./components/SimpleText";
-import { getComponentTree } from "./utilities";
-import { OrderedList } from "./components/OrderdList";
-import { RichTextLink } from "./components/RichTextLink";
-import { CodeText } from "./components/CodeText";
-import { View } from "react-native";
+import { FC, useMemo } from 'react';
+import { View } from 'react-native';
+
+import { BlockQuote } from './components/BlockQuote';
+import { BulletList } from './components/BulletList';
+import { CodeBlock } from './components/CodeBlock';
+import { CodeText } from './components/CodeText';
+import { Heading } from './components/Heading';
+import { HorizontalRule } from './components/HorizontalRule';
+import { ListItem } from './components/ListItem';
+import { OrderedList } from './components/OrderdList';
+import { Paragraph } from './components/Paragraph';
+import { RichTextLink } from './components/RichTextLink';
+import { SimpleText } from './components/SimpleText';
+import { getComponentTree } from './utilities';
 
 interface Props {
   body: any;
@@ -49,6 +51,9 @@ export const RichText: FC<Props> = ({ body, accentColor }) => {
           </BlockQuote>
         );
       },
+      horizontalRule: (context: any, children: any, key: string) => {
+        return <HorizontalRule key={key} />;
+      },
       text: (context: any, children: any, key: string) => {
         const hasMarks = !!context?.marks?.length;
 
@@ -56,9 +61,7 @@ export const RichText: FC<Props> = ({ body, accentColor }) => {
           return <SimpleText key={key}>{context.text}</SimpleText>;
         }
 
-        const linkMark = context.marks.find(
-          (mark: any) => mark.type === "link"
-        );
+        const linkMark = context.marks.find((mark: any) => mark.type === 'link');
 
         if (linkMark) {
           return (
@@ -73,9 +76,7 @@ export const RichText: FC<Props> = ({ body, accentColor }) => {
           );
         }
 
-        const codeMark = context.marks.find(
-          (mark: any) => mark.type === "code"
-        );
+        const codeMark = context.marks.find((mark: any) => mark.type === 'code');
 
         if (codeMark) {
           return <CodeText key={key}>{context.text}</CodeText>;
@@ -88,13 +89,10 @@ export const RichText: FC<Props> = ({ body, accentColor }) => {
         );
       },
     }),
-    []
+    [accentColor]
   );
 
-  const tree = useMemo(
-    () => getComponentTree(body, componentMap),
-    [body, componentMap]
-  );
+  const tree = useMemo(() => getComponentTree(body, componentMap), [body, componentMap]);
 
   if (!body) {
     return null;

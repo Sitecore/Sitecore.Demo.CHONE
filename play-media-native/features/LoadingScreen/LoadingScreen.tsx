@@ -1,10 +1,11 @@
-import { ActivityIndicator } from "react-native-paper";
-import { CenteredScreen } from "../CenteredScreen/CenteredScreen";
+import { ActivityIndicator } from 'react-native-paper';
+
+import { Screen } from '../Screen/Screen';
 
 export const LoadingScreen = () => {
   return (
-    <CenteredScreen>
-      <ActivityIndicator animating={true} size="large" />
-    </CenteredScreen>
+    <Screen centered>
+      <ActivityIndicator animating size="large" />
+    </Screen>
   );
 };

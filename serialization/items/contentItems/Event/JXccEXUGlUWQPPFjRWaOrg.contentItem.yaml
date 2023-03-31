@@ -5,10 +5,10 @@ fields:
     value: 'MTB Fest '
     type: ShortText
   isFeatured:
-    value: null
+    value: 
     type: Boolean
   timeAndDate:
-    value: 2023-07-12T22:00:00.000Z
+    value: 2023-07-13T01:00:00.0000000+03:00
     type: DateTime
   location:
     value: Italy
@@ -35,52 +35,46 @@ fields:
     type: RichText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "bO5xDYy-2EikGiocmTsDng",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
-      }
+    - type: Link
+      relatedType: Content
+      id: bO5xDYy-2EikGiocmTsDng
     type: Reference
   athletes:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "hmOxouM4gUGR7rIjE30GTQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/hmOxouM4gUGR7rIjE30GTQ"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "6VYohiIqHUW2QvtbYnTOAw",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/6VYohiIqHUW2QvtbYnTOAw"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "M9JadFDtWk28RJ5RPaeGsw",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/M9JadFDtWk28RJ5RPaeGsw"
-      }
+    - type: Link
+      relatedType: Content
+      id: hmOxouM4gUGR7rIjE30GTQ
+    - type: Link
+      relatedType: Content
+      id: 6VYohiIqHUW2QvtbYnTOAw
+    - type: Link
+      relatedType: Content
+      id: M9JadFDtWk28RJ5RPaeGsw
     type: Reference
   similarEvents:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "-SxxLRtX6U27XK-C5WzO-w",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/-SxxLRtX6U27XK-C5WzO-w"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "ah8wCddrm0qzga8NRF1rfA",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/ah8wCddrm0qzga8NRF1rfA"
-      }
+    - type: Link
+      relatedType: Content
+      id: -SxxLRtX6U27XK-C5WzO-w
+    - type: Link
+      relatedType: Content
+      id: ah8wCddrm0qzga8NRF1rfA
     type: Reference
+  featuredImage:
+    value:
+    - type: Link
+      relatedType: Media
+      id: jrt_bTzFz0ymk_H44xY76w
+    type: Media
+  relatedMedia:
+    value:
+    - type: Link
+      relatedType: Media
+      id: w83Smbsu5Eu1WSKHjxqEmQ
+    - type: Link
+      relatedType: Media
+      id: jrt_bTzFz0ymk_H44xY76w
+    - type: Link
+      relatedType: Media
+      id: J5D8oL_E_kWl8F6QdZAP-w
+    type: Media

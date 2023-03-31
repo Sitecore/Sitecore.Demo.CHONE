@@ -1,12 +1,10 @@
-import { RichTextContent } from './content';
-
 export interface RichTextBody {
   type: string;
-  content: Array<any>;
+  content: any[];
 }
 
 export interface RichTextResponseItem {
   body: RichTextBody;
 }
 
-export type RichTextResponse = Array<RichTextResponseItem>;
+export type RichTextResponse = RichTextResponseItem[];
