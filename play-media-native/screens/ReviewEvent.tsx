@@ -20,6 +20,7 @@ import { publishEvent } from '../helpers/events';
 import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
+import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { Event } from '../interfaces/event';
 import { styles } from '../theme/styles';
 
@@ -76,7 +77,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
 
   // In case of publishing we have to manually update the event's status
   // because the server takes too long to reflect the change
-  const { refetch: refetchListing } = useEventsQuery(eventID, eventStatus);
+  const { refetch: refetchEventListing } = useEventsQuery(eventID, eventStatus);
+  const { refetch: refetchMediaListing } = useMediaQuery();
 
   useEffect(() => {
     navigation.setOptions({
@@ -132,7 +134,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       })
         .then(async () => {
           setShowSuccessToast(true);
-          await refetchListing();
+          await refetchEventListing();
+          await refetchMediaListing();
           setIsValidating(false);
           navigation.navigate('MainTabs');
         })
@@ -148,7 +151,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
       })
         .then(async () => {
           setShowSuccessToast(true);
-          await refetchListing();
+          await refetchEventListing();
+          await refetchMediaListing();
           setIsValidating(false);
           navigation.navigate('MainTabs');
         })
@@ -157,7 +161,15 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
+  }, [
+    event,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    isNew,
+    navigation,
+    refetchEventListing,
+    refetchMediaListing,
+  ]);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
@@ -178,7 +190,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
             setEventID(newEvent.id);
             setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
-            await refetchListing();
+            await refetchEventListing();
+            await refetchMediaListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
           });
@@ -198,7 +211,8 @@ export const ReviewEventScreen = ({ navigation, route }) => {
             setEventID(event.id);
             setEventStatus(ITEM_STATUS.PUBLISHED);
             setShowSuccessToast(true);
-            await refetchListing();
+            await refetchEventListing();
+            await refetchMediaListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
           });
@@ -208,7 +222,15 @@ export const ReviewEventScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [event, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
+  }, [
+    event,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    isNew,
+    navigation,
+    refetchEventListing,
+    refetchMediaListing,
+  ]);
 
   const bottomActions = useMemo(
     () => (

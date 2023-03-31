@@ -20,6 +20,7 @@ import {
 import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
+import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
 
@@ -76,7 +77,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
 
   // In case of publishing we have to manually update the athlete's status
   // because the server takes too long to reflect the change
-  const { refetch: refetchListing } = useAthletesQuery(athleteID, athleteStatus);
+  const { refetch: refetchAthleteListing } = useAthletesQuery(athleteID, athleteStatus);
+  const { refetch: refetchMediaListing } = useMediaQuery();
 
   useEffect(() => {
     navigation.setOptions({
@@ -130,7 +132,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       })
         .then(async () => {
           setShowSuccessToast(true);
-          await refetchListing();
+          await refetchAthleteListing();
+          await refetchMediaListing();
           setIsValidating(false);
           navigation.navigate('MainTabs');
         })
@@ -146,7 +149,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       })
         .then(async () => {
           setShowSuccessToast(true);
-          await refetchListing();
+          await refetchAthleteListing();
+          await refetchMediaListing();
           setIsValidating(false);
           navigation.navigate('MainTabs');
         })
@@ -155,7 +159,15 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
+  }, [
+    athlete,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    isNew,
+    navigation,
+    refetchAthleteListing,
+    refetchMediaListing,
+  ]);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
@@ -176,7 +188,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
             setShowSuccessToast(true);
             setAthleteID(newAthlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);
-            await refetchListing();
+            await refetchAthleteListing();
+            await refetchMediaListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
           });
@@ -196,7 +209,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
             setShowSuccessToast(true);
             setAthleteID(athlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);
-            await refetchListing();
+            await refetchAthleteListing();
+            await refetchMediaListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
           });
@@ -206,7 +220,15 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
+  }, [
+    athlete,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    isNew,
+    navigation,
+    refetchAthleteListing,
+    refetchMediaListing,
+  ]);
 
   const bottomActions = useMemo(
     () => (
