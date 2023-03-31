@@ -23,8 +23,10 @@ const pageStyles = StyleSheet.create({
   footerContainer: {
     height: theme.spacing.xl,
     marginTop: theme.spacing.sm,
+    marginBottom: theme.spacing.xs,
     marginLeft: theme.spacing.sm,
     paddingRight: theme.spacing.xxl,
+    alignItems: 'flex-start',
   },
   footerText: {
     textAlign: 'left',

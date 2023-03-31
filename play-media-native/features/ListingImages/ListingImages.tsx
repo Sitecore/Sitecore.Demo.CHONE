@@ -53,11 +53,17 @@ export const ListingImages = ({
     [onDisplayTypeChange]
   );
 
+  const listingImages = useMemo(
+    () =>
+      displayType === ListingImageDisplayType.GRID && images.length % 2 ? [...images, {}] : images,
+    [displayType, images]
+  );
+
   const imagesList = useMemo(() => {
     return (
       <Listing
         flatListKey={displayType}
-        data={images}
+        data={listingImages}
         numColumns={displayType === ListingImageDisplayType.GRID ? 2 : 1}
         renderItem={renderItems[displayType]}
         onRefresh={onRefresh}
@@ -66,7 +72,7 @@ export const ListingImages = ({
         style={listStyle}
       />
     );
-  }, [displayType, images, isRefreshing, listStyle, onRefresh, onScroll, renderItems]);
+  }, [displayType, isRefreshing, listStyle, listingImages, onRefresh, onScroll, renderItems]);
 
   return (
     <>
