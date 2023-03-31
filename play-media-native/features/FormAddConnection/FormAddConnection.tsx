@@ -3,6 +3,7 @@ import debounce from 'lodash.debounce';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
+import { useQueryClient } from 'react-query';
 
 import { validateConnection } from '../../api/queries/validateConnection';
 import { BottomActions } from '../../components/BottomActions/BottomActions';
@@ -74,6 +75,7 @@ const ErrorMessage = ({ message }: { message: string }) => {
 };
 
 export const FormAddConnection = ({ initialValue }: { initialValue?: Connection }) => {
+  const queryClient = useQueryClient();
   const [connections, setConnections] = useState<Connection[]>([]);
   const [isValidating, setIsValidating] = useState(false);
   const [name, setName] = useState(initialValue?.name || '');
@@ -255,6 +257,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
             clientSecret,
           }).then(() => {
             setShowSuccessView(true);
+            queryClient.invalidateQueries();
 
             setTimeout(() => {
               navigation.navigate('MainTabs');
@@ -265,7 +268,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
       .finally(() => {
         setIsValidating(false);
       });
-  }, [apiKey, previewUrl, clientID, clientSecret, name, initialValue, navigation]);
+  }, [apiKey, previewUrl, clientID, clientSecret, initialValue, name, navigation, queryClient]);
 
   const bottomActions = useMemo(
     () => (
