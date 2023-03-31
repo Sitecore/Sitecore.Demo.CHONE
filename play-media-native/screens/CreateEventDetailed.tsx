@@ -20,6 +20,7 @@ import {
 import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
+import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { Event } from '../interfaces/event';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
@@ -79,7 +80,8 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
     [deviceMedia?.length, uploadDeviceMedia]
   );
 
-  const { refetch: refetchListing } = useEventsQuery();
+  const { refetch: refetchEventListing } = useEventsQuery();
+  const { refetch: refetchMediaListing } = useMediaQuery();
 
   // Hide bottom action buttons if a loading indicator or a toaster is shown
   //
@@ -128,7 +130,8 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
     })
       .then(async () => {
         setShowSuccessToast(true);
-        await refetchListing();
+        await refetchEventListing();
+        await refetchMediaListing();
         setIsValidating(false);
         navigation.navigate('MainTabs');
       })
@@ -136,7 +139,14 @@ export const CreateEventDetailedScreen = ({ navigation, route }: Props) => {
         setShowErrorToast(true);
         setIsValidating(false);
       });
-  }, [event, getStateAfterMediaUpload, initRequestFields, navigation, refetchListing]);
+  }, [
+    event,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    navigation,
+    refetchEventListing,
+    refetchMediaListing,
+  ]);
 
   const onReview = useCallback(() => {
     navigation.navigate('ReviewEvent', {

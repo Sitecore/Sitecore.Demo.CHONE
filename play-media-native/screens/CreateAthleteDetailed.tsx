@@ -20,6 +20,7 @@ import {
 import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
+import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { Athlete } from '../interfaces/athlete';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
@@ -79,7 +80,8 @@ export const CreateAthleteDetailedScreen = ({ navigation, route }: Props) => {
     [deviceMedia?.length, uploadDeviceMedia]
   );
 
-  const { refetch: refetchListing } = useAthletesQuery();
+  const { refetch: refetchAthleteListing } = useAthletesQuery();
+  const { refetch: refetchMediaListing } = useMediaQuery();
 
   // Hide bottom action buttons if a loading indicator or a toaster is shown
   //
@@ -128,7 +130,8 @@ export const CreateAthleteDetailedScreen = ({ navigation, route }: Props) => {
     })
       .then(async () => {
         setShowSuccessToast(true);
-        await refetchListing();
+        await refetchAthleteListing();
+        await refetchMediaListing();
         setIsValidating(false);
         navigation.navigate('MainTabs');
       })
@@ -136,7 +139,14 @@ export const CreateAthleteDetailedScreen = ({ navigation, route }: Props) => {
         setShowErrorToast(true);
         setIsValidating(false);
       });
-  }, [athlete, getStateAfterMediaUpload, initRequestFields, navigation, refetchListing]);
+  }, [
+    athlete,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    navigation,
+    refetchAthleteListing,
+    refetchMediaListing,
+  ]);
 
   const onReview = useCallback(() => {
     navigation.navigate('ReviewAthlete', {

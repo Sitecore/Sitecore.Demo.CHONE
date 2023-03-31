@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { ActivityIndicator, Button } from 'react-native-paper';
 
 import { createContentItem } from '../api/queries/contentItems';
+import { uploadMultipleImages } from '../api/queries/uploadMedia';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { Toast } from '../components/Toast/Toast';
 import { CREATE_ATHLETE_DISCARD_MESSAGE, FIELD_OVERRIDES_ATHLETE } from '../constants/athlete';
@@ -18,9 +19,11 @@ import {
   mapContentItemToId,
   prepareRequestFields,
 } from '../helpers/contentItemHelper';
+import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { generateID } from '../helpers/uuid';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
+import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { Athlete } from '../interfaces/athlete';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
@@ -29,7 +32,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'CreateAthleteOverview'>
 
 export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
   const [stateKey] = useState<string>(generateID());
-  const { contentItems, init, reset } = useContentItems();
+  const { contentItems, init, reset, editMultiple } = useContentItems();
   const athlete = contentItems[stateKey] as Athlete;
 
   const isDisabled = !canSubmitContentItem(contentItems[stateKey], FIELD_OVERRIDES_ATHLETE);
@@ -41,7 +44,48 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
   const [draftSaved, setDraftSaved] = useState(false);
 
-  const { refetch: refetchListing } = useAthletesQuery();
+  const deviceMedia = useMemo(
+    () => athlete && getDeviceImages(athlete, FIELD_OVERRIDES_ATHLETE),
+    [athlete]
+  );
+
+  const uploadDeviceMedia = useCallback(
+    async (athleteFields: Athlete) => {
+      return await uploadMultipleImages(deviceMedia)
+        .then((uploadedMedia) => {
+          const updatedFields = insertCreatedMedia(athleteFields, uploadedMedia);
+
+          editMultiple({
+            id: stateKey,
+            fields: updatedFields,
+          });
+
+          return {
+            ...athleteFields,
+            ...updatedFields,
+          };
+        })
+        .catch((e) => {
+          console.error(e);
+          return athleteFields;
+        });
+    },
+    [deviceMedia, editMultiple, stateKey]
+  );
+
+  const getStateAfterMediaUpload = useCallback(
+    async (athleteFields: Athlete) => {
+      if (!deviceMedia?.length) {
+        return athleteFields;
+      }
+
+      return await uploadDeviceMedia(athleteFields);
+    },
+    [deviceMedia?.length, uploadDeviceMedia]
+  );
+
+  const { refetch: refetchAthleteListing } = useAthletesQuery();
+  const { refetch: refetchMediaListing } = useMediaQuery();
 
   // Hide bottom action buttons if a loading indicator or a toaster is shown
   //
@@ -80,7 +124,8 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
 
-    const requestFields = await initRequestFields(athlete);
+    const stateFields = await getStateAfterMediaUpload(athlete);
+    const requestFields = await initRequestFields(stateFields);
 
     await createContentItem({
       contentTypeId: CONTENT_TYPES.ATHLETE,
@@ -90,7 +135,8 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
       .then(async () => {
         setDraftSaved(true);
         setShowSuccessToast(true);
-        await refetchListing();
+        await refetchAthleteListing();
+        await refetchMediaListing();
         setIsValidating(false);
         navigation.navigate('MainTabs');
       })
@@ -98,7 +144,14 @@ export const CreateAthleteOverviewScreen = ({ navigation }: Props) => {
         setShowErrorToast(true);
         setIsValidating(false);
       });
-  }, [athlete, initRequestFields, navigation, refetchListing]);
+  }, [
+    athlete,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    navigation,
+    refetchAthleteListing,
+    refetchMediaListing,
+  ]);
 
   const onAddDetails = useCallback(() => {
     navigation.push('CreateAthleteDetailed', {

@@ -21,6 +21,7 @@ import {
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
+import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { Event } from '../interfaces/event';
 import { RootStackParamList } from '../interfaces/navigators';
 import { styles } from '../theme/styles';
@@ -41,7 +42,8 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
   const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
   const [draftSaved, setDraftSaved] = useState(false);
 
-  const { refetch: refetchListing } = useEventsQuery();
+  const { refetch: refetchEventListing } = useEventsQuery();
+  const { refetch: refetchMediaListing } = useMediaQuery();
 
   // Hide bottom action buttons if a loading indicator or a toaster is shown
   //
@@ -90,7 +92,8 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
       .then(async () => {
         setDraftSaved(true);
         setShowSuccessToast(true);
-        await refetchListing();
+        await refetchEventListing();
+        await refetchMediaListing();
         setIsValidating(false);
         navigation.navigate('MainTabs');
       })
@@ -98,7 +101,7 @@ export const CreateEventOverviewScreen = ({ navigation }: Props) => {
         setShowErrorToast(true);
         setIsValidating(false);
       });
-  }, [event, initRequestFields, navigation, refetchListing]);
+  }, [event, initRequestFields, navigation, refetchEventListing, refetchMediaListing]);
 
   const onAddDetails = useCallback(() => {
     navigation.push('CreateEventDetailed', {
