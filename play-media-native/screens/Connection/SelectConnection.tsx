@@ -3,7 +3,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useState } from 'react';
 import { BackHandler, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text } from 'react-native-paper';
+import { useQueryClient } from 'react-query';
 
+import connectionScreenStyles from './styles';
 import { MaterialIcon } from '../../components/Icon/MaterialIcon';
 import { Logo } from '../../components/Logo/Logo';
 import { CONNECTIONS_MAX_LIMIT } from '../../constants/connections';
@@ -17,7 +19,6 @@ import { Connection } from '../../interfaces/connections';
 import { RootStackParamList } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
-import connectionScreenStyles from './styles';
 
 const pageStyles = StyleSheet.create({
   warningContainer: {
@@ -40,6 +41,8 @@ const pageStyles = StyleSheet.create({
 type Props = NativeStackScreenProps<RootStackParamList, 'SelectConnection'>;
 
 export const SelectConnectionScreen = ({ navigation, route }: Props) => {
+  const queryClient = useQueryClient();
+
   const [hideLogo] = useState(route?.params?.hideLogo);
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedConnectionName, setSelectedConnectionName] = useState<string>();
@@ -114,12 +117,16 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
   );
 
   const onSelect = useCallback(
-    (value: string) => {
+    async (value: string) => {
       setSelectedConnectionName(value);
-      setExpoSelectedConnection(connections.find((connection) => connection.name === value));
-      navigation.navigate('MainTabs');
+      await setExpoSelectedConnection(
+        connections.find((connection) => connection.name === value)
+      ).then(() => {
+        queryClient.invalidateQueries();
+        navigation.navigate('MainTabs');
+      });
     },
-    [connections, navigation]
+    [connections, navigation, queryClient]
   );
 
   const connectionLimitWarning = isConnectionLimitReached && (

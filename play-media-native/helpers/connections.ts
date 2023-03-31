@@ -27,7 +27,7 @@ export const storeConnection = async (connection: Connection): Promise<void> => 
     await save(CONNECTIONS_KEY, JSON.stringify([...existingConnections, connection]));
   }
 
-  setSelectedConnection(connection);
+  await setSelectedConnection(connection);
 };
 
 // Edit selected connection in secure storage
