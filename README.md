@@ -4,9 +4,13 @@ Repository for all the Content Hub ONE demos built by the Sitecore Demo Solution
 
 ## Demos
 
-### [PLAY! Media Next.js](/play-media/src)
+### [PLAY! Media Next.js Website](/play-media/src)
 
 Next.js responsive and mobile-first website with events and athletes.
+
+### [PLAY! Media Mobile Phone Application](/play-media-native)
+
+Android and iOS phone application for journalists to add, edit, and publish events, athletes, and media from the field.
 
 ## ⚠ Important notice
 
