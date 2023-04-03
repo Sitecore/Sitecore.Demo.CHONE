@@ -33,6 +33,10 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     () => (editedMedia?.name ? removeFileExtension(editedMedia.name) : 'Untitled media'),
     [editedMedia?.name]
   );
+  const editedMediaTitle = useMemo(
+    () => (editedMedia?.name ? removeFileExtension(editedMedia.name) : ''),
+    [editedMedia?.name]
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -64,7 +68,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     }, [navigation, isDraftSaved, editedMedia?.id, headerTitle])
   );
 
-  const handleNameChange = useCallback((text: string) => {
+  const handleTitleChange = useCallback((text: string) => {
     setEditedMedia((media) => ({
       ...media,
       name: text,
@@ -104,8 +108,8 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
           containerStyle={styles.inputContainer}
           title="Title"
           multiline
-          onChange={handleNameChange}
-          value={editedMedia?.name ? removeFileExtension(editedMedia.name) : ''}
+          onChange={handleTitleChange}
+          value={editedMediaTitle}
         />
         <InputText
           containerStyle={styles.inputContainer}
