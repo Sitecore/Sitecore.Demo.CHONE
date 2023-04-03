@@ -33,7 +33,7 @@ export type RootStackParamList = {
   DiscardChanges: StandardScreen & {
     message: string;
     redirectRoute: string;
-    stateKey: string;
+    stateKey?: string;
   };
   EditAthlete: StandardScreen & {
     stateKey: string;
