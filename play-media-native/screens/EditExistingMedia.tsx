@@ -27,12 +27,17 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     onSuccess: (data) => setEditedMedia(data),
   });
 
+  const headerTitle = useMemo(
+    () => (editedMedia?.name ? removeFileExtension(editedMedia.name) : 'Untitled media'),
+    [editedMedia?.name]
+  );
+
   useFocusEffect(
     useCallback(() => {
       navigation.setParams({
-        title: editedMedia?.name ? removeFileExtension(editedMedia.name) : 'Untitled media',
+        title: headerTitle,
       });
-    }, [editedMedia?.name, navigation])
+    }, [headerTitle, navigation])
   );
 
   const handleNameChange = useCallback((text: string) => {
