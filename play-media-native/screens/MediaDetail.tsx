@@ -38,8 +38,8 @@ export const MediaDetailScreen = ({ route, navigation }: Props) => {
   );
 
   const handleEditInfo = useCallback(() => {
-    // TODO
-  }, []);
+    navigation.push('EditExistingMedia', { id });
+  }, [id, navigation]);
 
   const bottomActions = useMemo(
     () => (
