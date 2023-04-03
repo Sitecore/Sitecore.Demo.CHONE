@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { Tabs } from './Tabs';
 import { StackScreenHeader } from '../features/StackScreenHeader/StackScreenHeader';
 import { RootStackParamList } from '../interfaces/navigators';
 import { AddAthletesScreen } from '../screens/AddAthletes';
@@ -18,6 +17,7 @@ import { CreateAthleteDetailedScreen } from '../screens/CreateAthleteDetailed';
 import { CreateAthleteOverviewScreen } from '../screens/CreateAthleteOverview';
 import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
 import { CreateEventOverviewScreen } from '../screens/CreateEventOverview';
+import { CreateMediaScreen } from '../screens/CreateMedia';
 import { DiscardChangesScreen } from '../screens/DiscardChanges';
 import { EditAthleteScreen } from '../screens/EditAthlete';
 import { EditEventScreen } from '../screens/EditEvent';
@@ -26,6 +26,7 @@ import { EventDetailScreen } from '../screens/EventDetail';
 import { MediaDetailScreen } from '../screens/MediaDetail';
 import { ReviewAthleteScreen } from '../screens/ReviewAthlete';
 import { ReviewEventScreen } from '../screens/ReviewEvent';
+import { Tabs } from './Tabs';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -141,6 +142,14 @@ export const Stacks = () => {
         component={EditMediaScreen}
         initialParams={{
           subtitle: 'Edit media file details',
+        }}
+      />
+      <Stack.Screen
+        name="CreateMedia"
+        component={CreateMediaScreen}
+        initialParams={{
+          title: 'Untitled media',
+          subtitle: 'Add new media',
         }}
       />
       <Stack.Screen
