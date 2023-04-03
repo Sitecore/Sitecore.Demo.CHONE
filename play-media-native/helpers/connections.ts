@@ -27,22 +27,40 @@ export const storeConnection = async (connection: Connection): Promise<void> => 
     await save(CONNECTIONS_KEY, JSON.stringify([...existingConnections, connection]));
   }
 
-  setSelectedConnection(connection);
+  await setSelectedConnection(connection);
 };
 
-// Save connection object in secure storage
+// Edit selected connection in secure storage
 //
-export const removeConnections = async (connections: Connection[]): Promise<void> => {
+export const editConnection = async (previousConnectionName: string, newConnection: Connection) => {
+  const existingConnections = await getConnections();
+
+  await save(
+    CONNECTIONS_KEY,
+    JSON.stringify(
+      existingConnections.map((item) => {
+        if (item.name !== previousConnectionName) {
+          return item;
+        }
+
+        return newConnection;
+      })
+    )
+  );
+};
+
+// Remove connection object from secure storage
+//
+export const removeConnection = async (connectionName: string): Promise<void> => {
   const existingConnections = await getConnections();
 
   if (!existingConnections?.length) {
     return;
   }
 
-  const namesToRemove = connections.map((item) => item.name);
   await save(
     CONNECTIONS_KEY,
-    JSON.stringify(existingConnections.filter((item) => !namesToRemove.includes(item.name)))
+    JSON.stringify(existingConnections.filter((item) => item.name !== connectionName))
   );
 };
 

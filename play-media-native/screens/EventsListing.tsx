@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { StatusBar } from 'react-native';
-import { AnimatedFAB } from 'react-native-paper';
 
+import { BottomFAB } from '../components/BottomFAB/BottomFAB';
 import { Listing } from '../components/Listing/Listing';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { EventFilters } from '../features/EventFilters/EventFilters';
@@ -12,10 +12,8 @@ import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
-import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Event } from '../interfaces/event';
-import { styles } from '../theme/styles';
 
 export const EventsListingScreen = ({ navigation }) => {
   const {
@@ -38,8 +36,6 @@ export const EventsListingScreen = ({ navigation }) => {
     facets: eventFilterValues,
     query: eventSearchQuery,
   });
-
-  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const statusOptions = useMemo(() => getStatusOptions(events), [events]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
@@ -72,21 +68,16 @@ export const EventsListingScreen = ({ navigation }) => {
       <Listing
         data={filteredEvents}
         renderItem={renderItem}
-        onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingEvents || isRefetchingSports}
         style={{
           flex: 1,
         }}
       />
-      <AnimatedFAB
+      <BottomFAB
         icon="plus"
-        label="Add new event"
-        extended={isTopEdge}
+        label="Add event"
         onPress={() => navigation.navigate('CreateEventOverview')}
-        animateFrom="right"
-        iconMode="dynamic"
-        style={styles.fab}
       />
     </Screen>
   );

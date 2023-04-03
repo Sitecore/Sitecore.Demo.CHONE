@@ -4,13 +4,18 @@ import { theme } from './theme';
 
 export const styles = StyleSheet.create({
   button: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: theme.colors.yellow.DEFAULT,
     marginHorizontal: theme.spacing.xs,
+    height: theme.sizing.buttonHeight,
   },
   buttonDisabled: {
-    borderColor: theme.colors.gray.dark,
-    backgroundColor: theme.colors.gray.dark,
+    borderColor: theme.colors.black.lightest,
+    backgroundColor: theme.colors.black.lightest,
+  },
+  buttonDisabledSecondary: {
+    borderColor: theme.colors.black.lightest,
+    backgroundColor: theme.colors.transparent,
   },
   buttonSmall: {
     borderWidth: 1,
@@ -21,13 +26,16 @@ export const styles = StyleSheet.create({
   buttonLabel: {
     fontFamily: theme.fontFamily.medium,
     fontSize: theme.fontSize.base,
-    lineHeight: 30,
+    lineHeight: 25,
   },
   buttonLabelSmall: {
     fontFamily: theme.fontFamily.DEFAULT,
     fontSize: theme.fontSize.sm,
     lineHeight: theme.fontSize.base,
     top: 2,
+  },
+  buttonLabelDisabledSecondary: {
+    color: theme.colors.black.lightest,
   },
   centered: {
     justifyContent: 'center',
@@ -41,6 +49,7 @@ export const styles = StyleSheet.create({
     margin: theme.spacing.xs,
     right: theme.spacing.xs,
     bottom: theme.spacing.xs,
+    borderRadius: theme.spacing.xs,
   },
   inputContainer: {
     marginBottom: theme.spacing.sm,

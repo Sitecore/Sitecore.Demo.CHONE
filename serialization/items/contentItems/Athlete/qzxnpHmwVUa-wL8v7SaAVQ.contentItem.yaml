@@ -8,10 +8,10 @@ fields:
     value: false
     type: Boolean
   dateOfBirth:
-    value: null
+    value: 1999-02-08T00:00:00.0000000+02:00
     type: DateTime
   careerStartDate:
-    value: null
+    value: 2016-10-30T01:00:00.0000000+03:00
     type: DateTime
   athleteQuote:
     value: If you think you’re done, you always have at least 40 percent more.
@@ -24,11 +24,31 @@ fields:
     type: ShortText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "yPoUc6FUZkO3RZlb3gT5RQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/yPoUc6FUZkO3RZlb3gT5RQ"
-      }
+    - type: Link
+      relatedType: Content
+      id: yPoUc6FUZkO3RZlb3gT5RQ
     type: Reference
+  profilePhoto:
+    value:
+    - type: Link
+      relatedType: Media
+      id: qOvWL9TfLkGgbIqld4hYlQ
+    type: Media
+  featuredImage:
+    value:
+    - type: Link
+      relatedType: Media
+      id: dd6ke9VEmEm_a0cjS0RWOA
+    type: Media
+  relatedMedia:
+    value:
+    - type: Link
+      relatedType: Media
+      id: dd6ke9VEmEm_a0cjS0RWOA
+    - type: Link
+      relatedType: Media
+      id: iu3Gd2U0YkC8R-0qAJuSlQ
+    - type: Link
+      relatedType: Media
+      id: eICbeym4vUmdrBQn9OUSNw
+    type: Media

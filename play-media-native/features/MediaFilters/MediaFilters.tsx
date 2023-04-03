@@ -42,16 +42,16 @@ export const MediaFilters = ({
         id: MEDIA_FACETS.fileType,
         label: 'File type',
         facets: fileTypeOptions,
-        selectedValue: '',
+        selectedValue: mediaFilterValues?.[MEDIA_FACETS.fileType],
       },
       {
         id: MEDIA_FACETS.status,
         label: 'State',
         facets: statusOptions,
-        selectedValue: '',
+        selectedValue: mediaFilterValues?.[MEDIA_FACETS.status],
       },
     ],
-    [fileTypeOptions, statusOptions]
+    [fileTypeOptions, mediaFilterValues, statusOptions]
   );
 
   if (!visible) {

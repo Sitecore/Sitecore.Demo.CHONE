@@ -10,6 +10,7 @@ import { AddSportsScreen } from '../screens/AddSport';
 import { AthleteDetailScreen } from '../screens/AthleteDetail';
 import { AddConnectionScreen } from '../screens/Connection/AddConnection';
 import { ManualConnectionScreen } from '../screens/Connection/ManualConnection';
+import { ManualConnectionDiscardScreen } from '../screens/Connection/ManualConnectionDiscard';
 import { QRCodeConnectionScreen } from '../screens/Connection/QRCodeConnection';
 import { RemoveConnectionScreen } from '../screens/Connection/RemoveConnection';
 import { SelectConnectionScreen } from '../screens/Connection/SelectConnection';
@@ -157,14 +158,8 @@ export const Stacks = () => {
         }}
       />
       <Stack.Screen name="MainTabs" component={Tabs} options={{ headerShown: false }} />
-      <Stack.Screen
-        name="ManualConnection"
-        component={ManualConnectionScreen}
-        initialParams={{
-          title: 'Untitled connection',
-          subtitle: 'Add connection details',
-        }}
-      />
+      <Stack.Screen name="ManualConnection" component={ManualConnectionScreen} />
+      <Stack.Screen name="ManualConnectionDiscard" component={ManualConnectionDiscardScreen} />
       <Stack.Screen name="QRCodeConnection" component={QRCodeConnectionScreen} />
       <Stack.Screen
         name="RemoveConnection"

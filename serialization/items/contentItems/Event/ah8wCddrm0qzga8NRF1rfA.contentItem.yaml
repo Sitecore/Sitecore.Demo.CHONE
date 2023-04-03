@@ -8,7 +8,7 @@ fields:
     value: true
     type: Boolean
   timeAndDate:
-    value: 2022-11-18T22:00:00.000Z
+    value: 2022-11-19T00:00:00.0000000+02:00
     type: DateTime
   location:
     value: Santiago, Chile
@@ -44,52 +44,58 @@ fields:
     type: RichText
   sport:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "bO5xDYy-2EikGiocmTsDng",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/bO5xDYy-2EikGiocmTsDng"
-      }
+    - type: Link
+      relatedType: Content
+      id: bO5xDYy-2EikGiocmTsDng
     type: Reference
   athletes:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "hmOxouM4gUGR7rIjE30GTQ",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/hmOxouM4gUGR7rIjE30GTQ"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "6VYohiIqHUW2QvtbYnTOAw",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/6VYohiIqHUW2QvtbYnTOAw"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "M9JadFDtWk28RJ5RPaeGsw",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/M9JadFDtWk28RJ5RPaeGsw"
-      }
+    - type: Link
+      relatedType: Content
+      id: hmOxouM4gUGR7rIjE30GTQ
+    - type: Link
+      relatedType: Content
+      id: 6VYohiIqHUW2QvtbYnTOAw
+    - type: Link
+      relatedType: Content
+      id: M9JadFDtWk28RJ5RPaeGsw
     type: Reference
   similarEvents:
     value:
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "JXccEXUGlUWQPPFjRWaOrg",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/JXccEXUGlUWQPPFjRWaOrg"
-      }
-    - >-
-      {
-        "type": "Link",
-        "relatedType": "Content",
-        "id": "-SxxLRtX6U27XK-C5WzO-w",
-        "uri": "http://content-api-weu.sitecorecloud.io/api/content/v1/items/-SxxLRtX6U27XK-C5WzO-w"
-      }
+    - type: Link
+      relatedType: Content
+      id: JXccEXUGlUWQPPFjRWaOrg
+    - type: Link
+      relatedType: Content
+      id: -SxxLRtX6U27XK-C5WzO-w
     type: Reference
+  featuredImage:
+    value:
+    - type: Link
+      relatedType: Media
+      id: vcs1MlA2H023V3o-f699iQ
+    type: Media
+  relatedMedia:
+    value:
+    - type: Link
+      relatedType: Media
+      id: d0Qi6bp8akK-5EsLACjzJQ
+    - type: Link
+      relatedType: Media
+      id: vcs1MlA2H023V3o-f699iQ
+    - type: Link
+      relatedType: Media
+      id: 0bkeTJrCGUCn-EOz2HmlTw
+    - type: Link
+      relatedType: Media
+      id: 1OpQJpJ18EOCtfJ4LfV2aA
+    - type: Link
+      relatedType: Media
+      id: TVW6GRE0hka_A8qMDRZbOA
+    - type: Link
+      relatedType: Media
+      id: g_h4Us5RsEGSh3H4UjwJ9A
+    - type: Link
+      relatedType: Media
+      id: xqqJ75GRKEC6vAxDHb6ypw
+    type: Media

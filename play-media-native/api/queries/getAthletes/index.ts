@@ -1,7 +1,6 @@
 import { fetchGraphQL } from '../..';
-import { FIELD_OVERRIDES_ATHLETE } from '../../../constants/athlete';
 import { STATUS_TYPES } from '../../../constants/status';
-import { normalizeContentItem } from '../../../helpers/contentItemHelper';
+import { normalizeAthlete } from '../../../helpers/athletes';
 import { AllAthletesResponse, Athlete, AthleteResponse } from '../../../interfaces/athlete';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
 import { getItemsStatus, getItemStatusById } from '../getItemsStatus/getItemsStatus';
@@ -35,6 +34,12 @@ query {
             id
             title
             description
+            featuredImage {
+              results {
+                id
+                fileUrl
+              }
+            }
           }
         }
       }
@@ -63,10 +68,9 @@ export const getAllAthletes = async (options?: FetchOptions): Promise<Athlete[]>
   )) as AllAthletesResponse;
   const statusResults = await getItemsStatus(STATUS_TYPES.content);
 
-  return results.data.allAthlete.results.map((athlete) => ({
-    ...normalizeContentItem(athlete, FIELD_OVERRIDES_ATHLETE),
-    status: statusResults.find((item) => item.id === athlete.id)?.status,
-  })) as Athlete[];
+  return results.data.allAthlete.results.map((athlete) =>
+    normalizeAthlete(athlete, statusResults)
+  ) as Athlete[];
 };
 
 const getAthleteByIdQuery = (id: string) => {
@@ -106,6 +110,12 @@ const getAthleteByIdQuery = (id: string) => {
               id
               title
               description
+              featuredImage {
+                results {
+                  id
+                  fileUrl
+                }
+              }
             }
           }
         }
@@ -136,8 +146,5 @@ export const getAthleteById = async (id: string): Promise<Athlete> => {
   };
   const statusResult = await getItemStatusById(id, STATUS_TYPES.content);
 
-  return {
-    ...normalizeContentItem(athleteResponse.data.athlete, FIELD_OVERRIDES_ATHLETE),
-    status: statusResult.status,
-  } as Athlete;
+  return normalizeAthlete(athleteResponse.data.athlete, [statusResult]) as Athlete;
 };

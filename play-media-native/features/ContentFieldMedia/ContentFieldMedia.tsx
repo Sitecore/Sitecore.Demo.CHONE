@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
-import { StyleProp, View } from 'react-native';
+import { StyleProp, StyleSheet, View } from 'react-native';
 import { Divider } from 'react-native-paper';
 
 import { DraggableList } from '../../components/DraggableList/DraggableList';
@@ -14,11 +14,13 @@ import { ActionMenu, MenuItem } from '../ActionMenu/ActionMenu';
 import { MediaItemListDisplay } from '../MediaItemListDisplay/MediaItemListDisplay';
 import { MenuAddMedia } from '../MenuAddMedia/MenuAddMedia';
 
-const menuStyle = {
-  position: 'absolute',
-  top: 0,
-  right: 0,
-};
+const styles = StyleSheet.create({
+  actionMenu: {
+    position: 'absolute',
+    top: -theme.spacing.xs,
+    right: -theme.spacing.xs,
+  },
+});
 
 export const ListItem = ({
   item,
@@ -36,7 +38,7 @@ export const ListItem = ({
         iconColor={theme.colors.black.DEFAULT}
         iconSize={theme.sizing.menuIconSize}
         menuItems={menuItems}
-        style={menuStyle}
+        style={styles.actionMenu}
       />
     </View>
   );
@@ -169,6 +171,7 @@ export const ContentFieldMedia = ({
           single={single}
           stateKey={stateKey}
           headerTitle={headerTitle}
+          fieldTitle={fieldTitle}
         />
       </View>
       {content}

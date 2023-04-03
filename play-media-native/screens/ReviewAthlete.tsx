@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { createContentItem, updateContentItem } from '../api/queries/contentItems';
@@ -20,34 +20,9 @@ import {
 import { getDeviceImages, insertCreatedMedia } from '../helpers/media';
 import { useAthletesQuery } from '../hooks/useAthletesQuery/useAthletesQuery';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
+import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { Athlete } from '../interfaces/athlete';
 import { styles } from '../theme/styles';
-import { theme } from '../theme/theme';
-
-const pageStyles = StyleSheet.create({
-  title: {
-    fontFamily: theme.fontFamily.bold,
-    color: theme.colors.gray.dark,
-    marginBottom: theme.spacing.xxs,
-  },
-  body: {
-    marginBottom: theme.spacing.sm,
-  },
-  bottomFAB: {
-    position: 'absolute',
-    right: theme.spacing.sm,
-    bottom: theme.spacing.xs,
-  },
-  button: {
-    position: 'absolute',
-    right: -theme.spacing.sm,
-    top: -theme.spacing.xs,
-  },
-  actionBtns: {
-    paddingBottom: 0,
-    paddingRight: theme.spacing.xs,
-  },
-});
 
 export const ReviewAthleteScreen = ({ navigation, route }) => {
   const stateKey = route?.params?.stateKey;
@@ -102,7 +77,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
 
   // In case of publishing we have to manually update the athlete's status
   // because the server takes too long to reflect the change
-  const { refetch: refetchListing } = useAthletesQuery(athleteID, athleteStatus);
+  const { refetch: refetchAthleteListing } = useAthletesQuery(athleteID, athleteStatus);
+  const { refetch: refetchMediaListing } = useMediaQuery();
 
   useEffect(() => {
     navigation.setOptions({
@@ -156,7 +132,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       })
         .then(async () => {
           setShowSuccessToast(true);
-          await refetchListing();
+          await refetchAthleteListing();
+          await refetchMediaListing();
           setIsValidating(false);
           navigation.navigate('MainTabs');
         })
@@ -172,7 +149,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
       })
         .then(async () => {
           setShowSuccessToast(true);
-          await refetchListing();
+          await refetchAthleteListing();
+          await refetchMediaListing();
           setIsValidating(false);
           navigation.navigate('MainTabs');
         })
@@ -181,7 +159,15 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
+  }, [
+    athlete,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    isNew,
+    navigation,
+    refetchAthleteListing,
+    refetchMediaListing,
+  ]);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
@@ -202,7 +188,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
             setShowSuccessToast(true);
             setAthleteID(newAthlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);
-            await refetchListing();
+            await refetchAthleteListing();
+            await refetchMediaListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
           });
@@ -222,7 +209,8 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
             setShowSuccessToast(true);
             setAthleteID(athlete.id);
             setAthleteStatus(ITEM_STATUS.PUBLISHED);
-            await refetchListing();
+            await refetchAthleteListing();
+            await refetchMediaListing();
             setIsValidating(false);
             navigation.navigate('MainTabs');
           });
@@ -232,11 +220,19 @@ export const ReviewAthleteScreen = ({ navigation, route }) => {
           setIsValidating(false);
         });
     }
-  }, [athlete, getStateAfterMediaUpload, initRequestFields, isNew, navigation, refetchListing]);
+  }, [
+    athlete,
+    getStateAfterMediaUpload,
+    initRequestFields,
+    isNew,
+    navigation,
+    refetchAthleteListing,
+    refetchMediaListing,
+  ]);
 
   const bottomActions = useMemo(
     () => (
-      <BottomActions style={pageStyles.actionBtns}>
+      <BottomActions>
         <Button
           mode="outlined"
           style={styles.button}

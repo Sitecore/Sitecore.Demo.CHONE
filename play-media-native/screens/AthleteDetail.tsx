@@ -1,18 +1,18 @@
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native';
-import { AnimatedFAB, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
 import { getAthleteById } from '../api/queries/getAthletes';
+import { BottomFAB } from '../components/BottomFAB/BottomFAB';
 import { AthleteDetail } from '../features/AthleteDetail/AthleteDetail';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
-import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
-import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 export const AthleteDetailScreen = ({ route, navigation }) => {
@@ -27,7 +27,13 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
     isFetching,
   } = useQuery(`athlete - ${id}`, () => getAthleteById(id), { staleTime: 0 });
 
-  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setParams({
+        title: athlete?.athleteName || 'Untitled athlete',
+      });
+    }, [athlete?.athleteName, navigation])
+  );
 
   const handleEditInfo = useCallback(() => {
     const stateKey = generateID();
@@ -38,17 +44,15 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   const bottomActions = useMemo(
     () => (
-      <AnimatedFAB
+      <BottomFAB
         icon={({ size }) => (
           <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
         )}
         label="Edit"
-        extended={isTopEdge}
         onPress={handleEditInfo}
-        style={styles.fab}
       />
     ),
-    [isTopEdge, handleEditInfo]
+    [handleEditInfo]
   );
 
   if (error) {
@@ -65,7 +69,7 @@ export const AthleteDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
+      <ScrollView>
         <AthleteDetail athlete={athlete} />
       </ScrollView>
       {!isEditForbidden && bottomActions}
