@@ -81,7 +81,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
           title="Title"
           multiline
           onChange={handleNameChange}
-          value={removeFileExtension(editedMedia?.name) || ''}
+          value={editedMedia?.name ? removeFileExtension(editedMedia.name) : ''}
         />
         <InputText
           containerStyle={styles.inputContainer}
