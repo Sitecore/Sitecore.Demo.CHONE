@@ -1,3 +1,5 @@
+import { normalizeAthlete, publishAthlete } from './athletes';
+import { normalizeContentItem } from './contentItemHelper';
 import { publishContentItem } from '../api/queries/contentItems';
 import { publishMediaItem } from '../api/queries/mediaItems';
 import { EVENT_FACETS } from '../constants/filters';
@@ -6,8 +8,6 @@ import { AthleteResponse } from '../interfaces/athlete';
 import { Event, EventResponse } from '../interfaces/event';
 import { Sport } from '../interfaces/sport';
 import { StatusResult } from '../interfaces/statusResults';
-import { normalizeAthlete, publishAthlete } from './athletes';
-import { normalizeContentItem } from './contentItemHelper';
 
 export const initializeEvents = (events: Event[], sports: Sport[]) => {
   if (!events || !sports) {
