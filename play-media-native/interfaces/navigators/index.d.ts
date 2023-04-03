@@ -41,6 +41,7 @@ export type RootStackParamList = {
   EditEvent: StandardScreen & {
     stateKey: string;
   };
+  EditExistingMedia: StandardScreen;
   EditMedia: StandardScreen;
   EventDetail: StandardScreen;
   MainTabs: undefined;
