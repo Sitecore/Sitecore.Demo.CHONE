@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Image, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
@@ -20,7 +20,9 @@ type Props = NativeStackScreenProps<RootStackParamList, 'EditExistingMedia'>;
 
 export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   const id = route?.params?.id;
+
   const [editedMedia, setEditedMedia] = useState<Partial<Media>>();
+  const [isDraftSaved, setIsDraftSaved] = useState(false);
 
   const { error, isFetching } = useQuery(`media-${id}`, () => getMediaById(id), {
     staleTime: 0,
@@ -38,6 +40,28 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
         title: headerTitle,
       });
     }, [headerTitle, navigation])
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener('beforeRemove', (event) => {
+        if (!isDraftSaved) {
+          event.preventDefault();
+
+          navigation.push('DiscardChanges', {
+            id: editedMedia?.id,
+            title: headerTitle,
+            subtitle: 'Discard media file changes?',
+            message: 'Are you sure you want to discard the media file changes?',
+            redirectRoute: 'MediaDetail',
+          });
+        }
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    }, [navigation, isDraftSaved, editedMedia?.id, headerTitle])
   );
 
   const handleNameChange = useCallback((text: string) => {
