@@ -29,6 +29,8 @@ export const Header = () => {
             className="header-logo"
           />
         </Link>
+
+
         <button className="menu-button" onClick={() => setIsExpanded(!isExpanded)}>
           <span></span>
           <span></span>
@@ -42,7 +44,7 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <Link href={'/athletes'} onClick={handleNavClose}>
+              <Link href={'/sitecoreP'} onClick={handleNavClose}>
                 Athletes
               </Link>
             </li>
@@ -61,7 +63,10 @@ export const Header = () => {
               </div>
             </li>
           </ul>
+
+
         </nav>
+
       </div>
     </header>
   );

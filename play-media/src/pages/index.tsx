@@ -1,18 +1,23 @@
 import Head from 'next/head';
 import { getAllEvents } from '../api/queries/getEvents';
+
 import { EventListingPage } from '../components/Pages/EventListingPage';
 import { Event } from '../interfaces/event';
 import { REVALIDATE_INTERVAL } from '../constants/build';
 
+import { identifyVisitor, logViewEvent ,logEvent} from '../services/CdpService';
+
+
 export default function Home({ events }: { events: Event[] }) {
   const invalidData = !events;
+
+console.log(events)
 
   return (
     <>
       <Head>
-        <title>PLAY! Media</title>
+        <title>PLAY! Travel</title>
       </Head>
-
       <main>{invalidData ? null : <EventListingPage events={events} />}</main>
     </>
   );
@@ -20,6 +25,8 @@ export default function Home({ events }: { events: Event[] }) {
 
 export const getStaticProps = async () => {
   const events = await getAllEvents();
+
+
 
   if (!events) {
     return {

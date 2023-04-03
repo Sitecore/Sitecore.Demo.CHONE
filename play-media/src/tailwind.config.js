@@ -71,6 +71,7 @@ module.exports = {
       'sans': 'Saira, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"'
     },
     extend: {
+
       maxWidth: {
         'container': '66rem',
       },
