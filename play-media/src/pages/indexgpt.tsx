@@ -16,9 +16,9 @@ const server = dev ? 'http://localhost:3000/api/sitecoreP' : 'https://mrfpmchone
 const server2 = dev ? 'http://localhost:3000/api/sitecoreP2' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP2';
 const server3 = dev ? 'http://localhost:3000/api/sitecoreP3' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP3';
 
-console.log (server)
-console.log (server2)
-console.log (server3)
+//console.log (server)
+//console.log (server2)
+//console.log (server3)
 
 
 const configuration = new Configuration({
@@ -50,7 +50,7 @@ export const getStaticProps = async () => {
     body: JSON.stringify({ product: "" }),
   });
 
-  console.log(response)
+  //console.log(response)
 
 
   const response2 = await fetch(server2, {
@@ -82,6 +82,8 @@ export const getStaticProps = async () => {
 
 if (events?.length != 0) {
   const featuredEvents = events?.filter((event) => event.isFeatured)
+
+  console.log(featuredEvents)
 
   featuredEvents[0].teaser = rawResult;
   featuredEvents[0].sport.results[0].title = "Hiking"

@@ -18,7 +18,7 @@ export default async function P(req, res) {
     presence_penalty: 0.0
   });
   res.status(200).json({ result: completion.data.choices[0].text });
- console.log('P : '+ completion.data.choices[0].text);
+// console.log('P : '+ completion.data.choices[0].text);
   //console.log('P : '+ completion.data.choices.length);
 }
 
