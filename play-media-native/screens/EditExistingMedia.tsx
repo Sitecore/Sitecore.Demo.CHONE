@@ -82,6 +82,30 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     }));
   }, []);
 
+  const bottomActions = useMemo(
+    () => (
+      <BottomActions>
+        <Button
+          mode="outlined"
+          style={styles.button}
+          labelStyle={styles.buttonLabel}
+          onPress={handleSaveDraft}
+        >
+          Save as Draft
+        </Button>
+        <Button
+          mode="contained"
+          style={styles.button}
+          labelStyle={styles.buttonLabel}
+          onPress={handlePublishBtn}
+        >
+          Publish
+        </Button>
+      </BottomActions>
+    ),
+    [handleSaveDraft, handlePublishBtn]
+  );
+
   if (isFetching) {
     return <LoadingScreen />;
   }
@@ -119,6 +143,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
           value={editedMedia?.description || ''}
         />
       </View>
+      {bottomActions}
     </KeyboardAwareScreen>
   );
 };
