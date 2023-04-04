@@ -44,8 +44,8 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <Link href={'/sitecoreP'} onClick={handleNavClose}>
-                Athletes
+              <Link href={'/indexgpt'} onClick={handleNavClose}>
+                GPT OpenAI
               </Link>
             </li>
             <li>
