@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useCallback, useMemo, useState } from 'react';
 import { Button, Menu } from 'react-native-paper';
 
+import { MaterialIcon } from '../../components/Icon/MaterialIcon';
 import {
   getReferenceFieldButtonLabel,
   getReferenceFieldIcon,
@@ -12,6 +13,7 @@ import { useDeviceLibrary } from '../../hooks/useDeviceLibrary/useDeviceLibrary'
 import { DeviceMedia } from '../../interfaces/media';
 import { StackNavigationProp } from '../../interfaces/navigators';
 import { styles } from '../../theme/styles';
+import { theme } from '../../theme/theme';
 
 export const MenuAddMedia = ({
   empty,
@@ -107,10 +109,43 @@ export const MenuAddMedia = ({
           {buttonLabel}
         </Button>
       }
+      contentStyle={{ backgroundColor: theme.colors.white.DEFAULT }}
     >
-      <Menu.Item leadingIcon="camera" onPress={handleCameraPress} title="Camera" />
-      <Menu.Item leadingIcon="folder" onPress={handleMediaLibraryPress} title="Device" />
-      <Menu.Item leadingIcon="apps" onPress={handleCHonePress} title="CH ONE" />
+      <Menu.Item
+        leadingIcon={() => (
+          <MaterialIcon
+            name="camera-outline"
+            color={theme.colors.black.DEFAULT}
+            size={theme.fontSize.lg}
+          />
+        )}
+        onPress={handleCameraPress}
+        title="Camera"
+        titleStyle={styles.menuItem}
+        dense
+      />
+      <Menu.Item
+        leadingIcon={() => (
+          <MaterialIcon
+            name="folder-open-outline"
+            color={theme.colors.black.DEFAULT}
+            size={theme.fontSize.lg}
+          />
+        )}
+        onPress={handleMediaLibraryPress}
+        title="Device"
+        titleStyle={styles.menuItem}
+        dense
+      />
+      <Menu.Item
+        leadingIcon={() => (
+          <MaterialIcon name="apps" color={theme.colors.black.DEFAULT} size={theme.fontSize.lg} />
+        )}
+        onPress={handleCHonePress}
+        title="CH ONE"
+        titleStyle={styles.menuItem}
+        dense
+      />
     </Menu>
   );
 };

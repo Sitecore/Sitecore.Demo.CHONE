@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { Button, Menu } from 'react-native-paper';
 
+import { MaterialIcon } from '../components/Icon/MaterialIcon';
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaFilters } from '../features/MediaFilters/MediaFilters';
@@ -18,6 +19,7 @@ import { useFilters } from '../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { DeviceMedia, Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 export const MediaListingScreen = ({ navigation }) => {
   const {
@@ -110,9 +112,37 @@ export const MediaListingScreen = ({ navigation }) => {
             </Button>
           }
           anchorPosition="bottom"
+          contentStyle={{
+            marginBottom: 105,
+            backgroundColor: theme.colors.white.DEFAULT,
+          }}
         >
-          <Menu.Item leadingIcon="camera" onPress={handleCameraPress} title="Camera" />
-          <Menu.Item leadingIcon="folder" onPress={handleMediaLibraryPress} title="Device" />
+          <Menu.Item
+            leadingIcon={() => (
+              <MaterialIcon
+                name="camera-outline"
+                color={theme.colors.black.DEFAULT}
+                size={theme.fontSize.lg}
+              />
+            )}
+            onPress={handleCameraPress}
+            title="Camera"
+            titleStyle={styles.menuItem}
+            dense
+          />
+          <Menu.Item
+            leadingIcon={() => (
+              <MaterialIcon
+                name="folder-open-outline"
+                color={theme.colors.black.DEFAULT}
+                size={theme.fontSize.lg}
+              />
+            )}
+            onPress={handleMediaLibraryPress}
+            title="Device"
+            titleStyle={styles.menuItem}
+            dense
+          />
         </Menu>
       </View>
     </Screen>
