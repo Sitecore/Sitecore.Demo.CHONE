@@ -293,6 +293,7 @@ function callFlows(flowConfig: Record<string, unknown>) {
 
 // Boxever view page tracking
 export function logViewEvent(additionalData?: Record<string, unknown>): Promise<unknown> {
+  console.log("Log View Event VIEW: "+ additionalData)
   const eventConfig = Object.assign(
     {
       type: 'VIEW',

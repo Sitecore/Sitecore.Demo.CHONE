@@ -76,7 +76,7 @@ export const getStaticProps = async ({ params }: EventParams) => {
 console.log(params)
   console.log("Item ID: " + params.id)
 
-  logViewEvent({ page: params.slug })
+  logViewEvent({ page: "detail page" })
 
   if (!event) {
     return {
