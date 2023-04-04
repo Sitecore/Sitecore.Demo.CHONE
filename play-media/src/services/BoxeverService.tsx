@@ -129,7 +129,7 @@ console.log(CDP_PROXY_URL)
 console.log(CDP_API_TARGET_ENDPOINT)
 console.log(POINT_OF_SALE)
 
-console.log('CDPCONFIGURED:' + isCdpConfigured);
+console.log('is the CDPCONFIGURED:' + isCdpConfigured);
 
 
 export const BoxeverScripts: JSX.Element | undefined = isCdpConfigured ? (
