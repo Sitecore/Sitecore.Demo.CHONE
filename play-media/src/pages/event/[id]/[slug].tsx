@@ -35,8 +35,9 @@ const EventDetail: FC<Props> = ({ event }) => {
       </Head>
     );
   }
-
+  logViewEvent({ page: event?.title })
   return (
+    
     <>
       <Head>
         <title>{`${event.title} | PLAY! Media`}</title>
@@ -45,6 +46,9 @@ const EventDetail: FC<Props> = ({ event }) => {
     </>
   );
 };
+
+
+
 
 export default EventDetail;
 
@@ -62,7 +66,6 @@ export async function getStaticPaths() {
   const events = await getAllEvents();
   const validEvents = !events ? [] : events.filter((item) => item);
 
-  console.log("getting all events again in the detail page - getStaticPaths")
 
   const paths = validEvents.map((event) => ({
     params: { id: event?.id, slug: slugify(event?.title || '') },
@@ -73,10 +76,6 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async ({ params }: EventParams) => {
   const event = await getEventById(params.id);
-console.log(params)
-  console.log("Item ID: " + params.id)
-
-  logViewEvent({ page: "detail page" })
 
   if (!event) {
     return {
