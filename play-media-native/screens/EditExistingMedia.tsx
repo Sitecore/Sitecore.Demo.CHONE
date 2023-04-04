@@ -23,6 +23,8 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
 
   const [editedMedia, setEditedMedia] = useState<Partial<Media>>();
   const [isMediaItemSaved, setIsMediaItemSaved] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
+  const [shouldShowSuccessView, setShouldShowSuccessView] = useState(false);
 
   const { error, isFetching } = useQuery(`media-${id}`, () => getMediaById(id), {
     staleTime: 0,
@@ -82,6 +84,24 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     }));
   }, []);
 
+  const handleSaveDraft = useCallback(async () => {
+    setIsValidating(true);
+
+    await updateMediaItem(editedMedia)
+      .then(async () => {
+        setIsMediaItemSaved(true);
+        setIsValidating(false);
+        setShouldShowSuccessView(true);
+
+        await refetchMediaListing();
+        setTimeout(() => {
+          navigation.navigate('MainTabs');
+        }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
+      })
+      .catch(() => {
+        setIsValidating(false);
+      });
+  }, [editedMedia, navigation, refetchMediaListing]);
   const bottomActions = useMemo(
     () => (
       <BottomActions>
