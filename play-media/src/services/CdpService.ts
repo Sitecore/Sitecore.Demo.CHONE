@@ -13,7 +13,6 @@ export const CdpScripts: JSX.Element | undefined = BoxeverScripts;
  */
 export function logViewEvent(audiences?: Record<string, unknown>): Promise<unknown> {
   return boxeverLogViewEvent(audiences);
-  console.log('here logview event');
 }
 
 /**
@@ -21,7 +20,6 @@ export function logViewEvent(audiences?: Record<string, unknown>): Promise<unkno
  */
 export function logEvent(eventName: string, payload?: Record<string, unknown>): Promise<unknown> {
   return boxeverLogEvent(eventName, payload);
-  console.log('here logebvent');
 }
 
 /**
