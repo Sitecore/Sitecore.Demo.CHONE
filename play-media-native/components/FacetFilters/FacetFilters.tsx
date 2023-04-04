@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { View } from 'react-native';
 
+import { FacetFilter } from './FacetFilter';
 import { FacetFilter as IFacetFilter } from '../../interfaces/facets';
 import { theme } from '../../theme/theme';
 import { DropdownItem } from '../DropdownPicker/DropdownPicker';
-import { FacetFilter } from './FacetFilter';
 
 type FacetFiltersProps = {
   facetFilters: IFacetFilter[];
