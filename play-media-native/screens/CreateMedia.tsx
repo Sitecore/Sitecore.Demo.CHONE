@@ -16,7 +16,7 @@ import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 export const CreateMediaScreen = ({ navigation, route }) => {
-  const [editedImage, setEditedImage] = useState<Media>();
+  const [createdImage, setCreatedImage] = useState<Media>();
 
   const [isValidating, setIsValidating] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -26,14 +26,14 @@ export const CreateMediaScreen = ({ navigation, route }) => {
   const { refetch: refetchMediaListing } = useMediaQuery();
 
   const onNameChange = useCallback((text: string) => {
-    setEditedImage((prev) => ({
+    setCreatedImage((prev) => ({
       ...prev,
       name: text,
     }));
   }, []);
 
   const onDescriptionChange = useCallback((text: string) => {
-    setEditedImage((prev) => ({
+    setCreatedImage((prev) => ({
       ...prev,
       description: text,
     }));
@@ -42,7 +42,7 @@ export const CreateMediaScreen = ({ navigation, route }) => {
   const handlePublish = useCallback(async () => {
     setIsValidating(true);
 
-    await uploadSingleImage({ ...editedImage, stateField: '', stateId: '', uploadStatus: '' })
+    await uploadSingleImage({ ...createdImage, stateField: '', stateId: '', uploadStatus: '' })
       .then(async (uploadedImage) => {
         await publishMediaItem(uploadedImage.id)
           .then(async () => {
@@ -60,12 +60,12 @@ export const CreateMediaScreen = ({ navigation, route }) => {
         setShowErrorToast(true);
         setIsValidating(false);
       });
-  }, [editedImage, navigation, refetchMediaListing]);
+  }, [createdImage, navigation, refetchMediaListing]);
 
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
 
-    await uploadSingleImage({ ...editedImage, stateField: '', stateId: '', uploadStatus: '' })
+    await uploadSingleImage({ ...createdImage, stateField: '', stateId: '', uploadStatus: '' })
       .then(async () => {
         setShowSuccessToast(true);
         await refetchMediaListing();
@@ -76,11 +76,11 @@ export const CreateMediaScreen = ({ navigation, route }) => {
         setShowErrorToast(true);
         setIsValidating(false);
       });
-  }, [editedImage, navigation, refetchMediaListing]);
+  }, [createdImage, navigation, refetchMediaListing]);
 
   useFocusEffect(
     useCallback(() => {
-      setEditedImage(
+      setCreatedImage(
         route?.params?.image
           ? {
               ...route.params.image,
@@ -130,9 +130,9 @@ export const CreateMediaScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     navigation.setParams({
-      title: editedImage?.name || 'Untitled media',
+      title: createdImage?.name || 'Untitled media',
     });
-  }, [editedImage, navigation]);
+  }, [createdImage, navigation]);
 
   const bottomActions = useMemo(
     () => (
@@ -158,17 +158,17 @@ export const CreateMediaScreen = ({ navigation, route }) => {
     [handlePublish, handleSaveDraft]
   );
 
-  if (!editedImage) {
+  if (!createdImage) {
     return <Text>Something went wrong!</Text>;
   }
 
   return (
     <KeyboardAwareScreen>
       <Image
-        source={{ uri: editedImage.fileUrl }}
+        source={{ uri: createdImage.fileUrl }}
         style={[
           styles.responsiveImage,
-          { aspectRatio: editedImage.fileWidth / editedImage.fileHeight },
+          { aspectRatio: createdImage.fileWidth / createdImage.fileHeight },
         ]}
       />
       <View style={[styles.screenPadding, { paddingVertical: theme.spacing.sm }]}>
@@ -177,14 +177,14 @@ export const CreateMediaScreen = ({ navigation, route }) => {
           title="Title"
           multiline
           onChange={onNameChange}
-          value={editedImage?.name || ''}
+          value={createdImage?.name || ''}
         />
         <InputText
           containerStyle={styles.inputContainer}
           title="Description"
           multiline
           onChange={onDescriptionChange}
-          value={editedImage?.description || ''}
+          value={createdImage?.description || ''}
         />
       </View>
       {isValidating && (
