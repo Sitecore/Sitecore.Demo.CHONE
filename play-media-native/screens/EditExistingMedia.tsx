@@ -31,6 +31,12 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     onSuccess: (data) => setEditedMedia(data),
   });
 
+  // In case of publishing we have to manually update the media item's status
+  // because the server takes too long to reflect the change
+  const [mediaID, setMediaID] = useState(null);
+  const [mediaStatus, setMediaStatus] = useState(null);
+  const { refetch: refetchMediaListing } = useMediaQuery(mediaID, mediaStatus);
+
   const headerTitle = useMemo(
     () => (editedMedia?.name ? removeFileExtension(editedMedia.name) : 'Untitled media'),
     [editedMedia?.name]
@@ -102,6 +108,31 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
         setIsValidating(false);
       });
   }, [editedMedia, navigation, refetchMediaListing]);
+
+  const handlePublishBtn = useCallback(async () => {
+    setIsValidating(true);
+
+    await updateMediaItem(editedMedia)
+      .then(async () => {
+        await publishMediaItem(editedMedia.id).then(async () => {
+          setIsMediaItemSaved(true);
+          setIsValidating(false);
+          setShouldShowSuccessView(true);
+
+          setMediaID(editedMedia.id);
+          setMediaStatus(ITEM_STATUS.PUBLISHED);
+
+          await refetchMediaListing();
+          setTimeout(() => {
+            navigation.navigate('MainTabs');
+          }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
+        });
+      })
+      .catch(() => {
+        setIsValidating(false);
+      });
+  }, [editedMedia, navigation, refetchMediaListing]);
+
   const bottomActions = useMemo(
     () => (
       <BottomActions>
