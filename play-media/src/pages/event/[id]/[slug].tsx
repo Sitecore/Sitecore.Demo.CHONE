@@ -35,7 +35,13 @@ const EventDetail: FC<Props> = ({ event }) => {
       </Head>
     );
   }
-  logViewEvent({ page: event?.title })
+
+  logViewEvent({
+    page: 'event details page',
+    id: event.id,
+    title: event.title
+  })
+ 
   return (
     
     <>
