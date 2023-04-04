@@ -96,6 +96,29 @@ export const CreateMediaScreen = ({ navigation, route }) => {
     }, [route.params.image])
   );
 
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = navigation.addListener('beforeRemove', (event) => {
+        // Prevent default behavior of leaving the screen
+        //
+        event.preventDefault();
+
+        navigation.push('DiscardChanges', {
+          message: 'Are you sure you want to discard the new media item or continue editing?',
+          redirectRoute: 'MainTabs',
+          subtitle: 'Discard new media?',
+        });
+      });
+
+      // Make sure to remove the listener
+      // Otherwise, it BLOCKS GOING BACK to MainTabs from a nested screen discard action
+      //
+      return () => {
+        unsubscribe();
+      };
+    }, [navigation])
+  );
+
   // Hide bottom action buttons if a loading indicator or a toaster is shown
   useEffect(() => {
     if (isValidating || showSuccessToast || showErrorToast) {
