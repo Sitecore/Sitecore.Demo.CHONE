@@ -87,7 +87,6 @@ export const Stacks = () => {
         name="EditAthlete"
         component={EditAthleteScreen}
         initialParams={{
-          title: 'Edit Athlete Details',
           subtitle: 'Edit athlete details',
         }}
       />
@@ -95,7 +94,6 @@ export const Stacks = () => {
         name="EditEvent"
         component={EditEventScreen}
         initialParams={{
-          title: 'Edit Event Details',
           subtitle: 'Edit event details',
         }}
       />
