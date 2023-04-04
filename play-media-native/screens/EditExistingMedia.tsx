@@ -22,7 +22,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   const id = route?.params?.id;
 
   const [editedMedia, setEditedMedia] = useState<Partial<Media>>();
-  const [isDraftSaved, setIsDraftSaved] = useState(false);
+  const [isMediaItemSaved, setIsMediaItemSaved] = useState(false);
 
   const { error, isFetching } = useQuery(`media-${id}`, () => getMediaById(id), {
     staleTime: 0,
@@ -49,7 +49,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   useFocusEffect(
     useCallback(() => {
       const unsubscribe = navigation.addListener('beforeRemove', (event) => {
-        if (!isDraftSaved) {
+        if (!isMediaItemSaved) {
           event.preventDefault();
 
           navigation.push('DiscardChanges', {
@@ -65,7 +65,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation, isDraftSaved, editedMedia?.id, headerTitle])
+    }, [navigation, isMediaItemSaved, editedMedia?.id, headerTitle])
   );
 
   const handleTitleChange = useCallback((text: string) => {
