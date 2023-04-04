@@ -10,6 +10,12 @@ import { useMemo } from 'react';
 
 import { identifyVisitor, logViewEvent ,logEvent} from '../services/CdpService';
 
+const dev = process.env.NODE_ENV !== 'development';
+
+const server = dev ? 'http://localhost:3000/api/sitecoreP' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP';
+const server2 = dev ? 'http://localhost:3000/api/sitecoreP2' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP2';
+const server3 = dev ? 'http://localhost:3000/api/sitecoreP3' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP3';
+
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -32,7 +38,7 @@ export default function Home({ events }: { events: Event[] }) {
 
 export const getStaticProps = async () => {
 
-  const response = await fetch("http://localhost:3000/api/sitecoreP", {
+  const response = await fetch(server, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -41,7 +47,7 @@ export const getStaticProps = async () => {
   });
 
 
-  const response2 = await fetch("http://localhost:3000/api/sitecoreP2", {
+  const response2 = await fetch(server2, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -50,7 +56,7 @@ export const getStaticProps = async () => {
   });
 
 
-  const response3 = await fetch("http://localhost:3000/api/sitecoreP3", {
+  const response3 = await fetch(server3, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

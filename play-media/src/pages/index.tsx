@@ -11,8 +11,6 @@ import { identifyVisitor, logViewEvent ,logEvent} from '../services/CdpService';
 export default function Home({ events }: { events: Event[] }) {
   const invalidData = !events;
 
-console.log(events)
-
   return (
     <>
       <Head>
