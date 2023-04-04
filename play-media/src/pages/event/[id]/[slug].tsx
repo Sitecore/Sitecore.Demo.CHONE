@@ -5,7 +5,7 @@ import Head from 'next/head';
 import EventDetailsPage from '../../../components/Pages/EventDetailsPage';
 import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
-import { identifyVisitor, logViewEvent} from '../services/CdpService';
+import { identifyVisitor, logViewEvent} from '../../../services/CdpService';
 
 const logEvent = (id, eventType) => {
   logViewEvent({ type: eventType, ext: { contentHubID: id } })
