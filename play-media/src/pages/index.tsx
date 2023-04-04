@@ -8,6 +8,7 @@ import { REVALIDATE_INTERVAL } from '../constants/build';
 import { identifyVisitor, logViewEvent ,logEvent} from '../services/CdpService';
 
 
+
 export default function Home({ events }: { events: Event[] }) {
   const invalidData = !events;
 

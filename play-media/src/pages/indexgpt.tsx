@@ -8,7 +8,13 @@ import { Configuration, OpenAIApi } from "openai";
 import { useMemo } from 'react';
 
 
-import { identifyVisitor, logViewEvent ,logEvent} from '../services/CdpService';
+import { identifyVisitor, logViewEvent} from '../services/CdpService';
+
+const logEvent = (id, eventType) => {
+  logViewEvent({ type: eventType, ext: { contentHubID: id } })
+}
+
+logViewEvent({ page: 'homepage' })
 
 const dev = process.env.NODE_ENV !== 'production';
 

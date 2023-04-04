@@ -5,6 +5,14 @@ import Head from 'next/head';
 import EventDetailsPage from '../../../components/Pages/EventDetailsPage';
 import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
+import { identifyVisitor, logViewEvent} from '../services/CdpService';
+
+const logEvent = (id, eventType) => {
+  logViewEvent({ type: eventType, ext: { contentHubID: id } })
+}
+
+
+
 export interface Params {
   id: string;
   slug: string;
@@ -67,6 +75,8 @@ export const getStaticProps = async ({ params }: EventParams) => {
   const event = await getEventById(params.id);
 console.log(params)
   console.log("Item ID: " + params.id)
+
+  logViewEvent({ page: params.slug })
 
   if (!event) {
     return {
