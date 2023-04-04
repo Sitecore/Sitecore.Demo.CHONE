@@ -169,6 +169,22 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     );
   }
 
+  if (isValidating) {
+    return (
+      <Screen centered>
+        <ActivityIndicator size="small" animating />
+      </Screen>
+    );
+  }
+
+  if (shouldShowSuccessView) {
+    return (
+      <Screen centered>
+        <Text>Media was successfully updated!</Text>
+      </Screen>
+    );
+  }
+
   return (
     <KeyboardAwareScreen>
       <Image
