@@ -12,9 +12,9 @@ import { identifyVisitor, logViewEvent ,logEvent} from '../services/CdpService';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const server = dev ? 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP';
-const server2 = dev ? 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP2' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP2';
-const server3 = dev ? 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP3' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP3';
+const server = dev ? 'http://localhost:3000/api/sitecoreP' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP';
+const server2 = dev ? 'http://localhost:3000/api/sitecoreP2' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP2';
+const server3 = dev ? 'http://localhost:3000/api/sitecoreP3' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP3';
 
 console.log (server)
 console.log (server2)
@@ -49,6 +49,8 @@ export const getStaticProps = async () => {
     },
     body: JSON.stringify({ product: "" }),
   });
+
+  console.log(response)
 
 
   const response2 = await fetch(server2, {
