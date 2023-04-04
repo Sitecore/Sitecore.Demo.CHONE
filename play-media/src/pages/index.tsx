@@ -14,7 +14,7 @@ export default function Home({ events }: { events: Event[] }) {
   return (
     <>
       <Head>
-        <title>PLAY! Travel</title>
+        <title>PLAY! Outfitters</title>
       </Head>
       <main>{invalidData ? null : <EventListingPage events={events} />}</main>
     </>
