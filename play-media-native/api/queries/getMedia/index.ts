@@ -1,3 +1,5 @@
+import { Dimensions } from 'react-native';
+
 import { fetchGraphQL } from '../..';
 import { STATUS_TYPES } from '../../../constants/status';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
@@ -14,7 +16,13 @@ query {
       fileHeight,
       fileSize,
       fileType,
-      fileUrl,
+      fileUrl (
+        transform: {
+          width: ${Math.ceil(Dimensions.get('window').width)},
+          height: ${Math.ceil(Dimensions.get('window').height / 2)},
+          fit: SCALEDOWN
+        }
+      ),
       fileWidth,
       name,
     }
