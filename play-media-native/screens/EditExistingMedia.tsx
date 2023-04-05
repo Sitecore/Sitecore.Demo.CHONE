@@ -10,7 +10,10 @@ import { publishMediaItem, updateMediaItem } from '../api/queries/mediaItems';
 import { BottomActions } from '../components/BottomActions/BottomActions';
 import { InputText } from '../components/InputText/InputText';
 import { ITEM_STATUS } from '../constants/itemStatus';
-import { MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT } from '../constants/media';
+import {
+  MEDIA_ERROR_WHILE_UPDATING_TIMEOUT,
+  MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT,
+} from '../constants/media';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { Screen } from '../features/Screen/Screen';
@@ -30,6 +33,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   const [isMediaItemSaved, setIsMediaItemSaved] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [shouldShowSuccessView, setShouldShowSuccessView] = useState(false);
+  const [shouldShowErrorView, setShouldShowErrorView] = useState(false);
 
   const { error, isFetching } = useQuery(`media-${id}`, () => getMediaById(id), {
     staleTime: 0,
@@ -185,7 +189,10 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   if (shouldShowSuccessView) {
     return (
       <Screen centered>
-        <Text>Media was successfully updated!</Text>
+  if (shouldShowErrorView) {
+    return (
+      <Screen centered>
+        <Text>There was an error while trying to update the media item!</Text>
       </Screen>
     );
   }
