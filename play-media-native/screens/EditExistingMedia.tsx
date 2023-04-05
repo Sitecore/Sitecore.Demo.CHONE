@@ -147,7 +147,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
           labelStyle={styles.buttonLabel}
           onPress={handleSaveDraft}
         >
-          Save as Draft
+          Save Draft
         </Button>
         <Button
           mode="contained"
