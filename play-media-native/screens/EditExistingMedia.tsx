@@ -2,6 +2,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useMemo, useState } from 'react';
 import { Image, View } from 'react-native';
+import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
@@ -215,31 +216,40 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   }
 
   return (
-    <KeyboardAwareScreen>
-      <Image
-        source={{ uri: editedMedia?.fileUrl }}
-        style={[
-          styles.responsiveImage,
-          { aspectRatio: editedMedia?.fileWidth / editedMedia?.fileHeight },
-        ]}
-      />
-      <View style={[styles.screenPadding, { paddingVertical: theme.spacing.sm }]}>
-        <InputText
-          containerStyle={styles.inputContainer}
-          title="Title"
-          multiline
-          onChange={handleTitleChange}
-          value={editedMediaTitle}
-        />
-        <InputText
-          containerStyle={styles.inputContainer}
-          title="Description"
-          multiline
-          onChange={handleDescriptionChange}
-          value={editedMedia?.description || ''}
-        />
-      </View>
+    <>
+      <KeyboardAwareScreen>
+        <NestableScrollContainer>
+          <Image
+            source={{ uri: editedMedia?.fileUrl }}
+            style={[
+              styles.responsiveImage,
+              { aspectRatio: editedMedia?.fileWidth / editedMedia?.fileHeight },
+            ]}
+          />
+          <View
+            style={[
+              styles.screenPadding,
+              { paddingVertical: theme.spacing.sm, marginBottom: theme.spacing.lg },
+            ]}
+          >
+            <InputText
+              containerStyle={styles.inputContainer}
+              title="Title"
+              multiline
+              onChange={handleTitleChange}
+              value={editedMediaTitle}
+            />
+            <InputText
+              containerStyle={styles.inputContainer}
+              title="Description"
+              multiline
+              onChange={handleDescriptionChange}
+              value={editedMedia?.description || ''}
+            />
+          </View>
+        </NestableScrollContainer>
+      </KeyboardAwareScreen>
       {bottomActions}
-    </KeyboardAwareScreen>
+    </>
   );
 };
