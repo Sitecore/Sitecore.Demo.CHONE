@@ -33,6 +33,7 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
   const initialRoute = route?.params?.initialRoute;
   const single = route?.params?.single;
   const stateKey = route?.params?.stateKey;
+  const headerTitle = route?.params?.title;
 
   const availableImages = useMemo(() => {
     if (!images?.length) {
@@ -121,11 +122,13 @@ export const AddCH1MediaScreen = ({ navigation, route }) => {
 
     navigation.navigate(initialRoute, {
       isEditMedia: false,
+      title: headerTitle,
     });
   }, [
     contentItems,
     edit,
     fieldKey,
+    headerTitle,
     initialRoute,
     navigation,
     route.params.key,
