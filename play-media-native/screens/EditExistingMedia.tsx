@@ -99,19 +99,25 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     }));
   }, []);
 
-  const handleSaveDraft = useCallback(async () => {
-    setIsValidating(true);
+  const processSuccess = useCallback(
+    async (id = undefined, status = undefined) => {
+      setIsMediaItemSaved(true);
+      setIsValidating(false);
+      setShouldShowSuccessView(true);
 
-    await updateMediaItem(editedMedia)
-      .then(async () => {
-        setIsMediaItemSaved(true);
-        setIsValidating(false);
-        setShouldShowSuccessView(true);
+      if (id && status) {
+        setMediaID(editedMedia.id);
+        setMediaStatus(ITEM_STATUS.PUBLISHED);
+      }
 
-        await refetchMediaListing();
-        setTimeout(() => {
-          navigation.navigate('MainTabs');
-        }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
+      await refetchMediaListing();
+      setTimeout(() => {
+        navigation.navigate('MainTabs');
+      }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
+    },
+    [editedMedia?.id, navigation, refetchMediaListing]
+  );
+
       })
       .catch(() => {
         setIsValidating(false);
