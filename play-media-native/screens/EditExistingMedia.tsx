@@ -193,7 +193,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   if (isValidating) {
     return (
       <Screen centered>
-        <ActivityIndicator size="small" animating />
+        <ActivityIndicator size="large" animating />
       </Screen>
     );
   }
