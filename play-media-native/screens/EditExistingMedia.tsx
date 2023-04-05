@@ -118,11 +118,25 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     [editedMedia?.id, navigation, refetchMediaListing]
   );
 
+  const processError = useCallback(() => {
+    setIsValidating(false);
+    setShouldShowErrorView(true);
+    setTimeout(() => {
+      setShouldShowErrorView(false);
+    }, MEDIA_ERROR_WHILE_UPDATING_TIMEOUT);
+  }, []);
+
+  const handleSaveDraft = useCallback(async () => {
+    setIsValidating(true);
+
+    await updateMediaItem(editedMedia)
+      .then(() => {
+        processSuccess();
       })
       .catch(() => {
-        setIsValidating(false);
+        processError();
       });
-  }, [editedMedia, navigation, refetchMediaListing]);
+  }, [editedMedia, processError, processSuccess]);
 
   const handlePublishBtn = useCallback(async () => {
     setIsValidating(true);
@@ -130,23 +144,13 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     await updateMediaItem(editedMedia)
       .then(async () => {
         await publishMediaItem(editedMedia.id).then(async () => {
-          setIsMediaItemSaved(true);
-          setIsValidating(false);
-          setShouldShowSuccessView(true);
-
-          setMediaID(editedMedia.id);
-          setMediaStatus(ITEM_STATUS.PUBLISHED);
-
-          await refetchMediaListing();
-          setTimeout(() => {
-            navigation.navigate('MainTabs');
-          }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
+          processSuccess(editedMedia.id, ITEM_STATUS.PUBLISHED);
         });
       })
       .catch(() => {
-        setIsValidating(false);
+        processError();
       });
-  }, [editedMedia, navigation, refetchMediaListing]);
+  }, [editedMedia, processError, processSuccess]);
 
   const bottomActions = useMemo(
     () => (
