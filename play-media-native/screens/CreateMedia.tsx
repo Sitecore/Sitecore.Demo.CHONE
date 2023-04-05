@@ -1,82 +1,105 @@
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Image, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Image } from 'react-native';
+import { NestableScrollContainer } from 'react-native-draggable-flatlist';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { publishMediaItem } from '../api/queries/mediaItems';
 import { uploadSingleImage } from '../api/queries/uploadMedia';
 import { BottomActions } from '../components/BottomActions/BottomActions';
-import { InputText } from '../components/InputText/InputText';
-import { Toast } from '../components/Toast/Toast';
+import { ITEM_STATUS } from '../constants/itemStatus';
+import {
+  CREATE_MEDIA_DISCARD_MESSAGE,
+  FIELD_OVERRIDES_MEDIA,
+  MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT,
+} from '../constants/media';
+import { ContentItemFields } from '../features/ContentItemFields/ContentItemFields';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
+import { Screen } from '../features/Screen/Screen';
+import { getInitialStateFromOverrides } from '../helpers/contentItemHelper';
 import { getFileType } from '../helpers/media';
+import { generateID } from '../helpers/uuid';
+import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
 import { Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 export const CreateMediaScreen = ({ navigation, route }) => {
+  const [stateKey] = useState<string>(generateID());
+  const { contentItems, init, reset } = useContentItems();
+  const media = contentItems[stateKey] as Media;
+
+  const headerTitle = contentItems[stateKey]?.name || 'Untitled media';
+
   const [createdImage, setCreatedImage] = useState<Media>();
-
+  const [mediaID, setMediaID] = useState(null);
+  const [mediaStatus, setMediaStatus] = useState(null);
   const [isValidating, setIsValidating] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showErrorToast, setShowErrorToast] = useState(false);
-  const [shouldShowBottomActions, setShouldShowBottomActions] = useState(true);
+  const [isMediaItemSaved, setIsMediaItemSaved] = useState(false);
+  const [showSuccessView, setShowSuccessView] = useState(false);
+  const [showErrorView, setShowErrorView] = useState(false);
 
-  const { refetch: refetchMediaListing } = useMediaQuery();
-
-  const onNameChange = useCallback((text: string) => {
-    setCreatedImage((prev) => ({
-      ...prev,
-      name: text,
-    }));
-  }, []);
-
-  const onDescriptionChange = useCallback((text: string) => {
-    setCreatedImage((prev) => ({
-      ...prev,
-      description: text,
-    }));
-  }, []);
+  const { refetch: refetchMediaListing } = useMediaQuery(mediaID, mediaStatus);
 
   const handlePublish = useCallback(async () => {
     setIsValidating(true);
 
-    await uploadSingleImage({ ...createdImage, stateField: '', stateId: '', uploadStatus: '' })
+    await uploadSingleImage({
+      ...createdImage,
+      ...media,
+      stateField: '',
+      stateId: '',
+      uploadStatus: '',
+    })
       .then(async (uploadedImage) => {
         await publishMediaItem(uploadedImage.id)
           .then(async () => {
-            setShowSuccessToast(true);
+            setIsMediaItemSaved(true);
+            setMediaID(uploadedImage.id);
+            setMediaStatus(ITEM_STATUS.PUBLISHED);
             await refetchMediaListing();
             setIsValidating(false);
-            navigation.navigate('MainTabs');
+            setShowSuccessView(true);
+            setTimeout(() => {
+              navigation.navigate('MainTabs');
+            }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
           })
           .catch(() => {
-            setShowErrorToast(true);
+            setShowErrorView(true);
             setIsValidating(false);
           });
       })
       .catch(() => {
-        setShowErrorToast(true);
+        setShowErrorView(true);
         setIsValidating(false);
       });
-  }, [createdImage, navigation, refetchMediaListing]);
+  }, [createdImage, media, navigation, refetchMediaListing]);
 
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
 
-    await uploadSingleImage({ ...createdImage, stateField: '', stateId: '', uploadStatus: '' })
+    await uploadSingleImage({
+      ...createdImage,
+      ...media,
+      stateField: '',
+      stateId: '',
+      uploadStatus: '',
+    })
       .then(async () => {
-        setShowSuccessToast(true);
+        setIsMediaItemSaved(true);
         await refetchMediaListing();
         setIsValidating(false);
-        navigation.navigate('MainTabs');
+        setShowSuccessView(true);
+        setTimeout(() => {
+          navigation.navigate('MainTabs');
+        }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
       })
       .catch(() => {
-        setShowErrorToast(true);
+        setShowErrorView(true);
         setIsValidating(false);
       });
-  }, [createdImage, navigation, refetchMediaListing]);
+  }, [createdImage, media, navigation, refetchMediaListing]);
 
   useFocusEffect(
     useCallback(() => {
@@ -84,8 +107,6 @@ export const CreateMediaScreen = ({ navigation, route }) => {
         route?.params?.image
           ? {
               ...route.params.image,
-              description: route.params.image.description || '',
-              name: route.params.image.name || '',
               fileHeight: route.params.image.height,
               fileWidth: route.params.image.width,
               fileType: getFileType(route.params.image),
@@ -96,18 +117,34 @@ export const CreateMediaScreen = ({ navigation, route }) => {
     }, [route.params.image])
   );
 
+  useEffect(() => {
+    // init global state on mount
+    //
+    if (stateKey) {
+      init({
+        id: stateKey,
+        fields: getInitialStateFromOverrides(FIELD_OVERRIDES_MEDIA),
+      });
+    }
+  }, [init, reset, stateKey]);
+
   useFocusEffect(
     useCallback(() => {
       const unsubscribe = navigation.addListener('beforeRemove', (event) => {
-        // Prevent default behavior of leaving the screen
-        //
-        event.preventDefault();
+        if (!isMediaItemSaved) {
+          // Prevent default behavior of leaving the screen
+          // unless item is saved
+          //
+          event.preventDefault();
 
-        navigation.push('DiscardChanges', {
-          message: 'Are you sure you want to discard the new media item or continue editing?',
-          redirectRoute: 'MainTabs',
-          subtitle: 'Discard new media?',
-        });
+          navigation.push('DiscardChanges', {
+            message: CREATE_MEDIA_DISCARD_MESSAGE,
+            redirectRoute: 'MainTabs',
+            title: headerTitle,
+            subtitle: 'Discard new media?',
+            stateKey,
+          });
+        }
       });
 
       // Make sure to remove the listener
@@ -116,26 +153,64 @@ export const CreateMediaScreen = ({ navigation, route }) => {
       return () => {
         unsubscribe();
       };
-    }, [navigation])
+    }, [headerTitle, isMediaItemSaved, navigation, stateKey])
   );
-
-  // Hide bottom action buttons if a loading indicator or a toaster is shown
-  useEffect(() => {
-    if (isValidating || showSuccessToast || showErrorToast) {
-      setShouldShowBottomActions(false);
-    } else {
-      setShouldShowBottomActions(true);
-    }
-  }, [isValidating, showSuccessToast, showErrorToast]);
 
   useEffect(() => {
     navigation.setParams({
-      title: createdImage?.name || 'Untitled media',
+      title: headerTitle,
     });
-  }, [createdImage, navigation]);
+  }, [headerTitle, navigation]);
 
-  const bottomActions = useMemo(
-    () => (
+  if (!createdImage) {
+    return <Text>Something went wrong!</Text>;
+  }
+
+  if (isValidating) {
+    return (
+      <Screen centered>
+        <ActivityIndicator size="large" animating />
+      </Screen>
+    );
+  }
+
+  if (showSuccessView) {
+    return (
+      <Screen centered>
+        <Text>Media was successfully created!</Text>
+      </Screen>
+    );
+  }
+
+  if (showErrorView) {
+    return (
+      <Screen centered>
+        <Text>Media could not be created!</Text>
+      </Screen>
+    );
+  }
+
+  return (
+    <>
+      <KeyboardAwareScreen>
+        <NestableScrollContainer>
+          <Image
+            source={{ uri: createdImage.fileUrl }}
+            style={[
+              styles.responsiveImage,
+              { aspectRatio: createdImage.fileWidth / createdImage.fileHeight },
+              { marginBottom: theme.spacing.md },
+            ]}
+          />
+          <ContentItemFields
+            initialRoute="CreateEventOverview"
+            overrides={FIELD_OVERRIDES_MEDIA}
+            stateKey={stateKey}
+            headerTitle={headerTitle}
+            noRequired
+          />
+        </NestableScrollContainer>
+      </KeyboardAwareScreen>
       <BottomActions>
         <Button
           mode="outlined"
@@ -154,59 +229,6 @@ export const CreateMediaScreen = ({ navigation, route }) => {
           Publish
         </Button>
       </BottomActions>
-    ),
-    [handlePublish, handleSaveDraft]
-  );
-
-  if (!createdImage) {
-    return <Text>Something went wrong!</Text>;
-  }
-
-  return (
-    <KeyboardAwareScreen>
-      <Image
-        source={{ uri: createdImage.fileUrl }}
-        style={[
-          styles.responsiveImage,
-          { aspectRatio: createdImage.fileWidth / createdImage.fileHeight },
-        ]}
-      />
-      <View style={[styles.screenPadding, { paddingVertical: theme.spacing.sm }]}>
-        <InputText
-          containerStyle={styles.inputContainer}
-          title="Title"
-          multiline
-          onChange={onNameChange}
-          value={createdImage?.name || ''}
-        />
-        <InputText
-          containerStyle={styles.inputContainer}
-          title="Description"
-          multiline
-          onChange={onDescriptionChange}
-          value={createdImage?.description || ''}
-        />
-      </View>
-      {isValidating && (
-        <View>
-          <ActivityIndicator size="small" animating />
-        </View>
-      )}
-      <Toast
-        duration={2000}
-        message="Media created successfully!"
-        onDismiss={() => setShowSuccessToast(false)}
-        visible={showSuccessToast}
-        type="success"
-      />
-      <Toast
-        duration={2000}
-        message="Media could not be created"
-        onDismiss={() => setShowErrorToast(false)}
-        visible={showErrorToast}
-        type="warning"
-      />
-      {shouldShowBottomActions && bottomActions}
-    </KeyboardAwareScreen>
+    </>
   );
 };

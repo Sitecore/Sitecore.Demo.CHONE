@@ -48,6 +48,7 @@ export const ContentItemFields = ({
   requiredOnly = false,
   showLimited = false,
   headerTitle = '',
+  noRequired = false,
 }: {
   initialRoute: string;
   overrides: Record<string, IFieldOverride>;
@@ -55,6 +56,7 @@ export const ContentItemFields = ({
   requiredOnly?: boolean;
   showLimited?: boolean;
   headerTitle?: string;
+  noRequired?: boolean;
 }) => {
   const { contentItems, edit, remove } = useContentItems();
 
@@ -211,6 +213,7 @@ export const ContentItemFields = ({
           value={state[stateKey][fieldKey]}
         />
       ),
+      // mediaImage:
     }),
     [handleFieldChange, initialRoute, overrides, referenceRenderers, stateKey, headerTitle]
   );
@@ -224,6 +227,10 @@ export const ContentItemFields = ({
   }, [overrides, requiredOnly, showLimited]);
 
   const showRequiredBanner = useMemo(() => {
+    if (noRequired) {
+      return false;
+    }
+
     if (!showLimited) {
       return true;
     }
@@ -233,7 +240,7 @@ export const ContentItemFields = ({
     }
 
     return false;
-  }, [requiredOnly, showLimited]);
+  }, [noRequired, requiredOnly, showLimited]);
 
   if (!stateKey || !contentItems[stateKey]) {
     return null;
