@@ -229,6 +229,7 @@ function sendEventCreate(eventConfig: Record<string, unknown>) {
     });
   }
 
+
   // Set the page now as the location might have already changed when createEventPayload will be executed.
   const eventWithCurrentPage = getConfigWithCurrentPage(eventConfig);
 
@@ -258,7 +259,7 @@ function sendEventCreate(eventConfig: Record<string, unknown>) {
   });
 }
 
-function callFlows(flowConfig: Record<string, unknown>) {
+export function callFlows(flowConfig: Record<string, unknown>) {
   if (typeof window === 'undefined' || !isBoxeverConfiguredInBrowser()) {
     return new Promise<void>(function (resolve) {
       resolve();

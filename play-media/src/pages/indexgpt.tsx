@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { getAllEventsBySport } from '../api/queries/getEventsBySport';
 import { getAllEvents } from '../api/queries/getEvents';
 
 import { EventListingPage } from '../components/Pages/EventListingPage';
@@ -8,13 +9,13 @@ import { Configuration, OpenAIApi } from "openai";
 import { useMemo } from 'react';
 
 
-import { identifyVisitor, logViewEvent} from '../services/CdpService';
+import { identifyVisitor, logViewEvent } from '../services/CdpService';
+import { callFlows } from '../services/BoxeverService';
+import { truncate } from 'fs';
 
 const logEvent = (id, eventType) => {
   logViewEvent({ type: eventType, ext: { contentHubID: id } })
 }
-
-logViewEvent({ page: 'homepage' })
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -84,32 +85,53 @@ export const getStaticProps = async () => {
   let rawResult2 = data2.result;
   let rawResult3 = data3.result;
 
-  const events = await getAllEvents();
+  console.log("calling the flow")
 
-if (events?.length != 0) {
-  const featuredEvents = events?.filter((event) => event.isFeatured)
+  var persoanlize = true
+  //Get Content from Sitecore Personalize
+  callFlows({ friendlyId: 'next_best_article' })
+    .then((response) => {
+      console.log("next best article flow and response is: " + response)
 
-  console.log(featuredEvents)
+      persoanlize=true
 
-      // Today
-      const date = new Date();
-      date.setDate(date.getDate() + 30)
+      console.log("personalize value is :" + persoanlize)
+    })
+    .catch((e) => {
+      console.log(e)
+    })
 
-  featuredEvents[0].teaser = rawResult;
-  featuredEvents[0].sport.results[0].title = "Hiking and Climbing"
-  featuredEvents[0].title = "Trek Epping Forest";
-
-  featuredEvents[0].location = "Epping Forest London";
+  //Get Content from Sitecore Personalize
+  //const events = await getAllEvents();
 
 
-  date.setDate(date.getDate() + 45)
-  featuredEvents[1].title = "Skomer Marine Reserve";
 
-  featuredEvents[1].teaser = rawResult2;
-  featuredEvents[1].sport.results[0].title = "Scuba Diving"
-  featuredEvents[0].location = "Pembrokeshire, Wales";
+  const events = persoanlize ? await getAllEvents() : await getAllEventsBySport();;
 
-}
+  if (events?.length != 0) {
+    const featuredEvents = events?.filter((event) => event.isFeatured)
+
+    console.log(featuredEvents)
+
+    // Today
+    const date = new Date();
+    date.setDate(date.getDate() + 30)
+
+    featuredEvents[0].teaser = rawResult;
+    featuredEvents[0].sport.results[0].title = "Hiking and Climbing"
+    featuredEvents[0].title = "Trek Epping Forest";
+
+    featuredEvents[0].location = "Epping Forest London";
+
+
+    date.setDate(date.getDate() + 45)
+    featuredEvents[1].title = "Skomer Marine Reserve";
+
+    featuredEvents[1].teaser = rawResult2;
+    featuredEvents[1].sport.results[0].title = "Scuba Diving"
+    featuredEvents[0].location = "Pembrokeshire, Wales";
+
+  }
 
   if (!events) {
     return {

@@ -7,12 +7,6 @@ import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
 import { identifyVisitor, logViewEvent} from '../../../services/CdpService';
 
-const logEvent = (id, eventType) => {
-  logViewEvent({ type: eventType, ext: { contentHubID: id } })
-}
-
-
-
 export interface Params {
   id: string;
   slug: string;
