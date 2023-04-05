@@ -23,7 +23,7 @@ export default async function P(req, res) {
 }
 
 function reviewPrompt(productName) {
-  return `Topic: Hiking`;
+  return `Topic: Hiking at Epping Forest`;
 }
 
 

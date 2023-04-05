@@ -91,16 +91,23 @@ if (events?.length != 0) {
 
   console.log(featuredEvents)
 
+      // Today
+      const date = new Date();
+      date.setDate(date.getDate() + 30)
+
   featuredEvents[0].teaser = rawResult;
-  featuredEvents[0].sport.results[0].title = "Hiking"
-  featuredEvents[0].title = "Your Dream Hike";
-  featuredEvents[0].timeAndDate = null;
+  featuredEvents[0].sport.results[0].title = "Hiking and Climbing"
+  featuredEvents[0].title = "Trek Epping Forest";
+
+  featuredEvents[0].location = "Epping Forest London";
 
 
-  featuredEvents[1].title = "Diving Adventure";
-  featuredEvents[1].timeAndDate = null;
+  date.setDate(date.getDate() + 45)
+  featuredEvents[1].title = "Skomer Marine Reserve";
+
   featuredEvents[1].teaser = rawResult2;
   featuredEvents[1].sport.results[0].title = "Scuba Diving"
+  featuredEvents[0].location = "Pembrokeshire, Wales";
 
 }
 

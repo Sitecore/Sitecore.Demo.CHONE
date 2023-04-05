@@ -6,6 +6,7 @@ import { Event } from '../../interfaces/event';
 import { AthleteGrid } from '../../components/AthleteGrid/AthleteGrid';
 
 const EventDetailsPage = ({ event }: { event: Event }) => {
+  console.log(event?.similarEvents.results);
   return (
     <main>
       <HeroBannerEventDetails event={event} />
@@ -15,16 +16,17 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
         )}
         <RichText body={event.body.content} />
       </div>
+
+      {!!event?.similarEvents?.results?.length && (
+        <section>
+          <h2 className="text-center mb-10">Recommended Adventures</h2>
+          <EventGridSimple events={event.similarEvents.results as Event[]} />
+        </section>
+      )}
       {!!event?.athletes?.results && (
         <section>
           <h2 className="text-center -mb-10">Athletes who joined</h2>
           <AthleteGrid athletes={event.athletes.results} />
-        </section>
-      )}
-      {!!event?.similarEvents?.results?.length && (
-        <section>
-          <h2 className="text-center mb-10">Similar events</h2>
-          <EventGridSimple events={event.similarEvents.results as Event[]} />
         </section>
       )}
     </main>

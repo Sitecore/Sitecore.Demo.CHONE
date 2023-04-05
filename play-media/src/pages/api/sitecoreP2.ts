@@ -23,7 +23,7 @@ export default async function P2(req, res) {
 }
 
 function reviewPrompt(productName) {
-  return `Topic: Scuba Diving`;
+  return `Topic: Scuba Diving at Skomer Marine Reserve Wales`;
 }
 
 

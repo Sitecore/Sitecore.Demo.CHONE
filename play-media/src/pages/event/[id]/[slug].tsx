@@ -41,6 +41,9 @@ const EventDetail: FC<Props> = ({ event }) => {
     id: event.id,
     title: event.title
   })
+
+  console.log(event.id)
+  console.log(event.title)
  
   return (
     
