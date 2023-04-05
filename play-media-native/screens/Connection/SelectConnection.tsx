@@ -201,8 +201,13 @@ export const SelectConnectionScreen = ({ navigation, route }: Props) => {
                   marginVertical: theme.spacing.xxs,
                 }}
               >
-                <View>
-                  <Text variant="labelMedium" style={{ color: theme.colors.black.DEFAULT }}>
+                <View style={{ flexShrink: 1 }}>
+                  <Text
+                    variant="labelMedium"
+                    style={{ color: theme.colors.black.DEFAULT }}
+                    ellipsizeMode="tail"
+                    numberOfLines={1}
+                  >
                     {item.name}
                   </Text>
                 </View>
