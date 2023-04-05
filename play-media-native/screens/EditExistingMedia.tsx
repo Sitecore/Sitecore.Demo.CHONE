@@ -32,6 +32,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   const [editedMedia, setEditedMedia] = useState<Partial<Media>>();
   const [isMediaItemSaved, setIsMediaItemSaved] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
   const [shouldShowSuccessView, setShouldShowSuccessView] = useState(false);
   const [shouldShowErrorView, setShouldShowErrorView] = useState(false);
 
@@ -144,6 +145,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
     await updateMediaItem(editedMedia)
       .then(async () => {
         await publishMediaItem(editedMedia.id).then(async () => {
+          setIsPublished(true);
           processSuccess(editedMedia.id, ITEM_STATUS.PUBLISHED);
         });
       })
@@ -199,6 +201,11 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
   if (shouldShowSuccessView) {
     return (
       <Screen centered>
+        <Text>{`Media was successfully ${isPublished ? 'published' : 'saved as draft'}!`}</Text>
+      </Screen>
+    );
+  }
+
   if (shouldShowErrorView) {
     return (
       <Screen centered>
