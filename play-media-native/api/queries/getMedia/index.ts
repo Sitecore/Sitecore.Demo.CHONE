@@ -61,7 +61,13 @@ const getMediaByIdQuery = (id: string) => {
       fileHeight,
       fileSize,
       fileType,
-      fileUrl,
+      fileUrl (
+        transform: {
+          width: ${Math.ceil(Dimensions.get('window').width)},
+          height: ${Math.ceil(Dimensions.get('window').height)},
+          fit: SCALEDOWN
+        }
+      ),
       fileWidth,
       name,
     }
