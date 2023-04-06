@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { getAllEvents } from '../api/queries/getEvents';
+import { getAllEventsBySport } from '../api/queries/getEventsBySport';
 
 import { EventListingPage } from '../components/Pages/EventListingPage';
 import { Event } from '../interfaces/event';
@@ -23,7 +24,7 @@ export default function Home({ events }: { events: Event[] }) {
 }
 
 export const getStaticProps = async () => {
-  const events = await getAllEvents();
+  const events = await getAllEventsBySport();
 
 
 
