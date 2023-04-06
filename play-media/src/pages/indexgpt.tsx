@@ -23,9 +23,9 @@ const server = dev ? 'http://localhost:3000/api/sitecoreP' : 'https://mrfpmchone
 const server2 = dev ? 'http://localhost:3000/api/sitecoreP2' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP2';
 const server3 = dev ? 'http://localhost:3000/api/sitecoreP3' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP3';
 
-//console.log (server)
-//console.log (server2)
-//console.log (server3)
+console.log (server)
+console.log (server2)
+console.log (server3)
 
 
 const configuration = new Configuration({
