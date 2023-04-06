@@ -151,7 +151,7 @@ export const BoxeverScripts: JSX.Element | undefined = isCdpConfigured ? (
 
 ) : undefined;
 
-
+console.log("is cdp configured in browser? "+ isBoxeverConfiguredInBrowser)
 function isBoxeverConfiguredInBrowser(): boolean {
   return !!(
     typeof window !== 'undefined' &&
@@ -294,7 +294,7 @@ export function callFlows(flowConfig: Record<string, unknown>) {
 
 // Boxever view page tracking
 export function logViewEvent(additionalData?: Record<string, unknown>): Promise<unknown> {
-  console.log("Log View Event VIEW: "+ additionalData)
+
   const eventConfig = Object.assign(
     {
       type: 'VIEW',

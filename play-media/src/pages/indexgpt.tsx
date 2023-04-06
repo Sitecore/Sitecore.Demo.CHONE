@@ -91,7 +91,7 @@ export const getStaticProps = async () => {
   //Get Content from Sitecore Personalize
   callFlows({ friendlyId: 'homepage_audience' })
     .then((response) => {
-      console.log("next best article flow and response is: " + response)
+      console.log("homepage_audience: " + response)
 
       persoanlize=true
 
