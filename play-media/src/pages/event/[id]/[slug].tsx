@@ -51,8 +51,6 @@ const EventDetail: FC<Props> = ({ event }) => {
 };
 
 
-
-
 export default EventDetail;
 
 export async function getStaticPaths() {
