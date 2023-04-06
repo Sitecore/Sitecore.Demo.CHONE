@@ -4,6 +4,7 @@ import { getAllEvents } from '../api/queries/getEvents';
 
 import { EventListingPage } from '../components/Pages/EventListingPage';
 import { Event } from '../interfaces/event';
+import { audience } from '../interfaces/audience';
 import { REVALIDATE_INTERVAL } from '../constants/build';
 import { Configuration, OpenAIApi } from "openai";
 import { useMemo } from 'react';
@@ -31,8 +32,11 @@ console.log (server3)
 console.log('Fetching real-time data from Sitecore personalize!')
 callFlows({ friendlyId: 'homepage_audience' })
 .then((response) => {
+
   var json = JSON.stringify(response);
   console.log("homepage_audience response:" + json)
+  console.log(json["audience"])
+
   
 })
 .catch((e) => {
