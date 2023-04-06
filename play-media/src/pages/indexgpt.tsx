@@ -104,14 +104,11 @@ export const getStaticProps = async () => {
   //Get Content from Sitecore Personalize
   //const events = await getAllEvents();
 
-
-
   const events = persoanlize ? await getAllEvents() : await getAllEventsBySport();;
 
   if (events?.length != 0) {
     const featuredEvents = events?.filter((event) => event.isFeatured)
 
-    console.log(featuredEvents)
 
     // Today
     const date = new Date();
