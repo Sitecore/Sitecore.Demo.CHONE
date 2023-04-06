@@ -19,9 +19,9 @@ const logEvent = (id, eventType) => {
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const server = dev ? 'http://localhost:3000/api/sitecoreP' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media.vercel.app/api/sitecoreP';
-const server2 = dev ? 'http://localhost:3000/api/sitecoreP2' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media.vercel.app/api/sitecoreP2';
-const server3 = dev ? 'http://localhost:3000/api/sitecoreP3' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media.vercel.app/api/sitecoreP3';
+const server = dev ? 'http://localhost:3000/api/sitecoreP' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP';
+const server2 = dev ? 'http://localhost:3000/api/sitecoreP2' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP2';
+const server3 = dev ? 'http://localhost:3000/api/sitecoreP3' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/sitecoreP3';
 
 console.log (server)
 console.log (server2)
@@ -89,7 +89,7 @@ export const getStaticProps = async () => {
 
   var persoanlize = true
   //Get Content from Sitecore Personalize
-  callFlows({ friendlyId: 'next_best_article' })
+  callFlows({ friendlyId: 'homepage_audience' })
     .then((response) => {
       console.log("next best article flow and response is: " + response)
 
