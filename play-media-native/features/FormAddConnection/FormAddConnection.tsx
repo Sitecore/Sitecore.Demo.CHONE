@@ -74,7 +74,13 @@ const ErrorMessage = ({ message }: { message: string }) => {
   );
 };
 
-export const FormAddConnection = ({ initialValue }: { initialValue?: Connection }) => {
+export const FormAddConnection = ({
+  initialValue,
+  onSuccess,
+}: {
+  initialValue?: Connection;
+  onSuccess: () => void;
+}) => {
   const queryClient = useQueryClient();
   const [connections, setConnections] = useState<Connection[]>([]);
   const [isValidating, setIsValidating] = useState(false);
@@ -233,6 +239,7 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
           return;
         }
 
+        onSuccess();
         if (initialValue) {
           await editConnection(initialValue.name, {
             name,
@@ -241,12 +248,15 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
             clientID,
             clientSecret,
           }).then(async () => {
+            setShowSuccessView(true);
             const selectedConnection = await getSelectedConnection();
             if (selectedConnection?.name === initialValue?.name) {
               await setSelectedConnection({ name, apiKey, previewUrl, clientID, clientSecret });
             }
 
-            navigation.navigate('SelectConnection');
+            setTimeout(() => {
+              navigation.navigate('SelectConnection');
+            }, ADD_CONNECTION_SUCCESS_MESSAGE_TIMEOUT);
           });
         } else {
           await storeConnection({
@@ -268,7 +278,17 @@ export const FormAddConnection = ({ initialValue }: { initialValue?: Connection 
       .finally(() => {
         setIsValidating(false);
       });
-  }, [apiKey, previewUrl, clientID, clientSecret, initialValue, name, navigation, queryClient]);
+  }, [
+    apiKey,
+    previewUrl,
+    clientID,
+    clientSecret,
+    onSuccess,
+    initialValue,
+    name,
+    navigation,
+    queryClient,
+  ]);
 
   const bottomActions = useMemo(
     () => (
