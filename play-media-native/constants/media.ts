@@ -1,24 +1,7 @@
-import { FIELD_TYPES } from './contentTypes';
-
 export const MEDIA_SOURCES = {
   CAMERA: 'camera',
   CH_ONE: 'ch_one',
   LIBRARY: 'library',
-};
-
-export const FIELD_OVERRIDES_MEDIA = {
-  name: {
-    required: false,
-    single: false,
-    type: FIELD_TYPES.ShortText,
-    title: 'Title',
-  },
-  description: {
-    required: false,
-    single: false,
-    type: FIELD_TYPES.LongText,
-    title: 'Description',
-  },
 };
 
 export const MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT = 2000;

@@ -224,10 +224,6 @@ export const ContentItemFields = ({
   }, [overrides, requiredOnly, showLimited]);
 
   const showRequiredBanner = useMemo(() => {
-    if (!Object.values(overrides).some((field) => field.required)) {
-      return false;
-    }
-
     if (!showLimited) {
       return true;
     }
@@ -237,7 +233,7 @@ export const ContentItemFields = ({
     }
 
     return false;
-  }, [overrides, requiredOnly, showLimited]);
+  }, [requiredOnly, showLimited]);
 
   if (!stateKey || !contentItems[stateKey]) {
     return null;

@@ -1,39 +1,28 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
-import { Image } from 'react-native';
-import { NestableScrollContainer } from 'react-native-draggable-flatlist';
+import { Image, View } from 'react-native';
 import { ActivityIndicator, Button, Text } from 'react-native-paper';
 
 import { publishMediaItem } from '../api/queries/mediaItems';
 import { uploadSingleImage } from '../api/queries/uploadMedia';
 import { BottomActions } from '../components/BottomActions/BottomActions';
+import { InputText } from '../components/InputText/InputText';
 import { ITEM_STATUS } from '../constants/itemStatus';
 import {
   CREATE_MEDIA_DISCARD_MESSAGE,
-  FIELD_OVERRIDES_MEDIA,
   MEDIA_ERROR_WHILE_UPDATING_TIMEOUT,
   MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT,
 } from '../constants/media';
-import { ContentItemFields } from '../features/ContentItemFields/ContentItemFields';
 import { KeyboardAwareScreen } from '../features/Screen/KeyboardAwareScreen';
 import { Screen } from '../features/Screen/Screen';
-import { getInitialStateFromOverrides } from '../helpers/contentItemHelper';
 import { getFileType } from '../helpers/media';
-import { generateID } from '../helpers/uuid';
-import { useContentItems } from '../hooks/useContentItems/useContentItems';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
-import { Media } from '../interfaces/media';
+import { MediaToUpload } from '../interfaces/media';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
 
 export const CreateMediaScreen = ({ navigation, route }) => {
-  const [stateKey] = useState<string>(generateID());
-  const { contentItems, init, reset } = useContentItems();
-  const media = contentItems[stateKey] as Media;
-
-  const headerTitle = contentItems[stateKey]?.name || 'Untitled media';
-
-  const [createdImage, setCreatedImage] = useState<Media>();
+  const [createdImage, setCreatedImage] = useState<MediaToUpload>();
   const [mediaID, setMediaID] = useState(null);
   const [mediaStatus, setMediaStatus] = useState(null);
   const [isValidating, setIsValidating] = useState(false);
@@ -42,6 +31,22 @@ export const CreateMediaScreen = ({ navigation, route }) => {
   const [showErrorView, setShowErrorView] = useState(false);
 
   const { refetch: refetchMediaListing } = useMediaQuery(mediaID, mediaStatus);
+
+  const headerTitle = createdImage?.name || 'Untitled media';
+
+  const onNameChange = useCallback((text: string) => {
+    setCreatedImage((prev) => ({
+      ...prev,
+      name: text,
+    }));
+  }, []);
+
+  const onDescriptionChange = useCallback((text: string) => {
+    setCreatedImage((prev) => ({
+      ...prev,
+      description: text,
+    }));
+  }, []);
 
   const processSuccess = useCallback(
     async (id = undefined) => {
@@ -73,13 +78,7 @@ export const CreateMediaScreen = ({ navigation, route }) => {
   const handlePublish = useCallback(async () => {
     setIsValidating(true);
 
-    await uploadSingleImage({
-      ...createdImage,
-      ...media,
-      stateField: '',
-      stateId: '',
-      uploadStatus: '',
-    })
+    await uploadSingleImage(createdImage)
       .then(async (uploadedImage) => {
         await publishMediaItem(uploadedImage.id).then(async () => {
           processSuccess(uploadedImage.id);
@@ -88,52 +87,39 @@ export const CreateMediaScreen = ({ navigation, route }) => {
       .catch(() => {
         processError();
       });
-  }, [createdImage, media, processError, processSuccess]);
+  }, [createdImage, processError, processSuccess]);
 
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
 
-    await uploadSingleImage({
-      ...createdImage,
-      ...media,
-      stateField: '',
-      stateId: '',
-      uploadStatus: '',
-    })
+    await uploadSingleImage(createdImage)
       .then(async () => {
         processSuccess();
       })
       .catch(() => {
         processError();
       });
-  }, [createdImage, media, processError, processSuccess]);
+  }, [createdImage, processError, processSuccess]);
 
   useFocusEffect(
     useCallback(() => {
-      setCreatedImage(
+      setCreatedImage((prev) =>
         route?.params?.image
           ? {
               ...route.params.image,
+              ...prev,
               fileHeight: route.params.image.height,
               fileWidth: route.params.image.width,
               fileType: getFileType(route.params.image),
               fileUrl: route.params.image?.fileUrl || route.params.image?.uri,
+              stateField: '',
+              stateId: '',
+              uploadStatus: '',
             }
           : null
       );
     }, [route.params.image])
   );
-
-  useEffect(() => {
-    // init global state on mount
-    //
-    if (stateKey) {
-      init({
-        id: stateKey,
-        fields: getInitialStateFromOverrides(FIELD_OVERRIDES_MEDIA),
-      });
-    }
-  }, [init, reset, stateKey]);
 
   useFocusEffect(
     useCallback(() => {
@@ -149,7 +135,6 @@ export const CreateMediaScreen = ({ navigation, route }) => {
             redirectRoute: 'MainTabs',
             title: headerTitle,
             subtitle: 'Discard new media?',
-            stateKey,
           });
         }
       });
@@ -160,7 +145,7 @@ export const CreateMediaScreen = ({ navigation, route }) => {
       return () => {
         unsubscribe();
       };
-    }, [headerTitle, isMediaItemSaved, navigation, stateKey])
+    }, [headerTitle, isMediaItemSaved, navigation])
   );
 
   useEffect(() => {
@@ -200,22 +185,29 @@ export const CreateMediaScreen = ({ navigation, route }) => {
   return (
     <>
       <KeyboardAwareScreen>
-        <NestableScrollContainer>
-          <Image
-            source={{ uri: createdImage.fileUrl }}
-            style={[
-              styles.responsiveImage,
-              { aspectRatio: createdImage.fileWidth / createdImage.fileHeight },
-              { marginBottom: theme.spacing.md },
-            ]}
+        <Image
+          source={{ uri: createdImage.fileUrl }}
+          style={[
+            styles.responsiveImage,
+            { aspectRatio: createdImage.fileWidth / createdImage.fileHeight },
+          ]}
+        />
+        <View style={[styles.screenPadding, { paddingVertical: theme.spacing.sm }]}>
+          <InputText
+            containerStyle={styles.inputContainer}
+            title="Title"
+            multiline
+            onChange={onNameChange}
+            value={createdImage?.name || ''}
           />
-          <ContentItemFields
-            initialRoute="CreateEventOverview"
-            overrides={FIELD_OVERRIDES_MEDIA}
-            stateKey={stateKey}
-            headerTitle={headerTitle}
+          <InputText
+            containerStyle={styles.inputContainer}
+            title="Description"
+            multiline
+            onChange={onDescriptionChange}
+            value={createdImage?.description || ''}
           />
-        </NestableScrollContainer>
+        </View>
       </KeyboardAwareScreen>
       <BottomActions>
         <Button
