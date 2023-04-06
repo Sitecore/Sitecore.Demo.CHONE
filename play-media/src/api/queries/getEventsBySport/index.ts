@@ -6,7 +6,6 @@ query {
   allEvent (where: {
     OR: [
           {title_contains: "Hike"}
-          {title_contains:"track"}
           {title_contains:"CHALLENGE"}
          ]
         }) {
