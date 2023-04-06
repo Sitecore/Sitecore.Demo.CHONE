@@ -16,6 +16,7 @@ query {
       fileType,
       fileUrl,
       fileWidth,
+      fileId,
       name,
     }
   }
@@ -37,6 +38,7 @@ export const getAllMedia = async (options?: FetchOptions): Promise<Media[]> => {
       fileType: item.fileType,
       fileUrl: item.fileUrl,
       fileWidth: item.fileWidth,
+      fileId: item.fileId,
       name: item.name,
     });
   });
@@ -55,6 +57,7 @@ const getMediaByIdQuery = (id: string) => {
       fileType,
       fileUrl,
       fileWidth,
+      fileId,
       name,
     }
   }
