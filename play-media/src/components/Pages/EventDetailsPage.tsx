@@ -6,7 +6,7 @@ import { Event } from '../../interfaces/event';
 import { AthleteGrid } from '../../components/AthleteGrid/AthleteGrid';
 
 const EventDetailsPage = ({ event }: { event: Event }) => {
-  console.log(event?.similarEvents.results);
+
   return (
     <main>
       <HeroBannerEventDetails event={event} />

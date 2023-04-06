@@ -36,8 +36,6 @@ const EventDetail: FC<Props> = ({ event }) => {
     title: event.title
   })
 
-  console.log(event.id)
-  console.log(event.title)
  
   return (
     
