@@ -11,4 +11,4 @@ export const CREATE_MEDIA_DISCARD_MESSAGE =
   'Are you sure you want to discard the new media or continue editing?';
 
 export const EDIT_MEDIA_DISCARD_MESSAGE =
-  'Are you sure you want to discard the changes or continue editing?';
+  'Are you sure you want to discard the media file changes?';

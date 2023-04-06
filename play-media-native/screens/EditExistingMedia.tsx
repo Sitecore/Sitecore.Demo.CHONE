@@ -12,6 +12,7 @@ import { BottomActions } from '../components/BottomActions/BottomActions';
 import { InputText } from '../components/InputText/InputText';
 import { ITEM_STATUS } from '../constants/itemStatus';
 import {
+  EDIT_MEDIA_DISCARD_MESSAGE,
   MEDIA_ERROR_WHILE_UPDATING_TIMEOUT,
   MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT,
 } from '../constants/media';
@@ -75,7 +76,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
             id: editedMedia?.id,
             title: headerTitle,
             subtitle: 'Discard media file changes?',
-            message: 'Are you sure you want to discard the media file changes?',
+            message: EDIT_MEDIA_DISCARD_MESSAGE,
             redirectRoute: 'MediaDetail',
           });
         }
