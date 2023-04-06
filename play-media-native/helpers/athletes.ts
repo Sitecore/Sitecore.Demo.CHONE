@@ -1,3 +1,4 @@
+import { normalizeContentItem } from './contentItemHelper';
 import { publishContentItem } from '../api/queries/contentItems';
 import { publishMediaItem } from '../api/queries/mediaItems';
 import { ATHLETE_FACETS } from '../constants/filters';
@@ -5,7 +6,6 @@ import { FIELD_OVERRIDES_SPORT } from '../constants/sport';
 import { Athlete, AthleteResponse } from '../interfaces/athlete';
 import { Sport } from '../interfaces/sport';
 import { StatusResult } from '../interfaces/statusResults';
-import { normalizeContentItem } from './contentItemHelper';
 
 export const initializeAthletes = (athletes: Athlete[], sports: Sport[]) => {
   if (!athletes || !sports) {

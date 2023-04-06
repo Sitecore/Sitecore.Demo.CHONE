@@ -1,0 +1,36 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+variables:
+  playMediaDir: '$(System.DefaultWorkingDirectory)/play-media/src'
+  playMediaNativeDir: '$(System.DefaultWorkingDirectory)/play-media-native'
+
+pr:
+- main
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run lint
+    npm run build
+  displayName: 'Lint and build the website'
+  workingDirectory: '$(playMediaDir)'
+  env:
+    CHONE_DELIVERY_API_KEY: $(CHONE_DELIVERY_API_KEY)
+
+- script: |
+    npm install
+    npm run lint
+  displayName: 'Lint the mobile app'
+  workingDirectory: '$(playMediaNativeDir)'
