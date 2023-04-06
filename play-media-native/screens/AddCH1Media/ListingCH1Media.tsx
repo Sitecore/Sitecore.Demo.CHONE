@@ -9,6 +9,7 @@ import { MediaItemGridDisplay } from '../../features/MediaItemGridDisplay/MediaI
 import { MediaItemListDisplay } from '../../features/MediaItemListDisplay/MediaItemListDisplay';
 import { ListingImageDisplayType } from '../../features/SelectDisplayButtons/SelectDisplayButtons';
 import { Media } from '../../interfaces/media';
+import { theme } from '../../theme/theme';
 
 interface Props {
   images: Media[];
@@ -33,6 +34,7 @@ export const ListingCH1Media = ({
           onSelect={() => onSelect(item)}
           selected={selectedMediaIDs.includes(item.id)}
           single={single}
+          right={theme.spacing.xxs + theme.spacing.xs}
           style={{
             flex: 1,
             aspectRatio: 1,
