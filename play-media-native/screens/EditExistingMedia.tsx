@@ -108,8 +108,8 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
       setShouldShowSuccessView(true);
 
       if (id && status) {
-        setMediaID(editedMedia.id);
-        setMediaStatus(ITEM_STATUS.PUBLISHED);
+        setMediaID(id);
+        setMediaStatus(status);
       }
 
       await refetchMediaListing();
@@ -117,7 +117,7 @@ export const EditExistingMediaScreen = ({ navigation, route }: Props) => {
         navigation.navigate('MainTabs');
       }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
     },
-    [editedMedia?.id, navigation, refetchMediaListing]
+    [navigation, refetchMediaListing]
   );
 
   const processError = useCallback(() => {
