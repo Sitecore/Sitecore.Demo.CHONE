@@ -11,6 +11,7 @@ import { ITEM_STATUS } from '../constants/itemStatus';
 import {
   CREATE_MEDIA_DISCARD_MESSAGE,
   FIELD_OVERRIDES_MEDIA,
+  MEDIA_ERROR_WHILE_UPDATING_TIMEOUT,
   MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT,
 } from '../constants/media';
 import { ContentItemFields } from '../features/ContentItemFields/ContentItemFields';
@@ -42,6 +43,33 @@ export const CreateMediaScreen = ({ navigation, route }) => {
 
   const { refetch: refetchMediaListing } = useMediaQuery(mediaID, mediaStatus);
 
+  const processSuccess = useCallback(
+    async (id = undefined) => {
+      setIsMediaItemSaved(true);
+
+      if (id) {
+        setMediaID(id);
+        setMediaStatus(ITEM_STATUS.PUBLISHED);
+      }
+      await refetchMediaListing();
+
+      setIsValidating(false);
+      setShowSuccessView(true);
+      setTimeout(() => {
+        navigation.navigate('MainTabs');
+      }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
+    },
+    [navigation, refetchMediaListing]
+  );
+
+  const processError = useCallback(() => {
+    setIsValidating(false);
+    setShowErrorView(true);
+    setTimeout(() => {
+      setShowErrorView(false);
+    }, MEDIA_ERROR_WHILE_UPDATING_TIMEOUT);
+  }, []);
+
   const handlePublish = useCallback(async () => {
     setIsValidating(true);
 
@@ -53,28 +81,14 @@ export const CreateMediaScreen = ({ navigation, route }) => {
       uploadStatus: '',
     })
       .then(async (uploadedImage) => {
-        await publishMediaItem(uploadedImage.id)
-          .then(async () => {
-            setIsMediaItemSaved(true);
-            setMediaID(uploadedImage.id);
-            setMediaStatus(ITEM_STATUS.PUBLISHED);
-            await refetchMediaListing();
-            setIsValidating(false);
-            setShowSuccessView(true);
-            setTimeout(() => {
-              navigation.navigate('MainTabs');
-            }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
-          })
-          .catch(() => {
-            setShowErrorView(true);
-            setIsValidating(false);
-          });
+        await publishMediaItem(uploadedImage.id).then(async () => {
+          processSuccess(uploadedImage.id);
+        });
       })
       .catch(() => {
-        setShowErrorView(true);
-        setIsValidating(false);
+        processError();
       });
-  }, [createdImage, media, navigation, refetchMediaListing]);
+  }, [createdImage, media, processError, processSuccess]);
 
   const handleSaveDraft = useCallback(async () => {
     setIsValidating(true);
@@ -87,19 +101,12 @@ export const CreateMediaScreen = ({ navigation, route }) => {
       uploadStatus: '',
     })
       .then(async () => {
-        setIsMediaItemSaved(true);
-        await refetchMediaListing();
-        setIsValidating(false);
-        setShowSuccessView(true);
-        setTimeout(() => {
-          navigation.navigate('MainTabs');
-        }, MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT);
+        processSuccess();
       })
       .catch(() => {
-        setShowErrorView(true);
-        setIsValidating(false);
+        processError();
       });
-  }, [createdImage, media, navigation, refetchMediaListing]);
+  }, [createdImage, media, processError, processSuccess]);
 
   useFocusEffect(
     useCallback(() => {
@@ -207,7 +214,6 @@ export const CreateMediaScreen = ({ navigation, route }) => {
             overrides={FIELD_OVERRIDES_MEDIA}
             stateKey={stateKey}
             headerTitle={headerTitle}
-            noRequired
           />
         </NestableScrollContainer>
       </KeyboardAwareScreen>

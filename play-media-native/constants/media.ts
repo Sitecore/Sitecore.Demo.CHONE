@@ -21,7 +21,8 @@ export const FIELD_OVERRIDES_MEDIA = {
   },
 };
 
-export const MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT = 1800;
+export const MEDIA_UPDATED_SUCCESSFULLY_TIMEOUT = 2000;
+export const MEDIA_ERROR_WHILE_UPDATING_TIMEOUT = 3000;
 
 export const CREATE_MEDIA_DISCARD_MESSAGE =
   'Are you sure you want to discard the new media or continue editing?';
