@@ -105,4 +105,8 @@ export const styles = StyleSheet.create({
     marginLeft: theme.sizing.draggableHandleWidth,
     paddingLeft: 0,
   },
+  menuItem: {
+    color: theme.colors.black.DEFAULT,
+    fontFamily: theme.fontFamily.DEFAULT,
+  },
 });

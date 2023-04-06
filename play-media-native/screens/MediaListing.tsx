@@ -1,7 +1,8 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { View } from 'react-native';
+import { Button, Menu } from 'react-native-paper';
 
-// import { BottomFAB } from '../components/BottomFAB/BottomFAB';
+import { MaterialIcon } from '../components/Icon/MaterialIcon';
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaFilters } from '../features/MediaFilters/MediaFilters';
@@ -11,10 +12,14 @@ import { MediaItemListDisplay } from '../features/MediaItemListDisplay/MediaItem
 import { Screen } from '../features/Screen/Screen';
 import { ListingImageDisplayType } from '../features/SelectDisplayButtons/SelectDisplayButtons';
 import { getFileTypeOptions, getStatusOptions } from '../helpers/facets';
+import { useCamera } from '../hooks/useCamera/useCamera';
+import { useDeviceLibrary } from '../hooks/useDeviceLibrary/useDeviceLibrary';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
-import { Media } from '../interfaces/media';
+import { DeviceMedia, Media } from '../interfaces/media';
+import { styles } from '../theme/styles';
+import { theme } from '../theme/theme';
 
 export const MediaListingScreen = ({ navigation }) => {
   const {
@@ -23,6 +28,10 @@ export const MediaListingScreen = ({ navigation }) => {
     refetch: refetchMedia,
     isRefetching: isRefetchingMedia,
   } = useMediaQuery();
+
+  const [visible, setVisible] = useState(false);
+  const { launch: launchCamera } = useCamera();
+  const { launch: launchLibrary } = useDeviceLibrary();
 
   const { mediaFilterValues, mediaSearchQuery } = useFilters();
 
@@ -38,6 +47,22 @@ export const MediaListingScreen = ({ navigation }) => {
   const handleRefresh = useCallback(() => {
     refetchMedia();
   }, [refetchMedia]);
+
+  const handleCameraPress = useCallback(() => {
+    launchCamera((image: DeviceMedia) => {
+      navigation.navigate('CreateMedia', { image });
+    });
+
+    setVisible(false);
+  }, [launchCamera, navigation]);
+
+  const handleMediaLibraryPress = useCallback(() => {
+    launchLibrary((image: DeviceMedia) => {
+      navigation.navigate('CreateMedia', { image });
+    });
+
+    setVisible(false);
+  }, [launchLibrary, navigation]);
 
   const onCardPress = useCallback(
     (media: Media) => {
@@ -77,11 +102,49 @@ export const MediaListingScreen = ({ navigation }) => {
           isRefreshing={isRefetchingMedia}
         />
       </View>
-      {/* <BottomFAB
-        icon="plus"
-        label="Add new media"
-        onPress={() => navigation.navigate('AddMedia')}
-      /> */}
+      <View style={styles.fab}>
+        <Menu
+          visible={visible}
+          onDismiss={() => setVisible(false)}
+          anchor={
+            <Button icon="plus" onPress={() => setVisible(true)} mode="contained">
+              Add media
+            </Button>
+          }
+          anchorPosition="bottom"
+          contentStyle={{
+            marginBottom: 105,
+            backgroundColor: theme.colors.white.DEFAULT,
+          }}
+        >
+          <Menu.Item
+            leadingIcon={() => (
+              <MaterialIcon
+                name="camera-outline"
+                color={theme.colors.black.DEFAULT}
+                size={theme.fontSize.lg}
+              />
+            )}
+            onPress={handleCameraPress}
+            title="Camera"
+            titleStyle={styles.menuItem}
+            dense
+          />
+          <Menu.Item
+            leadingIcon={() => (
+              <MaterialIcon
+                name="folder-open-outline"
+                color={theme.colors.black.DEFAULT}
+                size={theme.fontSize.lg}
+              />
+            )}
+            onPress={handleMediaLibraryPress}
+            title="Device"
+            titleStyle={styles.menuItem}
+            dense
+          />
+        </Menu>
+      </View>
     </Screen>
   );
 };

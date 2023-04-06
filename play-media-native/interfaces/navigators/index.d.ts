@@ -43,6 +43,7 @@ export type RootStackParamList = {
   };
   EditExistingMedia: StandardScreen;
   EditMedia: StandardScreen;
+  CreateMedia: StandardScreen;
   EventDetail: StandardScreen;
   MainTabs: undefined;
   ManualConnection: StandardScreen & {
