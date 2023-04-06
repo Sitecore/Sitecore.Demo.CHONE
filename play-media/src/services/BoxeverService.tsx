@@ -151,7 +151,8 @@ export const BoxeverScripts: JSX.Element | undefined = isCdpConfigured ? (
 
 ) : undefined;
 
-console.log("is cdp configured in browser? "+ isBoxeverConfiguredInBrowser)
+console.log("configured :" + isBoxeverConfiguredInBrowser())
+
 function isBoxeverConfiguredInBrowser(): boolean {
   return !!(
     typeof window !== 'undefined' &&
@@ -260,6 +261,7 @@ function sendEventCreate(eventConfig: Record<string, unknown>) {
 }
 
 export function callFlows(flowConfig: Record<string, unknown>) {
+  console.log("inside fall flows function !!!  ")
   if (typeof window === 'undefined' || !isBoxeverConfiguredInBrowser()) {
     return new Promise<void>(function (resolve) {
       resolve();

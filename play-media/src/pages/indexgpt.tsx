@@ -10,7 +10,7 @@ import { useMemo } from 'react';
 
 
 import { identifyVisitor, logViewEvent } from '../services/CdpService';
-import { callFlows } from '../services/BoxeverService';
+import { callFlows, getDynamicWelcomeMessage, getGuestRef } from '../services/BoxeverService';
 import { truncate } from 'fs';
 
 const logEvent = (id, eventType) => {
@@ -26,6 +26,18 @@ const server3 = dev ? 'http://localhost:3000/api/sitecoreP3' : 'https://mrfpmcho
 console.log (server)
 console.log (server2)
 console.log (server3)
+
+
+console.log('Fetching real-time data from Sitecore personalize!')
+callFlows({ friendlyId: 'homepage_audience' })
+.then((response) => {
+  var json = JSON.stringify(response);
+  console.log("homepage_audience response:" + json)
+  
+})
+.catch((e) => {
+  console.log(e)
+})
 
 
 const configuration = new Configuration({
@@ -89,17 +101,9 @@ export const getStaticProps = async () => {
 
   var persoanlize = true
   //Get Content from Sitecore Personalize
-  callFlows({ friendlyId: 'homepage_audience' })
-    .then((response) => {
-      console.log("homepage_audience: " + response)
 
-      persoanlize=true
+  //***************************************************************** */
 
-      console.log("personalize value is :" + persoanlize)
-    })
-    .catch((e) => {
-      console.log(e)
-    })
 
   //Get Content from Sitecore Personalize
   //const events = await getAllEvents();
