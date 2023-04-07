@@ -28,15 +28,20 @@ console.log (server)
 console.log (server2)
 console.log (server3)
 
+type PersonalizeAudience = {
+  audience?: string;
+};
+
 
 console.log('Fetching real-time data from Sitecore personalize!')
 callFlows({ friendlyId: 'homepage_audience' })
 .then((response) => {
 
+  var myJson = response as PersonalizeAudience
+  console.log(myJson.audience)
   var data = JSON.stringify(response);
   console.log("homepage_audience response:" + data)
-  
-  
+    
 })
 .catch((e) => {
   console.log(e)
