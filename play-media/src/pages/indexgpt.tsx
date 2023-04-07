@@ -33,7 +33,7 @@ type PersonalizeAudience = {
 };
 
 
-var persoanlize = false
+var persoanlize = true
 
 console.log('Fetching real-time data from Sitecore personalize!')
 callFlows({ friendlyId: 'homepage_audience' })
