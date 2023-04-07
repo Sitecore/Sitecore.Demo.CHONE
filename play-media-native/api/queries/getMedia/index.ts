@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 import { fetchGraphQL } from '../..';
 import { STATUS_TYPES } from '../../../constants/status';
@@ -18,8 +18,10 @@ query {
       fileType,
       fileUrl (
         transform: {
-          width: ${Math.ceil(Dimensions.get('window').width)},
-          height: ${Math.ceil(Dimensions.get('window').height / 2)},
+          width: ${Math.ceil((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width)},
+          height: ${Math.ceil(
+            ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 2
+          )},
           fit: SCALEDOWN
         }
       ),
@@ -63,8 +65,8 @@ const getMediaByIdQuery = (id: string) => {
       fileType,
       fileUrl (
         transform: {
-          width: ${Math.ceil(Dimensions.get('window').width)},
-          height: ${Math.ceil(Dimensions.get('window').height)},
+          width: ${Math.ceil((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width)},
+          height: ${Math.ceil((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height)},
           fit: SCALEDOWN
         }
       ),
