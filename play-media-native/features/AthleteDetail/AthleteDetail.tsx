@@ -116,7 +116,7 @@ export const AthleteDetail = ({ athlete, isReview }: { athlete: Athlete; isRevie
   }
 
   return (
-    <View style={{ paddingBottom: isReview ? 50 : 0 }}>
+    <View style={{ paddingBottom: 60 }}>
       <View>
         <Image
           source={{ uri: athlete?.featuredImage?.fileUrl || EVENT_MOCK_IMG }}
