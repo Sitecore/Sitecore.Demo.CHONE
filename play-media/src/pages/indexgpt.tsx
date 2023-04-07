@@ -33,15 +33,15 @@ type PersonalizeAudience = {
 };
 
 
+var persoanlize = false
+
 console.log('Fetching real-time data from Sitecore personalize!')
 callFlows({ friendlyId: 'homepage_audience' })
 .then((response) => {
 
-  var myJson = response as PersonalizeAudience
-  console.log(myJson)
   var data = JSON.stringify(response);
   console.log("homepage_audience response:" + data)
-    
+
 })
 .catch((e) => {
   console.log(e)
@@ -107,7 +107,6 @@ export const getStaticProps = async () => {
 
   console.log("calling the flow")
 
-  var persoanlize = true
   //Get Content from Sitecore Personalize
 
   //***************************************************************** */
