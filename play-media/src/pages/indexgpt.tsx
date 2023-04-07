@@ -32,22 +32,6 @@ type PersonalizeAudience = {
   audience?: string;
 };
 
-
-console.log('Fetching real-time data from Sitecore personalize!')
-callFlows({ friendlyId: 'homepage_audience' })
-.then((response) => {
-
-  var myJson = response as PersonalizeAudience
-  console.log(myJson.audience)
-  var data = JSON.stringify(response);
-  console.log("homepage_audience response:" + data)
-    
-})
-.catch((e) => {
-  console.log(e)
-})
-
-
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -105,16 +89,30 @@ export const getStaticProps = async () => {
   let rawResult2 = data2.result;
   let rawResult3 = data3.result;
 
-  console.log("calling the flow")
-
-  var persoanlize = true
+  var persoanlize = false
   //Get Content from Sitecore Personalize
 
   //***************************************************************** */
 
-
+  console.log(' ********* Fetching real-time data from Sitecore personalize! ************')
+  callFlows({ friendlyId: 'homepage_audience' })
+  .then((response) => {
+  
+    var myAudience = response as PersonalizeAudience
+    console.log("The Audience Is: "+myAudience.audience)
+    persoanlize = true
+    console.log("personalization is: "+ persoanlize)
+   // var data = JSON.stringify(response);
+   //console.log("homepage_audience response:" + data)
+      
+  })
+  .catch((e) => {
+    console.log(e)
+  })
   //Get Content from Sitecore Personalize
   //const events = await getAllEvents();
+
+  console.log(' ********* Fetching all events based on personalization ************')
 
   const events = persoanlize ? await getAllEvents() : await getAllEventsBySport();;
 
