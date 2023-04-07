@@ -1,3 +1,5 @@
+import { Dimensions, Platform } from 'react-native';
+
 import { fetchGraphQL } from '../..';
 import { STATUS_TYPES } from '../../../constants/status';
 import { normalizeAthlete } from '../../../helpers/athletes';
@@ -15,45 +17,26 @@ query {
         results {
           id
           name
-          fileUrl
+          fileUrl (
+            transform: {
+              width: ${
+                Math.ceil((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width) / 3
+              },
+              height: ${Math.ceil(
+                ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 5
+              )},
+              fit: SCALEDOWN
+            }
+          ),
           description
         }
       }
-      featuredImage {
-        results {
-          id
-          name
-          fileUrl
-          description
-        }
-      }
-      isFeatured
       sport {
         results {
           ... on Sport {
             id
             title
-            description
-            featuredImage {
-              results {
-                id
-                fileUrl
-              }
-            }
           }
-        }
-      }
-      athleteQuote
-      nationality
-      dateOfBirth
-      careerStartDate
-      hobby
-      relatedMedia {
-        results {
-          id
-          name
-          fileUrl
-          description
         }
       }
     }
@@ -83,7 +66,17 @@ const getAthleteByIdQuery = (id: string) => {
           results {
             id
             name
-            fileUrl
+            fileUrl (
+              transform: {
+                width: ${Math.ceil(
+                  ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width) / 3
+                )},
+                height: ${Math.ceil(
+                  ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 5
+                )},
+                fit: SCALEDOWN
+              }
+            ),
             description
             fileHeight
             fileSize
@@ -95,7 +88,17 @@ const getAthleteByIdQuery = (id: string) => {
           results {
             id
             name
-            fileUrl
+            fileUrl (
+              transform: {
+                width: ${Math.ceil(
+                  (Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width
+                )},
+                height: ${Math.ceil(
+                  ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 2
+                )},
+                fit: SCALEDOWN
+              }
+            ),
             description
             fileHeight
             fileSize
@@ -113,7 +116,17 @@ const getAthleteByIdQuery = (id: string) => {
               featuredImage {
                 results {
                   id
-                  fileUrl
+                  fileUrl (
+                    transform: {
+                      width: ${Math.ceil(
+                        (Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width
+                      )},
+                      height: ${Math.ceil(
+                        ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 3
+                      )},
+                      fit: SCALEDOWN
+                    }
+                  ),
                 }
               }
             }
@@ -128,7 +141,17 @@ const getAthleteByIdQuery = (id: string) => {
           results {
             id
             name
-            fileUrl
+            fileUrl (
+              transform: {
+                width: ${Math.ceil(
+                  ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width * 2) / 3
+                )},
+                height: ${Math.ceil(
+                  ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 2
+                )},
+                fit: SCALEDOWN
+              }
+            ),
             description
             fileHeight
             fileSize

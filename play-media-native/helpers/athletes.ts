@@ -36,14 +36,14 @@ export const normalizeAthlete = (athlete: AthleteResponse, statusResults: Status
       ? normalizeContentItem(athlete.sport?.results[0], FIELD_OVERRIDES_SPORT)
       : null,
     profilePhoto: athlete.profilePhoto?.results[0] || null,
-    featuredImage: athlete.featuredImage?.results[0] || null,
-    isFeatured: athlete.isFeatured,
-    athleteQuote: athlete.athleteQuote,
-    nationality: athlete.nationality,
-    dateOfBirth: athlete.dateOfBirth,
-    careerStartDate: athlete.careerStartDate,
-    hobby: athlete.hobby,
-    relatedMedia: athlete.relatedMedia?.results || [],
+    featuredImage: athlete?.featuredImage?.results[0] || null,
+    isFeatured: athlete?.isFeatured,
+    athleteQuote: athlete?.athleteQuote,
+    nationality: athlete?.nationality,
+    dateOfBirth: athlete?.dateOfBirth,
+    careerStartDate: athlete?.careerStartDate,
+    hobby: athlete?.hobby,
+    relatedMedia: athlete?.relatedMedia?.results || [],
   };
 };
 
