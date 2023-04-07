@@ -38,19 +38,19 @@ export const normalizeEvent = (event: EventResponse, statusResults: StatusResult
     sport: event.sport?.results.length
       ? normalizeContentItem(event.sport?.results[0], FIELD_OVERRIDES_SPORT)
       : null,
-    isFeatured: event.isFeatured,
-    timeAndDate: event.timeAndDate,
-    location: event.location,
-    featuredImage: event.featuredImage?.results[0] || null,
-    relatedMedia: event.relatedMedia?.results || [],
-    teaser: event.teaser,
-    body: event.body,
-    athletes: event.athletes?.results?.length
+    isFeatured: event?.isFeatured,
+    timeAndDate: event?.timeAndDate,
+    location: event?.location,
+    featuredImage: event?.featuredImage?.results[0] || null,
+    relatedMedia: event?.relatedMedia?.results || [],
+    teaser: event?.teaser,
+    body: event?.body,
+    athletes: event?.athletes?.results?.length
       ? event.athletes.results.map((item) =>
           normalizeAthlete(item as AthleteResponse, statusResults)
         )
       : [],
-    similarEvents: event.similarEvents?.results?.length
+    similarEvents: event?.similarEvents?.results?.length
       ? event.similarEvents.results.map((item) =>
           normalizeEvent(item as EventResponse, statusResults)
         )
