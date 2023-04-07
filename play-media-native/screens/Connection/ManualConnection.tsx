@@ -13,29 +13,32 @@ type Props = NativeStackScreenProps<RootStackParamList, 'ManualConnection'>;
 export const ManualConnectionScreen = ({ navigation, route }: Props) => {
   const [connection] = useState<Connection>(route?.params?.connection);
   const [isEdit] = useState(route?.params?.isEdit);
+  const [connectionSuccess, setConnectionSuccess] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
       const unsubscribe = navigation.addListener('beforeRemove', (event) => {
-        event.preventDefault();
+        if (!connectionSuccess) {
+          event.preventDefault();
 
-        navigation.push('ManualConnectionDiscard', {
-          isEdit,
-          title: connection?.name || 'Untitled connection',
-          subtitle: isEdit ? 'Discard connection?' : 'Discard new connection?',
-        });
+          navigation.push('ManualConnectionDiscard', {
+            isEdit,
+            title: connection?.name || 'Untitled connection',
+            subtitle: isEdit ? 'Discard connection?' : 'Discard new connection?',
+          });
+        }
       });
 
       return () => {
         unsubscribe();
       };
-    }, [connection?.name, isEdit, navigation])
+    }, [connection?.name, connectionSuccess, isEdit, navigation])
   );
 
   return (
     <KeyboardAwareScreen centered>
       <StatusBar barStyle="light-content" />
-      <FormAddConnection initialValue={connection} />
+      <FormAddConnection initialValue={connection} onSuccess={() => setConnectionSuccess(true)} />
     </KeyboardAwareScreen>
   );
 };
