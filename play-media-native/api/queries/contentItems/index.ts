@@ -1,10 +1,13 @@
+import { fetchToken } from '../../../helpers/token';
 import { ContentItemCreate, ContentItemUpdate } from '../../../interfaces/contentItem';
-import { generateToken } from '../generateToken';
 
 const apiURL = 'https://content-api.sitecorecloud.io/api/content/v1/items';
 
-export const createContentItem = async (contentItem: ContentItemCreate): Promise<unknown> => {
-  const accessToken: string = (await generateToken()).access_token;
+export const createContentItem = async (
+  contentItem: ContentItemCreate,
+  shouldGenerateNewToken = false
+): Promise<unknown> => {
+  const accessToken = await fetchToken(shouldGenerateNewToken);
 
   try {
     return await fetch(apiURL, {
@@ -16,19 +19,23 @@ export const createContentItem = async (contentItem: ContentItemCreate): Promise
       },
       body: JSON.stringify(contentItem),
     }).then(async (response: Response) => {
-      const jsonResponsePromise = response.json();
-      const data = await jsonResponsePromise;
-
-      if (data?.status) {
+      if (!response?.ok) {
         // If the API response status is '429 Too Many Requests', retry the request
-        if (data.status === 429) {
+        if (response.status === 429) {
           return createContentItem(contentItem);
         }
 
-        console.error(`${data.status} error: ${data?.detail}`);
-        throw data?.status;
+        // If the API response status is '401 Unauthorized', retry the request generating a new token along the way
+        if (response.status === 401) {
+          return createContentItem(contentItem, true);
+        }
+
+        console.error(`${response.status} error: ${response?.statusText}`);
+        throw response?.status;
       }
 
+      const jsonResponsePromise = response.json();
+      const data = await jsonResponsePromise;
       return data;
     });
   } catch (error) {
@@ -37,8 +44,11 @@ export const createContentItem = async (contentItem: ContentItemCreate): Promise
   }
 };
 
-export const updateContentItem = async (contentItem: ContentItemUpdate): Promise<unknown> => {
-  const accessToken: string = (await generateToken()).access_token;
+export const updateContentItem = async (
+  contentItem: ContentItemUpdate,
+  shouldGenerateNewToken = false
+): Promise<unknown> => {
+  const accessToken = await fetchToken(shouldGenerateNewToken);
 
   try {
     return await fetch(`${apiURL}/${contentItem.id}`, {
@@ -50,19 +60,23 @@ export const updateContentItem = async (contentItem: ContentItemUpdate): Promise
       },
       body: JSON.stringify(contentItem),
     }).then(async (response: Response) => {
-      const jsonResponsePromise = response.json();
-      const data = await jsonResponsePromise;
-
-      if (data?.status) {
+      if (!response?.ok) {
         // If the API response status is '429 Too Many Requests', retry the request
-        if (data.status === 429) {
+        if (response.status === 429) {
           return updateContentItem(contentItem);
         }
 
-        console.error(`${data.status} error: ${data?.detail}`);
-        throw data?.status;
+        // If the API response status is '401 Unauthorized', retry the request generating a new token along the way
+        if (response.status === 401) {
+          return updateContentItem(contentItem, true);
+        }
+
+        console.error(`${response.status} error: ${response?.statusText}`);
+        throw response?.status;
       }
 
+      const jsonResponsePromise = response.json();
+      const data = await jsonResponsePromise;
       return data;
     });
   } catch (error) {
@@ -71,8 +85,11 @@ export const updateContentItem = async (contentItem: ContentItemUpdate): Promise
   }
 };
 
-export const publishContentItem = async (id: string): Promise<unknown> => {
-  const accessToken: string = (await generateToken()).access_token;
+export const publishContentItem = async (
+  id: string,
+  shouldGenerateNewToken = false
+): Promise<unknown> => {
+  const accessToken = await fetchToken(shouldGenerateNewToken);
 
   try {
     return await fetch(`${apiURL}/${id}/publish`, {
@@ -87,6 +104,11 @@ export const publishContentItem = async (id: string): Promise<unknown> => {
         // If the API response status is '429 Too Many Requests', retry the request
         if (response.status === 429) {
           return publishContentItem(id);
+        }
+
+        // If the API response status is '401 Unauthorized', retry the request generating a new token along the way
+        if (response.status === 401) {
+          return publishContentItem(id, true);
         }
 
         console.error(`${response?.status} error: ${response?.statusText}`);

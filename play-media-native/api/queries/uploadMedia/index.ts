@@ -1,5 +1,5 @@
+import { fetchToken } from '../../../helpers/token';
 import { MediaToUpload } from '../../../interfaces/media';
-import { generateToken } from '../generateToken';
 
 const API_URL = 'https://content-api.sitecorecloud.io';
 const GENERATE_LINK_URL = 'https://mms-upload.sitecorecloud.io';
@@ -35,8 +35,11 @@ const getImageBinary = async (image: MediaToUpload) => {
     });
 };
 
-const generateUploadLink = async (image: MediaToUpload): Promise<MediaToUpload> => {
-  const accessToken: string = (await generateToken()).access_token;
+const generateUploadLink = async (
+  image: MediaToUpload,
+  shouldGenerateNewToken = false
+): Promise<MediaToUpload> => {
+  const accessToken = await fetchToken(shouldGenerateNewToken);
 
   return await fetch(`${GENERATE_LINK_URL}/api/media/v1/upload/link/generate`, {
     method: 'POST',
@@ -50,6 +53,20 @@ const generateUploadLink = async (image: MediaToUpload): Promise<MediaToUpload> 
     body: JSON.stringify({ fileName: image.name }),
   })
     .then(async (response: Response) => {
+      if (!response?.ok) {
+        // If the API response status is '429 Too Many Requests', retry the request
+        if (response.status === 429) {
+          return generateUploadLink(image);
+        }
+
+        // If the API response status is '401 Unauthorized', retry the request generating a new token along the way
+        if (response.status === 401) {
+          return generateUploadLink(image, true);
+        }
+
+        throw response?.status;
+      }
+
       const uploadLinkData = await response.json();
       return {
         ...image,
@@ -86,8 +103,11 @@ const uploadBinary = async (image: MediaToUpload): Promise<MediaToUpload> => {
     });
 };
 
-const completeUpload = async (image: MediaToUpload): Promise<MediaToUpload> => {
-  const accessToken: string = (await generateToken()).access_token;
+const completeUpload = async (
+  image: MediaToUpload,
+  shouldGenerateNewToken = false
+): Promise<MediaToUpload> => {
+  const accessToken = await fetchToken(shouldGenerateNewToken);
 
   return await fetch(`${GENERATE_LINK_URL}/api/media/v1/upload/link/complete`, {
     method: 'POST',
@@ -100,7 +120,21 @@ const completeUpload = async (image: MediaToUpload): Promise<MediaToUpload> => {
     },
     body: JSON.stringify({ fileId: image.fileId }),
   })
-    .then(() => {
+    .then(async (response: Response) => {
+      if (!response?.ok) {
+        // If the API response status is '429 Too Many Requests', retry the request
+        if (response.status === 429) {
+          return completeUpload(image);
+        }
+
+        // If the API response status is '401 Unauthorized', retry the request generating a new token along the way
+        if (response.status === 401) {
+          return completeUpload(image, true);
+        }
+
+        throw response?.status;
+      }
+
       return image;
     })
     .catch((e) => {
@@ -109,8 +143,11 @@ const completeUpload = async (image: MediaToUpload): Promise<MediaToUpload> => {
     });
 };
 
-const createMediaItem = async (image: MediaToUpload): Promise<MediaToUpload> => {
-  const accessToken: string = (await generateToken()).access_token;
+const createMediaItem = async (
+  image: MediaToUpload,
+  shouldGenerateNewToken = false
+): Promise<MediaToUpload> => {
+  const accessToken = await fetchToken(shouldGenerateNewToken);
 
   return await fetch(`${API_URL}/api/content/v1/media`, {
     method: 'POST',
@@ -126,6 +163,20 @@ const createMediaItem = async (image: MediaToUpload): Promise<MediaToUpload> => 
     }),
   })
     .then(async (response: Response) => {
+      if (!response?.ok) {
+        // If the API response status is '429 Too Many Requests', retry the request
+        if (response.status === 429) {
+          return createMediaItem(image);
+        }
+
+        // If the API response status is '401 Unauthorized', retry the request generating a new token along the way
+        if (response.status === 401) {
+          return createMediaItem(image, true);
+        }
+
+        throw response?.status;
+      }
+
       const mediaItem = await response.json();
       return {
         ...image,
