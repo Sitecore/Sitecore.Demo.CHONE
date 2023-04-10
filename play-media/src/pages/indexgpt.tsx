@@ -39,8 +39,14 @@ console.log('Fetching real-time data from Sitecore personalize!')
 callFlows({ friendlyId: 'homepage_audience' })
 .then((response) => {
 
+
+
   var data = JSON.stringify(response);
   console.log("homepage_audience response:" + data)
+
+  var myData = JSON.parse(data);
+
+  console.log(myData.audience)
 
 })
 .catch((e) => {
