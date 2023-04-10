@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 
+import { fontFamilyName, fontFamilyStylesheet } from './fontStylesheet';
 import { generateHtml } from './generateHtml';
 import generateJson from './generateJson';
 import { styles } from '../../theme/styles';
@@ -129,6 +130,8 @@ export const RichTextEditor = ({
 
 const pageStyles = StyleSheet.create({
   richTextEditorStyle: {
+    initialCSSText: fontFamilyStylesheet,
+    contentCSSText: `font-family: ${fontFamilyName}`,
     backgroundColor: theme.colors.white.DEFAULT,
     color: theme.colors.black.darkest,
   },
