@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "eslint . --max-warnings 0 --ext .ts,.tsx,.js,.jsx",
-    "lint-and-fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix"
+    "lint-and-fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+    "build:android": "npx eas build -p android --profile preview"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
