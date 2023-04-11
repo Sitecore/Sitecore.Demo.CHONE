@@ -31,7 +31,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/p_logo_transparent_square.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.sitecoredemo.playmedianative",
