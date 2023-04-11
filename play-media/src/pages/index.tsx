@@ -23,25 +23,9 @@ export default function Home({ events }: { events: Event[] }) {
   );
 }
 
-export async function getServerSideProps() {
-  const events = await getAllEvents();
 
-  if (!events) {
-    return {
-      notFound: true,
-      revalidate: REVALIDATE_INTERVAL,
-    };
-  }
 
-  return {
-    props: {
-      events,
-    },
-    revalidate: REVALIDATE_INTERVAL,
-  };
-}
-
-/*export const getStaticProps = async () => {
+export const getStaticProps = async () => {
   const events = await getAllEvents();
 
 
@@ -59,4 +43,4 @@ export async function getServerSideProps() {
     },
     revalidate: REVALIDATE_INTERVAL,
   };
-};*/
+};
