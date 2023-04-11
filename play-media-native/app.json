@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Play! Media",
+    "name": "PLAY! Media",
     "slug": "play-media",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -26,6 +26,9 @@
     "ios": {
       "supportsTablet": true
     },
+    "androidStatusBar": {
+      "backgroundColor": "#000000"
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -37,12 +40,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "d8518653-26c5-47b9-a133-e41dddce9269"
-      }
-    },
-    "owner": "troglis"
+    }
   }
 }
