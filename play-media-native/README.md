@@ -79,3 +79,17 @@ On your phone:
         - `npm run android`
     2. Type the "a" keyboard key to tell Expo to start the application on your Android emulator.
         - The Expo development server will install Expo Go on your Android emulator, compile the application, send it to your Android emulator, and your Android emulator will open the application.
+
+### Generating an APK for Android
+
+1. Follow the instructions listed here [https://docs.expo.dev/build/setup/](https://docs.expo.dev/build/setup/).
+2. Run this npm script
+
+    ```bash
+    npm run build:android
+    ```
+
+3. Wait for the build to finish, it is going to take a while.
+4. Once your build is completed, the CLI will prompt you to automatically download and install it on the Android Emulator.
+   See more here [https://docs.expo.dev/build-reference/apk/#emulator-virtual-device](https://docs.expo.dev/build-reference/apk/#emulator-virtual-device).
+
