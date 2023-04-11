@@ -85,6 +85,7 @@ export const theme = {
   },
   sizing: {
     menuIconSize: 20,
+    animatedFabIconSize: 28,
     inputHeight: 36,
     tabBarHeight: 42,
     buttonHeight: 42,
