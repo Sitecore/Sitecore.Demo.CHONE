@@ -145,22 +145,27 @@ export const AddAthletesScreen = ({ navigation, route }) => {
     [isVisible, facetFilters, handleFacetsChange, handleSearch, searchQuery]
   );
 
+  const renderItem = useCallback(
+    ({ item }) => (
+      <SelectableView
+        top={theme.spacing.xs}
+        right={theme.spacing.sm}
+        onSelect={() => onSelect(item as Athlete)}
+        selected={selectedAthleteIDs.includes(item.id)}
+      >
+        <CardAvatar item={item as Athlete} />
+      </SelectableView>
+    ),
+    [onSelect, selectedAthleteIDs]
+  );
+
   return (
     <Screen>
       {filters}
       <Listing
         data={filteredAthletes}
         isLoading={isFetchingInitialAthletes || isFetchingInitialSports}
-        renderItem={({ item }) => (
-          <SelectableView
-            top={theme.spacing.xs}
-            right={theme.spacing.sm}
-            onSelect={() => onSelect(item as Athlete)}
-            selected={selectedAthleteIDs.includes(item.id)}
-          >
-            <CardAvatar item={item as Athlete} />
-          </SelectableView>
-        )}
+        renderItem={renderItem}
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingAthletes || isRefetchingSports}
