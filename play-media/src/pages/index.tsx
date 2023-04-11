@@ -23,8 +23,26 @@ export default function Home({ events }: { events: Event[] }) {
   );
 }
 
-export const getStaticProps = async () => {
+export async function getServerSideProps() {
   const events = await getAllEventsBySport();
+
+  if (!events) {
+    return {
+      notFound: true,
+      revalidate: REVALIDATE_INTERVAL,
+    };
+  }
+
+  return {
+    props: {
+      events,
+    },
+    revalidate: REVALIDATE_INTERVAL,
+  };
+}
+
+export const getStaticProps = async () => {
+  const events = await getAllEvents();
 
 
 
