@@ -24,7 +24,7 @@ export default function Home({ events }: { events: Event[] }) {
 }
 
 export async function getServerSideProps() {
-  const events = await getAllEventsBySport();
+  const events = await getAllEvents();
 
   if (!events) {
     return {
@@ -41,7 +41,7 @@ export async function getServerSideProps() {
   };
 }
 
-export const getStaticProps = async () => {
+/*export const getStaticProps = async () => {
   const events = await getAllEvents();
 
 
@@ -59,4 +59,4 @@ export const getStaticProps = async () => {
     },
     revalidate: REVALIDATE_INTERVAL,
   };
-};
+};*/
