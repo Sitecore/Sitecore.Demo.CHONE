@@ -3,7 +3,6 @@ import { StyleProp, ViewStyle } from 'react-native';
 import { TouchableRipple, Text } from 'react-native-paper';
 
 import { theme } from '../../theme/theme';
-import { Icon } from '../Icon/Icon';
 import { MaterialIcon } from '../Icon/MaterialIcon';
 
 export const AnimatedButton = ({
