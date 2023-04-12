@@ -30,10 +30,6 @@
       "backgroundColor": "#000000"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/p_logo_transparent_square.png",
-        "backgroundColor": "#FFFFFF"
-      },
       "package": "com.sitecoredemo.playmedianative",
       "permissions": ["android.permission.RECORD_AUDIO"],
       "softwareKeyboardLayoutMode": "pan"
