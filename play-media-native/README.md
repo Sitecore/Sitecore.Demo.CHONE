@@ -95,9 +95,10 @@ On your phone:
 
 ### Installing the APK on a physical Android phone
 
-1. Follow the instructions listed here [https://docs.expo.dev/build-reference/apk/#physical-device](https://docs.expo.dev/build-reference/apk/#physical-device) in order to download the APK to your Android phone.
-2. Enable installing apps from unknown sources in your phone's settings.
-3. Find the APK file in your downloads folder.
-4. Click on it and when prompted click install.
-5. In case you get a warning by Google Play Protect click install anyway.
-6. Click on PLAY! Media to open the app. Enjoy!
+1. Follow the instructions listed here [https://docs.expo.dev/build-reference/apk/#physical-device](https://docs.expo.dev/build-reference/apk/#physical-device) in order to download the APK you generated to your Android phone.
+2. Alternatively, download a prebuilt PLAY! Media APK file to your phone from the releases section on GitHub [https://github.com/Sitecore/Sitecore.Demo.CHONE/releases](https://github.com/Sitecore/Sitecore.Demo.CHONE/releases).
+3. Enable installing apps from unknown sources in your phone's settings.
+4. Find the APK file in your downloads folder.
+5. Click on it and when prompted click install.
+6. In case you get a warning by Google Play Protect click install anyway.
+7. Click on PLAY! Media to open the app. Enjoy!
