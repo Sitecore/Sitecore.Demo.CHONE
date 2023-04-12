@@ -51,7 +51,7 @@ const EventDetail: FC<Props> = ({ event }) => {
 
 export default EventDetail;
 
-/* export async function getStaticPaths() {
+export async function getStaticPaths() {
   // When this is true (in local or preview environments) don't prerender any static pages
   // (faster builds, but slower initial page load)
   //
@@ -71,9 +71,9 @@ export default EventDetail;
   }));
 
   return { paths, fallback: true };
-} */
+} 
 
-export const getServerSideProps = async ({ params }: EventParams) => {
+export const getStaticProps = async ({ params }: EventParams) => {
   const event = await getEventById(params.id);
 
   if (!event) {
