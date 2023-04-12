@@ -7,6 +7,7 @@ import { Event } from '../interfaces/event';
 import { REVALIDATE_INTERVAL } from '../constants/build';
 
 import { identifyVisitor, logViewEvent ,logEvent} from '../services/CdpService';
+import MapboxMap from "../components/mapbox/mapbox-map";
 
 
 
@@ -18,17 +19,15 @@ export default function Home({ events }: { events: Event[] }) {
       <Head>
         <title>PLAY! Outfitters</title>
       </Head>
+      <MapboxMap />
       <main>{invalidData ? null : <EventListingPage events={events} />}</main>
+      <MapboxMap />
     </>
   );
 }
 
-
-
 export const getStaticProps = async () => {
   const events = await getAllEvents();
-
-
 
   if (!events) {
     return {

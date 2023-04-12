@@ -69,7 +69,7 @@ export default function Home({ events }: { events: Event[] }) {
   );
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
 
   const response = await fetch(server, {
     method: "POST",

@@ -73,7 +73,7 @@ export async function getStaticPaths() {
   return { paths, fallback: true };
 }
 
-export const getStaticProps = async ({ params }: EventParams) => {
+export const getServerSideProps = async ({ params }: EventParams) => {
   const event = await getEventById(params.id);
 
   if (!event) {
