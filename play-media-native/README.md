@@ -95,7 +95,7 @@ On your phone:
 4. Once your build is completed, the CLI will prompt you to automatically download and install it on the Android Emulator.
    See more here [https://docs.expo.dev/build-reference/apk/#emulator-virtual-device](https://docs.expo.dev/build-reference/apk/#emulator-virtual-device).
 
-### Installing the APK on a physical Android phone
+### Installing the APK on a Physical Android Phone
 
 1. Follow the instructions listed here [https://docs.expo.dev/build-reference/apk/#physical-device](https://docs.expo.dev/build-reference/apk/#physical-device) in order to download the APK you generated to your Android phone.
    1. Alternatively, download a prebuilt PLAY! Media APK file to your phone from the releases section on GitHub [https://github.com/Sitecore/Sitecore.Demo.CHONE/releases](https://github.com/Sitecore/Sitecore.Demo.CHONE/releases).
