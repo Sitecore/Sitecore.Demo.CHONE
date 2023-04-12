@@ -1,6 +1,6 @@
 .hero-banner {
-  @apply relative flex flex-col justify-end pt-28 pb-4 min-h-[37rem] bg-gradient-to-t from-white to-transparent;
-  @apply dark:from-black dark:to-transparent;
+  @apply relative flex flex-col justify-end pt-28 pb-4 min-h-[37rem] ;
+  /*@apply dark:from-black dark:to-transparent;*/
 
   &-content {
     @apply pl-4 pr-6;
