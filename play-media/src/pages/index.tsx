@@ -19,9 +19,7 @@ export default function Home({ events }: { events: Event[] }) {
       <Head>
         <title>PLAY! Outfitters</title>
       </Head>
-      <MapboxMap />
       <main>{invalidData ? null : <EventListingPage events={events} />}</main>
-      <MapboxMap />
     </>
   );
 }
