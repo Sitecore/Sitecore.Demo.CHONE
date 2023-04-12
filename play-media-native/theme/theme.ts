@@ -88,7 +88,7 @@ export const theme = {
     inputHeight: 36,
     tabBarHeight: 42,
     buttonHeight: 42,
-    buttonSmallHeight: 38,
+    buttonSmallHeight: 40,
     draggableHandleWidth: 34,
   },
 };

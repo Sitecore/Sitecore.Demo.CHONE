@@ -31,8 +31,7 @@ export const styles = StyleSheet.create({
   buttonLabelSmall: {
     fontFamily: theme.fontFamily.DEFAULT,
     fontSize: theme.fontSize.sm,
-    lineHeight: theme.fontSize.base,
-    top: 2,
+    lineHeight: theme.fontSize.lg,
   },
   buttonLabelDisabledSecondary: {
     color: theme.colors.black.lightest,
