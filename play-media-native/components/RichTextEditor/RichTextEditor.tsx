@@ -61,9 +61,6 @@ export const RichTextEditor = ({
             actions.code,
             actions.blockquote,
           ]}
-          iconMap={{
-            [actions.heading1]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H1</Text>,
-          }}
           selectedIconTint={theme.colors.blue.light}
           iconTint={theme.colors.black.DEFAULT}
           style={pageStyles.richTextToolbarStyle}
@@ -91,11 +88,7 @@ export const RichTextEditor = ({
           }}
           selectedIconTint={theme.colors.blue.light}
           iconTint={theme.colors.black.DEFAULT}
-          style={{
-            ...pageStyles.richTextToolbarStyle,
-            borderColor: theme.colors.yellow.DEFAULT,
-            borderWidth: 1,
-          }}
+          style={pageStyles.richTextToolbarStyle}
         />
         <View style={pageStyles.scrollContainerStyle}>
           <ScrollView
@@ -115,6 +108,13 @@ export const RichTextEditor = ({
             />
           </ScrollView>
         </View>
+        <RichToolbar
+          editor={richText}
+          actions={[actions.keyboard]}
+          selectedIconTint={theme.colors.blue.light}
+          iconTint={theme.colors.black.DEFAULT}
+          style={pageStyles.richTextToolbarStyle}
+        />
         {showError && (
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Icon name="warning-outline" color={theme.colors.pink.DEFAULT} size={16} />
