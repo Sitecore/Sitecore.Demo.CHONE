@@ -24,8 +24,12 @@ export default function Home({ events }: { events: Event[] }) {
   );
 }
 
+var persoanlize = true;
+
 export const getStaticProps = async () => {
-  const events = await getAllEvents();
+  //const events = await getAllEvents();
+
+  const events = persoanlize ? await getAllEventsBySport() : await getAllEvents();
 
   if (!events) {
     return {

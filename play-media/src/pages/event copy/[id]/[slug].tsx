@@ -49,7 +49,7 @@ const EventDetail: FC<Props> = ({ event }) => {
 
 export default EventDetail;
 
-/*export async function getStaticPaths() {
+export async function getStaticPaths() {
   // When this is true (in local or preview environments) don't prerender any static pages
   // (faster builds, but slower initial page load)
   //
@@ -68,16 +68,15 @@ export default EventDetail;
   }));
 
   return { paths, fallback: true };
-} */
+} 
 
-export const getServerSideProps  = async ({ params }: EventParams) => {
-
-  console.log("The event to fetch is :" + params.id)
+export const getStaticProps = async ({ params }: EventParams) => {
   const event = await getEventById(params.id);
 
   if (!event) {
     return {
       notFound: true,
+      revalidate: REVALIDATE_INTERVAL,
     };
   }
 
@@ -85,5 +84,6 @@ export const getServerSideProps  = async ({ params }: EventParams) => {
     props: {
       event,
     },
+    revalidate: REVALIDATE_INTERVAL,
   };
 };
