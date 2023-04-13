@@ -1,18 +1,17 @@
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useMemo } from 'react';
 import { ScrollView } from 'react-native';
 import { useQuery } from 'react-query';
 
 import { getEventById } from '../api/queries/getEvents';
-import { BottomFAB } from '../components/BottomFAB/BottomFAB';
+import { AnimatedButton } from '../components/AnimatedButton/AnimatedButton';
 import { EventDetail } from '../features/EventDetail/EventDetail';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { Screen } from '../features/Screen/Screen';
 import { generateID } from '../helpers/uuid';
 import { useContentItems } from '../hooks/useContentItems/useContentItems';
-import { theme } from '../theme/theme';
+import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
+import { styles } from '../theme/styles';
 
 export const EventDetailScreen = ({ route, navigation }) => {
   const id = route?.params?.id;
@@ -25,6 +24,8 @@ export const EventDetailScreen = ({ route, navigation }) => {
   } = useQuery(`event-${id}`, () => getEventById(id), { staleTime: 0 });
 
   const { init } = useContentItems();
+
+  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -43,15 +44,15 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   const bottomActions = useMemo(
     () => (
-      <BottomFAB
-        icon={({ size }) => (
-          <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
-        )}
+      <AnimatedButton
+        extended={isTopEdge}
+        iconName="square-edit-outline"
         label="Edit"
         onPress={handleEditInfo}
+        style={styles.fab}
       />
     ),
-    [handleEditInfo]
+    [handleEditInfo, isTopEdge]
   );
 
   if (isFetching) {
@@ -64,7 +65,7 @@ export const EventDetailScreen = ({ route, navigation }) => {
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
         <EventDetail event={event} />
       </ScrollView>
       {!isEditForbidden && bottomActions}

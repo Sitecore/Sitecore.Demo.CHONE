@@ -1,7 +1,7 @@
 import NetInfo from '@react-native-community/netinfo';
 import { useFonts } from 'expo-font';
 import React, { useEffect } from 'react';
-import { AppState, AppStateStatus } from 'react-native';
+import { AppState, AppStateStatus, Platform, UIManager } from 'react-native';
 import { configureFonts, MD3LightTheme, Provider as PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { focusManager, onlineManager, QueryClient, QueryClientProvider } from 'react-query';
@@ -47,6 +47,10 @@ const paperTheme = {
   ...paperColorConfig,
   ...paperRestConfig,
 };
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 export default function App() {
   const [fontsLoaded] = useFonts({

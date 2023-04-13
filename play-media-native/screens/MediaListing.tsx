@@ -1,7 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import { View } from 'react-native';
-import { Button, Menu } from 'react-native-paper';
+import { Menu } from 'react-native-paper';
 
+import { AnimatedButton } from '../components/AnimatedButton/AnimatedButton';
 import { MaterialIcon } from '../components/Icon/MaterialIcon';
 import { ListingImages } from '../features/ListingImages/ListingImages';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
@@ -17,6 +18,7 @@ import { useDeviceLibrary } from '../hooks/useDeviceLibrary/useDeviceLibrary';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
 import { useMediaQuery } from '../hooks/useMediaQuery/useMediaQuery';
+import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { DeviceMedia, Media } from '../interfaces/media';
 import { styles } from '../theme/styles';
 import { theme } from '../theme/theme';
@@ -43,6 +45,8 @@ export const MediaListingScreen = ({ navigation }) => {
 
   const fileTypeOptions = useMemo(() => getFileTypeOptions(images), [images]);
   const statusOptions = useMemo(() => getStatusOptions(images), [images]);
+
+  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const handleRefresh = useCallback(() => {
     refetchMedia();
@@ -99,6 +103,7 @@ export const MediaListingScreen = ({ navigation }) => {
           renderItems={renderItems}
           showSearch={false}
           onRefresh={handleRefresh}
+          onScroll={calcScrollOffset}
           isRefreshing={isRefetchingMedia}
         />
       </View>
@@ -107,9 +112,12 @@ export const MediaListingScreen = ({ navigation }) => {
           visible={visible}
           onDismiss={() => setVisible(false)}
           anchor={
-            <Button icon="plus" onPress={() => setVisible(true)} mode="contained">
-              Add media
-            </Button>
+            <AnimatedButton
+              extended={isTopEdge}
+              iconName="plus"
+              label="Add media"
+              onPress={() => setVisible(true)}
+            />
           }
           anchorPosition="bottom"
           contentStyle={{
