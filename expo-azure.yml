@@ -1,0 +1,31 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+variables:
+  playMediaNativeDir: '$(System.DefaultWorkingDirectory)/play-media-native'
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm ci
+    npx eas-cli init --id $(EXPO_PROJECT_ID) --non-interactive
+    npx eas-cli build --platform android --profile preview --non-interactive
+  displayName: 'Create Android APK'
+  workingDirectory: '$(playMediaNativeDir)'
+  env:
+    EXPO_TOKEN: $(EXPO_TOKEN)
