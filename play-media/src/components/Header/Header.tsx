@@ -43,17 +43,6 @@ export const Header = () => {
                 Events
               </Link>
             </li>
-
-            <li>
-              <Link href={'/test'} onClick={handleNavClose}>
-                test
-              </Link>
-            </li>
-            <li>
-              <Link href={'/indexgpt'} onClick={handleNavClose}>
-                GPT OpenAI
-              </Link>
-            </li>
             <li>
               <div className="theme-switcher" onClick={toggleThemeHandler}>
                 <div className="theme-switcher-container">
