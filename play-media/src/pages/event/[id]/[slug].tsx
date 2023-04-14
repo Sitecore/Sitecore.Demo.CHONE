@@ -49,6 +49,10 @@ const EventDetail: FC<Props> = ({ event }) => {
 
 export default EventDetail;
 
+// Begin of Change for Demo
+// ***** Removed the static generation of events pages in order to work with S Personalize and CDP more effectively.
+// End of Change for Demo
+
 /*export async function getStaticPaths() {
   // When this is true (in local or preview environments) don't prerender any static pages
   // (faster builds, but slower initial page load)
