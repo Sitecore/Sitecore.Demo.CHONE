@@ -105,7 +105,7 @@ export const getServerSideProps = async () => {
 
     featuredEvents[0].teaser = rawResult;
     featuredEvents[0].sport.results[0].title = "Yoga"
-    featuredEvents[0].title = "Relaz in Epping Forest";
+    featuredEvents[0].title = "Relax in Epping Forest";
 
     featuredEvents[0].location = "Epping Forest London";
 
