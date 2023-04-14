@@ -104,7 +104,7 @@ export const getServerSideProps = async () => {
     date.setDate(date.getDate() + 30)
 
     featuredEvents[0].teaser = rawResult;
-    featuredEvents[0].sport.results[0].title = "Yoga"
+    featuredEvents[0].sport.results[0].title = "OpenAI - Yoga"
     featuredEvents[0].title = "Relax in Epping Forest";
 
     featuredEvents[0].location = "Epping Forest London";
@@ -113,7 +113,7 @@ export const getServerSideProps = async () => {
     featuredEvents[1].title = "Epping Forst Hike";
 
     featuredEvents[1].teaser = rawResult2;
-    featuredEvents[1].sport.results[0].title = "Hiking"
+    featuredEvents[1].sport.results[0].title = "OpenAI - Hiking"
     featuredEvents[1].location = "Pembrokeshire, Wales";
 
   }
