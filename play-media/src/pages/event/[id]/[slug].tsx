@@ -6,6 +6,7 @@ import EventDetailsPage from '../../../components/Pages/EventDetailsPage';
 import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
 import { identifyVisitor, logViewEvent} from '../../../services/CdpService';
+import MapboxMap from "../../../components/mapbox/Mapbox";
 
 export interface Params {
   id: string;
