@@ -36,7 +36,7 @@ callFlows({ friendlyId: 'homepage_audience' })
 .then((response) => {
 
   var data = JSON.stringify(response);
-  //console.log("homepage_audience response:" + data)
+  console.log("homepage_audience response:" + data)
   var myData = JSON.parse(data);
   console.log(myData.audience)
 
