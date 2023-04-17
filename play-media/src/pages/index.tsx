@@ -23,20 +23,19 @@ const dev = process.env.NODE_ENV !== 'production';
 const server = dev ? 'http://localhost:3000/api/azure' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/azure';
 const server2 = dev ? 'http://localhost:3000/api/azure2' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/azure2';
 
-console.log ('The API request is serviced by: ' + server)
-
-type PersonalizeAudience = {
-  audience?: string;
-};
-
-
 var persoanlize = false
+
+
+
+export default function Home({ events }: { events: Event[] }) {
+
+
 
 callFlows({ friendlyId: 'homepage_audience' })
 .then((response) => {
 
   var data = JSON.stringify(response);
-  console.log("homepage_audience response:" + data)
+  //console.log("homepage_audience response:" + data)
   var myData = JSON.parse(data);
   console.log(myData.audience)
 
@@ -46,16 +45,13 @@ callFlows({ friendlyId: 'homepage_audience' })
 .catch((e) => {
   console.log(e)
 })
-
-
-export default function Home({ events }: { events: Event[] }) {
   const invalidData = !events;
   logViewEvent({ page: 'homepage' })
 
   return (
     <>
       <Head>
-        <title>Contoso Outfitters</title>
+        <title>PLAY! Outfitters</title>
       </Head>
       <main>{invalidData ? null : <EventListingPage events={events} />}</main>
     </>
@@ -106,7 +102,7 @@ export const getServerSideProps = async () => {
     date.setDate(date.getDate() + 30)
 
     featuredEvents[0].teaser = rawResult;
-    featuredEvents[0].sport.results[0].title = "OpenAI - Yoga"
+    featuredEvents[0].sport.results[0].title = "Yoga"
     featuredEvents[0].title = "Relax in Epping Forest";
 
     featuredEvents[0].location = "Epping Forest London";
@@ -115,7 +111,7 @@ export const getServerSideProps = async () => {
     featuredEvents[1].title = "Epping Forst Hike";
 
     featuredEvents[1].teaser = rawResult2;
-    featuredEvents[1].sport.results[0].title = "OpenAI - Hiking"
+    featuredEvents[1].sport.results[0].title = "Hiking"
     featuredEvents[1].location = "Pembrokeshire, Wales";
 
   }

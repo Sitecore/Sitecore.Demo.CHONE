@@ -110,7 +110,7 @@ export const getServerSideProps = async () => {
     featuredEvents[1].title = "Epping Forst Hike";
 
     featuredEvents[1].teaser = rawResult2;
-    featuredEvents[1].sport.results[0].title = "OpenAI - Hiking"
+    featuredEvents[1].sport.results[0].title = "OpenAIHiking"
     featuredEvents[1].location = "Pembrokeshire, Wales";
 
   }
