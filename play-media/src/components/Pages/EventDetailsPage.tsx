@@ -4,6 +4,7 @@ import { HeroBannerEventDetails } from '../../components/HeroBanner/HeroBannerEv
 import ImageGrid from '../../components/ImageGrid/ImageGrid';
 import { Event } from '../../interfaces/event';
 import { AthleteGrid } from '../../components/AthleteGrid/AthleteGrid';
+import MapboxMap from "../../components/mapbox/Mapbox";
 
 const EventDetailsPage = ({ event }: { event: Event }) => {
 
@@ -25,8 +26,7 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
       )}
       {!!event?.athletes?.results && (
         <section>
-          <h2 className="text-center -mb-10">Athletes who joined</h2>
-          <AthleteGrid athletes={event.athletes.results} />
+          <h2 className="text-center -mb-10">Athletes who joined map here</h2>
         </section>
       )}
     </main>

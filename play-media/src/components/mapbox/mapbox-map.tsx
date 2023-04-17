@@ -2,7 +2,7 @@ import * as React from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css"; 
 // import the mapbox-gl styles so that the map is displayed correctly
-console.log("here in map")
+
 function MapboxMap() {
     // this is where the map instance will be stored after initialization
   const [map, setMap] = React.useState<mapboxgl.Map>();
@@ -10,18 +10,14 @@ function MapboxMap() {
     // React ref to store a reference to the DOM node that will be used
   // as a required parameter `container` when initializing the mapbox-gl
   // will contain `null` by default
-    const mapNode = React.useRef<any>(null);
+    const mapNode = React.useRef(null);
 
   React.useEffect(() => {
     const node = mapNode.current;
         // if the window object is not found, that means
         // the component is rendered on the server
         // or the dom node is not initialized, then return early
-
-        console.log("here in map 2")
     if (typeof window === "undefined" || node === null) return;
-
-    console.log("here in map 3")
 
         // otherwise, create a map instance
     const mapboxMap = new mapboxgl.Map({
@@ -40,9 +36,7 @@ function MapboxMap() {
     };
   }, []);
 
-  
-  console.log("here in map return")
-    return <div ref={mapNode} style={{ width: "50%", height: "50%" }} />;
+    return <div ref={mapNode} style={{ width: "80%", height: "80%" }} />;
 }
 
 export default MapboxMap
