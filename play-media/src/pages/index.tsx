@@ -40,6 +40,8 @@ callFlows({ friendlyId: 'homepage_audience' })
   var myData = JSON.parse(data);
   console.log(myData.audience)
 
+  myData.audience = "default"? persoanlize=false : persoanlize = true;
+
 })
 .catch((e) => {
   console.log(e)
@@ -53,7 +55,7 @@ export default function Home({ events }: { events: Event[] }) {
   return (
     <>
       <Head>
-        <title>PLAY! Outfitters</title>
+        <title>Contoso Outfitters</title>
       </Head>
       <main>{invalidData ? null : <EventListingPage events={events} />}</main>
     </>
@@ -91,7 +93,7 @@ export const getServerSideProps = async () => {
   //console.log("calling the flow")
 
 
-  const events = persoanlize ? await getAllEvents() : await getAllEventsBySport();
+  const events = persoanlize ? await getAllEventsBySport() : await getAllEvents();
 
   if (events?.length != 0) {
     const featuredEvents = events?.filter((event) => event.isFeatured)

@@ -1,6 +1,7 @@
 import '../styles/main.css';
 import type { AppProps } from 'next/app';
 import { Header } from '../components/Header/Header';
+import { Footer } from '../components/Footer/Footer';
 import { ThemeSwitcherContextProvider } from '../store/themeSwitcherContext';
 import { CdpScripts } from '../services/CdpService';
 import { TravelSidebar } from '../components/sidebar/TravelSidebar';
@@ -22,6 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
 
     </ThemeSwitcherContextProvider>
+    <Footer />
 
     </>
   );
