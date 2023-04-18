@@ -258,7 +258,7 @@ function sendEventCreate(eventConfig: Record<string, unknown>) {
 }
 
 export function callFlows(flowConfig: Record<string, unknown>) {
-  console.log("inside call flows function !!!  ")
+  console.log("Inside the CallFlows Personalize function  ")
   if (typeof window === 'undefined' || !isBoxeverConfiguredInBrowser()) {
     return new Promise<void>(function (resolve) {
       resolve();
