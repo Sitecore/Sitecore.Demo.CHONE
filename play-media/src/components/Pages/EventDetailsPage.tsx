@@ -32,8 +32,7 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
         <section>
 
 <div><MapboxMap/></div>
-
-            
+          
 
             </section>
       )}
