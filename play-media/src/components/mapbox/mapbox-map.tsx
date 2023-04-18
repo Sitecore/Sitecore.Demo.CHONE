@@ -28,6 +28,45 @@ function MapboxMap() {
       zoom: 5,
     });
 
+/************* */
+mapboxMap.on('load', function () {
+  // Add a GeoJSON source containing the state polygons.
+  mapboxMap.addSource('states', {
+      'type': 'geojson',
+      'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_admin_0_countries.geojson'
+  });
+
+  // Add a layer showing the state polygons.
+  mapboxMap.addLayer({
+      'id': 'states-layer',
+      'type': 'fill',
+      'source': 'states',
+      'paint': {
+          'fill-color': 'rgba(255, 191, 0, 0.3)',
+          'fill-outline-color': 'rgba(200, 100, 240, 1)'
+      }
+  });
+});
+
+
+/************* */
+
+    
+    mapboxMap.on('style.load', function() {
+      mapboxMap.on('click', function(e) {
+        var features = mapboxMap.queryRenderedFeatures(e.point, { layers: ['states-layer'] });
+        if (!features.length) {
+            return;
+        }
+        var feature = features[0];
+        var coordinates = e.lngLat;
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setHTML('Your point of interest is: <br/>' + feature.properties.name)
+          .addTo(mapboxMap);
+      });
+    });
+
         // save the map object to React.useState
     setMap(mapboxMap);
 
