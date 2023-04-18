@@ -6,18 +6,6 @@ html,
 body {
   font-size: 16px;
 }
-body,
-#__next {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-}
-
-* {
-  box-sizing: border-box;
-}
-
 body {
   @apply bg-white text-black overflow-x-hidden;
 
@@ -172,3 +160,21 @@ select {
 .cookie-consent-banner__cta:last-child {
   margin-left: 16px;
 }
+
+.imageContainer {
+        width: 70%;
+
+        >div {
+            position: unset !important;
+        }
+
+        .image {
+            object-fit: contain;
+            margin:auto;
+            width: 70% !important;
+            position: relative !important;
+            height: unset !important;
+            display:flex;
+            justifyContent:center;
+        }
+    }

@@ -1,22 +1,26 @@
-import MapboxMap from "../components/mapbox/Mapbox";
-import Head from 'next/head';
+import Image from 'next/image';
+import { FC } from 'react';
+import { getSlideImageSize } from '../helpers/imageHelper';
 
-function App() {
-  return (
-    <>
-
-
-
-<main>
-<h1> Map</h1>
-
-<MapboxMap />
-</main>
-
-
-
-    </>
-  );
+interface Props {
+  image: {
+    alt: string;
+    url: string;
+  };
 }
 
-export default App;
+const ImageSlide: FC<Props> = ({ image }) => {
+  return (
+    <div>
+      <Image
+        fill
+        style={{ objectFit: 'contain' }}
+        sizes={getSlideImageSize()}
+        src='/map.png'
+        alt={'map'}
+      />
+    </div>
+  );
+};
+
+export default ImageSlide;

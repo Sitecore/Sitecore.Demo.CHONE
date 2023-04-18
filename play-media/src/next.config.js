@@ -2,7 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  images: {domains: ["mms-delivery.sitecorecloud.io"]},
+  images: {domains: ["mms-delivery.sitecorecloud.io","api.mapbox.com"],
+  remotePatterns: [
+    {
+      protocol: 'https',
+      hostname: 'api.mapbox.com',
+      port: '',
+      pathname: '*',
+    },
+  ],
+
+},
   experimental: {
     // This is experimental but can
     // be enabled to allow parallel threads

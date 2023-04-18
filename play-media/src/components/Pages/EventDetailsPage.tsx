@@ -5,6 +5,8 @@ import ImageGrid from '../../components/ImageGrid/ImageGrid';
 import { Event } from '../../interfaces/event';
 import { AthleteGrid } from '../../components/AthleteGrid/AthleteGrid';
 import MapboxMap from "../../components/mapbox/Mapbox";
+import Image from 'next/image';
+import { getSlideImageSize } from '../../helpers/imageHelper';
 
 const EventDetailsPage = ({ event }: { event: Event }) => {
 
@@ -26,7 +28,16 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
       )}
       {!!event?.athletes?.results && (
         <section>
-          <h2 className="text-center -mb-10">Athletes who joined map here</h2>
+
+          <div className="imageContainer">
+            <Image
+            className="image"
+              layout="fill"
+              src='/map.png'
+              alt={'map'}
+            />
+
+          </div>
         </section>
       )}
     </main>
