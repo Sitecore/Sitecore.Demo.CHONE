@@ -1,8 +1,8 @@
 import * as React from "react";
 import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css"; 
+//import "mapbox-gl/dist/mapbox-gl.css"; 
 // import the mapbox-gl styles so that the map is displayed correctly
-console.log("here in map")
+
 function MapboxMap() {
     // this is where the map instance will be stored after initialization
   const [map, setMap] = React.useState<mapboxgl.Map>();
@@ -41,8 +41,8 @@ function MapboxMap() {
   }, []);
 
   
-  console.log("here in map return")
-    return <div ref={mapNode} style={{ width: "50%", height: "50%" }} />;
+
+    return <div ref={mapNode} style={{ width: "100%", height: "100%" , position:"fixed"}} />;
 }
 
 export default MapboxMap

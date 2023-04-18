@@ -4,7 +4,7 @@ import { HeroBannerEventDetails } from '../../components/HeroBanner/HeroBannerEv
 import ImageGrid from '../../components/ImageGrid/ImageGrid';
 import { Event } from '../../interfaces/event';
 import { AthleteGrid } from '../../components/AthleteGrid/AthleteGrid';
-import MapboxMap from "../../components/mapbox/Mapbox";
+import MapboxMap from "../../components/mapbox/mapbox-map";
 import Image from 'next/image';
 import { getSlideImageSize } from '../../helpers/imageHelper';
 
@@ -27,18 +27,15 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
         </section>
       )}
       {!!event?.athletes?.results && (
+
+        
         <section>
 
-          <div className="imageContainer">
-            <Image
-            className="image"
-              layout="fill"
-              src='/map.png'
-              alt={'map'}
-            />
+<div><MapboxMap/></div>
 
-          </div>
-        </section>
+            
+
+            </section>
       )}
     </main>
   );

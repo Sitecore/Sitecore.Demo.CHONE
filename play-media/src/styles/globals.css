@@ -178,3 +178,41 @@ select {
             justifyContent:center;
         }
     }
+
+    .mapContainer {
+        width: 70%;
+        position: relative;
+
+        >div {
+            position: relative !important;
+        }
+
+        .image {
+            object-fit: contain;
+            margin:auto;
+            width: 70% !important;
+            position: relative !important;
+            height: unset !important;
+            display:flex;
+            justifyContent:center;
+        }
+    }
+
+    .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right {
+    pointer-events: none;
+    position: relative;
+    height:100%
+    /* z-index: 2; */
+}
+.map_box_container{
+  position: relative;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+  #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }

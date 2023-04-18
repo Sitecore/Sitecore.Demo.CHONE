@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { FC } from 'react';
 import { getSlideImageSize } from '../helpers/imageHelper';
+import MapboxMap from "../components/mapbox/mapbox-map";
+
 
 interface Props {
   image: {
@@ -11,15 +13,20 @@ interface Props {
 
 const ImageSlide: FC<Props> = ({ image }) => {
   return (
-    <div>
-      <Image
-        fill
-        style={{ objectFit: 'contain' }}
-        sizes={getSlideImageSize()}
-        src='/map.png'
-        alt={'map'}
-      />
-    </div>
+    <>
+<section>
+
+  <h1>
+
+    map
+  </h1>
+  <p>ajdasdf</p>
+  <p>ajdasdf</p>
+  <p>ajdasdf</p>
+  <MapboxMap/>
+</section>
+    
+    </>
   );
 };
 
