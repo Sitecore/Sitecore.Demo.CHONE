@@ -124,12 +124,9 @@ const CDP_CLIENT_KEY = process.env.NEXT_PUBLIC_CDP_CLIENT_KEY || '';
 const CDP_API_TARGET_ENDPOINT = process.env.NEXT_PUBLIC_CDP_API_TARGET_ENDPOINT || '';
 export const isCdpConfigured = !!CDP_CLIENT_KEY && !!CDP_API_TARGET_ENDPOINT;
 
-console.log(CDP_CLIENT_KEY)
-console.log(CDP_PROXY_URL)
-console.log(CDP_API_TARGET_ENDPOINT)
-console.log(POINT_OF_SALE)
-
-console.log('is the CDPCONFIGURED:' + isCdpConfigured);
+console.log('CDP Client Key: ' + CDP_CLIENT_KEY);
+console.log('CDP API Tarkeg endpoint: ' + CDP_API_TARGET_ENDPOINT);
+console.log('CDP POS: ' + POINT_OF_SALE);
 
 
 export const BoxeverScripts: JSX.Element | undefined = isCdpConfigured ? (
@@ -151,7 +148,7 @@ export const BoxeverScripts: JSX.Element | undefined = isCdpConfigured ? (
 
 ) : undefined;
 
-console.log("configured :" + isBoxeverConfiguredInBrowser())
+//console.log("configured :" + isBoxeverConfiguredInBrowser())
 
 function isBoxeverConfiguredInBrowser(): boolean {
   return !!(
@@ -261,7 +258,7 @@ function sendEventCreate(eventConfig: Record<string, unknown>) {
 }
 
 export function callFlows(flowConfig: Record<string, unknown>) {
-  console.log("inside fall flows function !!!  ")
+  console.log("inside call flows function !!!  ")
   if (typeof window === 'undefined' || !isBoxeverConfiguredInBrowser()) {
     return new Promise<void>(function (resolve) {
       resolve();
@@ -283,6 +280,7 @@ export function callFlows(flowConfig: Record<string, unknown>) {
                 reject('No response provided.');
               }
               resolve(response);
+
             },
             'json'
           );

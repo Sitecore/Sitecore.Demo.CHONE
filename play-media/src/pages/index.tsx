@@ -25,19 +25,17 @@ const server2 = dev ? 'http://localhost:3000/api/azure2' : 'https://mrfpmchone32
 
 var persoanlize = false
 
-
+console.log('api server is: ' + server)
 
 export default function Home({ events }: { events: Event[] }) {
-
-
 
 callFlows({ friendlyId: 'homepage_audience' })
 .then((response) => {
 
   var data = JSON.stringify(response);
-  //console.log("homepage_audience response:" + data)
+  console.log("homepage_audience response:" + data)
   var myData = JSON.parse(data);
-  console.log(myData.audience)
+  //console.log(myData.audience)
 
   myData.audience = "default"? persoanlize=false : persoanlize = true;
 
@@ -83,7 +81,7 @@ export const getServerSideProps = async () => {
   let rawResult = data.result;
   let rawResult2 = data2.result;
 
-  //console.log('The raw result from the Azure Open AI call is ' + rawResult)
+  console.log('The raw result from the Azure Open AI call is ' + rawResult)
 
 
   //console.log("calling the flow")
@@ -100,6 +98,8 @@ export const getServerSideProps = async () => {
     // Today
     const date = new Date();
     date.setDate(date.getDate() + 30)
+
+    //console.log("teaser from azure :"+ rawResult)
 
     featuredEvents[0].teaser = rawResult;
     featuredEvents[0].sport.results[0].title = "Yoga"
