@@ -42,4 +42,4 @@ steps:
   workingDirectory: '$(playMediaNativeDir)'
   env:
     EXPO_TOKEN: $(EXPO_TOKEN)
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8693-create-apk-pipeline'))
+  condition: and(succeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['build.sourceBranch'], 'refs/heads/develop')))
