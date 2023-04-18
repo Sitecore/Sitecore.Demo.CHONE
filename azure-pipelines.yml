@@ -34,3 +34,12 @@ steps:
     npm run lint
   displayName: 'Lint the mobile app'
   workingDirectory: '$(playMediaNativeDir)'
+
+- script: |
+    npx eas-cli init --id $(EXPO_PROJECT_ID) --non-interactive
+    npx eas-cli build --platform android --profile preview --non-interactive
+  displayName: 'Create Android APK for the mobile app'
+  workingDirectory: '$(playMediaNativeDir)'
+  env:
+    EXPO_TOKEN: $(EXPO_TOKEN)
+  condition: and(succeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8693-create-apk-pipeline'))
