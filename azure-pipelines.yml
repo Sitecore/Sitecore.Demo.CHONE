@@ -42,4 +42,4 @@ steps:
   workingDirectory: '$(playMediaNativeDir)'
   env:
     EXPO_TOKEN: $(EXPO_TOKEN)
-  condition: and(succeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['build.sourceBranch'], 'refs/heads/develop')))
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['build.sourceBranch'], 'refs/heads/develop')))
