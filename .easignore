@@ -1,0 +1,12 @@
+.vscode
+play-media
+serialization
+.git-blame-ignore-revs
+azure-pipelines.yml
+LICENSE
+README.md
+
+play-media-native/node_modules
+play-media-native/.env
+play-media-native/.expo
+play-media-native/downloads
