@@ -29,22 +29,24 @@ console.log('api server is: ' + server)
 
 export default function Home({ events }: { events: Event[] }) {
 
-callFlows({ friendlyId: 'homepage_audience' })
-.then((response) => {
 
-  var data = JSON.stringify(response);
-  console.log("homepage_audience response:" + data)
-  var myData = JSON.parse(data);
-  //console.log(myData.audience)
-
-  myData.audience = "default"? persoanlize=false : persoanlize = true;
-
-})
-.catch((e) => {
-  console.log(e)
-})
   const invalidData = !events;
   logViewEvent({ page: 'homepage' })
+
+  callFlows({ friendlyId: 'homepage_audience' })
+  .then((response) => {
+  
+    var data = JSON.stringify(response);
+    console.log("homepage_audience response:" + data)
+    var myData = JSON.parse(data);
+    //console.log(myData.audience)
+  
+    myData.audience = "default"? persoanlize=false : persoanlize = true;
+  
+  })
+  .catch((e) => {
+    console.log(e)
+  })
 
   return (
     <>

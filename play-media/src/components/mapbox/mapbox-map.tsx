@@ -1,7 +1,9 @@
 import * as React from "react";
 import mapboxgl from "mapbox-gl";
+// **** begin change Had to comment out the mapbox styles in order to get map to display properly ???
 //import "mapbox-gl/dist/mapbox-gl.css"; 
-// import the mapbox-gl styles so that the map is displayed correctly
+// **** end of change
+
 
 function MapboxMap() {
     // this is where the map instance will be stored after initialization
@@ -28,7 +30,9 @@ function MapboxMap() {
       zoom: 5,
     });
 
-/************* */
+/************* Demo Mod Start 
+ *  added a layer over map to highlight countries
+*/
 mapboxMap.on('load', function () {
   // Add a GeoJSON source containing the state polygons.
   mapboxMap.addSource('states', {
@@ -48,10 +52,9 @@ mapboxMap.on('load', function () {
   });
 });
 
-
-/************* */
-
-    
+/*************
+ * Added the click property to display country/state on the map
+ */
     mapboxMap.on('style.load', function() {
       mapboxMap.on('click', function(e) {
         var features = mapboxMap.queryRenderedFeatures(e.point, { layers: ['states-layer'] });
@@ -66,6 +69,8 @@ mapboxMap.on('load', function () {
           .addTo(mapboxMap);
       });
     });
+
+/************* Demo Mod End */
 
         // save the map object to React.useState
     setMap(mapboxMap);
