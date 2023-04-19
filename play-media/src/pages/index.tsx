@@ -14,10 +14,6 @@ import { identifyVisitor, logViewEvent } from '../services/CdpService';
 import { callFlows, getDynamicWelcomeMessage, getGuestRef } from '../services/BoxeverService';
 import { truncate } from 'fs';
 
-const logEvent = (id, eventType) => {
-  logViewEvent({ type: eventType, ext: { contentHubID: id } })
-}
-
 const dev = process.env.NODE_ENV !== 'production';
 
 const server = dev ? 'http://localhost:3000/api/azure' : 'https://mrfpmchone327gpt-hbef9rk4k0esupbgcqn29g-media-preview.vercel.app/api/azure';
@@ -31,7 +27,9 @@ export default function Home({ events }: { events: Event[] }) {
 
 
   const invalidData = !events;
-  logViewEvent({ page: 'homepage' })
+  logViewEvent({
+    page: 'homepage'
+  })
 
   callFlows({ friendlyId: 'homepage_audience' })
   .then((response) => {
@@ -67,7 +65,8 @@ export const getServerSideProps = async () => {
     },
     body: JSON.stringify({ product: "" }),
   });
-
+  const data = await response.json();
+  let rawResult = data.result;
   const response2 = await fetch(server2, {
     method: "POST",
     headers: {
@@ -76,11 +75,7 @@ export const getServerSideProps = async () => {
     body: JSON.stringify({ product: "" }),
   });
 
-  const data = await response.json();
   const data2 = await response2.json();
-
-
-  let rawResult = data.result;
   let rawResult2 = data2.result;
 
   console.log('The raw result from the Azure Open AI call is ' + rawResult)
