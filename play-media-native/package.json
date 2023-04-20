@@ -10,6 +10,7 @@
     "lint": "eslint . --max-warnings 0 --ext .ts,.tsx,.js,.jsx",
     "lint-and-fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "build:android": "npx eas build -p android --profile preview",
+    "fetch-latest-apk-url": "npx eas-cli build:list --json --non-interactive --limit=1 --platform=android",
     "publishAPK": "ts-node --esm scripts/publishAPKGitHub.mts"
   },
   "dependencies": {
