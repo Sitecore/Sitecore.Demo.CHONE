@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 import { identifyVisitor, logViewEvent } from '../services/CdpService';
 import { callFlows, getDynamicWelcomeMessage, getGuestRef } from '../services/BoxeverService';
 import { truncate } from 'fs';
+import { CdpScripts } from '../services/CdpService';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -25,7 +26,7 @@ var persoanlize = false
 
 export default function Home({ events }: { events: Event[] }) {
 
-
+  CdpScripts
   const invalidData = !events;
   //console.log('this will call the log event!!! for homepage')
   logViewEvent({
