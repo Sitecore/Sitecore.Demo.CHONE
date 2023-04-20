@@ -60,7 +60,10 @@ const newTagVersion = newTagName.split('-')[2];
 // Fetch the APK URL & file
 const apkURL = execSync(
   'npx eas-cli build:list --json --non-interactive --limit=1 --platform=android | jq ".[0].artifacts.buildUrl"'
-).toString();
+)
+  .toString()
+  .trim()
+  .replace(/^"(.*)"$/, '$1');
 
 let apkFile: any;
 await fetch(apkURL).then(async (res) => {
