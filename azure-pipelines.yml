@@ -56,7 +56,8 @@ steps:
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
 
 - script: |
-    echo $(expoApkUrl)
+    npm install
+    echo '$(expoApkUrl)''
     npm run publishAPK
   displayName: 'Publish APK to GitHub'
   workingDirectory: '$(playMediaNativeDir)'
