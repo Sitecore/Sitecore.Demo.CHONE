@@ -1,10 +1,10 @@
 import { request } from '@octokit/request';
 
 const token = process.env.GITHUB_TOKEN;
-const sourceBranch: string = process.env.BUILD_SOURCEBRANCH.endsWith('develop')
+const sourceBranch: string = process.env.BUILD_SOURCEBRANCH!.endsWith('develop')
   ? 'develop'
   : 'main';
-const apkURL = process.env.APK_URL;
+const apkURL = process.env.APK_URL!;
 
 const defaultOptions = {
   owner: 'Sitecore',
@@ -37,22 +37,26 @@ const updateTagName = (tag: string): string => {
   return sourceBranch === 'main' ? `APK-stable-v${newTagVersion}` : `APK-nightly-v${newTagVersion}`;
 };
 
-// Retrieve the latest relevant tag name
-let tagName: string;
+// Retrieve the latest relevant tag name and update it
+let tagName = '';
 if (sourceBranch === 'develop') {
   tagName = await request('GET /repos/{owner}/{repo}/releases', {
     ...defaultOptions,
     headers: defaultHeaders,
-  }).then((res) => res.data.find((release) => release.prerelease === true).tag_name);
+  }).then(
+    (res: { data: any[] }) =>
+      res.data.find((release: { prerelease: boolean }) => release.prerelease === true).tag_name
+  );
 } else {
   tagName = await request('GET /repos/{owner}/{repo}/releases/latest', {
     ...defaultOptions,
     headers: defaultHeaders,
-  }).then((res) => res.data.tag_name);
+  }).then((res: { data: { tag_name: string } }) => res.data.tag_name);
 }
 
 const newTagName = updateTagName(tagName);
 const newTagVersion = newTagName.split('-')[2];
+
 
 // Fetch the APK file
 let apkFile: any;
@@ -74,7 +78,7 @@ await request('POST /repos/{owner}/{repo}/releases', {
   prerelease: sourceBranch === 'develop' ? true : false,
   make_latest: sourceBranch === 'develop' ? 'false' : 'true',
   generate_release_notes: false,
-}).then(async (res) => {
+}).then(async (res: { data: { id: string; upload_url: string } }) => {
   const releaseID = res.data.id;
   const uploadURL = res.data.upload_url;
 
