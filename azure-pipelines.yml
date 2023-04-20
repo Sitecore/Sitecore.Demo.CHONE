@@ -37,6 +37,7 @@ steps:
 
 - script: |
     npx eas-cli init --id $(EXPO_PROJECT_ID) --non-interactive
+    npx eas-cli build --platform android --profile preview --non-interactive
   displayName: 'Create Android APK for the mobile app'
   workingDirectory: '$(playMediaNativeDir)'
   env:
