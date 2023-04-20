@@ -38,7 +38,7 @@ export default function Home({ events }: { events: Event[] }) {
     var data = JSON.stringify(response);
     console.log("homepage_audience response:" + data)
     var myData = JSON.parse(data);
-    //console.log(myData.audience)
+    console.log("audience is : "+ myData.audience)
   
     myData.audience = "default"? persoanlize=false : persoanlize = true;
   
@@ -84,7 +84,7 @@ export const getServerSideProps = async () => {
 
   //console.log("calling the flow")
 
-
+console.log('I am fetching personalized events true or false : ' + persoanlize );
   const events = persoanlize ? await getAllEventsBySport() : await getAllEvents();
 
   if (events?.length != 0) {
