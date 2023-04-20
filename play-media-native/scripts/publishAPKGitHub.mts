@@ -1,14 +1,10 @@
 import { request } from '@octokit/request';
+import { exec } from 'child_process';
 
 const token = process.env.GITHUB_TOKEN;
 const sourceBranch: string = process.env.BUILD_SOURCEBRANCH!.endsWith('develop')
   ? 'develop'
   : 'main';
-const apkURL = process.env.expoApkUrl!;
-
-console.log({ apkURL });
-console.log(process.env.expoApkUrl);
-console.log({ sourceBranch });
 
 const defaultOptions = {
   owner: 'Sitecore',
@@ -61,7 +57,13 @@ if (sourceBranch === 'develop') {
 const newTagName = updateTagName(tagName);
 const newTagVersion = newTagName.split('-')[2];
 
-// Fetch the APK file
+// Fetch the APK URL & file
+let apkURL = '';
+const proc = exec(
+  'npx eas-cli build:list --json --non-interactive --limit=1 --platform=android | jq ".[0].artifacts.buildUrl"'
+);
+proc.stdout?.on('data', (data) => (apkURL = data));
+
 let apkFile: any;
 await fetch(apkURL).then(async (res) => {
   apkFile = await res.blob();
