@@ -6,7 +6,6 @@
 variables:
   playMediaDir: '$(System.DefaultWorkingDirectory)/play-media/src'
   playMediaNativeDir: '$(System.DefaultWorkingDirectory)/play-media-native'
-  expoApkUrl: ''
 
 pr:
 - main
@@ -47,22 +46,10 @@ steps:
 #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
 
 - script: |
-    npm install
-    npx eas-cli init --id $(EXPO_PROJECT_ID) --non-interactive
-    echo "##vso[task.setvariable variable=expoApkUrl]$(npm run fetch-latest-apk-url)"
-  displayName: 'Retrieve newly created APK URL'
-  workingDirectory: '$(playMediaNativeDir)'
-  env:
-    EXPO_TOKEN: $(EXPO_TOKEN)
-  # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
-
-- script: |
     npm run publishAPK
   displayName: 'Publish APK to GitHub'
   workingDirectory: '$(playMediaNativeDir)'
   env:
     GITHUB_TOKEN: $(GITHUB_TOKEN)
-    APK_URL: $(expoApkUrl)
   # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
