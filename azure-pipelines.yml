@@ -20,30 +20,29 @@ steps:
     versionSpec: '18.x'
   displayName: 'Install Node.js'
 
-# - script: |
-#     npm install
-#     npm run lint
-#     npm run build
-#   displayName: 'Lint and build the website'
-#   workingDirectory: '$(playMediaDir)'
-#   env:
-#     CHONE_DELIVERY_API_KEY: $(CHONE_DELIVERY_API_KEY)
+- script: |
+    npm install
+    npm run lint
+    npm run build
+  displayName: 'Lint and build the website'
+  workingDirectory: '$(playMediaDir)'
+  env:
+    CHONE_DELIVERY_API_KEY: $(CHONE_DELIVERY_API_KEY)
 
-# - script: |
-#     npm install
-#     npm run lint
-#   displayName: 'Lint the mobile app'
-#   workingDirectory: '$(playMediaNativeDir)'
+- script: |
+    npm install
+    npm run lint
+  displayName: 'Lint the mobile app'
+  workingDirectory: '$(playMediaNativeDir)'
 
-# - script: |
-#     npx eas-cli init --id $(EXPO_PROJECT_ID) --non-interactive
-#     npx eas-cli build --platform android --profile preview --non-interactive
-#   displayName: 'Create Android APK for the mobile app'
-#   workingDirectory: '$(playMediaNativeDir)'
-#   env:
-#     EXPO_TOKEN: $(EXPO_TOKEN)
-#   # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
-#   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
+- script: |
+    npx eas-cli init --id $(EXPO_PROJECT_ID) --non-interactive
+  displayName: 'Create Android APK for the mobile app'
+  workingDirectory: '$(playMediaNativeDir)'
+  env:
+    EXPO_TOKEN: $(EXPO_TOKEN)
+  # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
 
 - script: |
     npm run publishAPK
@@ -51,5 +50,6 @@ steps:
   workingDirectory: '$(playMediaNativeDir)'
   env:
     GITHUB_TOKEN: $(GITHUB_TOKEN)
+    EXPO_TOKEN: $(EXPO_TOKEN)
   # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
