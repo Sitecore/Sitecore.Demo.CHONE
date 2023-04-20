@@ -4,9 +4,10 @@ const token = process.env.GITHUB_TOKEN;
 const sourceBranch: string = process.env.BUILD_SOURCEBRANCH!.endsWith('develop')
   ? 'develop'
   : 'main';
-const apkURL = process.env.APK_URL!;
+const apkURL = process.env.expoApkUrl!;
 
 console.log({ apkURL });
+console.log(process.env.expoApkUrl);
 console.log({ sourceBranch });
 
 const defaultOptions = {
@@ -59,7 +60,6 @@ if (sourceBranch === 'develop') {
 
 const newTagName = updateTagName(tagName);
 const newTagVersion = newTagName.split('-')[2];
-
 
 // Fetch the APK file
 let apkFile: any;
