@@ -42,8 +42,7 @@ steps:
   workingDirectory: '$(playMediaNativeDir)'
   env:
     EXPO_TOKEN: $(EXPO_TOKEN)
-  # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
 
 - script: |
     npm run publishAPK
@@ -52,5 +51,4 @@ steps:
   env:
     GITHUB_TOKEN: $(GITHUB_TOKEN)
     EXPO_TOKEN: $(EXPO_TOKEN)
-  # condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
