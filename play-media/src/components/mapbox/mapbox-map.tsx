@@ -1,5 +1,6 @@
 import * as React from "react";
 import mapboxgl from "mapbox-gl";
+import { identifyVisitor, logViewEvent} from '../../services/CdpService';
 // **** begin change Had to comment out the mapbox styles in order to get map to display properly ???
 //import "mapbox-gl/dist/mapbox-gl.css"; 
 // **** end of change
@@ -67,6 +68,14 @@ mapboxMap.on('load', function () {
           .setLngLat(coordinates)
           .setHTML('Your point of interest is: <br/>' + feature.properties.name)
           .addTo(mapboxMap);
+
+          logViewEvent({
+            page: window.location.pathname,
+            type: 'MAP_LOCATION',
+            ext:feature.properties.name
+          });
+
+
       });
     });
 
