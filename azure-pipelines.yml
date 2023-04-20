@@ -50,7 +50,7 @@ steps:
     npm install
     npx eas-cli init --id $(EXPO_PROJECT_ID) --non-interactive
     npm run fetch-latest-apk-url
-    echo "##vso[task.setvariable variable=expoApkUrl]$(npx eas-cli build:list --json --non-interactive --limit=1 --platform=android | jq '.[0].artifacts.buildUrl')"
+    echo "##vso[task.setvariable variable=expoApkUrl]$(npm run fetch-latest-apk-url)"
   displayName: 'Retrieve newly created APK URL'
   workingDirectory: '$(playMediaNativeDir)'
   env:
