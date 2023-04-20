@@ -47,6 +47,8 @@ steps:
 #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
 
 - script: |
+    npm install
+    npx eas-cli build:list --json --non-interactive --limit=1 --platform=android | jq '.[0].artifacts.buildUrl'
     echo "##vso[task.setvariable variable=expoApkUrl]$(npx eas-cli build:list --json --non-interactive --limit=1 --platform=android | jq '.[0].artifacts.buildUrl')"
   displayName: 'Retrieve newly created APK URL'
   workingDirectory: '$(playMediaNativeDir)'
@@ -56,8 +58,6 @@ steps:
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/feature/8697-github-release-script'))
 
 - script: |
-    npm install
-    echo "$(expoApkUrl)"
     npm run publishAPK
   displayName: 'Publish APK to GitHub'
   workingDirectory: '$(playMediaNativeDir)'

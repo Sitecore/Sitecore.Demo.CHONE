@@ -6,6 +6,9 @@ const sourceBranch: string = process.env.BUILD_SOURCEBRANCH!.endsWith('develop')
   : 'main';
 const apkURL = process.env.APK_URL!;
 
+console.log({ apkURL });
+console.log({ sourceBranch });
+
 const defaultOptions = {
   owner: 'Sitecore',
   repo: 'Sitecore.Demo.CHONE',
