@@ -80,7 +80,7 @@ await request('POST /repos/{owner}/{repo}/releases', {
     sourceBranch === 'develop' ? '-nightly' : ''
   }`,
   body: `PLAY! Media Android APK file based on ${sourceBranch} branch`,
-  draft: true, // change to false
+  draft: false,
   prerelease: sourceBranch === 'develop' ? true : false,
   make_latest: sourceBranch === 'develop' ? 'false' : 'true',
   generate_release_notes: false,
