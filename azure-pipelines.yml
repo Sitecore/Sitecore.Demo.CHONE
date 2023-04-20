@@ -57,7 +57,7 @@ steps:
 
 - script: |
     npm install
-    echo '$(expoApkUrl)''
+    echo "$(expoApkUrl)"
     npm run publishAPK
   displayName: 'Publish APK to GitHub'
   workingDirectory: '$(playMediaNativeDir)'
