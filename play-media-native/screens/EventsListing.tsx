@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { StatusBar } from 'react-native';
 
-import { BottomFAB } from '../components/BottomFAB/BottomFAB';
+import { AnimatedButton } from '../components/AnimatedButton/AnimatedButton';
 import { Listing } from '../components/Listing/Listing';
 import { CardEvent } from '../features/CardEvent/CardEvent';
 import { EventFilters } from '../features/EventFilters/EventFilters';
@@ -12,8 +12,10 @@ import { getSportOptions, getStatusOptions } from '../helpers/facets';
 import { useEventsQuery } from '../hooks/useEventsQuery/useEventsQuery';
 import { useSearchFacets } from '../hooks/useFacets/useFacets';
 import { useFilters } from '../hooks/useFilters/useFilters';
+import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { useSportsQuery } from '../hooks/useSportsQuery/useSportsQuery';
 import { Event } from '../interfaces/event';
+import { styles } from '../theme/styles';
 
 export const EventsListingScreen = ({ navigation }) => {
   const {
@@ -36,6 +38,8 @@ export const EventsListingScreen = ({ navigation }) => {
     facets: eventFilterValues,
     query: eventSearchQuery,
   });
+
+  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
 
   const statusOptions = useMemo(() => getStatusOptions(events), [events]);
   const sportOptions = useMemo(() => getSportOptions(sports), [sports]);
@@ -70,14 +74,17 @@ export const EventsListingScreen = ({ navigation }) => {
         renderItem={renderItem}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingEvents || isRefetchingSports}
+        onScroll={calcScrollOffset}
         style={{
           flex: 1,
         }}
       />
-      <BottomFAB
-        icon="plus"
+      <AnimatedButton
+        extended={isTopEdge}
+        iconName="plus"
         label="Add event"
         onPress={() => navigation.navigate('CreateEventOverview')}
+        style={styles.fab}
       />
     </Screen>
   );

@@ -145,22 +145,27 @@ export const AddEventsScreen = ({ navigation, route }) => {
     [isVisible, facetFilters, handleFacetsChange, handleSearch, searchQuery]
   );
 
+  const renderItem = useCallback(
+    ({ item }) => (
+      <SelectableView
+        top={theme.spacing.xs}
+        right={theme.spacing.lg}
+        onSelect={() => onSelect(item as Event)}
+        selected={selectedEventIDs.includes(item.id)}
+      >
+        <CardEvent item={item as Event} isSimple />
+      </SelectableView>
+    ),
+    [onSelect, selectedEventIDs]
+  );
+
   return (
     <Screen>
       {filters}
       <Listing
         data={filteredEvents}
         isLoading={isFetchingInitialEvents || isFetchingInitialSports}
-        renderItem={({ item }) => (
-          <SelectableView
-            top={theme.spacing.xs}
-            right={theme.spacing.lg}
-            onSelect={() => onSelect(item as Event)}
-            selected={selectedEventIDs.includes(item.id)}
-          >
-            <CardEvent item={item as Event} isSimple />
-          </SelectableView>
-        )}
+        renderItem={renderItem}
         onScroll={calcScrollOffset}
         onRefresh={handleRefresh}
         isRefreshing={isRefetchingEvents || isRefetchingSports}

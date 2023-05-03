@@ -85,10 +85,11 @@ export const theme = {
   },
   sizing: {
     menuIconSize: 20,
+    animatedFabIconSize: 28,
     inputHeight: 36,
     tabBarHeight: 42,
     buttonHeight: 42,
-    buttonSmallHeight: 38,
+    buttonSmallHeight: 40,
     draggableHandleWidth: 34,
   },
 };
