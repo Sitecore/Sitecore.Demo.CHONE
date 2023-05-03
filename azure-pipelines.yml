@@ -17,7 +17,7 @@ pool:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '16.x'
+    versionSpec: '18.x'
   displayName: 'Install Node.js'
 
 - script: |
@@ -42,4 +42,13 @@ steps:
   workingDirectory: '$(playMediaNativeDir)'
   env:
     EXPO_TOKEN: $(EXPO_TOKEN)
-  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['build.sourceBranch'], 'refs/heads/develop')))
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
+
+- script: |
+    npm run publishAPK
+  displayName: 'Publish APK to GitHub'
+  workingDirectory: '$(playMediaNativeDir)'
+  env:
+    GITHUB_TOKEN: $(GITHUB_TOKEN)
+    EXPO_TOKEN: $(EXPO_TOKEN)
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
