@@ -1,5 +1,6 @@
 import { request } from '@octokit/request';
 import { execSync } from 'child_process';
+import packageJson from '../package.json' assert { type: 'json' };
 
 const token = process.env.GITHUB_TOKEN;
 const sourceBranch: string = process.env.BUILD_SOURCEBRANCH!.endsWith('develop')
@@ -19,40 +20,26 @@ const updateTagVersion = (tag: string): string => {
   let tagVersion = tag.split('-')[2];
   tagVersion = tagVersion.substring(1);
 
-  let tagVersionParts = tagVersion.split('.').map((x) => parseInt(x));
+  let buildNumber = tagVersion.split('.').map((x) => parseInt(x))[2];
+  buildNumber += 1;
 
-  if (tagVersionParts[2] < 9) {
-    tagVersionParts[2] += 1;
-  } else if (tagVersionParts[1] < 9) {
-    tagVersionParts[1] += 1;
-  } else {
-    tagVersionParts[0] += 1;
-  }
-  return tagVersionParts.join('.');
+  return `v${packageJson.baseVersion}.${buildNumber}`;
 };
 
 const updateTagName = (tag: string): string => {
   let newTagVersion = updateTagVersion(tag);
 
-  return sourceBranch === 'main' ? `APK-stable-v${newTagVersion}` : `APK-nightly-v${newTagVersion}`;
+  return sourceBranch === 'main' ? `APK-stable-${newTagVersion}` : `APK-nightly-${newTagVersion}`;
 };
 
-// Retrieve the latest relevant tag name and update it
-let tagName = '';
-if (sourceBranch === 'develop') {
-  tagName = await request('GET /repos/{owner}/{repo}/releases', {
-    ...defaultOptions,
-    headers: defaultHeaders,
-  }).then(
-    (res: { data: any[] }) =>
-      res.data.find((release: { prerelease: boolean }) => release.prerelease === true).tag_name
-  );
-} else {
-  tagName = await request('GET /repos/{owner}/{repo}/releases/latest', {
-    ...defaultOptions,
-    headers: defaultHeaders,
-  }).then((res: { data: { tag_name: string } }) => res.data.tag_name);
-}
+// Retrieve the latest nightly tag name and update it
+const tagName = await request('GET /repos/{owner}/{repo}/releases', {
+  ...defaultOptions,
+  headers: defaultHeaders,
+}).then(
+  (res: { data: any[] }) =>
+    res.data.find((release: { prerelease: boolean }) => release.prerelease === true).tag_name
+);
 
 const newTagName = updateTagName(tagName);
 const newTagVersion = newTagName.split('-')[2];
