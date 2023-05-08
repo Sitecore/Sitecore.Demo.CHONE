@@ -5,7 +5,7 @@ import Head from 'next/head';
 import EventDetailsPage from '../../../components/Pages/EventDetailsPage';
 import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
-import { identifyVisitor, logViewEvent} from '../../../services/CdpService';
+import { identifyVisitor, logViewEvent, logEvent} from '../../../services/CdpService';
 
 export interface Params {
   id: string;
@@ -34,6 +34,14 @@ const EventDetail: FC<Props> = ({ event }) => {
     page: 'event details page',
     id: event.id,
     title: event.title
+  })
+
+  logEvent("ARTICLE_READ",{
+    page: 'event details page',
+    ext: {
+      name: event.sport.results[0].title,
+      AIgenerated: false
+    }
   })
  
   return (
