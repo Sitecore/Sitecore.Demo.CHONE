@@ -16,11 +16,15 @@ const defaultHeaders = {
   'X-GitHub-Api-Version': '2022-11-28',
 };
 
-const updateTagVersion = (tag: string): string => {
-  let tagVersion = tag.split('-')[2];
-  tagVersion = tagVersion.substring(1);
+const getBuildNumber = (tag: string): number =>
+  tag
+    .split('-')[2]
+    .substring(1)
+    .split('.')
+    .map((x: string) => parseInt(x))[2];
 
-  let buildNumber = tagVersion.split('.').map((x) => parseInt(x))[2];
+const updateTagVersion = (tag: string): string => {
+  let buildNumber = getBuildNumber(tag);
   buildNumber += 1;
 
   return `v${packageJson.baseVersion}.${buildNumber}`;
@@ -32,14 +36,30 @@ const updateTagName = (tag: string): string => {
   return sourceBranch === 'main' ? `APK-stable-${newTagVersion}` : `APK-nightly-${newTagVersion}`;
 };
 
-// Retrieve the latest nightly tag name and update it
+// Retrieve the latest nightly and stable tag name matching the base version and update the one with the highest build number
 const tagName = await request('GET /repos/{owner}/{repo}/releases', {
   ...defaultOptions,
   headers: defaultHeaders,
-}).then(
-  (res: { data: any[] }) =>
-    res.data.find((release: { prerelease: boolean }) => release.prerelease === true).tag_name
-);
+}).then((res: { data: any[] }) => {
+  const latestNightlyTagName = res.data.find(
+    (release: { prerelease: boolean; tag_name: string }) =>
+      release.prerelease === true &&
+      release.tag_name.split('-')[2].startsWith(`v${packageJson.baseVersion}`)
+  )?.tag_name;
+
+  const latestStableTagName = res.data.find(
+    (release: { prerelease: boolean; tag_name: string }) =>
+      release.prerelease === false &&
+      release.tag_name.split('-')[2].startsWith(`v${packageJson.baseVersion}`)
+  )?.tag_name;
+
+  if (!latestStableTagName) return latestNightlyTagName;
+  if (!latestNightlyTagName) return latestStableTagName;
+
+  return getBuildNumber(latestNightlyTagName) > getBuildNumber(latestStableTagName)
+    ? latestNightlyTagName
+    : latestStableTagName;
+});
 
 const newTagName = updateTagName(tagName);
 const newTagVersion = newTagName.split('-')[2];
