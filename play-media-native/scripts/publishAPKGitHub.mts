@@ -1,6 +1,9 @@
 import { request } from '@octokit/request';
 import { execSync } from 'child_process';
 import packageJson from '../package.json' assert { type: 'json' };
+import getLatestTagNameWithBaseVersion from './getLatestTagNameWithBaseVersion';
+import updateTagChannel from './updateTagChannel';
+import updateTagVersion from './updateTagVersion';
 
 const token = process.env.GITHUB_TOKEN;
 const sourceBranch: string = process.env.BUILD_SOURCEBRANCH!.endsWith('develop')
@@ -16,52 +19,17 @@ const defaultHeaders = {
   'X-GitHub-Api-Version': '2022-11-28',
 };
 
-const getBuildNumber = (tag: string): number =>
-  tag
-    .split('-')[2]
-    .substring(1)
-    .split('.')
-    .map((x: string) => parseInt(x))[2];
-
-const updateTagVersion = (tag: string): string => {
-  let buildNumber = getBuildNumber(tag);
-  buildNumber += 1;
-
-  return `v${packageJson.baseVersion}.${buildNumber}`;
-};
-
-const updateTagName = (tag: string): string => {
-  let newTagVersion = updateTagVersion(tag);
-
-  return sourceBranch === 'main' ? `APK-stable-${newTagVersion}` : `APK-nightly-${newTagVersion}`;
-};
-
-// Retrieve the latest nightly and stable tag name matching the base version and update the one with the highest build number
-const tagName = await request('GET /repos/{owner}/{repo}/releases', {
+// Retrieve the latest tag name matching the base version
+const latestTagName = await request('GET /repos/{owner}/{repo}/releases', {
   ...defaultOptions,
   headers: defaultHeaders,
-}).then((res: { data: any[] }) => {
-  const latestNightlyTagName = res.data.find(
-    (release: { prerelease: boolean; tag_name: string }) =>
-      release.prerelease === true &&
-      release.tag_name.split('-')[2].startsWith(`v${packageJson.baseVersion}`)
-  )?.tag_name;
+}).then((res: { data: any[] }) => getLatestTagNameWithBaseVersion(res.data, packageJson.baseVersion));
 
-  const latestStableTagName = res.data.find(
-    (release: { prerelease: boolean; tag_name: string }) =>
-      release.prerelease === false &&
-      release.tag_name.split('-')[2].startsWith(`v${packageJson.baseVersion}`)
-  )?.tag_name;
+// Update the existing tag version or generate a new tag with the correct base version and build number 0.
+const tagWithNewVersion = latestTagName ? updateTagVersion(latestTagName, packageJson.baseVersion) : `APK-default-v${packageJson.baseVersion}.0`;
 
-  if (!latestStableTagName) return latestNightlyTagName;
-  if (!latestNightlyTagName) return latestStableTagName;
-
-  return getBuildNumber(latestNightlyTagName) > getBuildNumber(latestStableTagName)
-    ? latestNightlyTagName
-    : latestStableTagName;
-});
-
-const newTagName = updateTagName(tagName);
+// Update the tag channel
+const newTagName = updateTagChannel(tagWithNewVersion, sourceBranch);
 const newTagVersion = newTagName.split('-')[2];
 
 // Fetch the APK URL & file
