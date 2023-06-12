@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 
-import getBuildNumber from '../scripts/getGuildNumber';
+import getBuildNumber from '../scripts/getBuildNumber';
 
 test('APK-nightly-v1.1.1 build number is 1', () => {
   expect(getBuildNumber('APK-nightly-v1.1.1')).toBe(1);

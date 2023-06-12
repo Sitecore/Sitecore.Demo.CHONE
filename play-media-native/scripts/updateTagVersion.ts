@@ -1,4 +1,4 @@
-import getBuildNumber from './getGuildNumber';
+import getBuildNumber from './getBuildNumber';
 
 const updateTagVersion = (tag: string, baseVersion: string): string => {
   const tagSegments = tag.split('-');

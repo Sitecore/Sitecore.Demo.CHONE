@@ -1,4 +1,4 @@
-import getBuildNumber from './getGuildNumber';
+import getBuildNumber from './getBuildNumber';
 
 type Release = {
   tag_name: string;
