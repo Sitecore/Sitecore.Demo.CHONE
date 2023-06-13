@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   buttonLabel: {
     fontFamily: theme.fontFamily.medium,
     fontSize: theme.fontSize.base,
-    lineHeight: 25,
+    lineHeight: 23,
   },
   buttonLabelSmall: {
     fontFamily: theme.fontFamily.DEFAULT,
