@@ -86,3 +86,43 @@ After making changes to content types or content items in Content Hub ONE, you s
    ```bash
    npm run pull:additional-items
    ```
+
+## Starting with an empty Content Hub ONE instance
+
+When starting with a completely empty Content Hub ONE instance you need to follow these steps in order to get a functional site:
+
+1. Push all media:
+
+   ```bash
+   npm run push:media
+   ```
+
+2. Push all content types:
+
+   ```bash
+   npm run push:types
+   ```
+
+3. Push all content items:
+
+   ```bash
+   npm run push:items
+   ```
+
+4. Push all content items once more in order to make sure all referenced items are populated correctly:
+
+   ```bash
+   npm run push:items
+   ```
+
+5. Publish all media:
+
+   ```bash
+   npm run publish:all-media
+   ```
+
+6. Publish all items:
+
+   ```bash
+   npm run publish:items
+   ```
