@@ -20,8 +20,9 @@
     "push:items": "cd items && ch-one-cli ser push content-item -c Sport && ch-one-cli ser push content-item -c Athlete && ch-one-cli ser push content-item -c Event",
     "push:additional-items": "cd items && ch-one-cli ser push content-item -c ContentBlock && ch-one-cli ser push content-item -c Location",
     "publish:item": "cd items && ch-one-cli delivery content publish",
+    "publish:items": "ts-node scripts/publishContentItems.ts",
     "publish:media": "cd items && ch-one-cli delivery media publish",
-    "publish:items": "ts-node scripts/publishContentItems.ts"
+    "publish:all-media": "cd items && ch-one-cli delivery media publish -i *"
   },
   "repository": {
     "type": "git",
