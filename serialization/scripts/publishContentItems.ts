@@ -25,5 +25,6 @@ const contentItemIDs = walk(`${__dirname}/../items/contentItems`);
 
 // Publish each content item
 contentItemIDs.forEach((contentItemID) => {
+  console.log(`Publishing of content item '${contentItemID}' initiated`);
   exec(`ch-one-cli delivery content publish -i ${contentItemID}`);
 });
