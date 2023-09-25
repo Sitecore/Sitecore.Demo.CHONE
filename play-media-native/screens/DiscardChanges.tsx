@@ -15,7 +15,10 @@ export const DiscardChangesScreen = ({ navigation, route }) => {
   const { reset } = useContentItems();
 
   const onDiscard = useCallback(() => {
-    reset({ id: stateKey });
+    if (stateKey) {
+      reset({ id: stateKey });
+    }
+
     navigation.navigate(redirectRoute, {
       id: route?.params?.id,
       title: route?.params?.title,

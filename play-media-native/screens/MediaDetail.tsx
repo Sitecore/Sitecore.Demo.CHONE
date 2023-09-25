@@ -1,5 +1,3 @@
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useCallback, useMemo } from 'react';
@@ -8,13 +6,14 @@ import { Text } from 'react-native-paper';
 import { useQuery } from 'react-query';
 
 import { getMediaById } from '../api/queries/getMedia';
-import { BottomFAB } from '../components/BottomFAB/BottomFAB';
+import { AnimatedButton } from '../components/AnimatedButton/AnimatedButton';
 import { LoadingScreen } from '../features/LoadingScreen/LoadingScreen';
 import { MediaDetail } from '../features/MediaDetail/MediaDetail';
 import { Screen } from '../features/Screen/Screen';
 import { removeFileExtension } from '../helpers/media';
+import { useScrollOffset } from '../hooks/useScrollOffset/useScrollOffset';
 import { RootStackParamList } from '../interfaces/navigators';
-import { theme } from '../theme/theme';
+import { styles } from '../theme/styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MediaDetail'>;
 
@@ -29,6 +28,8 @@ export const MediaDetailScreen = ({ route, navigation }: Props) => {
     staleTime: 0,
   });
 
+  const { isTopEdge, calcScrollOffset } = useScrollOffset(true);
+
   useFocusEffect(
     useCallback(() => {
       navigation.setParams({
@@ -38,20 +39,20 @@ export const MediaDetailScreen = ({ route, navigation }: Props) => {
   );
 
   const handleEditInfo = useCallback(() => {
-    // TODO
-  }, []);
+    navigation.push('EditExistingMedia', { id });
+  }, [id, navigation]);
 
   const bottomActions = useMemo(
     () => (
-      <BottomFAB
-        icon={({ size }) => (
-          <FontAwesomeIcon icon={faEdit} color={theme.colors.black.DEFAULT} size={size} />
-        )}
+      <AnimatedButton
+        extended={isTopEdge}
+        iconName="square-edit-outline"
         label="Edit"
         onPress={handleEditInfo}
+        style={styles.fab}
       />
     ),
-    [handleEditInfo]
+    [handleEditInfo, isTopEdge]
   );
 
   if (isFetching) {
@@ -68,7 +69,7 @@ export const MediaDetailScreen = ({ route, navigation }: Props) => {
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView onScroll={calcScrollOffset} scrollEventThrottle={0}>
         <MediaDetail media={media} />
       </ScrollView>
       {bottomActions}

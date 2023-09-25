@@ -1,11 +1,14 @@
 import { STATUS_TYPES } from '../../../constants/status';
+import { fetchToken } from '../../../helpers/token';
 import { StatusResult } from '../../../interfaces/statusResults';
-import { generateToken } from '../generateToken';
 
 type StatusTypes = (typeof STATUS_TYPES)[keyof typeof STATUS_TYPES];
 
-export const getItemsStatus = async (type: StatusTypes): Promise<StatusResult[]> => {
-  const accessToken: string = (await generateToken()).access_token;
+export const getItemsStatus = async (
+  type: StatusTypes,
+  shouldGenerateNewToken = false
+): Promise<StatusResult[]> => {
+  const accessToken = await fetchToken(shouldGenerateNewToken);
 
   const fetchURL = `https://content-api.sitecorecloud.io/api/content/v1/${type}?${
     type === STATUS_TYPES.content ? 'view=excludeCustomFields&' : ''
@@ -20,18 +23,23 @@ export const getItemsStatus = async (type: StatusTypes): Promise<StatusResult[]>
         'Content-Type': 'application/json',
       },
     }).then(async (response: Response) => {
-      const jsonResponsePromise = response.json();
-      const data = await jsonResponsePromise;
-
-      if (data?.status) {
+      if (!response?.ok) {
         // If the API response status is '429 Too Many Requests', retry the request
-        if (data.status === 429) {
+        if (response.status === 429) {
           return getItemsStatus(type);
         }
 
-        console.error(`${data.status} error: ${data?.detail}`);
-        throw data?.status;
+        // If the API response status is '401 Unauthorized', retry the request generating a new token along the way
+        if (response.status === 401) {
+          return getItemsStatus(type, true);
+        }
+
+        console.error(`${response.status} error: ${response?.statusText}`);
+        throw response?.status;
       }
+
+      const jsonResponsePromise = response.json();
+      const data = await jsonResponsePromise;
 
       const itemsStatus = data.data.map((item: any) => ({
         id: item.id,
@@ -45,8 +53,12 @@ export const getItemsStatus = async (type: StatusTypes): Promise<StatusResult[]>
   }
 };
 
-export const getItemStatusById = async (id: string, type: StatusTypes): Promise<StatusResult> => {
-  const accessToken: string = (await generateToken()).access_token;
+export const getItemStatusById = async (
+  id: string,
+  type: StatusTypes,
+  shouldGenerateNewToken = false
+): Promise<StatusResult> => {
+  const accessToken = await fetchToken(shouldGenerateNewToken);
   const fetchURL = `https://content-api.sitecorecloud.io/api/content/v1/${type}/${id}`;
 
   try {
@@ -58,18 +70,23 @@ export const getItemStatusById = async (id: string, type: StatusTypes): Promise<
         'Content-Type': 'application/json',
       },
     }).then(async (response: Response) => {
-      const jsonResponsePromise = response.json();
-      const data = await jsonResponsePromise;
-
-      if (data?.status) {
+      if (!response?.ok) {
         // If the API response status is '429 Too Many Requests', retry the request
-        if (data.status === 429) {
+        if (response.status === 429) {
           return getItemStatusById(id, type);
         }
 
-        console.error(`${data.status} error: ${data?.detail}`);
-        throw data?.status;
+        // If the API response status is '401 Unauthorized', retry the request generating a new token along the way
+        if (response.status === 401) {
+          return getItemStatusById(id, type, true);
+        }
+
+        console.error(`${response.status} error: ${response?.statusText}`);
+        throw response?.status;
       }
+
+      const jsonResponsePromise = response.json();
+      const data = await jsonResponsePromise;
 
       const itemStatus = {
         id: data.id,

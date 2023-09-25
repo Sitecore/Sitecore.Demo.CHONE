@@ -9,6 +9,7 @@ export const SearchBar = ({ onSearch, searchQuery }) => {
       inputStyle={{
         width: '100%',
         color: theme.colors.black.DEFAULT,
+        minHeight: theme.sizing.inputHeight,
       }}
       placeholder="Search"
       placeholderTextColor={theme.colors.black.DEFAULT}
@@ -20,6 +21,7 @@ export const SearchBar = ({ onSearch, searchQuery }) => {
         marginHorizontal: theme.spacing.sm,
         marginBottom: theme.spacing.xs,
         height: theme.sizing.inputHeight,
+        borderRadius: 0,
       }}
     />
   );

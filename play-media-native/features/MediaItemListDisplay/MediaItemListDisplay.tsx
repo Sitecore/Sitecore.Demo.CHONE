@@ -51,7 +51,7 @@ export const MediaItemListDisplay = ({
           }}
         >
           {item.name && <Field title="Name" value={removeFileExtension(item.name)} />}
-          <Field title="File type" value={getFileType(item)} />
+          <Field title="Type" value={getFileType(item)} />
           {item.status && <Field title="State" value={item.status} />}
           <Field title="Size" value={`${item.fileWidth} x ${item.fileHeight}`} />
         </View>

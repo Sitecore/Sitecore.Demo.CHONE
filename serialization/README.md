@@ -17,7 +17,49 @@
 npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <oauth-client-id> -cs <oauth-client-secret>
 ```
 
-## Pushing serialized assets to Content Hub ONE
+## Starting with an empty Content Hub ONE instance
+
+When starting with a completely empty Content Hub ONE instance you need to follow these steps in order to get a functional site:
+
+1. Push all media:
+
+   ```bash
+   npm run push:media
+   ```
+
+2. Push all content types:
+
+   ```bash
+   npm run push:types
+   ```
+
+3. Push all content items:
+
+   ```bash
+   npm run push:items
+   ```
+
+4. Push all content items once more in order to make sure all referenced items are populated correctly:
+
+   ```bash
+   npm run push:items
+   ```
+
+5. Publish all media:
+
+   ```bash
+   npm run publish:all-media
+   ```
+
+6. Publish all items:
+
+   ```bash
+   npm run publish:items
+   ```
+
+## Operations
+
+### Pushing serialized assets to Content Hub ONE
 
 1. Push all content types:
 
@@ -31,7 +73,7 @@ npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <oauth-client-id> 
    npm run push:items
    ```
 
-## Pushing additional assets to Content Hub ONE (currently ContentBlock and Location)
+### Pushing additional assets to Content Hub ONE (currently ContentBlock and Location)
 
 1. Push all additional content types:
 
@@ -45,7 +87,7 @@ npm run tenant:add -- -o <organization-id> -t <tenant-id> -ci <oauth-client-id> 
    npm run push:additional-items
    ```
 
-## Publishing Content Hub ONE assets
+### Publishing Content Hub ONE assets
 
 You can publish all of your content items to the delivery endpoint using a single command:
 
@@ -53,7 +95,7 @@ You can publish all of your content items to the delivery endpoint using a singl
 npm run publish:items
 ```
 
-## Pulling serialized assets from Content Hub ONE
+### Pulling serialized assets from Content Hub ONE
 
 After making changes to content types or content items in Content Hub ONE, you should pull the changes and commit them:
 

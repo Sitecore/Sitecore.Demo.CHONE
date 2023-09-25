@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Dimensions, Image, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { IconButton, Modal, Portal } from 'react-native-paper';
@@ -23,6 +24,22 @@ export const ImageOverlayCarousel = ({
     },
   });
 
+  const renderItem = useCallback(
+    ({ item }) => {
+      return (
+        <Image
+          source={{ uri: item }}
+          style={{
+            height,
+            width,
+            resizeMode: 'contain',
+          }}
+        />
+      );
+    },
+    [height, width]
+  );
+
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onClose}>
@@ -33,18 +50,7 @@ export const ImageOverlayCarousel = ({
             height={height}
             data={images}
             defaultIndex={startIndex}
-            renderItem={({ item }) => {
-              return (
-                <Image
-                  source={{ uri: item }}
-                  style={{
-                    height,
-                    width,
-                    resizeMode: 'contain',
-                  }}
-                />
-              );
-            }}
+            renderItem={renderItem}
           />
         </GestureHandlerRootView>
         <IconButton

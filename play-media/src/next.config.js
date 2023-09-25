@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  images: {domains: ["mms-delivery.sitecorecloud.io"]},
+  images: {domains: ["mms-delivery.sitecorecloud.io", "mms-delivery-staging.sitecore-staging.cloud"]},
   experimental: {
     // This is experimental but can
     // be enabled to allow parallel threads

@@ -3,11 +3,12 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import { actions, RichEditor, RichToolbar } from 'react-native-pell-rich-editor';
 
+import { fontFamilyName, fontFamilyStylesheet } from './fontStylesheet';
+import { generateHtml } from './generateHtml';
+import generateJson from './generateJson';
 import { styles } from '../../theme/styles';
 import { theme } from '../../theme/theme';
 import { Icon } from '../Icon/Icon';
-import { generateHtml } from './generateHtml';
-import generateJson from './generateJson';
 
 export const RichTextEditor = ({
   initialValue,
@@ -60,9 +61,6 @@ export const RichTextEditor = ({
             actions.code,
             actions.blockquote,
           ]}
-          iconMap={{
-            [actions.heading1]: ({ tintColor }) => <Text style={[{ color: tintColor }]}>H1</Text>,
-          }}
           selectedIconTint={theme.colors.blue.light}
           iconTint={theme.colors.black.DEFAULT}
           style={pageStyles.richTextToolbarStyle}
@@ -90,11 +88,7 @@ export const RichTextEditor = ({
           }}
           selectedIconTint={theme.colors.blue.light}
           iconTint={theme.colors.black.DEFAULT}
-          style={{
-            ...pageStyles.richTextToolbarStyle,
-            borderColor: theme.colors.yellow.DEFAULT,
-            borderWidth: 1,
-          }}
+          style={pageStyles.richTextToolbarStyle}
         />
         <View style={pageStyles.scrollContainerStyle}>
           <ScrollView
@@ -114,6 +108,13 @@ export const RichTextEditor = ({
             />
           </ScrollView>
         </View>
+        <RichToolbar
+          editor={richText}
+          actions={[actions.keyboard]}
+          selectedIconTint={theme.colors.blue.light}
+          iconTint={theme.colors.black.DEFAULT}
+          style={pageStyles.richTextToolbarStyle}
+        />
         {showError && (
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Icon name="warning-outline" color={theme.colors.pink.DEFAULT} size={16} />
@@ -129,6 +130,8 @@ export const RichTextEditor = ({
 
 const pageStyles = StyleSheet.create({
   richTextEditorStyle: {
+    initialCSSText: fontFamilyStylesheet,
+    contentCSSText: `font-family: ${fontFamilyName}`,
     backgroundColor: theme.colors.white.DEFAULT,
     color: theme.colors.black.darkest,
   },

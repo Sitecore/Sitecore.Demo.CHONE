@@ -14,13 +14,15 @@
     "push:types": "cd items && ch-one-cli ser push content-type -i Sport && ch-one-cli ser push content-type -i Athlete && ch-one-cli ser push content-type -i Event",
     "push:additional-types": "cd items && ch-one-cli ser push content-type -i ContentBlock && ch-one-cli ser push content-type -i Location",
     "pull:media": "cd items && ch-one-cli serialization pull media",
+    "push:media": "cd items && ch-one-cli serialization push media",
     "pull:items": "cd items && ch-one-cli ser pull content-item -c Sport && ch-one-cli ser pull content-item -c Athlete && ch-one-cli ser pull content-item -c Event",
     "pull:additional-items": "cd items && ch-one-cli ser pull content-item -c ContentBlock && ch-one-cli ser pull content-item -c Location",
     "push:items": "cd items && ch-one-cli ser push content-item -c Sport && ch-one-cli ser push content-item -c Athlete && ch-one-cli ser push content-item -c Event",
     "push:additional-items": "cd items && ch-one-cli ser push content-item -c ContentBlock && ch-one-cli ser push content-item -c Location",
     "publish:item": "cd items && ch-one-cli delivery content publish",
+    "publish:items": "ts-node scripts/publishContentItems.ts",
     "publish:media": "cd items && ch-one-cli delivery media publish",
-    "publish:items": "ts-node scripts/publishContentItems.ts"
+    "publish:all-media": "cd items && ch-one-cli delivery media publish -i *"
   },
   "repository": {
     "type": "git",

@@ -26,13 +26,12 @@ export const styles = StyleSheet.create({
   buttonLabel: {
     fontFamily: theme.fontFamily.medium,
     fontSize: theme.fontSize.base,
-    lineHeight: 25,
+    lineHeight: 23,
   },
   buttonLabelSmall: {
     fontFamily: theme.fontFamily.DEFAULT,
     fontSize: theme.fontSize.sm,
-    lineHeight: theme.fontSize.base,
-    top: 2,
+    lineHeight: theme.fontSize.lg,
   },
   buttonLabelDisabledSecondary: {
     color: theme.colors.black.lightest,
@@ -104,5 +103,9 @@ export const styles = StyleSheet.create({
   draggableContent: {
     marginLeft: theme.sizing.draggableHandleWidth,
     paddingLeft: 0,
+  },
+  menuItem: {
+    color: theme.colors.black.DEFAULT,
+    fontFamily: theme.fontFamily.DEFAULT,
   },
 });

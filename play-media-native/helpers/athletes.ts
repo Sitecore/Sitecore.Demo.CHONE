@@ -1,3 +1,4 @@
+import { normalizeContentItem } from './contentItemHelper';
 import { publishContentItem } from '../api/queries/contentItems';
 import { publishMediaItem } from '../api/queries/mediaItems';
 import { ATHLETE_FACETS } from '../constants/filters';
@@ -5,7 +6,6 @@ import { FIELD_OVERRIDES_SPORT } from '../constants/sport';
 import { Athlete, AthleteResponse } from '../interfaces/athlete';
 import { Sport } from '../interfaces/sport';
 import { StatusResult } from '../interfaces/statusResults';
-import { normalizeContentItem } from './contentItemHelper';
 
 export const initializeAthletes = (athletes: Athlete[], sports: Sport[]) => {
   if (!athletes || !sports) {
@@ -36,14 +36,14 @@ export const normalizeAthlete = (athlete: AthleteResponse, statusResults: Status
       ? normalizeContentItem(athlete.sport?.results[0], FIELD_OVERRIDES_SPORT)
       : null,
     profilePhoto: athlete.profilePhoto?.results[0] || null,
-    featuredImage: athlete.featuredImage?.results[0] || null,
-    isFeatured: athlete.isFeatured,
-    athleteQuote: athlete.athleteQuote,
-    nationality: athlete.nationality,
-    dateOfBirth: athlete.dateOfBirth,
-    careerStartDate: athlete.careerStartDate,
-    hobby: athlete.hobby,
-    relatedMedia: athlete.relatedMedia?.results || [],
+    featuredImage: athlete?.featuredImage?.results[0] || null,
+    isFeatured: athlete?.isFeatured,
+    athleteQuote: athlete?.athleteQuote,
+    nationality: athlete?.nationality,
+    dateOfBirth: athlete?.dateOfBirth,
+    careerStartDate: athlete?.careerStartDate,
+    hobby: athlete?.hobby,
+    relatedMedia: athlete?.relatedMedia?.results || [],
   };
 };
 

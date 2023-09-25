@@ -1,3 +1,5 @@
+import { Dimensions, Platform } from 'react-native';
+
 import { fetchGraphQL } from '../..';
 import { STATUS_TYPES } from '../../../constants/status';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
@@ -14,8 +16,17 @@ query {
       fileHeight,
       fileSize,
       fileType,
-      fileUrl,
+      fileUrl (
+        transform: {
+          width: ${Math.ceil((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width)},
+          height: ${Math.ceil(
+            ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 2
+          )},
+          fit: SCALEDOWN
+        }
+      ),
       fileWidth,
+      fileId,
       name,
     }
   }
@@ -37,6 +48,7 @@ export const getAllMedia = async (options?: FetchOptions): Promise<Media[]> => {
       fileType: item.fileType,
       fileUrl: item.fileUrl,
       fileWidth: item.fileWidth,
+      fileId: item.fileId,
       name: item.name,
     });
   });
@@ -53,8 +65,15 @@ const getMediaByIdQuery = (id: string) => {
       fileHeight,
       fileSize,
       fileType,
-      fileUrl,
+      fileUrl (
+        transform: {
+          width: ${Math.ceil((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width)},
+          height: ${Math.ceil((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height)},
+          fit: SCALEDOWN
+        }
+      ),
       fileWidth,
+      fileId,
       name,
     }
   }

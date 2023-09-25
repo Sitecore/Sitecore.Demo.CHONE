@@ -1,0 +1,54 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+variables:
+  playMediaDir: '$(System.DefaultWorkingDirectory)/play-media/src'
+  playMediaNativeDir: '$(System.DefaultWorkingDirectory)/play-media-native'
+
+pr:
+- main
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run lint
+    npm run build
+  displayName: 'Lint and build the website'
+  workingDirectory: '$(playMediaDir)'
+  env:
+    CHONE_DELIVERY_API_KEY: $(CHONE_DELIVERY_API_KEY)
+
+- script: |
+    npm install
+    npm run lint
+  displayName: 'Lint the mobile app'
+  workingDirectory: '$(playMediaNativeDir)'
+
+- script: |
+    npx eas-cli init --id $(EXPO_PROJECT_ID) --non-interactive
+    npx eas-cli build --platform android --profile preview --non-interactive
+  displayName: 'Create Android APK for the mobile app'
+  workingDirectory: '$(playMediaNativeDir)'
+  env:
+    EXPO_TOKEN: $(EXPO_TOKEN)
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))
+
+- script: |
+    npm run publishAPK
+  displayName: 'Publish APK to GitHub'
+  workingDirectory: '$(playMediaNativeDir)'
+  env:
+    GITHUB_TOKEN: $(GITHUB_TOKEN)
+    EXPO_TOKEN: $(EXPO_TOKEN)
+  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop')))

@@ -18,9 +18,11 @@ import { CreateAthleteDetailedScreen } from '../screens/CreateAthleteDetailed';
 import { CreateAthleteOverviewScreen } from '../screens/CreateAthleteOverview';
 import { CreateEventDetailedScreen } from '../screens/CreateEventDetailed';
 import { CreateEventOverviewScreen } from '../screens/CreateEventOverview';
+import { CreateMediaScreen } from '../screens/CreateMedia';
 import { DiscardChangesScreen } from '../screens/DiscardChanges';
 import { EditAthleteScreen } from '../screens/EditAthlete';
 import { EditEventScreen } from '../screens/EditEvent';
+import { EditExistingMediaScreen } from '../screens/EditExistingMedia';
 import { EditMediaScreen } from '../screens/EditMedia';
 import { EventDetailScreen } from '../screens/EventDetail';
 import { MediaDetailScreen } from '../screens/MediaDetail';
@@ -87,7 +89,6 @@ export const Stacks = () => {
         name="EditAthlete"
         component={EditAthleteScreen}
         initialParams={{
-          title: 'Edit Athlete Details',
           subtitle: 'Edit athlete details',
         }}
       />
@@ -95,7 +96,6 @@ export const Stacks = () => {
         name="EditEvent"
         component={EditEventScreen}
         initialParams={{
-          title: 'Edit Event Details',
           subtitle: 'Edit event details',
         }}
       />
@@ -137,10 +137,25 @@ export const Stacks = () => {
         }}
       />
       <Stack.Screen
+        name="EditExistingMedia"
+        component={EditExistingMediaScreen}
+        initialParams={{
+          subtitle: 'Edit media file details',
+        }}
+      />
+      <Stack.Screen
         name="EditMedia"
         component={EditMediaScreen}
         initialParams={{
           subtitle: 'Edit media file details',
+        }}
+      />
+      <Stack.Screen
+        name="CreateMedia"
+        component={CreateMediaScreen}
+        initialParams={{
+          title: 'Untitled media',
+          subtitle: 'Add new media',
         }}
       />
       <Stack.Screen

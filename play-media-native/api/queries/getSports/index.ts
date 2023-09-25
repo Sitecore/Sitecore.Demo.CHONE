@@ -1,3 +1,5 @@
+import { Dimensions, Platform } from 'react-native';
+
 import { fetchGraphQL } from '../..';
 import { FetchOptions } from '../../../interfaces/fetchOptions';
 import { AllSportsResponse, Sport, SportResponse } from '../../../interfaces/sport';
@@ -13,7 +15,17 @@ query {
         results {
           id
           name
-          fileUrl
+          fileUrl (
+            transform: {
+              width: ${Math.ceil(
+                ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width) / 2
+              )},
+              height: ${Math.ceil(
+                ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 3
+              )},
+              fit: SCALEDOWN
+            }
+          ),
           description
           fileHeight
           fileSize

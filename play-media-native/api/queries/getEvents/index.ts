@@ -1,3 +1,5 @@
+import { Dimensions, Platform } from 'react-native';
+
 import { fetchGraphQL } from '../..';
 import { STATUS_TYPES } from '../../../constants/status';
 import { normalizeEvent } from '../../../helpers/events';
@@ -18,17 +20,9 @@ query {
           ... on Sport {
            	id
             title
-            description
-            featuredImage {
-              results {
-                id
-                fileUrl
-              }
-            }
           }
         }
       }
-      isFeatured
       timeAndDate
       location
       featuredImage {
@@ -38,91 +32,17 @@ query {
           fileHeight
           fileSize
           fileType
-          fileUrl
+          fileUrl (
+            transform: {
+              width: ${Math.ceil((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width)},
+              height: ${Math.ceil(
+                ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 2
+              )},
+              fit: SCALEDOWN
+            }
+          ),
           fileWidth
           name
-        }
-      }
-      relatedMedia {
-        results {
-          id
-          description
-          fileHeight
-          fileSize
-          fileType
-          fileUrl
-          fileWidth
-          name
-        }
-      }
-      teaser
-      body
-      athletes {
-        results {
-          ... on Athlete {
-            id
-            athleteName
-            athleteQuote
-            dateOfBirth
-            nationality
-            profilePhoto {
-              results {
-                id
-                name
-                fileUrl
-                description
-              }
-            }
-            sport {
-              results {
-                ... on Sport {
-                  id
-                  title
-                  description
-                  featuredImage {
-                    results {
-                      id
-                      fileUrl
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      similarEvents {
-        results {
-          ... on Event {
-            id
-            name
-            location
-            title
-            sport {
-              results {
-                ... on Sport {
-                  id
-                  title
-                  description
-                  featuredImage {
-                    results {
-                      id
-                      fileUrl
-                    }
-                  }
-                }
-              }
-            }
-            timeAndDate
-            featuredImage {
-              results {
-                id
-                name
-                fileUrl
-                description
-              }
-            }
-          }
         }
       }
     }
@@ -157,7 +77,17 @@ const getEventByIdQuery = (id: string) => {
               featuredImage {
                 results {
                   id
-                  fileUrl
+                  fileUrl (
+                    transform: {
+                      width: ${Math.ceil(
+                        (Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width
+                      )},
+                      height: ${Math.ceil(
+                        ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 3
+                      )},
+                      fit: SCALEDOWN
+                    }
+                  ),
                 }
               }
             }
@@ -170,7 +100,17 @@ const getEventByIdQuery = (id: string) => {
           results {
             id
             name
-            fileUrl
+            fileUrl (
+              transform: {
+                width: ${Math.ceil(
+                  (Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width
+                )},
+                height: ${Math.ceil(
+                  ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 2
+                )},
+                fit: SCALEDOWN
+              }
+            ),
             description
             fileHeight
             fileSize
@@ -182,7 +122,17 @@ const getEventByIdQuery = (id: string) => {
           results {
             id
             name
-            fileUrl
+            fileUrl (
+              transform: {
+                width: ${Math.ceil(
+                  ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width * 2) / 3
+                )},
+                height: ${Math.ceil(
+                  ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 2
+                )},
+                fit: SCALEDOWN
+              }
+            ),
             description
             fileHeight
             fileSize
@@ -204,7 +154,17 @@ const getEventByIdQuery = (id: string) => {
                 results {
                   id
                   name
-                  fileUrl
+                  fileUrl (
+                    transform: {
+                      width: ${Math.ceil(
+                        ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width) / 3
+                      )},
+                      height: ${Math.ceil(
+                        ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 5
+                      )},
+                      fit: SCALEDOWN
+                    }
+                  ),
                   description
                 }
               }
@@ -213,13 +173,6 @@ const getEventByIdQuery = (id: string) => {
                   ... on Sport {
                     id
                     title
-                    description
-                    featuredImage {
-                      results {
-                        id
-                        fileUrl
-                      }
-                    }
                   }
                 }
               }
@@ -236,13 +189,6 @@ const getEventByIdQuery = (id: string) => {
                   ... on Sport {
                     id
                     title
-                    description
-                    featuredImage {
-                      results {
-                        id
-                        fileUrl
-                      }
-                    }
                   }
                 }
               }
@@ -252,7 +198,17 @@ const getEventByIdQuery = (id: string) => {
                 results {
                   id
                   name
-                  fileUrl
+                  fileUrl (
+                    transform: {
+                      width: ${Math.ceil(
+                        (Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').width
+                      )},
+                      height: ${Math.ceil(
+                        ((Platform.OS === 'ios' ? 3 : 1) * Dimensions.get('window').height) / 2
+                      )},
+                      fit: SCALEDOWN
+                    }
+                  ),
                   description
                 }
               }

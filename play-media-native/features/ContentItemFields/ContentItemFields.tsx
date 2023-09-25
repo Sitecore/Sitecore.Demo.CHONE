@@ -25,18 +25,16 @@ import { ContentFieldMedia } from '../ContentFieldMedia/ContentFieldMedia';
 import { ContentFieldReference } from '../ContentFieldReference/ContentFieldReference';
 import { RequiredFieldsBanner } from '../RequiredFieldsBanner/RequiredFieldsBanner';
 
-const athleteMenuStyle = {
+const cardMenuStyle = {
   position: 'absolute',
-  top: 0,
+  top: -8,
   right: 0,
-  zIndex: 12,
+  zIndex: 10,
 };
 
-const eventMenuStyle = {
-  position: 'absolute',
-  top: 0,
-  right: theme.spacing.sm,
-  zIndex: 10,
+const sportMenuStyle = {
+  ...cardMenuStyle,
+  right: -8,
 };
 
 const sectionMarginBottom = theme.spacing.xs;
@@ -96,7 +94,7 @@ export const ContentItemFields = ({
             iconColor={theme.colors.black.DEFAULT}
             iconSize={theme.sizing.menuIconSize}
             menuItems={getMenuItems(fieldKey, item)}
-            style={athleteMenuStyle}
+            style={cardMenuStyle}
           />
         </View>
       ),
@@ -107,7 +105,7 @@ export const ContentItemFields = ({
             iconColor={theme.colors.black.DEFAULT}
             iconSize={theme.sizing.menuIconSize}
             menuItems={getMenuItems(fieldKey, item)}
-            style={eventMenuStyle}
+            style={cardMenuStyle}
           />
         </View>
       ),
@@ -116,9 +114,9 @@ export const ContentItemFields = ({
           <CardSport item={item} />
           <ActionMenu
             iconColor={theme.colors.black.DEFAULT}
-            iconSize={25}
+            iconSize={theme.sizing.menuIconSize}
             menuItems={getMenuItems(fieldKey, item)}
-            style={athleteMenuStyle}
+            style={sportMenuStyle}
           />
         </View>
       ),
