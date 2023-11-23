@@ -9,9 +9,8 @@ import Image from 'next/image';
 import { getSlideImageSize } from '../../helpers/imageHelper';
 
 const EventDetailsPage = ({ event }: { event: Event }) => {
-
   const body = event?.body?.content && <RichText body={event.body.content} />;
-  
+
   return (
     <main>
       <HeroBannerEventDetails event={event} />
