@@ -50,6 +50,7 @@
     "typescript": "4.9.3"
   },
   "devDependencies": {
+    "@swc/helpers": "^0.5.3",
     "@types/color-hash": "^1.0.2",
     "autoprefixer": "^10.4.13",
     "cross-env": "^7.0.3",
