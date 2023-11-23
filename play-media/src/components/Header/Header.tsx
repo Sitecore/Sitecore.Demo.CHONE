@@ -44,6 +44,20 @@ export const Header = () => {
               </Link>
             </li>
             <li>
+            <Link href={'/athletes'} onClick={handleNavClose}>
+                Athletes
+              </Link>
+            </li>
+            {/***
+              DEMO SCENARIO CUSTOMIZATION
+              Uncomment the next list item to enable the about us page link in the header
+            ***/}
+            {/* <li>
+              <Link href={'/about-us'} onClick={handleNavClose}>
+                About Us
+              </Link>
+            </li> */}
+            <li>
               <div className="theme-switcher" onClick={toggleThemeHandler}>
                 <div className="theme-switcher-container">
                   <div className="moon-icon-container">
