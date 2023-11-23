@@ -1,4 +1,5 @@
 import { createContext, ReactElement, useCallback, useEffect, useState } from 'react';
+import Layout from "../components/layout/Layout";
 
 const ThemeSwitcherContext = createContext({
   isDarkTheme: true,
@@ -48,9 +49,11 @@ export const ThemeSwitcherContextProvider = (props: ThemePropsInterface): ReactE
   };
 
   return (
+
     <ThemeSwitcherContext.Provider value={{ isDarkTheme, toggleThemeHandler }}>
       {props.children}
     </ThemeSwitcherContext.Provider>
+
   );
 };
 

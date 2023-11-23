@@ -1,2 +1,9 @@
 @import './globals.css';
 @import './components.css';
+
+
+.mySidebar{
+position:fixed;
+
+
+}

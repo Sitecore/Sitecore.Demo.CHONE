@@ -8,15 +8,20 @@ import { REVALIDATE_INTERVAL } from '../constants/build';
 import { identifyVisitor, logViewEvent ,logEvent,forgetCurrentGuest} from '../services/CdpService';
 import Layout from "../components/layout/Layout";
 
+
+
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
+
+
 export default function Athletes({ athletes, sports }: { athletes: Athlete[]; sports: Sport[] }) {
   const invalidData = !athletes || !sports;
 
   return (
     <>
       <Head>
-        <title>Athletes | PLAY! Media</title>
+        <title>Places | PLAY! Media</title>
       </Head>
-<Layout>
+      <Layout>
       <main>{invalidData ? null : <AthleteListingPage athletes={athletes} sports={sports} />}</main>
       </Layout>
     </>
@@ -25,11 +30,6 @@ export default function Athletes({ athletes, sports }: { athletes: Athlete[]; sp
 
 
 export const getStaticProps = async () => {
-  const athletesPromise = getAllAthletes();
-  const sportsPromise = getAllSports();
-
-  await Promise.all([athletesPromise, sportsPromise]);
-
   const athletes = await getAllAthletes();
   const sports = await getAllSports();
 

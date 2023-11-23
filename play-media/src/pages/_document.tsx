@@ -10,6 +10,8 @@ export default function Document() {
         />
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="PLAY! Media - A Contenthub ONE Demo" />
+        <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+
       </Head>
       <body>
         <Main />

@@ -5,9 +5,12 @@ import Head from 'next/head';
 import EventDetailsPage from '../../../components/Pages/EventDetailsPage';
 import { REVALIDATE_INTERVAL } from '../../../constants/build';
 
+import { identifyVisitor, logViewEvent, logEvent} from '../../../services/CdpService';
+
 export interface Params {
   id: string;
   slug: string;
+  teaser: string;
 }
 
 export declare type EventParams = {
@@ -27,7 +30,22 @@ const EventDetail: FC<Props> = ({ event }) => {
     );
   }
 
+  logViewEvent({
+    page: 'event details page',
+    id: event.id,
+    title: event.title
+  })
+
+  logEvent("ARTICLE_READ",{
+    page: 'event details page',
+    ext: {
+      name: event.sport.results[0].title,
+      AIgenerated: false
+    }
+  })
+ 
   return (
+    
     <>
       <Head>
         <title>{`${event.title} | PLAY! Media`}</title>
@@ -39,11 +57,15 @@ const EventDetail: FC<Props> = ({ event }) => {
 
 export default EventDetail;
 
-export async function getStaticPaths() {
+// Begin of Change for Demo
+// ***** Removed the static generation of events pages in order to work with S Personalize and CDP more effectively.
+// End of Change for Demo
+
+/*export async function getStaticPaths() {
   // When this is true (in local or preview environments) don't prerender any static pages
   // (faster builds, but slower initial page load)
   //
-  if (process.env.SKIP_BUILD_STATIC_GENERATION === 'true') {
+  if (process.env.SKIP_BUILD_STATIC_GENERATION === 'false') {
     return {
       paths: [],
       fallback: 'blocking',
@@ -58,15 +80,16 @@ export async function getStaticPaths() {
   }));
 
   return { paths, fallback: true };
-}
+} */
 
-export const getStaticProps = async ({ params }: EventParams) => {
+export const getServerSideProps  = async ({ params }: EventParams) => {
+
+  console.log("The event to fetch is :" + params.id)
   const event = await getEventById(params.id);
 
   if (!event) {
     return {
       notFound: true,
-      revalidate: REVALIDATE_INTERVAL,
     };
   }
 
@@ -74,6 +97,5 @@ export const getStaticProps = async ({ params }: EventParams) => {
     props: {
       event,
     },
-    revalidate: REVALIDATE_INTERVAL,
   };
 };

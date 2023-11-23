@@ -4,6 +4,9 @@ import { HeroBannerEventDetails } from '../../components/HeroBanner/HeroBannerEv
 import ImageGrid from '../../components/ImageGrid/ImageGrid';
 import { Event } from '../../interfaces/event';
 import { AthleteGrid } from '../../components/AthleteGrid/AthleteGrid';
+import MapboxMap from "../../components/mapbox/mapbox-map";
+import Image from 'next/image';
+import { getSlideImageSize } from '../../helpers/imageHelper';
 
 const EventDetailsPage = ({ event }: { event: Event }) => {
   const body = event?.body?.content && <RichText body={event.body.content} />;
@@ -17,17 +20,22 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
         )}
         {body}
       </div>
-      {!!event?.athletes?.results && (
-        <section>
-          <h2 className="text-center -mb-10">Athletes who joined</h2>
-          <AthleteGrid athletes={event.athletes.results} />
-        </section>
-      )}
+
       {!!event?.similarEvents?.results?.length && (
         <section>
-          <h2 className="text-center mb-10">Similar events</h2>
+          <h2 className="text-center mb-10">Recommended Adventures</h2>
           <EventGridSimple events={event.similarEvents.results as Event[]} />
         </section>
+      )}
+      {!!event?.athletes?.results && (
+
+        
+        <section>
+
+<div><MapboxMap/></div>
+          
+
+            </section>
       )}
     </main>
   );

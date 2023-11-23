@@ -1,0 +1,20 @@
+{
+  "topics": [
+      {
+          "id": 1,
+          "topic": "hiking"
+      },
+      {
+          "id": 2,
+          "topic": "yoga"
+      },
+      {
+          "id": 3,
+          "topic": "mountain climbing"
+      },
+      {
+          "id": 4,
+          "topic": "scuba diving"
+      }
+  ]
+}

@@ -22,13 +22,15 @@ export const Header = () => {
       <div className="header-container">
         <Link href={'/'} passHref>
           <Image
-            src={themeCtx.isDarkTheme ? '/play-media-logo.svg' : '/play-media-logo-dark.svg'}
+            src={themeCtx.isDarkTheme ? '/play-outfitters-logo.svg' : '/play-outfitters-logo-dark.svg'}
             alt="PLAY! Media"
             width={260}
             height={50}
             className="header-logo"
           />
         </Link>
+
+
         <button className="menu-button" onClick={() => setIsExpanded(!isExpanded)}>
           <span></span>
           <span></span>
@@ -42,7 +44,7 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <Link href={'/athletes'} onClick={handleNavClose}>
+            <Link href={'/athletes'} onClick={handleNavClose}>
                 Athletes
               </Link>
             </li>
@@ -70,7 +72,10 @@ export const Header = () => {
               </div>
             </li>
           </ul>
+
+
         </nav>
+
       </div>
     </header>
   );
